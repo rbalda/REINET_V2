@@ -1,0 +1,48 @@
+body {
+}
+
+.ocultar{
+    display:none;
+}
+
+.mostrar{
+    display: block;
+}
+
+.detras{
+    position: fixed;
+	top: 0px;
+    width: 100%;
+    /*indicamos que el margen izquierdo e*/
+    /*Determinamos la altura*/
+    height: 100%;
+    /*indicamos el margen superior es la mitad de la altura*/
+    padding: 5px;
+	background: rgba(100, 100, 100, 0.6);
+	left:0px;
+    z-index: 1032;
+}
+
+
+.arriba{
+    position: absolute;
+    top:-1000px;
+    left:10vw;
+    z-index: 1033;
+
+}
+
+.centrado{
+	background: rgba(255, 255, 255, 1);
+    position: absolute;
+    /*Centro del navegador*/
+    top: 7vh;
+    left: 10vw;
+    /*Determinamos anchura*/
+    width: 80%;
+    /*indicamos el margen superior es la mitad de la altura*/
+
+    text-align: left;
+    padding: 20px;
+    z-index: 1033;
+}
