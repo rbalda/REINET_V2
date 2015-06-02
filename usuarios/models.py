@@ -3,6 +3,36 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class Ubicacion(models.Model):
+    idubicacion = models.AutoField(db_column='idUbicacion', primary_key=True)  
+    pais = models.CharField(max_length=45)
+    ciudad = models.CharField(max_length=45)
+    abreviatura = models.CharField(max_length=45)
+
+    class Meta:
+        db_table = 'Ubicacion'
+
+
+class Usuario(models.Model):
+    idusuario = models.AutoField(db_column='idUsuario', primary_key=True) 
+    nombre = models.CharField(max_length=45)
+    apellido = models.CharField(max_length=45)
+    contrasenia = models.CharField(max_length=64)
+    cedula = models.CharField(unique=True, max_length=10)
+    foto = models.TextField()
+    web = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=16)
+    fecharegistro = models.DateTimeField(db_column='fechaRegistro') 
+    ipregistro = models.CharField(db_column='ipRegistro', max_length=15)  
+    reputacion = models.DecimalField(max_digits=4, decimal_places=0)
+    estado = models.IntegerField()
+    privacidad = models.CharField(max_length=11)
+    fkubicacion = models.ForeignKey(Ubicacion, db_column='fkUbicacion') 
+
+    class Meta:
+        db_table = 'Usuario'
+
+
 class Institucion(models.Model):
     idinstitucion = models.AutoField(db_column='idInstitucion', primary_key=True)
     nombre = models.CharField(unique=True, max_length=45)
@@ -38,8 +68,8 @@ class Mensaje(models.Model):
     mensaje = models.CharField(max_length=1000)
     fecha = models.DateTimeField()
     asunto = models.CharField(max_length=45)
-    fkemisor = models.ForeignKey('Usuario', db_column='fkEmisor') 
-    fkreceptor = models.ForeignKey('Usuario', db_column='fkReceptor')  
+    fkemisor = models.ForeignKey('Usuario', db_column='fkEmisor',related_name='fkemisor') 
+    fkreceptor = models.ForeignKey('Usuario', db_column='fkReceptor',related_name='fkreceptor')  
 
     class Meta:
         db_table = 'Mensaje'
@@ -55,32 +85,3 @@ class Peticion(models.Model):
     class Meta:
         db_table = 'Peticion'
 
-
-class Ubicacion(models.Model):
-    idubicacion = models.AutoField(db_column='idUbicacion', primary_key=True)  
-    pais = models.CharField(max_length=45)
-    ciudad = models.CharField(max_length=45)
-    abreviatura = models.CharField(max_length=45)
-
-    class Meta:
-        db_table = 'Ubicacion'
-
-
-class Usuario(models.Model):
-    idusuario = models.AutoField(db_column='idUsuario', primary_key=True) 
-    nombre = models.CharField(max_length=45)
-    apellido = models.CharField(max_length=45)
-    contrasenia = models.CharField(max_length=64)
-    cedula = models.CharField(unique=True, max_length=10)
-    foto = models.TextField()
-    web = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=16)
-    fecharegistro = models.DateTimeField(db_column='fechaRegistro') 
-    ipregistro = models.CharField(db_column='ipRegistro', max_length=15)  
-    reputacion = models.DecimalField(max_digits=4, decimal_places=0)
-    estado = models.IntegerField()
-    privacidad = models.CharField(max_length=11)
-    fkubicacion = models.ForeignKey(Ubicacion, db_column='fkUbicacion') 
-
-    class Meta:
-        db_table = 'Usuario'
