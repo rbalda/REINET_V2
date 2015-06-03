@@ -1,0 +1,228 @@
+  <!DOCTYPE html>
+<html lang="en">
+<html lang="en" ng-app="redInn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="img/favicon.ico">
+
+  <title>REI-NET|{% block title-complement %}{%endblock%}</title>
+
+  <!-- Bootstrap core CSS -->
+  {% load staticfiles %}
+  <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
+  <link href="{% static 'css/animate.css' %}" type="text/css" rel="stylesheet"/>
+  <link href="{% static 'css/elements.css' %}" type="text/css" rel="stylesheet"/>
+  <link href="{% static 'css/custom.css' %}" type="text/css" rel="stylesheet"/>
+  <link href="{% static 'fonts/font-awesome-4.0.3/css/font-awesome.min.css' %}" type="text/css" rel="stylesheet"/>
+  <link href="{% static 'isotope/css/style.css'%}" rel="stylesheet">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/hideandshow.css'%}"/>
+
+  <!--<link rel="stylesheet" type="text/css" href="css/animate.css" />
+  <link rel="stylesheet" type="text/css" href="css/elements.css" />
+  <link rel="stylesheet" type="text/css" href="css/custom.css" />
+  <link href="fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">#}-->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <!-- Navbar
+  ============= -->
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        {% block home %}
+        <a class="navbar-brand" href="{% url 'usuarios.views.verInicioF' %}" class="link">REI-NET</a>
+        {% endblock %}
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown active">
+            <a  href="{% url 'usuarios.views.verInicioF' %}" >Inicio </a>
+          </li>
+          <li class="dropdown hidden-sm">
+            <a href="{% url 'ofertaDemanda.views.homeOfertas' %}" >OFERTAS </a>
+          </li>
+          <li class="dropdown hidden-sm">
+            <a href="{% url 'ofertaDemanda.views.homeDemandas' %}" >DEMANDAS </a>
+          </li>
+          <li class="dropdown hidden-sm">
+            <a href="{% url 'concursoIncubacion.views.homeConcursos' %}" >CONCURSOS </a>
+          </li>
+          <li class="dropdown hidden-sm">
+            <a href="{% url 'incubacion.views.homeIncubacion' %}">INCUBACIONES </a>
+          </li>
+          <li class="visible-xs"><a href="{% url 'usuarios.views.ingresar' %}">Sign In</a></li>
+          <li  class="visible-xs"><a href="#">Sign Out</a></li>
+        </ul>
+        <!-- Search form for extra small screens -->
+        <form class="navbar-form navbar-left visible-xs" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-blue">Go!</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right hidden-xs">
+          <!-- Sign in & Sign up -->
+           {% block signin %}
+<!-- <li id="sign-up" class="show"><a href="{% url 'usuarios.views.register' %}">Sign Up</a></li>
+<li id="sign-in" class="show"><a href="{% url 'usuarios.views.ingresar' %}">Sign In</a></li>
+-->
+<li id="usuario" class="show">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario <b class="caret"></b>
+</a>
+<ul class="dropdown-menu">
+<li><a href="{% url 'usuarios.views.perfil_view' %}" >Mi Perfil</a></li>
+<!-- <li><a href="#">Configuraciones</a></li> -->
+<li><a href="{% url 'usuarios.views.logout' %}" >Cerrar Sesi&oacute;n</a></li>
+</ul>
+</li>
+<li id="mensajes" class="show"><a href="{% url 'usuarios.views.mensajes_view' %}" class="link">Mensajes</a></li>
+{% endblock %}
+
+{% block search %}
+          <!-- Search Button -->
+          <li id="search">
+            <a href="#" id="search-btn"><i class="fa fa-search" id="search-icon"></i> Buscar</a>
+            <div class="search-box hidden" id="search-box">
+              <div class="input-group">
+
+                <form method='GET' action="/busqueda/">
+                  
+
+                  <input type="text" name="q" class="form-control" placeholder="Búsqueda">
+                  <span class="input-group-btn">
+                    
+                      <input class="btn btn-default" type="submit" value="Ir!">
+                    
+                  </span>
+                </form>
+
+              </div>
+            </div>
+          </li>
+{% endblock %}
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+  {% block content %}
+  {% endblock %}
+  </div>
+  <!-- Foooter
+  ================== -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <!-- Contact Us
+        =================  -->
+        <div class="col-sm-4">
+          <div class="headline"><h3>Cont&aacute;ctanos</h3></div>
+          <div class="content">
+            <p>
+              Guayaquil, GYE<br />
+              Nueva Prosperina<br />
+              Tel&eacute;fono: 042123456<br />             
+              Email: <a href="#">adguale@espol.edu.ec</a>
+            </p>
+          </div>
+        </div>
+        <!-- Social icons
+        ===================== -->
+        <div class="col-sm-4">
+          <div class="headline"><h3>Redes sociales</h3></div>
+          <div class="content social">
+            <p>Mantente en contacto:</p>
+            <ul>
+              <li><a href="#"><i class="fa fa-twitter"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-facebook"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-pinterest"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-youtube"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-github"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-linkedin"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-vk"></i></a>
+              </li>
+              <li><a href="#"><i class="fa fa-google-plus"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <!-- Subscribe
+        =============== -->
+        <div class="col-sm-4">
+          <div class="headline"><h3>Subscr&iacute;bete</h3></div>
+          <div class="content">
+            <p>Ingresa su dirección de e-mail abajo para suscribirse a nuestro boletín de noticias libre.<br />Nos comprometemos a no molestar a menudo!</p>
+            <form class="form" role="form">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <label class="sr-only" for="subscribe-email">Dirección Email</label>
+                    <input type="email" class="form-control" id="subscribe-email" placeholder="Ingresa email">
+                    <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default">OK</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Legal
+  ============= -->
+  <div class="legal">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>&copy; REI-NET 2014. <a href="/terminosCondiciones/">Políticas de Privacidad y T&eacute;rminos del servicio</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js2/ajax.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+  <script src="{% static 'js/scrolltopcontrol.js' %}"></script><!-- Scroll to top javascript -->
+  <script src="{% static 'js/angular.js' %}"></script>
+  <script src="{% static 'js/angular-cookies.js'%}"></script>
+  <script src="{% static 'js/angular-route.js'%}"></script>
+  <script src="{% static 'js/angular-resource.js'%}"></script>
+  <script src="{% static 'js/angular-animate.js'%}"></script>
+  <script src="{% static 'js/angular-route.js'%}"></script>
+  <script src="{% static 'js/app.js'%}"></script>
+</body>
+</html>

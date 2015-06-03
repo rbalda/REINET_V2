@@ -1,6 +1,34 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
+
+
+class Ubicacion(models.Model):
+    idubicacion = models.AutoField(db_column='idUbicacion', primary_key=True)  
+    pais = models.CharField(max_length=45)
+    ciudad = models.CharField(max_length=45)
+    abreviatura = models.CharField(max_length=45)
+
+    class Meta:
+        db_table = 'Ubicacion'
+
+
+class Perfil(User):
+    idperfil = models.AutoField(db_column='idPerfil', primary_key=True)
+    cedula = models.CharField(unique=True, max_length=10)
+    foto = models.TextField()
+    web = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=16)
+    fecharegistro = models.DateTimeField(db_column='fechaRegistro') 
+    ipregistro = models.CharField(db_column='ipRegistro', max_length=15)  
+    reputacion = models.DecimalField(max_digits=4, decimal_places=0)
+    estado = models.IntegerField()
+    privacidad = models.CharField(max_length=11)
+    fkubicacion = models.ForeignKey(Ubicacion, db_column='fkUbicacion') 
+
+    class Meta:
+        db_table = 'Perfil'
 
 
 class Institucion(models.Model):
@@ -27,7 +55,7 @@ class Membresia(models.Model):
     ippeticion = models.CharField(db_column='ipPeticion', max_length=45) 
     estado = models.IntegerField(blank=True, null=True)
     fkinstitucion = models.ForeignKey(Institucion, db_column='fkInstitucion')
-    fkusuario = models.ForeignKey('Usuario', db_column='fkUsuario') 
+    fkusuario = models.ForeignKey('User', db_column='fkUsuario') 
 
     class Meta:
         db_table = 'Membresia'
@@ -38,8 +66,8 @@ class Mensaje(models.Model):
     mensaje = models.CharField(max_length=1000)
     fecha = models.DateTimeField()
     asunto = models.CharField(max_length=45)
-    fkemisor = models.ForeignKey('Usuario', db_column='fkEmisor') 
-    fkreceptor = models.ForeignKey('Usuario', db_column='fkReceptor')  
+    fkemisor = models.ForeignKey('User', db_column='fkEmisor',related_name='fkemisor') 
+    fkreceptor = models.ForeignKey('User', db_column='fkReceptor',related_name='fkreceptor')  
 
     class Meta:
         db_table = 'Mensaje'
@@ -50,37 +78,8 @@ class Peticion(models.Model):
     nombre = models.CharField(max_length=45)
     codigo = models.CharField(max_length=128)
     usado = models.IntegerField()
-    fkusuario = models.ForeignKey('Usuario', db_column='fkUsuario')  
+    fkusuario = models.ForeignKey('User', db_column='fkUsuario')  
 
     class Meta:
         db_table = 'Peticion'
 
-
-class Ubicacion(models.Model):
-    idubicacion = models.AutoField(db_column='idUbicacion', primary_key=True)  
-    pais = models.CharField(max_length=45)
-    ciudad = models.CharField(max_length=45)
-    abreviatura = models.CharField(max_length=45)
-
-    class Meta:
-        db_table = 'Ubicacion'
-
-
-class Usuario(models.Model):
-    idusuario = models.AutoField(db_column='idUsuario', primary_key=True) 
-    nombre = models.CharField(max_length=45)
-    apellido = models.CharField(max_length=45)
-    contrasenia = models.CharField(max_length=64)
-    cedula = models.CharField(unique=True, max_length=10)
-    foto = models.TextField()
-    web = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=16)
-    fecharegistro = models.DateTimeField(db_column='fechaRegistro') 
-    ipregistro = models.CharField(db_column='ipRegistro', max_length=15)  
-    reputacion = models.DecimalField(max_digits=4, decimal_places=0)
-    estado = models.IntegerField()
-    privacidad = models.CharField(max_length=11)
-    fkubicacion = models.ForeignKey(Ubicacion, db_column='fkUbicacion') 
-
-    class Meta:
-        db_table = 'Usuario'
