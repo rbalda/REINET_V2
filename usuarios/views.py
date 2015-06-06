@@ -9,3 +9,10 @@ from django.contrib.auth.decorators import login_required
 def registro_institucion(request):
 
     return render_to_response('Institucion_Sign-up.html',{})
+
+
+
+
+def index(request):
+
+    return render_to_response('index.html',{})

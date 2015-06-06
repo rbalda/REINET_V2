@@ -1,0 +1,71 @@
+{% extends "base.tpl.html" %}
+{% block home %}
+	<a class="navbar-brand" href="#" class="link">REI-NET</a>
+{% endblock %}
+{% block signin %}
+	<li id="sign-up" class="show"><a href="#">Registrarse</a></li>
+	<li id="sign-in" class="show"><a href="#">Iniciar Sesión</a></li>
+{% endblock %}
+{% block content %}
+<!-- Showcase
+================ -->
+<div id="wrap">
+<div class="container">
+<div class="row">
+<div class="col-md-6 col-sm-12">
+<h1 class="animated slideInDown">RED ECUATORIANA DE INNOVACION</h1>
+<div class="list">
+<ul>
+<li class="animated slideInLeft first"><span><i class="fa fa fa-code"></i> Piensa.</span></li>
+<li class="animated slideInLeft second"><span><i class="fa fa-cogs"></i> Construye.</span></li>
+<li class="animated slideInLeft third"><span><i class="fa fa-tablet"></i> Innova.</span></li>
+</ul>
+</div>
+</div>
+<div class="col-md-6 hidden-sm hidden-xs">
+<div class="showcase">
+<img src="../static/img/iMac.png" alt="..." class="iMac animated fadeInDown">
+<img src="../static/img/iPad.png" alt="..." class="iPad animated fadeInLeft">
+<img src="../static/img/iPhone.png" alt="..." class="iPhone animated fadeInRight">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="container">
+<!-- Services
+================ -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="services">
+				<ul>
+				<li>
+				<i class="fa fa-lightbulb-o fa-3x"></i>
+				<p>Ofertas destacadas<br /><a href="/ofertaSL/">Ver Ofertas...</a></p>
+				</li>
+				<li>
+				<i class="fa fa-hand-o-up fa-3x"></i>
+				<p>Demandas destacadas<br /><a href="/demandaSL/">Ver Demandas...</a></p>
+				</li>
+				<li>
+				<i class="fa fa-trophy fa-3x"></i>
+				<p>Concursos destacados<br /><a href="/concursoSL/">Ver Concursos...</a></p>
+				</li>
+				<li>
+				<i class="fa fa-suitcase fa-3x"></i>
+				<p>Incubaciones destacadas<br /><a href="incubacionSL">Ver Incubaciones...</a></p>
+				</li>
+				<li>
+				<i class="fa fa-university fa-3x"></i>
+				<p>Mejores Instituciones<br /><a href="/instSL/">Ver Instituciones...</a></p>
+				</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+
+	</div>
+</div>
+{% endblock %}
