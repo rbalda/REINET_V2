@@ -30,13 +30,12 @@ def registro_usuario(request):
 		ciudad=request.POST['ciudad']
 		fechaNacimiento=request.POST['fechaNacimiento']
 		areasInteres=request.POST['areasInteres']
-
-
 		pass	
 	else:
-		return render_to_response('Usuario_Sign-up.html',{})
-
+		args={}
+		args.update(csrf(request))
+		return render_to_response('Usuario_Sign-up.html',args)
 
 
 def index(request):
-    return render_to_response('index.html',{})
+	return render_to_response('index.html',{})
