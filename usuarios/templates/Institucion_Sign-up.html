@@ -1,107 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Registro de Institución</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/animate.css" />
-    <link rel="stylesheet" type="text/css" href="css/elements.css" />
-    <link rel="stylesheet" type="text/css" href="css/custom.css" />
-    <link href="fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-
-  <!-- Navbar
-    ============= -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">The Highland</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="index.html">Home</a></li>
-                </ul>
-            </li>
-
-
-            <!-- Profile links for extra small screens -->
-            <li class="visible-xs"><a href="sign-in.html">Ingresar</a></li>
-            <li  class="visible-xs"><a href="#">Cerrar Sesión</a></li>
-          </ul>
-          <!-- Search form for extra small screens -->
-          <form class="navbar-form navbar-left visible-xs" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Buscar">
-            </div>
-            <button type="submit" class="btn btn-blue">Ir!</button>
-          </form>
-          <ul class="nav navbar-nav navbar-right hidden-xs">
-            <!-- Sign in & Sign up -->
-            <li id="sign-up" class="show"><a href="sign-up.html">Registrarse</a></li>
-            <li id="sign-in" class="show"><a href="#">Ingresar</a></li>
-            <!-- Signed in. Profile Menu -->
-            <li id="cogs-menu" class="hidden">
-              <a href="edit-profile.html">
-                <i class="fa fa-gears fa-lg"></i>
-              </a>
-            </li>
-            <li id="profile-menu" class="dropdown hidden">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrador <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li class="account">
-                  <div class="avatar"></div>
-                  <p><b>Administrator</b><br />admin@mysite.com</p>
-                  <p><a href="profile.html">Perfil</a> | <a href="#" id="sign-out">Cerrar Sesión</a></p>
-                  <div class="clearfix"></div>
-                </li>
-              </ul>
-            </li>
-            <!-- Search Button -->
-            <li id="search">
-              <a href="#" id="search-btn"><i class="fa fa-search" id="search-icon"></i> Búsqueda</a>
-              <div class="search-box hidden" id="search-box">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Buscar">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Ir!</button>
-                  </span>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    
-<!-- Main body
-================== -->
-
-  <div class="wrapper">
+{% extends "base.tpl.html" %}
+{% block home %}
+        <a class="navbar-brand link" href="#" >REI-NET</a>
+{% endblock %}
+{% block signin %}
+<li id="sign-up" class="show"><a href="#">Registrarse</a></li>
+<li id="sign-in" class="show"><a href="#">Iniciar Sesión</a></li>
+{% endblock %}
+{% block content %}
     <!-- Page Tip -->
     <div class="page-tip animated slideInDown">
       <div class="container">
@@ -130,11 +35,11 @@
             </div>
 
             <div class="form-group">
-              <input type="textarea" class="form-control" id="descripcionInstitucion" placeholder="Descripción"
+              <input type="text" class="form-control" id="descripcionInstitucion" placeholder="Descripción"
                      data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la descripción de la Institución" data-original-title="Descripción">
             </div>
             <div class="form-group">
-              <input type="textarea" class="form-control" id="misionInstitucion" placeholder="Misión"
+              <input type="text" class="form-control" id="misionInstitucion" placeholder="Misión"
                      data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la misión de la Institución" data-original-title="Misión">
             </div>
             <div class="form-group">
@@ -142,7 +47,7 @@
                      data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ubicación de la Institución" data-original-title="Ubicación">
             </div>
             <div class="form-group">
-              <input type="textarea" class="form-control" id="recursosInstitucion" placeholder="Recursos Ofrecidos"
+              <input type="text" class="form-control" id="recursosInstitucion" placeholder="Recursos Ofrecidos"
                      data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese los recursos que ofrece la Institución" data-original-title="Recursos Ofrecidos">
             </div>
             <div class="form-group">
@@ -152,7 +57,7 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-sm-6">
-                  <input type="password" class="form-control margin-bottom-xs" id="exampleInputPassword1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Contraseña">
+                  <input type="password" class="form-control margin-bottom-xs" id="exampleInputPassword1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Incluya simbolos" data-original-title="Contraseña">
                 </div>
                 <div class="col-sm-6">
                   <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Asegurese de que las contraseñas coincidan" data-original-title="Repetir Contraseña">
@@ -174,94 +79,5 @@
         </div>
       </div>
     </div>
-  </div>
-    
-<!-- Foooter
-================== -->
-  <footer>
-    <div class="container">
-      <div class="row">
-        <!-- Contact Us 
-        =================  -->
-        <div class="col-sm-4">
-          <div class="headline"><h3>Contáctenos</h3></div>
-          <div class="content">
-            <p>
-            Guayaquil, Gy<br />
-            Nueva Prosperina<br />
-            Teléfono: +593<br />
-            Email: <a href="#">administrador@espol.edu.ec</a>
-            </p>
-          </div>
-        </div>
-        <!-- Social icons 
-        ===================== -->
-        <div class="col-sm-4">
-          <div class="headline"><h3>Redes Sociales</h3></div>
-          <div class="content social">
-            <p>Mantente cerca de nosotros:</p>
-            <ul>
-                <li><a href="#"><i class="fa fa-twitter"></i></a>
-                </li>
-                <li><a href="#"><i class="fa fa-facebook"></i></a>
-                </li>
-                <li><a href="#"><i class="fa fa-pinterest"></i></a>
-                </li>
-                <li><a href="#"><i class="fa fa-youtube"></i></a>
-                </li>
-                <li><a href="#"><i class="fa fa-github"></i></a>
-                </li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                </li>
-                <li><a href="#"><i class="fa fa-vk"></i></a>
-                </li>
-                <li><a href="#"><i class="fa fa-google-plus"></i></a>
-                </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-        <!-- Subscribe 
-        =============== -->
-        <div class="col-sm-4">
-          <div class="headline"><h3>Suscribete</h3></div>
-          <div class="content">
-            <p>Ingresa tu e-mail debajo y te enviaremos un correo.<br />Prometemos no molestarte mucho!</p>
-            <form class="form" role="form">
-              <div class="row">
-                <div class="col-sm-8">
-                  <div class="input-group">
-                    <label class="sr-only" for="subscribe-email">Dirección de Correo</label>
-                    <input type="email" class="form-control" id="subscribe-email" placeholder="Enter email">
-                    <span class="input-group-btn">
-                      <button type="submit" class="btn btn-default">OK</button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- Legal 
-  ============= -->
-  <div class="legal">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <p>&copy; REINET 2015. <a href="#">Políticas de Privacidad</a> | <a href="#">Terminos de Servicio</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
-    <script src="js/scrolltopcontrol.js"></script><!-- Scroll to top javascript -->
-  </body>
-</html>
+
+ {% endblock %}
