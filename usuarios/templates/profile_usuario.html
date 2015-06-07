@@ -68,7 +68,7 @@
               <div class="thumbnail">
                 <div class="avatar">
                   <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                    <img src="img/face1.jpg" alt="...">
+                    <img src="../../static/img/noPicture.png" alt="...">
                   </a>
 
                   <!-- ///////////  CAMBIAR FOTO PERFIL ///////// -->
@@ -108,7 +108,7 @@
 
             <!-- //// PERFIL PRINCIPAL ///// -->
             <div class="col-sm-8">
-              <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }}<small>[Organizacion]</small></h3>
+              <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }} <small> [Organizacion] </small></h3>
               <hr>
 
               <div class="bottom-15">
@@ -152,81 +152,93 @@
           <!-- //////// INFORMACION GENERAL /////////-->
           <div class="row">
             <div class="col-sm-12">
+            <div class="col-sm-12" id="collapseGeneral">
+              
+                <div class="panel-heading btn-outline btn-primary" style="text-align:center">
+                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral" href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
+                </div>
+                <div id="collapseInfoGeneral" class="panel-collapse collapse in">
+                  <table class="table table-hover">
+                    <tbody id="infoGeneralBody">
 
-              <h4 class="hl"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </h4>
-              <table class="table">
-                <tbody id="infoGeneral">
-
-                  <tr>
-                    <td class="text-muted">Nombre</td>
-                    <td>{{ usuario.first_name }}</td>
-                  </tr>
-                  
-                  <tr>
-                    <td class="text-muted">Apellido</td>
-                    <td>{{ usuario.last_name }}</td>
-                  </tr>
                   <tr>
                     <td class="text-muted">Instituci&oacute;n</td>
-                    <td>[Institucion]</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Celular</td>
-                    <td>{{ usuario.telefono }}</td>
+                    <td style="text-align:right">[Institucion]</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Fecha de Registro</td>
-                    <td>{{ usuario.fecharegistro }}</td>
+                    <td style="text-align:right">{{ usuario.fecharegistro }}</td>
                   </tr>
                   <tr>
                     <td class="text-muted">&Aacute;reas de inter&eacute;s</td>
-                    <td>[Areas de Interes del Usuario]</td>
+                    <td style="text-align:right">[Areas de Interes del Usuario]</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Cargo</td>
-                    <td>[Cargo del Usuario]</td>
+                    <td style="text-align:right">[Cargo del Usuario]</td>
                   </tr>
                    <tr>
                     <td class="text-muted">Actividades</td>
-                    <td>[Actividades del usuario]</td>
+                    <td style="text-align:right">[Actividades del usuario]</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Notoriedad</td>
-                    <td>{{ usuario.reputacion }}</td>
+                    <td style="text-align:right">{{ usuario.reputacion }}</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Estado</td>
-                    <td>{{ usario.is_active }}</td>
+                    <td style="text-align:right">{{ usario.is_active }}</td>
                   </tr>
-                </tbody>
-              </table>
-              <hr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            
+          
             </div>
           </div>
-
-          <!-- Contact Information -->
-          <div class="row">
-            <div class="col-sm-12">
-              <h4 class="hl"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto</h4>
-              <table class="table">
-                <tbody id="infocontacto">
+          </div>
+          <!-- //////// INFORMACION CONTACTO /////////-->
+            <div class="col-sm-3" id="collapseContacto">
+              <div class="panel-heading btn-outline btn-warning" style="text-align:center">
+                <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
+              </div>
+              <div id="collapseInfoContacto" class="panel-collapse collapse in">
+                <table class="table table-hover">
+                <tbody id="infoContactoBody">
+                  <tr>
+                    <td class="text-muted">Nombre</td>
+                    <td style="text-align:right">{{ usuario.first_name }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-muted">Apellido</td>
+                    <td style="text-align:right">{{ usuario.last_name }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-muted">Tel&eacute;fono</td>
+                    <td style="text-align:right">{{ usuario.telefono }}</td>
+                  </tr>
                   <tr>
                     <td class="text-muted">Email</td>
-                    <td>{{ usuario.email }}</td>
+                    <td style="text-align:right">{{ usuario.email }}</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Website</td>
-                    <td>{{ usuario.web }}</td>
+                    <td style="text-align:right">{{ usuario.web }}</td>
                   </tr>
+
                 </tbody>
               </table>
-              <hr>
+              </div>
             </div>
-          </div>
+        </div>
+          
 
 
     </div>
   </div>
+</div>
 
 {%endblock%} 
 
