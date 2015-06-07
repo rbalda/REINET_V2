@@ -182,6 +182,10 @@ def autentificacion(request):
 		print "Error en el request.POST"
 
 
+def terms(request):
+
+	return render(request, 'terms.html')
+
 
 @login_required
 def perfilUsuario(request):
