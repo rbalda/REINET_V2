@@ -67,8 +67,21 @@ def registro_usuario(request):
 		ubicacion=Ubicacion.objects.get(idubicacion=1)
 		perfil.fkubicacion=ubicacion
 		perfil.ipregistro=get_client_ip(request)
-		print perfil.ipregistro
 		perfil.save()
+		
+		membresia=Membresia()
+		membresia.esadministrator=0 #0 para falso
+		membresia.cargo=cargo
+		membresia.descripcion=""
+		membresia.fecha=datetime.datetime.now()
+		membresia.ippeticion=get_client_ip(request)
+		membresia.estado=1 #1 es para aceptado
+		institucion=Institucion.objects.get(siglas="I")
+		membresia.fkinstitucion=institucion
+		membresia.fkusuario=perfil
+		membresia.save()
+
+
 		return HttpResponseRedirect('/index/')	
 	else:
 		args={}
