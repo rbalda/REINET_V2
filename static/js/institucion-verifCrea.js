@@ -1,4 +1,4 @@
-function inicializar(){
+/*function inicializar(){
     var btnContinuar = document.getElementById("instBtnContinuar");
     btnContinuar.addEventListener("click",cargarFormulario,false);
 }
@@ -81,7 +81,7 @@ function cargarFormulario(){
      Estoy de acuerdo con los <a href="#">Términos de servicio</a> y las
                   <a href="#">Politicas de Privacidad</a>
      <button id="instBtnContinuar" type="submit" class="btn btn-green">Continuar</button>
-*/
+*
     var btnCrear = document.createElement("button");
     var btnTxt = document.createTextNode("Crear Cuenta");
     btnCrear.setAttribute("id","instBtnCrear");
@@ -111,4 +111,29 @@ function cargarFormulario(){
 
 
 
-window.addEventListener("load", inicializar, false);
+window.addEventListener("load", inicializar, false);*/
+
+
+
+
+
+$('#instBtnContinuar').click(function(){
+    console.log('hi im here');
+    console.log($('#codigoInstitucion').val());
+    $.ajax({
+      type: "POST",
+      url: "/ver_codigo",
+      data: {
+          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+          'codigo' : $('#codigoInstitucion').val()
+      },
+      success: codeSuccess,
+      dataType: 'html'
+    });
+});
+
+function codeSuccess(data, textStatus, jqXHR){
+    $('#formulario').append(data);
+    $('#codigoInstitucion').remove();
+    $('#instBtnContinuar').remove();
+}
