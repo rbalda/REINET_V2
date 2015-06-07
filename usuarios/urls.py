@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
 
+		url(r'^logOut[/]?$','usuarios.views.logOut', name='logOut'),
 		url(r'^signIn[/]?$','usuarios.views.signIn', name='signIn'),
 		url(r'^autentificacion[/]?$','usuarios.views.autentificacion',name='autentificacion'),
 		url(r'^signUp[/]?$','usuarios.views.signUp', name='signUp'),
