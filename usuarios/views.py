@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.hashers import make_password
 
 def registro_institucion(request):
 	return render_to_response('Institucion_Sign-up.html',{})
@@ -50,7 +50,7 @@ def registro_usuario(request):
 		
 		perfil=Perfil()
 		perfil.username=username
-		perfil.password=password
+		perfil.password=make_password(password)
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
 		perfil.cedula=cedula
@@ -98,12 +98,12 @@ def logOut(request):
 
 
 def autentificacion(request):
-
 	if request.method=='POST':
 		username = request.POST['usernameLogin']
 		password = request.POST['passwordLogin']
+		print username, password
 		usuario = auth.authenticate(username=username,password=password)
-
+		print usuario
 		if usuario is not None:
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
