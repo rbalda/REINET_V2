@@ -12,9 +12,75 @@ import datetime
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 
+"""
+Autor: Pedro Aim
+Nombre de funcion: registro_institucion
+Entrada: request GET o POST
+Salida: pagina para el Ingreso de codigo si es GET, debe devolver perfil de la institucion creada
+Corresponde a la creacion de la institucion y el anexo con e usuario por medio de membresia, asi como update a la tabla peticion con valor 1 pues se usa el codigo
+"""
+@login_required
 def registro_institucion(request):
-	return render_to_response('Institucion_Sign-up.html',{})
+	if request.method == 'GET':
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		args={}
 
+		if usuario is not None:
+			args['usuario']=usuario
+
+		else:
+			args['error']="Error al cargar los datos"
+
+		args.update(csrf(request))
+		return render_to_response('Institucion_Sign-up.html', args)
+	else:
+		print "es post"
+		try:
+			peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
+			if (peticion.usado == 0) :
+				print "peticion no usada"
+				siglas=request.POST['siglaInstitucion']
+				desc=request.POST['descInstitucion']
+				mision=request.POST['misionInstitucion']
+				ub=request.POST['ubicacionInstitucion']
+				recursos=request.POST['recursosInstitucion']
+				web=request.POST['webInstitucion']
+
+				insti = Institucion();
+				insti.nombre = peticion.nombre
+				insti.siglas = siglas
+				insti.logo = 'helloworld.jpg'
+				insti.descripcion = desc
+				insti.mision = mision
+				insti.ubicacion = ub
+				insti.web = web
+				insti.recursosofrecidos = recursos
+				insti.save()
+				peticion.usado = 1
+				peticion.save()
+				print "peticion actualizada"
+				membresia = Membresia()
+				membresia.esadministrator = 1
+				membresia.cargo = 'Director'
+				membresia.descripcion = 'Este campo no sirve'
+				membresia.fecha = '2015-05-Da Igual xq es campo de texto...'
+				membresia.ippeticion = 'GG WP'
+				membresia.estado = 1
+				print request.session['id_usuario']
+				print insti.idinstitucion
+				print "antes de los foreigns"
+				membresia.fkinstitucion = insti
+				print "foreign de institucion worked"
+				membresia.fkusuario = Perfil.objects.get(id = request.session['id_usuario'])
+				membresia.save()
+				return redirect('/perfilUsuario')
+			else:
+				print "peticion ya usada"
+				return redirect('/registro_institucion')
+		except:
+			print "algo fallo"
+			return redirect('/registro_institucion')
 
 def get_client_ip(request):
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -129,12 +195,16 @@ def autentificacion(request):
 		print "Error en el request.POST"
 
 
+def terms(request):
+
+	return render(request, 'terms.html')
+
 
 @login_required
 def perfilUsuario(request):
 
 	session = request.session['id_usuario']
-	usuario = User.objects.get(id=session)
+	usuario = Perfil.objects.get(id=session)
 	args={}
 
 
@@ -147,3 +217,33 @@ def perfilUsuario(request):
 
 	args.update(csrf(request))
 	return render_to_response('profile_usuario.html',args)
+
+
+"""
+Autor: Pedro Aim
+Nombre de funcion: verCodigo
+Entrada: request POST
+Salida: Formulario de registro institucion
+Responde con un formulario vacio de registro de institucion
+"""
+@login_required
+def verCodigo(request):
+	if request.method == 'POST':
+		args={}
+		codigo = request.POST['codigo']
+		print codigo
+		peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
+		print "load pet"
+		print peticion.codigo
+		try :
+			print peticion.codigo
+			if (peticion.codigo == codigo and peticion.usado == 0) :
+				args['codigo'] = peticion.codigo
+				args['insti'] = peticion.nombre
+				return render_to_response('institucion_form_response.html', args)
+			else :
+				return render_to_response('codigo_usado.html')
+		except:
+			return render_to_response('nocodigo.html')
+		
+		
