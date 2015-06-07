@@ -1,0 +1,104 @@
+{% extends "base.tpl.html" %}
+{% block home %}
+        <a class="navbar-brand link" href="#" >REI-NET</a>
+{% endblock %}
+{% block signin %}
+<li id="sign-up" class="show"><a href="#">Registrarse</a></li>
+<li id="sign-in" class="show"><a href="#">Iniciar Sesión</a></li>
+{% endblock %}
+{% block content %}
+    <!-- Page Tip -->
+    <div class="page-tip animated slideInDown">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Llene el siguiente formulario para registrarse</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main Form -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 signup">
+          <h3 class="hl top-zero">Registro de Usuario</h3>
+          <hr>
+          <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data">{%csrf_token%}
+             <div class="form-group">
+              <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
+            </div>
+             <div class="form-group">
+              <div class="row">
+                <div class="col-sm-6">
+                  <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Password" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
+                </div>
+                <div class="col-sm-6">
+                  <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repeat Password" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
+            </div>
+            <div class="form-group">
+              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
+            </div>
+           
+            <div class="form-group">
+              <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación">
+            </div>
+            
+            <div class="form-group">
+            <select class="form-control">
+        <optgroup label="Institución a la que pertenece">
+                     <option>Independiente</option>
+                    <option>Espol</option>
+                    <option>UCSG</option>
+                    <option>La Estatal</option>
+                    </optgroup>
+             </select>
+            </div>
+           
+            <div class="form-group">
+              <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Cargo">
+            </div>
+            
+            
+            <div class="form-group">
+              <input type="text" class="form-control" id="actividad" name="actividad" placeholder="Actividad que realiza" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa la actividad que realizas aquí." data-original-title="Actividad">
+            </div>
+            
+             <div class="form-group">
+              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
+            </div> 
+            
+                       
+            <div class="form-group">
+              <input required type="email" class="form-control" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
+            </div>
+            
+            <div class="form-group">
+              <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Ciudad" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu ciudad aquí." data-original-title="Ciudad">
+            </div> 
+            
+             <div class="form-group">
+              <input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de nacimiento" onfocus="(this.type='date')" onblur="(this.type='text')" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu fecha de nacimiento aquí." data-original-title="fechaNacimiento">
+            </div>
+            
+             <div class="form-group">
+              <input type="text" class="form-control" id="areasInteres" name="areasInteres" placeholder="Áreas de interés" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus áreas de interés aquí." data-original-title="Areas">
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Estoy de acuerdo con los <a href="#">Términos de servicio</a> y las
+                  <a href="#">Politicas de Privacidad</a>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-green">Crear una Cuenta</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+ {% endblock %}
