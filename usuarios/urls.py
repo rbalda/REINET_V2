@@ -17,4 +17,5 @@ urlpatterns = patterns('',
         url(r'^registro_usuario[/]?$',registro_usuario,name='index'),
     	url(r'^index[/]?$',index,name='index'),
     	url(r'^[/]?$',index,name='index'),
+    	url(r'^terms[/]?$','usuarios.views.terms', name='terms'),
 )
