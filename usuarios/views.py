@@ -82,6 +82,13 @@ def registro_institucion(request):
 			print "algo fallo"
 			return redirect('/registro_institucion')
 
+"""
+Autor: Angel Guale
+Nombre de funcion: get_client_ip 
+Entrada: request 
+Salida: obtiene ip del cliente
+"""
+
 def get_client_ip(request):
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 	if x_forwarded_for:
@@ -92,7 +99,7 @@ def get_client_ip(request):
 """
 Autor: Angel Guale
 Nombre de funcion: registro_usuario 
-Entrada: request GET
+Entrada: request GET o POST
 Salida: Formulario de registro usuario
 Responde con un formulario vacio de registro de usuario o ejecuta el registro de un usuario
 """
@@ -174,6 +181,52 @@ def logOut(request):
 	logout(request)
 	return redirect('/')
 
+@login_required
+def editar_usuario(request):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args={}
+
+	if usuario is not None:
+		args['usuario']=usuario
+	else:
+		args['error']="Error al cargar los datos"
+
+
+	if request.method=='POST':
+		#print request.POST
+		nombres=request.POST['nombres']
+		apellidos=request.POST['apellidos']
+		cedula=request.POST['cedula']
+		#cargo=request.POST['cargo']
+		telefono=request.POST['telefono']
+		#actividad=request.POST['actividad']
+		website=request.POST['website']
+		email=request.POST['email']
+		
+		perfil=usuario
+		perfil.first_name=nombres
+		perfil.last_name=apellidos
+		perfil.cedula=cedula
+		#perfil.cargo=cargo
+		#perfil.actividad=actividad
+		perfil.web=website
+		perfil.email=email
+		#perfil.ciudad=ciudad
+		#perfil.fechaNacimiento=fechaNacimiento
+		#perfil.areasInteres=areasInteres
+		perfil.fecharegistro=datetime.datetime.now()
+		perfil.telefono=telefono
+		#ubicacion=Ubicacion.objects.get(idubicacion=1)
+		#perfil.fkubicacion=ubicacion
+		#perfil.ipregistro=get_client_ip(request)
+		perfil.save()
+		
+		return HttpResponseRedirect('/perfilUsuario/')	
+	else:
+		args.update(csrf(request))
+		return render_to_response('Usuario_Edit-Profile.html',args)
+
 
 def autentificacion(request):
 	if request.method=='POST':
@@ -185,7 +238,7 @@ def autentificacion(request):
 		if usuario is not None:
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
-			return HttpResponseRedirect('/perfilUsuario')
+			return HttpResponseRedirect('/inicioUsuario')
 		else:
 			error="Nombre de Usuario o Contraseña Incorrectos"
 			ctx={'mensajeErrorIngreso':error}
@@ -224,15 +277,21 @@ def perfilUsuario(request):
 	usuario = Perfil.objects.get(id=session)
 	args={}
 
-
 	if usuario is not None:
 		args['usuario']=usuario
+		membresia=Membresia.objects.filter(fkusuario=usuario.id)
+		#print membresia[0].idmembresia
+		institucion=Institucion.objects.get(idinstitucion=membresia[0].fkinstitucion.idinstitucion)
+		#print institucion
+		args['institucion']=institucion
 
 	else:
 		args['error']="Error al cargar los datos"
+		return HttpResponseRedirect('/signIn/')
 
 
 	args.update(csrf(request))
+	#args['usuario']=usuario
 	return render_to_response('profile_usuario.html',args)
 
 
