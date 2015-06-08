@@ -320,5 +320,24 @@ def verCodigo(request):
 				return render_to_response('codigo_usado.html')
 		except:
 			return render_to_response('nocodigo.html')
-		
-		
+
+
+@login_required
+def suspenderUsuario(request):
+
+    usuario = Perfil.objects.get(id=request.session['id_usuario'])
+    password_ingresada = request.POST['txt_password_ingresada']
+
+    if usuario.check_password(password_ingresada):
+        #Cero significa que esta inactivo
+        usuario.estado = 0
+        usuario.save()
+        return logOut(request)
+    else:
+        ctx={}
+        error = "Contraseña Incorrecta"
+        ctx['error']= error
+        ctx.update(csrf(request))
+        ctx['usuario']=usuario
+        return render_to_response('Usuario_Edit-Profile.html',ctx)
+

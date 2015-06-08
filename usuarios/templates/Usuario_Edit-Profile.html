@@ -129,7 +129,44 @@
                 <button style="float:right" class="btn btn-green">Aceptar</button>
               </form>
             </div>
+
+            <div class="col-md-6 col-md-offset-3 signup">
+              <hr>
+                <div class="panel panel-red">
+                 <div class="panel-heading">
+                        <h3 class="panel-title">Suspender Cuenta</h3>
+                 </div>
+                <div class="panel-body">
+
+                 <div class="pwd-lost">
+
+                     {% if error %}
+                     <div class="alert alert-danger">
+                     <p >{{ error }}</p>
+                     </div>
+                     {% endif %}
+
+              <div class="pwd-lost-q show"> <a href="#">¿Está seguro que desea suspender su cuenta de ReiNet?</a></div>
+              <!-- ///////////////  Ventana emergente para recuperar contraseña  ////////////-->
+              <div class="pwd-lost-f hidden">
+                <p class="text-muted">Ingresa contraseña para validar tu usario</p>
+                <form class="form-inline" role="form" action="/suspender_usuario/" method="POST">{%csrf_token%}
+                  <div class="form-group">
+                    <label class="sr-only" for="email-pwd">Suspension de Cuenta</label>
+                    <input id="txt_password_ingresada"  name ="txt_password_ingresada" type="password" class="form-control" id="email-pwd" placeholder="Ingrese su contraseña">
+                  </div>
+                  <button type="submit" class="btn btn-blue">Aceptar</button>
+                </form>
+              </div>
+            </div>
+                </div>
+            </div>
+            </div>
+
+
           </div>
+
+         </div>
         </div>
 
       </div>
