@@ -219,7 +219,6 @@ def editar_usuario(request):
 		perfil.telefono=telefono
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
-		#perfil.ipregistro=get_client_ip(request)
 		perfil.save()
 		
 		return HttpResponseRedirect('/perfilUsuario/')	
