@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     	url(r'^[/]?$',index,name='index'),
     	url(r'^ver_codigo[/]?$',verCodigo,name='institucion'),
     	url(r'^terms[/]?$','usuarios.views.terms', name='terms'),
+    	url(r'^inicioUsuario[/]?$','usuarios.views.inicio',name='inicioUsuario'),
         url(r'^editar_usuario[/]?$',editar_usuario,name='index'),
 )
