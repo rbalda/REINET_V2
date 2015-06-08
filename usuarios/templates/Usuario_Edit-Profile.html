@@ -1,0 +1,142 @@
+{% extends "base.tpl.html" %}
+
+{% block signin %}
+<li id="usuario" class="show">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
+</a>
+<ul class="dropdown-menu">
+<li><a href="#" >Mi Perfil</a></li>
+<li><a href="/registro_institucion">Registrar Institucion</a></li>
+<li><a href="/logOut/" >Cerrar Sesi&oacute;n</a></li>
+</ul>
+</li>
+<li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
+{% endblock %}
+
+
+{%block content%}
+    
+<!-- VENTANA PERFIL USUARIO
+================== -->
+
+    <div class="section-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h1 class="animated slideInLeft"><span>{{ usuario.username }}</span></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+
+        <!-- /////////////  Menu de Perfil  ////////////////// -->
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="user-menu bottom-15">
+            <ul>
+              <li>
+                <a href="#" class="active">
+                  <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
+                </a>  
+              </li>
+              <li>
+                <a href="#">
+                  <i class="sign fa fa-edit bg-blue"></i> Editar Perfil <i class="fa fa-chevron-right pull-right"></i>
+                </a>  
+              </li>
+              <li>
+                <a href="#">
+                  <i class="sign fa fa-envelope bg-red"></i> Bandeja de Entrada  <i class="fa fa-chevron-right pull-right"></i>
+                </a>  
+              </li>
+              <li>
+                <a href="#">
+                  <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
+                </a>  
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- //////////////  EDITAR PERFIL USUARIO /////////////// -->
+        <div class=" col-xs-6 col-sm-8 col-md-9">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3 signup">
+              <h3 class="hl top-zero">Editar Usuario</h3>
+              <hr>
+              <form role="form" action="/editar_usuario/" method="post" enctype="multipart/form-data">{%csrf_token%}
+                
+                <div class="form-group">
+                  <label for="Nombres">Nombres</label>
+                  <input required type="text" class="form-control" id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" value = '{{ usuario.first_name }}'>
+                </div>
+                <div class="form-group">
+                  <label for="Apellidos">Apellidos</label>
+                  <input required type="text" class="form-control" id="apellidos" name="apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" value="{{ usuario.last_name }}">
+                </div>
+               
+                <div class="form-group">
+                  <label for="Cedula">Cedula</label>
+                  <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" value="{{ usuario.cedula }}">
+                </div>
+
+                <div class="form-group">
+                  <label for="Telefono">Telefono</label>
+                  <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" value="{{ usuario.telefono }}">
+                </div>
+                <!--
+                <div class="form-group">
+                  <label for="Cargo">Cargo</label>
+                  <input type="text" class="form-control" id="cargo" name="cargo" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Cargo" value="{{ memb.cargo }}">
+                </div>
+                
+                
+                <div class="form-group">
+                  <label for="Actividad">Actividad</label>
+                  <input type="text" class="form-control" id="actividad" name="actividad" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa la actividad que realizas aquí." data-original-title="Actividad" value = '{{ usuario.actividad }}'>
+                </div>
+                -->
+                
+                 <div class="form-group">
+                  <label for="Sitio Web<">Sitio Web</label>
+                  <input type="url" class="form-control" id="website" name="website" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web" value= '{{ usuario.web }}'>
+                </div> 
+                
+                           
+                <div class="form-group">
+                  <label for="Email">Email</label>
+                  <input required type="email" class="form-control" id="email" name="email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email" value="{{ usuario.email }}">
+                </div>
+                <!--
+                <div class="form-group">
+                  <label for="Ciudad">Ciudad</label>
+                  <input type="text" class="form-control" id="ciudad" name="ciudad" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu ciudad aquí." data-original-title="Ciudad" value = '{{ usuario.ciudad }}'>
+                </div> 
+                
+                 <div class="form-group">
+                  <label for="Fecha de Nacimiento">Fecha de Nacimiento</label>
+                  <input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" onfocus="(this.type='date')" onblur="(this.type='text')" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu fecha de nacimiento aquí." data-original-title="fechaNacimiento" value="{{ usuario.fechaNacimiento }}">
+                </div>
+                
+                 <div class="form-group">
+                  <label for="Area de Interes">Area de Interes</label>
+                  <input type="text" class="form-control" id="areasInteres" name="areasInteres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus áreas de interés aquí." data-original-title="Areas" value="{{ usuario.areasInteres }}">
+                </div>
+                -->
+                
+                <button style="float:right" class="btn btn-green">Aceptar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%} 
+
+
