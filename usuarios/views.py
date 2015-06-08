@@ -308,8 +308,6 @@ def verCodigo(request):
 		codigo = request.POST['codigo']
 		print codigo
 		peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
-		print "load pet"
-		print peticion.codigo
 		try :
 			print peticion.codigo
 			if (peticion.codigo == codigo and peticion.usado == 0) :
