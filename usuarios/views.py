@@ -203,11 +203,8 @@ def editar_usuario(request):
 		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
-		#ciudad=request.POST['ciudad']
-		#fechaNacimiento=request.POST['fechaNacimiento']
-		#areasInteres=request.POST['areasInteres']
 		
-		perfil=Perfil()
+		perfil=usuario
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
 		perfil.cedula=cedula
@@ -219,28 +216,13 @@ def editar_usuario(request):
 		#perfil.fechaNacimiento=fechaNacimiento
 		#perfil.areasInteres=areasInteres
 		perfil.fecharegistro=datetime.datetime.now()
-		perfil.reputacion=0
-		perfil.estado=1 #estado 1 es activo
 		perfil.telefono=telefono
-		ubicacion=Ubicacion.objects.get(idubicacion=1)
-		perfil.fkubicacion=ubicacion
-		perfil.ipregistro=get_client_ip(request)
+		#ubicacion=Ubicacion.objects.get(idubicacion=1)
+		#perfil.fkubicacion=ubicacion
+		#perfil.ipregistro=get_client_ip(request)
 		perfil.save()
 		
-		membresia=Membresia()
-		membresia.esadministrator=0 #0 para falso
-		#membresia.cargo=cargo
-		membresia.descripcion=""
-		membresia.fecha=datetime.datetime.now()
-		membresia.ippeticion=get_client_ip(request)
-		membresia.estado=1 #1 es para aceptado
-		institucion=Institucion.objects.get(siglas="I")
-		membresia.fkinstitucion=institucion
-		membresia.fkusuario=perfil
-		membresia.save()
-
-
-		return HttpResponseRedirect('/index/')	
+		return HttpResponseRedirect('/perfilUsuario/')	
 	else:
 		args.update(csrf(request))
 		return render_to_response('Usuario_Edit-Profile.html',args)
