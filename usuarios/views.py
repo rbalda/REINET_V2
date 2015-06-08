@@ -199,6 +199,23 @@ def terms(request):
 
 	return render(request, 'terms.html')
 
+@login_required
+def inicio(request):
+
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args={}
+	
+	if usuario is not None:
+		args['usuario']=usuario
+
+	else:
+		args['error']="Error al cargar los datos"
+
+
+	args.update(csrf(request))
+	return render_to_response('Usuario_Home.html',args)
+
 
 @login_required
 def perfilUsuario(request):
