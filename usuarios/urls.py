@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 		url(r'^autentificacion[/]?$','usuarios.views.autentificacion',name='autentificacion'),
 		#url(r'^signUp[/]?$','usuarios.views.signUp', name='signUp'),
 		url(r'^perfilUsuario[/]?$','usuarios.views.perfilUsuario', name='perfilUsuario'),
+        url(r'^perfilInstitucion[/]?$','usuarios.views.perfilInstitucion', name='perfilInstitucion'),
         url(r'^registro_institucion[/]?$',registro_institucion,name='index'),
         url(r'^registro_usuario[/]?$',registro_usuario,name='index'),
     	url(r'^index[/]?$',index,name='index'),
@@ -22,3 +23,4 @@ urlpatterns = patterns('',
     	url(r'^inicioUsuario[/]?$','usuarios.views.inicio',name='inicioUsuario'),
         url(r'^editar_usuario[/]?$',editar_usuario,name='index'),
 )
+
