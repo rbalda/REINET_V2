@@ -108,7 +108,7 @@
 
             <!-- //// PERFIL PRINCIPAL ///// -->
             <div class="col-sm-8">
-              <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }} <small> [Organizacion] </small></h3>
+              <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }} <small> {{institucion.nombre}} </small></h3>
               <hr>
 
               <div class="bottom-15">
@@ -163,31 +163,31 @@
 
                   <tr>
                     <td class="text-muted">Instituci&oacute;n</td>
-                    <td style="text-align:right">[Institucion]</td>
+                    <td style="text-align:right">{{institucion.nombre}}</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Fecha de Registro</td>
                     <td style="text-align:right">{{ usuario.fecharegistro }}</td>
                   </tr>
-                  <tr>
+              <!--     <tr>
                     <td class="text-muted">&Aacute;reas de inter&eacute;s</td>
-                    <td style="text-align:right">[Areas de Interes del Usuario]</td>
-                  </tr>
-                  <tr>
+                    <td style="text-align:right">{{usuario.areasinteres}}</td>
+                  </tr> -->
+                  <!-- <tr>
                     <td class="text-muted">Cargo</td>
-                    <td style="text-align:right">[Cargo del Usuario]</td>
+                    <td style="text-align:right">{{usuario.cargo}}</td>
                   </tr>
                    <tr>
                     <td class="text-muted">Actividades</td>
                     <td style="text-align:right">[Actividades del usuario]</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                     <td class="text-muted">Notoriedad</td>
                     <td style="text-align:right">{{ usuario.reputacion }}</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Estado</td>
-                    <td style="text-align:right">{{ usario.is_active }}</td>
+                    <td style="text-align:right">{%if usuario.estado == 1 %} Activo {%else%} Inactivo{%endif%}</td>
                   </tr>
 
                     </tbody>

@@ -82,6 +82,13 @@ def registro_institucion(request):
 			print "algo fallo"
 			return redirect('/registro_institucion')
 
+"""
+Autor: Angel Guale
+Nombre de funcion: get_client_ip 
+Entrada: request 
+Salida: obtiene ip del cliente
+"""
+
 def get_client_ip(request):
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 	if x_forwarded_for:
@@ -92,7 +99,7 @@ def get_client_ip(request):
 """
 Autor: Angel Guale
 Nombre de funcion: registro_usuario 
-Entrada: request GET
+Entrada: request GET o POST
 Salida: Formulario de registro usuario
 Responde con un formulario vacio de registro de usuario o ejecuta el registro de un usuario
 """
@@ -207,15 +214,21 @@ def perfilUsuario(request):
 	usuario = Perfil.objects.get(id=session)
 	args={}
 
-
 	if usuario is not None:
 		args['usuario']=usuario
+		membresia=Membresia.objects.filter(fkusuario=usuario.id)
+		#print membresia[0].idmembresia
+		institucion=Institucion.objects.get(idinstitucion=membresia[0].fkinstitucion.idinstitucion)
+		#print institucion
+		args['institucion']=institucion
 
 	else:
 		args['error']="Error al cargar los datos"
+		return HttpResponseRedirect('/signIn/')
 
 
 	args.update(csrf(request))
+	#args['usuario']=usuario
 	return render_to_response('profile_usuario.html',args)
 
 
