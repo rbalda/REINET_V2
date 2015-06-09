@@ -271,7 +271,6 @@ def inicio(request):
 
 @login_required
 def perfilUsuario(request):
-
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args={}
@@ -295,6 +294,42 @@ def perfilUsuario(request):
 
 
 """
+Autor: Edinson Sánchez
+Nombre de funcion: perfilInstitucion
+Entrada: request GET
+Salida: Perfil de Institucion
+"""
+@login_required
+def perfilInstitucion(request):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args={}
+
+	if usuario is not None:
+		args['usuario']=usuario
+		membresia=Membresia.objects.filter(fkusuario=usuario.id,esadministrator=1).first()
+		print "sadhas"
+		if membresia.esadministrator == 1:
+			print "entre"
+			print membresia.idmembresia
+			institucion=Institucion.objects.get(idinstitucion=membresia.fkinstitucion.idinstitucion)
+			#print institucion
+			args['institucion']=institucion
+		else:
+			print "aca"
+			args['error1']="Usted no es miembro de ninguna Institucion"
+
+	else:
+		args['error']="Error al cargar los datos"
+		return HttpResponseRedirect('/signIn/')
+
+
+	args.update(csrf(request))
+	#args['usuario']=usuario
+	return render_to_response('profile_institucion.html',args)
+
+
+"""
 Autor: Pedro Aim
 Nombre de funcion: verCodigo
 Entrada: request POST
@@ -308,8 +343,6 @@ def verCodigo(request):
 		codigo = request.POST['codigo']
 		print codigo
 		peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
-		print "load pet"
-		print peticion.codigo
 		try :
 			print peticion.codigo
 			if (peticion.codigo == codigo and peticion.usado == 0) :
@@ -320,5 +353,24 @@ def verCodigo(request):
 				return render_to_response('codigo_usado.html')
 		except:
 			return render_to_response('nocodigo.html')
-		
-		
+
+
+@login_required
+def suspenderUsuario(request):
+
+    usuario = Perfil.objects.get(id=request.session['id_usuario'])
+    password_ingresada = request.POST['txt_password_ingresada']
+
+    if usuario.check_password(password_ingresada):
+        #Cero significa que esta inactivo
+        usuario.estado = 0
+        usuario.save()
+        return logOut(request)
+    else:
+        ctx={}
+        error = "Contraseña Incorrecta"
+        ctx['error']= error
+        ctx.update(csrf(request))
+        ctx['usuario']=usuario
+        return render_to_response('Usuario_Edit-Profile.html',ctx)
+
