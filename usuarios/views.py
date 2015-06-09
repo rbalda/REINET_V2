@@ -159,7 +159,7 @@ def registro_usuario(request):
 		membresia.fk_usuario=perfil
 		membresia.save()
 		
-		return HttpResponseRedirect('/index/')	
+		return HttpResponseRedirect('/signIn/')	
 	else:
 		args={}
 		args.update(csrf(request))
