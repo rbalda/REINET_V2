@@ -11,12 +11,12 @@
 </div>
 <div class="form-group">
   <input type="text" class="form-control" id="siglaInstitucion" name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
-         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado">
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" required>
 </div>
 
 <div class="form-group">
   <input type="text" class="form-control" id="descInstitucion" name="descInstitucion" placeholder="Descripcion de la Institucion"
-         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion" data-original-title="Descripcion">
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion" data-original-title="Descripcion" required>
 </div>
 <div class="form-group">
   <input type="text" class="form-control" id="misionInstitucion" name="misionInstitucion" placeholder="Misión"
@@ -31,15 +31,53 @@
          data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese los recursos que ofrece la Institución" data-original-title="Recursos Ofrecidos" required>
 </div>
 <div class="form-group">
+  <input type="text" class="form-control" id="cargoInstitucion" name="cargoInstitucion" placeholder="Indique su cargo en la Institucion"
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese su cargo en la Institución" data-original-title="Cargo" required>
+</div>
+<div class="form-group">
+  <input type="text" class="form-control" id="cargoDescInstitucion" name="cargoDescInstitucion" placeholder="Indique de que se trata su cargo"
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese de que se trata su cargo" data-original-title="Desc Cargo" required>
+</div>
+<div class="form-group">
+  <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion" placeholder="Telefono del Contacto"
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el telefono del contacto de la Institución" data-original-title="Telefono" required>
+</div>
+<div class="form-group">
+  <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion" placeholder="Email"
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el correo electronico de la Institución" data-original-title="Email" required>
+</div>
+<div class="form-group">
   <input type="text" class="form-control" id="webInstitucion" name="webInstitucion" placeholder="Dirección web"
          data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required>
 </div>
 
+<input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo" onchange="readURL(this);" required>
+<img id="blah" src="#" alt="your image" />
+
 <div class="checkbox">
   <label>
-    <input type="checkbox"> Estoy de acuerdo con los <a href="#">Términos de servicio</a> y las
+    <input type="checkbox" required> Estoy de acuerdo con los <a href="#">Términos de servicio</a> y las
       <a href="#">Politicas de Privacidad</a>
   </label>
 </div>
 
 <button id="continuar" type="submit" class="btn btn-green">Continuar</button>
+
+
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah')
+                .attr('src', e.target.result)
+                .width(200)
+                .height(200);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+</script>

@@ -37,7 +37,7 @@ def registro_institucion(request):
 	else:
 		print "es post"
 		try:
-			peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
+			peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 			if (peticion.usado == 0) :
 				print "peticion no usada"
 				siglas=request.POST['siglaInstitucion']
@@ -46,35 +46,53 @@ def registro_institucion(request):
 				ub=request.POST['ubicacionInstitucion']
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion']
-
+				mail=request.POST['emailInstitucion']
+				telf=request.POST['telefonoInstitucion']
+				cargo = request.POST['cargoInstitucion']
+				cargo_desc = request.POST['cargoDescInstitucion']
+				try:
+					image = request.FILES['logo']
+				except:
+					image = "noPicture.png"
 				insti = Institucion();
-				insti.nombre = peticion.nombre
+				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
-				insti.logo = 'helloworld.jpg'
+				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.ubicacion = ub
 				insti.web = web
-				insti.recursosofrecidos = recursos
+				insti.recursos_ofrecidos = recursos
+				insti.correo = mail
+				insti.telefono_contacto = telf
+				ciudad=City.objects.get(id=1)
+				pais=Country.objects.get(id=1)
+				insti.ciudad = ciudad
+				insti.pais = pais
 				insti.save()
+				
 				peticion.usado = 1
 				peticion.save()
-				print "peticion actualizada"
+
 				membresia = Membresia()
-				membresia.esadministrator = 1
-				membresia.cargo = 'Director'
-				membresia.descripcion = 'Este campo no sirve'
-				membresia.fecha = '2015-05-Da Igual xq es campo de texto...'
-				membresia.ippeticion = 'GG WP'
+				membresia.es_administrator = 1
+				membresia.cargo = cargo
+				membresia.descripcion_cargo = cargo_desc
+				membresia.fecha_peticion = '2015-06-10'
+				membresia.fecha_aceptacion = '2015-06-10'
+				membresia.ip_peticion = '127.0.0.1'
 				membresia.estado = 1
-				print request.session['id_usuario']
-				print insti.idinstitucion
-				print "antes de los foreigns"
-				membresia.fkinstitucion = insti
-				print "foreign de institucion worked"
-				membresia.fkusuario = Perfil.objects.get(id = request.session['id_usuario'])
+				membresia.fk_institucion = insti
+				membresia.fk_usuario = Perfil.objects.get(id = request.session['id_usuario'])
 				membresia.save()
-				return redirect('/perfilUsuario')
+				print "registros guardados"
+				try:
+					membresiaBorrar=Membresia.objects.filter(fk_usuario = request.session['id_usuario'], fk_institucion = 1).first()
+					membresiaBorrar.delete()
+					print "membresia independiente deleted"
+				except:
+					print "membresia no encontrada"
+				return redirect('/inicioUsuario')
 			else:
 				print "peticion ya usada"
 				return redirect('/registro_institucion')
@@ -347,12 +365,12 @@ def verCodigo(request):
 		args={}
 		codigo = request.POST['codigo']
 		print codigo
-		peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
+		peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 		try :
 			print peticion.codigo
 			if (peticion.codigo == codigo and peticion.usado == 0) :
 				args['codigo'] = peticion.codigo
-				args['insti'] = peticion.nombre
+				args['insti'] = peticion.nombre_institucion
 				return render_to_response('institucion_form_response.html', args)
 			else :
 				return render_to_response('codigo_usado.html')
@@ -375,7 +393,7 @@ def suspenderUsuario(request):
         ctx={}
         error = "Contraseña Incorrecta"
         ctx['error']= error
-        ctx.update(csrf(request))
         ctx['usuario']=usuario
+        ctx.update(csrf(request))
         return render(request,'Usuario_Edit-Profile.html',ctx)
 
