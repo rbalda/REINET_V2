@@ -133,28 +133,32 @@ def registro_usuario(request):
 		perfil.ciudad=ciudad
 		perfil.fechaNacimiento=fechaNacimiento
 		perfil.areasInteres=areasInteres
-		perfil.fecharegistro=datetime.datetime.now()
+		perfil.fecha_registro=datetime.datetime.now()
 		perfil.reputacion=0
 		perfil.estado=1 #estado 1 es activo
 		perfil.telefono=telefono
-		ubicacion=Ubicacion.objects.get(idubicacion=1)
-		perfil.fkubicacion=ubicacion
-		perfil.ipregistro=get_client_ip(request)
+		#ubicacion=Ubicacion.objects.get(idubicacion=1)
+		#perfil.fkubicacion=ubicacion
+		ciudad=City.objects.get(id=1)
+		pais=Country.objects.get(id=1)
+		perfil.fk_ciudad=ciudad
+		perfil.fk_pais=pais
+		perfil.ip_registro=get_client_ip(request)
 		perfil.save()
 		
 		membresia=Membresia()
-		membresia.esadministrator=0 #0 para falso
+		membresia.es_administrator=0 #0 para falso
 		membresia.cargo=cargo
 		membresia.descripcion=""
-		membresia.fecha=datetime.datetime.now()
-		membresia.ippeticion=get_client_ip(request)
+		membresia.fecha_aceptacion=datetime.datetime.now()
+		membresia.fecha_peticion=datetime.datetime.now()
+		membresia.ip_peticion=get_client_ip(request)
 		membresia.estado=1 #1 es para aceptado
 		institucion=Institucion.objects.get(siglas="I")
-		membresia.fkinstitucion=institucion
-		membresia.fkusuario=perfil
+		membresia.fk_institucion=institucion
+		membresia.fk_usuario=perfil
 		membresia.save()
-
-
+		
 		return HttpResponseRedirect('/index/')	
 	else:
 		args={}
