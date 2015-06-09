@@ -20,8 +20,8 @@ class Perfil(User):
     reputacion = models.DecimalField(max_digits=4, decimal_places=0, default=0)
     estado = models.PositiveSmallIntegerField(default=1)
     privacidad = models.BinaryField(max_length=8)
-    fk_ciudad = models.ForeignKey(City,related_name="ciudad_de_origen")
-    fk_pais = models.ForeignKey(Country,related_name="pais_de_origen")
+    fk_ciudad = models.ForeignKey(City,related_name="ciudad_de_origen",default=None)
+    fk_pais = models.ForeignKey(Country,related_name="pais_de_origen",default=None)
     actividades = models.TextField()
 
     class Meta:
@@ -35,13 +35,13 @@ class Institucion(models.Model):
     logo = models.ImageField()
     descripcion = models.CharField(max_length=500)
     mision = models.CharField(max_length=500)
-    ciudad = models.ForeignKey(City,related_name="ciudad_origen")
-    pais = models.ForeignKey(Country,related_name="pais_origen")
+    ciudad = models.ForeignKey(City,related_name="ciudad_origen",default=None)
+    pais = models.ForeignKey(Country,related_name="pais_origen",default=None)
     web = models.CharField(max_length=45)
     recursos_ofrecidos = models.CharField(max_length=200, blank=True, null=True)
     miembros = models.ManyToManyField(User,through='Membresia',through_fields=('fk_institucion','fk_usuario'))
-    correo = models.EmailField()
-    telefono_contacto = models.CharField(max_length=15 )
+    correo = models.EmailField(default=None)
+    telefono_contacto = models.CharField(max_length=15,default=None )
 
     class Meta:
         db_table = 'Institucion'
@@ -53,7 +53,7 @@ class Membresia(models.Model):
     cargo = models.CharField(max_length=45)
     descripcion_cargo = models.CharField(max_length=45)
     fecha_peticion = models.DateTimeField(auto_now_add=True)
-    fecha_aceptacion = models.DateTimeField()
+    fecha_aceptacion = models.DateTimeField(default=None)
     ip_peticion = models.GenericIPAddressField (max_length=45)
     estado = models.BooleanField(default=False)
     fk_institucion = models.ForeignKey(Institucion)
