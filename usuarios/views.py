@@ -381,19 +381,42 @@ def verCodigo(request):
 @login_required
 def suspenderUsuario(request):
 
-    usuario = Perfil.objects.get(id=request.session['id_usuario'])
-    password_ingresada = request.POST['txt_password_ingresada']
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
+	password_ingresada = request.POST['txt_password_ingresada']
 
-    if usuario.check_password(password_ingresada):
-        #Cero significa que esta inactivo
-        usuario.estado = 0
-        usuario.save()
-        return logOut(request)
-    else:
-        ctx={}
-        error = "Contraseña Incorrecta"
-        ctx['error']= error
-        ctx['usuario']=usuario
-        ctx.update(csrf(request))
-        return render(request,'Usuario_Edit-Profile.html',ctx)
+	if usuario.check_password(password_ingresada):
+		#Cero significa que esta inactivo
+		usuario.estado = 0
+		usuario.save()
+		return logOut(request)
+	else:
+		ctx={}
+		error = "Contraseña Incorrecta"
+		ctx['error']= error
+		ctx['usuario']=usuario
+		ctx.update(csrf(request))
+		return render(request,'Usuario_Edit-Profile.html',ctx)
+
+
+def generarCodigo(request):
+	if request.method=='POST':
+		username=request.POST['username']
+		usuario = Perfil.objects.get(username=username)
+		codigo=request.POST['codigo']
+		nombre_institucion=request.POST['nombre_institucion']
+		#creo el registro de peticion
+		peticion=Peticion()
+		peticion.codigo=codigo
+		peticion.nombre_institucion=nombre_institucion
+		peticion.usado=0
+		peticion.fk_usuario=usuario
+		peticion.save()
+		return HttpResponseRedirect('/inicioUsuario')
+	else:
+		args={}
+		args.update(csrf(request))
+		
+		return render_to_response('Administrador_generar_codigo.html', args)
+
+
 
