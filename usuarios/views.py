@@ -374,7 +374,7 @@ def suspenderUsuario(request):
         ctx={}
         error = "Contraseña Incorrecta"
         ctx['error']= error
-        ctx.update(csrf(request))
         ctx['usuario']=usuario
+        ctx.update(csrf(request))
         return render(request,'Usuario_Edit-Profile.html',ctx)
 
