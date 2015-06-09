@@ -32,7 +32,7 @@ class Institucion(models.Model):
     id_institucion = models.AutoField(primary_key=True)
     nombre = models.CharField(unique=True, max_length=45)
     siglas = models.CharField(max_length=12)
-    logo = models.ImageField()
+    logo = models.ImageField(upload_to=get_upload_path,default='noPic.png')
     descripcion = models.CharField(max_length=500)
     mision = models.CharField(max_length=500)
     ciudad = models.ForeignKey(City,related_name="ciudad_origen",default=None)
