@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'REINET.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
+""" Comentado mientras el servidor murio
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -84,6 +84,18 @@ DATABASES = {
         'PORT':'13306',
         'USER':'reinet',
         'PASSWORD':'ReInEt2015'
+    }
+}
+"""
+"""esto para probar localmente mientras el servidor murio"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Reinet',
+        'HOST': 'localhost',
+        'PORT':'13306',
+        'USER':'root',
+        'PASSWORD':'root'
     }
 }
 

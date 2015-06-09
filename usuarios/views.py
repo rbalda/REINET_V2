@@ -116,10 +116,9 @@ def registro_usuario(request):
 		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
-		#ciudad=request.POST['ciudad']
-		#fechaNacimiento=request.POST['fechaNacimiento']
-		#areasInteres=request.POST['areasInteres']
-		
+		pais_selected=request.POST['pais']
+		print pais_selected
+
 		perfil=Perfil()
 		perfil.username=username
 		perfil.set_password(password)
@@ -138,9 +137,9 @@ def registro_usuario(request):
 		perfil.estado=1 #estado 1 es activo
 		perfil.telefono=telefono
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
-		#perfil.fkubicacion=ubicacion
+		pais=Country.objects.get(id=pais_selected)
 		ciudad=City.objects.get(id=1)
-		pais=Country.objects.get(id=1)
+		#pais=Country.objects.get(id=1)
 		perfil.fk_ciudad=ciudad
 		perfil.fk_pais=pais
 		perfil.ip_registro=get_client_ip(request)
@@ -163,6 +162,8 @@ def registro_usuario(request):
 	else:
 		args={}
 		args.update(csrf(request))
+		paises=Country.objects.all()
+		args['paises']=paises
 		return render_to_response('Usuario_Sign-up.html',args)
 
 
