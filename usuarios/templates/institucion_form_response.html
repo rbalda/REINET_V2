@@ -51,6 +51,9 @@
          data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required>
 </div>
 
+<input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo" onchange="readURL(this);" required>
+<img id="blah" src="#" alt="your image" />
+
 <div class="checkbox">
   <label>
     <input type="checkbox" required> Estoy de acuerdo con los <a href="#">Términos de servicio</a> y las
@@ -59,3 +62,22 @@
 </div>
 
 <button id="continuar" type="submit" class="btn btn-green">Continuar</button>
+
+
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah')
+                .attr('src', e.target.result)
+                .width(200)
+                .height(200);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+</script>

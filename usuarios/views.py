@@ -50,16 +50,19 @@ def registro_institucion(request):
 				telf=request.POST['telefonoInstitucion']
 				cargo = request.POST['cargoInstitucion']
 				cargo_desc = request.POST['cargoDescInstitucion']
-
+				try:
+					image = request.FILES['logo']
+				except:
+					image = "noPicture.png"
 				insti = Institucion();
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
-				insti.logo = 'noPic.jpg'
+				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.ubicacion = ub
 				insti.web = web
-				insti.recursosofrecidos = recursos
+				insti.recursos_ofrecidos = recursos
 				insti.correo = mail
 				insti.telefono_contacto = telf
 				ciudad=City.objects.get(id=1)
@@ -67,7 +70,7 @@ def registro_institucion(request):
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
-
+				
 				peticion.usado = 1
 				peticion.save()
 
@@ -86,9 +89,9 @@ def registro_institucion(request):
 				try:
 					membresiaBorrar=Membresia.objects.filter(fk_usuario = request.session['id_usuario'], fk_institucion = 1).first()
 					membresiaBorrar.delete()
+					print "membresia independiente deleted"
 				except:
 					print "membresia no encontrada"
-				print "membresia independiente deleted"
 				return redirect('/inicioUsuario')
 			else:
 				print "peticion ya usada"

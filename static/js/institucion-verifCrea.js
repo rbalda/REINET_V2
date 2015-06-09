@@ -18,3 +18,4 @@ function codeSuccess(data, textStatus, jqXHR){
     $('#codigoInstitucion').remove();
     $('#instBtnContinuar').remove();
 }
+
