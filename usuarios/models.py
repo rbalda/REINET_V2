@@ -2,83 +2,85 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from cities_light.models import City,Country
 
+def get_upload_path(instance,filename):
+        return 'usuarios/%s/fotos/%s'%(instance.user.id,filename)
 
-class Ubicacion(models.Model):
-    idubicacion = models.AutoField(primary_key=True)
-    pais = models.CharField(max_length=45)
-    ciudad = models.CharField(max_length=45)
-    abreviatura = models.CharField(max_length=45)
-
-    class Meta:
-        db_table = 'Ubicacion'
 
 
 class Perfil(User):
-    idperfil = models.AutoField(primary_key=True)
+    id_perfil = models.AutoField(primary_key=True)
     cedula = models.CharField(unique=True, max_length=10)
-    foto = models.TextField()
-    web = models.CharField(max_length=100)
+    foto = models.ImageField(upload_to=get_upload_path,default='noPicture.png')
+    web = models.URLField(max_length=200)
     telefono = models.CharField(max_length=16)
-    fecharegistro = models.DateTimeField()
-    ipregistro = models.CharField(max_length=15)
-    reputacion = models.DecimalField(max_digits=4, decimal_places=0)
-    estado = models.IntegerField()
-    privacidad = models.CharField(max_length=11)
-    fkubicacion = models.ForeignKey(Ubicacion)
+    fecha_registro = models.DateTimeField(auto_now_add=True)
+    ip_registro = models.IPAddressField()
+    reputacion = models.DecimalField(max_digits=4, decimal_places=0, default=0)
+    estado = models.PositiveSmallIntegerField(default=1,max_length=1)
+    privacidad = models.BinaryField(max_length=8)
+    fk_ciudad = models.ForeignKey(City,related_name="ciudad_de_origen")
+    fk_pais = models.ForeignKey(Country,related_name="pais_de_origen")
+    actividades = models.TextField()
 
     class Meta:
         db_table = 'Perfil'
 
 
 class Institucion(models.Model):
-    idinstitucion = models.AutoField(primary_key=True)
+    id_institucion = models.AutoField(primary_key=True)
     nombre = models.CharField(unique=True, max_length=45)
     siglas = models.CharField(max_length=12)
-    logo = models.TextField()
+    logo = models.ImageField()
     descripcion = models.CharField(max_length=500)
     mision = models.CharField(max_length=500)
-    ubicacion = models.CharField(max_length=45)
+    ciudad = models.ForeignKey(City,related_name="ciudad_origen")
+    pais = models.ForeignKey(Country,related_name="pais_origen")
     web = models.CharField(max_length=45)
-    recursosofrecidos = models.CharField(max_length=200, blank=True, null=True)
+    recursos_ofrecidos = models.CharField(max_length=200, blank=True, null=True)
+    miembros = models.ManyToManyField(User,through='Membresia',through_fields=('fkinstitucion,fkusuario'))
+    correo = models.EmailField()
+    telefono_contacto = models.CharField(max_length=15 )
 
     class Meta:
         db_table = 'Institucion'
 
 
 class Membresia(models.Model):
-    idmembresia = models.AutoField(primary_key=True)
-    esadministrator = models.IntegerField()
+    id_membresia = models.AutoField(primary_key=True)
+    es_administrator = models.BooleanField(default=False)
     cargo = models.CharField(max_length=45)
-    descripcion = models.CharField(max_length=45)
-    fecha = models.CharField(max_length=45)
-    ippeticion = models.CharField (max_length=45)
-    estado = models.IntegerField(blank=True, null=True)
-    fkinstitucion = models.ForeignKey(Institucion)
-    fkusuario = models.ForeignKey(User)
+    descripcion_cargo = models.CharField(max_length=45)
+    fecha_peticion = models.DateTimeField(auto_now_add=True)
+    fecha_aceptacion = models.DateTimeField()
+    ip_peticion = models.IPAddressField (max_length=45)
+    estado = models.BooleanField(default=False)
+    fk_institucion = models.ForeignKey(Institucion)
+    fk_usuario = models.ForeignKey(User)
 
     class Meta:
         db_table = 'Membresia'
 
 
 class Mensaje(models.Model):
-    idmensaje = models.AutoField(primary_key=True)
+    id_mensaje = models.AutoField(primary_key=True)
     mensaje = models.CharField(max_length=1000)
-    fecha = models.DateTimeField()
+    fecha_de_envio = models.DateTimeField()
     asunto = models.CharField(max_length=45)
-    fkemisor = models.ForeignKey(User,related_name='fkemisor')
-    fkreceptor = models.ForeignKey(User,related_name='fkreceptor')
+    fk_emisor = models.ForeignKey(User,related_name='mensajes_enviados')
+    fk_receptor = models.ForeignKey(User,related_name='mensajes_receptados')
 
     class Meta:
         db_table = 'Mensaje'
 
 
 class Peticion(models.Model):
-    idpeticion = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=45)
+    id_peticion = models.AutoField(primary_key=True)
+    nombre_institucion = models.CharField(max_length=45)
     codigo = models.CharField(max_length=128)
-    usado = models.IntegerField()
-    fkusuario = models.ForeignKey(User)
+    usado = models.BooleanField(default=False)
+    fk_usuario = models.ForeignKey(User)
 
     class Meta:
         db_table = 'Peticion'
