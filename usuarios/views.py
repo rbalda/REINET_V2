@@ -111,14 +111,14 @@ def registro_usuario(request):
 		nombres=request.POST['nombres']
 		apellidos=request.POST['apellidos']
 		cedula=request.POST['cedula']
-		cargo=request.POST['cargo']
+		#cargo=request.POST['cargo']
 		telefono=request.POST['telefono']
-		actividad=request.POST['actividad']
+		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
-		ciudad=request.POST['ciudad']
-		fechaNacimiento=request.POST['fechaNacimiento']
-		areasInteres=request.POST['areasInteres']
+		#ciudad=request.POST['ciudad']
+		#fechaNacimiento=request.POST['fechaNacimiento']
+		#areasInteres=request.POST['areasInteres']
 		
 		perfil=Perfil()
 		perfil.username=username
@@ -126,13 +126,13 @@ def registro_usuario(request):
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
 		perfil.cedula=cedula
-		perfil.cargo=cargo
-		perfil.actividad=actividad
+		#perfil.cargo=cargo
+		#perfil.actividad=actividad
 		perfil.web=website
 		perfil.email=email
-		perfil.ciudad=ciudad
-		perfil.fechaNacimiento=fechaNacimiento
-		perfil.areasInteres=areasInteres
+		#perfil.ciudad=ciudad
+		#perfil.fechaNacimiento=fechaNacimiento
+		#perfil.areasInteres=areasInteres
 		perfil.fecha_registro=datetime.datetime.now()
 		perfil.reputacion=0
 		perfil.estado=1 #estado 1 es activo
@@ -148,7 +148,7 @@ def registro_usuario(request):
 		
 		membresia=Membresia()
 		membresia.es_administrator=0 #0 para falso
-		membresia.cargo=cargo
+		membresia.cargo=""
 		membresia.descripcion=""
 		membresia.fecha_aceptacion=datetime.datetime.now()
 		membresia.fecha_peticion=datetime.datetime.now()
