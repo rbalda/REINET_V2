@@ -296,9 +296,9 @@ def perfilUsuario(request):
 
 	if usuario is not None:
 		args['usuario']=usuario
-		membresia=Membresia.objects.filter(fkusuario=usuario.id)
+		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
 		#print membresia[0].idmembresia
-		institucion=Institucion.objects.get(idinstitucion=membresia[0].fkinstitucion.idinstitucion)
+		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
 		#print institucion
 		args['institucion']=institucion
 
@@ -389,7 +389,7 @@ def suspenderUsuario(request):
         ctx={}
         error = "Contraseña Incorrecta"
         ctx['error']= error
-        ctx.update(csrf(request))
         ctx['usuario']=usuario
-        return render_to_response('Usuario_Edit-Profile.html',ctx)
+        ctx.update(csrf(request))
+        return render(request,'Usuario_Edit-Profile.html',ctx)
 
