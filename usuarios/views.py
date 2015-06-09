@@ -397,6 +397,13 @@ def suspenderUsuario(request):
 		ctx.update(csrf(request))
 		return render(request,'Usuario_Edit-Profile.html',ctx)
 
+"""
+Autor: Angel Guale
+Nombre de funcion: generarCodigo 
+Entrada: request GET o POST
+Salida: Formulario de generarCodigo 
+Genera un codigo para registrar institucion
+"""
 
 def generarCodigo(request):
 	if request.method=='POST':
@@ -411,7 +418,9 @@ def generarCodigo(request):
 		peticion.usado=0
 		peticion.fk_usuario=usuario
 		peticion.save()
-		return HttpResponseRedirect('/inicioUsuario')
+		args={}
+		args['mensaje']="Codigo Institucion generado"
+		return render_to_response('Administrador_generar_codigo.html', args)
 	else:
 		args={}
 		args.update(csrf(request))
