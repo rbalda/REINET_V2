@@ -188,11 +188,17 @@ def registro_usuario(request):
 
 
 def index(request):
-	return render_to_response('index.html',{})
+	if request.user.is_authenticated:
+		return HttpResponseRedirect('/inicioUsuario')
+	else:
+		return render_to_response('index.html',{})
 
 
 def signIn(request):
-	return render(request,'sign-in.html')
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/inicioUsuario/')
+	else:
+		return render(request,'sign-in.html')
 
 
 def logOut(request):
@@ -250,9 +256,9 @@ def autentificacion(request):
 	if request.method=='POST':
 		username = request.POST['usernameLogin']
 		password = request.POST['passwordLogin']
-		print username, password
 		usuario = auth.authenticate(username=username,password=password)
-		print usuario
+		args={}
+		
 		if usuario is not None:
 			if not request.POST.get('remember_me', None):
 				request.session.set_expiry(0)
@@ -261,9 +267,9 @@ def autentificacion(request):
 			return HttpResponseRedirect('/inicioUsuario')
 		else:
 			error="Nombre de Usuario o Contraseña Incorrectos"
-			ctx={'mensajeErrorIngreso':error}
-			ctx.update(csrf(request))
-			return render_to_response('sign-in.html',ctx)
+			args['mensajeErrorIngreso']=error
+			args.update(csrf(request))
+			return render_to_response('sign-in.html',args)
 	else:
 		print "Error en el request.POST"
 
@@ -298,6 +304,9 @@ def perfilUsuario(request):
 
 	if usuario is not None:
 		args['usuario']=usuario
+		usuario.estado = 1
+		usuario.save()
+
 		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
 		#print membresia[0].idmembresia
 		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
@@ -315,7 +324,7 @@ def perfilUsuario(request):
 
 
 """
-Autor: Edinson Sánchez
+Autores: Ray Montiel y Edinson Sánchez
 Nombre de funcion: perfilInstitucion
 Entrada: request GET
 Salida: Perfil de Institucion
@@ -388,12 +397,12 @@ def suspenderUsuario(request):
 		usuario.save()
 		return logOut(request)
 	else:
-		ctx={}
+		args={}
 		error = "Contraseña Incorrecta"
-		ctx['error']= error
-		ctx['usuario']=usuario
-		ctx.update(csrf(request))
-		return render(request,'Usuario_Edit-Profile.html',ctx)
+		args['error']= error
+		args['usuario']=usuario
+		args.update(csrf(request))
+		return render(request,'Usuario_Edit-Profile.html',args)
 
 """
 Autor: Angel Guale
