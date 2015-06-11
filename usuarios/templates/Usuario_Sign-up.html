@@ -7,6 +7,70 @@
 <li id="sign-in" class="show"><a href="/signIn/">Iniciar Sesión</a></li>
 {% endblock %}
 {% block content %}
+
+<!-- VENTANA REGISTRAR USUARIO
+================== -->
+  
+    <script type="text/javascript">
+      /*
+      Autor: Jose Velez
+      Nombre de función: validarNumero
+      Parámetros: evento
+      Salida: permite el ingreso de solo numeros
+      Descripción: Solo permite el ingreso de digitos
+      */
+      function validarNumero(evt)
+      {
+          var code = (evt.which) ? evt.which : evt.keyCode;
+          if(code==8)
+          {
+              //backspace
+              return true;
+          }
+          else if(code>=48 && code<=57)
+          {
+              //is a number
+              return true;
+          }
+          else
+          {
+              return false;
+          }
+      }
+
+      /*
+      Autor: Jose Velez
+      Nombre de función: validarUrl
+      Parámetros: evento
+      Salida: ingresa automaticamente el http
+      Descripción: salida del http al escribir una url
+      */
+
+      function validarURL (abc) {
+              var string = abc.value;
+              if (!~string.indexOf("http")){
+                  string = "http://" + string;
+              }
+              abc.value = string;
+              return abc
+      }
+
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(200)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
+
     <!-- Page Tip -->
     <div class="page-tip animated slideInDown">
       <div class="container">
@@ -26,52 +90,50 @@
 
           <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"> {%csrf_token%}
              <div class="form-group">
-              <label for="Username" class="col-md-2">Username</label>
-              <div class="col-md-10">
-                <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
-              </div>
-            </div>
-             
-            <div class="form-group">
-              <label for="Pasword" class="col-md-2">Password</label>
-              <div class="col-md-10">
-              <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password">
+              <label for="Username" class="col-md-4">USUARIO</label>
+              <div class="col-md-8">
+                <input required autofocus type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
               </div>
             </div>
 
              <div class="form-group">
-              <label for="PaswordNueva" class="col-md-2">Password</label>
-                <div class="col-md-10">
-                <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
+              <label for="PaswordNueva" class="col-md-4">CONTRASE&ntilde;A</label>
+                <div class="col-md-8">
+                <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contrase&ntilde;a" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
                 </div>
 
             </div>
-
-
+             
+            <div class="form-group">
+              <label for="Pasword" class="col-md-4">REPETIR CONTRASE&Ntilde;A</label>
+              <div class="col-md-8">
+              <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contrase&ntilde;a" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password">
+              </div>
+            </div>
 
             <div class="form-group">
-              <label for="Username" class="col-md-2">Nomnbres</label>
-              <div class="col-md-10">
+              <label for="Username" class="col-md-4">NOMBRES</label>
+              <div class="col-md-8">
               <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
               </div>
             </div>
             <div class="form-group">
-              <label for="Apellidos" class="col-md-2">Apellidos</label>
-              <div class="col-md-10">
+              <label for="Apellidos" class="col-md-4">APELLIDOS</label>
+              <div class="col-md-8">
               <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
               </div>
             </div>
            
             <div class="form-group">
-              <label for="Identificacion" class="col-md-2">Identificaci&acute;</label>
-              <div class="col-md-10">
-                <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación">
+              <label for="Identificacion" class="col-md-4">IDENTIFICACI&Oacute;N</label>
+              <div class="col-md-8">
+                <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificaci&oacute;n" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación">
               </div>
             </div>
              
             <div class="form-group">
-              <label for="Pais" class="col-md-2">Pais</label>
-              <div class="col-md-10">
+              <label for="Pais" class="col-md-4">PA&Iacute;S</label>
+              <div class="col-md-8">
 
                   <select class="form-control" name="pais">
                     <optgroup label="Pais">
@@ -85,9 +147,9 @@
             
 
             <div class="form-group">
-              <label for="Cargo" class="col-md-2">Cargo</label>
-              <div class="col-md-10">
-                  <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono">
+              <label for="Telefono" class="col-md-4">TEL&Eacute;FONO</label>
+              <div class="col-md-8">
+                  <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Tel&eacute;fono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu telefono aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
               </div>
             </div>
            <!--  <div class="form-group">
@@ -100,16 +162,16 @@
             </div> -->
             
              <div class="form-group">
-              <label for="Website" class="col-md-2">Website</label>
-              <div class="col-md-10">
-                <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
+              <label for="Website" class="col-md-4">SITIO WEB</label>
+              <div class="col-md-8">
+                <input type="url" class="form-control" id="website" onblur="validarURL(this)" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
               </div>
             </div> 
             
                        
             <div class="form-group">
-              <label for="Email" class="col-md-2">Email</label>
-              <div class="col-md-10">
+              <label for="Email" class="col-md-4">EMAIL</label>
+              <div class="col-md-8">
                 <input required type="email" class="form-control" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
               </div>
             </div>
@@ -126,12 +188,20 @@
               <input type="text" class="form-control" id="areasInteres" name="areasInteres" placeholder="Áreas de interés" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus áreas de interés aquí." data-original-title="Areas">
             </div> -->
 
+            <div class="form-group">
+                  <label class="col-md-4">FOTO</label>
+                   <div class="col-md-8">
+                    <input type="file" name="logo" id="imagen" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese foto del usuario" data-original-title="Imagen" onchange="readURL(this);" required>
+                    <img id="blah" src="#" alt="T&uacute; foto" />
+                   </div>
+            </div>
+
             <div class="checkbox">
               <label>
-                <input type="checkbox"> Estoy de acuerdo con los <a href="/terms/">T&eacute;rminos y Condiciones</a>.
+                <input type="checkbox" required> Estoy de acuerdo con los <a href="/terms/">T&eacute;rminos y Condiciones</a>.
               </label>
             </div>
-            <button type="submit" class="btn btn-green">Crear una Cuenta</button>
+            <button type="submit" class="btn btn-green">Crear Cuenta</button>
             <a style="float:right" class="btn btn-green" href="/signIn/">Ya poseo una cuenta</a>
           </form>
         </div>
