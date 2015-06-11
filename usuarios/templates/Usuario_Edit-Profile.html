@@ -22,6 +22,94 @@
     
 <!-- VENTANA PERFIL USUARIO
 ================== -->
+    <script type="text/javascript">
+/*
+Autor: Leonel Ramirez
+Nombre de función: validarNumero
+Parámetros: evento
+Salida: permite el ingreso de solo numeros
+Descripción: no permite la entrada de letras
+
+*/
+
+    function validarNumero(evt)
+    {
+        var code = (evt.which) ? evt.which : evt.keyCode;
+        if(code==8)
+        {
+            //backspace
+            return true;
+        }
+        else if(code>=48 && code<=57)
+        {
+            //is a number
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+/*
+Autor: Leonel Ramirez
+Nombre de función: validarLetra
+Parámetros: evento
+Salida: permite el ingreso de solo letras
+Descripción: no permite la entrada de numeros
+*/
+     function validarLetras(e){
+       key = e.keyCode || e.which;
+       tecla = String.fromCharCode(key).toLowerCase();
+       letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+       especiales = "8-37-39-46";
+
+       tecla_especial = false
+       for(var i in especiales){
+            if(key == especiales[i]){
+                tecla_especial = true;
+                break;
+            }
+        }
+
+        if(letras.indexOf(tecla)==-1 && !tecla_especial){
+            return false;
+        }
+    }
+
+/*
+Autor: Leonel Ramirez
+Nombre de función: validarUrl
+Parámetros: evento
+Salida: ingresa automaticamente el http
+Descripción: salida del http al escribir una url
+*/
+
+    function validarURL (abc) {
+        var string = abc.value;
+        if (!~string.indexOf("http")){
+            string = "http://" + string;
+        }
+        abc.value = string;
+        return abc
+    }
+
+
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah')
+                .attr('src', e.target.result)
+                .width(200)
+                .height(200);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
 
     <div class="section-header">
       <div class="container">
@@ -67,28 +155,37 @@
         <!-- //////////////  EDITAR PERFIL USUARIO /////////////// -->
         <div class=" col-xs-6 col-sm-8 col-md-9">
           <div class="row">
-            <div class="col-md-6 col-md-offset-3 signup">
+            <div class="signup col-md-9">
               <h3 class="hl top-zero">Editar Usuario</h3>
               <hr>
-              <form role="form" action="/editar_usuario/" method="post" enctype="multipart/form-data">{%csrf_token%}
+              <form role="form" action="/editar_usuario/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12">{%csrf_token%}
                 
                 <div class="form-group">
-                  <label for="Nombres">Nombres</label>
-                  <input required type="text" class="form-control" id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" value = '{{ usuario.first_name }}'>
-                </div>
-                <div class="form-group">
-                  <label for="Apellidos">Apellidos</label>
-                  <input required type="text" class="form-control" id="apellidos" name="apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" value="{{ usuario.last_name }}">
-                </div>
-               
-                <div class="form-group">
-                  <label for="Cedula">Cedula</label>
-                  <input required type="text" disabled pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" value="{{ usuario.cedula }}">
+                  <label for="Nombres" class="col-md-2">Nombres</label>
+                    <div class="col-md-10">
+                        <input required autofocus type="text" class="form-control"  onkeypress="return validarLetras(event);" id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" value = '{{ usuario.first_name }}'>
+                    </div>
                 </div>
 
+                  <div class="form-group">
+                  <label for="Apellidos" class="col-md-2">Apellidos</label>
+                      <div class="col-md-10">
+                        <input required type="text" class="form-control" onkeypress="return validarLetras(event);" id="apellidos" name="apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" value="{{ usuario.last_name }}">
+                      </div>
+                      </div>
+               
                 <div class="form-group">
-                  <label for="Telefono">Telefono</label>
-                  <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" value="{{ usuario.telefono }}">
+                  <label for="Cedula" class="col-md-2">C&eacute;dula</label>
+                     <div class="col-md-10">
+                        <input required type="text"  disabled pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" value="{{ usuario.cedula }}" onkeypress="return validarNumero(event);">
+
+                     </div>
+                </div>
+                <div class="form-group">
+                  <label for="Telefono" class="col-md-2">Tel&eacute;fono</label>
+                       <div class="col-md-10">
+                         <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" value="{{ usuario.telefono }} " onkeypress="return validarNumero(event);">
+                       </div>
                 </div>
                 <!--
                 <div class="form-group">
@@ -104,14 +201,17 @@
                 -->
                 
                  <div class="form-group">
-                  <label for="Sitio Web<">Sitio Web</label>
-                  <input type="url" class="form-control" id="website" name="website" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web" value= '{{ usuario.web }}'>
-                </div> 
-                
+                  <label for="Sitio Web" class="col-md-2">Sitio Web</label>
+                    <div class="col-md-10">
+                       <input type="url" class="form-control" id="website" onblur="validarURL(this)" name="website" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web" value= '{{ usuario.web }}'>
+                    </div>
+                </div>
                            
                 <div class="form-group">
-                  <label for="Email">Email</label>
-                  <input required type="email" class="form-control" id="email" name="email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email" value="{{ usuario.email }}">
+                  <label for="Email" class="col-md-2">Email</label>
+                     <div class="col-md-10">
+                        <input required type="email" class="form-control" id="email" name="email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email" value="{{ usuario.email }}">
+                    </div>
                 </div>
                 <!--
                 <div class="form-group">
@@ -129,8 +229,14 @@
                   <input type="text" class="form-control" id="areasInteres" name="areasInteres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus áreas de interés aquí." data-original-title="Areas" value="{{ usuario.areasInteres }}">
                 </div>
                 -->
-                
-                <button style="float:right" class="btn btn-green">Aceptar</button>
+                <div class="form-group">
+                  <label class="col-md-2">Imagen</label>
+                   <div class="col-md-10">
+                    <input type="file" name="logo" id="imagen" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese Imagen del usuario" data-original-title="Imagen" onchange="readURL(this);" required>
+                    <img id="blah" src="#" alt="your image" />
+                   </div>
+                </div>
+                 <button style="float:right" class="btn btn-green">Aceptar</button>
               </form>
             </div>
 
