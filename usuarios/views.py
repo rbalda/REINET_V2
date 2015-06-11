@@ -125,7 +125,7 @@ Responde con un formulario vacio de registro de usuario o ejecuta el registro de
 def registro_usuario(request):
 	if request.method=='POST':
 		#print request.POST
-        #formulario = Form(request.POST)
+		#formulario = Form(request.POST)
 		username=request.POST['username']
 		password=request.POST['password1']
 		nombres=request.POST['nombres']
@@ -272,7 +272,7 @@ def autentificacion(request):
 			error="Nombre de Usuario o Contraseña Incorrectos"
 			args['mensajeErrorIngreso']=error
 			args.update(csrf(request))
-			return render_to_response('sign-in.html',ctx)
+			return render_to_response('sign-in.html',args)
 	else:
 		print "Error en el request.POST"
 
