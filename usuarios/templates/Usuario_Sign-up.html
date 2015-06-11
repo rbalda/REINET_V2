@@ -23,44 +23,72 @@
         <div class="col-md-6 col-md-offset-3 signup">
           <h3 class="hl top-zero">Registro de Usuario</h3>
           <hr>
-          <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data">{%csrf_token%}
+
+          <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"> {%csrf_token%}
              <div class="form-group">
-              <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
-            </div>
-             <div class="form-group">
-              <div class="row">
-                <div class="col-sm-6">
-                  <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
-                </div>
-                <div class="col-sm-6">
-                  <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password">
-                </div>
+              <label for="Username" class="col-md-2">Username</label>
+              <div class="col-md-10">
+                <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
               </div>
-            </div>
-            <div class="form-group">
-              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
-            </div>
-            <div class="form-group">
-              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
-            </div>
-           
-            <div class="form-group">
-              <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación">
             </div>
              
             <div class="form-group">
-            <select class="form-control" name="pais">
-        <optgroup label="Pais">
-                    {%for pais in paises%}
-                     <option value="{{pais.id}}">{{pais.name}}</option>
-                    {%endfor%}
+              <label for="Pasword" class="col-md-2">Password</label>
+              <div class="col-md-10">
+              <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password">
+              </div>
+            </div>
+
+             <div class="form-group">
+              <label for="PaswordNueva" class="col-md-2">Password</label>
+                <div class="col-md-10">
+                <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
+                </div>
+
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="Username" class="col-md-2">Nomnbres</label>
+              <div class="col-md-10">
+              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="Apellidos" class="col-md-2">Apellidos</label>
+              <div class="col-md-10">
+              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
+              </div>
+            </div>
+           
+            <div class="form-group">
+              <label for="Identificacion" class="col-md-2">Identificaci&acute;</label>
+              <div class="col-md-10">
+                <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación">
+              </div>
+            </div>
+             
+            <div class="form-group">
+              <label for="Pais" class="col-md-2">Pais</label>
+              <div class="col-md-10">
+
+                  <select class="form-control" name="pais">
+                    <optgroup label="Pais">
+                        {%for pais in paises%}
+                         <option value="{{pais.id}}">{{pais.name}}</option>
+                        {%endfor%}
                     </optgroup>
-             </select>
+                  </select>
+              </div>
             </div>
             
 
             <div class="form-group">
-              <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono">
+              <label for="Cargo" class="col-md-2">Cargo</label>
+              <div class="col-md-10">
+                  <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono">
+              </div>
             </div>
            <!--  <div class="form-group">
               <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Cargo">
@@ -72,12 +100,18 @@
             </div> -->
             
              <div class="form-group">
-              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
+              <label for="Website" class="col-md-2">Website</label>
+              <div class="col-md-10">
+                <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
+              </div>
             </div> 
             
                        
             <div class="form-group">
-              <input required type="email" class="form-control" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
+              <label for="Email" class="col-md-2">Email</label>
+              <div class="col-md-10">
+                <input required type="email" class="form-control" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
+              </div>
             </div>
             
             <!-- <div class="form-group">
