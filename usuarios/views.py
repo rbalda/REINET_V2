@@ -188,7 +188,7 @@ def registro_usuario(request):
 
 
 def index(request):
-	if request.user.is_authenticated:
+	if request.user.is_authenticated():
 		return HttpResponseRedirect('/inicioUsuario')
 	else:
 		return render_to_response('index.html',{})
@@ -260,8 +260,6 @@ def autentificacion(request):
 		args={}
 		
 		if usuario is not None:
-			if not request.POST.get('remember_me', None):
-				request.session.set_expiry(0)
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
 			return HttpResponseRedirect('/inicioUsuario')
