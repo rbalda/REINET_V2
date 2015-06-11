@@ -138,3 +138,6 @@ MEDIA_ROOT = (
 )
 
 MEDIA_URL = '/media/'
+
+
+SESSION_COOKIE_AGE = 360

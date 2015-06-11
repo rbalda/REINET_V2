@@ -45,12 +45,12 @@
     	<div class="row">
     		<div class="col-sm-12">
     		<!--Columna de Datos Personales-->
-    		<div class="col-sm-3" style="position:fixed;left:0%;width:25%">
+    		<div class="col-sm-3" style="left:0%;width:25%">
     			<div class="panel panel-dark" id="datos">
     				<div id="datosPersonales">
     					<div class="col-sm-3">
     					<div class="thumbnail">
-                			<div class="avatar" style="width:40px;height:40px;position:fixed">
+                			<div class="avatar" style="width:40px;height:40px">
                 				{% load staticfiles %}
                 				<a href="#" class="bottom-15">
                     				<img src="{% static "img/noPicture.png"%}" alt="..." style="max-width:100%;max-height:100%">
@@ -85,7 +85,7 @@
                   </div>
             </div>
     		<!--Columna de Destacados-->
-    			<div class="col-sm-offset-3 col-sm-6">
+    			<div class="col-sm-6">
             <div class="panel panel-blue">
     				<table class="table table-hover" id="usuarioDestacados">
     					<!--Recomendados-->
@@ -191,7 +191,7 @@
     			</div>
           </div>
     			<!--Columna de Notificaciones-->
-    			<div class="col-sm-offset-8 col-sm-3" style="position:fixed;right:0%;width:25%">
+    			<div class="col-sm-3" style="right:0%;width:25%">
     				<div class="panel panel-dark">
               <div class="panel-heading btn-circle">
                       <h4 class="panel-title">Recientes</h4>

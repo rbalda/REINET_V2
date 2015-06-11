@@ -125,7 +125,7 @@ Responde con un formulario vacio de registro de usuario o ejecuta el registro de
 def registro_usuario(request):
 	if request.method=='POST':
 		#print request.POST
-        #formulario = Form(request.POST)
+		#formulario = Form(request.POST)
 		username=request.POST['username']
 		password=request.POST['password1']
 		nombres=request.POST['nombres']
@@ -192,13 +192,7 @@ def index(request):
 
 
 def signIn(request):
-
 	return render(request,'sign-in.html')
-
-
-def signUp(request):
-
-	return render(request,'sign-up.html')
 
 
 def logOut(request):
@@ -260,6 +254,8 @@ def autentificacion(request):
 		usuario = auth.authenticate(username=username,password=password)
 		print usuario
 		if usuario is not None:
+			if not request.POST.get('remember_me', None):
+				request.session.set_expiry(0)
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
 			return HttpResponseRedirect('/inicioUsuario')
