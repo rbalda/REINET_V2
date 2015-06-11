@@ -37,7 +37,7 @@ def registro_institucion(request):
 	else:
 		print "es post"
 		try:
-			peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
+			peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 			if (peticion.usado == 0) :
 				print "peticion no usada"
 				siglas=request.POST['siglaInstitucion']
@@ -46,35 +46,53 @@ def registro_institucion(request):
 				ub=request.POST['ubicacionInstitucion']
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion']
-
+				mail=request.POST['emailInstitucion']
+				telf=request.POST['telefonoInstitucion']
+				cargo = request.POST['cargoInstitucion']
+				cargo_desc = request.POST['cargoDescInstitucion']
+				try:
+					image = request.FILES['logo']
+				except:
+					image = "noPicture.png"
 				insti = Institucion();
-				insti.nombre = peticion.nombre
+				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
-				insti.logo = 'helloworld.jpg'
+				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.ubicacion = ub
 				insti.web = web
-				insti.recursosofrecidos = recursos
+				insti.recursos_ofrecidos = recursos
+				insti.correo = mail
+				insti.telefono_contacto = telf
+				ciudad=City.objects.get(id=1)
+				pais=Country.objects.get(id=1)
+				insti.ciudad = ciudad
+				insti.pais = pais
 				insti.save()
+				
 				peticion.usado = 1
 				peticion.save()
-				print "peticion actualizada"
+
 				membresia = Membresia()
-				membresia.esadministrator = 1
-				membresia.cargo = 'Director'
-				membresia.descripcion = 'Este campo no sirve'
-				membresia.fecha = '2015-05-Da Igual xq es campo de texto...'
-				membresia.ippeticion = 'GG WP'
+				membresia.es_administrator = 1
+				membresia.cargo = cargo
+				membresia.descripcion_cargo = cargo_desc
+				membresia.fecha_peticion = '2015-06-10'
+				membresia.fecha_aceptacion = '2015-06-10'
+				membresia.ip_peticion = '127.0.0.1'
 				membresia.estado = 1
-				print request.session['id_usuario']
-				print insti.idinstitucion
-				print "antes de los foreigns"
-				membresia.fkinstitucion = insti
-				print "foreign de institucion worked"
-				membresia.fkusuario = Perfil.objects.get(id = request.session['id_usuario'])
+				membresia.fk_institucion = insti
+				membresia.fk_usuario = Perfil.objects.get(id = request.session['id_usuario'])
 				membresia.save()
-				return redirect('/perfilUsuario')
+				print "registros guardados"
+				try:
+					membresiaBorrar=Membresia.objects.filter(fk_usuario = request.session['id_usuario'], fk_institucion = 1).first()
+					membresiaBorrar.delete()
+					print "membresia independiente deleted"
+				except:
+					print "membresia no encontrada"
+				return redirect('/inicioUsuario')
 			else:
 				print "peticion ya usada"
 				return redirect('/registro_institucion')
@@ -111,54 +129,59 @@ def registro_usuario(request):
 		nombres=request.POST['nombres']
 		apellidos=request.POST['apellidos']
 		cedula=request.POST['cedula']
-		cargo=request.POST['cargo']
+		#cargo=request.POST['cargo']
 		telefono=request.POST['telefono']
-		actividad=request.POST['actividad']
+		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
-		ciudad=request.POST['ciudad']
-		fechaNacimiento=request.POST['fechaNacimiento']
-		areasInteres=request.POST['areasInteres']
-		
+		pais_selected=request.POST['pais']
+		print pais_selected
+
 		perfil=Perfil()
 		perfil.username=username
 		perfil.set_password(password)
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
 		perfil.cedula=cedula
-		perfil.cargo=cargo
-		perfil.actividad=actividad
+		#perfil.cargo=cargo
+		#perfil.actividad=actividad
 		perfil.web=website
 		perfil.email=email
-		perfil.ciudad=ciudad
-		perfil.fechaNacimiento=fechaNacimiento
-		perfil.areasInteres=areasInteres
-		perfil.fecharegistro=datetime.datetime.now()
+		#perfil.ciudad=ciudad
+		#perfil.fechaNacimiento=fechaNacimiento
+		#perfil.areasInteres=areasInteres
+		perfil.fecha_registro=datetime.datetime.now()
 		perfil.reputacion=0
 		perfil.estado=1 #estado 1 es activo
 		perfil.telefono=telefono
-		ubicacion=Ubicacion.objects.get(idubicacion=1)
-		perfil.fkubicacion=ubicacion
-		perfil.ipregistro=get_client_ip(request)
+		#ubicacion=Ubicacion.objects.get(idubicacion=1)
+		pais=Country.objects.get(id=pais_selected)
+		ciudad=City.objects.get(id=1)
+		#pais=Country.objects.get(id=1)
+		perfil.fk_ciudad=ciudad
+		perfil.fk_pais=pais
+		perfil.ip_registro=get_client_ip(request)
 		perfil.save()
 		
 		membresia=Membresia()
-		membresia.esadministrator=0 #0 para falso
-		membresia.cargo=cargo
+		membresia.es_administrator=0 #0 para falso
+		membresia.cargo=""
 		membresia.descripcion=""
-		membresia.fecha=datetime.datetime.now()
-		membresia.ippeticion=get_client_ip(request)
+		membresia.fecha_aceptacion=datetime.datetime.now()
+		membresia.fecha_peticion=datetime.datetime.now()
+		membresia.ip_peticion=get_client_ip(request)
 		membresia.estado=1 #1 es para aceptado
 		institucion=Institucion.objects.get(siglas="I")
-		membresia.fkinstitucion=institucion
-		membresia.fkusuario=perfil
+		membresia.fk_institucion=institucion
+		membresia.fk_usuario=perfil
 		membresia.save()
-
-
-		return HttpResponseRedirect('/index/')	
+		
+		return HttpResponseRedirect('/signIn/')	
 	else:
 		args={}
 		args.update(csrf(request))
+		paises=Country.objects.all()
+		args['paises']=paises
 		return render_to_response('Usuario_Sign-up.html',args)
 
 
@@ -277,9 +300,9 @@ def perfilUsuario(request):
 
 	if usuario is not None:
 		args['usuario']=usuario
-		membresia=Membresia.objects.filter(fkusuario=usuario.id)
+		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
 		#print membresia[0].idmembresia
-		institucion=Institucion.objects.get(idinstitucion=membresia[0].fkinstitucion.idinstitucion)
+		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
 		#print institucion
 		args['institucion']=institucion
 
@@ -342,12 +365,12 @@ def verCodigo(request):
 		args={}
 		codigo = request.POST['codigo']
 		print codigo
-		peticion = Peticion.objects.all().filter(fkusuario = request.session['id_usuario']).first()
+		peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 		try :
 			print peticion.codigo
 			if (peticion.codigo == codigo and peticion.usado == 0) :
 				args['codigo'] = peticion.codigo
-				args['insti'] = peticion.nombre
+				args['insti'] = peticion.nombre_institucion
 				return render_to_response('institucion_form_response.html', args)
 			else :
 				return render_to_response('codigo_usado.html')
@@ -358,19 +381,51 @@ def verCodigo(request):
 @login_required
 def suspenderUsuario(request):
 
-    usuario = Perfil.objects.get(id=request.session['id_usuario'])
-    password_ingresada = request.POST['txt_password_ingresada']
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
+	password_ingresada = request.POST['txt_password_ingresada']
 
-    if usuario.check_password(password_ingresada):
-        #Cero significa que esta inactivo
-        usuario.estado = 0
-        usuario.save()
-        return logOut(request)
-    else:
-        ctx={}
-        error = "Contraseña Incorrecta"
-        ctx['error']= error
-        ctx.update(csrf(request))
-        ctx['usuario']=usuario
-        return render_to_response('Usuario_Edit-Profile.html',ctx)
+	if usuario.check_password(password_ingresada):
+		#Cero significa que esta inactivo
+		usuario.estado = 0
+		usuario.save()
+		return logOut(request)
+	else:
+		ctx={}
+		error = "Contraseña Incorrecta"
+		ctx['error']= error
+		ctx['usuario']=usuario
+		ctx.update(csrf(request))
+		return render(request,'Usuario_Edit-Profile.html',ctx)
+
+"""
+Autor: Angel Guale
+Nombre de funcion: generarCodigo 
+Entrada: request GET o POST
+Salida: Formulario de generarCodigo 
+Genera un codigo para registrar institucion
+"""
+
+def generarCodigo(request):
+	if request.method=='POST':
+		username=request.POST['username']
+		usuario = Perfil.objects.get(username=username)
+		codigo=request.POST['codigo']
+		nombre_institucion=request.POST['nombre_institucion']
+		#creo el registro de peticion
+		peticion=Peticion()
+		peticion.codigo=codigo
+		peticion.nombre_institucion=nombre_institucion
+		peticion.usado=0
+		peticion.fk_usuario=usuario
+		peticion.save()
+		args={}
+		args['mensaje']="Codigo Institucion generado"
+		return render_to_response('Administrador_generar_codigo.html', args)
+	else:
+		args={}
+		args.update(csrf(request))
+		
+		return render_to_response('Administrador_generar_codigo.html', args)
+
+
 

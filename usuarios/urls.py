@@ -12,6 +12,7 @@ urlpatterns = patterns('',
 		url(r'^signIn[/]?$','usuarios.views.signIn', name='signIn'),
 		url(r'^autentificacion[/]?$','usuarios.views.autentificacion',name='autentificacion'),
 		#url(r'^signUp[/]?$','usuarios.views.signUp', name='signUp'),
+        url(r'^suspender_usuario[/]?$',suspenderUsuario,name='suspenderUsuario'),
 		url(r'^perfilUsuario[/]?$','usuarios.views.perfilUsuario', name='perfilUsuario'),
         url(r'^registro_institucion[/]?$',registro_institucion,name='index'),
         url(r'^registro_usuario[/]?$',registro_usuario,name='index'),
@@ -21,4 +22,7 @@ urlpatterns = patterns('',
     	url(r'^terms[/]?$','usuarios.views.terms', name='terms'),
     	url(r'^inicioUsuario[/]?$','usuarios.views.inicio',name='inicioUsuario'),
         url(r'^editar_usuario[/]?$',editar_usuario,name='index'),
+
+
+        url(r'^generarCodigo[/]?$',generarCodigo,name='generarCodigo'),
 )

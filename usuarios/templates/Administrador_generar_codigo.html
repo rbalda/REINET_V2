@@ -1,0 +1,49 @@
+{% extends "base.tpl.html" %}
+{% block home %}
+        <a class="navbar-brand link" href="#" >REI-NET</a>
+{% endblock %}
+{% block signin %}
+<li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
+<li id="sign-in" class="show"><a href="/signIn/">Iniciar Sesión</a></li>
+{% endblock %}
+{% block content %}
+    <!-- Page Tip -->
+    <div class="page-tip animated slideInDown">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Llene el siguiente formulario para generar codigo de registro de institucion</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main Form -->
+    <div class="container">
+      <div class="row">
+        <a>{{mensaje}}</a>
+        <div class="col-md-6 col-md-offset-3 signup">
+          <h3 class="hl top-zero">Generar Codigo</h3>
+          <hr>
+          <form role="form" action="/generarCodigo/" method="post" enctype="multipart/form-data">{%csrf_token%}
+             <div class="form-group">
+              <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario Administrador de Institucion" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
+            </div>
+             
+             <div class="form-group">
+              <input required type="text" class="form-control" id="nombre" name="codigo" placeholder="Codigo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
+            </div>
+            
+            <div class="form-group">
+              <input required type="text" class="form-control" id="nombre_institucion" name="nombre_institucion" placeholder="Nombre de Institucion" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
+            </div>
+          
+           
+            <button type="submit" class="btn btn-green">Generar Codigo</button>
+            
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+ {% endblock %}

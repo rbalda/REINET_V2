@@ -13,6 +13,10 @@
 <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
 {% endblock %}
 
+{% block inicio %}
+  <a  href="/inicioUsuario/" >Inicio </a>
+{% endblock %}
+
 
 {%block content%}
     
@@ -52,7 +56,7 @@
                 </a>  
               </li>
               <li>
-                <a href="#">
+                <a href="/logOut/">
                   <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
                 </a>  
               </li>
@@ -79,7 +83,7 @@
                
                 <div class="form-group">
                   <label for="Cedula">Cedula</label>
-                  <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" value="{{ usuario.cedula }}">
+                  <input required type="text" disabled pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" value="{{ usuario.cedula }}">
                 </div>
 
                 <div class="form-group">
