@@ -188,7 +188,10 @@ def registro_usuario(request):
 
 
 def index(request):
-	return render_to_response('index.html',{})
+	if request.user.is_authenticated:
+		return HttpResponseRedirect('/inicioUsuario')
+	else:
+		return render_to_response('index.html',{})
 
 
 def signIn(request):
