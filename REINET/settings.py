@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'REINET.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-""" Comentado mientras el servidor murio"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
