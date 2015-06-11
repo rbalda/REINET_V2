@@ -138,3 +138,5 @@ MEDIA_ROOT = (
 )
 
 MEDIA_URL = '/media/'
+
+LOGIN_URL = '/signIn/'
