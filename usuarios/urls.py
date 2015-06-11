@@ -26,3 +26,6 @@ urlpatterns = patterns('',
 
         url(r'^generarCodigo[/]?$',generarCodigo,name='generarCodigo'),
 )
+# url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
+ # view=CedulaCheck.as_view(),
+ # name='check_cedula'),

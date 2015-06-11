@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 import datetime
 from .models import *
+
 from django.contrib.auth.forms import UserCreationForm
 
 """
@@ -70,7 +71,7 @@ def registro_institucion(request):
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
-				
+
 				peticion.usado = 1
 				peticion.save()
 
@@ -124,6 +125,7 @@ Responde con un formulario vacio de registro de usuario o ejecuta el registro de
 def registro_usuario(request):
 	if request.method=='POST':
 		#print request.POST
+        #formulario = Form(request.POST)
 		username=request.POST['username']
 		password=request.POST['password1']
 		nombres=request.POST['nombres']
@@ -162,7 +164,7 @@ def registro_usuario(request):
 		perfil.fk_pais=pais
 		perfil.ip_registro=get_client_ip(request)
 		perfil.save()
-		
+
 		membresia=Membresia()
 		membresia.es_administrator=0 #0 para falso
 		membresia.cargo=""
@@ -175,8 +177,8 @@ def registro_usuario(request):
 		membresia.fk_institucion=institucion
 		membresia.fk_usuario=perfil
 		membresia.save()
-		
-		return HttpResponseRedirect('/signIn/')	
+
+		return HttpResponseRedirect('/signIn/')
 	else:
 		args={}
 		args.update(csrf(request))
@@ -226,7 +228,7 @@ def editar_usuario(request):
 		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
-		
+
 		perfil=usuario
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
@@ -243,8 +245,8 @@ def editar_usuario(request):
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
 		perfil.save()
-		
-		return HttpResponseRedirect('/perfilUsuario/')	
+
+		return HttpResponseRedirect('/perfilUsuario/')
 	else:
 		args.update(csrf(request))
 		return render_to_response('Usuario_Edit-Profile.html',args)
@@ -280,7 +282,7 @@ def inicio(request):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args={}
-	
+
 	if usuario is not None:
 		args['usuario']=usuario
 
@@ -424,7 +426,7 @@ def generarCodigo(request):
 	else:
 		args={}
 		args.update(csrf(request))
-		
+
 		return render_to_response('Administrador_generar_codigo.html', args)
 
 

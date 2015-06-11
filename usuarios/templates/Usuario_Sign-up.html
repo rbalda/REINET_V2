@@ -12,7 +12,31 @@
 ================== -->
   
     <script type="text/javascript">
-      /*
+    /*
+    * Autor: Marlon Espinoza
+      Nombre de función: validarLetras
+      Salida: permite el ingreso de solo letras
+      Descripción: Solo permite el ingreso de letras
+    * */
+    function validarLetras(e){
+        key= e.keyCode || e.which;
+        teclado = String.fromCharCode(key).toLocaleLowerCase();
+
+        letras = " abcdefghijklmnñopqrstuvwxyz";
+        especiales = ["8","37","38","39","46","164"];
+        teclado_especial = false;
+        for(var i=0;especiales[i];i++){
+            if(key==especiales[i]){
+                teclado_especial=true;
+                break;
+            }
+        }
+        if(letras.indexOf(teclado)==-1 && !teclado_especial){
+            return false;
+        }
+    }
+
+       /*
       Autor: Jose Velez
       Nombre de función: validarNumero
       Parámetros: evento
@@ -114,23 +138,23 @@
             <div class="form-group">
               <label for="Username" class="col-md-4">NOMBRES</label>
               <div class="col-md-8">
-              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
+              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" onkeypress="return validarLetras(event)">
               </div>
             </div>
             <div class="form-group">
               <label for="Apellidos" class="col-md-4">APELLIDOS</label>
               <div class="col-md-8">
-              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
+              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" onkeypress="return validarLetras(event)">
               </div>
             </div>
-           
+
             <div class="form-group">
               <label for="Identificacion" class="col-md-4">IDENTIFICACI&Oacute;N</label>
               <div class="col-md-8">
                 <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificaci&oacute;n" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación">
               </div>
             </div>
-             
+
             <div class="form-group">
               <label for="Pais" class="col-md-4">PA&Iacute;S</label>
               <div class="col-md-8">
@@ -144,7 +168,7 @@
                   </select>
               </div>
             </div>
-            
+
 
             <div class="form-group">
               <label for="Telefono" class="col-md-4">TEL&Eacute;FONO</label>
@@ -155,20 +179,20 @@
            <!--  <div class="form-group">
               <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Cargo">
             </div> -->
-            
-            
+
+
            <!--  <div class="form-group">
               <input type="text" class="form-control" id="actividad" name="actividad" placeholder="Actividad que realiza" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa la actividad que realizas aquí." data-original-title="Actividad">
             </div> -->
-            
+
              <div class="form-group">
               <label for="Website" class="col-md-4">SITIO WEB</label>
               <div class="col-md-8">
                 <input type="url" class="form-control" id="website" onblur="validarURL(this)" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
               </div>
-            </div> 
-            
-                       
+            </div>
+
+
             <div class="form-group">
               <label for="Email" class="col-md-4">EMAIL</label>
               <div class="col-md-8">
