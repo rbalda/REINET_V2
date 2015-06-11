@@ -123,68 +123,71 @@ Salida: Formulario de registro usuario
 Responde con un formulario vacio de registro de usuario o ejecuta el registro de un usuario
 """
 def registro_usuario(request):
-	if request.method=='POST':
-		#print request.POST
-		#formulario = Form(request.POST)
-		username=request.POST['username']
-		password=request.POST['password1']
-		nombres=request.POST['nombres']
-		apellidos=request.POST['apellidos']
-		cedula=request.POST['cedula']
-		#cargo=request.POST['cargo']
-		telefono=request.POST['telefono']
-		#actividad=request.POST['actividad']
-		website=request.POST['website']
-		email=request.POST['email']
-		pais_selected=request.POST['pais']
-		print pais_selected
-
-		perfil=Perfil()
-		perfil.username=username
-		perfil.set_password(password)
-		perfil.first_name=nombres
-		perfil.last_name=apellidos
-		perfil.cedula=cedula
-		#perfil.cargo=cargo
-		#perfil.actividad=actividad
-		perfil.web=website
-		perfil.email=email
-		#perfil.ciudad=ciudad
-		#perfil.fechaNacimiento=fechaNacimiento
-		#perfil.areasInteres=areasInteres
-		perfil.fecha_registro=datetime.datetime.now()
-		perfil.reputacion=0
-		perfil.estado=1 #estado 1 es activo
-		perfil.telefono=telefono
-		#ubicacion=Ubicacion.objects.get(idubicacion=1)
-		pais=Country.objects.get(id=pais_selected)
-		ciudad=City.objects.get(id=1)
-		#pais=Country.objects.get(id=1)
-		perfil.fk_ciudad=ciudad
-		perfil.fk_pais=pais
-		perfil.ip_registro=get_client_ip(request)
-		perfil.save()
-
-		membresia=Membresia()
-		membresia.es_administrator=0 #0 para falso
-		membresia.cargo=""
-		membresia.descripcion=""
-		membresia.fecha_aceptacion=datetime.datetime.now()
-		membresia.fecha_peticion=datetime.datetime.now()
-		membresia.ip_peticion=get_client_ip(request)
-		membresia.estado=1 #1 es para aceptado
-		institucion=Institucion.objects.get(siglas="I")
-		membresia.fk_institucion=institucion
-		membresia.fk_usuario=perfil
-		membresia.save()
-
-		return HttpResponseRedirect('/signIn/')
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/inicioUsuario/')
 	else:
-		args={}
-		args.update(csrf(request))
-		paises=Country.objects.all()
-		args['paises']=paises
-		return render_to_response('Usuario_Sign-up.html',args)
+		if request.method=='POST':
+			#print request.POST
+			#formulario = Form(request.POST)
+			username=request.POST['username']
+			password=request.POST['password1']
+			nombres=request.POST['nombres']
+			apellidos=request.POST['apellidos']
+			cedula=request.POST['cedula']
+			#cargo=request.POST['cargo']
+			telefono=request.POST['telefono']
+			#actividad=request.POST['actividad']
+			website=request.POST['website']
+			email=request.POST['email']
+			pais_selected=request.POST['pais']
+			print pais_selected
+
+			perfil=Perfil()
+			perfil.username=username
+			perfil.set_password(password)
+			perfil.first_name=nombres
+			perfil.last_name=apellidos
+			perfil.cedula=cedula
+			#perfil.cargo=cargo
+			#perfil.actividad=actividad
+			perfil.web=website
+			perfil.email=email
+			#perfil.ciudad=ciudad
+			#perfil.fechaNacimiento=fechaNacimiento
+			#perfil.areasInteres=areasInteres
+			perfil.fecha_registro=datetime.datetime.now()
+			perfil.reputacion=0
+			perfil.estado=1 #estado 1 es activo
+			perfil.telefono=telefono
+			#ubicacion=Ubicacion.objects.get(idubicacion=1)
+			pais=Country.objects.get(id=pais_selected)
+			ciudad=City.objects.get(id=1)
+			#pais=Country.objects.get(id=1)
+			perfil.fk_ciudad=ciudad
+			perfil.fk_pais=pais
+			perfil.ip_registro=get_client_ip(request)
+			perfil.save()
+
+			membresia=Membresia()
+			membresia.es_administrator=0 #0 para falso
+			membresia.cargo=""
+			membresia.descripcion=""
+			membresia.fecha_aceptacion=datetime.datetime.now()
+			membresia.fecha_peticion=datetime.datetime.now()
+			membresia.ip_peticion=get_client_ip(request)
+			membresia.estado=1 #1 es para aceptado
+			institucion=Institucion.objects.get(siglas="I")
+			membresia.fk_institucion=institucion
+			membresia.fk_usuario=perfil
+			membresia.save()
+
+			return HttpResponseRedirect('/signIn/')
+		else:
+			args={}
+			args.update(csrf(request))
+			paises=Country.objects.all()
+			args['paises']=paises
+			return render_to_response('Usuario_Sign-up.html',args)
 
 
 def index(request):
