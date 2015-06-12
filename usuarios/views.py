@@ -299,7 +299,7 @@ def editar_usuario(request):
 		#print request.POST
 		nombres=request.POST['nombres']
 		apellidos=request.POST['apellidos']
-		cedula=request.POST['cedula']
+		#cedula=request.POST['cedula']
 		#cargo=request.POST['cargo']
 		telefono=request.POST['telefono']
 		#actividad=request.POST['actividad']
@@ -313,7 +313,7 @@ def editar_usuario(request):
 		perfil=usuario
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
-		perfil.cedula=cedula
+		#perfil.cedula=cedula
 		#perfil.cargo=cargo
 		#perfil.actividad=actividad
 		perfil.web=website
