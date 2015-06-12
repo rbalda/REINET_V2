@@ -140,6 +140,11 @@ def registro_usuario(request):
 			website=request.POST['website']
 			email=request.POST['email']
 			pais_selected=request.POST['pais']
+			try:
+				foto = request.FILES['imagen']
+			except:
+				foto = "noPicture.png"
+
 			print pais_selected
 
 			perfil=Perfil()
@@ -166,6 +171,7 @@ def registro_usuario(request):
 			perfil.fk_ciudad=ciudad
 			perfil.fk_pais=pais
 			perfil.ip_registro=get_client_ip(request)
+			perfil.foto=foto
 			perfil.save()
 
 			membresia=Membresia()
@@ -231,6 +237,10 @@ def editar_usuario(request):
 		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
+		try:
+			foto = request.FILES['imagen']
+		except:
+			foto = "noPicture.png"
 
 		perfil=usuario
 		perfil.first_name=nombres
@@ -247,6 +257,7 @@ def editar_usuario(request):
 		perfil.telefono=telefono
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
+		perfil.foto=foto
 		perfil.save()
 
 		return HttpResponseRedirect('/perfilUsuario/')
