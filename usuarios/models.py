@@ -4,8 +4,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from cities_light.models import City,Country
 
-def get_upload_path(instance,filename):
-        return "usuarios/%s/fotos/%s"%(instance.id_perfil,filename)
+def get_upload_path(self,filename):
+        return "usuarios/%s/fotos/%s"%(self.id_perfil,filename)
 
 
 
