@@ -263,6 +263,8 @@ def autentificacion(request):
 		args={}
 		
 		if usuario is not None:
+			if request.POST.has_key('remember_me'):
+				request.session.set_expiry(1209600) # 2 weeks
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
 			return HttpResponseRedirect('/inicioUsuario')
