@@ -578,8 +578,12 @@ def enviarEmailPassword(request):
 	try:
 		usuario = Perfil.objects.get(email=destinatario)
 		username = usuario.username.encode('utf-8', errors='ignore')
+		print username
 		password = generarPasswordAleatorea()
+		print password
 		usuario.set_password(password)
+		usuario.save()
+		
 		if destinatario and usuario:
 			try:
 				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>"%(username,password)
