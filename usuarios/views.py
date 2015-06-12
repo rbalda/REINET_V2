@@ -8,10 +8,11 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-import datetime
+import datetime, random, string
 from .models import *
 
 from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 
 """
 Autor: Pedro Aim
@@ -201,7 +202,26 @@ def signIn(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/inicioUsuario/')
 	else:
-		return render(request,'sign-in.html')
+		if request.method=='POST':
+			username = request.POST['usernameLogin']
+			password = request.POST['passwordLogin']
+			usuario = auth.authenticate(username=username,password=password)
+			args={}
+		
+			if usuario is not None:
+				if request.POST.has_key('remember_me'):
+					request.session.set_expiry(1209600) # 2 weeks
+				auth.login(request,usuario)
+				request.session['id_usuario']=usuario.id
+				return HttpResponseRedirect('/inicioUsuario')
+			else:
+				error="Nombre de Usuario o Contraseña Incorrectos"
+				args['mensajeErrorIngreso']=error
+				args.update(csrf(request))
+				return render_to_response('sign-in.html',args,context_instance=RequestContext(request))
+		else:
+			print "Error en el request.POST o entro en el enviar email"
+	return render_to_response('sign-in.html',{},context_instance=RequestContext(request))
 
 
 def logOut(request):
@@ -255,31 +275,10 @@ def editar_usuario(request):
 		return render_to_response('Usuario_Edit-Profile.html',args)
 
 
-def autentificacion(request):
-	if request.method=='POST':
-		username = request.POST['usernameLogin']
-		password = request.POST['passwordLogin']
-		usuario = auth.authenticate(username=username,password=password)
-		args={}
-		
-		if usuario is not None:
-			if request.POST.has_key('remember_me'):
-				request.session.set_expiry(1209600) # 2 weeks
-			auth.login(request,usuario)
-			request.session['id_usuario']=usuario.id
-			return HttpResponseRedirect('/inicioUsuario')
-		else:
-			error="Nombre de Usuario o Contraseña Incorrectos"
-			args['mensajeErrorIngreso']=error
-			args.update(csrf(request))
-			return render_to_response('sign-in.html',args)
-	else:
-		print "Error en el request.POST"
-
-
 def terms(request):
 
 	return render(request, 'terms.html')
+
 
 @login_required
 def inicio(request):
@@ -437,5 +436,36 @@ def generarCodigo(request):
 
 		return render_to_response('Administrador_generar_codigo.html', args)
 
+"""
+Autor: Fausto Mora
+Nombre de funcion: enviarEmailPassword
+Entrada: request POST
+Salida: Se envia un email 
+Se envia un email donde el usuario decida, con la Contraseña del usuario 
+"""
 
+def enviarEmailPassword(request):
+	destinatario = request.POST['email_recuperacion']
+	try:
+		usuario = Perfil.objects.get(email=destinatario)
+		username = usuario.username.encode('utf-8', errors='ignore')
+		password = generarPasswordAleatorea()
+		usuario.set_password(password)
+		if destinatario and usuario:
+			try:
+				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>"%(username,password)
+				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet',html_content,'REINET <from@server.com>',[destinatario])
+				msg.attach_alternative(html_content,'text/html')
+				msg.send()
+				print 'se enviooo'
+			except:
+				print "error - no se envio"
+
+		return HttpResponseRedirect('/signIn/')
+	except:
+		print "no existe usuario con ese mail"
+		return HttpResponseRedirect('/signIn/')
+
+def generarPasswordAleatorea():
+	return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 

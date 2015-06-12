@@ -47,8 +47,8 @@
           <div class="form-box">
             <h4>Ingresar</h4>
             <hr>
-            <form role="form" action="/autentificacion/" method="post">
-            {% csrf_token%}
+            <form role="form" action="/signIn/" method="post">
+            {% csrf_token %}
 
               <div class="form-group">
                 <label class="sr-only" for="usernameLogin">Nombre de Usuario</label>
@@ -68,7 +68,7 @@
                   <input name="remember_me" type="checkbox" value="true">Mantenerme conectado
                 </label>
               </div>
-              <button type="submit" class="btn btn-green">Ingresar</button>
+              <button type="submit" value="Submit" class="btn btn-green">Ingresar</button>
             </form>
             <hr>
             <p>A&uacute;n no estas registrado? <a href="/registro_usuario/">Reg&iacute;strate aqu&iacute;.</a></p>
@@ -77,12 +77,13 @@
               <!-- ///////////////  Ventana emergente para recuperar contraseña  ////////////-->
               <div class="pwd-lost-f hidden">
                 <p class="text-muted">Ingresa tu email asociado a tu usuario y se te reenviara la contraseña</p>
-                <form class="form-inline" role="form">
+                <form class="form-inline" role="form" method="post" action="/enviarEmailPassword/">
+                {% csrf_token %}
                   <div class="form-group">
-                    <label class="sr-only" for="email-pwd">Direcci&oacute;n de email</label>
-                    <input type="email" class="form-control" id="email-pwd" placeholder="Ingrese email">
+                    <label class="sr-only" for="email_recuperacion">Direcci&oacute;n de email</label>
+                    <input type="email" class="form-control" id="email_recuperacion" name="email_recuperacion" placeholder="Ingrese email">
                   </div>
-                  <button type="submit" class="btn btn-blue">Enviar</button>
+                  <button type="submit" value="Submit" class="btn btn-blue" name="btn_recuperar">Enviar</button>
                 </form>
               </div>
             </div>

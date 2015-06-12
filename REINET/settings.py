@@ -142,3 +142,10 @@ MEDIA_URL = '/media/'
 LOGIN_URL = '/signIn/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+#Aqui va la configuracion del servidor de correo (GMAIL)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'reinetespol@gmail.com' # cuenta reinet en gmail
+EMAIL_HOST_PASSWORD = 'reinet1234' # clave de cuenta reinet
+EMAIL_USE_TLS = True
