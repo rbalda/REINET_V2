@@ -263,8 +263,6 @@ def autentificacion(request):
 		args={}
 		
 		if usuario is not None:
-			if request.POST.has_key('remember_me'):
-				request.session.set_expiry(1209600) # 2 weeks
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
 			return HttpResponseRedirect('/inicioUsuario')
@@ -340,12 +338,12 @@ def perfilInstitucion(request):
 
 	if usuario is not None:
 		args['usuario']=usuario
-		membresia=Membresia.objects.filter(fkusuario=usuario.id,esadministrator=1).first()
+		membresia=Membresia.objects.filter(fk_usuario=usuario.id).first()
 		print "sadhas"
-		if membresia.esadministrator == 1:
+		if membresia.es_administrator:
 			print "entre"
-			print membresia.idmembresia
-			institucion=Institucion.objects.get(idinstitucion=membresia.fkinstitucion.idinstitucion)
+			print membresia.id_membresia
+			institucion=Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
 			#print institucion
 			args['institucion']=institucion
 		else:
@@ -378,7 +376,9 @@ def verCodigo(request):
 		peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 		try :
 			print peticion.codigo
-			if (peticion.codigo == codigo and peticion.usado == 0) :
+			if (peticion.codigo == codigo and peticion.usado == 0):
+				paises=Country.objects.all()
+				args['paises']=paises
 				args['codigo'] = peticion.codigo
 				args['insti'] = peticion.nombre_institucion
 				return render_to_response('institucion_form_response.html', args)
