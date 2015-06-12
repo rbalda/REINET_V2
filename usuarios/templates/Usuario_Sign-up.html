@@ -39,7 +39,7 @@
     * Autor: Marlon Espinoza
       Nombre de función: validarPassword2
       Salida: Muestra advertencia si son distintos
-      Descripción: Compara que password 1 y 2 sean iguales onchange:
+      Descripción: Compara que password 1 y 2 sean iguales
     * */
     function validarPassword2(){
         password1 = document.getElementById('password1')
@@ -55,8 +55,25 @@
         }
 
     }
+    /*
+    * Autor: Marlon Espinoza
+      Nombre de función: validarDigitosId
+      Salida: Muestra advertencia si son distintos
+      Descripción: Compara que password 1 y 2 sean iguales
+    * */
+
+    function validarNumeroDigitosId() {
+        identificacion = document.getElementById("cedula")
+        if(identificacion.value.length==10){
+            document.getElementById('errorCedula').style.display='none';
+        }
+        else{
+            document.getElementById('errorCedula').style.display='block';
+        }
+    }
         /*
       Autor: Jose Velez
+      Edición: Marlon Espinoza
       Nombre de función: validarNumero
       Parámetros: evento
       Salida: permite el ingreso de solo numeros
@@ -65,6 +82,10 @@
       function validarNumero(evt)
       {
           var code = (evt.which) ? evt.which : evt.keyCode;
+          identificacion = document.getElementById("cedula")
+          if(identificacion.value.length==10){
+              document.getElementById('errorCedula').style.display='none';
+          }
           if(code==8)
           {
               //backspace
@@ -168,11 +189,14 @@
               <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" onkeypress="return validarLetras(event)">
               </div>
             </div>
-
+            <div class="form-group">
+              <label class="info-board-red" id="errorCedula" style="display: none; color: red">C&eacute;dula debe contener 10 d&iacute;gitos</label>
+            </div>
             <div class="form-group">
               <label for="Identificacion" class="col-md-4">IDENTIFICACI&Oacute;N</label>
               <div class="col-md-8">
-                <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificaci&oacute;n" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación">
+                <input required type="text" maxlength="10" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificaci&oacute;n" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
+                       onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
               </div>
             </div>
 
