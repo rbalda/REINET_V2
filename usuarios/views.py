@@ -1,4 +1,11 @@
 # -*- encoding: utf-8 -*-
+#Autores: Grupo A - Grupo B
+#Nombre del Archivo: views.py
+#Codificación: UTF-8
+#Descripción: Archivo donde se registran las vistas que atenderan la logica del modulo.
+#Notas/Pendientes: Validar que las variables que se obtienen de las sesiones no sean nulas antes de usarlas.
+
+
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -14,16 +21,19 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm
 
 """
-Autor: Pedro Aim
-Nombre de funcion: registro_institucion
-Entrada: request GET o POST
-Salida: pagina para el Ingreso de codigo si es GET, debe devolver perfil de la institucion creada
-Corresponde a la creacion de la institucion y el anexo con e usuario por medio de membresia, asi como update a la tabla peticion con valor 1 pues se usa el codigo
+Autor: Pedro Iñiguez
+Nombre de función:  registro_institucion
+Parámetros: request GET o POST
+Salida: Pagina para el Ingreso de codigo si es GET, debe devolver perfil de la institucion creada.
+Descripción: Corresponde a la creacion de la institucion y el anexo con e usuario por medio de membresia,
+             asi como update a la tabla peticion con valor 1 pues se usa el codigo.
 """
 @login_required
 def registro_institucion(request):
+
+
 	if request.method == 'GET':
-		session = request.session['id_usuario']
+		session = request.session['id_usuario'] #Usar español sesion.
 		usuario = Perfil.objects.get(id=session)
 		args={}
 
@@ -34,40 +44,44 @@ def registro_institucion(request):
 			args['error']="Error al cargar los datos"
 
 		args.update(csrf(request))
-		return render_to_response('Institucion_Sign-up.html', args)
+		return render_to_response('Institucion_Sign-up.html', args) #Nombre del template inadecuado.
 	else:
-		print "es post"
+		print "es post" #No olvidar borrar los codigos referencia luego.
 		try:
 			peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 			if (peticion.usado == 0) :
+				#No olvidar borrar los codigos referencia luego.
 				print "peticion no usada"
+
 				siglas=request.POST['siglaInstitucion']
-				desc=request.POST['descInstitucion']
+				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
-				ub=request.POST['ubicacionInstitucion']
+				ub=request.POST['ubicacionInstitucion'] #usar palabras completas no abreviaturas
 				recursos=request.POST['recursosInstitucion']
-				web=request.POST['webInstitucion']
-				mail=request.POST['emailInstitucion']
-				telf=request.POST['telefonoInstitucion']
+				web=request.POST['webInstitucion'] #usar palabras en español
+				mail=request.POST['emailInstitucion'] #usar palabras en español
+				telf=request.POST['telefonoInstitucion'] #usar palabras completas no abreviaturas
 				cargo = request.POST['cargoInstitucion']
 				cargo_desc = request.POST['cargoDescInstitucion']
+
 				try:
-					image = request.FILES['logo']
+					image = request.FILES['logo']  #usar palabras en español
 				except:
-					image = "noPicture.png"
-				insti = Institucion();
+					image = "noPicture.png" #usar palabras en español
+
+				insti = Institucion(); #usar palabras completas no abreviaturas
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
 				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.ubicacion = ub
-				insti.web = web
+				insti.web = web #usar palabras en español
 				insti.recursos_ofrecidos = recursos
-				insti.correo = mail
-				insti.telefono_contacto = telf
-				ciudad=City.objects.get(id=1)
-				pais=Country.objects.get(id=1)
+				insti.correo = mail #usar palabras en español ? ves que si puedes angel
+				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
+				ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
+				pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
@@ -76,80 +90,91 @@ def registro_institucion(request):
 				peticion.save()
 
 				membresia = Membresia()
-				membresia.es_administrator = 1
+				membresia.es_administrator = 1 #usar palabras en español NO SPANGLISH xD
 				membresia.cargo = cargo
-				membresia.descripcion_cargo = cargo_desc
-				membresia.fecha_peticion = '2015-06-10'
-				membresia.fecha_aceptacion = '2015-06-10'
-				membresia.ip_peticion = '127.0.0.1'
+				membresia.descripcion_cargo = cargo_desc #decidansen palabras completas o cortas, o usar identificadores para variables de nombres iguales
+				membresia.fecha_peticion = '2015-06-10' #Por que siguen asignando valores estaticos?
+				membresia.fecha_aceptacion = '2015-06-10' #Por que siguen asignando valores estaticos?
+				membresia.ip_peticion = '127.0.0.1' #Por que siguen asignando valores estaticos?
 				membresia.estado = 1
 				membresia.fk_institucion = insti
 				membresia.fk_usuario = Perfil.objects.get(id = request.session['id_usuario'])
 				membresia.save()
-				print "registros guardados"
+
+				print "registros guardados" #borrar cuando no lo necesiten mas, no olvidar
 				try:
 					membresiaBorrar=Membresia.objects.filter(fk_usuario = request.session['id_usuario'], fk_institucion = 1).first()
 					membresiaBorrar.delete()
-					print "membresia independiente deleted"
+					print "membresia independiente deleted" #borrar cuando no lo necesiten mas, no olvidar
+					#falta retroalimentacion para el usuario.
 				except:
-					print "membresia no encontrada"
+					print "membresia no encontrada" #borrar cuando no lo necesiten mas, no olvidar
+					#falta retroalimentacion para el usuario.
 				return redirect('/inicioUsuario')
 			else:
-				print "peticion ya usada"
+				print "peticion ya usada" #borrar cuando no lo necesiten mas, no olvidar
+				#falta retroalimentacion para el usuario.
 				return redirect('/registro_institucion')
 		except:
-			print "algo fallo"
+			print "algo fallo"#borrar cuando no lo necesiten mas, no olvidar
+			#falta retroalimentacion para el usuario.
 			return redirect('/registro_institucion')
 
 """
 Autor: Angel Guale
-Nombre de funcion: get_client_ip 
-Entrada: request 
-Salida: obtiene ip del cliente
+Nombre de función: get_client_ip
+Parámetros: request
+Salida: IP del cliente
+Descripción: Esta funcion obtiene la direccion IP del host para hacer uso en
+             el registro de usuarios o instituciones.
 """
 
 def get_client_ip(request):
+
+
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 	if x_forwarded_for:
 		ip = x_forwarded_for.split(',')[0]
 	else:
 		ip = request.META.get('REMOTE_ADDR')
 	return ip
+
+
 """
 Autor: Angel Guale
-Nombre de funcion: registro_usuario 
-Entrada: request GET o POST
+Nombre de función: registro_usuario
+Parámetros: request GET o POST
 Salida: Formulario de registro usuario
-Responde con un formulario vacio de registro de usuario o ejecuta el registro de un usuario
+Descripción: Responde con un formulario vacio de registro de usuario o ejecuta el registro de un usuario
 """
 def registro_usuario(request):
+
+
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/inicioUsuario/')
+
 	else:
 		if request.method=='POST':
 			#print request.POST
 			#formulario = Form(request.POST)
-			username=request.POST['username']
-			password=request.POST['password1']
+			username=request.POST['username'] #usar palabras en español
+			password=request.POST['password1'] #usar palabras en español
 			nombres=request.POST['nombres']
 			apellidos=request.POST['apellidos']
 			cedula=request.POST['cedula']
 			#cargo=request.POST['cargo']
 			telefono=request.POST['telefono']
 			#actividad=request.POST['actividad']
-			website=request.POST['website']
-			email=request.POST['email']
-			pais_selected=request.POST['pais']
+			website=request.POST['website'] #usar palabras en español
+			email=request.POST['email'] #usar palabras en español
+			pais_selected=request.POST['pais'] #usar palabras en español
+
+			print pais_selected #borrar luego que no se use mas
+
 			try:
 				foto = request.FILES['imagen']
 			except:
 				foto = "noPicture.png"
-
-			print pais_selected
-			website=request.POST['website'] #usar palabras en español
-			email=request.POST['email'] #usar palabras en español
-			pais_selected=request.POST['pais'] #usar palabras en español
-			print pais_selected #borrar luego que no se use mas
 
 			perfil=Perfil()
 			perfil.username=username
@@ -170,17 +195,18 @@ def registro_usuario(request):
 			perfil.telefono=telefono
 			#ubicacion=Ubicacion.objects.get(idubicacion=1)
 			pais=Country.objects.get(id=pais_selected)
-			ciudad=City.objects.get(id=1)
+			ciudad=City.objects.get(id=1) #esto deberia ser lo que se seleccione, el pais deberia sacarse por referencia cruzada.
 			#pais=Country.objects.get(id=1)
 			perfil.fk_ciudad=ciudad
 			perfil.fk_pais=pais
 			perfil.ip_registro=get_client_ip(request)
+			perfil.foto=foto
 			perfil.save()
 
 			membresia=Membresia()
-			membresia.es_administrator=0 #0 para falso
-			membresia.cargo=""
-			membresia.descripcion=""
+			membresia.es_administrator=0 #0 para falso #usar palabras en español
+			membresia.cargo="" #NO SETEAR VALORES FIJOS
+			membresia.descripcion="" #NO SETEAR VALORES FIJOS
 			membresia.fecha_aceptacion=datetime.datetime.now()
 			membresia.fecha_peticion=datetime.datetime.now()
 			membresia.ip_peticion=get_client_ip(request)
@@ -196,30 +222,69 @@ def registro_usuario(request):
 			args.update(csrf(request))
 			paises=Country.objects.all()
 			args['paises']=paises
-			return render_to_response('Usuario_Sign-up.html',args)
+			return render_to_response('Usuario_Sign-up.html',args) #nombre del template en formato inadecuado.
 
+
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
 
 def index(request):
+
+
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/inicioUsuario')
 	else:
 		return render_to_response('index.html',{})
 
 
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
+#usar palabras en español
 def signIn(request):
+
+
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/inicioUsuario/')
 	else:
 		return render(request,'sign-in.html')
 
 
+
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
+#usar palabras en español
 def logOut(request):
 
 	logout(request)
 	return redirect('/')
 
+
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
 @login_required
 def editar_usuario(request):
+
+
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args={}
@@ -240,6 +305,10 @@ def editar_usuario(request):
 		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
+		try:
+			foto = request.FILES['imagen']
+		except:
+			foto = "noPicture.png"
 
 		perfil=usuario
 		perfil.first_name=nombres
@@ -256,6 +325,7 @@ def editar_usuario(request):
 		perfil.telefono=telefono
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
+		perfil.foto=foto
 		perfil.save()
 
 		return HttpResponseRedirect('/perfilUsuario/')
@@ -264,13 +334,21 @@ def editar_usuario(request):
 		return render_to_response('Usuario_Edit-Profile.html',args)
 
 
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
 def autentificacion(request):
+
 	if request.method=='POST':
 		username = request.POST['usernameLogin']
 		password = request.POST['passwordLogin']
 		usuario = auth.authenticate(username=username,password=password)
 		args={}
-		
+
 		if usuario is not None:
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
@@ -284,10 +362,25 @@ def autentificacion(request):
 		print "Error en el request.POST"
 
 
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
 def terms(request):
 
 	return render(request, 'terms.html')
 
+
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
 @login_required
 def inicio(request):
 
@@ -306,6 +399,13 @@ def inicio(request):
 	return render_to_response('Usuario_Home.html',args)
 
 
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
 @login_required
 def perfilUsuario(request):
 	session = request.session['id_usuario']
@@ -396,7 +496,13 @@ def verCodigo(request):
 		except:
 			return render_to_response('nocodigo.html')
 
-
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
 @login_required
 def suspenderUsuario(request):
 
@@ -418,9 +524,9 @@ def suspenderUsuario(request):
 
 """
 Autor: Angel Guale
-Nombre de funcion: generarCodigo 
+Nombre de funcion: generarCodigo
 Entrada: request GET o POST
-Salida: Formulario de generarCodigo 
+Salida: Formulario de generarCodigo
 Genera un codigo para registrar institucion
 """
 
@@ -445,6 +551,7 @@ def generarCodigo(request):
 		args.update(csrf(request))
 
 		return render_to_response('Administrador_generar_codigo.html', args)
+
 
 
 
