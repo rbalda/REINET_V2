@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 import datetime
 from .models import *
+
 from django.contrib.auth.forms import UserCreationForm
 
 """
@@ -70,7 +71,7 @@ def registro_institucion(request):
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
-				
+
 				peticion.usado = 1
 				peticion.save()
 
@@ -122,81 +123,85 @@ Salida: Formulario de registro usuario
 Responde con un formulario vacio de registro de usuario o ejecuta el registro de un usuario
 """
 def registro_usuario(request):
-	if request.method=='POST':
-		#print request.POST
-		username=request.POST['username']
-		password=request.POST['password1']
-		nombres=request.POST['nombres']
-		apellidos=request.POST['apellidos']
-		cedula=request.POST['cedula']
-		#cargo=request.POST['cargo']
-		telefono=request.POST['telefono']
-		#actividad=request.POST['actividad']
-		website=request.POST['website']
-		email=request.POST['email']
-		pais_selected=request.POST['pais']
-		print pais_selected
-
-		perfil=Perfil()
-		perfil.username=username
-		perfil.set_password(password)
-		perfil.first_name=nombres
-		perfil.last_name=apellidos
-		perfil.cedula=cedula
-		#perfil.cargo=cargo
-		#perfil.actividad=actividad
-		perfil.web=website
-		perfil.email=email
-		#perfil.ciudad=ciudad
-		#perfil.fechaNacimiento=fechaNacimiento
-		#perfil.areasInteres=areasInteres
-		perfil.fecha_registro=datetime.datetime.now()
-		perfil.reputacion=0
-		perfil.estado=1 #estado 1 es activo
-		perfil.telefono=telefono
-		#ubicacion=Ubicacion.objects.get(idubicacion=1)
-		pais=Country.objects.get(id=pais_selected)
-		ciudad=City.objects.get(id=1)
-		#pais=Country.objects.get(id=1)
-		perfil.fk_ciudad=ciudad
-		perfil.fk_pais=pais
-		perfil.ip_registro=get_client_ip(request)
-		perfil.save()
-		
-		membresia=Membresia()
-		membresia.es_administrator=0 #0 para falso
-		membresia.cargo=""
-		membresia.descripcion=""
-		membresia.fecha_aceptacion=datetime.datetime.now()
-		membresia.fecha_peticion=datetime.datetime.now()
-		membresia.ip_peticion=get_client_ip(request)
-		membresia.estado=1 #1 es para aceptado
-		institucion=Institucion.objects.get(siglas="I")
-		membresia.fk_institucion=institucion
-		membresia.fk_usuario=perfil
-		membresia.save()
-		
-		return HttpResponseRedirect('/signIn/')	
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/inicioUsuario/')
 	else:
-		args={}
-		args.update(csrf(request))
-		paises=Country.objects.all()
-		args['paises']=paises
-		return render_to_response('Usuario_Sign-up.html',args)
+		if request.method=='POST':
+			#print request.POST
+			#formulario = Form(request.POST)
+			username=request.POST['username']
+			password=request.POST['password1']
+			nombres=request.POST['nombres']
+			apellidos=request.POST['apellidos']
+			cedula=request.POST['cedula']
+			#cargo=request.POST['cargo']
+			telefono=request.POST['telefono']
+			#actividad=request.POST['actividad']
+			website=request.POST['website']
+			email=request.POST['email']
+			pais_selected=request.POST['pais']
+			print pais_selected
+
+			perfil=Perfil()
+			perfil.username=username
+			perfil.set_password(password)
+			perfil.first_name=nombres
+			perfil.last_name=apellidos
+			perfil.cedula=cedula
+			#perfil.cargo=cargo
+			#perfil.actividad=actividad
+			perfil.web=website
+			perfil.email=email
+			#perfil.ciudad=ciudad
+			#perfil.fechaNacimiento=fechaNacimiento
+			#perfil.areasInteres=areasInteres
+			perfil.fecha_registro=datetime.datetime.now()
+			perfil.reputacion=0
+			perfil.estado=1 #estado 1 es activo
+			perfil.telefono=telefono
+			#ubicacion=Ubicacion.objects.get(idubicacion=1)
+			pais=Country.objects.get(id=pais_selected)
+			ciudad=City.objects.get(id=1)
+			#pais=Country.objects.get(id=1)
+			perfil.fk_ciudad=ciudad
+			perfil.fk_pais=pais
+			perfil.ip_registro=get_client_ip(request)
+			perfil.save()
+
+			membresia=Membresia()
+			membresia.es_administrator=0 #0 para falso
+			membresia.cargo=""
+			membresia.descripcion=""
+			membresia.fecha_aceptacion=datetime.datetime.now()
+			membresia.fecha_peticion=datetime.datetime.now()
+			membresia.ip_peticion=get_client_ip(request)
+			membresia.estado=1 #1 es para aceptado
+			institucion=Institucion.objects.get(siglas="I")
+			membresia.fk_institucion=institucion
+			membresia.fk_usuario=perfil
+			membresia.save()
+
+			return HttpResponseRedirect('/signIn/')
+		else:
+			args={}
+			args.update(csrf(request))
+			paises=Country.objects.all()
+			args['paises']=paises
+			return render_to_response('Usuario_Sign-up.html',args)
 
 
 def index(request):
-	return render_to_response('index.html',{})
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/inicioUsuario')
+	else:
+		return render_to_response('index.html',{})
 
 
 def signIn(request):
-
-	return render(request,'sign-in.html')
-
-
-def signUp(request):
-
-	return render(request,'sign-up.html')
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/inicioUsuario/')
+	else:
+		return render(request,'sign-in.html')
 
 
 def logOut(request):
@@ -226,7 +231,7 @@ def editar_usuario(request):
 		#actividad=request.POST['actividad']
 		website=request.POST['website']
 		email=request.POST['email']
-		
+
 		perfil=usuario
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
@@ -243,8 +248,8 @@ def editar_usuario(request):
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
 		perfil.save()
-		
-		return HttpResponseRedirect('/perfilUsuario/')	
+
+		return HttpResponseRedirect('/perfilUsuario/')
 	else:
 		args.update(csrf(request))
 		return render_to_response('Usuario_Edit-Profile.html',args)
@@ -254,18 +259,18 @@ def autentificacion(request):
 	if request.method=='POST':
 		username = request.POST['usernameLogin']
 		password = request.POST['passwordLogin']
-		print username, password
 		usuario = auth.authenticate(username=username,password=password)
-		print usuario
+		args={}
+		
 		if usuario is not None:
 			auth.login(request,usuario)
 			request.session['id_usuario']=usuario.id
 			return HttpResponseRedirect('/inicioUsuario')
 		else:
 			error="Nombre de Usuario o Contraseña Incorrectos"
-			ctx={'mensajeErrorIngreso':error}
-			ctx.update(csrf(request))
-			return render_to_response('sign-in.html',ctx)
+			args['mensajeErrorIngreso']=error
+			args.update(csrf(request))
+			return render_to_response('sign-in.html',args)
 	else:
 		print "Error en el request.POST"
 
@@ -280,7 +285,7 @@ def inicio(request):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args={}
-	
+
 	if usuario is not None:
 		args['usuario']=usuario
 
@@ -300,6 +305,9 @@ def perfilUsuario(request):
 
 	if usuario is not None:
 		args['usuario']=usuario
+		usuario.estado = 1
+		usuario.save()
+
 		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
 		#print membresia[0].idmembresia
 		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
@@ -317,7 +325,7 @@ def perfilUsuario(request):
 
 
 """
-Autor: Edinson Sánchez
+Autores: Ray Montiel y Edinson Sánchez
 Nombre de funcion: perfilInstitucion
 Entrada: request GET
 Salida: Perfil de Institucion
@@ -330,12 +338,12 @@ def perfilInstitucion(request):
 
 	if usuario is not None:
 		args['usuario']=usuario
-		membresia=Membresia.objects.filter(fkusuario=usuario.id,esadministrator=1).first()
+		membresia=Membresia.objects.filter(fk_usuario=usuario.id).first()
 		print "sadhas"
-		if membresia.esadministrator == 1:
+		if membresia.es_administrator:
 			print "entre"
-			print membresia.idmembresia
-			institucion=Institucion.objects.get(idinstitucion=membresia.fkinstitucion.idinstitucion)
+			print membresia.id_membresia
+			institucion=Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
 			#print institucion
 			args['institucion']=institucion
 		else:
@@ -368,7 +376,9 @@ def verCodigo(request):
 		peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 		try :
 			print peticion.codigo
-			if (peticion.codigo == codigo and peticion.usado == 0) :
+			if (peticion.codigo == codigo and peticion.usado == 0):
+				paises=Country.objects.all()
+				args['paises']=paises
 				args['codigo'] = peticion.codigo
 				args['insti'] = peticion.nombre_institucion
 				return render_to_response('institucion_form_response.html', args)
@@ -390,12 +400,12 @@ def suspenderUsuario(request):
 		usuario.save()
 		return logOut(request)
 	else:
-		ctx={}
+		args={}
 		error = "Contraseña Incorrecta"
-		ctx['error']= error
-		ctx['usuario']=usuario
-		ctx.update(csrf(request))
-		return render(request,'Usuario_Edit-Profile.html',ctx)
+		args['error']= error
+		args['usuario']=usuario
+		args.update(csrf(request))
+		return render(request,'Usuario_Edit-Profile.html',args)
 
 """
 Autor: Angel Guale
@@ -424,7 +434,7 @@ def generarCodigo(request):
 	else:
 		args={}
 		args.update(csrf(request))
-		
+
 		return render_to_response('Administrador_generar_codigo.html', args)
 
 

@@ -138,3 +138,7 @@ MEDIA_ROOT = (
 )
 
 MEDIA_URL = '/media/'
+
+LOGIN_URL = '/signIn/'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

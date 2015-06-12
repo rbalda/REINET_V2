@@ -3,11 +3,21 @@
 
 {% endblock %}
 
-{%block content%}
-
 {% block search %}
 
 {% endblock %}
+
+{% block home %}
+<a class="navbar-brand link" href="/" >REI-NET</a>
+{% endblock %}
+
+
+{% block inicio %}
+  <a  href="/" >Inicio </a>
+{% endblock %}
+
+{%block content%}
+
     
 <!-- ///////////////  VENTANA SIGN-IN  ////////////////////
 ================== -->
@@ -55,7 +65,7 @@
               {% endif %}
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"> Recu&eacute;rdame
+                  <input name="remember_me" type="checkbox" value="true">Mantenerme conectado
                 </label>
               </div>
               <button type="submit" class="btn btn-green">Ingresar</button>
