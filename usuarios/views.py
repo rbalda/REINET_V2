@@ -26,7 +26,7 @@ Nombre de función:  registro_institucion
 Parámetros: request GET o POST
 Salida: Pagina para el Ingreso de codigo si es GET, debe devolver perfil de la institucion creada.
 Descripción: Corresponde a la creacion de la institucion y el anexo con e usuario por medio de membresia,
-             asi como update a la tabla peticion con valor 1 pues se usa el codigo.
+			 asi como update a la tabla peticion con valor 1 pues se usa el codigo.
 """
 @login_required
 def registro_institucion(request):
@@ -126,7 +126,7 @@ Nombre de función: get_client_ip
 Parámetros: request
 Salida: IP del cliente
 Descripción: Esta funcion obtiene la direccion IP del host para hacer uso en
-             el registro de usuarios o instituciones.
+			 el registro de usuarios o instituciones.
 """
 
 def get_client_ip(request):
@@ -307,9 +307,11 @@ def editar_usuario(request):
 		email=request.POST['email']
 		try:
 			foto = request.FILES['imagen']
+
 		except:
 			foto = "noPicture.png"
 
+		print foto
 		perfil=usuario
 		perfil.first_name=nombres
 		perfil.last_name=apellidos
@@ -416,7 +418,8 @@ def perfilUsuario(request):
 		args['usuario']=usuario
 		usuario.estado = 1
 		usuario.save()
-
+		perfil = Perfil.objects.get(username=usuario.username)
+		args['perfil']=perfil
 		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
 		#print membresia[0].idmembresia
 		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
