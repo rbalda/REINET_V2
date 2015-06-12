@@ -35,8 +35,27 @@
             return false;
         }
     }
+    /*
+    * Autor: Marlon Espinoza
+      Nombre de función: validarPassword2
+      Salida: Muestra advertencia si son distintos
+      Descripción: Compara que password 1 y 2 sean iguales onchange:
+    * */
+    function validarPassword2(){
+        password1 = document.getElementById('password1')
+        pass2 = document.getElementById('password2')
 
-       /*
+        if (password1.value==pass2.value) {
+            document.getElementById('noIgual').style.display='none';
+
+        }
+        else{
+            document.getElementById('noIgual').style.display='block';
+
+        }
+
+    }
+        /*
       Autor: Jose Velez
       Nombre de función: validarNumero
       Parámetros: evento
@@ -119,8 +138,10 @@
                 <input required autofocus type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
               </div>
             </div>
-
-             <div class="form-group">
+            <div class="form-group">
+              <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as no coinciden</label>
+            </div>
+              <div class="form-group">
               <label for="PaswordNueva" class="col-md-4">CONTRASE&ntilde;A</label>
                 <div class="col-md-8">
                 <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contrase&ntilde;a" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
@@ -131,7 +152,7 @@
             <div class="form-group">
               <label for="Pasword" class="col-md-4">REPETIR CONTRASE&Ntilde;A</label>
               <div class="col-md-8">
-              <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contrase&ntilde;a" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password">
+              <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contrase&ntilde;a" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password" onchange="validarPassword2()">
               </div>
             </div>
 
