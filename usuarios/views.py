@@ -625,6 +625,12 @@ def generarPasswordAleatorea():
 
 	return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
-
+"""
+Autor: Fausto Mora
+Nombre de funcion: csrf_failure
+Entrada: request,string
+Salida: http
+Descripción: maneja el error de csrf
+"""
 def csrf_failure(request, reason=""):
 	return HttpResponseRedirect('/index/')
