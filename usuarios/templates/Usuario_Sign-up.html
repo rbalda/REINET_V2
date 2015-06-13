@@ -112,7 +112,7 @@
 
       function validarURL (abc) {
               var string = abc.value;
-              if (!~string.indexOf("http")){
+              if (!~string.indexOf("http") && string!=""){
                   string = "http://" + string;
               }
               abc.value = string;
@@ -165,7 +165,7 @@
                   <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
                 </div>
                 <div class="col-sm-6">
-                  <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password" >
+                  <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Asegurate de recordarla" data-original-title="Repeat Password" onchange="validarPassword2()">
                 </div>
               </div>
             </div>
@@ -175,13 +175,16 @@
             <div class="form-group">
               <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
             </div>
+            <div class="form-group">
+              <label class="info-board-red" id="errorCedula" style="display: none; color: red">C&eacute;dula debe contener 10 d&iacute;gitos</label>
+            </div>
            
             <div class="form-group">
-              <input required type="text" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
+              <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
             </div>
              
             <div class="form-group">
-            <select class="form-control" name="pais">
+            <select class="form-control" id="pais" name="pais">
           <optgroup label="Pais">
                     {%for pais in paises%}
                      <option value="{{pais.id}}">{{pais.name}}</option>
@@ -190,14 +193,24 @@
              </select>
             </div>
             
+            <div class="form-group">
+              <label for="ciudad">Ciudad</label>
+              <select class="form-control" name="ciudad" id="ciudad" required>
+                  <optgroup id="optsCiudades" label="Ciudad">
+                      {%for ciudad in ciudades%}
+                          <option value="{{ciudad.id}}">{{ciudad.name}}</option>
+                      {%endfor%}
+                  </optgroup>
+              </select>
+            </div>
 
             <div class="form-group">
-              <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono">
+              <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
             </div>
      
             
              <div class="form-group">
-              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
+              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" onblur="validarURL(this)" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
             </div> 
             
                        
@@ -209,11 +222,49 @@
                 <input type="checkbox" required> Estoy de acuerdo con los <a href="/terms/">T&eacute;rminos y Condiciones</a>.
               </label>
             </div>
-            <button type="submit" class="btn btn-green">Crear Cuenta</button>
+            <button required type="submit" class="btn btn-green">Crear Cuenta</button>
             <a style="float:right" class="btn btn-green" href="/iniciarSesion/">Ya poseo una cuenta</a>
           </form>
         </div>
       </div>
     </div>
 
+
+    <script type="text/javascript">
+
+  $(document).ready(function(){
+    /*
+    * Autor: Angel Guale 
+      Nombre de función: obtiene las ciudades al cargar y al cambiar
+      Salida: Muestra las ciudades del pais seleccionado
+      Descripción: obtiene las ciudades mediante ajax
+
+    * */
+
+  $("#pais").bind('change',function () {
+    console.log($("#pais option:selected").val());
+    $.ajax({
+      type: "POST",
+      url: "/getCiudades",
+      data: {
+          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+          'paisId' : $("#pais option:selected").val()
+      },
+      success: ciudadSuccess,
+      dataType: 'html'
+    });
+  });
+    //para que se cambie hasta cuando carga
+    $('#pais').trigger('change');
+
+});
+
+  function ciudadSuccess(data, textStatus, jqXHR){
+    console.log("Succees");
+    $("#optsCiudades").html(data);
+    console.log(data);
+  }
+</script>
  {% endblock %}
+
+

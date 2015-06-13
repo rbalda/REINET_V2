@@ -168,14 +168,11 @@ def registro_usuario(request):
 			website=request.POST['website'] #usar palabras en español
 			email=request.POST['email'] #usar palabras en español
 			pais_selected=request.POST['pais'] #usar palabras en español
+			ciudad_selected=request.POST['ciudad'] #usar palabras en español
 
 			print pais_selected #borrar luego que no se use mas
 
-			try:
-				foto = request.FILES['imagen']
-			except:
-				foto = "noPicture.png"
-
+		
 			perfil=Perfil()
 			perfil.username=username
 			perfil.set_password(password)
@@ -205,8 +202,8 @@ def registro_usuario(request):
 
 			membresia=Membresia()
 			membresia.es_administrator=0 #0 para falso #usar palabras en español
-			membresia.cargo="" #NO SETEAR VALORES FIJOS
-			membresia.descripcion="" #NO SETEAR VALORES FIJOS
+			membresia.cargo="" 
+			membresia.descripcion="" 
 			membresia.fecha_aceptacion=datetime.datetime.now()
 			membresia.fecha_peticion=datetime.datetime.now()
 			membresia.ip_peticion=get_client_ip(request)
@@ -222,7 +219,7 @@ def registro_usuario(request):
 			args.update(csrf(request))
 			paises=Country.objects.all()
 			args['paises']=paises
-			return render_to_response('Usuario_Sign-up.html',args) #nombre del template en formato inadecuado.
+			return render_to_response('Usuario_Sign-up.html',args) 
 
 
 """
@@ -509,7 +506,7 @@ Entrada: request POST
 Salida: Opciones de ciudades para el pais seleccionado
 Responde con options de ciudades
 """
-@login_required
+
 def obtenerCiudades(request):
 
 	if request.method == 'POST':
