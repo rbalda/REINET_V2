@@ -210,7 +210,7 @@ Descripción: salida del http al escribir una url
                 <div class="form-group">
                   <label for="Email" class="col-md-2">Email</label>
                      <div class="col-md-10">
-                        <input required type="email" class="form-control" id="email" name="email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email" value="{{ usuario.email }}">
+                        <input required type="email" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email" value="{{ usuario.email }}">
                     </div>
                 </div>
                 <!--

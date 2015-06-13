@@ -95,6 +95,22 @@
     }
   }
 
+  /*
+Autor: Sixto Castro
+Nombre de función: validarNumero
+Parámetros: evento(evt)
+Salida:  Permite solo ingreso de números
+Descripción: No permite el ingreso de letras
+
+*/
+    //Función que permite solo Números
+    function validarNumero(e){
+
+        var key = window.Event ? e.which : e.keyCode
+
+        return (key >= 48 && key <= 57)
+
+    }
 
 
 
