@@ -1,18 +1,32 @@
 from __future__ import unicode_literals
+import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
 from cities_light.models import City,Country
 
-def get_upload_path(self,filename):
-        return "usuarios/%s/fotos/%s"%(self.id_perfil,filename)
+"""
+Autor: Rene Balda
+Nombre de función: definir_ruta_imagen
+Parámetros: self,filename
+Salida: string que devuelve el directorio con un nombre generico para guardar la imagen
+Descripción: obtiene la instancia de la clase donde se use y el nombre del archivo original,
+            devuelve un pat componiendo el id de perfil con la fecha de registro y aniade al nombre
+            de la imagen un identificador que las va a diferenciar de acuerdo a la fecha, hora, y minuto
+            que se subio la imagen
+"""
+def definir_ruta_imagen(self,filename):
+    fecha_registro =  self.date_joined.strftime("%Y%m%d")
+    hoy = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    nombre_archivo_hoy = "%s_%s"%(hoy,filename)
+    return "usuarios/%s%s/fotos/%s"%(self.id_perfil,fecha_registro,nombre_archivo_hoy)
 
 
 
 class Perfil(User):
     id_perfil = models.AutoField(primary_key=True)
     cedula = models.CharField(unique=True, max_length=10)
-    foto = models.ImageField(upload_to=get_upload_path,default='noPicture.png')
+    foto = models.ImageField(upload_to=definir_ruta_imagen,default='noPicture.png')
     web = models.URLField(max_length=200)
     telefono = models.CharField(max_length=16)
     fecha_registro = models.DateTimeField(auto_now_add=True)
