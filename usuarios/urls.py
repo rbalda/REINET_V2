@@ -6,8 +6,8 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
 
-		url(r'^logOut[/]?$','usuarios.views.logOut', name='logOut'),
-		url(r'^signIn[/]?$','usuarios.views.signIn', name='signIn'),
+		url(r'^cerrarSesion[/]?$','usuarios.views.cerrarSesion', name='cerrarSesion'),
+		url(r'^iniciarSesion[/]?$','usuarios.views.iniciarSesion', name='iniciarSesion'),
         url(r'^suspender_usuario[/]?$',suspenderUsuario,name='suspenderUsuario'),
 		url(r'^perfilUsuario[/]?$','usuarios.views.perfilUsuario', name='perfilUsuario'),
         url(r'^perfilInstitucion[/]?$', 'usuarios.views.perfilInstitucion', name='perfilInstitucion'),

@@ -10,7 +10,6 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.context_processors import csrf
-from django.core.urlresolvers import reverse
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -219,7 +218,7 @@ def registro_usuario(request):
 			membresia.fk_usuario=perfil
 			membresia.save()
 
-			return HttpResponseRedirect('/signIn/')
+			return HttpResponseRedirect('/iniciarSesion/')
 		else:
 			args={}
 			args.update(csrf(request))
@@ -247,13 +246,13 @@ def index(request):
 
 """
 Autor: Fausto Mora y Roberto Yoncon
-Nombre de función: signIn
+Nombre de función: iniciarSesion
 Parámetros: request
 Salida: hhtp
 Descripción: permite el login de un usuario registrado
 """
-#usar palabras en español
-def signIn(request):
+
+def iniciarSesion(request):
 
 
 	if request.user.is_authenticated():
@@ -284,13 +283,13 @@ def signIn(request):
 
 """
 Autor: Fausto Mora
-Nombre de función: logOut
+Nombre de función: cerrarSesion
 Parámetros: request
 Salida: hhtp
 Descripción: hace el logout del usuario y redirecciona a index
 """
-#usar palabras en español
-def logOut(request):
+
+def cerrarSesion(request):
 
 
 	logout(request)
@@ -431,7 +430,7 @@ def perfilUsuario(request):
 
 	else:
 		args['error']="Error al cargar los datos"
-		return HttpResponseRedirect('/signIn/')
+		return HttpResponseRedirect('/iniciarSesion/')
 
 
 	args.update(csrf(request))
@@ -469,7 +468,7 @@ def perfilInstitucion(request):
 
 	else:
 		args['error']="Error al cargar los datos"
-		return HttpResponseRedirect('/signIn/')
+		return HttpResponseRedirect('/iniciarSesion/')
 
 
 	args.update(csrf(request))
@@ -524,7 +523,7 @@ def suspenderUsuario(request):
 		#Cero significa que esta inactivo
 		usuario.estado = 0
 		usuario.save()
-		return logOut(request)
+		return cerrarSesion(request)
 	else:
 		args={}
 		error = "Contraseña Incorrecta"
@@ -590,7 +589,7 @@ def enviarEmailPassword(request):
 		if destinatario and usuario:
 			try:
 				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>"%(username,password)
-				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet',html_content,'REINET <from@server.com>',[destinatario])
+				msg = EmailMultiAlternatives('Credenciales de Acceso a ReiNet',html_content,'REINET <from@server.com>',[destinatario])
 				msg.attach_alternative(html_content,'text/html')
 				msg.send()
 				args['tipo'] = 'success'

@@ -139,7 +139,7 @@ MEDIA_ROOT = (
 
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/signIn/'
+LOGIN_URL = '/iniciarSesion/'
 
 CSRF_FAILURE_VIEW = 'usuarios.views.csrf_failure'
 

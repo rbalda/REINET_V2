@@ -7,7 +7,7 @@
 <ul class="dropdown-menu">
 <li><a href="#" >Mi Perfil</a></li>
 <li><a href="/registro_institucion">Registrar Institucion</a></li>
-<li><a href="/logOut/" >Cerrar Sesi&oacute;n</a></li>
+<li><a href="/cerrarSesion/" >Cerrar Sesi&oacute;n</a></li>
 </ul>
 </li>
 <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
@@ -144,7 +144,7 @@ Descripción: salida del http al escribir una url
                 </a>  
               </li>
               <li>
-                <a href="/logOut/">
+                <a href="/cerrarSesion/">
                   <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
                 </a>  
               </li>
@@ -238,13 +238,18 @@ Descripción: salida del http al escribir una url
                 </div>
                  <button style="float:right" class="btn btn-green">Aceptar</button>
               </form>
-            </div>
 
-            <div class="col-md-6 col-md-offset-3 signup">
-              <hr>
+            </div>
+            <div class="col-md-9">
+            <br>
+            <hr>
+            <br>
+            </div>
+            <div class="col-md-7 col-md-offset-1 signup">
+              
                 <div class="panel panel-red">
                  <div class="panel-heading">
-                        <h3 class="panel-title">Suspender Cuenta</h3>
+                        <h3 id="titulo_suspenderCuenta" class="panel-title">Suspender Cuenta</h3>
                  </div>
                 <div class="panel-body">
 
@@ -257,15 +262,52 @@ Descripción: salida del http al escribir una url
                      {% endif %}
 
               <div class="pwd-lost-q show"> <a href="#">¿Está seguro que desea suspender su cuenta de ReiNet?</a></div>
-              <!-- ///////////////  Ventana emergente para recuperar contraseña  ////////////-->
+              <!-- ///////////  Ventana escondida para ingresar contraseña ////////////-->
               <div class="pwd-lost-f hidden">
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
                 <p class="text-muted">Ingresa contraseña para validar tu usario</p>
                 <form class="form-inline" role="form" action="/suspender_usuario/" method="POST">{%csrf_token%}
                   <div class="form-group">
                     <label class="sr-only" for="email-pwd">Suspension de Cuenta</label>
                     <input id="txt_password_ingresada"  name ="txt_password_ingresada" type="password" class="form-control" id="email-pwd" placeholder="Ingrese su contraseña">
                   </div>
-                  <button type="submit" class="btn btn-blue">Aceptar</button>
+                  <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="popover" data-placement="bottom" data-trigger="focus">Aceptar</button>
+                  <div id="popover_content_wrapper" style="display: none">
+                    <div>Estas seguro de querer suspender tu cuenta en ReiNet?</div>
+                    <br>
+                    <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">Confirmar</button>
+                  </div>
+
+                  <script>
+                      /*
+                      Autor: Kevin Zambrano y Fausto Mora
+                      Nombre de funcion: funciones anonimas 
+                      Entrada: eventos
+                      Salida: http
+                      Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
+                      */
+
+                      $(document).ready(function(){
+
+                        $('#btn_suspenderCuenta').attr('disabled','disabled');
+
+                        $('#txt_password_ingresada').change(function() {
+                            $('#btn_suspenderCuenta').removeAttr('disabled');
+
+                        });
+                        
+
+                        $('#btn_suspenderCuenta').popover({ 
+                          html : true,
+                          content: function() {
+                            return $('#popover_content_wrapper').html();
+                          }
+                        });
+
+                      });
+
+                  </script>
+
                 </form>
               </div>
             </div>
