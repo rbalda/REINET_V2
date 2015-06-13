@@ -7,10 +7,10 @@ from cities_light.models import City,Country
 
 """
 Autor: Rene Balda
-Nombre de función: definir_ruta_imagen
-Parámetros: self,filename
+Nombre de funcion: definir_ruta_imagen
+Parametros: self,filename
 Salida: string que devuelve el directorio con un nombre generico para guardar la imagen
-Descripción: obtiene la instancia de la clase donde se use y el nombre del archivo original,
+Descripcion: obtiene la instancia de la clase donde se use y el nombre del archivo original,
             devuelve un pat componiendo el id de perfil con la fecha de registro y aniade al nombre
             de la imagen un identificador que las va a diferenciar de acuerdo a la fecha, hora, y minuto
             que se subio la imagen
