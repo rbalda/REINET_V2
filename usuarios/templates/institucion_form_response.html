@@ -13,7 +13,7 @@
 <!--SIGLA-->
 <div class="form-group">
   <input type="text" class="form-control" id="siglaInstitucion" name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
-         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" required>
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required>
 </div>
 <!--DESCRIPCION-->
 <div class="form-group">
@@ -43,7 +43,7 @@
 <!--CARGO-->
 <div class="form-group">
   <input type="text" class="form-control" id="cargoInstitucion" name="cargoInstitucion" placeholder="Indique su cargo en la Institucion"
-         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese su cargo en la Institución" data-original-title="Cargo" required>
+         data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese su cargo en la Institución" data-original-title="Cargo" onkeypress="return validarLetras(event)" required>
 </div>
 <!--DESCRIPCION DE CARGO-->
 <div class="form-group">
@@ -52,17 +52,17 @@
 </div>
 <!--TELEFONO-->
 <div class="form-group">
-  <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion" placeholder="Telefono del Contacto"
+  <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion" pattern="([0-9]{1,15})" placeholder="Telefono del Contacto"
          data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el telefono del contacto de la Institución" data-original-title="Telefono" required>
 </div>
 <!--EMAIL-->
 <div class="form-group">
-  <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion" placeholder="Email"
+  <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email"
          data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el correo electronico de la Institución" data-original-title="Email" required>
 </div>
 <!--SITIO WEB-->
 <div class="form-group">
-  <input type="text" class="form-control" id="webInstitucion" name="webInstitucion" placeholder="Dirección web"
+  <input type="text" class="form-control" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web"
          data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required>
 </div>
 
@@ -94,5 +94,40 @@
         reader.readAsDataURL(input.files[0]);
     }
   }
+
+
+
+
+     function validarLetras(e){
+       key = e.keyCode || e.which;
+       tecla = String.fromCharCode(key).toLowerCase();
+       letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+       especiales = "8-37-39-46";
+
+       tecla_especial = false
+       for(var i in especiales){
+            if(key == especiales[i]){
+                tecla_especial = true;
+                break;
+            }
+        }
+
+        if(letras.indexOf(tecla)==-1 && !tecla_especial){
+            return false;
+        }
+    }
+
+
+    function validarURL (abc) {
+        var string = abc.value;
+        if (!~string.indexOf("http")){
+            string = "http://" + string;
+        }
+        abc.value = string;
+        return abc
+    }
+
+
+
 
 </script>
