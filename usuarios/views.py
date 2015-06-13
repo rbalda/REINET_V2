@@ -85,8 +85,8 @@ def registro_institucion(request):
 				insti.recursos_ofrecidos = recursos
 				insti.correo = mail #usar palabras en español ? ves que si puedes angel
 				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
-				ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
-				pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
+				#ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
+				#pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
