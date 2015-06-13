@@ -59,13 +59,15 @@ def registro_institucion(request):
 				siglas=request.POST['siglaInstitucion']
 				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
-				ub=request.POST['pais'] #usar palabras completas no abreviaturas
+				#ub=request.POST['pais'] #usar palabras completas no abreviaturas
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion'] #usar palabras en español
 				mail=request.POST['emailInstitucion'] #usar palabras en español
 				telf=request.POST['telefonoInstitucion'] #usar palabras completas no abreviaturas
 				cargo = request.POST['cargoInstitucion']
 				cargo_desc = request.POST['cargoDescInstitucion']
+				ciudad=City.objects.get(id = request.POST['ciudadInstitucion']) #Por que siguen asignando valores estaticos?
+				pais=Country.objects.get(id = request.POST['paisInstitucion']) #Por que siguen asignando valores estaticos?
 
 				try:
 					image = request.FILES['logo']  #usar palabras en español
@@ -78,13 +80,13 @@ def registro_institucion(request):
 				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
-				insti.ubicacion = ub
+				#insti.ubicacion = ub
 				insti.web = web #usar palabras en español
 				insti.recursos_ofrecidos = recursos
 				insti.correo = mail #usar palabras en español ? ves que si puedes angel
 				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
 				ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
-				pais=Country.objects.get(id=ub) #Por que siguen asignando valores estaticos?
+				pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
@@ -219,7 +221,7 @@ def registro_usuario(request):
 			membresia.fk_usuario=perfil
 			membresia.save()
 
-			return HttpResponseRedirect('/signIn/')
+			return HttpResponseRedirect('/iniciarSesion/')
 		else:
 			args={}
 			args.update(csrf(request))
@@ -247,13 +249,13 @@ def index(request):
 
 """
 Autor: Fausto Mora y Roberto Yoncon
-Nombre de función: signIn
+Nombre de función: iniciarSesion
 Parámetros: request
 Salida: hhtp
 Descripción: permite el login de un usuario registrado
 """
 #usar palabras en español
-def signIn(request):
+def iniciarSesion(request):
 
 
 	if request.user.is_authenticated():
@@ -284,16 +286,16 @@ def signIn(request):
 
 """
 Autor: Fausto Mora
-Nombre de función: logOut
+Nombre de función: cerrarSesion
 Parámetros: request
 Salida: hhtp
 Descripción: hace el logout del usuario y redirecciona a index
 """
 #usar palabras en español
-def logOut(request):
+def cerrarSesion(request):
 
 
-	logout(request)
+	cerrarSesion(request)
 	return redirect('/')
 
 
@@ -431,7 +433,7 @@ def perfilUsuario(request):
 
 	else:
 		args['error']="Error al cargar los datos"
-		return HttpResponseRedirect('/signIn/')
+		return HttpResponseRedirect('/iniciarSesion/')
 
 
 	args.update(csrf(request))
@@ -469,7 +471,7 @@ def perfilInstitucion(request):
 
 	else:
 		args['error']="Error al cargar los datos"
-		return HttpResponseRedirect('/signIn/')
+		return HttpResponseRedirect('/iniciarSesion/')
 
 
 	args.update(csrf(request))
@@ -479,15 +481,13 @@ def perfilInstitucion(request):
 
 """
 Autor: Pedro Aim
-Nombre de funcion: verCodigo
+Nombre de funcion: verificarCodigo
 Entrada: request POST
 Salida: Formulario de registro institucion
 Responde con un formulario vacio de registro de institucion
 """
 @login_required
-def verCodigo(request):
-
-
+def verificarCodigo(request):
 	if request.method == 'POST':
 		args={}
 		codigo = request.POST['codigo']
@@ -497,7 +497,9 @@ def verCodigo(request):
 			print peticion.codigo
 			if (peticion.codigo == codigo and peticion.usado == 0):
 				paises=Country.objects.all()
+				ciudades = City.objects.all().filter(country_id = paises.first().id)
 				args['paises']=paises
+				args['ciudades']=ciudades
 				args['codigo'] = peticion.codigo
 				args['insti'] = peticion.nombre_institucion
 				return render_to_response('institucion_form_response.html', args)
@@ -505,6 +507,24 @@ def verCodigo(request):
 				return render_to_response('codigo_usado.html')
 		except:
 			return render_to_response('nocodigo.html')
+
+
+"""
+Autor: Pedro Iniguez
+Nombre de funcion: obtenerCiudades
+Entrada: request POST
+Salida: Opciones de ciudades para el pais seleccionado
+Responde con options de ciudades
+"""
+@login_required
+def obtenerCiudades(request):
+
+	if request.method == 'POST':
+		args={}
+		ciudades = City.objects.all().filter(country_id = request.POST['paisId'])
+		args['ciudades'] = ciudades
+		print len(ciudades)
+		return render_to_response('opcionesCiudades.html', args)
 
 """
 Autor: Kevin Zambrano y Fausto Mora
@@ -524,7 +544,7 @@ def suspenderUsuario(request):
 		#Cero significa que esta inactivo
 		usuario.estado = 0
 		usuario.save()
-		return logOut(request)
+		return cerrarSesion(request)
 	else:
 		args={}
 		error = "Contraseña Incorrecta"
