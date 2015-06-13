@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from cities_light.models import City,Country
 
 """
-Autor: René Balda
+Autor: Rene Balda
 Nombre de función: definir_ruta_imagen
 Parámetros: self,filename
 Salida: string que devuelve el directorio con un nombre generico para guardar la imagen
