@@ -1,0 +1,25 @@
+{% extends "base.tpl.html" %}
+{% block content %}
+
+    <div class="not-found">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="digits">
+              4<i class="fa fa-meh-o animated flipInX" id="smile"></i>4
+            </div>
+            <h1>La p&aacute;gina que est&aacute; intentando obtener no se encuentra</h1>
+            <h2>Puede intentar buscar en nuestro sitio web:</h2>
+            <form action="/{{tipo404}}/" class="form-inline" role="form">
+              <div class="form-group">
+                <label class="sr-only" for="search-404"></label>
+                <input type="text" class="form-control input-lg" id="search-404" placeholder="Click para hacerme feliz">
+              </div>
+              <button href="/{{tipo404}}/" type="submit" class="btn btn-default btn-lg" id="submit-404">Aceptar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+{%endblock%}
