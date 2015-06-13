@@ -118,8 +118,10 @@ Descripción: No permite el ingreso de letras
     function validarNumero(e){
 
         var key = window.Event ? e.which : e.keyCode
-
-        return (key >= 48 && key <= 57)
+        /*Edicion: Ray Montiel
+          Descripcion: Se permite el caracter '+' para ingresar números por códigos de región, ejemplo: +593 123 456 789
+        */
+        return (key >= 48 && key <= 57 || key == 43)
 
     }
 
