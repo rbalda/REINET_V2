@@ -10,7 +10,9 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.context_processors import csrf
+from django.core.urlresolvers import reverse
 from django.contrib import auth
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -575,6 +577,7 @@ def enviarEmailPassword(request):
 
 
 	destinatario = request.POST['email_recuperacion']
+	args = {}
 	try:
 		usuario = Perfil.objects.get(email=destinatario)
 		username = usuario.username.encode('utf-8', errors='ignore')
@@ -590,14 +593,24 @@ def enviarEmailPassword(request):
 				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet',html_content,'REINET <from@server.com>',[destinatario])
 				msg.attach_alternative(html_content,'text/html')
 				msg.send()
-				print 'se enviooo'
+				args['tipo'] = 'success'
+				args['mensaje'] ='Mensaje enviado correctamente'
+				print args['mensaje']
+				args.update(csrf(request))
+				
 			except:
-				print "error - no se envio"
+				args['tipo'] = 'error'
+				args['mensaje'] ='Error de envio. Intentelo denuevo'
+				print args['mensaje']
+				args.update(csrf(request))
 
-		return HttpResponseRedirect('/signIn/')
+		return render(request,'sign-in.html',args)
 	except:
-		print "no existe usuario con ese mail"
-		return HttpResponseRedirect('/signIn/')
+		args['tipo'] = 'info'
+		args['mensaje'] ='No existe usuario asociado a ese email'
+		print args['mensaje']
+		args.update(csrf(request))
+		return render(request,'sign-in.html',args)
 
 """
 Autor: Fausto Mora
@@ -613,3 +626,5 @@ def generarPasswordAleatorea():
 	return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
 
+def csrf_failure(request, reason=""):
+	return HttpResponseRedirect('/index/')

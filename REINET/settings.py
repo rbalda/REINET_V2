@@ -141,6 +141,8 @@ MEDIA_URL = '/media/'
 
 LOGIN_URL = '/signIn/'
 
+CSRF_FAILURE_VIEW = 'usuarios.views.csrf_failure'
+
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 #Aqui va la configuracion del servidor de correo (GMAIL)
