@@ -193,7 +193,6 @@ def registro_usuario(request):
 			perfil.fk_ciudad=ciudad
 			perfil.fk_pais=pais
 			perfil.ip_registro=get_client_ip(request)
-			perfil.foto=foto
 			perfil.save()
 
 			membresia=Membresia()
