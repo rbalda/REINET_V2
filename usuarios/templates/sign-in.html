@@ -71,6 +71,24 @@
               <button type="submit" value="Submit" class="btn btn-green">Ingresar</button>
             </form>
             <hr>
+
+            {% if mensaje %}
+                {% if tipo == 'success' %}
+                    <div class="alert alert-success">
+                        <p>{{ mensaje }}</p>
+                    </div>
+                {% elif tipo == 'error' %}
+                    <div class="alert alert-danger">
+                        <p>{{ mensaje }}</p>
+                    </div>
+                {% elif tipo == 'info' %}
+                    <div class="alert alert-warning">
+                        <p>{{ mensaje }}</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+
             <p>A&uacute;n no estas registrado? <a href="/registro_usuario/">Reg&iacute;strate aqu&iacute;.</a></p>
             <div class="pwd-lost">
               <div class="pwd-lost-q show">Olvidaste tu contraseña <a href="#">Click aqu&iacute; para recuperarla.</a></div>

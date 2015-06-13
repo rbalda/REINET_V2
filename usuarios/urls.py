@@ -20,8 +20,10 @@ urlpatterns = patterns('',
     	url(r'^inicioUsuario[/]?$','usuarios.views.inicio',name='inicioUsuario'),
         url(r'^editar_usuario[/]?$',editar_usuario,name='index'),
         url(r'^enviarEmailPassword[/]?$','usuarios.views.enviarEmailPassword',name='enviarEmailPassword'),
+        url(r'^csrf_failure[/]?$', 'usuarios.views.csrf_failure', name='csrf_failure'),
 
         url(r'^generarCodigo[/]?$', generarCodigo, name='generarCodigo'),
+
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),
