@@ -11,14 +11,16 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.contrib import auth
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-import datetime
+import datetime, random, string
 from .models import *
 
 from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 
 """
 Autor: Pedro Iñiguez
@@ -216,7 +218,7 @@ def registro_usuario(request):
 			membresia.fk_usuario=perfil
 			membresia.save()
 
-			return HttpResponseRedirect('/signIn/')
+			return HttpResponseRedirect('/iniciarSesion/')
 		else:
 			args={}
 			args.update(csrf(request))
@@ -243,32 +245,52 @@ def index(request):
 
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Fausto Mora y Roberto Yoncon
+Nombre de función: iniciarSesion
+Parámetros: request
+Salida: hhtp
+Descripción: permite el login de un usuario registrado
 """
-#usar palabras en español
-def signIn(request):
+
+def iniciarSesion(request):
 
 
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/inicioUsuario/')
 	else:
-		return render(request,'sign-in.html')
+		if request.method=='POST':
+			username = request.POST['usernameLogin']
+			password = request.POST['passwordLogin']
+			usuario = auth.authenticate(username=username,password=password)
+			args={}
+		
+			if usuario is not None:
+				if request.POST.has_key('remember_me'):
+					request.session.set_expiry(1209600) # 2 weeks
+				auth.login(request,usuario)
+				request.session['id_usuario']=usuario.id
+				return HttpResponseRedirect('/inicioUsuario')
+			else:
+				error="Nombre de Usuario o Contraseña Incorrectos"
+				args['mensajeErrorIngreso']=error
+				args.update(csrf(request))
+				return render_to_response('sign-in.html',args,context_instance=RequestContext(request))
+		else:
+			print "Error en el request.POST o entro en el enviar email"
+	return render_to_response('sign-in.html',{},context_instance=RequestContext(request))
 
 
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Fausto Mora
+Nombre de función: cerrarSesion
+Parámetros: request
+Salida: hhtp
+Descripción: hace el logout del usuario y redirecciona a index
 """
-#usar palabras en español
-def logOut(request):
+
+def cerrarSesion(request):
+
 
 	logout(request)
 	return redirect('/')
@@ -343,48 +365,26 @@ Parámetros:
 Salida:
 Descripción:
 """
-def autentificacion(request):
 
-	if request.method=='POST':
-		username = request.POST['usernameLogin']
-		password = request.POST['passwordLogin']
-		usuario = auth.authenticate(username=username,password=password)
-		args={}
-
-		if usuario is not None:
-			auth.login(request,usuario)
-			request.session['id_usuario']=usuario.id
-			return HttpResponseRedirect('/inicioUsuario')
-		else:
-			error="Nombre de Usuario o Contraseña Incorrectos"
-			args['mensajeErrorIngreso']=error
-			args.update(csrf(request))
-			return render_to_response('sign-in.html',args)
-	else:
-		print "Error en el request.POST"
-
-
-"""
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
-"""
 def terms(request):
+
 
 	return render(request, 'terms.html')
 
 
+
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Fausto Mora y Roberto Yoncon
+Nombre de función: inicio
+Parámetros: request
+Salida: http
+Descripción: envia la informacion del usuario a una plantilla html
+permite ver la pagina inicial de todo usuario logeado
 """
+
 @login_required
 def inicio(request):
+
 
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
@@ -402,14 +402,16 @@ def inicio(request):
 
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Fausto Mora, Roberto Yoncon y Angel Guale
+Nombre de función: perfilUsuario
+Parámetros: request
+Salida: http
+Descripción: envia la informacion del usuario a una plantilla html
 """
 @login_required
 def perfilUsuario(request):
+
+
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args={}
@@ -428,7 +430,7 @@ def perfilUsuario(request):
 
 	else:
 		args['error']="Error al cargar los datos"
-		return HttpResponseRedirect('/signIn/')
+		return HttpResponseRedirect('/iniciarSesion/')
 
 
 	args.update(csrf(request))
@@ -444,6 +446,8 @@ Salida: Perfil de Institucion
 """
 @login_required
 def perfilInstitucion(request):
+
+
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args={}
@@ -464,7 +468,7 @@ def perfilInstitucion(request):
 
 	else:
 		args['error']="Error al cargar los datos"
-		return HttpResponseRedirect('/signIn/')
+		return HttpResponseRedirect('/iniciarSesion/')
 
 
 	args.update(csrf(request))
@@ -481,6 +485,8 @@ Responde con un formulario vacio de registro de institucion
 """
 @login_required
 def verCodigo(request):
+
+
 	if request.method == 'POST':
 		args={}
 		codigo = request.POST['codigo']
@@ -500,14 +506,15 @@ def verCodigo(request):
 			return render_to_response('nocodigo.html')
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Kevin Zambrano y Fausto Mora
+Nombre de función: suspenderUsuario
+Parámetros: request
+Salida: http
+Descripción: hace la suspension de la cuenta por parte del usuario
 """
 @login_required
 def suspenderUsuario(request):
+
 
 	usuario = Perfil.objects.get(id=request.session['id_usuario'])
 	password_ingresada = request.POST['txt_password_ingresada']
@@ -516,7 +523,7 @@ def suspenderUsuario(request):
 		#Cero significa que esta inactivo
 		usuario.estado = 0
 		usuario.save()
-		return logOut(request)
+		return cerrarSesion(request)
 	else:
 		args={}
 		error = "Contraseña Incorrecta"
@@ -530,10 +537,12 @@ Autor: Angel Guale
 Nombre de funcion: generarCodigo
 Entrada: request GET o POST
 Salida: Formulario de generarCodigo
-Genera un codigo para registrar institucion
+Descripción: Genera un codigo para registrar institucion
 """
 
 def generarCodigo(request):
+
+
 	if request.method=='POST':
 		username=request.POST['username']
 		usuario = Perfil.objects.get(username=username)
@@ -555,6 +564,72 @@ def generarCodigo(request):
 
 		return render_to_response('Administrador_generar_codigo.html', args)
 
+"""
+Autor: Fausto Mora
+Nombre de funcion: enviarEmailPassword
+Entrada: request POST
+Salida: Se envia un email 
+Descripción: Se envia un email donde el usuario decida, con la Contraseña del usuario 
+"""
+
+def enviarEmailPassword(request):
 
 
+	destinatario = request.POST['email_recuperacion']
+	args = {}
+	try:
+		usuario = Perfil.objects.get(email=destinatario)
+		username = usuario.username.encode('utf-8', errors='ignore')
+		print username
+		password = generarPasswordAleatorea()
+		print password
+		usuario.set_password(password)
+		usuario.save()
+		
+		if destinatario and usuario:
+			try:
+				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>"%(username,password)
+				msg = EmailMultiAlternatives('Credenciales de Acceso a ReiNet',html_content,'REINET <from@server.com>',[destinatario])
+				msg.attach_alternative(html_content,'text/html')
+				msg.send()
+				args['tipo'] = 'success'
+				args['mensaje'] ='Mensaje enviado correctamente'
+				print args['mensaje']
+				args.update(csrf(request))
+				
+			except:
+				args['tipo'] = 'error'
+				args['mensaje'] ='Error de envio. Intentelo denuevo'
+				print args['mensaje']
+				args.update(csrf(request))
 
+		return render(request,'sign-in.html',args)
+	except:
+		args['tipo'] = 'info'
+		args['mensaje'] ='No existe usuario asociado a ese email'
+		print args['mensaje']
+		args.update(csrf(request))
+		return render(request,'sign-in.html',args)
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: generarPasswordAleatorea
+Entrada: -ninguna-
+Salida: string
+Descripción: genera una cadena de caracteres con letras mayusculas y digitos enteros
+de longitud 8 
+"""
+
+def generarPasswordAleatorea():
+
+	return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: csrf_failure
+Entrada: request,string
+Salida: http
+Descripción: maneja el error de csrf
+"""
+def csrf_failure(request, reason=""):
+	return HttpResponseRedirect('/index/')

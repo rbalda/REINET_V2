@@ -7,7 +7,7 @@
 <ul class="dropdown-menu">
 <li><a href="#" >Mi Perfil</a></li>
 <li><a href="/registro_institucion">Registrar Institucion</a></li>
-<li><a href="/logOut/" >Cerrar Sesi&oacute;n</a></li>
+<li><a href="/cerrarSesion/" >Cerrar Sesi&oacute;n</a></li>
 </ul>
 </li>
 <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
@@ -56,7 +56,7 @@
                 </a>  
               </li>
               <li>
-                <a href="/logOut/">
+                <a href="/cerrarSesion/">
                   <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
                 </a>  
               </li>
@@ -166,7 +166,7 @@
 
                   <tr>
                     <td class="text-muted">Instituci&oacute;n</td>
-                    <td style="text-align:right">{{institucion.nombre}}</td>
+                    <td style="text-align:right">{{ institucion.nombre }}</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Fecha de Registro</td>
@@ -194,7 +194,7 @@
                   </tr>
                   <tr>
                     <td class="text-muted">Estado</td>
-                    <td style="text-align:right">{%if usuario.estado == 1 %} Activo {%else%} Inactivo{%endif%}</td>
+                    <td style="text-align:right">{% if usuario.estado == 1 %} Activo {%else%} Inactivo{%endif%}</td>
                   </tr>
 
                     </tbody>

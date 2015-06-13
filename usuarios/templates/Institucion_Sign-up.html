@@ -1,6 +1,6 @@
 {% extends "base.tpl.html" %}
 {% block home %}
-        <a class="navbar-brand link" href="#" >REI-NET</a>
+        <a class="navbar-brand link" href="/inicioUsuario/" >REI-NET</a>
 {% endblock %}
 {% block signin %}
 <li id="usuario" class="show">
@@ -9,7 +9,7 @@
   <ul class="dropdown-menu">
   <li><a href="/perfilUsuario" >Mi Perfil</a></li>
   <li><a href="/registro_institucion">Registrar Institucion</a></li>
-  <li><a href="/logOut/" >Cerrar Sesi&oacute;n</a></li>
+  <li><a href="/cerrarSesion/" >Cerrar Sesi&oacute;n</a></li>
   </ul>
 </li>
 <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
@@ -32,8 +32,11 @@
           <h3 class="hl top-zero">Registro de Institución</h3>
           <hr>
             <div class="form-group">
+              <label for="codigo">CÓDIGO DE VERIFICACIÓN</label>
               <input type="text" class="form-control" id="codigoInstitucion" placeholder="Código de verificación"
                      data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el código recibido por el administrador" data-original-title="Código de Verificación">
+
+
             </div>
 
             <button id="instBtnContinuar" class="btn btn-green">Continuar</button>
