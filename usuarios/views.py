@@ -110,7 +110,7 @@ def registro_institucion(request):
 				except:
 					print "membresia no encontrada" #borrar cuando no lo necesiten mas, no olvidar
 					#falta retroalimentacion para el usuario.
-				return redirect('/inicioUsuario')
+				return redirect('/perfilInstitucion')
 			else:
 				print "peticion ya usada" #borrar cuando no lo necesiten mas, no olvidar
 				#falta retroalimentacion para el usuario.
