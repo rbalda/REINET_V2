@@ -58,32 +58,30 @@ def registro_institucion(request):
 				siglas=request.POST['siglaInstitucion']
 				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
-				ub=request.POST['ubicacionInstitucion'] #usar palabras completas no abreviaturas
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion'] #usar palabras en español
 				mail=request.POST['emailInstitucion'] #usar palabras en español
 				telf=request.POST['telefonoInstitucion'] #usar palabras completas no abreviaturas
 				cargo = request.POST['cargoInstitucion']
 				cargo_desc = request.POST['cargoDescInstitucion']
+				ciudad=City.objects.get(id = request.POST['ciudadInstitucion']) #Por que siguen asignando valores estaticos?
+				pais=Country.objects.get(id = request.POST['paisInstitucion']) #Por que siguen asignando valores estaticos?
 
 				try:
 					image = request.FILES['logo']  #usar palabras en español
 				except:
 					image = "noPicture.png" #usar palabras en español
-
+				print "campos loaded"
 				insti = Institucion(); #usar palabras completas no abreviaturas
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
 				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
-				insti.ubicacion = ub
 				insti.web = web #usar palabras en español
 				insti.recursos_ofrecidos = recursos
 				insti.correo = mail #usar palabras en español ? ves que si puedes angel
 				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
-				ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
-				pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
@@ -478,13 +476,13 @@ def perfilInstitucion(request):
 
 """
 Autor: Pedro Aim
-Nombre de funcion: verCodigo
+Nombre de funcion: verificarCodigo
 Entrada: request POST
 Salida: Formulario de registro institucion
 Responde con un formulario vacio de registro de institucion
 """
 @login_required
-def verCodigo(request):
+def verificarCodigo(request):
 
 
 	if request.method == 'POST':
@@ -496,7 +494,9 @@ def verCodigo(request):
 			print peticion.codigo
 			if (peticion.codigo == codigo and peticion.usado == 0):
 				paises=Country.objects.all()
+				ciudades = City.objects.all().filter(country_id = paises.first().id)
 				args['paises']=paises
+				args['ciudades']=ciudades
 				args['codigo'] = peticion.codigo
 				args['insti'] = peticion.nombre_institucion
 				return render_to_response('institucion_form_response.html', args)
@@ -504,6 +504,22 @@ def verCodigo(request):
 				return render_to_response('codigo_usado.html')
 		except:
 			return render_to_response('nocodigo.html')
+"""
+Autor: Pedro Iniguez
+Nombre de funcion: obtenerCiudades
+Entrada: request POST
+Salida: Opciones de ciudades para el pais seleccionado
+Responde con options de ciudades
+"""
+@login_required
+def obtenerCiudades(request):
+
+	if request.method == 'POST':
+		args={}
+		ciudades = City.objects.all().filter(country_id = request.POST['paisId'])
+		args['ciudades'] = ciudades
+		print len(ciudades)
+		return render_to_response('opcionesCiudades.html', args)
 
 """
 Autor: Kevin Zambrano y Fausto Mora
