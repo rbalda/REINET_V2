@@ -179,21 +179,17 @@ def registro_usuario(request):
 			perfil.first_name=nombres
 			perfil.last_name=apellidos
 			perfil.cedula=cedula
-			#perfil.cargo=cargo
-			#perfil.actividad=actividad
 			perfil.web=website
 			perfil.email=email
-			#perfil.ciudad=ciudad
-			#perfil.fechaNacimiento=fechaNacimiento
-			#perfil.areasInteres=areasInteres
+		
 			perfil.fecha_registro=datetime.datetime.now()
 			perfil.reputacion=0
 			perfil.estado=1 #estado 1 es activo
 			perfil.telefono=telefono
-			#ubicacion=Ubicacion.objects.get(idubicacion=1)
+		
 			pais=Country.objects.get(id=pais_selected)
-			ciudad=City.objects.get(id=1) #esto deberia ser lo que se seleccione, el pais deberia sacarse por referencia cruzada.
-			#pais=Country.objects.get(id=1)
+			ciudad=City.objects.get(id=ciudad_selected) 
+
 			perfil.fk_ciudad=ciudad
 			perfil.fk_pais=pais
 			perfil.ip_registro=get_client_ip(request)
@@ -201,9 +197,9 @@ def registro_usuario(request):
 			perfil.save()
 
 			membresia=Membresia()
-			membresia.es_administrator=0 #0 para falso #usar palabras en español
-			membresia.cargo="" 
-			membresia.descripcion="" 
+			membresia.es_administrator=0 #0 para falso 
+			membresia.cargo="Independiente" #independiente no hay cargo
+			membresia.descripcion="Independiente" #Descripcion no hay cargo
 			membresia.fecha_aceptacion=datetime.datetime.now()
 			membresia.fecha_peticion=datetime.datetime.now()
 			membresia.ip_peticion=get_client_ip(request)
