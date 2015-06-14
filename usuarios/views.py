@@ -191,7 +191,7 @@ def registro_usuario(request):
 			
 				pais=Country.objects.get(id=pais_selected)
 				ciudad=City.objects.get(id=ciudad_selected) 
-				perfil.privacidad=11113
+				perfil.privacidad=1111
 				perfil.fk_ciudad=ciudad
 				perfil.fk_pais=pais
 				perfil.ip_registro=get_client_ip(request)
@@ -341,20 +341,21 @@ def editar_usuario(request):
 		except:
 			foto = "noPicture.png"
 		try:
-			privacidadNom=request.POST['PrivacidadNombre']
-			privacidadApe=request.POST['PrivacidadApellido']
+			#privacidadNom=request.POST['PrivacidadNombre']
+			#privacidadApe=request.POST['PrivacidadApellido']
 			privacidadCed=request.POST['PrivacidadCedula']
 			privacidadTel=request.POST['PrivacidadTelefono']
 			privacidadWeb=request.POST['PrivacidadWeb']
 			privacidadMai=request.POST['PrivacidadMail']
-			if privacidadWeb=="1" and privacidadMai=="1":
-				privacidadWeb='3'
-			elif privacidadWeb=="0" and privacidadMai=="1":
-				privacidadWeb='2'
-			privacidad=privacidadNom+privacidadApe+privacidadCed+privacidadTel+privacidadWeb
+			#if privacidadWeb=="1" and privacidadMai=="1":
+			#	privacidadWeb='3'
+			#elif privacidadWeb=="0" and privacidadMai=="1":
+			#	privacidadWeb='2'
+			#privacidad=privacidadNom+privacidadApe+privacidadCed+privacidadTel+privacidadWeb
+			privacidad=privacidadCed+privacidadTel+privacidadWeb+privacidadMai
 
 		except:
-			privacidad=11113
+			privacidad=1111
 
 		print foto
 		perfil=usuario
