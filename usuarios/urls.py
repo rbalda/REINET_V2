@@ -21,9 +21,13 @@ urlpatterns = patterns('',
         url(r'^editar_usuario[/]?$',editar_usuario,name='index'),
         url(r'^enviarEmailPassword[/]?$','usuarios.views.enviarEmailPassword',name='enviarEmailPassword'),
         url(r'^csrf_failure[/]?$', 'usuarios.views.csrf_failure', name='csrf_failure'),
+        url(r'^editar_perfil_institucion[/]?$', 'usuarios.views.modificarPerfilInstitucion', name='editarPerfilInstitucion'),
 
+         url(r'^verificar_username[/]?$',verificar_username, name="verificar_username"),
         url(r'^generarCodigo[/]?$', generarCodigo, name='generarCodigo'),
         url(r'^getCiudades[/]?$',obtenerCiudades,name='institucion'),
+
+
 
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',

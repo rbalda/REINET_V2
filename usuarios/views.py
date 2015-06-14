@@ -16,6 +16,8 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+
 from django.contrib.auth.decorators import login_required
 import datetime, random, string
 from .models import *
@@ -588,6 +590,27 @@ def generarCodigo(request):
 
 		return render_to_response('Administrador_generar_codigo.html', args)
 
+
+"""
+Autor: Angel Guale
+Nombre de funcion: verificar_username
+Entrada: request GET o POST
+Salida: Formulario de generarCodigo
+Descripción: Genera un codigo para registrar institucion
+"""
+def verificar_username(request):
+	if request.method=="POST":
+		userinput=request.POST['username']
+		try:
+			usuarioquery=Perfil.objects.get(username=userinput)
+		except:
+			usuarioquery=None
+		#print "userinput",userinput, "usuarioquery ", usuarioquery
+		if usuarioquery is not None:
+			return HttpResponse("usado")
+		else:
+			return HttpResponse("ok")
+	return HttpResponse("no es post")
 """
 Autor: Fausto Mora
 Nombre de funcion: enviarEmailPassword
@@ -666,32 +689,38 @@ Entrada: request POST
 Salida: Redireccion a perfil
 """
 @login_required
-def modificarPerfilInstitucion(request,idInstitucion):
+def modificarPerfilInstitucion(request):
     usuario_admin = request.user
-    membresia = Membresia.objects.all().filter(fkusuario=usuario_admin, esadministrador_gt=0).first()
-    institucion = membresia.fkinstitucion
+    membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
+    paises=Country.objects.all()
+    ciudades=City.objects.all().filter(country_id = 1)
+    institucion = membresia.fk_institucion
     if request.method=='POST':
-        nombre=request.POST["nombre"]
-        siglas=request.POST["siglas"]
-        descripcion=request.POST["descripcion"]
-        mision=request.POST["mision"]
+        #nombre=request.POST["nombre"]
+        #siglas=request.POST["siglas"]
+        #descripcion=request.POST["descripcion"]
+        #mision=request.POST["mision"]
         web=request.POST["web"]
         recursos=request.POST["recursos"]
-        id=request.POST["id"]
+        mail=request.POST["correo"]
 
-        institucion.nombre=nombre
-        institucion.siglas=siglas
-        institucion.descripcion=descripcion
-        institucion.mision=mision
+
+        #institucion.nombre=nombre
+        #institucion.siglas=siglas
+        #institucion.descripcion=descripcion
+        #institucion.mision=mision
+        institucion.correo=mail
         institucion.web=web
         institucion.recursos=recursos
 
         institucion.save()
         return redirect('/perfilUsuario')
     else:
-        institucion=Institucion.objects.get(id=idInstitucion)
+        #institucion=Institucion.objects.get()
         args ={
-            "institucion":institucion
+            "institucion":institucion,
+            "ciudades":ciudades,
+            "paises":paises
         }
-        render(request,"institucion_edit_form.html",args)
+        return render(request,"institucion_editar.html",args)
 
