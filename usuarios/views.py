@@ -177,41 +177,50 @@ def registro_usuario(request):
 
 			print pais_selected #borrar luego que no se use mas
 
-		
-			perfil=Perfil()
-			perfil.username=username
-			perfil.set_password(password)
-			perfil.first_name=nombres
-			perfil.last_name=apellidos
-			perfil.cedula=cedula
-			perfil.web=website
-			perfil.email=email
-		
-			perfil.fecha_registro=datetime.datetime.now()
-			perfil.reputacion=0
-			perfil.estado=1 #estado 1 es activo
-			perfil.telefono=telefono
-		
-			pais=Country.objects.get(id=pais_selected)
-			ciudad=City.objects.get(id=ciudad_selected) 
+			try: 
+				perfil=Perfil()
+				perfil.username=username
+				perfil.set_password(password)
+				perfil.first_name=nombres
+				perfil.last_name=apellidos
+				perfil.cedula=cedula
+				perfil.web=website
+				perfil.email=email
+			
+				perfil.fecha_registro=datetime.datetime.now()
+				perfil.reputacion=0
+				perfil.estado=1 #estado 1 es activo
+				perfil.telefono=telefono
+			
+				pais=Country.objects.get(id=pais_selected)
+				ciudad=City.objects.get(id=ciudad_selected) 
 
-			perfil.fk_ciudad=ciudad
-			perfil.fk_pais=pais
-			perfil.ip_registro=get_client_ip(request)
-			perfil.save()
+				perfil.fk_ciudad=ciudad
+				perfil.fk_pais=pais
+				perfil.ip_registro=get_client_ip(request)
+				perfil.save()
 
-			membresia=Membresia()
-			membresia.es_administrator=0 #0 para falso 
-			membresia.cargo="Independiente" #independiente no hay cargo
-			membresia.descripcion="Independiente" #Descripcion no hay cargo
-			membresia.fecha_aceptacion=datetime.datetime.now()
-			membresia.fecha_peticion=datetime.datetime.now()
-			membresia.ip_peticion=get_client_ip(request)
-			membresia.estado=1 #1 es para aceptado
-			institucion=Institucion.objects.get(siglas="I")
-			membresia.fk_institucion=institucion
-			membresia.fk_usuario=perfil
-			membresia.save()
+				membresia=Membresia()
+				membresia.es_administrator=0 #0 para falso 
+				membresia.cargo="Independiente" #independiente no hay cargo
+				membresia.descripcion="Independiente" #Descripcion no hay cargo
+				membresia.fecha_aceptacion=datetime.datetime.now()
+				membresia.fecha_peticion=datetime.datetime.now()
+				membresia.ip_peticion=get_client_ip(request)
+				membresia.estado=1 #1 es para aceptado
+				institucion=Institucion.objects.get(siglas="I")
+				membresia.fk_institucion=institucion
+				membresia.fk_usuario=perfil
+				membresia.save()
+			except e:
+				print e.getMessage()
+				mensaje="No se pudo crear el usuario"
+				args={}
+				args.update(csrf(request))
+				paises=Country.objects.all()
+				args['paises']=paises
+				args['mensaje']=mensaje
+				return render_to_response('Usuario_Sign-up.html',args) 
 
 			return HttpResponseRedirect('/iniciarSesion/')
 		else:
@@ -283,9 +292,7 @@ Descripción: hace el logout del usuario y redirecciona a index
 """
 #usar palabras en español
 def cerrarSesion(request):
-
-
-	cerrarSesion(request)
+	logout(request)
 	return redirect('/')
 
 
