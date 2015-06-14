@@ -153,6 +153,11 @@
           </div>
 
 
+          
+
+          
+
+
           <!-- //////// INFORMACION GENERAL /////////-->
           <div class="row">
             <div class="col-sm-12">
@@ -167,9 +172,10 @@
 
                   <tr>
                     <td class="text-muted">Instituci&oacute;n</td>
-                    <td style="text-align:right">
+                    <td style="text-align:right"id="link">
                         {% for inst in listaInstituciones %}
-                            <a href="/perfilInstitucion/">{{ inst.nombre }}</a><br/>
+                            {% if inst.nombre != "Independiente" %}<a href="/perfilInstitucion/">{{ inst.nombre }}</a><br/> {%else%} {{ inst.nombre }} {%endif%}
+                            
                         {% endfor %}
                     </td>
                   </tr>
@@ -207,6 +213,8 @@
 
                             }
                         </style>
+                      
+
                         <script type="text/javascript">
 
                             function fijarReputacion()

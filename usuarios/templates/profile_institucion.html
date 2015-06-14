@@ -60,6 +60,8 @@
           </div>
         </div>
 
+        <div class="col-sm-1"></div>
+
         <!-- //////////////  FOTO DE PERFIL /////////////// -->
         <div class="col-sm-8 col-md-6">
           <div class="row">
@@ -72,9 +74,20 @@
                   </a>
 
                   <!-- ///////////  CAMBIAR FOTO PERFIL ///////// -->
+                  
+              <!--
+              <div class="avatar-bubble">
+                    <a href="#" data-toggle="modal" data-target="#upload-avatar"><i class="fa fa-plus"></i> Cambiar Imagen de Perfil</a>
+              </div>
+               -->   
+
+
+
+                  <!--
                   <div class="avatar-bubble">
                     <a href="#" data-toggle="modal" data-target="#upload-avatar"><i class="fa fa-plus"></i> Cambiar Imagen de Perfil</a>
                   </div>
+                  -->
                 </div>
               </div>
 
@@ -106,6 +119,7 @@
 
 
             <!-- //// PERFIL PRINCIPAL ///// -->
+
             <div class="col-sm-8">
               <h3 class="hl">{{ institucion.nombre }} <br>
                 <small> {{institucion.siglas}} </small></h3>
@@ -152,9 +166,9 @@
           <!-- //////// INFORMACION GENERAL /////////-->
           <div class="row">
             <div class="col-sm-12">
-            <div class="col-sm-12" id="collapseGeneral">
+            <div class="col-sm-7" id="collapseGeneral">
               
-                <div class="panel-heading btn-outline btn-primary" style="text-align:center">
+                <div class="panel-heading btn-outline btn-success" style="text-align:center">
                   <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral" href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
                 </div>
                 <div id="collapseInfoGeneral" class="panel-collapse collapse in">
@@ -163,26 +177,26 @@
 
                   <tr>
                     <td class="text-muted">Descripci&oacute;n</td>
-                    <td style="text-align:right">{{institucion.descripcion}}</td>
+                    <td style="text-align:left">{{institucion.descripcion}}</td>
                   </tr>
                   <tr>
                     <td class="text-muted">Misi&oacute;n</td>
-                    <td style="text-align:right">{{ institucion.mision }}</td>
+                    <td style="text-align:left">{{ institucion.mision }}</td>
                   </tr>
 
                   <tr>
                     <td class="text-muted">Pais</td>
-                    <td style="text-align:right">{{ institucion.ciudad }}</td>
+                    <td style="text-align:left">{{ institucion.pais }}</td>
                   </tr>
 
                   <tr>
                     <td class="text-muted">P&aacute;gina Web</td>
-                    <td style="text-align:right">{{ institucion.web }}</td>
+                    <td style="text-align:left">{{ institucion.web }}</td>
                   </tr>
 
                   <tr>
                     <td class="text-muted">Recursos Ofrecidos</td>
-                    <td style="text-align:right">{{ institucion.recursos_ofrecidos }}</td>
+                    <td style="text-align:left">{{ institucion.recursosofrecidos }}</td>
                   </tr>
                   
 
@@ -190,38 +204,34 @@
                   </table>
                 </div>
               </div>
-            
           
-            </div>
-          </div>
-          </div>
           <!-- //////// INFORMACION CONTACTO /////////-->
-            <div class="col-sm-3" id="collapseContacto">
-              <div class="panel-heading btn-outline btn-warning" style="text-align:center">
+            <div class="col-sm-5" id="collapseContacto">
+              <div class="panel-heading btn-outline btn-info" style="text-align:center">
                 <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
               </div>
               <div id="collapseInfoContacto" class="panel-collapse collapse in">
                 <table class="table table-hover">
                 <tbody id="infoContactoBody">
                   <tr>
-                    <td class="text-muted">Nombre</td>
-                    <td style="text-align:right">{{ usuario.first_name }}</td>
+                    <td class="text-muted">Nombre  </td>
+                    <td style="text-align:left">{{ usuario.first_name }}</td>
                   </tr>
                   <tr>
-                    <td class="text-muted">Apellido</td>
-                    <td style="text-align:right">{{ usuario.last_name }}</td>
+                    <td class="text-muted">Apellido  </td>
+                    <td style="text-align:left">{{ usuario.last_name }}</td>
                   </tr>
                   <tr>
-                    <td class="text-muted">Tel&eacute;fono</td>
-                    <td style="text-align:right">{{ usuario.telefono }}</td>
+                    <td class="text-muted">Tel&eacute;fono  </td>
+                    <td style="text-align:left">{{ usuario.telefono }}</td>
                   </tr>
                   <tr>
-                    <td class="text-muted">Email</td>
-                    <td style="text-align:right">{{ usuario.email }}</td>
+                    <td class="text-muted">Email  </td>
+                    <td style="text-align:left">{{ usuario.email }}</td>
                   </tr>
                   <tr>
-                    <td class="text-muted">Website</td>
-                    <td style="text-align:right">{{ usuario.web }}</td>
+                    <td class="text-muted">Website  </td>
+                    <td style="text-align:left">{{ usuario.web }}</td>
                   </tr>
 
                 </tbody>
