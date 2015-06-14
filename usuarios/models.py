@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 import datetime
 
@@ -6,7 +7,7 @@ from django.contrib.auth.models import User
 from cities_light.models import City,Country
 
 """
-Autor: Rene Balda
+Autor: René Balda
 Nombre de funcion: definir_ruta_imagen
 Parametros: self,filename
 Salida: string que devuelve el directorio con un nombre generico para guardar la imagen
@@ -21,7 +22,10 @@ def definir_ruta_imagen(self,filename):
     nombre_archivo_hoy = "%s_%s"%(hoy,filename)
     return "usuarios/%s%s/fotos/%s"%(self.id_perfil,fecha_registro,nombre_archivo_hoy)
 
-
+def definir_ruta_imagen_institucion(self,filename):
+    hoy = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    nombre_archivo_hoy = "%s_%s"%(hoy,filename)
+    return "instituciones/%s%s/fotos/%s"%(self.siglas,self.id_institucion,nombre_archivo_hoy)
 
 class Perfil(User):
     id_perfil = models.AutoField(primary_key=True)
@@ -46,7 +50,7 @@ class Institucion(models.Model):
     id_institucion = models.AutoField(primary_key=True)
     nombre = models.CharField(unique=True, max_length=45)
     siglas = models.CharField(max_length=12)
-    logo = models.ImageField()
+    logo = models.ImageField(upload_to=definir_ruta_imagen_institucion,default='noPicture.png')
     descripcion = models.CharField(max_length=500)
     mision = models.CharField(max_length=500)
     ciudad = models.ForeignKey(City,related_name="ciudad_origen",default=None)

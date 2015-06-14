@@ -27,36 +27,32 @@
 
 {%block content%}
 
-    <div class="section-header" style="margin-bottom:10px">
+    <div class="section-header" >
       <div class="container">
-        <div class="row">
-        	
-          <div class="col-sm-12" >
-          	<div class="col-sm-3" style="width:25%;left:0%">
+        <div class="row">        	
+          <div class="col-sm-4 " align="left">
             <h1 class="animated slideInLeft">
             	<span >Datos Personales</span>
             </h1>
         	</div>
-        	<div class="col-sm-6" style="width:50%;left:20%">
+        	<div class="col-sm-4 hidden-xs" align="center">
             <h1 class="animated slideInLeft">
             	<span >Destacados</span>
             </h1>
         	</div>
-        	<div class="col-sm-3" style="width:25%;left:10%">
+        	<div class="col-sm-4 hidden-sm hidden-xs" align="right">
             <h1 class="animated slideInLeft">
             	<span >Notificaciones</span>
             </h1>
         	</div>
-          </div>
-
         </div>
       </div>
     </div>
+
     <div class="container">
     	<div class="row">
-    		<div class="col-sm-12">
     		<!--Columna de Datos Personales-->
-    		<div class="col-sm-3" style="left:0%;width:25%">
+    		<div class="col-md-3 col-sm-5 col-xs-12">
     			<div class="panel panel-dark" id="datos">
     				<div id="datosPersonales">
     					<div class="col-sm-3">
@@ -96,118 +92,115 @@
                   </div>
             </div>
     		<!--Columna de Destacados-->
-    			<div class="col-sm-6">
-            <div class="panel panel-blue">
-    				<table class="table table-hover" id="usuarioDestacados">
-    					<!--Recomendados-->
-    					<div class="panel-heading btn-circle">
-
-    							<h4 colspan="2" style="text-align:left">Recomendados</h4>
-
-    					</div>
-                    	<div class="panel-body">
-
-                        <div style="display:block;float:left;width:100%;margin:10px">
-                    			<div class="avatar-sm-container pull-left" style="width:75px;height:75px">
-                    				{% load staticfiles %}
-										        <img src="{% static "img/blog-1.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									        </div>
-									        <div>
-										        <p >Oferta Destacada</p>
-										        <p class="btn-sm">Descripci&oacute;n de la oferta</p>
-									        </div>
-                        </div>
-                        <div style="display:block;float:left;width:100%;margin:10px">
-                    			<div class="avatar-sm-container pull-left" style="width:75px;height:75px">
-                    					{% load staticfiles %}
-										        <img src="{% static "img/blog-2.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									         </div>
-									       <div>
-										        <p >Concurso Destacado</p>
-										        <p class="btn-sm">Descripci&oacute;n del concurso</p>
-									       </div>
-                  		</div>
-                    </div>
-                  		<!--Ofertas-->
-                  		<div class="panel-heading btn-circle">
-    							       <h4 colspan="2" style="text-align:left">Ofertas</h4>
-                  		</div>
-                  		<tbody>
-                 			<tr style="border-style:solid;border-width:1px">
-                  				<td>
-                    				<div class="avatar-sm-container pull-left" style="width:75px;height:75px"> 
-                    					{% load staticfiles %}
-										<img src="{% static "img/blog-3.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									</div>
-								</td>
-								<td >
-									<div>
-										<p >Oferta Destacada</p>
-										<p class="btn-sm">Descripci&oacute;n de la oferta</p>
-									</div>
-								</td>
-                  			</tr>
-                  			<tr style="border-style:solid;border-width:1px">
-                  				<td>
-                    				<div class="avatar-sm-container pull-left" style="width:75px;height:75px">
-                    					{% load staticfiles %}
-										<img src="{% static "img/face1.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									</div>
-								</td>
-								<td >
-									<div>
-										<p >Oferta Destacada</p>
-										<p class="btn-sm">Descripci&oacute;n de la oferta</p>
-									</div>
-								</td>
-                  			</tr>
-                    	</tbody>
-                    	<!--Concursos-->
-                  		<thead>
-                  			<tr>
-    							<th colspan="2" style="text-align:left">Concursos</th>
-                  			</tr>
-                  		</thead>
-                  		<tbody>
-                 			<tr style="border-style:solid;border-width:1px">
-                  				<td>
-                    				<div class="avatar-sm-container pull-left" style="width:75px;height:75px"> 
-                    					{% load staticfiles %}
-										<img src="{% static "img/iPad.png" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									</div>
-								</td>
-								<td >
-									<div>
-										<p >Concurso Destacado</p>
-										<p class="btn-sm">Descripci&oacute;n del concurso</p>
-									</div>
-								</td>
-                  			</tr>
-                  			<tr style="border-style:solid;border-width:1px">
-                  				<td>
-                    				<div class="avatar-sm-container pull-left" style="width:75px;height:75px">
-                    					{% load staticfiles %}
-										<img src="{% static "img/iMac.png" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									</div>
-								</td>
-								<td >
-									<div>
-										<p >Concurso Destacado</p>
-										<p class="btn-sm">Descripci&oacute;n del concurso</p>
-									</div>
-								</td>
-                  			</tr>
-                    	</tbody>
-                  	</table>
-    			</div>
+    		
+        <div class="section-header visible-xs">
+          <div class="container">
+            <div class="row">  
+              <div class="col-sm-4" align="left">
+                  <h1 class="animated slideInLeft">
+                    <span >Destacados</span>
+                  </h1>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div class="col-md-6 col-sm-7 col-xs-12">
+          <div class="panel panel-blue">
+            <table class="table table-hover" id="usuarioDestacados">
+              <div class="panel-heading btn-circle">
+                <h4 colspan="2" style="text-align:left">Concursos</h4>
+              </div>
+              <tbody>
+                  <tr style="border-style:solid;border-width:1px">
+                      <td>
+                          <div class="avatar-sm-container pull-left" style="width:75px;height:75px"> 
+                            {% load staticfiles %}
+                            <img src="{% static "img/blog-1.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
+                         </div>
+                      </td>
+                      <td >
+                        <div>
+                          <p >Concurso Destacado</p>
+                          <p class="btn-sm">Descripci&oacute;n del concurso</p>
+                        </div>
+                      </td>
+                  </tr>
+                  <tr style="border-style:solid;border-width:1px">
+                      <td>
+                        <div class="avatar-sm-container pull-left" style="width:75px;height:75px">
+                          {% load staticfiles %}
+                          <img src="{% static "img/blog-2.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
+                        </div>
+                      </td>
+                      <td >
+                        <div>
+                          <p >Concurso Destacado</p>
+                          <p class="btn-sm">Descripci&oacute;n del concurso</p>
+                        </div>
+                      </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel panel-blue">
+      			<table class="table table-hover" id="usuarioDestacados">
+              <div class="panel-heading btn-circle">
+    						<h4 colspan="2" style="text-align:left">Ofertas</h4>
+              </div>
+              <tbody>
+                 	<tr style="border-style:solid;border-width:1px">
+                  		<td>
+                    			<div class="avatar-sm-container pull-left" style="width:75px;height:75px"> 
+                    			  {% load staticfiles %}
+										        <img src="{% static "img/iPad.png" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
+									       </div>
+								      </td>
+								      <td >
+      									<div>
+      										<p >Oferta Destacada</p>
+      										<p class="btn-sm">Descripci&oacute;n de la oferta</p>
+      									</div>
+      								</td>
+                  </tr>
+                  <tr style="border-style:solid;border-width:1px">
+                  		<td>
+                    		<div class="avatar-sm-container pull-left" style="width:75px;height:75px">
+                    			{% load staticfiles %}
+										      <img src="{% static "img/iMac.png" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
+									      </div>
+								      </td>
+								      <td >
+      									<div>
+      										<p >Oferta Destacada</p>
+      										<p class="btn-sm">Descripci&oacute;n de la oferta</p>
+      									</div>
+      								</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+    		</div>
     			<!--Columna de Notificaciones-->
-    			<div class="col-sm-3" style="right:0%;width:25%">
+
+        <div class="section-header visible-xs visible-sm" >
+          <div class="container">
+            <div class="row">  
+              <div class="col-sm-4" align="left">
+                  <h1 class="animated slideInLeft">
+                    <span >Notificaciones</span>
+                  </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    		<div class="col-md-3 col-sm-12 col-xs-12" >
     				<div class="panel panel-dark">
               <div class="panel-heading btn-circle">
                       <h4 class="panel-title">Recientes</h4>
-                    </div>
-    				<table class="table table-hover" id="usuarioNoticias">
+              </div>
+    				    <table class="table table-hover" id="usuarioNoticias">
                     	<tbody>
                   			<tr>
                     			<td class="text-muted">Instituci&oacute;n</td>
@@ -226,14 +219,10 @@
                     			<td style="text-align:right">[Nombre del Concurso]</td>
                   			</tr>
                     	</tbody>
-                  	</table>
-                  	</div>
-    			</div>
+                </table>
+              </div>
+    		</div>
     		</div>
     	</div>
     </div>
-
-
-
-
 {%endblock%} 

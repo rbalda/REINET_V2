@@ -53,9 +53,7 @@ def registro_institucion(request):
 		try:
 			peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 			if (peticion.usado == 0) :
-				#No olvidar borrar los codigos referencia luego.
-				print "peticion no usada"
-
+				
 				siglas=request.POST['siglaInstitucion']
 				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
@@ -72,11 +70,10 @@ def registro_institucion(request):
 					image = request.FILES['logo']  #usar palabras en español
 				except:
 					image = "noPicture.png" #usar palabras en español
-				print "campos cargados"
+				
 				insti = Institucion(); #usar palabras completas no abreviaturas
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
-				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.web = web #usar palabras en español
@@ -85,6 +82,8 @@ def registro_institucion(request):
 				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
 				insti.ciudad = ciudad
 				insti.pais = pais
+				insti.save()
+				insti.logo = image
 				insti.save()
 
 				peticion.usado = 1
