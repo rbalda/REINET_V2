@@ -61,12 +61,12 @@ def registro_institucion(request):
 				mision=request.POST['misionInstitucion']
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion'] #usar palabras en español
-				mail=request.POST['emailInstitucion'] #usar palabras en español
-				telf=request.POST['telefonoInstitucion'] #usar palabras completas no abreviaturas
+				correo=request.POST['emailInstitucion'] #usar palabras en español
+				telefono=request.POST['telefonoInstitucion'] #usar palabras completas no abreviaturas
 				cargo = request.POST['cargoInstitucion']
 				cargo_desc = request.POST['cargoDescInstitucion']
-				ciudad=City.objects.get(id = request.POST['ciudadInstitucion']) #Por que siguen asignando valores estaticos?
-				pais=Country.objects.get(id = request.POST['paisInstitucion']) #Por que siguen asignando valores estaticos?
+				ciudad=City.objects.get(id = request.POST['ciudadInstitucion'])
+				pais=Country.objects.get(id = request.POST['paisInstitucion'])
 
 				try:
 					image = request.FILES['logo']  #usar palabras en español
@@ -80,8 +80,8 @@ def registro_institucion(request):
 				insti.mision = mision
 				insti.web = web #usar palabras en español
 				insti.recursos_ofrecidos = recursos
-				insti.correo = mail #usar palabras en español ? ves que si puedes angel
-				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
+				insti.correo = correo #usar palabras en español ? ves que si puedes angel
+				insti.telefono_contacto = telefono #usar palabras completas no abreviaturas
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
@@ -436,33 +436,33 @@ Descripción: envia la informacion del usuario a una plantilla html
 def perfilUsuario(request):
 
 
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args={}
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args={}
 
-    if usuario is not None:
-        args['usuario']=usuario
-        usuario.estado = 1
-        usuario.save()
-        perfil = Perfil.objects.get(username=usuario.username)
-        args['perfil']=perfil
-        membresia=Membresia.objects.filter(fk_usuario=usuario.id)
-        listaInstituciones = []
-        for num in range(0,membresia.count()):
-            listaInstituciones.append(Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
-        args['listaInstituciones']= listaInstituciones
-        institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
+	if usuario is not None:
+		args['usuario']=usuario
+		usuario.estado = 1
+		usuario.save()
+		perfil = Perfil.objects.get(username=usuario.username)
+		args['perfil']=perfil
+		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
+		listaInstituciones = []
+		for num in range(0,membresia.count()):
+			listaInstituciones.append(Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
+		args['listaInstituciones']= listaInstituciones
+		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
 #print institucion
-        args['institucion']=institucion
+		args['institucion']=institucion
 
-    else:
+	else:
 		args['error']="Error al cargar los datos"
 		return HttpResponseRedirect('/iniciarSesion/')
 
 
-    args.update(csrf(request))
-    #args['usuario']=usuario
-    return render_to_response('profile_usuario.html',args)
+	args.update(csrf(request))
+	#args['usuario']=usuario
+	return render_to_response('profile_usuario.html',args)
 
 
 """
@@ -723,16 +723,16 @@ def modificarPerfilInstitucion(request):
 	usuario_admin = request.user
 	membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
 	paises=Country.objects.all()
-	ciudades=City.objects.all().filter(country_id = 1)
+	ciudades=City.objects.all().filter(country_id = paises.first().id)
 	institucion = membresia.fk_institucion
 	if request.method=='POST':
 		#nombre=request.POST["nombre"]
 		#siglas=request.POST["siglas"]
 		#descripcion=request.POST["descripcion"]
 		#mision=request.POST["mision"]
-		web=request.POST["web"]
-		recursos=request.POST["recursos"]
-		mail=request.POST["correo"]
+		web=request.POST["webInstitucion"]
+		recursos=request.POST["recursosInstitucion"]
+		mail=request.POST["emailInstitucion"]
 
 
 		#institucion.nombre=nombre
@@ -744,7 +744,8 @@ def modificarPerfilInstitucion(request):
 		institucion.recursos=recursos
 
 		institucion.save()
-		return redirect('/perfilUsuario')
+
+		return HttpResponseRedirect('/perfilUsuario')
 	else:
 		#institucion=Institucion.objects.get()
 		args ={
