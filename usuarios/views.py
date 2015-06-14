@@ -745,13 +745,14 @@ def modificarPerfilInstitucion(request):
 
 		institucion.save()
 
-		return HttpResponseRedirect('/perfilUsuario')
+		return HttpResponseRedirect('/perfilInstitucion')
 	else:
 		#institucion=Institucion.objects.get()
+
 		args ={
 			"institucion":institucion,
 			"ciudades":ciudades,
 			"paises":paises
 		}
+		args.update(csrf(request))
 		return render(request,"institucion_editar.html",args)
-
