@@ -159,7 +159,7 @@
             <div class="col-sm-12" id="collapseGeneral">
               
                 <div class="panel-heading btn-outline btn-primary" style="text-align:center">
-                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral" href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
+                  <h4 class="panel-title"><a data-parent="collapseGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
                 </div>
                 <div id="collapseInfoGeneral" class="panel-collapse collapse in">
                   <table class="table table-hover">
@@ -257,9 +257,9 @@
           <!-- //////// INFORMACION CONTACTO /////////-->
             <div class="col-sm-3" id="collapseContacto">
               <div class="panel-heading btn-outline btn-warning" style="text-align:center">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
+                <h4 class="panel-title"><a data-parent="collapseContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
               </div>
-              <div id="collapseInfoContacto" class="panel-collapse collapse in">
+              <div id="collapseInfoContacto" class="panel-collapse collapse in" >
                 <table class="table table-hover">
                 <tbody id="infoContactoBody">
                   <tr>
@@ -280,7 +280,7 @@
                   </tr>
                   <tr>
                     <td class="text-muted">Website</td>
-                    <td style="text-align:right">{{ usuario.web }}</td>
+                    <td style="text-align:right;word-break: break-all;">{{ usuario.web }}</td>
                   </tr>
 
                 </tbody>
