@@ -221,8 +221,8 @@ def registro_usuario(request):
 				else:
 					return HttpResponseRedirect('/iniciarSesion')
 
-			except e:
-				print e.getMessage()
+			except:
+				#print e.getMessage()
 				mensaje="No se pudo crear el usuario"
 				args={}
 				args.update(csrf(request))
