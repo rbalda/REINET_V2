@@ -420,30 +420,33 @@ Descripción: envia la informacion del usuario a una plantilla html
 def perfilUsuario(request):
 
 
-	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
-	args={}
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
+    args={}
 
-	if usuario is not None:
-		args['usuario']=usuario
-		usuario.estado = 1
-		usuario.save()
-		perfil = Perfil.objects.get(username=usuario.username)
-		args['perfil']=perfil
-		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
-		#print membresia[0].idmembresia
-		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
-		#print institucion
-		args['institucion']=institucion
+    if usuario is not None:
+        args['usuario']=usuario
+        usuario.estado = 1
+        usuario.save()
+        perfil = Perfil.objects.get(username=usuario.username)
+        args['perfil']=perfil
+        membresia=Membresia.objects.filter(fk_usuario=usuario.id)
+        listaInstituciones = []
+        for num in range(0,membresia.count()):
+            listaInstituciones.append(Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
+        args['listaInstituciones']= listaInstituciones
+        institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
+#print institucion
+        args['institucion']=institucion
 
-	else:
+    else:
 		args['error']="Error al cargar los datos"
 		return HttpResponseRedirect('/iniciarSesion/')
 
 
-	args.update(csrf(request))
-	#args['usuario']=usuario
-	return render_to_response('profile_usuario.html',args)
+    args.update(csrf(request))
+    #args['usuario']=usuario
+    return render_to_response('profile_usuario.html',args)
 
 
 """

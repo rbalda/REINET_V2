@@ -167,11 +167,15 @@
 
                   <tr>
                     <td class="text-muted">Instituci&oacute;n</td>
-                    <td style="text-align:right">{{ institucion.nombre }}</td>
+                    <td style="text-align:right">
+                        {% for inst in listaInstituciones %}
+                            <a href="#">{{ inst.nombre }}</a><br/>
+                        {% endfor %}
+                    </td>
                   </tr>
                   <tr>
                     <td class="text-muted">Fecha de Registro</td>
-                    <td style="text-align:right">{{ usuario.fecharegistro }}</td>
+                    <td style="text-align:right">{{ perfil.fecha_registro }}</td>
                   </tr>
               <!--     <tr>
                     <td class="text-muted">&Aacute;reas de inter&eacute;s</td>
