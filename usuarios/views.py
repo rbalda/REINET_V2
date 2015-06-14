@@ -203,7 +203,7 @@ def registro_usuario(request):
 				membresia=Membresia()
 				membresia.es_administrator=0 #0 para falso 
 				membresia.cargo="Independiente" #independiente no hay cargo
-				membresia.descripcion="Independiente" #Descripcion no hay cargo
+				membresia.descripcion="Independiente" #Independiente no hay descripcion
 				membresia.fecha_aceptacion=datetime.datetime.now()
 				membresia.fecha_peticion=datetime.datetime.now()
 				membresia.ip_peticion=get_client_ip(request)
@@ -212,6 +212,17 @@ def registro_usuario(request):
 				membresia.fk_institucion=institucion
 				membresia.fk_usuario=perfil
 				membresia.save()
+
+				usuario = auth.authenticate(username=username,password=password)
+				args={}
+		
+				if usuario is not None:
+					if request.POST.has_key('remember_me'):
+						request.session.set_expiry(1209600) # 2 weeks
+					auth.login(request,usuario)
+					request.session['id_usuario']=usuario.id
+					return HttpResponseRedirect('/perfilUsuario')
+
 			except e:
 				print e.getMessage()
 				mensaje="No se pudo crear el usuario"
@@ -221,8 +232,6 @@ def registro_usuario(request):
 				args['paises']=paises
 				args['mensaje']=mensaje
 				return render_to_response('Usuario_Sign-up.html',args) 
-
-			return HttpResponseRedirect('/iniciarSesion/')
 		else:
 			args={}
 			args.update(csrf(request))
