@@ -55,9 +55,7 @@ def registro_institucion(request):
 		try:
 			peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 			if (peticion.usado == 0) :
-				#No olvidar borrar los codigos referencia luego.
-				print "peticion no usada"
-
+				
 				siglas=request.POST['siglaInstitucion']
 				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
@@ -74,11 +72,10 @@ def registro_institucion(request):
 					image = request.FILES['logo']  #usar palabras en español
 				except:
 					image = "noPicture.png" #usar palabras en español
-				print "campos cargados"
+				
 				insti = Institucion(); #usar palabras completas no abreviaturas
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
-				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.web = web #usar palabras en español
@@ -87,6 +84,8 @@ def registro_institucion(request):
 				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
 				insti.ciudad = ciudad
 				insti.pais = pais
+				insti.save()
+				insti.logo = image
 				insti.save()
 
 				peticion.usado = 1
@@ -690,33 +689,38 @@ Entrada: request POST
 Salida: Redireccion a perfil
 """
 @login_required
-def modificarPerfilInstitucion(request,idInstitucion):
-	usuario_admin = request.user
-	membresia = Membresia.objects.all().filter(fkusuario=usuario_admin, esadministrador_gt=0).first()
-	institucion = membresia.fkinstitucion
-	if request.method=='POST':
-		nombre=request.POST["nombre"]
-		siglas=request.POST["siglas"]
-		descripcion=request.POST["descripcion"]
-		mision=request.POST["mision"]
-		web=request.POST["web"]
-		recursos=request.POST["recursos"]
-		id=request.POST["id"]
+def modificarPerfilInstitucion(request):
+    usuario_admin = request.user
+    membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
+    paises=Country.objects.all()
+    ciudades=City.objects.all().filter(country_id = 1)
+    institucion = membresia.fk_institucion
+    if request.method=='POST':
+        #nombre=request.POST["nombre"]
+        #siglas=request.POST["siglas"]
+        #descripcion=request.POST["descripcion"]
+        #mision=request.POST["mision"]
+        web=request.POST["web"]
+        recursos=request.POST["recursos"]
+        mail=request.POST["correo"]
 
-		institucion.nombre=nombre
-		institucion.siglas=siglas
-		institucion.descripcion=descripcion
-		institucion.mision=mision
-		institucion.web=web
-		institucion.recursos=recursos
 
-		institucion.save()
-		return redirect('/perfilUsuario')
-	else:
-		institucion=Institucion.objects.get(id=idInstitucion)
-		args ={
-			"institucion":institucion
-		}
-		render(request,"institucion_edit_form.html",args)
+        #institucion.nombre=nombre
+        #institucion.siglas=siglas
+        #institucion.descripcion=descripcion
+        #institucion.mision=mision
+        institucion.correo=mail
+        institucion.web=web
+        institucion.recursos=recursos
 
+        institucion.save()
+        return redirect('/perfilUsuario')
+    else:
+        #institucion=Institucion.objects.get()
+        args ={
+            "institucion":institucion,
+            "ciudades":ciudades,
+            "paises":paises
+        }
+        return render(request,"institucion_editar.html",args)
 
