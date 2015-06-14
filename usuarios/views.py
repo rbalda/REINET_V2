@@ -340,6 +340,21 @@ def editar_usuario(request):
 
 		except:
 			foto = "noPicture.png"
+		try:
+			privacidadNom=request.POST['PrivacidadNombre']
+			privacidadApe=request.POST['PrivacidadApellido']
+			privacidadCed=request.POST['PrivacidadCedula']
+			privacidadTel=request.POST['PrivacidadTelefono']
+			privacidadWeb=request.POST['PrivacidadWeb']
+			privacidadMai=request.POST['PrivacidadMail']
+			if privacidadWeb=="1" and privacidadMai=="1":
+				privacidadWeb='3'
+			elif privacidadWeb=="0" and privacidadMai=="1":
+				privacidadWeb='2'
+			privacidad=privacidadNom+privacidadApe+privacidadCed+privacidadTel+privacidadWeb
+
+		except:
+			privacidad=11113
 
 		print foto
 		perfil=usuario
@@ -357,6 +372,7 @@ def editar_usuario(request):
 		perfil.telefono=telefono
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
+		perfil.privacidad=privacidad
 		perfil.foto=foto
 		perfil.save()
 
@@ -367,11 +383,11 @@ def editar_usuario(request):
 
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Roberto Yoncon
+Nombre de función: terms
+Parámetros: request
+Salida: http
+Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
 def terms(request):
@@ -420,30 +436,33 @@ Descripción: envia la informacion del usuario a una plantilla html
 def perfilUsuario(request):
 
 
-	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
-	args={}
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
+    args={}
 
-	if usuario is not None:
-		args['usuario']=usuario
-		usuario.estado = 1
-		usuario.save()
-		perfil = Perfil.objects.get(username=usuario.username)
-		args['perfil']=perfil
-		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
-		#print membresia[0].idmembresia
-		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
-		#print institucion
-		args['institucion']=institucion
+    if usuario is not None:
+        args['usuario']=usuario
+        usuario.estado = 1
+        usuario.save()
+        perfil = Perfil.objects.get(username=usuario.username)
+        args['perfil']=perfil
+        membresia=Membresia.objects.filter(fk_usuario=usuario.id)
+        listaInstituciones = []
+        for num in range(0,membresia.count()):
+            listaInstituciones.append(Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
+        args['listaInstituciones']= listaInstituciones
+        institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
+#print institucion
+        args['institucion']=institucion
 
-	else:
+    else:
 		args['error']="Error al cargar los datos"
 		return HttpResponseRedirect('/iniciarSesion/')
 
 
-	args.update(csrf(request))
-	#args['usuario']=usuario
-	return render_to_response('profile_usuario.html',args)
+    args.update(csrf(request))
+    #args['usuario']=usuario
+    return render_to_response('profile_usuario.html',args)
 
 
 """
@@ -701,37 +720,37 @@ Salida: Redireccion a perfil
 """
 @login_required
 def modificarPerfilInstitucion(request):
-    usuario_admin = request.user
-    membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
-    paises=Country.objects.all()
-    ciudades=City.objects.all().filter(country_id = 1)
-    institucion = membresia.fk_institucion
-    if request.method=='POST':
-        #nombre=request.POST["nombre"]
-        #siglas=request.POST["siglas"]
-        #descripcion=request.POST["descripcion"]
-        #mision=request.POST["mision"]
-        web=request.POST["web"]
-        recursos=request.POST["recursos"]
-        mail=request.POST["correo"]
+	usuario_admin = request.user
+	membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
+	paises=Country.objects.all()
+	ciudades=City.objects.all().filter(country_id = 1)
+	institucion = membresia.fk_institucion
+	if request.method=='POST':
+		#nombre=request.POST["nombre"]
+		#siglas=request.POST["siglas"]
+		#descripcion=request.POST["descripcion"]
+		#mision=request.POST["mision"]
+		web=request.POST["web"]
+		recursos=request.POST["recursos"]
+		mail=request.POST["correo"]
 
 
-        #institucion.nombre=nombre
-        #institucion.siglas=siglas
-        #institucion.descripcion=descripcion
-        #institucion.mision=mision
-        institucion.correo=mail
-        institucion.web=web
-        institucion.recursos=recursos
+		#institucion.nombre=nombre
+		#institucion.siglas=siglas
+		#institucion.descripcion=descripcion
+		#institucion.mision=mision
+		institucion.correo=mail
+		institucion.web=web
+		institucion.recursos=recursos
 
-        institucion.save()
-        return redirect('/perfilUsuario')
-    else:
-        #institucion=Institucion.objects.get()
-        args ={
-            "institucion":institucion,
-            "ciudades":ciudades,
-            "paises":paises
-        }
-        return render(request,"institucion_editar.html",args)
+		institucion.save()
+		return redirect('/perfilUsuario')
+	else:
+		#institucion=Institucion.objects.get()
+		args ={
+			"institucion":institucion,
+			"ciudades":ciudades,
+			"paises":paises
+		}
+		return render(request,"institucion_editar.html",args)
 
