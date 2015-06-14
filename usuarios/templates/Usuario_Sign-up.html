@@ -112,7 +112,7 @@
 
       function validarURL (abc) {
               var string = abc.value;
-              if (!~string.indexOf("http")){
+              if (!~string.indexOf("http") && string!=""){
                   string = "http://" + string;
               }
               abc.value = string;
@@ -152,129 +152,119 @@
           <h3 class="hl top-zero">Registro de Usuario</h3>
           <hr>
 
-          <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"> {%csrf_token%}
-             <div class="form-group">
-              <label for="Username" class="col-md-4">USUARIO</label>
-              <div class="col-md-8">
-                <input required autofocus type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
-              </div>
+          <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data" > {%csrf_token%}
+            <div class="form-group">
+              <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
             </div>
             <div class="form-group">
               <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as no coinciden</label>
             </div>
-              <div class="form-group">
-              <label for="PaswordNueva" class="col-md-4">CONTRASE&ntilde;A</label>
-                <div class="col-md-8">
-                <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contrase&ntilde;a" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
+               <div class="form-group">
+              <div class="row">
+                <div class="col-sm-6">
+                  <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
                 </div>
-
-            </div>
-             
-            <div class="form-group">
-              <label for="Pasword" class="col-md-4">REPETIR CONTRASE&Ntilde;A</label>
-              <div class="col-md-8">
-              <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contrase&ntilde;a" data-toggle="popover" data-trigger="focus" data-content="Make sure you still remember it." data-original-title="Repeat Password" onchange="validarPassword2()">
+                <div class="col-sm-6">
+                  <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Asegurate de recordarla" data-original-title="Repeat Password" onchange="validarPassword2()">
+                </div>
               </div>
             </div>
-
-            <div class="form-group">
-              <label for="Username" class="col-md-4">NOMBRES</label>
-              <div class="col-md-8">
-              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" onkeypress="return validarLetras(event)">
-              </div>
+  <div class="form-group">
+              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
             </div>
             <div class="form-group">
-              <label for="Apellidos" class="col-md-4">APELLIDOS</label>
-              <div class="col-md-8">
-              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" onkeypress="return validarLetras(event)">
-              </div>
+              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
             </div>
             <div class="form-group">
               <label class="info-board-red" id="errorCedula" style="display: none; color: red">C&eacute;dula debe contener 10 d&iacute;gitos</label>
             </div>
+           
             <div class="form-group">
-              <label for="Identificacion" class="col-md-4">IDENTIFICACI&Oacute;N</label>
-              <div class="col-md-8">
-                <input required type="text" maxlength="10" pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificaci&oacute;n" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
-                       onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
-              </div>
+              <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
             </div>
-
+             
             <div class="form-group">
-              <label for="Pais" class="col-md-4">PA&Iacute;S</label>
-              <div class="col-md-8">
-
-                  <select class="form-control" name="pais">
-                    <optgroup label="Pais">
-                        {%for pais in paises%}
-                         <option value="{{pais.id}}">{{pais.name}}</option>
-                        {%endfor%}
+            <select class="form-control" id="pais" name="pais">
+          <optgroup label="Pais">
+                    {%for pais in paises%}
+                     <option value="{{pais.id}}">{{pais.name}}</option>
+                    {%endfor%}
                     </optgroup>
-                  </select>
-              </div>
-            </div>
-
-
-            <div class="form-group">
-              <label for="Telefono" class="col-md-4">TEL&Eacute;FONO</label>
-              <div class="col-md-8">
-                  <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Tel&eacute;fono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu telefono aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
-              </div>
-            </div>
-           <!--  <div class="form-group">
-              <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Cargo">
-            </div> -->
-
-
-           <!--  <div class="form-group">
-              <input type="text" class="form-control" id="actividad" name="actividad" placeholder="Actividad que realiza" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa la actividad que realizas aquí." data-original-title="Actividad">
-            </div> -->
-
-             <div class="form-group">
-              <label for="Website" class="col-md-4">SITIO WEB</label>
-              <div class="col-md-8">
-                <input type="url" class="form-control" id="website" onblur="validarURL(this)" name="website" placeholder="Sitio Web" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
-              </div>
-            </div>
-
-
-            <div class="form-group">
-              <label for="Email" class="col-md-4">EMAIL</label>
-              <div class="col-md-8">
-                <input required type="email" class="form-control" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
-              </div>
+             </select>
             </div>
             
-            <!-- <div class="form-group">
-              <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Ciudad" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu ciudad aquí." data-original-title="Ciudad">
-            </div> 
-             -->
-          <!--    <div class="form-group">
-              <input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de nacimiento" onfocus="(this.type='date')" onblur="(this.type='text')" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu fecha de nacimiento aquí." data-original-title="fechaNacimiento">
+            <div class="form-group">
+              <label for="ciudad">Ciudad</label>
+              <select class="form-control" name="ciudad" id="ciudad" required>
+                  <optgroup id="optsCiudades" label="Ciudad">
+                      {%for ciudad in ciudades%}
+                          <option value="{{ciudad.id}}">{{ciudad.name}}</option>
+                      {%endfor%}
+                  </optgroup>
+              </select>
             </div>
-             -->
-            <!--  <div class="form-group">
-              <input type="text" class="form-control" id="areasInteres" name="areasInteres" placeholder="Áreas de interés" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus áreas de interés aquí." data-original-title="Areas">
-            </div> -->
 
             <div class="form-group">
-                  <label class="col-md-4">FOTO</label>
-                   <div class="col-md-8">
-                    <input type="file" name="imagen" id="imagen" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese foto del usuario" data-original-title="Imagen" onchange="readURL(this);" required>
-                    <img id="blah" src="#" alt="T&uacute; foto" />
-                   </div>
+              <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
             </div>
-
+     
+            
+             <div class="form-group">
+              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" onblur="validarURL(this)" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
+            </div> 
+            
+                       
+            <div class="form-group">
+              <input required type="email" class="form-control" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
+            </div>
             <div class="checkbox">
               <label>
                 <input type="checkbox" required> Estoy de acuerdo con los <a href="/terms/">T&eacute;rminos y Condiciones</a>.
               </label>
             </div>
-            <button type="submit" class="btn btn-green">Crear Cuenta</button>
+            <button required type="submit" class="btn btn-green">Crear Cuenta</button>
             <a style="float:right" class="btn btn-green" href="/iniciarSesion/">Ya poseo una cuenta</a>
           </form>
         </div>
       </div>
     </div>
 
+
+    <script type="text/javascript">
+
+  $(document).ready(function(){
+    /*
+    * Autor: Angel Guale 
+      Nombre de función: obtiene las ciudades al cargar y al cambiar
+      Salida: Muestra las ciudades del pais seleccionado
+      Descripción: obtiene las ciudades mediante ajax
+
+    * */
+
+  $("#pais").bind('change',function () {
+    console.log($("#pais option:selected").val());
+    $.ajax({
+      type: "POST",
+      url: "/getCiudades",
+      data: {
+          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+          'paisId' : $("#pais option:selected").val()
+      },
+      success: ciudadSuccess,
+      dataType: 'html'
+    });
+  });
+    //para que se cambie hasta cuando carga
+    $('#pais').trigger('change');
+
+});
+
+  function ciudadSuccess(data, textStatus, jqXHR){
+    console.log("Succees");
+    $("#optsCiudades").html(data);
+    console.log(data);
+  }
+</script>
  {% endblock %}
+
+
