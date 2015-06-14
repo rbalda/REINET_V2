@@ -12,7 +12,7 @@ $('#instBtnContinuar').click(function(){
 });
 
 function codeSuccess(data, textStatus, jqXHR){
-    $('#formulario').append(data);
+    $('#formulario').html(data);
     $('#codigoInstitucion').remove();
     $('#instBtnContinuar').remove();
 }

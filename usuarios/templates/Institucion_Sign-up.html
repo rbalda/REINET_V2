@@ -1,6 +1,6 @@
 {% extends "base.tpl.html" %}
 {% block home %}
-        <a class="navbar-brand link" href="#" >REI-NET</a>
+        <a class="navbar-brand link" href="/inicioUsuario/" >REI-NET</a>
 {% endblock %}
 {% block signin %}
 <li id="usuario" class="show">
@@ -8,8 +8,8 @@
   </a>
   <ul class="dropdown-menu">
   <li><a href="/perfilUsuario" >Mi Perfil</a></li>
-  <li><a href="/registro_institucion">Registrar Institucion 2</a></li>
-  <li><a href="/logOut/" >Cerrar Sesi&oacute;n</a></li>
+  <li><a href="/registro_institucion">Registrar Institucion</a></li>
+  <li><a href="/cerrarSesion/" >Cerrar Sesi&oacute;n</a></li>
   </ul>
 </li>
 <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
@@ -39,8 +39,10 @@
             </div>
 
             <button id="instBtnContinuar" class="btn btn-green">Continuar</button>
-            <form role="form" action="/registro_institucion" method="post" enctype="multipart/form-data" id="formulario">{%csrf_token%}
+            <form role="form" action="/registro_institucion" method="post" enctype="multipart/form-data">{%csrf_token%}
+              <div id='formulario'>
 
+              </div>
             </form>
         </div>
       </div>
