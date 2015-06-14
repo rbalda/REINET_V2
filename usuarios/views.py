@@ -98,9 +98,9 @@ def registro_institucion(request):
 				membresia.es_administrator = 1 #usar palabras en español NO SPANGLISH xD
 				membresia.cargo = cargo
 				membresia.descripcion_cargo = cargo_desc #decidansen palabras completas o cortas, o usar identificadores para variables de nombres iguales
-				membresia.fecha_peticion = '2015-06-10' #Por que siguen asignando valores estaticos?
-				membresia.fecha_aceptacion = '2015-06-10' #Por que siguen asignando valores estaticos?
-				membresia.ip_peticion = '127.0.0.1' #Por que siguen asignando valores estaticos?
+				membresia.fecha_peticion = datetime.datetime.now() #Por que siguen asignando valores estaticos?
+				membresia.fecha_aceptacion = datetime.datetime.now() #Por que siguen asignando valores estaticos?
+				membresia.ip_peticion = get_client_ip(request) #Por que siguen asignando valores estaticos?
 				membresia.estado = 1
 				membresia.fk_institucion = insti
 				membresia.fk_usuario = Perfil.objects.get(id = request.session['id_usuario'])
