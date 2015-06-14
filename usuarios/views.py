@@ -59,7 +59,6 @@ def registro_institucion(request):
 				siglas=request.POST['siglaInstitucion']
 				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
-				#ub=request.POST['pais'] #usar palabras completas no abreviaturas
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion'] #usar palabras en español
 				mail=request.POST['emailInstitucion'] #usar palabras en español
@@ -73,20 +72,17 @@ def registro_institucion(request):
 					image = request.FILES['logo']  #usar palabras en español
 				except:
 					image = "noPicture.png" #usar palabras en español
-
+				print "campos cargados"
 				insti = Institucion(); #usar palabras completas no abreviaturas
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
 				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
-				#insti.ubicacion = ub
 				insti.web = web #usar palabras en español
 				insti.recursos_ofrecidos = recursos
 				insti.correo = mail #usar palabras en español ? ves que si puedes angel
 				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
-				#ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
-				#pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
@@ -115,7 +111,7 @@ def registro_institucion(request):
 				except:
 					print "membresia no encontrada" #borrar cuando no lo necesiten mas, no olvidar
 					#falta retroalimentacion para el usuario.
-				return redirect('/inicioUsuario')
+				return redirect('/perfilInstitucion')
 			else:
 				print "peticion ya usada" #borrar cuando no lo necesiten mas, no olvidar
 				#falta retroalimentacion para el usuario.
