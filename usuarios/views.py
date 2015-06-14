@@ -654,3 +654,41 @@ Descripción: maneja el error de csrf
 """
 def csrf_failure(request, reason=""):
 	return HttpResponseRedirect('/index/')
+
+
+"""
+Autor: Erika Narvaez
+Nombre de funcion: modificarPerfilInstitucion
+Entrada: request POST
+Salida: Redireccion a perfil
+"""
+@login_required
+def modificarPerfilInstitucion(request,idInstitucion):
+    usuario_admin = request.user
+    membresia = Membresia.objects.all().filter(fkusuario=usuario_admin, esadministrador_gt=0).first()
+    institucion = membresia.fkinstitucion
+    if request.method=='POST':
+        nombre=request.POST["nombre"]
+        siglas=request.POST["siglas"]
+        descripcion=request.POST["descripcion"]
+        mision=request.POST["mision"]
+        web=request.POST["web"]
+        recursos=request.POST["recursos"]
+        id=request.POST["id"]
+
+        institucion.nombre=nombre
+        institucion.siglas=siglas
+        institucion.descripcion=descripcion
+        institucion.mision=mision
+        institucion.web=web
+        institucion.recursos=recursos
+
+        institucion.save()
+        return redirect('/perfilUsuario')
+    else:
+        institucion=Institucion.objects.get(id=idInstitucion)
+        args ={
+            "institucion":institucion
+        }
+        render(request,"institucion_edit_form.html",args)
+
