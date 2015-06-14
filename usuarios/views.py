@@ -222,6 +222,8 @@ def registro_usuario(request):
 					auth.login(request,usuario)
 					request.session['id_usuario']=usuario.id
 					return HttpResponseRedirect('/perfilUsuario')
+				else:
+					return HttpResponseRedirect('/iniciarSesion')
 
 			except e:
 				print e.getMessage()
