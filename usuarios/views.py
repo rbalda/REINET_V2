@@ -191,7 +191,7 @@ def registro_usuario(request):
 			
 				pais=Country.objects.get(id=pais_selected)
 				ciudad=City.objects.get(id=ciudad_selected) 
-
+				perfil.privacidad=11113
 				perfil.fk_ciudad=ciudad
 				perfil.fk_pais=pais
 				perfil.ip_registro=get_client_ip(request)
