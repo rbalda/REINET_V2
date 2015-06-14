@@ -43,7 +43,7 @@
               </li>
               <li>
                 <a href="/editar_perfil_institucion/">
-                  <i class="sign fa fa-edit bg-blue"></i> Editar Perfil <i class="fa fa-chevron-right pull-right"></i>
+                  <i class="sign fa fa-edit bg-blue"></i> Editar Instituci&oacute;n <i class="fa fa-chevron-right pull-right"></i>
                 </a>  
               </li>
               <li>
@@ -52,7 +52,7 @@
                 </a>  
               </li>
               <li>
-                <a href="#">
+                <a href="/cerrarSesion/">
                   <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
                 </a>  
               </li>
@@ -125,8 +125,8 @@
                 <small> {{institucion.siglas}} </small></h3>
               <hr>
 
-              <div class="bottom-15">
-                <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#sendemail"><i class="fa fa-envelope"></i> Redactar Mensaje</a> 
+              <div class="bottom-15" style="text-align:center">
+                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i class="fa fa-envelope"></i> Redactar Mensaje</a> 
                 
                 <!-- //// VENTANA EMERGENTE EMAIL ///// 
                 <div class="modal fade" id="sendemail" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
@@ -166,9 +166,9 @@
           <!-- //////// INFORMACION GENERAL /////////-->
           <div class="row">
             <div class="col-sm-12">
-            <div class="col-sm-7" id="collapseGeneral">
+            <div class="col-sm-6" id="collapseGeneral">
               
-                <div class="panel-heading btn-outline btn-success" style="text-align:center">
+                <div class="panel-heading btn-outline btn-success" style="text-align:center;background-color:#A2B2AC">
                   <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral" href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
                 </div>
                 <div id="collapseInfoGeneral" class="panel-collapse collapse in">
@@ -206,8 +206,8 @@
               </div>
           
           <!-- //////// INFORMACION CONTACTO /////////-->
-            <div class="col-sm-5" id="collapseContacto">
-              <div class="panel-heading btn-outline btn-info" style="text-align:center">
+            <div class="col-sm-6" id="collapseContacto">
+              <div class="panel-heading btn-outline btn-primary" style="text-align:center;background-color:#123A82">
                 <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
               </div>
               <div id="collapseInfoContacto" class="panel-collapse collapse in">
