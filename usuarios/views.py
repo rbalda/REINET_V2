@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.context_processors import csrf
+from django.core.urlresolvers import reverse
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -58,6 +59,7 @@ def registro_institucion(request):
 				siglas=request.POST['siglaInstitucion']
 				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
+				#ub=request.POST['pais'] #usar palabras completas no abreviaturas
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion'] #usar palabras en español
 				mail=request.POST['emailInstitucion'] #usar palabras en español
@@ -71,17 +73,20 @@ def registro_institucion(request):
 					image = request.FILES['logo']  #usar palabras en español
 				except:
 					image = "noPicture.png" #usar palabras en español
-				print "campos loaded"
+
 				insti = Institucion(); #usar palabras completas no abreviaturas
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
 				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
+				#insti.ubicacion = ub
 				insti.web = web #usar palabras en español
 				insti.recursos_ofrecidos = recursos
 				insti.correo = mail #usar palabras en español ? ves que si puedes angel
 				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
+				#ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
+				#pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
@@ -110,7 +115,7 @@ def registro_institucion(request):
 				except:
 					print "membresia no encontrada" #borrar cuando no lo necesiten mas, no olvidar
 					#falta retroalimentacion para el usuario.
-				return redirect('/perfilInstitucion')
+				return redirect('/inicioUsuario')
 			else:
 				print "peticion ya usada" #borrar cuando no lo necesiten mas, no olvidar
 				#falta retroalimentacion para el usuario.
@@ -239,7 +244,7 @@ Parámetros: request
 Salida: hhtp
 Descripción: permite el login de un usuario registrado
 """
-
+#usar palabras en español
 def iniciarSesion(request):
 
 
@@ -276,11 +281,11 @@ Parámetros: request
 Salida: hhtp
 Descripción: hace el logout del usuario y redirecciona a index
 """
-
+#usar palabras en español
 def cerrarSesion(request):
 
 
-	logout(request)
+	cerrarSesion(request)
 	return redirect('/')
 
 
@@ -473,8 +478,6 @@ Responde con un formulario vacio de registro de institucion
 """
 @login_required
 def verificarCodigo(request):
-
-
 	if request.method == 'POST':
 		args={}
 		codigo = request.POST['codigo']
@@ -494,6 +497,8 @@ def verificarCodigo(request):
 				return render_to_response('codigo_usado.html')
 		except:
 			return render_to_response('nocodigo.html')
+
+
 """
 Autor: Pedro Iniguez
 Nombre de funcion: obtenerCiudades
@@ -595,7 +600,7 @@ def enviarEmailPassword(request):
 		if destinatario and usuario:
 			try:
 				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>"%(username,password)
-				msg = EmailMultiAlternatives('Credenciales de Acceso a ReiNet',html_content,'REINET <from@server.com>',[destinatario])
+				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet',html_content,'REINET <from@server.com>',[destinatario])
 				msg.attach_alternative(html_content,'text/html')
 				msg.send()
 				args['tipo'] = 'success'
