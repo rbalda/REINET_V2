@@ -134,7 +134,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/modificarPerfilInstitucion/">
                         <i class="sign fa fa-edit bg-green"></i> Editar Perfil <i class="fa fa-chevron-right pull-right"></i>
                     </a>
                 </li>
@@ -244,15 +244,8 @@
                                data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required value="{{ institucion.web }}">
                     </div>
                     <label for="logo">Logo</label>
-                    <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo" onchange="readURL(this);" required>
+                    <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo" onchange="readURL(this);">
                     <img id="blah" src="#" alt="your image" />
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" required> Estoy de acuerdo con los <a href="#">Términos de servicio</a> y las
-                            <a href="#">Politicas de Privacidad</a>
-                        </label>
-                    </div>
 
                     <button style="float:right" class="btn btn-green">Aceptar</button>
                 </form>
@@ -296,35 +289,53 @@
                                         <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">Confirmar</button>
                                     </div>
 
-                                    <script>
-                                        /*
-                                         Autor: Kevin Zambrano y Fausto Mora
-                                         Nombre de funcion: funciones anonimas
-                                         Entrada: eventos
-                                         Salida: http
-                                         Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
-                                         */
+    <script>
+        /*
+         Autor: Kevin Zambrano y Fausto Mora
+         Nombre de funcion: funciones anonimas
+         Entrada: eventos
+         Salida: http
+         Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
+         */
 
-                                        $(document).ready(function(){
+        $(document).ready(function(){
 
-                                            $('#btn_suspenderCuenta').attr('disabled','disabled');
+            $('#btn_suspenderCuenta').attr('disabled','disabled');
 
-                                            $('#txt_password_ingresada').change(function() {
-                                                $('#btn_suspenderCuenta').removeAttr('disabled');
+            $('#txt_password_ingresada').change(function() {
+                $('#btn_suspenderCuenta').removeAttr('disabled');
 
-                                            });
+            });
 
 
-                                            $('#btn_suspenderCuenta').popover({
-                                                html : true,
-                                                content: function() {
-                                                    return $('#popover_content_wrapper').html();
-                                                }
-                                            });
+            $('#btn_suspenderCuenta').popover({
+                html : true,
+                content: function() {
+                    return $('#popover_content_wrapper').html();
+                }
+            });
 
-                                        });
+        });
+         $("#paisInstitucion").change(function () {
+            console.log('hellou its me');
+            console.log($("#paisInstitucion option:selected").val());
+            $.ajax({
+              type: "POST",
+              url: "/getCiudades",
+              data: {
+                  'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+                  'paisId' : $("#paisInstitucion option:selected").val()
+              },
+              success: ciudadSuccess,
+              dataType: 'html'
+            });
+            console.log('bye');
+          });
 
-                                    </script>
+          function ciudadSuccess(data, textStatus, jqXHR){
+            $("#optsCiudades").html(data);
+          }
+    </script>
 
                                 </form>
                             </div>
