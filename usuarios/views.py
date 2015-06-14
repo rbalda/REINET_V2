@@ -340,6 +340,21 @@ def editar_usuario(request):
 
 		except:
 			foto = "noPicture.png"
+		try:
+			privacidadNom=request.POST['PrivacidadNombre']
+			privacidadApe=request.POST['PrivacidadApellido']
+			privacidadCed=request.POST['PrivacidadCedula']
+			privacidadTel=request.POST['PrivacidadTelefono']
+			privacidadWeb=request.POST['PrivacidadWeb']
+			privacidadMai=request.POST['PrivacidadMail']
+			if privacidadWeb=="1" and privacidadMai=="1":
+				privacidadWeb='3'
+			elif privacidadWeb=="0" and privacidadMai=="1":
+				privacidadWeb='2'
+			privacidad=privacidadNom+privacidadApe+privacidadCed+privacidadTel+privacidadWeb
+
+		except:
+			privacidad=11113
 
 		print foto
 		perfil=usuario
@@ -357,6 +372,7 @@ def editar_usuario(request):
 		perfil.telefono=telefono
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
+		perfil.privacidad=privacidad
 		perfil.foto=foto
 		perfil.save()
 
@@ -367,11 +383,11 @@ def editar_usuario(request):
 
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Roberto Yoncon
+Nombre de función: terms
+Parámetros: request
+Salida: http
+Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
 def terms(request):
@@ -693,37 +709,37 @@ Salida: Redireccion a perfil
 """
 @login_required
 def modificarPerfilInstitucion(request):
-    usuario_admin = request.user
-    membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
-    paises=Country.objects.all()
-    ciudades=City.objects.all().filter(country_id = 1)
-    institucion = membresia.fk_institucion
-    if request.method=='POST':
-        #nombre=request.POST["nombre"]
-        #siglas=request.POST["siglas"]
-        #descripcion=request.POST["descripcion"]
-        #mision=request.POST["mision"]
-        web=request.POST["web"]
-        recursos=request.POST["recursos"]
-        mail=request.POST["correo"]
+	usuario_admin = request.user
+	membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
+	paises=Country.objects.all()
+	ciudades=City.objects.all().filter(country_id = 1)
+	institucion = membresia.fk_institucion
+	if request.method=='POST':
+		#nombre=request.POST["nombre"]
+		#siglas=request.POST["siglas"]
+		#descripcion=request.POST["descripcion"]
+		#mision=request.POST["mision"]
+		web=request.POST["web"]
+		recursos=request.POST["recursos"]
+		mail=request.POST["correo"]
 
 
-        #institucion.nombre=nombre
-        #institucion.siglas=siglas
-        #institucion.descripcion=descripcion
-        #institucion.mision=mision
-        institucion.correo=mail
-        institucion.web=web
-        institucion.recursos=recursos
+		#institucion.nombre=nombre
+		#institucion.siglas=siglas
+		#institucion.descripcion=descripcion
+		#institucion.mision=mision
+		institucion.correo=mail
+		institucion.web=web
+		institucion.recursos=recursos
 
-        institucion.save()
-        return redirect('/perfilUsuario')
-    else:
-        #institucion=Institucion.objects.get()
-        args ={
-            "institucion":institucion,
-            "ciudades":ciudades,
-            "paises":paises
-        }
-        return render(request,"institucion_editar.html",args)
+		institucion.save()
+		return redirect('/perfilUsuario')
+	else:
+		#institucion=Institucion.objects.get()
+		args ={
+			"institucion":institucion,
+			"ciudades":ciudades,
+			"paises":paises
+		}
+		return render(request,"institucion_editar.html",args)
 

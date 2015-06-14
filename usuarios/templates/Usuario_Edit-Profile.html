@@ -162,30 +162,54 @@ Descripción: salida del http al escribir una url
                 
                 <div class="form-group">
                   <label for="Nombres" class="col-md-2">Nombres</label>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <input required autofocus type="text" class="form-control"  onkeypress="return validarLetras(event);" id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" value = '{{ usuario.first_name }}'>
+                    </div>
+                    <div class="col-md-2">
+                      <select name="PrivacidadNombre" id="PrivacidadNombre"> 
+                        <option value="1" {% if usuario.privacidad|get_digit:5 == 1 %}selected{% endif %}>P&uacute;blico</option>
+                        <option value="0" {% if usuario.privacidad|get_digit:5 == 0 %}selected{% endif %}>No Visible</option> 
+                      </select> 
                     </div>
                 </div>
 
                   <div class="form-group">
                   <label for="Apellidos" class="col-md-2">Apellidos</label>
-                      <div class="col-md-10">
+                      <div class="col-md-8">
                         <input required type="text" class="form-control" onkeypress="return validarLetras(event);" id="apellidos" name="apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" value="{{ usuario.last_name }}">
                       </div>
-                      </div>
+                      <div class="col-md-2">
+                      <select name="PrivacidadApellido" id="PrivacidadApellido"> 
+                        <option value="1" {% if usuario.privacidad|get_digit:4 == 1 %}selected{% endif %}>P&uacute;blico</option>
+                        <option value="0" {% if usuario.privacidad|get_digit:4 == 0 %}selected{% endif %}>No Visible</option>
+                      </select> 
+                    </div>
+                  </div>
                
                 <div class="form-group">
                   <label for="Cedula" class="col-md-2">C&eacute;dula</label>
-                     <div class="col-md-10">
+                     <div class="col-md-8">
                         <input required type="text"  disabled pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" value="{{ usuario.cedula }}" onkeypress="return validarNumero(event);">
 
                      </div>
+                     <div class="col-md-2">
+                      <select name="PrivacidadCedula" id="PrivacidadCedula"> 
+                        <option value="1" {% if usuario.privacidad|get_digit:3 == 1 %}selected{% endif %}>P&uacute;blico</option>
+                        <option value="0" {% if usuario.privacidad|get_digit:3 == 0 %}selected{% endif %}>No Visible</option>
+                      </select> 
+                    </div>
                 </div>
                 <div class="form-group">
                   <label for="Telefono" class="col-md-2">Tel&eacute;fono</label>
-                       <div class="col-md-10">
+                       <div class="col-md-8">
                          <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" value="{{ usuario.telefono }} " onkeypress="return validarNumero(event);">
                        </div>
+                    <div class="col-md-2">
+                      <select name="PrivacidadTelefono" id="PrivacidadTelefono"> 
+                        <option value="1" {% if usuario.privacidad|get_digit:2 == 1 %}selected{% endif %}>P&uacute;blico</option>
+                        <option value="0" {% if usuario.privacidad|get_digit:2 == 0 %}selected{% endif %}>No Visible</option> 
+                      </select> 
+                    </div>
                 </div>
                 <!--
                 <div class="form-group">
@@ -202,15 +226,27 @@ Descripción: salida del http al escribir una url
                 
                  <div class="form-group">
                   <label for="Sitio Web" class="col-md-2">Sitio Web</label>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                        <input type="url" class="form-control" id="website" onblur="validarURL(this)" name="website" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web" value= '{{ usuario.web }}'>
+                    </div>
+                    <div class="col-md-2">
+                      <select name="PrivacidadWeb" id="PrivacidadWeb"> 
+                        <option value="1" {% if usuario.privacidad|get_digit:1 == 1 or usuario.privacidad|get_digit:1 == 3 %}selected{% endif %}>P&uacute;blico</option>
+                        <option value="0" {% if usuario.privacidad|get_digit:1 == 0 or usuario.privacidad|get_digit:1 == 2 %}selected{% endif %}>No Visible</option> 
+                      </select> 
                     </div>
                 </div>
                            
                 <div class="form-group">
                   <label for="Email" class="col-md-2">Email</label>
-                     <div class="col-md-10">
+                     <div class="col-md-8">
                         <input required type="email" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email" value="{{ usuario.email }}">
+                    </div>
+                    <div class="col-md-2">
+                      <select name="PrivacidadMail" id="PrivacidadMail"> 
+                        <option value="1" {% if usuario.privacidad|get_digit:1 >= 2 %}selected{% endif %}>P&uacute;blico</option>
+                        <option value="0" {% if usuario.privacidad|get_digit:1 <= 1 %}selected{% endif %}>No Visible</option> 
+                      </select> 
                     </div>
                 </div>
                 <!--
