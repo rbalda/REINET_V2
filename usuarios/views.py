@@ -611,6 +611,17 @@ def verificar_username(request):
 		else:
 			return HttpResponse("ok")
 	return HttpResponse("no es post")
+
+def verCualquierUsuario(request):
+	username=request.GET.get('u', '')
+	if username!="":
+		perfil=Perfil.objects.get(username=username)
+		if username is not None:
+			args={}
+			args['usuario']=perfil
+			return render_to_response("Usuario_vercualquierPerfil.html", args)
+	
+
 """
 Autor: Fausto Mora
 Nombre de funcion: enviarEmailPassword
