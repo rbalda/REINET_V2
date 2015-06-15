@@ -34,7 +34,7 @@ class Perfil(User):
     ip_registro = models.GenericIPAddressField()
     reputacion = models.DecimalField(max_digits=4, decimal_places=0, default=0)
     estado = models.PositiveSmallIntegerField(default=1)
-    privacidad = models.BinaryField(max_length=8)
+    privacidad = models.SmallIntegerField(null=True,default=None)
     fk_ciudad = models.ForeignKey(City,related_name="ciudad_de_origen",default=None)
     fk_pais = models.ForeignKey(Country,related_name="pais_de_origen",default=None)
     actividades = models.TextField()
