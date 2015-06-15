@@ -741,7 +741,7 @@ def modificarPerfilInstitucion(request):
 		descripcion=request.POST.get("descripcion")
 		mision=request.POST.get("mision")
 		web=request.POST.get("webInstitucion")
-		recursos=request.POST.get("recursosofrecidos")
+		recursos=request.POST.get("recursosInstitucion")
 		mail=request.POST.get("emailInstitucion")
 		telefono = request.POST.get("telefonoInstitucion")
 
