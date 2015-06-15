@@ -730,39 +730,42 @@ Salida: Redireccion a perfil
 
 @login_required
 def modificarPerfilInstitucion(request):
-    usuario_admin = request.user
-    membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
-    paises = Country.objects.all()
-    ciudades = City.objects.all().filter(country_id=paises.first().id)
-    institucion = membresia.fk_institucion
-    if request.method == 'POST':
-        #nombre=request.POST["nombre"]
-        #siglas=request.POST["siglas"]
-        #descripcion=request.POST["descripcion"]
-        #mision=request.POST["mision"]
-        web = request.POST["webInstitucion"]
-        recursos = request.POST["recursosInstitucion"]
-        mail = request.POST["emailInstitucion"]
+	usuario_admin = request.user
+	membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
+	paises=Country.objects.all()
+	ciudades=City.objects.all().filter(country_id = paises.first().id)
+	institucion = membresia.fk_institucion
+	if request.method=='POST':
+		nombre=request.POST.get("nombre")
+		siglas=request.POST.get("siglas")
+		descripcion=request.POST.get("descripcion")
+		mision=request.POST.get("mision")
+		web=request.POST.get("webInstitucion")
+		recursos=request.POST.get("recursosofrecidos")
+		mail=request.POST.get("emailInstitucion")
+		telefono = request.POST.get("telefonoInstitucion")
 
 
-        #institucion.nombre=nombre
-        #institucion.siglas=siglas
-        #institucion.descripcion=descripcion
-        #institucion.mision=mision
-        institucion.correo = mail
-        institucion.web = web
-        institucion.recursos = recursos
+		institucion.nombre=nombre
+		institucion.siglas=siglas
+		institucion.descripcion=descripcion
+		institucion.mision=mision
+		institucion.correo=mail
+		institucion.web=web
+		institucion.recursos_ofrecidos=recursos
+		institucion.telefono_contacto=telefono
 
-        institucion.save()
+		institucion.save()
 
-        return HttpResponseRedirect('/perfilInstitucion')
-    else:
-        #institucion=Institucion.objects.get()
+		return HttpResponseRedirect('/perfilInstitucion')
+	else:
+		#institucion=Institucion.objects.get()
 
-        args = {
-            "institucion": institucion,
-            "ciudades": ciudades,
-            "paises": paises
-        }
-        args.update(csrf(request))
-        return render(request, "institucion_editar.html", args)
+		args ={
+			"institucion":institucion,
+			"ciudades":ciudades,
+			"paises":paises
+		}
+		args.update(csrf(request))
+		return render(request,"institucion_editar.html",args)
+
