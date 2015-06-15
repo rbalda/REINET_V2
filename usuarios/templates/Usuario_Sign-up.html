@@ -160,12 +160,9 @@
               <label class="info-board-red" id="noIgual" style=" color: red">{{mensaje}}</label>
             </div>
             {% endif %}
-            {% if username %}
-            <div class="form-group">
-
-              <label class="info-board-red" id="usuario_existe" style="color: red">{{username}}</label>
+              <div class="form-group">
+              <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
             </div>
-            {% endif %}
 
               <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
             </div>
