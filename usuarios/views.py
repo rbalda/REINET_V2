@@ -16,6 +16,8 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+
 from django.contrib.auth.decorators import login_required
 import datetime, random, string
 from .models import *
@@ -53,42 +55,37 @@ def registro_institucion(request):
 		try:
 			peticion = Peticion.objects.all().filter(fk_usuario = request.session['id_usuario']).first()
 			if (peticion.usado == 0) :
-				#No olvidar borrar los codigos referencia luego.
-				print "peticion no usada"
-
+				
 				siglas=request.POST['siglaInstitucion']
 				desc=request.POST['descInstitucion'] #usar palabras completas no abreviaturas
 				mision=request.POST['misionInstitucion']
-				#ub=request.POST['pais'] #usar palabras completas no abreviaturas
 				recursos=request.POST['recursosInstitucion']
 				web=request.POST['webInstitucion'] #usar palabras en español
-				mail=request.POST['emailInstitucion'] #usar palabras en español
-				telf=request.POST['telefonoInstitucion'] #usar palabras completas no abreviaturas
+				correo=request.POST['emailInstitucion'] #usar palabras en español
+				telefono=request.POST['telefonoInstitucion'] #usar palabras completas no abreviaturas
 				cargo = request.POST['cargoInstitucion']
 				cargo_desc = request.POST['cargoDescInstitucion']
-				ciudad=City.objects.get(id = request.POST['ciudadInstitucion']) #Por que siguen asignando valores estaticos?
-				pais=Country.objects.get(id = request.POST['paisInstitucion']) #Por que siguen asignando valores estaticos?
+				ciudad=City.objects.get(id = request.POST['ciudadInstitucion'])
+				pais=Country.objects.get(id = request.POST['paisInstitucion'])
 
 				try:
 					image = request.FILES['logo']  #usar palabras en español
 				except:
 					image = "noPicture.png" #usar palabras en español
-
+				
 				insti = Institucion(); #usar palabras completas no abreviaturas
 				insti.nombre = peticion.nombre_institucion
 				insti.siglas = siglas
-				insti.logo = image
 				insti.descripcion = desc
 				insti.mision = mision
-				#insti.ubicacion = ub
 				insti.web = web #usar palabras en español
 				insti.recursos_ofrecidos = recursos
-				insti.correo = mail #usar palabras en español ? ves que si puedes angel
-				insti.telefono_contacto = telf #usar palabras completas no abreviaturas
-				#ciudad=City.objects.get(id=1) #Por que siguen asignando valores estaticos?
-				#pais=Country.objects.get(id=1) #Por que siguen asignando valores estaticos?
+				insti.correo = correo #usar palabras en español ? ves que si puedes angel
+				insti.telefono_contacto = telefono #usar palabras completas no abreviaturas
 				insti.ciudad = ciudad
 				insti.pais = pais
+				insti.save()
+				insti.logo = image
 				insti.save()
 
 				peticion.usado = 1
@@ -98,9 +95,9 @@ def registro_institucion(request):
 				membresia.es_administrator = 1 #usar palabras en español NO SPANGLISH xD
 				membresia.cargo = cargo
 				membresia.descripcion_cargo = cargo_desc #decidansen palabras completas o cortas, o usar identificadores para variables de nombres iguales
-				membresia.fecha_peticion = '2015-06-10' #Por que siguen asignando valores estaticos?
-				membresia.fecha_aceptacion = '2015-06-10' #Por que siguen asignando valores estaticos?
-				membresia.ip_peticion = '127.0.0.1' #Por que siguen asignando valores estaticos?
+				membresia.fecha_peticion = datetime.datetime.now() #Por que siguen asignando valores estaticos?
+				membresia.fecha_aceptacion = datetime.datetime.now() #Por que siguen asignando valores estaticos?
+				membresia.ip_peticion = get_client_ip(request) #Por que siguen asignando valores estaticos?
 				membresia.estado = 1
 				membresia.fk_institucion = insti
 				membresia.fk_usuario = Perfil.objects.get(id = request.session['id_usuario'])
@@ -115,7 +112,7 @@ def registro_institucion(request):
 				except:
 					print "membresia no encontrada" #borrar cuando no lo necesiten mas, no olvidar
 					#falta retroalimentacion para el usuario.
-				return redirect('/inicioUsuario')
+				return redirect('/perfilInstitucion')
 			else:
 				print "peticion ya usada" #borrar cuando no lo necesiten mas, no olvidar
 				#falta retroalimentacion para el usuario.
@@ -194,7 +191,7 @@ def registro_usuario(request):
 			
 				pais=Country.objects.get(id=pais_selected)
 				ciudad=City.objects.get(id=ciudad_selected) 
-
+				perfil.privacidad=1111
 				perfil.fk_ciudad=ciudad
 				perfil.fk_pais=pais
 				perfil.ip_registro=get_client_ip(request)
@@ -222,9 +219,11 @@ def registro_usuario(request):
 					auth.login(request,usuario)
 					request.session['id_usuario']=usuario.id
 					return HttpResponseRedirect('/perfilUsuario')
+				else:
+					return HttpResponseRedirect('/iniciarSesion')
 
-			except e:
-				print e.getMessage()
+			except:
+				#print e.getMessage()
 				mensaje="No se pudo crear el usuario"
 				args={}
 				args.update(csrf(request))
@@ -341,6 +340,22 @@ def editar_usuario(request):
 
 		except:
 			foto = "noPicture.png"
+		try:
+			#privacidadNom=request.POST['PrivacidadNombre']
+			#privacidadApe=request.POST['PrivacidadApellido']
+			privacidadCed=request.POST['PrivacidadCedula']
+			privacidadTel=request.POST['PrivacidadTelefono']
+			privacidadWeb=request.POST['PrivacidadWeb']
+			privacidadMai=request.POST['PrivacidadMail']
+			#if privacidadWeb=="1" and privacidadMai=="1":
+			#	privacidadWeb='3'
+			#elif privacidadWeb=="0" and privacidadMai=="1":
+			#	privacidadWeb='2'
+			#privacidad=privacidadNom+privacidadApe+privacidadCed+privacidadTel+privacidadWeb
+			privacidad=privacidadCed+privacidadTel+privacidadWeb+privacidadMai
+
+		except:
+			privacidad=1111
 
 		print foto
 		perfil=usuario
@@ -358,6 +373,7 @@ def editar_usuario(request):
 		perfil.telefono=telefono
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
+		perfil.privacidad=privacidad
 		perfil.foto=foto
 		perfil.save()
 
@@ -368,11 +384,11 @@ def editar_usuario(request):
 
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Roberto Yoncon
+Nombre de función: terms
+Parámetros: request
+Salida: http
+Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
 def terms(request):
@@ -432,9 +448,12 @@ def perfilUsuario(request):
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil']=perfil
 		membresia=Membresia.objects.filter(fk_usuario=usuario.id)
-		#print membresia[0].idmembresia
+		listaInstituciones = []
+		for num in range(0,membresia.count()):
+			listaInstituciones.append(Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
+		args['listaInstituciones']= listaInstituciones
 		institucion=Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
-		#print institucion
+#print institucion
 		args['institucion']=institucion
 
 	else:
@@ -591,6 +610,38 @@ def generarCodigo(request):
 
 		return render_to_response('Administrador_generar_codigo.html', args)
 
+
+"""
+Autor: Angel Guale
+Nombre de funcion: verificar_username
+Entrada: request GET o POST
+Salida: Formulario de generarCodigo
+Descripción: Genera un codigo para registrar institucion
+"""
+def verificar_username(request):
+	if request.method=="POST":
+		userinput=request.POST['username']
+		try:
+			usuarioquery=Perfil.objects.get(username=userinput)
+		except:
+			usuarioquery=None
+		#print "userinput",userinput, "usuarioquery ", usuarioquery
+		if usuarioquery is not None:
+			return HttpResponse("usado")
+		else:
+			return HttpResponse("ok")
+	return HttpResponse("no es post")
+
+def verCualquierUsuario(request):
+	username=request.GET.get('u', '')
+	if username!="":
+		perfil=Perfil.objects.get(username=username)
+		if username is not None:
+			args={}
+			args['usuario']=perfil
+			return render_to_response("Usuario_vercualquierPerfil.html", args)
+	
+
 """
 Autor: Fausto Mora
 Nombre de funcion: enviarEmailPassword
@@ -669,32 +720,40 @@ Entrada: request POST
 Salida: Redireccion a perfil
 """
 @login_required
-def modificarPerfilInstitucion(request,idInstitucion):
-    usuario_admin = request.user
-    membresia = Membresia.objects.all().filter(fkusuario=usuario_admin, esadministrador_gt=0).first()
-    institucion = membresia.fkinstitucion
-    if request.method=='POST':
-        nombre=request.POST["nombre"]
-        siglas=request.POST["siglas"]
-        descripcion=request.POST["descripcion"]
-        mision=request.POST["mision"]
-        web=request.POST["web"]
-        recursos=request.POST["recursos"]
-        id=request.POST["id"]
+def modificarPerfilInstitucion(request):
+	usuario_admin = request.user
+	membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
+	paises=Country.objects.all()
+	ciudades=City.objects.all().filter(country_id = paises.first().id)
+	institucion = membresia.fk_institucion
+	if request.method=='POST':
+		#nombre=request.POST["nombre"]
+		#siglas=request.POST["siglas"]
+		#descripcion=request.POST["descripcion"]
+		#mision=request.POST["mision"]
+		web=request.POST["webInstitucion"]
+		recursos=request.POST["recursosInstitucion"]
+		mail=request.POST["emailInstitucion"]
 
-        institucion.nombre=nombre
-        institucion.siglas=siglas
-        institucion.descripcion=descripcion
-        institucion.mision=mision
-        institucion.web=web
-        institucion.recursos=recursos
 
-        institucion.save()
-        return redirect('/perfilUsuario')
-    else:
-        institucion=Institucion.objects.get(id=idInstitucion)
-        args ={
-            "institucion":institucion
-        }
-        render(request,"institucion_edit_form.html",args)
+		#institucion.nombre=nombre
+		#institucion.siglas=siglas
+		#institucion.descripcion=descripcion
+		#institucion.mision=mision
+		institucion.correo=mail
+		institucion.web=web
+		institucion.recursos=recursos
 
+		institucion.save()
+
+		return HttpResponseRedirect('/perfilInstitucion')
+	else:
+		#institucion=Institucion.objects.get()
+
+		args ={
+			"institucion":institucion,
+			"ciudades":ciudades,
+			"paises":paises
+		}
+		args.update(csrf(request))
+		return render(request,"institucion_editar.html",args)

@@ -39,8 +39,10 @@
             </div>
 
             <button id="instBtnContinuar" class="btn btn-green">Continuar</button>
-            <form role="form" action="/registro_institucion" method="post" enctype="multipart/form-data" id="formulario">{%csrf_token%}
+            <form role="form" action="/registro_institucion" method="post" enctype="multipart/form-data">{%csrf_token%}
+              <div id='formulario'>
 
+              </div>
             </form>
         </div>
       </div>

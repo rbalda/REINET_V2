@@ -154,6 +154,14 @@
 
           <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data" > {%csrf_token%}
             <div class="form-group">
+             {% if mensaje %}
+             <div class="form-group">
+              <label class="info-board-red" id="noIgual" style=" color: red">{{mensaje}}</label>
+            </div>
+            {% endif %}
+            <div class="form-group">
+              <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
+            </div>
               <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
             </div>
             <div class="form-group">
@@ -175,6 +183,7 @@
             <div class="form-group">
               <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
             </div>
+
             <div class="form-group">
               <label class="info-board-red" id="errorCedula" style="display: none; color: red">C&eacute;dula debe contener 10 d&iacute;gitos</label>
             </div>
@@ -194,7 +203,6 @@
             </div>
             
             <div class="form-group">
-              <label for="ciudad">Ciudad</label>
               <select class="form-control" name="ciudad" id="ciudad" required>
                   <optgroup id="optsCiudades" label="Ciudad">
                       {%for ciudad in ciudades%}
@@ -262,8 +270,42 @@
   function ciudadSuccess(data, textStatus, jqXHR){
     console.log("Succees");
     $("#optsCiudades").html(data);
-    console.log(data);
+    //console.log(data);
   }
+
+  $("#username").change(function(){
+console.log($("#username").val());
+     $.ajax({
+      type: "POST",
+      url: "/verificar_username",
+      data: {
+          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+          'username' : $("#username").val()
+      },
+      success: verificaUser,
+      dataType: 'text'
+    });
+  });
+  function verificaUser(data, textStatus, jqXHR){
+    console.log(data);
+    if(data=="usado"){
+
+      $("#usuario_usado").html("Nombre de Usuario ya existente");
+      $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
+      $("#usuario_usado").attr("class", "info-board-red");
+      
+    }
+    else{
+      $("#usuario_usado").html("Nombre de Usuario disponible");
+      $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
+      $("#usuario_usado").attr("class", "info-board-green");
+      console.log("nada");
+    }
+
+
+  }
+
+  
 </script>
  {% endblock %}
 

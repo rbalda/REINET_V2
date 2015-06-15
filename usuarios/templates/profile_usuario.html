@@ -112,7 +112,7 @@
 
             <!-- //// PERFIL PRINCIPAL ///// -->
             <div class="col-sm-8">
-              <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }} <small> {{institucion.nombre}} </small></h3>
+              <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }} <br/><small> {{institucion.nombre}} </small></h3>
               <hr>
 
               <div class="bottom-15">
@@ -153,13 +153,18 @@
           </div>
 
 
+          
+
+          
+
+
           <!-- //////// INFORMACION GENERAL /////////-->
           <div class="row">
             <div class="col-sm-12">
             <div class="col-sm-12" id="collapseGeneral">
               
                 <div class="panel-heading btn-outline btn-primary" style="text-align:center">
-                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral" href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
+                  <h4 class="panel-title"><a data-parent="collapseGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
                 </div>
                 <div id="collapseInfoGeneral" class="panel-collapse collapse in">
                   <table class="table table-hover">
@@ -167,11 +172,16 @@
 
                   <tr>
                     <td class="text-muted">Instituci&oacute;n</td>
-                    <td style="text-align:right">{{ institucion.nombre }}</td>
+                    <td style="text-align:right"id="link">
+                        {% for inst in listaInstituciones %}
+                            {% if inst.nombre != "Independiente" %}<a href="/perfilInstitucion/">{{ inst.nombre }}</a><br/> {%else%} {{ inst.nombre }} {%endif%}
+                            
+                        {% endfor %}
+                    </td>
                   </tr>
                   <tr>
                     <td class="text-muted">Fecha de Registro</td>
-                    <td style="text-align:right">{{ usuario.fecharegistro }}</td>
+                    <td style="text-align:right">{{ perfil.fecha_registro }}</td>
                   </tr>
               <!--     <tr>
                     <td class="text-muted">&Aacute;reas de inter&eacute;s</td>
@@ -203,6 +213,8 @@
 
                             }
                         </style>
+                      
+
                         <script type="text/javascript">
 
                             function fijarReputacion()
@@ -253,9 +265,9 @@
           <!-- //////// INFORMACION CONTACTO /////////-->
             <div class="col-sm-3" id="collapseContacto">
               <div class="panel-heading btn-outline btn-warning" style="text-align:center">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
+                <h4 class="panel-title"><a data-parent="collapseContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
               </div>
-              <div id="collapseInfoContacto" class="panel-collapse collapse in">
+              <div id="collapseInfoContacto" class="panel-collapse collapse in" >
                 <table class="table table-hover">
                 <tbody id="infoContactoBody">
                   <tr>
@@ -276,7 +288,7 @@
                   </tr>
                   <tr>
                     <td class="text-muted">Website</td>
-                    <td style="text-align:right">{{ usuario.web }}</td>
+                    <td style="text-align:right;word-break: break-all;">{{ usuario.web }}</td>
                   </tr>
 
                 </tbody>
