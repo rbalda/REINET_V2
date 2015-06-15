@@ -162,15 +162,15 @@
                     <!--NOMBRE-->
                     <div class="form-group">
                         <label for="nombreInstitucion">Nombre de la instituci&oacute;n</label>
-                        <label class="form-control" id="nombreInstitucion" placeholder="Nombre de la Institución" data-toggle="popover" data-placement="left"
-                               data-trigger="focus" data-content="Ingrese el nombre de la Institución." data-original-title="Nombre Institucion">
-                            {{ institucion.nombre }}
-                        </label>
+                        <input type="text" class="form-control" id="nombreInstitucion" name="nombre" placeholder="Siglas/Nombre abreviado"
+                               data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado"
+                               onkeypress="return validarLetras(event)" required value="{{ institucion.nombre }}">
                     </div>
                     <!--SIGLA-->
                     <div class="form-group">
                         <label for="siglaInstitucion">Siglas</label>
-                        <input type="text" class="form-control" id="siglaInstitucion" name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
+                        <input type="text" class="form-control" id="siglaInstitucion" name="siglas" placeholder="Siglas/Nombre abreviado"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado"
                                onkeypress="return validarLetras(event)" required value="{{ institucion.siglas }}">
@@ -178,21 +178,21 @@
                     <!--DESCRIPCION-->
                     <div class="form-group">
                         <label for="descInstitucion">Descripci&oacute;n</label>
-                        <input type="text" class="form-control" id="descInstitucion" name="descInstitucion" placeholder="Descripcion de la Institucion"
+                        <input type="text" class="form-control" id="descInstitucion" name="descripcion" placeholder="Descripcion de la Institucion"
                                data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion"
                                data-original-title="Descripcion" required value="{{ institucion.descripcion }}">
                     </div>
                     <!--MISION-->
                     <div class="form-group">
                         <label for="misionInstitucion">Misi&oacute;n</label>
-                        <input type="text" class="form-control" id="misionInstitucion" name="misionInstitucion" placeholder="Misión"
+                        <input type="text" class="form-control" id="misionInstitucion" name="mision" placeholder="Misión"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese la misión de la Institución" data-original-title="Misión" required value="{{ institucion.mision }}">
                     </div>
                     <!--PAIS-->
                     <div class="form-group">
                         <label for="pais">Pa&iacute;s</label>
-                        <select class="form-control" name="paisInstitucion" id="paisInstitucion" required>
+                        <select class="form-control" name="pais" id="paisInstitucion" required>
                             <optgroup label="Pais">
                                 {%for pais in paises%}
                                     <option value="{{pais.id}}">{{pais.name}}</option>
@@ -203,7 +203,7 @@
                     <!--CIUDAD-->
                     <div class="form-group">
                         <label for="ciudad">Ciudad</label>
-                        <select class="form-control" name="ciudadInstitucion" id="ciudadInstitucion" required>
+                        <select class="form-control" name="ciudad" id="ciudadInstitucion" required>
                             <optgroup id="optsCiudades" label="Ciudad">
                                 {%for ciudad in ciudades%}
                                     <option value="{{ciudad.id}}">{{ciudad.name}}</option>

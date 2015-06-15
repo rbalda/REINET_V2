@@ -59,7 +59,7 @@
                         <div class="avatar thumbnail col-sm-3 col-xs-3" style="width:35px;height:35px">
                           {% load staticfiles %}
                           <a href="#" class="bottom-15">
-                              <img src="{% static "img/noPicture.png"%}" alt="..." >
+                              <img src="{{ usuario.foto.url }}" alt="..." >
                             </a>
                         </div>
                         <div class="col-sm-6 col-xs-9">
@@ -195,30 +195,64 @@
     		<div class="col-md-3 col-sm-12 col-xs-12" >
     				<div class="panel panel-dark">
               <div class="panel-heading btn-circle">
-                      <h4 class="panel-title">Recientes</h4>
+                      <h4 class="panel-title">Hoy</h4>
               </div>
     				    <table class="table table-hover" id="usuarioNoticias">
                     	<tbody>
                   			<tr>
-                    			<td class="text-muted">Instituci&oacute;n</td>
-                    			<td style="text-align:right">[Institucion]</td>
+                    			<td class="text-muted">Pepito</td>
+                    			<td style="text-align:center">participa</td>
+                          <td style="text-align:right text-muted">Oferta 1</td>
                   			</tr>
                   			<tr>
-                    			<td class="text-muted">Fecha de Registro</td>
-                    			<td style="text-align:right">{{ usuario.fecharegistro }}</td>
-                  			</tr>
-                 			<tr>
-                    			<td class="text-muted">&Aacute;reas de inter&eacute;s</td>
-                    			<td style="text-align:right">[Areas de Interes del Usuario]</td>
-                  			</tr>
-                  			<tr>
-                    			<td class="text-muted">Incripci&oacute;n en concurso</td>
-                    			<td style="text-align:right">[Nombre del Concurso]</td>
-                  			</tr>
+                          <td class="text-muted">Ana maría</td>
+                          <td style="text-align:center">comentó</td>
+                          <td style="text-align:right text-muted">Demanda 2</td>
+                        </tr>
+                        <tr>
+                          <td class="text-muted">Juan José</td>
+                          <td style="text-align:center">No participa</td>
+                          <td style="text-align:right text-muted">Oferta 2</td>
+                        </tr>
                     	</tbody>
                 </table>
               </div>
-    		</div>
+            <div class="panel panel-dark">
+              <div class="panel-heading btn-circle">
+                      <h4 class="panel-title">Pasadas</h4>
+              </div>
+                 <table class="table table-hover" id="usuarioNoticias">
+                      <tbody>
+                        <tr>
+                          <td class="text-muted">Pepito</td>
+                          <td style="text-align:center">participa</td>
+                          <td style="text-align:right text-muted">Oferta 1</td>
+                        </tr>
+                        <tr>
+                          <td class="text-muted">Ana maría</td>
+                          <td style="text-align:center">comentó</td>
+                          <td style="text-align:right text-muted">Demanda 2</td>
+                        </tr>
+                        <tr>
+                          <td class="text-muted">Juan José</td>
+                          <td style="text-align:center">No participa</td>
+                          <td style="text-align:right text-muted">Oferta 2</td>
+                        </tr>
+                        <tr>
+                          <td class="text-muted">Juan José</td>
+                          <td style="text-align:center">No participa</td>
+                          <td style="text-align:right text-muted">Oferta 2</td>
+                        </tr>
+                        <tr>
+                          <td class="text-muted">Juan José</td>
+                          <td style="text-align:center">No participa</td>
+                          <td style="text-align:right text-muted">Oferta 2</td>
+                        </tr>
+                      </tbody>
+                </table>
+              </div>
+        </div>
+
     		</div>
     	</div>
     </div>
