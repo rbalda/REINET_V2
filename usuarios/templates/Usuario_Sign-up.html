@@ -154,14 +154,19 @@
 
           <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data" > {%csrf_token%}
             <div class="form-group">
+
              {% if mensaje %}
              <div class="form-group">
               <label class="info-board-red" id="noIgual" style=" color: red">{{mensaje}}</label>
             </div>
             {% endif %}
+            {% if username %}
             <div class="form-group">
-              <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
+
+              <label class="info-board-red" id="usuario_existe" style="color: red">{{username}}</label>
             </div>
+            {% endif %}
+
               <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
             </div>
             <div class="form-group">
@@ -178,10 +183,10 @@
               </div>
             </div>
   <div class="form-group">
-              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre">
+              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" onkeypress="validarLetras(event)">
             </div>
             <div class="form-group">
-              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
+              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" onkeypress="validarLetras(event)">
             </div>
 
             <div class="form-group">
@@ -189,7 +194,7 @@
             </div>
            
             <div class="form-group">
-              <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
+              <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
             </div>
              
             <div class="form-group">

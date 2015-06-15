@@ -12,7 +12,7 @@ class RegistroUsuarioForm(forms.Form):
     apellido = forms.CharField(label="Apellido :", widget=forms.TextInput())
     cedula = forms.CharField(label="Cedula :", widget=forms.TextInput())
 
-    pais = forms.ModelChoiceField(queryset=Country.objects.all(),label="Pais :")
+    pais = forms.ModelChoiceField(queryset=Country.objects.all(),label="Pais :",initial=0)
     telefono = forms.CharField(label="Telefono :",widget=forms.TextInput)
     email = forms.EmailField(label="E-mail :", widget=forms.EmailInput())
     website = forms.URLField(max_length=20)
@@ -20,7 +20,7 @@ class RegistroUsuarioForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
         try:
-            u = Perfil.objects.get(username=username)
+            u = User.objects.get(username=username)
         except u is None:
             return username
         raise forms.ValidationError('***Usuario ya existe***')
