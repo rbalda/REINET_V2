@@ -229,7 +229,7 @@ def registro_usuario(request):
                 args = {}
                 mensaje = "No se pudo crear el usuario"
                 if u_existe is not None:
-                    args['username'] = u_existe
+                    args['username'] = "El nombre de usuario ya existe"
                     args.update(csrf(request))
                     paises = Country.objects.all()
                     args['paises'] = paises
