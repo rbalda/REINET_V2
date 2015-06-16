@@ -13,6 +13,10 @@
 <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
 {% endblock %}
 
+{% block inicio %}
+  <a  href="/inicioUsuario/" >Inicio </a>
+{% endblock %}
+
 
 {%block content%}
     
@@ -90,6 +94,7 @@
                   -->
                 </div>
               </div>
+            </div>
 
               <!-- /////// VENTANA EMERGENTE PARA CARGAR FOTO ///// 
                 <div class="modal fade" id="upload-avatar" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
@@ -115,7 +120,7 @@
                   </div>
                 </div>
                  FIN DE VENTANA EMERGENTE-->
-            </div>
+            
 
 
             <!-- //// PERFIL PRINCIPAL ///// -->
@@ -204,8 +209,7 @@
                   </table>
                 </div>
               </div>
-          
-          <!-- //////// INFORMACION CONTACTO /////////-->
+              <!-- //////// INFORMACION CONTACTO /////////-->
             <div class="col-sm-6" id="collapseContacto">
               <div class="panel-heading btn-outline btn-primary" style="text-align:center;background-color:#123A82">
                 <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
@@ -234,14 +238,16 @@
                     <td style="text-align:left">{{ usuario.web }}</td>
                   </tr>
 
-                </tbody>
+                  </tbody>
               </table>
               </div>
             </div>
-        </div>
+          </div>
+
+
+
           
-
-
+        </div>
     </div>
   </div>
 </div>
