@@ -503,9 +503,47 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
     #args['usuario']=usuario
     return render_to_response('profile_institucion.html', args)
 
+"""
+Autores: Pedro Iniguez
+Nombre de funcion: perfilInstituciones
+Entrada: request GET
+Salida: Perfil de otra institucion de la que no sea admin
+"""
+
+
+@login_required
+def verPerfilInstituciones(request, institucionId): 
+	id_institucion = int(institucionId)
+	sesion = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=sesion)
+	args = {}
+
+	if usuario is not None:
+		args['usuario'] = usuario
+		membresia = Membresia.objects.filter(fk_institucion=id_institucion).first()
+		try:
+			if membresia.fk_usuario.id == sesion:
+				print "redirect"
+				return redirect('/perfilInstitucion')
+			else:
+				institucion = Institucion.objects.get(id_institucion=id_institucion)
+				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
+				args['institucion'] = institucion
+				args['duenho'] = duenho_institucion
+				print "aca"
+		except:
+			return redirect('/inicioUsuario')
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/iniciarSesion/')
+
+	args.update(csrf(request))
+	#args['usuario']=usuario
+	return render_to_response('perfil_otra_institucion.html', args)
 
 """
-Autor: Pedro Aim
+Autor: Pedro Iniguez
 Nombre de funcion: verificarCodigo
 Entrada: request POST
 Salida: Formulario de registro institucion

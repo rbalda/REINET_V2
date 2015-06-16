@@ -30,8 +30,7 @@ urlpatterns = patterns('',
         url(r'^verificar_username[/]?$',verificar_username, name="verificar_username"),
         url(r'^generarCodigo[/]?$', generarCodigo, name='generarCodigo'),
         url(r'^getCiudades[/]?$',obtenerCiudades,name='institucion'),
-
-
+        url(r'^institucion/(?P<institucionId>\w{0,50})[/]?$', verPerfilInstituciones,name='institucion'),
 
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
