@@ -32,6 +32,9 @@ urlpatterns = patterns('',
         url(r'^getCiudades[/]?$',obtenerCiudades,name='institucion'),
         url(r'^institucion/(?P<institucionId>\w{0,50})[/]?$', verPerfilInstituciones,name='institucion'),
 
+
+        url(r'^api/buscar_institucion[/]?',InstitucionBusqueda.as_view(),name='buscar_institucion'),
+        url(r'^api/buscar_usuario[/]?',PerfilBusqueda.as_view(),name='buscar_usuario'),
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),

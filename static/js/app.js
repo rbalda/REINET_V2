@@ -1,19 +1,9 @@
 var redInn = angular.module('redInn',['ngResource','ngAnimate','ngRoute','ngCookies']);
 
-redInn.config(['$routeProvider',function($routeProvider){
-    $routeProvider.
-    when('/incubaciones',{
-        templateUrl:'static/partials/incubacion_institucion.html'}).
-    when('/incubaciones/:id',{
-        templateUrl:'static/partials/incubacion1_institucion.html',
-        controller:'incubaController'}).
-    when('/crear',{
-        templateUrl:'static/partials/crear_incubacion.html'})
-    .otherwise({
-        templateUrl:'static/partials/incubacion_institucion.html'});
-
-
-
+redInn.config(['$interpolateProvider','$resourceProvider',function( $interpolateProvider,$resourceProvider){
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+    $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
 redInn.config(['$httpProvider', function($httpProvider) {
@@ -21,88 +11,52 @@ redInn.config(['$httpProvider', function($httpProvider) {
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
 
+redInn.constant('urls', {
+       BASE: '/',
+       BASE_API: '/api'
+});
 
-redInn.controller('mainController',['$scope','$location',function($scope,$location){
-    $scope.go = function(url){
-        $location.path(url);
-    };
-}]);
-
-redInn.controller('createController',['$scope',function($scope){
-    $scope.alcance='institucion';
-}]);
-
-redInn.controller('incubaController',['$scope','Incubacion','$routeParams','Incubada','$filter',function($scope,Incubacion,$routeParams,Incubada,$filter){
-    $scope.modal_content=null;
-    $scope.modal_possible=[
-        {
-            'title':'Crear Convocatoria',
-            'tpl':'static/partials/crear_convocatoria.html'
+redInn.factory('Entidades',['$http','urls',function($http,urls){
+    return{
+        get_usuarios: function (data, success, error) {
+            $http.get(urls.BASE_API + '/buscar_usuario/?busqueda='+ data, {},
+                {headers: {"Content-Type": "application/json"}
+                }).success(success).error(error);
         },
-        {
-            'title':'Invitar Consultor',
-            'tpl':'static/partials/invitar_consultor.html'
-        },
-        {
-            'title':'Crear Milestone',
-            'tpl':'static/partials/crear_milestone.html'
-        },
-        {
-            'title':'Aumentar Alcance',
-            'tpl':'static/partials/aumentar_alcance.html'
-        },
-        {
-            'title':'Terminar Incubacion',
-            'tpl':'static/partials/terminar_incubacion.html'
-        },
-        {
-            'title':'Suspender Incubacion',
-            'tpl':'static/partials/suspender_incubacion.html'
+        get_instituciones: function(data, success, error) {
+            $http.get(urls.BASE_API + '/buscar_institucion/?busqueda='+ data, {},
+                {headers: {"Content-Type": "application/json"}
+                }).success(success).error(error);
         }
-    ];
-    $scope.incubacion = Incubacion.get({id:$routeParams.id});
-    $scope.incubadas = Incubada.query();
-
-
-    $scope.setModal = function(n){
-        $scope.modal_content=$scope.modal_possible[n];
-    };
-
-}]);
-
-redInn.controller('IncubacionController',['$scope','Incubacion','$cookieStore',function($scope,Incubacion,$cookieStore){
-    this.incubaciones = Incubacion.query();
-    this.temp=0;
-
-    this.isToday = function(fecha){
-        return Date(fecha) == Date.now();
     }
 }]);
 
+redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,Entidades){
+    $scope.busqueda_entrada = null;
+    $scope.lista_usuarios = [];
+    $scope.lista_instituciones = [];
+    $scope.esta_vacio = function(){
+        if ($scope.busqueda_entrada===null || $scope.busqueda_entrada==='')
+            return true;
+        else
+            return false;
 
-redInn.factory('Incubacion',['$resource',function($resource){
-    return $resource('../list-incubaciones/:id',{},{
-        update:{
-            method:'PUT'
-        }
-    });
-}]);
+    }
 
-redInn.factory('Incubada',['$resource',function($resource){
-    return $resource('../list-incubadas/:id',{},{
-        update:{
-            method:'PUT'
-        }
-    });
-}]);
-
-
-redInn.controller('crearIncubacionController',['$scope','Incubacion','$cookieStore',function($scope,Incubacion,$cookieStore) {
-    $scope.incubacion = new Incubacion();
-    var a =$cookieStore.get('id_autor');
-    $scope.addIncubacion= function() {
-        $scope.autor=a;
-        console.log(a);
-        $scope.incubacion.$save();
+    $scope.buscar_entidades = function(){
+        Entidades.get_usuarios($scope.busqueda_entrada,
+            function(respuesta){
+                $scope.lista_usuarios=respuesta;
+            },
+            function () {
+                $log('No encontrado');
+            });
+        Entidades.get_instituciones($scope.busqueda_entrada,
+            function(respuesta){
+               $scope.lista_instituciones=respuesta;
+            },
+            function(){
+                $log('No encontrado')
+            });
     }
 }]);

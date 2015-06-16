@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'cities_light',
     'usuarios',
 )
@@ -51,6 +52,16 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 
 ROOT_URLCONF = 'REINET.urls'
 
@@ -76,16 +87,16 @@ WSGI_APPLICATION = 'REINET.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Reinet',
-        'HOST': '201.183.227.87',
-        'PORT':'13306',
-        'USER':'reinet',
-        'PASSWORD':'ReInEt2015'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'Reinet',
+#         'HOST': '201.183.227.87',
+#         'PORT':'13306',
+#         'USER':'reinet',
+#         'PASSWORD':'ReInEt2015'
+#     }
+# }
 
 """esto para probar localmente mientras el servidor murio
 DATABASES = {
@@ -99,6 +110,18 @@ DATABASES = {
     }
 }
 """
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Reinet',
+        'HOST': '192.168.1.39',
+        'PORT':'3306',
+        'USER':'reinet',
+        'PASSWORD':'ReInEt2015'
+    }
+}
+
 
 
 # Internationalization

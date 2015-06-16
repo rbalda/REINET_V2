@@ -105,23 +105,40 @@
 
 {% block search %}
           <!-- Search Button -->
-          <li id="search">
+          <li id="search" ng-controller="ControladorBusqueda">
             <a href="#" id="search-btn"><i class="fa fa-search" id="search-icon"></i> Buscar</a>
             <div class="search-box hidden" id="search-box">
               <div class="input-group">
 
-                <form method='GET' action="//">
+                <form method='GET' name="busqueda" novalidate>
                   
 
-                  <input type="text" name="q" class="form-control" placeholder="Búsqueda">
-                  <span class="input-group-btn">
-                    
+                  <input type="text" name="q"
+                         class="form-control" autocomplete="off"
+                         placeholder="Búsqueda" ng-model="busqueda_entrada"
+                         ng-change="buscar_entidades()">
+                  {% comment %}<span class="input-group-btn">
+
                       <input class="btn btn-default" type="submit" value="Ir!">
-                    
-                  </span>
+
+                  </span>{% endcomment %}
                 </form>
 
               </div>
+              <ul class="dropdown-menu show lista_busqueda" ng-hide="esta_vacio()">
+                    <li ng-repeat="item in lista_usuarios" class="item-seleccionado">
+                        <p class="text-muted busqueda-result">
+                            <img ng-src="[[item.foto]]" height="16px"/>
+                            <a ng-href="/institucion/[[item.id_perfil]]">
+                            [[item.first_name]] [[item.last_name]]
+                            </a>
+                            <br/>
+                            <small>
+                            [[item.fk_ciudad]]
+                        </small>
+                        </p>
+                    </li>
+              </ul>
             </div>
           </li>
 {% endblock %}

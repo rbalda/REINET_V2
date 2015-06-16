@@ -38,3 +38,16 @@ body {
     padding: 20px;
     z-index: 1033;
 }
+
+.lista_busqueda{
+    position: absolute;
+    width: 100%;
+}
+
+.busqueda-result{
+    margin-left:10px;
+}
+
+.item-seleccionado:hover{
+    background-color: #515151;
+}

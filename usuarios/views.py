@@ -20,10 +20,14 @@ from django.http import HttpResponse
 
 from django.contrib.auth.decorators import login_required
 import datetime, random, string
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from .models import *
 
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMessage, EmailMultiAlternatives
+from usuarios.serializers import InstitucionSerializador, PerfilSerializador
 
 """
 Autor: Pedro Iñiguez
@@ -819,3 +823,34 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 		args.update(csrf(request))
 		return render(request,"institucion_editar.html",args)
 
+
+
+class InstitucionBusqueda(ListAPIView):
+    queryset = Institucion.objects.all()
+    serializer_class = InstitucionSerializador
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+        busqueda = self.request.query_params.get('busqueda',None)
+        queryset = []
+
+        if busqueda is not None:
+            queryset = self.get_queryset().filter(siglas__icontains=busqueda)
+            queryset = queryset|self.get_queryset().filter(nombre__icontains=busqueda)
+        lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
+        return Response(lista_serializada.data)
+
+class PerfilBusqueda(ListAPIView):
+    queryset = Perfil.objects.all()
+    serializer_class = PerfilSerializador
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+        busqueda = self.request.query_params.get('busqueda',None)
+        queryset = []
+
+        if busqueda is not None:
+            queryset = self.get_queryset().filter(first_name__icontains=busqueda)
+            queryset = queryset | self.get_queryset().filter(last_name__icontains=busqueda)
+        lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
+        return Response(lista_serializada.data)
