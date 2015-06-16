@@ -14,7 +14,7 @@
 <!--SIGLA-->
 <div class="form-group">
   <label for="siglaInstitucion">Siglas</label>
-  <input type="text" class="form-control" id="siglaInstitucion" name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
+  <input type="text" class="form-control" maxlength="12" id="siglaInstitucion" name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
 		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required>
 </div>
 <!--DESCRIPCION-->
@@ -73,19 +73,19 @@
 <!--TELEFONO-->
 <div class="form-group">
   <label for="telefonoInstitucion">Tel&eacute;fono</label>
-  <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion" pattern="([0-9]{1,15})" placeholder="Telefono del Contacto"
+  <input type="tel" class="form-control" maxlength="16" id="telefonoInstitucion" name="telefonoInstitucion" pattern="([0-9]{1,15})" placeholder="Telefono del Contacto"
 		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el telefono del contacto de la Institución" data-original-title="Telefono" onkeypress="return validarNumero(event);"  required>
 </div>
 <!--EMAIL-->
 <div class="form-group">
   <label for="emailInstitucion">E-mail</label>
-  <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email"
+  <input type="email" class="form-control" maxlength="40" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email"
 		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el correo electronico de la Institución" data-original-title="Email" required>
 </div>
 <!--SITIO WEB-->
 <div class="form-group">
   <label for="webInstitucion">Sitio web</label>
-  <input type="text" class="form-control" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web"
+  <input type="text" class="form-control" maxlength="40" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web"
 		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required>
 </div>
 <label for="logo">Logo</label>

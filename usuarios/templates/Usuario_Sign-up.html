@@ -215,7 +215,7 @@
             </div>
 
             <div class="form-group">
-              <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
+              <input type="text" class="form-control" id="telefono" maxlength="16" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
             </div>
      
             
@@ -225,7 +225,7 @@
             
                        
             <div class="form-group">
-              <input required type="email" class="form-control" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
+              <input required type="email" class="form-control" maxlength="50" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
             </div>
             <div class="checkbox">
               <label>

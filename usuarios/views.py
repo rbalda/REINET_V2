@@ -524,7 +524,7 @@ def verPerfilInstituciones(request, institucionId):
 
 	if usuario is not None:
 		args['usuario'] = usuario
-		membresia = Membresia.objects.filter(fk_institucion=id_institucion).first()
+		membresia = Membresia.objects.filter(fk_institucion=id_institucion,es_administrator=1).first()
 		try:
 			if membresia.fk_usuario.id == sesion:
 				print "redirect"
