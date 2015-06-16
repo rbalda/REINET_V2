@@ -1,8 +1,11 @@
 __author__ = 'marlon'
+#Error 2 Revisar el estandar para mas informacion.
+
 from django import forms
 from django.forms import PasswordInput, EmailInput
 from django.contrib.auth.models import User
 from usuarios.models import Perfil, Country
+
 
 class RegistroUsuarioForm(forms.Form):
     username = forms.CharField(label="Usuario :", widget=forms.TextInput())
@@ -17,6 +20,7 @@ class RegistroUsuarioForm(forms.Form):
     email = forms.EmailField(label="E-mail :", widget=forms.EmailInput())
     website = forms.URLField(max_length=20)
 
+#Error 10 Revisar el estandar para mas informacion.
     def clean_username(self):
         username = self.cleaned_data['username']
         try:
@@ -24,6 +28,7 @@ class RegistroUsuarioForm(forms.Form):
         except u is None:
             return username
         raise forms.ValidationError('***Usuario ya existe***')
+#Error 10 Revisar el estandar para mas informacion.
     def clean_email(self):
         email = self.cleaned_data['email']
         try:
@@ -31,6 +36,7 @@ class RegistroUsuarioForm(forms.Form):
         except User.DoesNotExist:
             return email
         raise forms.ValidationError('***Correo ya registrado***')
+#Error 10 Revisar el estandar para mas informacion.
     def clean_password2(self):
         password = self.cleaned_data['password']
         password2 = self.cleaned_data['password2']

@@ -38,7 +38,7 @@ Descripción: Corresponde a la creacion de la institucion y el anexo con e usuar
 @login_required
 def registro_institucion(request):
     if request.method == 'GET':
-        session = request.session['id_usuario']  #Usar español sesion.
+        session = request.session['id_usuario']  #Error 10, usar sesion o algun otro
         usuario = Perfil.objects.get(id=session)
         args = {}
 
@@ -49,7 +49,7 @@ def registro_institucion(request):
             args['error'] = "Error al cargar los datos"
 
         args.update(csrf(request))
-        return render_to_response('Institucion_Sign-up.html', args)  #Nombre del template inadecuado.
+        return render_to_response('Institucion_Sign-up.html', args)
     else:
         print "es post"  #No olvidar borrar los codigos referencia luego.
         try:
@@ -57,47 +57,48 @@ def registro_institucion(request):
             if (peticion.usado == 0):
 
                 siglas = request.POST['siglaInstitucion']
-                desc = request.POST['descInstitucion']  #usar palabras completas no abreviaturas
+                desc = request.POST['descInstitucion']  #Error 10, usar palabras completas no abreviaturas
                 mision = request.POST['misionInstitucion']
                 recursos = request.POST['recursosInstitucion']
-                web = request.POST['webInstitucion']  #usar palabras en español
-                correo = request.POST['emailInstitucion']  #usar palabras en español
-                telefono = request.POST['telefonoInstitucion']  #usar palabras completas no abreviaturas
+                web = request.POST['webInstitucion']  #Error 10, usar palabras en español
+                correo = request.POST['emailInstitucion']  #Error, 10 usar palabras en español
+                telefono = request.POST['telefonoInstitucion']
                 cargo = request.POST['cargoInstitucion']
-                cargo_desc = request.POST['cargoDescInstitucion']
+                cargo_desc = request.POST['cargoDescInstitucion'] #Error 10, usar palabras completas no abreviaturas
                 ciudad = City.objects.get(id=request.POST['ciudadInstitucion'])
                 pais = Country.objects.get(id=request.POST['paisInstitucion'])
 
                 try:
-                    image = request.FILES['logo']  #usar palabras en español
+                    image = request.FILES['logo']  #Error 10, usar palabras en español
                 except:
-                    image = "noPicture.png"  #usar palabras en español
+                    image = "noPicture.png" #Error 10, usar palabras en español
 
-                insti = Institucion();  #usar palabras completas no abreviaturas
+                insti = Institucion();  #Error 10, usar palabras completas no abreviaturas
+                #Error 1, punto y coma por que?
                 insti.nombre = peticion.nombre_institucion
                 insti.siglas = siglas
                 insti.descripcion = desc
                 insti.mision = mision
-                insti.web = web  #usar palabras en español
+                insti.web = web  #Error 10, usar palabras en español
                 insti.recursos_ofrecidos = recursos
-                insti.correo = correo  #usar palabras en español ? ves que si puedes angel
-                insti.telefono_contacto = telefono  #usar palabras completas no abreviaturas
+                insti.correo = correo
+                insti.telefono_contacto = telefono
                 insti.ciudad = ciudad
                 insti.pais = pais
                 insti.save()
-                insti.logo = image
+                insti.logo = image #Error 10, usar palabras en español
                 insti.save()
 
                 peticion.usado = 1
                 peticion.save()
 
                 membresia = Membresia()
-                membresia.es_administrator = 1  #usar palabras en español NO SPANGLISH xD
+                membresia.es_administrator = 1  #Error 10, usar palabras en español
                 membresia.cargo = cargo
-                membresia.descripcion_cargo = cargo_desc  #decidansen palabras completas o cortas, o usar identificadores para variables de nombres iguales
-                membresia.fecha_peticion = datetime.datetime.now()  #Por que siguen asignando valores estaticos?
-                membresia.fecha_aceptacion = datetime.datetime.now()  #Por que siguen asignando valores estaticos?
-                membresia.ip_peticion = get_client_ip(request)  #Por que siguen asignando valores estaticos?
+                membresia.descripcion_cargo = cargo_desc  #Error 10, usar palabras completas no abreviaturas
+                membresia.fecha_peticion = datetime.datetime.now()
+                membresia.fecha_aceptacion = datetime.datetime.now()
+                membresia.ip_peticion = get_client_ip(request)
                 membresia.estado = 1
                 membresia.fk_institucion = insti
                 membresia.fk_usuario = Perfil.objects.get(id=request.session['id_usuario'])
@@ -109,18 +110,18 @@ def registro_institucion(request):
                                                                fk_institucion=1).first()
                     membresiaBorrar.delete()
                     print "membresia independiente deleted"  #borrar cuando no lo necesiten mas, no olvidar
-                #falta retroalimentacion para el usuario.
+                #Error 6, falta retroalimentacion para el usuario.
                 except:
                     print "membresia no encontrada"  #borrar cuando no lo necesiten mas, no olvidar
-                #falta retroalimentacion para el usuario.
+                #Error 6, falta retroalimentacion para el usuario.
                 return redirect('/perfilInstitucion')
             else:
                 print "peticion ya usada"  #borrar cuando no lo necesiten mas, no olvidar
-                #falta retroalimentacion para el usuario.
+                #Error 6, falta retroalimentacion para el usuario.
                 return redirect('/registro_institucion')
         except:
             print "algo fallo"  #borrar cuando no lo necesiten mas, no olvidar
-            #falta retroalimentacion para el usuario.
+            #Error 6, falta retroalimentacion para el usuario.
             return redirect('/registro_institucion')
 
 
@@ -134,7 +135,7 @@ Descripción: Esta funcion obtiene la direccion IP del host para hacer uso en
 """
 
 
-def get_client_ip(request):
+def get_client_ip(request): #Error 10, nombre inadecuado de la funcion
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -160,23 +161,24 @@ def registro_usuario(request):
         if request.method == 'POST':
             #print request.POST
             #formulario = Form(request.POST)
-            username = request.POST['username']  #usar palabras en español
-            password = request.POST['password1']  #usar palabras en español
+            username = request.POST['username']  #Error 10, usar palabras en español
+            password = request.POST['password1']  #Error 10, usar palabras en español
             nombres = request.POST['nombres']
             apellidos = request.POST['apellidos']
             cedula = request.POST['cedula']
             #cargo=request.POST['cargo']
             telefono = request.POST['telefono']
             #actividad=request.POST['actividad']
-            website = request.POST['website']  #usar palabras en español
-            email = request.POST['email']  #usar palabras en español
-            pais_selected = request.POST['pais']  #usar palabras en español
-            ciudad_selected = request.POST['ciudad']  #usar palabras en español
+            website = request.POST['website']  #Error 10, usar palabras en español
+            email = request.POST['email']  #Error 10, usar palabras en español
+            pais_selected = request.POST['pais']  #Error 10, usar palabras en español
+            ciudad_selected = request.POST['ciudad']  #Error 10, usar palabras en español
 
             print pais_selected  #borrar luego que no se use mas
 
             try:
                 perfil = Perfil()
+                #Error 10, usar palabras en español
                 perfil.username = username
                 perfil.set_password(password)
                 perfil.first_name = nombres
@@ -199,6 +201,7 @@ def registro_usuario(request):
                 perfil.save()
 
                 membresia = Membresia()
+                #Error 10, usar palabras en español
                 membresia.es_administrator = 0  #0 para falso
                 membresia.cargo = "Independiente"  #independiente no hay cargo
                 membresia.descripcion = "Independiente"  #Independiente no hay descripcion
@@ -215,7 +218,7 @@ def registro_usuario(request):
                 args = {}
 
                 if usuario is not None:
-                    if request.POST.has_key('remember_me'):
+                    if request.POST.has_key('remember_me'): #Error 10, usar palabras en español
                         request.session.set_expiry(1209600)  # 2 weeks
                     auth.login(request, usuario)
                     request.session['id_usuario'] = usuario.id
@@ -225,7 +228,7 @@ def registro_usuario(request):
 
             except:
                 #print e.getMessage()
-                u_existe = Perfil.objects.get(username=username)
+                u_existe = Perfil.objects.get(username=username) #Error 10, usar palabras completas no abreviaturas
                 args = {}
                 mensaje = "No se pudo crear el usuario"
                 if u_existe is not None:
@@ -252,7 +255,7 @@ Descripción:
 """
 
 
-def index(request):
+def index(request): #Error 10, nombre inadecuado de la funcion
     if request.user.is_authenticated():
         return HttpResponseRedirect('/inicioUsuario')
     else:
@@ -267,13 +270,13 @@ Salida: hhtp
 Descripción: permite el login de un usuario registrado
 """
 #usar palabras en español
-def iniciarSesion(request):
+def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
     if request.user.is_authenticated():
         return HttpResponseRedirect('/inicioUsuario/')
     else:
         if request.method == 'POST':
-            username = request.POST['usernameLogin']
-            password = request.POST['passwordLogin']
+            username = request.POST['usernameLogin'] #Error 10, usar palabras en español
+            password = request.POST['passwordLogin'] #Error 10, usar palabras en español
             usuario = auth.authenticate(username=username, password=password)
             args = {}
 
@@ -341,6 +344,7 @@ def editar_usuario(request):
 
         except:
             foto = "noPicture.png"
+         #Explicar como funciona el array de privacidad.
         try:
             #privacidadNom=request.POST['PrivacidadNombre']
             #privacidadApe=request.POST['PrivacidadApellido']
@@ -393,7 +397,7 @@ Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
 
-def terms(request):
+def terms(request): #Error 10, nombre inadecuado de la funcion
     return render(request, 'terms.html')
 
 
@@ -433,7 +437,7 @@ Descripción: envia la informacion del usuario a una plantilla html
 
 
 @login_required
-def perfilUsuario(request):
+def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
@@ -472,8 +476,8 @@ Salida: Perfil de Institucion
 
 
 @login_required
-def perfilInstitucion(request):
-    session = request.session['id_usuario']
+def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
+    session = request.session['id_usuario'] #Error 10, usar palabras en español
     usuario = Perfil.objects.get(id=session)
     args = {}
 
@@ -510,7 +514,7 @@ Responde con un formulario vacio de registro de institucion
 
 
 @login_required
-def verificarCodigo(request):
+def verificarCodigo(request): #Error 10, nombre inadecuado de la funcion
     if request.method == 'POST':
         args = {}
         codigo = request.POST['codigo']
@@ -541,7 +545,7 @@ Responde con options de ciudades
 """
 
 
-def obtenerCiudades(request):
+def obtenerCiudades(request): #Error 10, nombre inadecuado de la funcion
     if request.method == 'POST':
         args = {}
         ciudades = City.objects.all().filter(country_id=request.POST['paisId'])
@@ -560,9 +564,9 @@ Descripción: hace la suspension de la cuenta por parte del usuario
 
 
 @login_required
-def suspenderUsuario(request):
+def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
     usuario = Perfil.objects.get(id=request.session['id_usuario'])
-    password_ingresada = request.POST['txt_password_ingresada']
+    password_ingresada = request.POST['txt_password_ingresada'] #Error 10, usar palabras en español
 
     if usuario.check_password(password_ingresada):
         #Cero significa que esta inactivo
@@ -587,9 +591,9 @@ Descripción: Genera un codigo para registrar institucion
 """
 
 
-def generarCodigo(request):
+def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
     if request.method == 'POST':
-        username = request.POST['username']
+        username = request.POST['username'] #Error 10, usar palabras en español
         usuario = Perfil.objects.get(username=username)
         codigo = request.POST['codigo']
         nombre_institucion = request.POST['nombre_institucion']
@@ -619,23 +623,31 @@ Descripción: Genera un codigo para registrar institucion
 """
 
 
-def verificar_username(request):
+def verificar_username(request):  #Error 10, nombre inadecuado de la funcion
     if request.method == "POST":
-        userinput = request.POST['username']
+        userinput = request.POST['username'] #Error 10, usar palabras en español
         try:
-            usuarioquery = Perfil.objects.get(username=userinput)
+            usuarioquery = Perfil.objects.get(username=userinput) #Error 10, usar palabras en español
         except:
-            usuarioquery = None
+            usuarioquery = None #Error 10, usar palabras en español
         #print "userinput",userinput, "usuarioquery ", usuarioquery
-        if usuarioquery is not None:
+        if usuarioquery is not None: #Error 10, usar palabras en español
             return HttpResponse("usado")
         else:
             return HttpResponse("ok")
     return HttpResponse("no es post")
 
 
-def verCualquierUsuario(request):
-    username = request.GET.get('u', '')
+"""
+Autor: RELLENAR A QUIEN LE CORRESPONDA
+Nombre de función:
+Parámetros:
+Salida:
+Descripción:
+"""
+
+def verCualquierUsuario(request):  #Error 10, nombre inadecuado de la funcion
+    username = request.GET.get('u', '') #Error 10, usar palabras en español
     if username != "":
         perfil = Perfil.objects.get(username=username)
         if username is not None:
@@ -653,16 +665,16 @@ Descripción: Se envia un email donde el usuario decida, con la Contraseña del 
 """
 
 
-def enviarEmailPassword(request):
+def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
     destinatario = request.POST['email_recuperacion']
     args = {}
     try:
         usuario = Perfil.objects.get(email=destinatario)
-        username = usuario.username.encode('utf-8', errors='ignore')
+        username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
         print username
-        password = generarPasswordAleatorea()
+        password = generarPasswordAleatorea() #Error 10, usar palabras en español
         print password
-        usuario.set_password(password)
+        usuario.set_password(password) #Error 10, usar palabras en español
         usuario.save()
 
         if destinatario and usuario:
@@ -703,7 +715,7 @@ de longitud 8
 """
 
 
-def generarPasswordAleatorea():
+def generarPasswordAleatorea(): #Error 10, nombre inadecuado de la funcion
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
 
@@ -729,8 +741,8 @@ Salida: Redireccion a perfil
 
 
 @login_required
-def modificarPerfilInstitucion(request):
-	usuario_admin = request.user
+def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
+	usuario_admin = request.user #Error 10, usar palabras en español
 	membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
 	paises=Country.objects.all()
 	ciudades=City.objects.all().filter(country_id = paises.first().id)
