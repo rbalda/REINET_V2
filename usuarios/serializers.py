@@ -16,5 +16,5 @@ class PerfilSerializador(serializers.ModelSerializer):
     fk_ciudad = serializers.StringRelatedField()
     class Meta:
         model=Perfil
-        fields = ('id_perfil','first_name','last_name','foto','fk_ciudad')
-        read_only_fields = ('id_perfil','first_name','last_name','foto','fk_ciudad')
+        fields = ('id_perfil','first_name','last_name','foto','fk_ciudad','username')
+        read_only_fields = ('id_perfil','first_name','last_name','foto','fk_ciudad','username')

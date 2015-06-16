@@ -517,7 +517,7 @@ Salida: Perfil de otra institucion de la que no sea admin
 
 @login_required
 def verPerfilInstituciones(request, institucionId): 
-	id_institucion = int(institucionId)
+	id_institucion = institucionId
 	sesion = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=sesion)
 	args = {}
@@ -838,7 +838,7 @@ class InstitucionBusqueda(ListAPIView):
         busqueda = self.request.query_params.get('busqueda',None)
         queryset = []
 
-        if busqueda is not None:
+        if busqueda is not None and busqueda!='':
             queryset = self.get_queryset().filter(siglas__icontains=busqueda)
             queryset = queryset|self.get_queryset().filter(nombre__icontains=busqueda)
         lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
@@ -853,7 +853,7 @@ class PerfilBusqueda(ListAPIView):
         busqueda = self.request.query_params.get('busqueda',None)
         queryset = []
 
-        if busqueda is not None:
+        if busqueda is not None and busqueda!='':
             queryset = self.get_queryset().filter(first_name__icontains=busqueda)
             queryset = queryset | self.get_queryset().filter(last_name__icontains=busqueda)
         lista_serializada = self.get_serializer_class()(queryset[:4],many=True)

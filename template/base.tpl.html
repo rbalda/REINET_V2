@@ -127,15 +127,37 @@
 
               </div>
               <ul class="dropdown-menu show lista_busqueda" ng-hide="esta_vacio()">
-                    <li ng-repeat="item in lista_usuarios" class="item-seleccionado">
+                  <li ng-hide="no_usuarios()" class="item-seleccionado">
+                      <strong><small class="busqueda-result-header">Usuarios</small></strong>
+                  </li>
+                  <li ng-repeat="item in lista_usuarios"
+                      ng-hide="no_usuarios()" class="item-seleccionado">
                         <p class="text-muted busqueda-result">
-                            <img ng-src="[[item.foto]]" height="16px"/>
-                            <a ng-href="/institucion/[[item.id_perfil]]">
+                            <img ng-src="[[item.foto]]" height="24px"/>
+                            <a ng-href="/usuario/[[item.username]]">
                             [[item.first_name]] [[item.last_name]]
                             </a>
                             <br/>
                             <small>
                             [[item.fk_ciudad]]
+                        </small>
+                        </p>
+                    </li>
+                  <li ng-hide="no_instituciones()" class="item-seleccionado">
+                      <strong><small class="busqueda-result-header">Instituciones</small></strong>
+                  </li>
+                  <li ng-repeat="item in lista_instituciones"
+                      ng-hide="no_instituciones()" class="item-seleccionado">
+                        <p class="text-muted busqueda-result">
+                            <img ng-src="[[item.logo]]" height="24px"/>
+                            <a ng-href="/institucion/[[item.id_institucion]]">
+                            [[item.siglas]]
+                            </a>
+                            <br/>
+                            [[item.nombre]]
+                            <br/>
+                            <small>
+                            [[item.ciudad]]
                         </small>
                         </p>
                     </li>

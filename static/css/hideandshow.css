@@ -42,6 +42,7 @@ body {
 .lista_busqueda{
     position: absolute;
     width: 100%;
+    display: flex;
 }
 
 .busqueda-result{
@@ -50,4 +51,13 @@ body {
 
 .item-seleccionado:hover{
     background-color: #515151;
+    color: #fff;
+}
+
+.busqueda-result-header{
+    margin-left:20px;
+}
+
+.item-seleccionado{
+    padding-top:3px;
 }

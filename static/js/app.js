@@ -36,11 +36,25 @@ redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,En
     $scope.lista_usuarios = [];
     $scope.lista_instituciones = [];
     $scope.esta_vacio = function(){
-        if ($scope.busqueda_entrada===null || $scope.busqueda_entrada==='')
-            return true;
-        else
-            return false;
+        return ($scope.no_usuarios()&&$scope.no_instituciones());
+    }
 
+    $scope.no_usuarios = function(){
+        if($scope.lista_usuarios.length<1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    $scope.no_instituciones = function(){
+        if($scope.lista_instituciones.length<1){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     $scope.buscar_entidades = function(){
@@ -58,5 +72,10 @@ redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,En
             function(){
                 $log('No encontrado')
             });
+
+        if ($scope.busqueda_entrada ===''){
+            $scope.lista_usuarios = [];
+            $scope.lista_instituciones = [];
+        }
     }
 }]);
