@@ -174,7 +174,7 @@
                     <td class="text-muted">Instituci&oacute;n</td>
                     <td style="text-align:right"id="link">
                         {% for inst in listaInstituciones %}
-                            {% if inst.nombre != "Independiente" %}<a href="/perfilInstitucion/">{{ inst.nombre }}</a><br/> {%else%} {{ inst.nombre }} {%endif%}
+                            {% if inst.nombre != "Independiente" %}<a href="/institucion/{{ inst.id_institucion }}">{{ inst.nombre }}</a><br/> {%else%} {{ inst.nombre }} {%endif%}
                             
                         {% endfor %}
                     </td>
