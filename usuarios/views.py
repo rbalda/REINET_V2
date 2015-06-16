@@ -684,15 +684,19 @@ Salida:
 Descripción:
 """
 
-def verCualquierUsuario(request):  #Error 10, nombre inadecuado de la funcion
-    username = request.GET.get('u', '') #Error 10, usar palabras en español
+@login_required
+def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la funcion
     if username != "":
-        perfil = Perfil.objects.get(username=username)
-        if username is not None:
-            args = {}
-            args['usuario'] = perfil
-            return render_to_response("Usuario_vercualquierPerfil.html", args)
-
+        try:
+            perfil = Perfil.objects.get(username=username)
+            if username is not None:
+                args = {}
+                args['usuario'] = perfil
+                return render_to_response("Usuario_vercualquierPerfil.html", args)
+        except:
+            return HttpResponseRedirect('/inicioUsuario')
+    else:
+        return HttpResponseRedirect('/inicioUsuario')
 
 """
 Autor: Fausto Mora
