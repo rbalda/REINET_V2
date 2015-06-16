@@ -151,3 +151,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'reinetespol@gmail.com' # cuenta reinet en gmail
 EMAIL_HOST_PASSWORD = 'reinet1234' # clave de cuenta reinet
 EMAIL_USE_TLS = True
+
+#Si realizan cambios en este archivo, que sean los technical leaders los que lo realicen.
+#Si algun programador necesita hacer algun cambio conversar con su technical.
+#Comentar que cambio,cuando se lo hizo y por que se lo realizo.

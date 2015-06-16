@@ -3,6 +3,8 @@ from django.conf.urls import patterns, url
 from django.conf import settings
 from django.conf.urls.static import static
 
+#Error 2 Revisar el estandar para mas informacion.
+#Error 10 Revisar el estandar para mas informacion.
 
 urlpatterns = patterns('',
 
