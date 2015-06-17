@@ -347,7 +347,7 @@ def editar_usuario(request):
 			foto = request.FILES['imagen']
 
 		except:
-			foto = "noPicture.png"
+			foto = "../../media/noPicture.png"
 		 #Explicar como funciona el array de privacidad.
 		try:
 			#privacidadNom=request.POST['PrivacidadNombre']
@@ -799,10 +799,15 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 		descripcion=request.POST.get("descripcion")
 		mision=request.POST.get("mision")
 		web=request.POST.get("webInstitucion")
-		recursos=request.POST.get("recursosInstitucion")
+		recursos=request.POST.get("recursosofrecidos")
 		mail=request.POST.get("emailInstitucion")
 		telefono = request.POST.get("telefonoInstitucion")
-		image = request.FILES['logo']
+		try:
+			image = request.FILES['logo']
+
+		except:
+			image = "../../media/noPicture.png"
+
 
 		institucion.nombre=nombre
 		institucion.siglas=siglas
@@ -820,6 +825,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 		#institucion=Institucion.objects.get()
 
 		args ={
+            "usuario":usuario_admin,
 			"institucion":institucion,
 			"ciudades":ciudades,
 			"paises":paises
