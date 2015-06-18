@@ -305,15 +305,15 @@ Descripción: salida del http al escribir una url
               <!-- ///////////  Ventana escondida para ingresar contraseña ////////////-->
               <div class="pwd-lost-f hidden">
               <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-                <p class="text-muted">Ingresa contraseña para validar tu usario</p>
+                <p class="text-muted">Ingresa contraseña para validar tu usuario</p>
                 <form class="form-inline" role="form" action="/suspender_usuario/" method="POST">{%csrf_token%}
                   <div class="form-group">
                     <label class="sr-only" for="email-pwd">Suspension de Cuenta</label>
                     <input id="txt_password_ingresada"  name ="txt_password_ingresada" type="password" class="form-control" id="email-pwd" placeholder="Ingrese su contraseña">
                   </div>
-                  <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="popover" data-placement="bottom" data-trigger="focus">Aceptar</button>
+                  <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="popover" data-placement="bottom" data-trigger="focus">Suspender</button>
                   <div id="popover_content_wrapper" style="display: none">
-                    <div>Estas seguro de querer suspender tu cuenta en ReiNet?</div>
+                    <div>¿Est&aacute;s seguro de querer suspender tu cuenta en ReiNet?</div>
                     <br>
                     <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">Confirmar</button>
                   </div>
