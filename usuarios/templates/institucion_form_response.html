@@ -7,7 +7,7 @@
 <!--NOMBRE-->
 <div class="form-group">
   <label for="nombreInstitucion">Nombre de la instituci&oacute;n</label>
-  <label class="form-control" id="nombreInstitucion" placeholder="Nombre de la Institución" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el nombre de la Institución." data-original-title="Nombre Institucion">
+  <label class="form-control" id="nombreInstitucion" placeholder="Nombre de la Institución" maxlength="50" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el nombre de la Institución." data-original-title="Nombre Institucion">
 	{{ insti }}
   </label>
 </div>
@@ -15,19 +15,19 @@
 <div class="form-group">
   <label for="siglaInstitucion">Siglas</label>
   <input type="text" class="form-control" maxlength="12" id="siglaInstitucion" name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
-		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required>
+		 maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required>
 </div>
 <!--DESCRIPCION-->
 <div class="form-group">
   <label for="descInstitucion">Descripci&oacute;n</label>
   <input type="text" class="form-control" id="descInstitucion" name="descInstitucion" placeholder="Descripcion de la Institucion"
-		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion" data-original-title="Descripcion" required>
+		 maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion" data-original-title="Descripcion" required>
 </div>
 <!--MISION-->
 <div class="form-group">
   <label for="misionInstitucion">Misi&oacute;n</label>
   <input type="text" class="form-control" id="misionInstitucion" name="misionInstitucion" placeholder="Misión"
-		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la misión de la Institución" data-original-title="Misión" required>
+		 maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la misión de la Institución" data-original-title="Misión" required>
 </div>
 <!--PAIS-->
 <div class="form-group">
@@ -56,19 +56,19 @@
 <div class="form-group">
   <label for="recursosInstitucion">Recursos ofrecidos</label>
   <input type="text" class="form-control" id="recursosInstitucion" name="recursosInstitucion" placeholder="Recursos Ofrecidos"
-		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese los recursos que ofrece la Institución" data-original-title="Recursos Ofrecidos" required>
+		 maxlength="200" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese los recursos que ofrece la Institución" data-original-title="Recursos Ofrecidos" required>
 </div>
 <!--CARGO-->
 <div class="form-group">
   <label for="cargoInstitucion">Cargo</label>
   <input type="text" class="form-control" id="cargoInstitucion" name="cargoInstitucion" placeholder="Indique su cargo en la Institucion"
-		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese su cargo en la Institución" data-original-title="Cargo" onkeypress="return validarLetras(event)" required>
+		 maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese su cargo en la Institución" data-original-title="Cargo" onkeypress="return validarLetras(event)" required>
 </div>
 <!--DESCRIPCION DE CARGO-->
 <div class="form-group">
   <label for="cargoDescInstitucion">Descripci&oacute;n del cargo</label>
   <input type="text" class="form-control" id="cargoDescInstitucion" name="cargoDescInstitucion" placeholder="Indique de que se trata su cargo"
-		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese de que se trata su cargo" data-original-title="Desc Cargo" required>
+		 maxlength="100" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese de que se trata su cargo" data-original-title="Desc Cargo" required>
 </div>
 <!--TELEFONO-->
 <div class="form-group">
@@ -79,13 +79,13 @@
 <!--EMAIL-->
 <div class="form-group">
   <label for="emailInstitucion">E-mail</label>
-  <input type="email" class="form-control" maxlength="40" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email"
+  <input type="email" class="form-control" maxlength="45" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email"
 		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el correo electronico de la Institución" data-original-title="Email" required>
 </div>
 <!--SITIO WEB-->
 <div class="form-group">
   <label for="webInstitucion">Sitio web</label>
-  <input type="text" class="form-control" maxlength="40" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web"
+  <input type="text" class="form-control" maxlength="45" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web"
 		 data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required>
 </div>
 <label for="logo">Logo</label>
