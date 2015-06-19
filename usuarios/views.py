@@ -285,19 +285,25 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 			args = {}
 
 			if usuario is not None:
-				if request.POST.has_key('remember_me'):
-					request.session.set_expiry(1209600)  # 2 weeks
-
 				user = Perfil.objects.get(id=usuario.id)
-				request.session['id_usuario'] = usuario.id
-				print user
-				print user.privacidad
-				if user.privacidad<10000 :
-					auth.login(request, usuario)
-					return HttpResponseRedirect('/inicioUsuario')
+				if user.estado == 1:
+					if request.POST.has_key('remember_me'):
+						request.session.set_expiry(1209600)  # 2 weeks
+			
+					request.session['id_usuario'] = usuario.id
+					print user
+					print user.privacidad
+					if user.privacidad<10000 :
+						auth.login(request, usuario)
+						return HttpResponseRedirect('/inicioUsuario')
+					else:
+						args.update(csrf(request))
+						return render(request,'recuperar_password.html',args)
 				else:
-					args.update(csrf(request))
-					return render(request,'recuperar_password.html',args)
+					if user.estado == 0:
+						args['mensajeSuspendido']='Su usuario se encuentra suspendido. Contactar con el Administrador para más información'
+						args.update(csrf(request))
+						return render(request,'sign-in.html',args)
 			else:
 				error = "Nombre de Usuario o Contraseña Incorrectos"
 				args['mensajeErrorIngreso'] = error

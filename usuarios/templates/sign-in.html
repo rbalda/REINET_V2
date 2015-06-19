@@ -58,11 +58,19 @@
                 <label class="sr-only" for="passwordLogin">Contraseña</label>
                 <input type="password" class="form-control" id="passwordLogin" placeholder="Escriba su contraseña" name="passwordLogin" required>
               </div>
+
+              {% if mensajeSuspendido %}
+                <div class="alert alert-warning">
+                <p>{{ mensajeSuspendido }}</p>
+                </div>
+              {% endif %}
+
               {% if mensajeErrorIngreso %}
                 <div class="alert alert-danger">
                 <p>{{ mensajeErrorIngreso }}</p>
                 </div>
               {% endif %}
+              
               <div class="checkbox">
                 <label>
                   <input name="remember_me" type="checkbox" value="true">Mantenerme conectado
