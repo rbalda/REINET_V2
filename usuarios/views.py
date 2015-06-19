@@ -287,9 +287,17 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 			if usuario is not None:
 				if request.POST.has_key('remember_me'):
 					request.session.set_expiry(1209600)  # 2 weeks
-				auth.login(request, usuario)
+
+				user = Perfil.objects.get(id=usuario.id)
 				request.session['id_usuario'] = usuario.id
-				return HttpResponseRedirect('/inicioUsuario')
+				print user
+				print user.privacidad
+				if user.privacidad<10000 :
+					auth.login(request, usuario)
+					return HttpResponseRedirect('/inicioUsuario')
+				else:
+					args.update(csrf(request))
+					return render(request,'recuperar_password.html',args)
 			else:
 				error = "Nombre de Usuario o Contraseña Incorrectos"
 				args['mensajeErrorIngreso'] = error
@@ -423,6 +431,11 @@ def inicio(request):
 
 	if usuario is not None:
 		args['usuario'] = usuario
+
+		if(usuario.privacidad>=10000):
+			usuario.privacidad = abs(usuario.privacidad-10000)
+			usuario.save()
+			print usuario.privacidad
 
 	else:
 		args['error'] = "Error al cargar los datos"
@@ -703,7 +716,7 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 		return HttpResponseRedirect('/inicioUsuario')
 
 """
-Autor: Fausto Mora
+Autor: Fausto Mora y Roberto Yoncon
 Nombre de funcion: enviarEmailPassword
 Entrada: request POST
 Salida: Se envia un email 
@@ -714,41 +727,50 @@ Descripción: Se envia un email donde el usuario decida, con la Contraseña del 
 def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
 	destinatario = request.POST['email_recuperacion']
 	args = {}
-	try:
-		usuario = Perfil.objects.get(email=destinatario)
-		username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
-		print username
-		password = generarPasswordAleatorea() #Error 10, usar palabras en español
-		print password
-		usuario.set_password(password) #Error 10, usar palabras en español
-		usuario.save()
+	
+	usuario = Perfil.objects.get(email=destinatario)
+	username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
 
-		if destinatario and usuario:
-			try:
-				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
-					username, password)
-				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
-											 'REINET <from@server.com>', [destinatario])
-				msg.attach_alternative(html_content, 'text/html')
-				msg.send()
-				args['tipo'] = 'success'
-				args['mensaje'] = 'Mensaje enviado correctamente'
-				print args['mensaje']
-				args.update(csrf(request))
+	priv_actual = usuario.privacidad
+	if(priv_actual<10000):
+		print 'este es la privacidad'
+		print priv_actual
+		priv_nueva = 10000+priv_actual
+		usuario.privacidad = priv_nueva
+		print priv_nueva
 
-			except:
-				args['tipo'] = 'error'
-				args['mensaje'] = 'Error de envio. Intentelo denuevo'
-				print args['mensaje']
-				args.update(csrf(request))
+	print username
+	password = generarPasswordAleatorea() #Error 10, usar palabras en español
+	print password
+	usuario.set_password(password) #Error 10, usar palabras en español
+	usuario.save()
 
-		return render(request, 'sign-in.html', args)
-	except:
-		args['tipo'] = 'info'
-		args['mensaje'] = 'No existe usuario asociado a ese email'
-		print args['mensaje']
-		args.update(csrf(request))
-		return render(request, 'sign-in.html', args)
+	if destinatario and usuario:
+		try:
+			html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
+				username, password)
+			msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
+										 'REINET <from@server.com>', [destinatario])
+			msg.attach_alternative(html_content, 'text/html')
+			msg.send()
+			args['tipo'] = 'success'
+			args['mensaje'] = 'Mensaje enviado correctamente'
+			print args['mensaje']
+			args.update(csrf(request))
+
+		except:
+			args['tipo'] = 'error'
+			args['mensaje'] = 'Error de envio. Intentelo denuevo'
+			print args['mensaje']
+			args.update(csrf(request))
+
+	return render(request, 'sign-in.html', args)
+
+	args['tipo'] = 'info'
+	args['mensaje'] = 'No existe usuario asociado a ese email'
+	print args['mensaje']
+	args.update(csrf(request))
+	return render(request, 'sign-in.html', args)
 
 
 """
@@ -776,6 +798,41 @@ Descripción: maneja el error de csrf
 
 def csrf_failure(request, reason=""):
 	return HttpResponseRedirect('/index/')
+
+
+
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: recuperarPassword
+Entrada: request POST
+Salida: Redireccion inicio usuario
+Descripción: Esta funcion permite el cambio de contraseña cuando se 
+recupera la contraseña desde un correo enviado por mail
+"""
+
+def recuperarPassword(request):
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
+	args={}
+	if request.method == 'POST':
+		pass1 = request.POST['passwordSet1']
+		pass2 = request.POST['passwordSet2']
+		if pass1 == pass2:
+			usuario.set_password(pass1)
+			usuario.save()
+
+			usuario = auth.authenticate(username=usuario.username, password=pass1)
+			auth.login(request, usuario)
+			request.session['id_usuario'] = usuario.id
+
+
+			return HttpResponseRedirect('/inicioUsuario/')
+		else:
+			args['error']='Contraseñas no coinciden'
+	
+	args.update(csrf(request))
+	return render(request,'recuperar_password.html',args)
+
 
 
 """
