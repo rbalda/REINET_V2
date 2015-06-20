@@ -472,12 +472,16 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
 		membresia = Membresia.objects.filter(fk_usuario=usuario.id)
+		institucion = "nohay"
+		if membresia.filter(es_administrator=1).count() != 0:
+			administracion = membresia.filter(es_administrator=1)
+			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)	
 		listaInstituciones = []
 		for num in range(0, membresia.count()):
 			listaInstituciones.append(
 				Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
 		args['listaInstituciones'] = listaInstituciones
-		institucion = Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
+		
 		#print institucion
 		args['institucion'] = institucion
 
