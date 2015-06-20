@@ -40,12 +40,24 @@ Descripción: Corresponde a la creacion de la institucion y el anexo con e usuar
 
 
 @login_required
-def registro_institucion(request):
+def registro_institucion(request, codigo):
 	if request.method == 'GET':
+		codigo_usado = codigo
+		try: 
+			peticion = Peticion.objects.all().filter(fk_usuario=request.session['id_usuario'], codigo = codigo_usado, usado = 0).first()
+			print peticion.nombre_institucion
+		except:
+			print "not gotten"
+			return HttpResponseRedirect('/inicioUsuario')
+
 		session = request.session['id_usuario']  #Error 10, usar sesion o algun otro
 		usuario = Perfil.objects.get(id=session)
 		args = {}
-
+		paises = Country.objects.all()
+		ciudades = City.objects.all().filter(country_id=paises.first().id)
+		args['insti'] = peticion.nombre_institucion
+		args['paises'] = paises
+		args['ciudades'] = ciudades
 		if usuario is not None:
 			args['usuario'] = usuario
 
@@ -122,11 +134,97 @@ def registro_institucion(request):
 			else:
 				print "peticion ya usada"  #borrar cuando no lo necesiten mas, no olvidar
 				#Error 6, falta retroalimentacion para el usuario.
-				return redirect('/registro_institucion')
+				return redirect('/inicioUsuario')
 		except:
 			print "algo fallo"  #borrar cuando no lo necesiten mas, no olvidar
 			#Error 6, falta retroalimentacion para el usuario.
-			return redirect('/registro_institucion')
+			return redirect('/inicioUsuario')
+
+
+"""
+Autor: Pedro Iniguez
+Nombre de funcion: registrarSolicitud
+Entrada: request POST
+Salida: Registrar peticion
+"""
+
+@login_required
+def registrarSolicitud(request):
+	if request.method == 'POST':
+		args = {}
+		try:
+			peticion = Peticion.objects.get(fk_usuario = request.session['id_usuario'])
+			args['msj'] = 'Usted ya ha enviado una solicitud anteriormente.'
+			args['esAlerta'] = 1
+			return render_to_response('respuesta_Solicitud_Institucion.html', args)
+		except:
+			print "not loaded"
+
+		try:
+			peticion = Peticion.objects.get(nombre_institucion = request.POST['nombre_institucion'])
+			args['msj'] = 'Ya existe una INSTITUCION con este nombre'
+			args['esAlerta'] = 1
+			return render_to_response('respuesta_Solicitud_Institucion.html', args)
+		except:
+			print "registrando"
+			usuario = Perfil.objects.get(id=request.session['id_usuario'])
+			peticion = Peticion()
+			peticion.codigo = '000000'
+			peticion.nombre_institucion = request.POST['nombre_institucion']
+			peticion.usado = 0
+			peticion.fk_usuario = usuario
+			peticion.save()
+			args['esAlerta'] = 0
+			args['msj'] = 'Se ha enviado su solicitud con exito!'
+		
+		return render_to_response('respuesta_Solicitud_Institucion.html', args)
+
+"""
+Autor: Pedro Iniguez
+Nombre de funcion: verPeticiones
+Entrada: request POST
+Salida: las peticiones de codigo 000000
+"""
+
+@login_required
+def verPeticiones(request):
+	try:
+		args = {}
+		args['peticiones'] = Peticion.objects.all().filter(codigo='000000')
+		args.update(csrf(request))
+		return render_to_response('ver_peticiones.html', args)
+	except:
+		return HttpResponseRedirect('/')
+
+"""
+Autor: Pedro Iniguez
+Nombre de funcion: aceptarPeticiones
+Entrada: request POST
+Salida: la peticion es aceptada
+"""
+
+@login_required
+def aceptarPeticiones(request):
+	args={}
+	try:
+		peticion = Peticion.objects.get(id_peticion = request.POST['id_peticion'])
+		usuario = Perfil.objects.get(id=peticion.fk_usuario.id)
+		destinatario = usuario.email
+		codigo = generarPasswordAleatorea()
+		peticion.codigo = codigo
+		peticion.save()
+		html_content = "<p><h2>Hola... puedes crear tu institucion desde el siguiente link: http://www.reinet.org/registro_institucion/" + codigo
+		msg = EmailMultiAlternatives('Registra tu institucion en REINET', html_content,
+									 'REINET <from@server.com>', [destinatario])
+		msg.attach_alternative(html_content, 'text/html')
+		msg.send()
+		args['esAlerta'] = 0
+		args['msj'] = 'Aceptada la institucion ' + peticion.nombre_institucion
+		return render_to_response('respuesta_Solicitud_Institucion.html', args)
+	except:
+		args['esAlerta'] = 1
+		args['msj'] = 'Refresque la pagina, error al aceptar ' + peticion.nombre_institucion
+		return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 
 """
@@ -927,3 +1025,4 @@ class PerfilBusqueda(ListAPIView):
 			queryset = queryset | self.get_queryset().filter(last_name__icontains=busqueda)
 		lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
 		return Response(lista_serializada.data)
+

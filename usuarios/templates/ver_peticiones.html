@@ -1,0 +1,66 @@
+{% extends "base.tpl.html" %}
+{% block home %}
+        <a class="navbar-brand link" href="#" >REI-NET</a>
+{% endblock %}
+{% block signin %}
+<li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
+<li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
+{% endblock %}
+{% block content %}
+    <!-- Page Tip -->
+    <div class="page-tip animated slideInDown">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Peticiones para registrar Institucion</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main Form -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 signup">
+          <div id="mensaje"></div>
+          <h3 class="hl top-zero">Peticiones para registrar Institucion</h3>
+          <label style="width: 35%"> Usuario</label>
+          <label style="width: 35%"> Institucion</label>
+          <label style="width: 20%"> Aceptar</label>
+          {% for peticion in peticiones %}
+            <div>
+              <label class="form-control col-md-3" style="width: 35%"> {{ peticion.fk_usuario.username }}</label>
+              <label class="form-control col-md-3" style="width: 35%"> {{ peticion.nombre_institucion }}</label>
+              <button class="btn btn-green col-md-3" name="aceptarPeticion" value="{{ peticion.id_peticion }}" onclick="aceptarPeticion(this)">Aceptar Petici&oacute;n</button>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {%csrf_token%}
+
+<script>
+  function aceptarPeticion(e) {
+    id_peticion = e.value;
+    console.log(id_peticion);
+    $.ajax({
+      type: "POST",
+      url: "/aceptarPeticiones",
+      data: {
+        'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+        'id_peticion' : id_peticion
+      },
+      success: solicitudSuccess,
+      dataType: 'html'
+    });
+    console.log('bye');
+    $(e).parent().remove();
+  }
+
+  function solicitudSuccess(data, textStatus, jqXHR){
+    $("#mensaje").html(data);
+  }
+</script>
+
+{% endblock %}
+
+ 
