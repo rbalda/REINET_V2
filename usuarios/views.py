@@ -408,14 +408,14 @@ def editar_usuario(request):
 
 """
 Autor: Roberto Yoncon
-Nombre de función: terms
+Nombre de función: terminosCondiciones
 Parámetros: request
 Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
 
-def terms(request): #Error 10, nombre inadecuado de la funcion
+def terminosCondiciones(request): #Error 10, nombre inadecuado de la funcion
 	return render(request, 'terms.html')
 
 
@@ -713,12 +713,14 @@ Descripción:
 
 @login_required
 def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la funcion
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
 	if username != "":
 		try:
 			perfil = Perfil.objects.get(username=username)
 			if username is not None:
 				args = {}
 				args['usuario'] = perfil
+				args['usuarioSesion'] = usuario
 				return render_to_response("Usuario_vercualquierPerfil.html", args)
 		except:
 			return HttpResponseRedirect('/inicioUsuario')
