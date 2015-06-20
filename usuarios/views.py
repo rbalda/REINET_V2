@@ -709,12 +709,14 @@ Descripción:
 
 @login_required
 def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la funcion
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
 	if username != "":
 		try:
 			perfil = Perfil.objects.get(username=username)
 			if username is not None:
 				args = {}
 				args['usuario'] = perfil
+				args['usuarioSesion'] = usuario
 				return render_to_response("Usuario_vercualquierPerfil.html", args)
 		except:
 			return HttpResponseRedirect('/inicioUsuario')
