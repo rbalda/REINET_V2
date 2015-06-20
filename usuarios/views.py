@@ -408,14 +408,14 @@ def editar_usuario(request):
 
 """
 Autor: Roberto Yoncon
-Nombre de función: terms
+Nombre de función: terminosCondiciones
 Parámetros: request
 Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
 
-def terms(request): #Error 10, nombre inadecuado de la funcion
+def terminosCondiciones(request): #Error 10, nombre inadecuado de la funcion
 	return render(request, 'terms.html')
 
 

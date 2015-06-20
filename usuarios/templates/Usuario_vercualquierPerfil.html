@@ -155,7 +155,7 @@
             <div class="col-sm-12" id="collapseGeneral">
               
                 <div class="panel-heading btn-outline btn-primary" style="text-align:center">
-                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral" href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
+                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
                 </div>
                 <div id="collapseInfoGeneral" class="panel-collapse collapse in">
                   <table class="table table-hover">
@@ -249,7 +249,7 @@
           <!-- //////// INFORMACION CONTACTO /////////-->
             <div class="col-sm-3" id="collapseContacto">
               <div class="panel-heading btn-outline btn-warning" style="text-align:center">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
+                <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
               </div>
               <div id="collapseInfoContacto" class="panel-collapse collapse in">
                 <table class="table table-hover">
@@ -262,18 +262,24 @@
                     <td class="text-muted">Apellido</td>
                     <td style="text-align:right">{{ usuario.last_name }}</td>
                   </tr>
+                  {% if usuario.privacidad|get_digit:3 == 1 %}
                   <tr>
                     <td class="text-muted">Tel&eacute;fono</td>
                     <td style="text-align:right">{{ usuario.telefono }}</td>
                   </tr>
+                  {% endif %}
+                  {% if usuario.privacidad|get_digit:1 == 1 %}
                   <tr>
                     <td class="text-muted">Email</td>
                     <td style="text-align:right">{{ usuario.email }}</td>
                   </tr>
+                  {% endif %}
+                  {% if usuario.privacidad|get_digit:2 == 1 %}
                   <tr>
                     <td class="text-muted">Website</td>
-                    <td style="text-align:right">{{ usuario.web }}</td>
+                    <td style="text-align:right;word-break: break-all;">{{ usuario.web }}</td>
                   </tr>
+                  {% endif %}
 
                 </tbody>
               </table>
