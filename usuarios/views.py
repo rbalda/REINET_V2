@@ -506,14 +506,14 @@ def editar_usuario(request):
 
 """
 Autor: Roberto Yoncon
-Nombre de función: terms
+Nombre de función: terminosCondiciones
 Parámetros: request
 Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
 
-def terms(request): #Error 10, nombre inadecuado de la funcion
+def terminosCondiciones(request): #Error 10, nombre inadecuado de la funcion
 	return render(request, 'terms.html')
 
 
@@ -570,12 +570,16 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
 		membresia = Membresia.objects.filter(fk_usuario=usuario.id)
+		institucion = "nohay"
+		if membresia.filter(es_administrator=1).count() != 0:
+			administracion = membresia.filter(es_administrator=1)
+			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)	
 		listaInstituciones = []
 		for num in range(0, membresia.count()):
 			listaInstituciones.append(
 				Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
 		args['listaInstituciones'] = listaInstituciones
-		institucion = Institucion.objects.get(id_institucion=membresia[0].fk_institucion.id_institucion)
+		
 		#print institucion
 		args['institucion'] = institucion
 
@@ -807,12 +811,14 @@ Descripción:
 
 @login_required
 def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la funcion
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
 	if username != "":
 		try:
 			perfil = Perfil.objects.get(username=username)
 			if username is not None:
 				args = {}
 				args['usuario'] = perfil
+				args['usuarioSesion'] = usuario
 				return render_to_response("Usuario_vercualquierPerfil.html", args)
 		except:
 			return HttpResponseRedirect('/inicioUsuario')
