@@ -71,7 +71,7 @@ class Membresia(models.Model):
     cargo = models.CharField(max_length=45)
     descripcion_cargo = models.CharField(max_length=45)
     fecha_peticion = models.DateTimeField(auto_now_add=True)
-    fecha_aceptacion = models.DateTimeField(default=None)
+    fecha_aceptacion = models.DateTimeField(default=None,null=True)
     ip_peticion = models.GenericIPAddressField (max_length=45)
     estado = models.BooleanField(default=False)
     fk_institucion = models.ForeignKey(Institucion)
