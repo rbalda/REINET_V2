@@ -349,7 +349,8 @@ def registro_usuario(request):
 				paises = Country.objects.all()
 				args['paises'] = paises
 				args['mensaje'] = mensaje
-				return HttpResponseRedirect("/registro_usuario")
+				args['instituciones'] = instituciones
+				return HttpResponseRedirect("/registro_usuario", args)
 				
 		else:
 			args = {}
