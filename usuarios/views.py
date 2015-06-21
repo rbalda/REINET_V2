@@ -344,7 +344,7 @@ def registro_usuario(request):
 			except Exception as e:
 				#print e.getMessage()
 				args = {}
-				mensaje = "No se pudo crear el usuario"
+				mensaje = "No se pudo crear el usuario. Esto pudo deberse a un problema de conexión"
 				args.update(csrf(request))
 				paises = Country.objects.all()
 				args['paises'] = paises
