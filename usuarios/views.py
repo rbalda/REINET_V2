@@ -288,7 +288,7 @@ def registro_usuario(request):
 
 			try:
 				try:
-					usuarioquery = Perfil.objects.filter(email=email_input).first() #Error 10, usar palabras en español
+					usuarioquery = Perfil.objects.filter(email=email).first() #Error 10, usar palabras en español
 				except:
 					usuarioquery = None #Error 10, usar palabras en español
 				#print "userinput",userinput, "usuarioquery ", usuarioquery
