@@ -192,8 +192,11 @@
             <div class="form-group">
               <label class="info-board-red" id="errorCedula" style="display: none; color: red">C&eacute;dula debe contener 10 d&iacute;gitos</label>
             </div>
-           
-            <div class="form-group">
+                <div class="form-group">
+              <label class="info-board-red" id="cedula_usado" style="display: none; color: red"></label>
+            </div>
+         
+             <div class="form-group">
               <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
             </div>
              
@@ -270,9 +273,13 @@
     function habilitarDeshabilitarSubmit(valor){
 
       if(valor==0){
+        $("#submit").removeAttr("enabled");
+
         $("#submit").attr("disabled", "disabled");
 
       }else if(valor==1){
+
+        $("#submit").removeAttr("disabled");
 
         $("#submit").attr("enabled", "enabled");        
       }
@@ -325,6 +332,21 @@ console.log($("#username").val());
     });
   });
 
+
+  $("#cedula").change(function(){
+console.log($("#cedula").val());
+     $.ajax({
+      type: "POST",
+      url: "/verificar_cedula",
+      data: {
+          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+          'cedula' : $("#cedula").val()
+      },
+      success: verificarCedula,
+      dataType: 'text'
+    });
+  });
+
   $("#listarInst").click(function(){
     $("#formInstitucion").attr("hidden", false);
     $("#asIndependiente").attr("hidden", false);
@@ -355,6 +377,26 @@ console.log($("#username").val());
       $("#usuario_usado").html("Nombre de Usuario disponible");
       $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
       $("#usuario_usado").attr("class", "info-board-green");
+      habilitarDeshabilitarSubmit(1);
+      
+    }
+
+
+  }
+
+  function verificarCedula(data, textStatus, jqXHR){
+    console.log(data);
+    if(data=="usado"){
+      $("#cedula_usado").html("Ya existe un usuario registrado con esta cédula. Recuerde que la suplantación de identidad es un delito");
+      $("#cedula_usado").attr("style", "display: block; color: red; text-align:center");
+      $("#cedula_usado").attr("class", "info-board-red");
+      habilitarDeshabilitarSubmit(0);
+      
+    }
+    else{
+      $("#cedula_usado").attr("hidden", "true");
+      $("#cedula_usado").attr("style", "display: none; color: green; text-align:center");
+      //$("#cedula_usado").attr("class", "info-board-green");
       habilitarDeshabilitarSubmit(1);
       
     }
