@@ -254,6 +254,16 @@ Salida: Formulario de registro usuario
 Descripción: Responde con un formulario vacio de registro de usuario o ejecuta el registro de un usuario
 """
 
+class Email_excepcion(Exception):
+	"""Excepción lanzada por errores en las entradas.
+
+	Atributos:
+		expresion -- expresión de entrada en la que ocurre el error
+		mensaje -- explicación del error
+	"""
+
+	def __init__(self, mensaje):
+		self.mensaje = mensaje
 
 def registro_usuario(request):
 	if request.user.is_authenticated():
@@ -277,6 +287,14 @@ def registro_usuario(request):
 			print pais_selected  #borrar luego que no se use mas
 
 			try:
+				try:
+					usuarioquery = Perfil.objects.get(email=email) #Error 10, usar palabras en español
+				except:
+					usuarioquery = None #Error 10, usar palabras en español
+				#print "userinput",userinput, "usuarioquery ", usuarioquery
+				if usuarioquery is not None: #Error 10, usar palabras en español
+					raise Email_excepcion("emailrepetido")
+				
 				perfil = Perfil()
 				#Error 10, usar palabras en español
 				perfil.username = username
