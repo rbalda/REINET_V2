@@ -347,6 +347,7 @@ def registro_usuario(request):
 				mensaje = "No se pudo crear el usuario. Esto pudo deberse a un problema de conexión"
 				args.update(csrf(request))
 				paises = Country.objects.all()
+				instituciones=Institucion.objects.all()
 				args['paises'] = paises
 				args['mensaje'] = mensaje
 				args['instituciones'] = instituciones
