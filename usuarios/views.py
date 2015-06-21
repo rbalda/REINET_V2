@@ -835,6 +835,29 @@ def verificar_cedula(request):  #Error 10, nombre inadecuado de la funcion
 			return HttpResponse("ok")
 	return HttpResponse("no es post")
 
+"""
+Autor: Angel Guale
+Nombre de funcion: verificar_username
+Entrada: request GET o POST
+Salida: Formulario de generarCodigo
+Descripción: Genera un codigo para registrar institucion
+"""
+
+
+def verificar_email(request):  #Error 10, nombre inadecuado de la funcion
+	if request.method == "POST":
+		email_input = request.POST['email'] #Error 10, usar palabras en español
+		try:
+			usuarioquery = Perfil.objects.get(email=email_input) #Error 10, usar palabras en español
+		except:
+			usuarioquery = None #Error 10, usar palabras en español
+		#print "userinput",userinput, "usuarioquery ", usuarioquery
+		if usuarioquery is not None: #Error 10, usar palabras en español
+			return HttpResponse("usado")
+		else:
+			return HttpResponse("ok")
+	return HttpResponse("no es post")
+
 
 """
 Autor: RELLENAR A QUIEN LE CORRESPONDA

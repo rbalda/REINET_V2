@@ -182,11 +182,17 @@
                 </div>
               </div>
             </div>
-  <div class="form-group">
-              <input required type="text" class="form-control" id="nombre" name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" onkeypress="return validarLetras(event)">
+              <div class="form-group">
+              <label class="info-board-red" id="error_nombre" style="display: none; color: red">Los nombres no pueden contener números ni caracteres especiales</label>
             </div>
             <div class="form-group">
-              <input required type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" onkeypress="return validarLetras(event)">
+              <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" class="form-control" id="nombre"  name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" >
+            </div>
+              <div class="form-group">
+              <label class="info-board-red" id="error_apellido" style="display: none; color: red">Los apellidos no pueden contener números ni caracteres especiales</label>
+            </div>
+            <div class="form-group">
+              <input required type="text" class="form-control" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
             </div>
 
             <div class="form-group">
@@ -225,14 +231,17 @@
             </div>
      
             
-             <div class="form-group">
-              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" onblur="validarURL(this)" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
-            </div> 
-            
+           <div class="form-group">
+              <label class="info-board-red" id="email_usado" style="display: none; color: red"></label>
+            </div>
                        
             <div class="form-group">
               <input required type="email" class="form-control" maxlength="50" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
             </div>
+             <div class="form-group">
+              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" onblur="validarURL(this)" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
+            </div> 
+            
             <label id="listarInst" >
               <a >Click aqu&iacute; para solicitar membresía a instituci&oacute;n</a>
             </label>
@@ -346,6 +355,19 @@ console.log($("#cedula").val());
       dataType: 'text'
     });
   });
+  $("#email").change(function(){
+console.log($("#email").val());
+     $.ajax({
+      type: "POST",
+      url: "/verificar_email",
+      data: {
+          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+          'email' : $("#email").val()
+      },
+      success: verificarEmail,
+      dataType: 'text'
+    });
+  });
 
   $("#listarInst").click(function(){
     $("#formInstitucion").attr("hidden", false);
@@ -403,6 +425,59 @@ console.log($("#cedula").val());
 
 
   }
+
+
+  function verificarEmail(data, textStatus, jqXHR){
+    console.log(data);
+    if(data=="usado"){
+      $("#email_usado").html("Ya existe un usuario registrado con ese email");
+      $("#email_usado").attr("style", "display: block; color: red; text-align:center");
+      $("#email_usado").attr("class", "info-board-red");
+      habilitarDeshabilitarSubmit(0);
+      
+    }
+    else{
+      $("#email_usado").attr("hidden", "true");
+      $("#email_usado").attr("style", "display: none; color: green; text-align:center");
+      //$("#cedula_usado").attr("class", "info-board-green");
+      habilitarDeshabilitarSubmit(1);
+      
+    }
+
+
+  }
+
+  $("#nombre").change(function(){
+   // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
+console.log("UNO");
+ if( $("#nombre").val().match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/)){
+  console.log("bien el nombre");
+   $("#error_nombre").attr("style", "display: none; color: green; text-align:center");
+  // habilitarDeshabilitarSubmit(1);
+ }else{
+  console.log("DOS");
+  $("#error_nombre").attr("style", "display: block; color: red; text-align:center");
+$("#error_nombre").attr("class", "info-board-red");
+//habilitarDeshabilitarSubmit(0);
+ }
+
+  });
+
+$("#apellidos").change(function(){
+   // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
+console.log("UNO");
+ if( $("#apellidos").val().match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/)){
+  console.log("bien el nombre");
+   $("#error_apellido").attr("style", "display: none; color: green; text-align:center");
+   //habilitarDeshabilitarSubmit(1);
+ }else{
+  console.log("DOS");
+  $("#error_apellido").attr("style", "display: block; color: red; text-align:center");
+$("#error_apellido").attr("class", "info-board-red");
+//habilitarDeshabilitarSubmit(0);
+ }
+
+  });
 
 
   
