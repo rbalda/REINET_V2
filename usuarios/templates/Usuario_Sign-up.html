@@ -232,7 +232,7 @@
                 <input type="checkbox" required> Estoy de acuerdo con los <a href="/terminosYcondiciones/">T&eacute;rminos y Condiciones</a>.
               </label>
             </div>
-            <button required type="submit" class="btn btn-green">Crear Cuenta</button>
+            <button required id="submit" type="submit" class="btn btn-green">Crear Cuenta</button>
             <a style="float:right" class="btn btn-green" href="/iniciarSesion/">Ya poseo una cuenta</a>
           </form>
         </div>
@@ -242,6 +242,16 @@
 
     <script type="text/javascript">
 
+    function habilitarDeshabilitarSubmit(valor){
+
+      if(valor==0){
+        $("#submit").attr("disabled", "disabled");
+
+      }else if(valor==1){
+
+        $("#submit").attr("enabled", "enabled");        
+      }
+    }
   $(document).ready(function(){
     /*
     * Autor: Angel Guale 
@@ -295,17 +305,20 @@ console.log($("#username").val());
       $("#usuario_usado").html("Nombre de Usuario ya existente");
       $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
       $("#usuario_usado").attr("class", "info-board-red");
+      habilitarDeshabilitarSubmit(0);
       
     }
     else{
       $("#usuario_usado").html("Nombre de Usuario disponible");
       $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
       $("#usuario_usado").attr("class", "info-board-green");
-      console.log("nada");
+      habilitarDeshabilitarSubmit(1);
+      
     }
 
 
   }
+
 
   
 </script>

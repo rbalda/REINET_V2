@@ -330,17 +330,13 @@ def registro_usuario(request):
 
 			except:
 				#print e.getMessage()
-				u_existe = Perfil.objects.get(username=username) #Error 10, usar palabras completas no abreviaturas
 				args = {}
 				mensaje = "No se pudo crear el usuario"
-				if u_existe is not None:
-					args['username'] = "El nombre de usuario ya existe"
-					args.update(csrf(request))
-					paises = Country.objects.all()
-					args['paises'] = paises
-					args['mensaje'] = mensaje
-					return render_to_response('Usuario_Sign-up.html', args)
-
+				args.update(csrf(request))
+				paises = Country.objects.all()
+				args['paises'] = paises
+				args['mensaje'] = mensaje
+				
 		else:
 			args = {}
 			args.update(csrf(request))
