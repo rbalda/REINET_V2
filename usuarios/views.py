@@ -322,7 +322,7 @@ def registro_usuario(request):
 					membresia.cargo=""
 					membresia.descripcion=""
 					membresia.fecha_peticion=datetime.datetime.now()
-					membresia.fecha_aceptacion=datetime.datetime.now()
+					membresia.fecha_aceptacion=None
 					membresia.ip_peticion=get_client_ip(request)
 					membresia.estado=0 #en espera
 					membresia.fk_institucion=institucion_solicitud
