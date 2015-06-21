@@ -293,6 +293,7 @@ def registro_usuario(request):
 					usuarioquery = None #Error 10, usar palabras en español
 				#print "userinput",userinput, "usuarioquery ", usuarioquery
 				if usuarioquery is not None: #Error 10, usar palabras en español
+					print "email repetido"
 					raise Email_excepcion("emailrepetido")
 				
 				perfil = Perfil()
@@ -868,7 +869,7 @@ def verificar_email(request):  #Error 10, nombre inadecuado de la funcion
 	if request.method == "POST":
 		email_input = request.POST['email'] #Error 10, usar palabras en español
 		try:
-			usuarioquery = Perfil.objects.get(email=email_input) #Error 10, usar palabras en español
+			usuarioquery = Perfil.objects.filter(email=email_input).first() #Error 10, usar palabras en español
 		except:
 			usuarioquery = None #Error 10, usar palabras en español
 		#print "userinput",userinput, "usuarioquery ", usuarioquery
