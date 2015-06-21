@@ -341,7 +341,9 @@ def registro_usuario(request):
 			args = {}
 			args.update(csrf(request))
 			paises = Country.objects.all()
+			instituciones=Institucion.objects.all()
 			args['paises'] = paises
+			args['instituciones'] = instituciones
 			return render_to_response('Usuario_Sign-up.html', args)
 
 """
@@ -988,7 +990,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 		#institucion=Institucion.objects.get()
 
 		args ={
-            "usuario":usuario_admin,
+			"usuario":usuario_admin,
 			"institucion":institucion,
 			"ciudades":ciudades,
 			"paises":paises
