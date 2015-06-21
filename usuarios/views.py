@@ -350,7 +350,7 @@ def registro_usuario(request):
 				args['paises'] = paises
 				args['mensaje'] = mensaje
 				args['instituciones'] = instituciones
-				return HttpResponseRedirect("/registro_usuario", args)
+				return render_to_response('Usuario_Sign-up.html', args)
 				
 		else:
 			args = {}
