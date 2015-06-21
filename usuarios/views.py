@@ -261,8 +261,6 @@ def registro_usuario(request):
 
 	else:
 		if request.method == 'POST':
-			#print request.POST
-			#formulario = Form(request.POST)
 			username = request.POST['username']  #Error 10, usar palabras en español
 			password = request.POST['password1']  #Error 10, usar palabras en español
 			nombres = request.POST['nombres']
@@ -316,6 +314,21 @@ def registro_usuario(request):
 				membresia.fk_usuario = perfil
 				membresia.save()
 
+				id_institucion=request.POST["institucion"];
+				institucion_solicitud=Institucion.objects.get(id_institucion=id_institucion)
+				if institucion_solicitud is not None:
+					membresia= Membresia()
+					membresia.es_administrator=0
+					membresia.cargo=""
+					membresia.descripcion=""
+					membresia.fecha_peticion=datetime.datetime.now()
+					membresia.fecha_aceptacion=datetime.datetime.now()
+					membresia.ip_peticion=get_client_ip(request)
+					membresia.estado=0 #en espera
+					membresia.fk_institucion=institucion_solicitud
+					membresia.fk_usuario=perfil
+					membresia.save()
+
 				usuario = auth.authenticate(username=username, password=password)
 				args = {}
 
@@ -328,7 +341,7 @@ def registro_usuario(request):
 				else:
 					return HttpResponseRedirect('/iniciarSesion')
 
-			except:
+			except Exception as e:
 				#print e.getMessage()
 				args = {}
 				mensaje = "No se pudo crear el usuario"
@@ -336,6 +349,7 @@ def registro_usuario(request):
 				paises = Country.objects.all()
 				args['paises'] = paises
 				args['mensaje'] = mensaje
+				return HttpResponseRedirect("/registro_usuario")
 				
 		else:
 			args = {}

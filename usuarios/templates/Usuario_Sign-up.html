@@ -85,7 +85,7 @@
           identificacion = document.getElementById("cedula")
           if(identificacion.value.length==10){
               document.getElementById('errorCedula').style.display='none';
-              habilitarDeshabilitarSubmit(1);
+             // habilitarDeshabilitarSubmit(1);
           }
           if(code==8)
           {
@@ -95,7 +95,7 @@
           else if(code>=48 && code<=57)
           {
               //is a number
-                habilitarDeshabilitarSubmit(0);
+
               return true;
           }
           else
@@ -230,19 +230,28 @@
             <div class="form-group">
               <input required type="email" class="form-control" maxlength="50" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
             </div>
-            <label>
-              <a href="#" id="listarInst">Click aqu&iacute; para solcitar membresía a instituci&oacute;n</a>
+            <label id="listarInst" >
+              <a >Click aqu&iacute; para solcitar membresía a instituci&oacute;n</a>
             </label>
+            <label hidden id="mensajeMembresia">
+              Se enviará una solicitud a la Institución la cual será aprobada posteriormente
+            </label>
+           
             <div hidden id="formInstitucion" class="form-group">
-            <select  class="form-control" id="institucion" name="institucion">
+            <select  class="form-control" id="institucion" >
             <optgroup label="Instutucion">
                     {%for inst in instituciones%}
+                    {%if inst.id_institucion != 1%}
                      <option value="{{inst.id_institucion}}">{{inst.nombre}}</option>
+                    {%endif%}
                     {%endfor%}
                     </optgroup>
              </select>
             </div>
-
+             <label id="asIndependiente" hidden>
+              <a >No deseo perternecer a una Insitución por ahora</a>
+            </label>
+            
             <div class="checkbox">
               <label>
                 <input type="checkbox" required> Estoy de acuerdo con los <a href="/terminosYcondiciones/">T&eacute;rminos y Condiciones</a>.
@@ -318,9 +327,20 @@ console.log($("#username").val());
 
   $("#listarInst").click(function(){
     $("#formInstitucion").attr("hidden", false);
-
+    $("#asIndependiente").attr("hidden", false);
+    $("#listarInst").attr("hidden", true);
+    $("#institucion").attr("name", "institucion");
+    $("#mensajeMembresia").attr("hidden", false);
 
   });
+   $("#asIndependiente").click(function(){
+    $("#formInstitucion").attr("hidden", true);
+    $("#listarInst").attr("hidden", false);
+  $("#mensajeMembresia").attr("hidden", true);
+            $("#institucion").removeAttr("name");
+    $("#asIndependiente").attr("hidden", true);
+
+   });
   function verificaUser(data, textStatus, jqXHR){
     console.log(data);
     if(data=="usado"){
