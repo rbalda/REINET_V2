@@ -916,50 +916,50 @@ Descripción: Se envia un email donde el usuario decida, con la Contraseña del 
 def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
 	destinatario = request.POST['email_recuperacion']
 	args = {}
-	
-	usuario = Perfil.objects.get(email=destinatario)
-	username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
+	try:
+		usuario = Perfil.objects.get(email=destinatario)
+		username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
 
-	priv_actual = usuario.privacidad
-	if(priv_actual<10000):
-		print 'este es la privacidad'
-		print priv_actual
-		priv_nueva = 10000+priv_actual
-		usuario.privacidad = priv_nueva
-		print priv_nueva
+		priv_actual = usuario.privacidad
+		if(priv_actual<10000):
+			print 'este es la privacidad'
+			print priv_actual
+			priv_nueva = 10000+priv_actual
+			usuario.privacidad = priv_nueva
+			print priv_nueva
 
-	print username
-	password = generarPasswordAleatorea() #Error 10, usar palabras en español
-	print password
-	usuario.set_password(password) #Error 10, usar palabras en español
-	usuario.save()
+		print username
+		password = generarPasswordAleatorea() #Error 10, usar palabras en español
+		print password
+		usuario.set_password(password) #Error 10, usar palabras en español
+		usuario.save()
 
-	if destinatario and usuario:
-		try:
-			html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
-				username, password)
-			msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
-										 'REINET <from@server.com>', [destinatario])
-			msg.attach_alternative(html_content, 'text/html')
-			msg.send()
-			args['tipo'] = 'success'
-			args['mensaje'] = 'Mensaje enviado correctamente'
-			print args['mensaje']
-			args.update(csrf(request))
+		if destinatario and usuario:
+			try:
+				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
+					username, password)
+				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
+											 'REINET <from@server.com>', [destinatario])
+				msg.attach_alternative(html_content, 'text/html')
+				msg.send()
+				args['tipo'] = 'success'
+				args['mensaje'] = 'Mensaje enviado correctamente'
+				print args['mensaje']
+				args.update(csrf(request))
 
-		except:
-			args['tipo'] = 'error'
-			args['mensaje'] = 'Error de envio. Intentelo denuevo'
-			print args['mensaje']
-			args.update(csrf(request))
+			except:
+				args['tipo'] = 'error'
+				args['mensaje'] = 'Error de envio. Intentelo denuevo'
+				print args['mensaje']
+				args.update(csrf(request))
 
-	return render(request, 'sign-in.html', args)
-
-	args['tipo'] = 'info'
-	args['mensaje'] = 'No existe usuario asociado a ese email'
-	print args['mensaje']
-	args.update(csrf(request))
-	return render(request, 'sign-in.html', args)
+		return render(request, 'sign-in.html', args)
+	except:
+		args['tipo'] = 'info'
+		args['mensaje'] = 'No existe usuario asociado a ese email'
+		print args['mensaje']
+		args.update(csrf(request))
+		return render(request, 'sign-in.html', args)
 
 
 """
