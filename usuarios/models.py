@@ -88,6 +88,20 @@ class Mensaje(models.Model):
     asunto = models.CharField(max_length=45)
     fk_emisor = models.ForeignKey(User,related_name='mensajes_enviados')
     fk_receptor = models.ForeignKey(User,related_name='mensajes_receptados')
+    visible_emisor = models.BooleanField(default=True)
+    visible_receptor = models.BooleanField(default=True)
+
+    """
+    Autor: Rene Balda
+    Nombre de funcion: borrarMensaje
+    Entrada: el mismo objeto
+    Salida: ninguna
+    Descripción: esta funcion permite borrar los mensajes
+    cuando no estan disponibles para el emisor y receptor
+    """
+    def borrarMensaje(self):
+        if not(self.visible_emisor or self.visible_receptor):
+            self.delete()
 
     class Meta:
         db_table = 'Mensaje'
