@@ -1,0 +1,29 @@
+{% extends "bandeja_de_entrada.html" %}
+{% block contenidoUsuario %}
+       
+<div class="col-sm-8 col-md-7">
+    <div class="modal-body">
+        <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+        <form role="form" action="/enviarMensaje/" method='POST'>
+            {%csrf_token%}
+            <div class="form-group">
+                <label for="Destinatario">Para:</label>
+                  <input type="text" class="form-control" id="destinatario" name="destinatario" placeholder="Destinatario" maxlength="50" required>
+            </div>
+            <div class="form-group">
+                <label for="Asunto">Asunto:</label>
+                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto" maxlength="40" required>
+            </div>
+            <div class="form-group">
+                <label for="Mensaje">Mensaje:</label>
+                <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje" required></textarea>
+            </div>
+        <button type="submit" class="btn btn-green" data-dismiss="modal">Enviar</button>
+        <div class="clearfix"></div>
+        </form>
+    </div>
+</div>
+
+  
+
+{%endblock%}

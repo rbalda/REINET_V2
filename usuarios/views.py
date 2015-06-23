@@ -919,50 +919,50 @@ Descripción: Se envia un email donde el usuario decida, con la Contraseña del 
 def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
 	destinatario = request.POST['email_recuperacion']
 	args = {}
-	
-	usuario = Perfil.objects.get(email=destinatario)
-	username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
+	try:
+		usuario = Perfil.objects.get(email=destinatario)
+		username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
 
-	priv_actual = usuario.privacidad
-	if(priv_actual<10000):
-		print 'este es la privacidad'
-		print priv_actual
-		priv_nueva = 10000+priv_actual
-		usuario.privacidad = priv_nueva
-		print priv_nueva
+		priv_actual = usuario.privacidad
+		if(priv_actual<10000):
+			print 'este es la privacidad'
+			print priv_actual
+			priv_nueva = 10000+priv_actual
+			usuario.privacidad = priv_nueva
+			print priv_nueva
 
-	print username
-	password = generarPasswordAleatorea() #Error 10, usar palabras en español
-	print password
-	usuario.set_password(password) #Error 10, usar palabras en español
-	usuario.save()
+		print username
+		password = generarPasswordAleatorea() #Error 10, usar palabras en español
+		print password
+		usuario.set_password(password) #Error 10, usar palabras en español
+		usuario.save()
 
-	if destinatario and usuario:
-		try:
-			html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
-				username, password)
-			msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
-										 'REINET <from@server.com>', [destinatario])
-			msg.attach_alternative(html_content, 'text/html')
-			msg.send()
-			args['tipo'] = 'success'
-			args['mensaje'] = 'Mensaje enviado correctamente'
-			print args['mensaje']
-			args.update(csrf(request))
+		if destinatario and usuario:
+			try:
+				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
+					username, password)
+				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
+											 'REINET <from@server.com>', [destinatario])
+				msg.attach_alternative(html_content, 'text/html')
+				msg.send()
+				args['tipo'] = 'success'
+				args['mensaje'] = 'Mensaje enviado correctamente'
+				print args['mensaje']
+				args.update(csrf(request))
 
-		except:
-			args['tipo'] = 'error'
-			args['mensaje'] = 'Error de envio. Intentelo denuevo'
-			print args['mensaje']
-			args.update(csrf(request))
+			except:
+				args['tipo'] = 'error'
+				args['mensaje'] = 'Error de envio. Intentelo denuevo'
+				print args['mensaje']
+				args.update(csrf(request))
 
-	return render(request, 'sign-in.html', args)
-
-	args['tipo'] = 'info'
-	args['mensaje'] = 'No existe usuario asociado a ese email'
-	print args['mensaje']
-	args.update(csrf(request))
-	return render(request, 'sign-in.html', args)
+		return render(request, 'sign-in.html', args)
+	except:
+		args['tipo'] = 'info'
+		args['mensaje'] = 'No existe usuario asociado a ese email'
+		print args['mensaje']
+		args.update(csrf(request))
+		return render(request, 'sign-in.html', args)
 
 
 """
@@ -1113,4 +1113,98 @@ class PerfilBusqueda(ListAPIView):
 			queryset = queryset | self.get_queryset().filter(last_name__icontains=busqueda)
 		lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
 		return Response(lista_serializada.data)
+
+"""
+Autor: Ray Montiel
+Nombre de funcion: verMensajes
+Entrada: request
+Salida: Redireccion bandeja de entrada
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada
+"""
+
+@login_required
+def bandejaDeEntrada(request):
+	session = request.session['id_usuario']
+	usuario=User.objects.get(id=session)
+	try:
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
+	except:
+		mensajes= None
+
+	args={}
+	args['usuario']=usuario
+	args['mensajes']=mensajes
+	args['range']=range(len(mensajes))
+	return render_to_response('bandeja_de_entrada.html',args)
+
+
+"""
+Autor: Ray Montiel
+Nombre de funcion: enviarMensaje
+Entrada: request POST
+Salida: Redireccion bandeja de entrada
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada
+"""
+
+@login_required
+def enviarMensaje(request):
+	session=request.session['id_usuario']
+	usuario=User.objects.get(id=session)
+	if request.method=='POST':
+		destinatario = request.POST['destinatario']
+		asunto = request.POST['asunto']
+		texto_mensaje = request.POST['mensaje']
+		emisor=User.objects.get(id=session)
+		print destinatario
+		print emisor
+		print texto_mensaje
+		try:
+			mensajes = Mensaje()
+			receptor=User.objects.get(username=destinatario)
+			if receptor is not None:
+				mensajes.fk_emisor = emisor
+				mensajes.fk_receptor = receptor
+				mensajes.asunto = asunto
+				mensajes.mensaje= texto_mensaje
+				mensajes.fecha_de_envio=datetime.datetime.now()
+				mensajes.save()
+				return HttpResponseRedirect('/bandejaDeEntrada/')
+			else:
+				print "usuariou invalido1"
+				return HttpResponseRedirect('/bandejaDeEntrada/')
+		except Exception as e:
+			print "usuariou invalido2"
+			print e
+			return HttpResponseRedirect('/perfilUsuario/')
+	else:
+		args = {}
+		args['usuario']=usuario
+		args.update(csrf(request))
+		return render_to_response('enviar_mensaje.html',args)
+
+
+
+"""
+Autor: Ray Montiel
+Nombre de funcion: verMensaje
+Entrada: request POST
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite visualizar los mensajes
+detalladamente
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
 
