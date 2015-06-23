@@ -46,6 +46,7 @@ urlpatterns = patterns('',
         url(r'^api/buscar_usuario[/]?',PerfilBusqueda.as_view(),name='buscar_usuario'),
 
         url(r'^bandejaDeEntrada[/]?$', bandejaDeEntrada, name='bandejaDeEntrada'),
+        url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),

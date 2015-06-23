@@ -1134,3 +1134,65 @@ def bandejaDeEntrada(request):
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
 	return render_to_response('bandeja_de_entrada.html',args)
+
+
+"""
+Autor: Ray Montiel
+Nombre de funcion: enviarMensaje
+Entrada: request POST
+Salida: Redireccion bandeja de entrada
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada
+"""
+
+@login_required
+def enviarMensaje(request):
+	session=request.session['id_usuario']
+	usuario=User.objects.get(id=session)
+	if request.method=='POST':
+		destinatario = request.POST['destinatario']
+		asunto = request.POST['asunto']
+		texto_mensaje = request.POST['mensaje']
+		emisor=User.objects.get(id=session)
+		print destinatario
+		print emisor
+		print texto_mensaje
+		try:
+			mensajes = Mensaje()
+			receptor=User.objects.get(username=destinatario)
+			if receptor is not None:
+				mensajes.fk_emisor = emisor
+				mensajes.fk_receptor = receptor
+				mensajes.asunto = asunto
+				mensajes.mensaje= texto_mensaje
+				mensajes.fecha_de_envio=datetime.datetime.now()
+				mensajes.save()
+				return HttpResponseRedirect('/bandejaDeEntrada/')
+			else:
+				print "usuariou invalido1"
+				return HttpResponseRedirect('/bandejaDeEntrada/')
+		except Exception as e:
+			print "usuariou invalido2"
+			print e
+			return HttpResponseRedirect('/perfilUsuario/')
+	else:
+		args = {}
+		args['usuario']=usuario
+		args.update(csrf(request))
+		return render_to_response('enviar_mensaje.html',args)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
