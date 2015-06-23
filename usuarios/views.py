@@ -333,20 +333,23 @@ def registro_usuario(request):
 				membresia.fk_usuario = perfil
 				membresia.save()
 
-				id_institucion=request.POST["institucion"];
-				institucion_solicitud=Institucion.objects.get(id_institucion=id_institucion)
-				if institucion_solicitud is not None:
-					membresia= Membresia()
-					membresia.es_administrator=0
-					membresia.cargo=""
-					membresia.descripcion=""
-					membresia.fecha_peticion=datetime.datetime.now()
-					membresia.fecha_aceptacion=None
-					membresia.ip_peticion=get_client_ip(request)
-					membresia.estado=0 #en espera
-					membresia.fk_institucion=institucion_solicitud
-					membresia.fk_usuario=perfil
-					membresia.save()
+				try: 
+					id_institucion=request.POST["institucion"];
+					institucion_solicitud=Institucion.objects.get(id_institucion=id_institucion)
+					if institucion_solicitud is not None:
+						membresia= Membresia()
+						membresia.es_administrator=0
+						membresia.cargo=""
+						membresia.descripcion=""
+						membresia.fecha_peticion=datetime.datetime.now()
+						membresia.fecha_aceptacion=None
+						membresia.ip_peticion=get_client_ip(request)
+						membresia.estado=0 #en espera
+						membresia.fk_institucion=institucion_solicitud
+						membresia.fk_usuario=perfil
+						membresia.save()
+				except:
+					pass
 
 				usuario = auth.authenticate(username=username, password=password)
 				args = {}
@@ -1122,8 +1125,8 @@ que un usuario tiene en su bandeja de entrada
 
 @login_required
 def bandejaDeEntrada(request):
-	session = request.session['id_usuario']
-	usuario=User.objects.get(id=session)
+	sesion = request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
 	try:
 		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
 	except:
@@ -1147,13 +1150,13 @@ que un usuario tiene en su bandeja de entrada
 
 @login_required
 def enviarMensaje(request):
-	session=request.session['id_usuario']
-	usuario=User.objects.get(id=session)
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
 	if request.method=='POST':
 		destinatario = request.POST['destinatario']
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
-		emisor=User.objects.get(id=session)
+		emisor=User.objects.get(id=sesion)
 		print destinatario
 		print emisor
 		print texto_mensaje
