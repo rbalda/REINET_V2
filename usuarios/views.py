@@ -333,20 +333,23 @@ def registro_usuario(request):
 				membresia.fk_usuario = perfil
 				membresia.save()
 
-				id_institucion=request.POST["institucion"];
-				institucion_solicitud=Institucion.objects.get(id_institucion=id_institucion)
-				if institucion_solicitud is not None:
-					membresia= Membresia()
-					membresia.es_administrator=0
-					membresia.cargo=""
-					membresia.descripcion=""
-					membresia.fecha_peticion=datetime.datetime.now()
-					membresia.fecha_aceptacion=None
-					membresia.ip_peticion=get_client_ip(request)
-					membresia.estado=0 #en espera
-					membresia.fk_institucion=institucion_solicitud
-					membresia.fk_usuario=perfil
-					membresia.save()
+				try: 
+					id_institucion=request.POST["institucion"];
+					institucion_solicitud=Institucion.objects.get(id_institucion=id_institucion)
+					if institucion_solicitud is not None:
+						membresia= Membresia()
+						membresia.es_administrator=0
+						membresia.cargo=""
+						membresia.descripcion=""
+						membresia.fecha_peticion=datetime.datetime.now()
+						membresia.fecha_aceptacion=None
+						membresia.ip_peticion=get_client_ip(request)
+						membresia.estado=0 #en espera
+						membresia.fk_institucion=institucion_solicitud
+						membresia.fk_usuario=perfil
+						membresia.save()
+				except:
+					pass
 
 				usuario = auth.authenticate(username=username, password=password)
 				args = {}
