@@ -1183,6 +1183,15 @@ def enviarMensaje(request):
 
 
 
+"""
+Autor: Ray Montiel
+Nombre de funcion: verMensaje
+Entrada: request POST
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite visualizar los mensajes
+detalladamente
+"""
+
 
 
 

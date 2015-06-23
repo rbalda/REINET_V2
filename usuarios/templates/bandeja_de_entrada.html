@@ -32,7 +32,7 @@
 			</ul>
 		  </div>
 		</div>
-		{%endblock%}
+{%endblock%}
 
 {% block contenidoUsuario %}
 
@@ -46,12 +46,12 @@
                 {%for msj in mensajes%}
                 <li>
                     <p class="text-muted">
-                    De: <a href="/usuario/?q={{msj.fk_emisor}}">{{msj.fk_emisor.first_name}}</a><br />
-                    <small>{{msj.fecha_de_envio}}</small>
+                        De: <a href="/usuario/{{msj.fk_emisor}}">{{msj.fk_emisor.first_name}}</a><br />
+                        <small>{{msj.fecha_de_envio}}</small>
                     </p>
-                    <!--<p class="text-muted">
-                    <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
-                    </p>-->
+                    <p class="text-muted">
+                        <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
+                    </p>
                     <div class="clearfix"></div>
                 </li>
                 {%endfor%}
