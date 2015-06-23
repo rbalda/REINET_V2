@@ -167,7 +167,7 @@
               <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
             </div>
 
-              <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username">
+              <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username" >
             </div>
             <div class="form-group">
               <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as no coinciden</label>
@@ -186,13 +186,13 @@
               <label class="info-board-red" id="error_nombre" style="display: none; color: red">Los nombres no pueden contener números ni caracteres especiales</label>
             </div>
             <div class="form-group">
-              <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" class="form-control" id="nombre"  name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" >
+              <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" class="form-control" id="nombre"  name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" onkeypress="return validarLetras(event)">
             </div>
               <div class="form-group">
               <label class="info-board-red" id="error_apellido" style="display: none; color: red">Los apellidos no pueden contener números ni caracteres especiales</label>
             </div>
             <div class="form-group">
-              <input required type="text" class="form-control" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos">
+              <input required type="text" class="form-control" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" onkeypress="return validarLetras(event)">
             </div>
 
             <div class="form-group">
