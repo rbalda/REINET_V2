@@ -1125,8 +1125,8 @@ que un usuario tiene en su bandeja de entrada
 
 @login_required
 def bandejaDeEntrada(request):
-	session = request.session['id_usuario']
-	usuario=User.objects.get(id=session)
+	sesion = request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
 	try:
 		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
 	except:
@@ -1150,13 +1150,13 @@ que un usuario tiene en su bandeja de entrada
 
 @login_required
 def enviarMensaje(request):
-	session=request.session['id_usuario']
-	usuario=User.objects.get(id=session)
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
 	if request.method=='POST':
 		destinatario = request.POST['destinatario']
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
-		emisor=User.objects.get(id=session)
+		emisor=User.objects.get(id=sesion)
 		print destinatario
 		print emisor
 		print texto_mensaje
