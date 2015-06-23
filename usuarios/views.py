@@ -1111,3 +1111,26 @@ class PerfilBusqueda(ListAPIView):
 		lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
 		return Response(lista_serializada.data)
 
+"""
+Autor: Ray Montiel
+Nombre de funcion: verMensajes
+Entrada: request
+Salida: Redireccion bandeja de entrada
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada
+"""
+
+@login_required
+def bandejaDeEntrada(request):
+	session = request.session['id_usuario']
+	usuario=User.objects.get(id=session)
+	try:
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
+	except:
+		mensajes= None
+
+	args={}
+	args['usuario']=usuario
+	args['mensajes']=mensajes
+	args['range']=range(len(mensajes))
+	return render_to_response('bandeja_de_entrada.html',args)
