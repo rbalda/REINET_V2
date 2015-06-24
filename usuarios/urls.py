@@ -47,6 +47,7 @@ urlpatterns = patterns('',
 
         url(r'^bandejaDeEntrada[/]?$', bandejaDeEntrada, name='bandejaDeEntrada'),
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
+        url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),
