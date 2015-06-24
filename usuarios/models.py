@@ -5,6 +5,8 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from cities_light.models import City,Country
+from swampdragon.models import SelfPublishModel
+from usuarios.dragon_serializers import MensajeContadorSerializador
 
 """
 Autor: René Balda
@@ -81,7 +83,8 @@ class Membresia(models.Model):
         db_table = 'Membresia'
 
 
-class Mensaje(models.Model):
+class Mensaje(SelfPublishModel,models.Model):
+    serializer_class = MensajeContadorSerializador
     id_mensaje = models.AutoField(primary_key=True)
     mensaje = models.CharField(max_length=1000)
     fecha_de_envio = models.DateTimeField()
@@ -90,6 +93,9 @@ class Mensaje(models.Model):
     fk_receptor = models.ForeignKey(User,related_name='mensajes_receptados')
     visible_emisor = models.BooleanField(default=True)
     visible_receptor = models.BooleanField(default=True)
+    leido = models.BooleanField(default=False)
+
+
 
     """
     Autor: Rene Balda
