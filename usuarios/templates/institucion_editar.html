@@ -1,25 +1,26 @@
 {% extends "base.tpl.html" %}
 
-{% block barraderecha %}
+{% block signin %}
     <li id="usuario" class="show">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
+        </a>
         <ul class="dropdown-menu">
-            <li><a href="/perfilUsuario/">Mi Perfil</a></li>
-            <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
+            <li><a href="/perfilUsuario/" >Mi Perfil</a></li>
+            <li><a href="/cerrarSesion/" >Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
     <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 {% block inicio %}
-    <a href="/inicioUsuario/">Inicio </a>
+    <a  href="/inicioUsuario/" >Inicio </a>
 {% endblock %}
 
 
-{% block contenido %}
+{%block content%}
 
-    <!-- Ventana Perfil Institucion-->
-
+    <!-- VENTANA PERFIL DE INSTITUCION
+    ================== -->
     <script type="text/javascript">
         /*
          Autor: Erika Narváez
@@ -30,17 +31,21 @@
 
          */
 
-        function validarNumero(evt) {
+        function validarNumero(evt)
+        {
             var code = (evt.which) ? evt.which : evt.keyCode;
-            if (code == 8) {
+            if(code==8)
+            {
                 //backspace
                 return true;
             }
-            else if (code >= 48 && code <= 57) {
+            else if(code>=48 && code<=57)
+            {
                 //is a number
                 return true;
             }
-            else {
+            else
+            {
                 return false;
             }
         }
@@ -52,21 +57,21 @@
          Salida: permite el ingreso de solo letras
          Descripción: no permite la entrada de numeros
          */
-        function validarLetras(e) {
+        function validarLetras(e){
             key = e.keyCode || e.which;
             tecla = String.fromCharCode(key).toLowerCase();
             letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
             especiales = "8-37-39-46";
 
             tecla_especial = false
-            for (var i in especiales) {
-                if (key == especiales[i]) {
+            for(var i in especiales){
+                if(key == especiales[i]){
                     tecla_especial = true;
                     break;
                 }
             }
 
-            if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+            if(letras.indexOf(tecla)==-1 && !tecla_especial){
                 return false;
             }
         }
@@ -79,9 +84,9 @@
          Descripción: salida del http al escribir una url
          */
 
-        function validarURL(abc) {
+        function validarURL (abc) {
             var string = abc.value;
-            if (!~string.indexOf("http")) {
+            if (!~string.indexOf("http")){
                 string = "http://" + string;
             }
             abc.value = string;
@@ -116,301 +121,283 @@
     </div>
 
     <div class="container">
+    <div class="row">
+
+    <!-- /////////////  Menu de Perfil  ////////////////// -->
+    <div class="col-xs-6 col-sm-4 col-md-3">
+        <div class="user-menu bottom-15">
+            <ul>
+                <li>
+                    <a href="/perfilInstitucion/" class="active">
+                        <i class="sign fa fa-user bg-blue"></i> Mi Institución <i class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/modificarPerfilInstitucion/">
+                        <i class="sign fa fa-edit bg-green"></i> Editar Perfil <i class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="sign fa fa-envelope bg-red"></i> Bandeja de Entrada  <i class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/cerrarSesion/">
+                        <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- //////////////  EDITAR PERFIL INSTITUCIÓN /////////////// -->
+    <div class=" col-xs-6 col-sm-8 col-md-9">
         <div class="row">
-           <!-- Menu De Perfil -->
-            <div class="col-xs-6 col-sm-4 col-md-3">
-                <div class="user-menu bottom-15">
-                    <ul>
-                        <li>
-                            <a href="/perfilInstitucion/" class="active">
-                                <i class="sign fa fa-user bg-blue"></i> Mi Institución <i
-                                    class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/modificarPerfilInstitucion/">
-                                <i class="sign fa fa-edit bg-green"></i> Editar Perfil <i
-                                    class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="sign fa fa-envelope bg-red"></i> Bandeja de Entrada <i
-                                    class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/cerrarSesion/">
-                                <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i
-                                    class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="signup col-md-9">
+                <h3 class="hl top-zero">Editar Instituci&oacute;n</h3>
+                <hr>
+                <form role="form" action="/editar_perfil_institucion/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12">{%csrf_token%}
+                    <!--NOMBRE-->
+                    <div class="form-group">
+                        <label for="nombreInstitucion" class="col-md-4">Nombre de la instituci&oacute;n</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" maxlength="50" id="nombreInstitucion" name="nombre" placeholder="Siglas/Nombre abreviado" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required value="{{ institucion.nombre }}">
+                        </div>
+                    </div>
+                    <!--SIGLA-->
+                    <div class="form-group">
+                        <label for="siglaInstitucion" class="col-md-4">Siglas</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="siglaInstitucion" name="siglas" placeholder="Siglas/Nombre abreviado" maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required value="{{ institucion.siglas }}">
+                        </div>
+                    </div>
+                    <!--DESCRIPCION-->
+                    <div class="form-group">
+                        <label for="descInstitucion" class="col-md-4">Descripci&oacute;n</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="descInstitucion" name="descripcion" placeholder="Descripcion de la Institucion" maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion" data-original-title="Descripcion" required value="{{ institucion.descripcion }}">
+                        </div>
+                    </div>
+                    <!--MISION-->
+                    <div class="form-group">
+                        <label for="misionInstitucion" class="col-md-4">Misi&oacute;n</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="misionInstitucion" name="mision" placeholder="Misión" maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la misión de la Institución" data-original-title="Misión" required value="{{ institucion.mision }}">
+                        </div>
+                    </div>
+                    <!--PAIS-->
+                    <div class="form-group">
+                        <label for="pais" class="col-md-4">Pa&iacute;s</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="pais" id="paisInstitucion" required>
+                                <optgroup label="Pais">
+                                    {%for pais in paises%}
+                                        <option value="{{pais.id}}">{{pais.name}}</option>
+                                    {%endfor%}
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <!--CIUDAD-->
+                    <div class="form-group">
+                        <label for="ciudad" class="col-md-4">Ciudad</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="ciudad" id="ciudadInstitucion" required>
+                                <optgroup id="optsCiudades" label="Ciudad">
+                                    {%for ciudad in ciudades%}
+                                        <option value="{{ciudad.id}}">{{ciudad.name}}</option>
+                                    {%endfor%}
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <!--RECURSOS-->
+                    <div class="form-group">
+                        <label for="recursosInstitucion" class="col-md-4">Recursos ofrecidos</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="recursosInstitucion" name="recursosofrecidos" placeholder="Recursos Ofrecidos" maxlength="200" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese los recursos que ofrece la Institución" data-original-title="Recursos Ofrecidos" required value="{{ institucion.recursos_ofrecidos }}">
+                        </div>
+                    </div>
+                    <!--TELEFONO-->
+                    <div class="form-group">
+                        <label for="telefonoInstitucion" class="col-md-4">Tel&eacute;fono</label>
+                        <div class="col-md-8">
+                            <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion" pattern="([0-9]{1,15})"placeholder="Telefono del Contacto" maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el telefono del contacto de la Institución" data-original-title="Telefono" onkeypress="return validarNumero(event);"  required value="{{ institucion.telefono_contacto }}">
+                        </div>
+                    </div>
+                    <!--EMAIL-->
+                    <div class="form-group">
+                        <label for="emailInstitucion" class="col-md-4">E-mail</label>
+                        <div class="col-md-8">
+                            <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email" maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el correo electronico de la Institución" data-original-title="Email" required value="{{ institucion.correo}}">
+                        </div>
+                    </div>
+                    <!--SITIO WEB-->
+                    <div class="form-group">
+                        <label for="webInstitucion" class="col-md-4">Sitio web</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web" maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required value="{{ institucion.web }}">
+                        </div>
+                    </div>
+                    <!--LOGO-->
+                    <div class="form-group"> 
+                        <label class="col-md-4" for="logo">Logo</label>
+                        
+                        <div class="col-md-4">
+                            <input type="file" name="logo" id="files">
+
+                            <div id="idLogo"style="float:left" class="thumbnail">
+                                <div id="list" class="avatar">
+                                  <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+                                    <img src="../../media/{{institucion.logo}}" alt="...">
+                                  </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--BUTTON GUARDAR CAMBIOS-->
+                    <button style="float:right" class="btn btn-green">Guardar Cambios</button>
+                </form>
+
             </div>
+            <div class="col-md-9">
+                <br>
+                <hr>
+                <br>
+            </div>
+            <div class="col-md-7 col-md-offset-1 signup">
 
-            <!-- Editar Perfil Insitucion -->
-            <div class=" col-xs-6 col-sm-8 col-md-9">
-                <div class="row">
-                    <div class="signup col-md-9">
-                        <h3 class="hl top-zero">Editar Instituci&oacute;n</h3>
-                        <hr>
-                        <form role="form" action="/editar_perfil_institucion/" method="post" enctype="multipart/form-data"
-                              class="form-horizontal col-md-12">{% csrf_token %}
-                            <!--NOMBRE-->
-                            <div class="form-group">
-                                <label for="nombreInstitucion" class="col-md-4">Nombre de la instituci&oacute;n</label>
-
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" maxlength="50" id="nombreInstitucion" name="nombre"
-                                           placeholder="Siglas/Nombre abreviado" data-toggle="popover" data-placement="left"
-                                           data-trigger="focus" data-content="Ingrese las siglas de la Institucion"
-                                           data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required
-                                           value="{{ institucion.nombre }}">
-                                </div>
-                            </div>
-                            <!--SIGLA-->
-                            <div class="form-group">
-                                <label for="siglaInstitucion" class="col-md-4">Siglas</label>
-
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="siglaInstitucion" name="siglas"
-                                           placeholder="Siglas/Nombre abreviado" maxlength="16" data-toggle="popover"
-                                           data-placement="left" data-trigger="focus"
-                                           data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado"
-                                           onkeypress="return validarLetras(event)" required value="{{ institucion.siglas }}">
-                                </div>
-                            </div>
-                            <!--DESCRIPCION-->
-                            <div class="form-group">
-                                <label for="descInstitucion" class="col-md-4">Descripci&oacute;n</label>
-
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="descInstitucion" name="descripcion"
-                                           placeholder="Descripcion de la Institucion" maxlength="300" data-toggle="popover"
-                                           data-placement="left" data-trigger="focus"
-                                           data-content="Ingrese las descripcion de la Institucion" data-original-title="Descripcion"
-                                           required value="{{ institucion.descripcion }}">
-                                </div>
-                            </div>
-                            <!--MISION-->
-                            <div class="form-group">
-                                <label for="misionInstitucion" class="col-md-4">Misi&oacute;n</label>
-
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="misionInstitucion" name="mision" placeholder="Misión"
-                                           maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                           data-content="Ingrese la misión de la Institución" data-original-title="Misión" required
-                                           value="{{ institucion.mision }}">
-                                </div>
-                            </div>
-                            <!--PAIS-->
-                            <div class="form-group">
-                                <label for="pais" class="col-md-4">Pa&iacute;s</label>
-
-                                <div class="col-md-8">
-                                    <select class="form-control" name="pais" id="paisInstitucion" required>
-                                        <optgroup label="Pais">
-                                            {% for pais in paises %}
-                                                <option value="{{ pais.id }}">{{ pais.name }}</option>
-                                            {% endfor %}
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                            <!--CIUDAD-->
-                            <div class="form-group">
-                                <label for="ciudad" class="col-md-4">Ciudad</label>
-
-                                <div class="col-md-8">
-                                    <select class="form-control" name="ciudad" id="ciudadInstitucion" required>
-                                        <optgroup id="optsCiudades" label="Ciudad">
-                                            {% for ciudad in ciudades %}
-                                                <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
-                                            {% endfor %}
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                            <!--RECURSOS-->
-                            <div class="form-group">
-                                <label for="recursosInstitucion" class="col-md-4">Recursos ofrecidos</label>
-
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="recursosInstitucion" name="recursosofrecidos"
-                                           placeholder="Recursos Ofrecidos" maxlength="200" data-toggle="popover" data-placement="left"
-                                           data-trigger="focus" data-content="Ingrese los recursos que ofrece la Institución"
-                                           data-original-title="Recursos Ofrecidos" required
-                                           value="{{ institucion.recursos_ofrecidos }}">
-                                </div>
-                            </div>
-                            <!--TELEFONO-->
-                            <div class="form-group">
-                                <label for="telefonoInstitucion" class="col-md-4">Tel&eacute;fono</label>
-
-                                <div class="col-md-8">
-                                    <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion"
-                                           pattern="([0-9]{1,15})" placeholder="Telefono del Contacto" maxlength="16"
-                                           data-toggle="popover" data-placement="left" data-trigger="focus"
-                                           data-content="Ingrese el telefono del contacto de la Institución"
-                                           data-original-title="Telefono" onkeypress="return validarNumero(event);" required
-                                           value="{{ institucion.telefono_contacto }}">
-                                </div>
-                            </div>
-                            <!--EMAIL-->
-                            <div class="form-group">
-                                <label for="emailInstitucion" class="col-md-4">E-mail</label>
-
-                                <div class="col-md-8">
-                                    <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion"
-                                           pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}"
-                                           placeholder="Email" maxlength="45" data-toggle="popover" data-placement="left"
-                                           data-trigger="focus" data-content="Ingrese el correo electronico de la Institución"
-                                           data-original-title="Email" required value="{{ institucion.correo }}">
-                                </div>
-                            </div>
-                            <!--SITIO WEB-->
-                            <div class="form-group">
-                                <label for="webInstitucion" class="col-md-4">Sitio web</label>
-
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="webInstitucion" onblur="validarURL(this)"
-                                           name="webInstitucion" placeholder="Dirección web" maxlength="45" data-toggle="popover"
-                                           data-placement="left" data-trigger="focus"
-                                           data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web"
-                                           required value="{{ institucion.web }}">
-                                </div>
-                            </div>
-                            <!--LOGO-->
-                            <div class="form-group">
-                                <label class="col-md-4" for="logo">Logo</label>
-
-                                <div class="col-sm-4">
-                                    <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left"
-                                           data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo"
-                                           onchange="readURL(this);">
-
-                                    <div style="float:left" class="thumbnail">
-                                        <div class="avatar">
-                                            <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                                                <img src="../../media/{{ institucion.logo }}" alt="...">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!--BUTTON GUARDAR CAMBIOS-->
-                            <button style="float:right" class="btn btn-green">Guardar Cambios</button>
-                        </form>
-
+                <div class="panel panel-red">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#bsc">
+                        <h3 id="titulo_suspenderCuenta" class="panel-title">Suspender Cuenta</h3>
                     </div>
-                    <div class="col-md-9">
-                        <br>
-                        <hr>
-                        <br>
-                    </div>
-                    <div class="col-md-7 col-md-offset-1 signup">
+                    <div class="panel-body collapse" id="bsc">
 
-                        <div class="panel panel-red">
-                            <div class="panel-heading" data-toggle="collapse" data-target="#bsc">
-                                <h3 id="titulo_suspenderCuenta" class="panel-title">Suspender Cuenta</h3>
-                            </div>
-                            <div class="panel-body collapse" id="bsc">
+                        <div class="pwd-lost">
 
-                                <div class="pwd-lost">
-
-                                    {% if error %}
-                                        <script>
-                                            $('#bsc').attr('class', 'panel-body collapse in');
-                                        </script>
-                                        <div class="alert alert-danger">
-                                            <p>{{ error }}</p>
-                                        </div>
-                                    {% endif %}
-
-                                    <!-- ///////////  Ventana escondida para ingresar contraseña ////////////-->
-                                    <div class="pwd-lost-f">
-                                        <p>¿Est&aacute; seguro que desea suspender su cuenta de REINET?</p>
-
-                                        <p class="text-muted">Ingresa contraseña para validar tu usario</p>
-
-                                        <form class="form-inline" role="form" action="/suspender_usuario/"
-                                              method="POST">{% csrf_token %}
-                                            <div class="form-group">
-                                                <label class="sr-only" for="email-pwd">Suspension de Cuenta</label>
-                                                <input id="txt_password_ingresada" name="txt_password_ingresada" type="password"
-                                                       class="form-control" id="email-pwd" placeholder="Ingrese su contraseña">
-                                            </div>
-                                            <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="popover"
-                                                    data-placement="bottom" data-trigger="focus">Aceptar
-                                            </button>
-                                            <div id="popover_content_wrapper" style="display: none">
-                                                <div>Est&aacute;s seguro de querer suspender tu cuenta en ReiNet?</div>
-                                                <br>
-                                                <button id="btn_aceptarSuspender" type="submit" class="btn btn-red"
-                                                        style="left:30%;position:relative;">Confirmar
-                                                </button>
-                                            </div>
-
-                                            <script>
-                                                /*
-                                                 Autor: Kevin Zambrano y Fausto Mora
-                                                 Nombre de funcion: funciones anonimas
-                                                 Entrada: eventos
-                                                 Salida: http
-                                                 Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
-                                                 */
-
-                                                $(document).ready(function () {
-
-                                                    $('#btn_suspenderCuenta').attr('disabled', 'disabled');
-
-                                                    $('#txt_password_ingresada').change(function () {
-                                                        $('#btn_suspenderCuenta').removeAttr('disabled');
-
-                                                    });
-
-
-                                                    $('#btn_suspenderCuenta').popover({
-                                                        html: true,
-                                                        content: function () {
-                                                            return $('#popover_content_wrapper').html();
-                                                        }
-                                                    });
-
-                                                });
-                                                $("#paisInstitucion").change(function () {
-                                                    console.log('hellou its me');
-                                                    console.log($("#paisInstitucion option:selected").val());
-                                                    $.ajax({
-                                                        type: "POST",
-                                                        url: "/getCiudades",
-                                                        data: {
-                                                            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                                                            'paisId': $("#paisInstitucion option:selected").val()
-                                                        },
-                                                        success: ciudadSuccess,
-                                                        dataType: 'html'
-                                                    });
-                                                    console.log('bye');
-                                                });
-
-                                                function ciudadSuccess(data, textStatus, jqXHR) {
-                                                    $("#optsCiudades").html(data);
-                                                }
-                                            </script>
-                                        </form>
-                                    </div>
+                            {% if error %}
+                                <script>
+                                    $('#bsc').attr('class', 'panel-body collapse in');
+                                </script>
+                                <div class="alert alert-danger">
+                                    <p >{{ error }}</p>
                                 </div>
+                            {% endif %}
+
+                            <!-- ///////////  Ventana escondida para ingresar contraseña ////////////-->
+                            <div class="pwd-lost-f">
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                                <p >¿Est&aacute; seguro que desea suspender su cuenta de ReiNet?</p>
+                                <p class="text-muted">Ingresa contraseña para validar tu usario</p>
+                                <form class="form-inline" role="form" action="/suspender_usuario/" method="POST">{%csrf_token%}
+                                    <div class="form-group">
+                                        <label class="sr-only" for="email-pwd">Suspension de Cuenta</label>
+                                        <input id="txt_password_ingresada"  name ="txt_password_ingresada" type="password" class="form-control" id="email-pwd" placeholder="Ingrese su contraseña">
+                                    </div>
+                                    <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="popover" data-placement="bottom" data-trigger="focus">Aceptar</button>
+                                    <div id="popover_content_wrapper" style="display: none">
+                                        <div>Est&aacute;s seguro de querer suspender tu cuenta en ReiNet?</div>
+                                        <br>
+                                        <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">Confirmar</button>
+                                    </div>
+
+    <script>
+        /*
+         Autor: Kevin Zambrano y Fausto Mora
+         Nombre de funcion: funciones anonimas
+         Entrada: eventos
+         Salida: http
+         Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
+         */
+
+        $(document).ready(function(){
+
+            $('#btn_suspenderCuenta').attr('disabled','disabled');
+
+            $('#txt_password_ingresada').change(function() {
+                $('#btn_suspenderCuenta').removeAttr('disabled');
+
+            });
+
+
+            $('#btn_suspenderCuenta').popover({
+                html : true,
+                content: function() {
+                    return $('#popover_content_wrapper').html();
+                }
+            });
+
+        });
+         $("#paisInstitucion").change(function () {
+            console.log('hellou its me');
+            console.log($("#paisInstitucion option:selected").val());
+            $.ajax({
+              type: "POST",
+              url: "/getCiudades",
+              data: {
+                  'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+                  'paisId' : $("#paisInstitucion option:selected").val()
+              },
+              success: ciudadSuccess,
+              dataType: 'html'
+            });
+            console.log('bye');
+          });
+
+          function ciudadSuccess(data, textStatus, jqXHR){
+            $("#optsCiudades").html(data);
+          }
+    </script>
+
+            <script>
+                            function archivo(evt) {
+                            var files = evt.target.files; // FileList object
+                          
+                            // Obtenemos la imagen del campo "file".
+                            for (var i = 0, f; f = files[i]; i++) {
+                              //Solo admitimos imágenes.
+                              if (!f.type.match('image.*')) {
+                              continue;
+                              }
+                          
+                              var reader = new FileReader();
+                          
+                              reader.onload = (function(theFile) {
+                              return function(e) {
+                                document.getElementById('idLogo').className += 'thumbnail';
+                                document.getElementById('list').className += 'avatar';
+                                // Insertamos la imagen
+                               document.getElementById("list").innerHTML = ['<a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar"> <img src="', e.target.result,'" title="', escape(theFile.name), '"/> </a>'].join('');
+                              };
+                              })(f);
+                          
+                              reader.readAsDataURL(f);
+                            }
+                            }
+                          
+                            document.getElementById('files').addEventListener('change', archivo, false);
+                        </script>
+
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
+
+    </div>
     </div>
 
-{% endblock %}
+    </div>
+    </div>
+    </div>
+    </div>
+
+{%endblock%} 
 
 

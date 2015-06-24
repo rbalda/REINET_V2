@@ -605,16 +605,28 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		usuario.save()
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
-		membresia = Membresia.objects.filter(fk_usuario=usuario.id)
+		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
 		institucion = "nohay"
-		if membresia.filter(es_administrator=1).count() != 0:
-			administracion = membresia.filter(es_administrator=1)
-			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)	
-		listaInstituciones = []
-		for num in range(0, membresia.count()):
-			listaInstituciones.append(
-				Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
-		args['listaInstituciones'] = listaInstituciones
+		args['esAdmin']= False
+		if membresias.filter(es_administrator=1).count() != 0:
+			administracion = membresias.filter(es_administrator=1)
+			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)
+			args['esAdmin']= True
+		else:
+			membresia = membresias.filter(es_administrator=0,estado=1)
+			for num in range(0, membresia.count()):
+				institucion = Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion)
+				if institucion.nombre != "Independiente":
+					break
+				else:
+					institucion = "nohay"
+		#listaInstituciones = []
+		#for num in range(0, membresia.count()):
+		#	listaInstituciones.append(
+		#		Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
+		#	print membresia[num].fk_institucion.id_institucion
+
+		#args['listaInstituciones'] = listaInstituciones
 		
 		#print institucion
 		args['institucion'] = institucion
@@ -1136,6 +1148,8 @@ def bandejaDeEntrada(request):
 	args['usuario']=usuario
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
+	for m in mensajes:
+		print m.imgEm
 	return render_to_response('bandeja_de_entrada.html',args)
 
 
