@@ -160,93 +160,105 @@
                 <form role="form" action="/editar_perfil_institucion/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12">{%csrf_token%}
                     <!--NOMBRE-->
                     <div class="form-group">
-                        <label for="nombreInstitucion">Nombre de la instituci&oacute;n</label>
-                        <input type="text" class="form-control" maxlength="50" id="nombreInstitucion" name="nombre" placeholder="Siglas/Nombre abreviado"
-                               data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado"
-                               onkeypress="return validarLetras(event)" required value="{{ institucion.nombre }}">
+                        <label for="nombreInstitucion" class="col-md-4">Nombre de la instituci&oacute;n</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" maxlength="50" id="nombreInstitucion" name="nombre" placeholder="Siglas/Nombre abreviado" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required value="{{ institucion.nombre }}">
+                        </div>
                     </div>
                     <!--SIGLA-->
                     <div class="form-group">
-                        <label for="siglaInstitucion">Siglas</label>
-                        <input type="text" class="form-control" id="siglaInstitucion" name="siglas" placeholder="Siglas/Nombre abreviado"
-                               maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado"
-                               onkeypress="return validarLetras(event)" required value="{{ institucion.siglas }}">
+                        <label for="siglaInstitucion" class="col-md-4">Siglas</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="siglaInstitucion" name="siglas" placeholder="Siglas/Nombre abreviado" maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las siglas de la Institucion" data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required value="{{ institucion.siglas }}">
+                        </div>
                     </div>
                     <!--DESCRIPCION-->
                     <div class="form-group">
-                        <label for="descInstitucion">Descripci&oacute;n</label>
-                        <input type="text" class="form-control" id="descInstitucion" name="descripcion" placeholder="Descripcion de la Institucion"
-                               maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion"
-                               data-original-title="Descripcion" required value="{{ institucion.descripcion }}">
+                        <label for="descInstitucion" class="col-md-4">Descripci&oacute;n</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="descInstitucion" name="descripcion" placeholder="Descripcion de la Institucion" maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese las descripcion de la Institucion" data-original-title="Descripcion" required value="{{ institucion.descripcion }}">
+                        </div>
                     </div>
                     <!--MISION-->
                     <div class="form-group">
-                        <label for="misionInstitucion">Misi&oacute;n</label>
-                        <input type="text" class="form-control" id="misionInstitucion" name="mision" placeholder="Misión"
-                               maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese la misión de la Institución" data-original-title="Misión" required value="{{ institucion.mision }}">
+                        <label for="misionInstitucion" class="col-md-4">Misi&oacute;n</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="misionInstitucion" name="mision" placeholder="Misión" maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la misión de la Institución" data-original-title="Misión" required value="{{ institucion.mision }}">
+                        </div>
                     </div>
                     <!--PAIS-->
                     <div class="form-group">
-                        <label for="pais">Pa&iacute;s</label>
-                        <select class="form-control" name="pais" id="paisInstitucion" required>
-                            <optgroup label="Pais">
-                                {%for pais in paises%}
-                                    <option value="{{pais.id}}">{{pais.name}}</option>
-                                {%endfor%}
-                            </optgroup>
-                        </select>
+                        <label for="pais" class="col-md-4">Pa&iacute;s</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="pais" id="paisInstitucion" required>
+                                <optgroup label="Pais">
+                                    {%for pais in paises%}
+                                        <option value="{{pais.id}}">{{pais.name}}</option>
+                                    {%endfor%}
+                                </optgroup>
+                            </select>
+                        </div>
                     </div>
                     <!--CIUDAD-->
                     <div class="form-group">
-                        <label for="ciudad">Ciudad</label>
-                        <select class="form-control" name="ciudad" id="ciudadInstitucion" required>
-                            <optgroup id="optsCiudades" label="Ciudad">
-                                {%for ciudad in ciudades%}
-                                    <option value="{{ciudad.id}}">{{ciudad.name}}</option>
-                                {%endfor%}
-                            </optgroup>
-                        </select>
+                        <label for="ciudad" class="col-md-4">Ciudad</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="ciudad" id="ciudadInstitucion" required>
+                                <optgroup id="optsCiudades" label="Ciudad">
+                                    {%for ciudad in ciudades%}
+                                        <option value="{{ciudad.id}}">{{ciudad.name}}</option>
+                                    {%endfor%}
+                                </optgroup>
+                            </select>
+                        </div>
                     </div>
                     <!--RECURSOS-->
-
                     <div class="form-group">
-                        <label for="recursosInstitucion">Recursos ofrecidos</label>
-                        <input type="text" class="form-control" id="recursosInstitucion" name="recursosofrecidos" placeholder="Recursos Ofrecidos"
-                               maxlength="200" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese los recursos que ofrece la Institución"
-                               data-original-title="Recursos Ofrecidos" required value="{{ institucion.recursos_ofrecidos }}">
+                        <label for="recursosInstitucion" class="col-md-4">Recursos ofrecidos</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="recursosInstitucion" name="recursosofrecidos" placeholder="Recursos Ofrecidos" maxlength="200" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese los recursos que ofrece la Institución" data-original-title="Recursos Ofrecidos" required value="{{ institucion.recursos_ofrecidos }}">
+                        </div>
                     </div>
-
                     <!--TELEFONO-->
                     <div class="form-group">
-                        <label for="telefonoInstitucion">Tel&eacute;fono</label>
-                        <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion" pattern="([0-9]{1,15})" placeholder="Telefono del Contacto"
-                               maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese el telefono del contacto de la Institución" data-original-title="Telefono" onkeypress="
-                               return validarNumero(event);"  required value="{{ institucion.telefono_contacto }}">
+                        <label for="telefonoInstitucion" class="col-md-4">Tel&eacute;fono</label>
+                        <div class="col-md-8">
+                            <input type="tel" class="form-control" id="telefonoInstitucion" name="telefonoInstitucion" pattern="([0-9]{1,15})"placeholder="Telefono del Contacto" maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el telefono del contacto de la Institución" data-original-title="Telefono" onkeypress="return validarNumero(event);"  required value="{{ institucion.telefono_contacto }}">
+                        </div>
                     </div>
                     <!--EMAIL-->
                     <div class="form-group">
-                        <label for="emailInstitucion">E-mail</label>
-                        <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email"
-                               maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese el correo electronico de la Institución" data-original-title="Email" required value="{{ institucion.correo }}">
+                        <label for="emailInstitucion" class="col-md-4">E-mail</label>
+                        <div class="col-md-8">
+                            <input type="email" class="form-control" id="emailInstitucion" name="emailInstitucion" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Email" maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese el correo electronico de la Institución" data-original-title="Email" required value="{{ institucion.correo}}">
+                        </div>
                     </div>
                     <!--SITIO WEB-->
                     <div class="form-group">
-                        <label for="webInstitucion">Sitio web</label>
-                        <input type="text" class="form-control" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web"
-                               maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required value="{{ institucion.web }}">
+                        <label for="webInstitucion" class="col-md-4">Sitio web</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="webInstitucion" onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web" maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required value="{{ institucion.web }}">
+                        </div>
                     </div>
-                    <label for="logo">Logo</label>
-                    <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo" onchange="readURL(this);">
-                    <img id="blah" src="#" alt="your image" />
+                    <!--LOGO-->
+                    <div class="form-group"> 
+                        <label class="col-md-4" for="logo">Logo</label>
+                        
+                        <div class="col-sm-4">
+                            <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo" onchange="readURL(this);" >
 
-                    <button style="float:right" class="btn btn-green">Aceptar</button>
+                            <div style="float:left" class="thumbnail">
+                                <div class="avatar">
+                                  <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+                                    <img src="../../media/{{institucion.logo}}" alt="...">
+                                  </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--BUTTON GUARDAR CAMBIOS-->
+                    <button style="float:right" class="btn btn-green">Guardar Cambios</button>
                 </form>
 
             </div>
