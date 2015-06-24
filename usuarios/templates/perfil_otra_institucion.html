@@ -10,7 +10,7 @@
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
-    <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
+    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 
@@ -73,7 +73,7 @@
                     <hr>
 
                     <div class="bottom-15" style="text-align:center">
-                        <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i
+                        <a method='POST' href="/enviarMensaje/" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i
                                 class="fa fa-envelope"></i> Redactar Mensaje</a>
                     </div>
                 </div>
@@ -165,5 +165,5 @@
             </div>
         </div>
     </div>
-
+</div>
 {% endblock %}

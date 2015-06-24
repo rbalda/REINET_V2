@@ -75,7 +75,7 @@
             </div>
         </div>
     {% endblock %}
-    {% block contenidoUsuario %}
+    {% block contenidousuario %}
         <!-- Foto del Perfil -->
         <div class="col-sm-8 col-md-6">
         <div class="row">
@@ -135,7 +135,7 @@
                 <hr>
 
                 <div class="bottom-15">
-                    <a href="/enviarMensaje/" class="btn btn-green btn-sm" data-toggle="modal" data-target="#sendemail"><i
+                    <a method='POST' href="/enviarMensaje/" class="btn btn-green btn-sm" data-toggle="modal" data-target="#sendemail"><i
                             class="fa fa-envelope"></i> Redactar Mensaje</a>
 
                     <!-- //// VENTANA EMERGENTE EMAIL /////

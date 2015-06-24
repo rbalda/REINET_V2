@@ -1181,6 +1181,7 @@ def enviarMensaje(request):
 			print e
 			return HttpResponseRedirect('/perfilUsuario/')
 	else:
+		print "porque D:"
 		args = {}
 		args['usuario']=usuario
 		args.update(csrf(request))
