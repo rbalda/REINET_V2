@@ -244,11 +244,11 @@
                     <div class="form-group"> 
                         <label class="col-md-4" for="logo">Logo</label>
                         
-                        <div class="col-sm-4">
-                            <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo" onchange="readURL(this);" >
+                        <div class="col-md-4">
+                            <input type="file" name="logo" id="files">
 
-                            <div style="float:left" class="thumbnail">
-                                <div class="avatar">
+                            <div id="idLogo"style="float:left" class="thumbnail">
+                                <div id="list" class="avatar">
                                   <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
                                     <img src="../../media/{{institucion.logo}}" alt="...">
                                   </a>
@@ -350,6 +350,35 @@
             $("#optsCiudades").html(data);
           }
     </script>
+
+            <script>
+                            function archivo(evt) {
+                            var files = evt.target.files; // FileList object
+                          
+                            // Obtenemos la imagen del campo "file".
+                            for (var i = 0, f; f = files[i]; i++) {
+                              //Solo admitimos imágenes.
+                              if (!f.type.match('image.*')) {
+                              continue;
+                              }
+                          
+                              var reader = new FileReader();
+                          
+                              reader.onload = (function(theFile) {
+                              return function(e) {
+                                document.getElementById('idLogo').className += 'thumbnail';
+                                document.getElementById('list').className += 'avatar';
+                                // Insertamos la imagen
+                               document.getElementById("list").innerHTML = ['<a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar"> <img src="', e.target.result,'" title="', escape(theFile.name), '"/> </a>'].join('');
+                              };
+                              })(f);
+                          
+                              reader.readAsDataURL(f);
+                            }
+                            }
+                          
+                            document.getElementById('files').addEventListener('change', archivo, false);
+                        </script>
 
                                 </form>
                             </div>
