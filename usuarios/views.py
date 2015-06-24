@@ -607,9 +607,11 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		args['perfil'] = perfil
 		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
 		institucion = "nohay"
+		args['esAdmin']= False
 		if membresias.filter(es_administrator=1).count() != 0:
 			administracion = membresias.filter(es_administrator=1)
 			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)
+			args['esAdmin']= True
 		else:
 			membresia = membresias.filter(es_administrator=0,estado=1)
 			for num in range(0, membresia.count()):

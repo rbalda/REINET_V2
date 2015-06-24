@@ -50,7 +50,7 @@
                   <i class="sign fa fa-edit bg-blue"></i> Editar Perfil <i class="fa fa-chevron-right pull-right"></i>
                 </a>  
               </li>
-              {% if institucion != "nohay" %}
+              {% if esAdmin == True %}
               <li>
                 <a href="/perfilInstitucion/">
                   <i class="sign fa fa-suitcase bg-turquoise"></i> Administrar Instituci&oacute;n <i class="fa fa-chevron-right pull-right"></i>
