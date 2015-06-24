@@ -1,122 +1,128 @@
 {% extends "base.tpl.html" %}
-{% block signin %}
 
+{% block barraderecha %}
+    <li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
+    <li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
 {% endblock %}
 
-{% block search %}
+{% block complementotitulo %}Registrarse{% endblock %}
 
+{% block raiz %}
+    <a class="navbar-brand link" href="/">REI-NET</a>
 {% endblock %}
-
-{% block home %}
-<a class="navbar-brand link" href="/" >REI-NET</a>
-{% endblock %}
-
 
 {% block inicio %}
-  <a  href="/" >Inicio </a>
+    <a href="/">Inicio </a>
 {% endblock %}
 
-{%block content%}
+{% block contenido %}
 
-    
-<!-- ///////////////  VENTANA SIGN-IN  ////////////////////
-================== -->
+    <!-- Ventana de Ingreso -->
 
-
-    <!-- Page tip -->
     <div class="page-tip animated slideInDown">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <p>Si no eres mienbro aun, <a href="/registro_usuario/">reg&iacute;strate aqu&iacute;</a>.</p>
-          </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>Si no eres miembro aun, <a href="/registro_usuario/">reg&iacute;strate aqu&iacute;</a>.</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-6">
-          <div class="col-md-6 col-sm-6">
-          <h3 class="hl top-zero">Ingresar a  REINET</h3>
-          <hr>
-          <p>REINET es el sistema inform&aacute;tico de innovaci&oacute;n ecuatoriana, una sistema web diseñado para promover el emprendimiento en el Ecuador</p>
-          </div>
-
-        <!-- Login Box -->
-        <div class="col-md-4 col-sm-6" style="float:right;">
-          <div class="form-box">
-            <h4>Ingresar</h4>
-            <hr>
-            <form role="form" action="/iniciarSesion/" method="post">
-            {% csrf_token %}
-
-              <div class="form-group">
-                <label class="sr-only" for="usernameLogin">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="usernameLogin" placeholder="Escriba su nombre de Usuario" name="usernameLogin" required>
-              </div>
-              <div class="form-group">
-                <label class="sr-only" for="passwordLogin">Contraseña</label>
-                <input type="password" class="form-control" id="passwordLogin" placeholder="Escriba su contraseña" name="passwordLogin" required>
-              </div>
-
-              {% if mensajeSuspendido %}
-                <div class="alert alert-warning">
-                <p>{{ mensajeSuspendido }}</p>
+        <div class="row">
+            <div class="col-md-12 col-sm-6">
+                <div class="col-md-6 col-sm-6">
+                    <h3 class="hl top-zero">Ingresar a REINET</h3>
+                    <hr>
+                    <p>REINET es el sistema inform&aacute;tico de innovaci&oacute;n ecuatoriana, una sistema web
+                        diseñado para promover el emprendimiento en el Ecuador</p>
                 </div>
-              {% endif %}
 
-              {% if mensajeErrorIngreso %}
-                <div class="alert alert-danger">
-                <p>{{ mensajeErrorIngreso }}</p>
+                <div class="col-md-4 col-sm-6" style="float:right;">
+                    <div class="form-box">
+                        <h4>Ingresar</h4>
+                        <hr>
+                        <form role="form" action="/iniciarSesion/" method="post">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <label class="sr-only" for="usernameLogin">Nombre de Usuario</label>
+                                <input type="text" class="form-control" id="usernameLogin"
+                                       placeholder="Escriba su nombre de Usuario" name="usernameLogin" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="passwordLogin">Contraseña</label>
+                                <input type="password" class="form-control" id="passwordLogin"
+                                       placeholder="Escriba su contraseña" name="passwordLogin" required>
+                            </div>
+
+                            {% if mensajeSuspendido %}
+                                <div class="alert alert-warning">
+                                    <p>{{ mensajeSuspendido }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if mensajeErrorIngreso %}
+                                <div class="alert alert-danger">
+                                    <p>{{ mensajeErrorIngreso }}</p>
+                                </div>
+                            {% endif %}
+
+                            <div class="checkbox">
+                                <label>
+                                    <input name="remember_me" type="checkbox" value="true">Mantenerme conectado
+                                </label>
+                            </div>
+                            <button type="submit" value="Submit" class="btn btn-green">Ingresar</button>
+                        </form>
+                        <hr>
+
+                        {% if mensaje %}
+                            {% if tipo == 'success' %}
+                                <div class="alert alert-success">
+                                    <p>{{ mensaje }}</p>
+                                </div>
+                            {% elif tipo == 'error' %}
+                                <div class="alert alert-danger">
+                                    <p>{{ mensaje }}</p>
+                                </div>
+                            {% elif tipo == 'info' %}
+                                <div class="alert alert-warning">
+                                    <p>{{ mensaje }}</p>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+
+                        <p>A&uacute;n no estas registrado? <a href="/registro_usuario/">Reg&iacute;strate
+                            aqu&iacute;.</a></p>
+
+                        <div class="pwd-lost">
+                            <div class="pwd-lost-q show">Olvidaste tu contraseña <a href="#">Click aqu&iacute; para
+                                recuperarla.</a></div>
+                            <!-- Ventana emergente pare recuperar contrasena -->
+                            <div class="pwd-lost-f hidden">
+                                <p class="text-muted">Ingresa tu email asociado a tu usuario y se te reenviara la
+                                    contraseña</p>
+
+                                <form class="form-inline" role="form" method="post" action="/enviarEmailPassword/">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="sr-only" for="email_recuperacion">Direcci&oacute;n de
+                                            email</label>
+                                        <input type="email" class="form-control" id="email_recuperacion"
+                                               name="email_recuperacion" placeholder="Ingrese email">
+                                    </div>
+                                    <button type="submit" value="Submit" class="btn btn-blue" name="btn_recuperar">
+                                        Enviar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              {% endif %}
-              
-              <div class="checkbox">
-                <label>
-                  <input name="remember_me" type="checkbox" value="true">Mantenerme conectado
-                </label>
-              </div>
-              <button type="submit" value="Submit" class="btn btn-green">Ingresar</button>
-            </form>
-            <hr>
-
-            {% if mensaje %}
-                {% if tipo == 'success' %}
-                    <div class="alert alert-success">
-                        <p>{{ mensaje }}</p>
-                    </div>
-                {% elif tipo == 'error' %}
-                    <div class="alert alert-danger">
-                        <p>{{ mensaje }}</p>
-                    </div>
-                {% elif tipo == 'info' %}
-                    <div class="alert alert-warning">
-                        <p>{{ mensaje }}</p>
-                    </div>
-                {% endif %}
-            {% endif %}
-
-
-            <p>A&uacute;n no estas registrado? <a href="/registro_usuario/">Reg&iacute;strate aqu&iacute;.</a></p>
-            <div class="pwd-lost">
-              <div class="pwd-lost-q show">Olvidaste tu contraseña <a href="#">Click aqu&iacute; para recuperarla.</a></div>
-              <!-- ///////////////  Ventana emergente para recuperar contraseña  ////////////-->
-              <div class="pwd-lost-f hidden">
-                <p class="text-muted">Ingresa tu email asociado a tu usuario y se te reenviara la contraseña</p>
-                <form class="form-inline" role="form" method="post" action="/enviarEmailPassword/">
-                {% csrf_token %}
-                  <div class="form-group">
-                    <label class="sr-only" for="email_recuperacion">Direcci&oacute;n de email</label>
-                    <input type="email" class="form-control" id="email_recuperacion" name="email_recuperacion" placeholder="Ingrese email">
-                  </div>
-                  <button type="submit" value="Submit" class="btn btn-blue" name="btn_recuperar">Enviar</button>
-                </form>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
-{%endblock%} 
+{% endblock %}

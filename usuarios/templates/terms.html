@@ -1,66 +1,161 @@
 {% extends "base.tpl.html" %}
-{% block home %}
-        <a class="navbar-brand link" href="#" >REI-NET</a>
+
+{% block raiz %}
+    <a class="navbar-brand link" href="#">REI-NET</a>
 {% endblock %}
-{% block signin %}
-<li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
-<li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
+
+{% block barraderecha %}
+    <li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
+    <li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
 {% endblock %}
-{% block content %}
 
-<style>
-	p {text-align: justify;}
-</style>
-<div style="display: block; padding: 0px 150px 0px 150px">
-	<h3> T&Eacute;RMINOS Y CONDICIONES DE USO DE LA P&Aacute;GINA WEB </h3>
-	<p>Por medio de estos T&eacute;rminos y Condiciones de Uso REI-NET informa a sus clientes (Administradores de instituciones legales, usuarios de instituciones legales y usuarios independientes) (en adelante “LOS USUARIOS”), la puesta en funcionamiento y el uso de la p&aacute;gina web www.rei-net.ec, cuya utilizaci&oacute;n estar&aacute; sujeta a los siguientes T&eacute;rminos y Condiciones Generales. El Usuario que accede a esta p&aacute;gina conoce y acepta los t&eacute;rminos relativos a su utilizaci&oacute;n que a continuaci&oacute;n se detallan.<br/><br/>
-	Agradeceremos al USUARIO lea cuidadosamente estos T&eacute;rminos y Condiciones de uso antes
-	de acceder o usar este sitio de Internet. El acceso a cualquiera de las &aacute;reas de este sitio y/o el pedido de cualquier producto o servicio a trav&eacute;s del uso de este sitio importa el conocimiento de estos T&eacute;rminos y Condiciones y su aceptaci&oacute;n por el USUARIO con la consiguiente obligaci&oacute;n de respetar las previsiones contenidas en el presente.<br/><br/>
-	Si Ud. no desea aceptar estos t&eacute;rminos y condiciones no podr&aacute; acceder a este Sitio.</p><br/>
+{% block contenido %}
 
-	<h3>1. RESPONSABILIDAD</h3>
-	<p>REI-NET se reserva el derecho de modificar en forma unilateral, sin mediar previo aviso, ni comunicaci&oacute;n al USUARIO, estos T&eacute;rminos y Condiciones Generales, como as&iacute; tambi&eacute;n los particulares de cada servicio, el dise&ntilde;o, la presentaci&oacute;n o su configuraci&oacute;n, los servicios ofertados, los requisitos de registro o de utilizaci&oacute;n de la p&aacute;gina, sin que ello genere derecho a reclamo o indemnizaci&oacute;n alguna en favor del USUARIO.<br/><br/>
-	La utilizaci&oacute;n de los servicios existentes en la p&aacute;gina requerir&aacute; del USUARIO la aceptaci&oacute;n de t&eacute;rminos y condiciones particulares y espec&iacute;ficas que completan las previsiones contenidas en la presente en cuanto no se opongan a ellas.<br/><br/>
-	REI-NET NO ES EMPLEADOR DEL USUARIO DE ESTA P&Aacute;GINA WEB, la misma que tiene la finalidad de incentivar la participaci&oacute;n de emprendedores (Administradores de instituciones legales, usuarios de instituciones legales y usuarios independientes de REI-NET). Salvo expresi&oacute;n particular en contrario, el uso de la p&aacute;gina es EXCLUSIVAMENTE PERSONAL Y NO COMERCIAL, por lo que el USUARIO no podr&aacute; vender, copiar, transmitir, transferir, publicar, referenciar, reproducir o licenciar en forma total o parcial el material, los elementos, los productos o los servicios comprendidos en la p&aacute;gina.<br/><br/>
-	LOS USUARIOS entienden que todas las marcas, logos y nombres comerciales de REI-NET o de sus empresas filiales o subsidiarias son de absoluta propiedad de REI-NET y que por ning&uacute;n concepto podr&aacute; utilizar dichas marcas, logos o nombres comerciales sin la previa autorizaci&oacute;n por escrito de REI-NET o la unidad legal y jur&iacute;dica pertinente, bajo
-	pena de responder por todos los da&ntilde;os y perjuicios que por el indebido uso de las
-	marcas, logos o nombres comerciales irrogue a REI-NET, sus filiales o subsidiarias de conformidadcon lo prescrito en la Ley de Propiedad Intelectual y otras normas afines.<br/><br/>
-	La informaci&oacute;n, datos, programas, fotograf&iacute;as, gr&aacute;ficas, videos, m&uacute;sica, sonidos, t&iacute;tulos o
-	encabezamientos de p&aacute;ginas, gr&aacute;ficas dise&ntilde;adas a la medida, los botones de los &iacute;conos y
-	cualquier otro elemento y/o materiales que esta p&aacute;gina contenga bajo cualquier formato, como as&iacute; tambi&eacute;n la p&aacute;gina en su totalidad e integralidad (colectivamente, el "Contenido") est&aacute;n protegidos por los derechos de autor y/o marcas de f&aacute;brica y/o secretos comerciales y/o de propiedad intelectual.<br/><br/>
-	REI-NET no declara ni garantiza que la informaci&oacute;n accesible a trav&eacute;s de
-	este sitio sea exacta, completa, confiable y/o que est&eacute; vigente, y toda la informaci&oacute;n, incluyendo premios y disponibilidad, est&aacute; sujeta a cambios sin previo aviso.<br/><br/>
-	El USUARIO reconoce y acepta que REI-NET, ni ninguna de sus vinculadas, o afiliadas o subsidiarias, ni los directores, empleados o representantes de cualesquiera de ellos, es responsable por da&ntilde;os que surjan de o resulten del uso de esta p&aacute;gina, incluyendo cualquier error, omisi&oacute;n, interrupci&oacute;n, falla, etc. y/o demoras en la operaci&oacute;n y/o de cualquier otro tipo.<br/><br/>
-	REI-NET se reserva el derecho a ejercer la exclusi&oacute;n o baja de un USUARIO, cuando, a su s&oacute;lo juicio, lo considere necesario o conveniente, sin que ello genere para el USUARIO derecho a indemnizaci&oacute;n alguna por ning&uacute;n concepto.<br/><br/>
-	La p&aacute;gina puede ser utilizada por el USUARIO siempre y cuando se acepte los t&eacute;rminos y se
-	registre independientemente de ello, para determinados servicios de acceso restringido el
-	USUARIO contar&aacute; con contrase&ntilde;a o password. El USUARIO se compromete a guardar estricta confidencialidad y a no revelar sus claves a terceros. REI-NET no ser&aacute; responsable por
-	los da&ntilde;os y perjuicios derivados del uso incorrecto de los elementos, informaciones o datos
-	obtenidos en virtud del incumplimiento de la presente.</p><br/>
-	<h3>2. SITIOS</h3>
-	<p>A trav&eacute;s de la presente p&aacute;gina se pone a su disposici&oacute;n de nuestros clientes (Administradores de instituciones legales, usuarios de instituciones legales y usuarios independientes). Una plataforma Web con de enlaces (tales como, links, banners, botones, etc.), permiten recibir capacitaci&oacute;n, retroalimentaci&oacute;n, comentarios, etc.</p><br/>
+    <style>
+        p {
+            text-align: justify;
+        }
+    </style>
+    <div style="display: block; padding: 0px 150px 0px 150px">
+        <h3> T&Eacute;RMINOS Y CONDICIONES DE USO DE LA P&Aacute;GINA WEB </h3>
 
-	<h4>2.1 UTILIDAD</h4>
-	<p>Mediante la utilizaci&oacute;n de esta p&aacute;gina, el USUARIO reconoce y acepta que REI-NET no garantiza que los sitios enlazados o la informaci&oacute;n proporcionada por terceros, sean &uacute;tiles para la realizaci&oacute;n de ninguna actividad particular.<br/><br/>
-	Mediante el uso de la presente p&aacute;gina el USUARIO reconoce y acepta que REI-NET queda excluida de cualquier responsabilidad por los da&ntilde;os y perjuicios quepudieran haberse causado por la veracidad de la informaci&oacute;n o calidad de los servicios contenidos y ofrecidos por terceros o que se encuentren en los sitios enlazados o los que surjan con relaci&oacute;n a este sitio. Tanto el acceso a esta p&aacute;gina como el uso que pueda hacerse de la informaci&oacute;n contenida en el mismo son exclusiva responsabilidad del USUARIO.<p><br/>
+        <p>Por medio de estos T&eacute;rminos y Condiciones de Uso REI-NET informa a sus clientes (Administradores de
+            instituciones legales, usuarios de instituciones legales y usuarios independientes) (en adelante “LOS
+            USUARIOS”), la puesta en funcionamiento y el uso de la p&aacute;gina web www.rei-net.ec, cuya utilizaci&oacute;n
+            estar&aacute; sujeta a los siguientes T&eacute;rminos y Condiciones Generales. El Usuario que accede a esta
+            p&aacute;gina conoce y acepta los t&eacute;rminos relativos a su utilizaci&oacute;n que a continuaci&oacute;n
+            se detallan.<br/><br/>
+            Agradeceremos al USUARIO lea cuidadosamente estos T&eacute;rminos y Condiciones de uso antes
+            de acceder o usar este sitio de Internet. El acceso a cualquiera de las &aacute;reas de este sitio y/o el
+            pedido de cualquier producto o servicio a trav&eacute;s del uso de este sitio importa el conocimiento de
+            estos T&eacute;rminos y Condiciones y su aceptaci&oacute;n por el USUARIO con la consiguiente obligaci&oacute;n
+            de respetar las previsiones contenidas en el presente.<br/><br/>
+            Si Ud. no desea aceptar estos t&eacute;rminos y condiciones no podr&aacute; acceder a este Sitio.</p><br/>
 
-	<h4>2.2 CALIDAD</h4>
-	<p>Mediante el uso de esta p&aacute;gina, el USUARIO reconoce y acepta que REI-NET no controla ni garantiza la ausencia de virus en el contenido de los sitios enlazados, ni la ausencia de otros elementos que pudieran producir alteraciones en sus sistemas inform&aacute;ticos o en los documentos electr&oacute;nicos y archivos almacenados en los archivos inform&aacute;ticos del USUARIO.</p><br/>
+        <h3>1. RESPONSABILIDAD</h3>
 
-	<h4>2.3 PROPIEDAD INTELECTUAL</h4>
-	<p>Mediante el uso de esta p&aacute;gina, el USUARIO reconoce y acepta que REI-NET queda excluida de cualquier responsabilidad que pudiera ser causada por el uso no autorizado de las marcas u otros derechos de propiedad intelectual de terceros o contenidos en los sitios enlazados.
-	De igual manera, las eventuales referencias que se hagan en esta p&aacute;gina a cualquier producto, servicio, proceso, sitio enlazado, u otra informaci&oacute;n en la que se utilicen marcas, signos distintivos o dominios, etc., que sean titularidad de terceros, en ning&uacute;n momento constituir&aacute;n, ni implicar&aacute;n respaldo o recomendaci&oacute;n alguna por parte de REI-NET y en ning&uacute;n caso REI-NET, se asignar&aacute; propiedad ni responsabilidad sobre los mismos.</p><br/>
+        <p>REI-NET se reserva el derecho de modificar en forma unilateral, sin mediar previo aviso, ni comunicaci&oacute;n
+            al USUARIO, estos T&eacute;rminos y Condiciones Generales, como as&iacute; tambi&eacute;n los particulares
+            de cada servicio, el dise&ntilde;o, la presentaci&oacute;n o su configuraci&oacute;n, los servicios
+            ofertados, los requisitos de registro o de utilizaci&oacute;n de la p&aacute;gina, sin que ello genere
+            derecho a reclamo o indemnizaci&oacute;n alguna en favor del USUARIO.<br/><br/>
+            La utilizaci&oacute;n de los servicios existentes en la p&aacute;gina requerir&aacute; del USUARIO la
+            aceptaci&oacute;n de t&eacute;rminos y condiciones particulares y espec&iacute;ficas que completan las
+            previsiones contenidas en la presente en cuanto no se opongan a ellas.<br/><br/>
+            REI-NET NO ES EMPLEADOR DEL USUARIO DE ESTA P&Aacute;GINA WEB, la misma que tiene la finalidad de incentivar
+            la participaci&oacute;n de emprendedores (Administradores de instituciones legales, usuarios de
+            instituciones legales y usuarios independientes de REI-NET). Salvo expresi&oacute;n particular en contrario,
+            el uso de la p&aacute;gina es EXCLUSIVAMENTE PERSONAL Y NO COMERCIAL, por lo que el USUARIO no podr&aacute;
+            vender, copiar, transmitir, transferir, publicar, referenciar, reproducir o licenciar en forma total o
+            parcial el material, los elementos, los productos o los servicios comprendidos en la
+            p&aacute;gina.<br/><br/>
+            LOS USUARIOS entienden que todas las marcas, logos y nombres comerciales de REI-NET o de sus empresas
+            filiales o subsidiarias son de absoluta propiedad de REI-NET y que por ning&uacute;n concepto podr&aacute;
+            utilizar dichas marcas, logos o nombres comerciales sin la previa autorizaci&oacute;n por escrito de REI-NET
+            o la unidad legal y jur&iacute;dica pertinente, bajo
+            pena de responder por todos los da&ntilde;os y perjuicios que por el indebido uso de las
+            marcas, logos o nombres comerciales irrogue a REI-NET, sus filiales o subsidiarias de conformidadcon lo
+            prescrito en la Ley de Propiedad Intelectual y otras normas afines.<br/><br/>
+            La informaci&oacute;n, datos, programas, fotograf&iacute;as, gr&aacute;ficas, videos, m&uacute;sica,
+            sonidos, t&iacute;tulos o
+            encabezamientos de p&aacute;ginas, gr&aacute;ficas dise&ntilde;adas a la medida, los botones de los &iacute;conos
+            y
+            cualquier otro elemento y/o materiales que esta p&aacute;gina contenga bajo cualquier formato, como as&iacute;
+            tambi&eacute;n la p&aacute;gina en su totalidad e integralidad (colectivamente, el "Contenido") est&aacute;n
+            protegidos por los derechos de autor y/o marcas de f&aacute;brica y/o secretos comerciales y/o de propiedad
+            intelectual.<br/><br/>
+            REI-NET no declara ni garantiza que la informaci&oacute;n accesible a trav&eacute;s de
+            este sitio sea exacta, completa, confiable y/o que est&eacute; vigente, y toda la informaci&oacute;n,
+            incluyendo premios y disponibilidad, est&aacute; sujeta a cambios sin previo aviso.<br/><br/>
+            El USUARIO reconoce y acepta que REI-NET, ni ninguna de sus vinculadas, o afiliadas o subsidiarias, ni los
+            directores, empleados o representantes de cualesquiera de ellos, es responsable por da&ntilde;os que surjan
+            de o resulten del uso de esta p&aacute;gina, incluyendo cualquier error, omisi&oacute;n, interrupci&oacute;n,
+            falla, etc. y/o demoras en la operaci&oacute;n y/o de cualquier otro tipo.<br/><br/>
+            REI-NET se reserva el derecho a ejercer la exclusi&oacute;n o baja de un USUARIO, cuando, a su s&oacute;lo
+            juicio, lo considere necesario o conveniente, sin que ello genere para el USUARIO derecho a indemnizaci&oacute;n
+            alguna por ning&uacute;n concepto.<br/><br/>
+            La p&aacute;gina puede ser utilizada por el USUARIO siempre y cuando se acepte los t&eacute;rminos y se
+            registre independientemente de ello, para determinados servicios de acceso restringido el
+            USUARIO contar&aacute; con contrase&ntilde;a o password. El USUARIO se compromete a guardar estricta
+            confidencialidad y a no revelar sus claves a terceros. REI-NET no ser&aacute; responsable por
+            los da&ntilde;os y perjuicios derivados del uso incorrecto de los elementos, informaciones o datos
+            obtenidos en virtud del incumplimiento de la presente.</p><br/>
 
-	<h3>3. POLÍTICA DE PRIVACIDAD</h3>
-	<p>Los datos personales que el USUARIO brinde libremente a REI-NET, tales como nombres, fecha de nacimiento, domicilio, n&uacute;mero telef&oacute;nico, pa&iacute;s, c&oacute;digo postal, correo electr&oacute;nico, y/o cualquier otro que voluntariamente suministre a REI-NET cuando ello sea necesario ser&aacute;n, procesados bajo normas de estricta confidencialidad y protecci&oacute;n de datos.<br/><br/>
-	El USUARIO podr&aacute;, en cualquier momento, informar cualquier actualizaci&oacute;n de sus datos personales, incluyendo la supresi&oacute;n, rectificaci&oacute;n o cancelaci&oacute;n de los mismos. REI-NET utiliza archivos que el navegador del USUARIO guarda autom&aacute;ticamente en su disco r&iacute;gido para mejorar y facilitar la navegaci&oacute;n, o con fines estad&iacute;sticos y de an&aacute;lisis de car&aacute;cter general; en ning&uacute;n caso los archivos ­cookies­ pueden leer informaci&oacute;n de su disco r&iacute;gido o archivos creados por otros sitios.</p><br/>
+        <h3>2. SITIOS</h3>
 
-	<h3>4. TERMINACIÓN DEL ACCESO</h3>
-	<p>REI-NET podr&aacute;, en cualquier momento, terminar o suspender el acceso que EL USUARIO tenga a todo o parte de este sitio sin aviso previo y sin responsabilidad alguna hacia el USUARIO, por cualquier conducta de aqu&eacute;l que REI-NET conforme su exclusivo y excluyente criterio, considere que ha violado estos T&eacute;rminos y Condiciones. Sin perjuicio de ello, REI-NET en cualquier momento, sin invocaci&oacute;n de causa y sin previo aviso, podr&aacute; suspender o terminar el acceso que el USUARIO tenga a todo o parte de este sitio; sin que ello genere derecho a reclamo o indemnizaci&oacute;n alguna. Ni la terminaci&oacute;n o suspensi&oacute;n del acceso, ni cualquier acci&oacute;n o inacci&oacute;n del USUARIO, terminar&aacute; las disposiciones de estos T&eacute;rminos y Condiciones, los que permanecer&aacute;n en plena fuerza y vigor de forma indefinida, sujetas s&oacute;lo a cualquier cambio que REI-NET efect&uacute;e.<br/><br/>
-	La utilizaci&oacute;n e ingreso a la presente p&aacute;gina web de REI-NET ser&aacute; considerado como aceptaci&oacute;n de los t&eacute;rminos de esta Pol&iacute;tica de Privacidad por parte del USUARIO.<br/><br/>
-	Estos T&eacute;rminos y Condiciones se regir&aacute;n e interpretar&aacute;n de acuerdo con las leyes del pa&iacute;s.
-	La aceptaci&oacute;n de estos T&eacute;rminos y Condiciones ser&aacute; regida por las leyes civiles; por lo cual, no existe ninguna relaci&oacute;n de tipo laboral entre los comparecientes. Es decir, que LOS USUARIOS y REI-NET manifiestan que CADA UNA es responsable ante y con sus empleados y trabajadores actuales o los que tuviere en el futuro, y que cada una independientemente ser&aacute; la obligada al pago de remuneraciones, sueldos, o cualquier otra obligaci&oacute;n o restaci&oacute;n
-	de &iacute;ndole social. REI-NET no tiene a la fecha, ni tendr&aacute; frente LOS USUARIOS y/o sus trabajadores, ninguna obligaci&oacute;n patronal ni responsabilidad laboral, ni a&uacute;n a t&iacute;tulo de solidaridad.</p>
-</div>
+        <p>A trav&eacute;s de la presente p&aacute;gina se pone a su disposici&oacute;n de nuestros clientes
+            (Administradores de instituciones legales, usuarios de instituciones legales y usuarios independientes). Una
+            plataforma Web con de enlaces (tales como, links, banners, botones, etc.), permiten recibir capacitaci&oacute;n,
+            retroalimentaci&oacute;n, comentarios, etc.</p><br/>
+
+        <h4>2.1 UTILIDAD</h4>
+
+        <p>Mediante la utilizaci&oacute;n de esta p&aacute;gina, el USUARIO reconoce y acepta que REI-NET no garantiza
+            que los sitios enlazados o la informaci&oacute;n proporcionada por terceros, sean &uacute;tiles para la
+            realizaci&oacute;n de ninguna actividad particular.<br/><br/>
+            Mediante el uso de la presente p&aacute;gina el USUARIO reconoce y acepta que REI-NET queda excluida de
+            cualquier responsabilidad por los da&ntilde;os y perjuicios quepudieran haberse causado por la veracidad de
+            la informaci&oacute;n o calidad de los servicios contenidos y ofrecidos por terceros o que se encuentren en
+            los sitios enlazados o los que surjan con relaci&oacute;n a este sitio. Tanto el acceso a esta p&aacute;gina
+            como el uso que pueda hacerse de la informaci&oacute;n contenida en el mismo son exclusiva responsabilidad
+            del USUARIO.
+
+        <p><br/>
+
+        <h4>2.2 CALIDAD</h4>
+
+        <p>Mediante el uso de esta p&aacute;gina, el USUARIO reconoce y acepta que REI-NET no controla ni garantiza la
+            ausencia de virus en el contenido de los sitios enlazados, ni la ausencia de otros elementos que pudieran
+            producir alteraciones en sus sistemas inform&aacute;ticos o en los documentos electr&oacute;nicos y archivos
+            almacenados en los archivos inform&aacute;ticos del USUARIO.</p><br/>
+
+        <h4>2.3 PROPIEDAD INTELECTUAL</h4>
+
+        <p>Mediante el uso de esta p&aacute;gina, el USUARIO reconoce y acepta que REI-NET queda excluida de cualquier
+            responsabilidad que pudiera ser causada por el uso no autorizado de las marcas u otros derechos de propiedad
+            intelectual de terceros o contenidos en los sitios enlazados.
+            De igual manera, las eventuales referencias que se hagan en esta p&aacute;gina a cualquier producto,
+            servicio, proceso, sitio enlazado, u otra informaci&oacute;n en la que se utilicen marcas, signos
+            distintivos o dominios, etc., que sean titularidad de terceros, en ning&uacute;n momento constituir&aacute;n,
+            ni implicar&aacute;n respaldo o recomendaci&oacute;n alguna por parte de REI-NET y en ning&uacute;n caso
+            REI-NET, se asignar&aacute; propiedad ni responsabilidad sobre los mismos.</p><br/>
+
+        <h3>3. POLÍTICA DE PRIVACIDAD</h3>
+
+        <p>Los datos personales que el USUARIO brinde libremente a REI-NET, tales como nombres, fecha de nacimiento,
+            domicilio, n&uacute;mero telef&oacute;nico, pa&iacute;s, c&oacute;digo postal, correo electr&oacute;nico,
+            y/o cualquier otro que voluntariamente suministre a REI-NET cuando ello sea necesario ser&aacute;n,
+            procesados bajo normas de estricta confidencialidad y protecci&oacute;n de datos.<br/><br/>
+            El USUARIO podr&aacute;, en cualquier momento, informar cualquier actualizaci&oacute;n de sus datos
+            personales, incluyendo la supresi&oacute;n, rectificaci&oacute;n o cancelaci&oacute;n de los mismos. REI-NET
+            utiliza archivos que el navegador del USUARIO guarda autom&aacute;ticamente en su disco r&iacute;gido para
+            mejorar y facilitar la navegaci&oacute;n, o con fines estad&iacute;sticos y de an&aacute;lisis de car&aacute;cter
+            general; en ning&uacute;n caso los archivos ­cookies­ pueden leer informaci&oacute;n de su disco r&iacute;gido
+            o archivos creados por otros sitios.</p><br/>
+
+        <h3>4. TERMINACIÓN DEL ACCESO</h3>
+
+        <p>REI-NET podr&aacute;, en cualquier momento, terminar o suspender el acceso que EL USUARIO tenga a todo o
+            parte de este sitio sin aviso previo y sin responsabilidad alguna hacia el USUARIO, por cualquier conducta
+            de aqu&eacute;l que REI-NET conforme su exclusivo y excluyente criterio, considere que ha violado estos T&eacute;rminos
+            y Condiciones. Sin perjuicio de ello, REI-NET en cualquier momento, sin invocaci&oacute;n de causa y sin
+            previo aviso, podr&aacute; suspender o terminar el acceso que el USUARIO tenga a todo o parte de este sitio;
+            sin que ello genere derecho a reclamo o indemnizaci&oacute;n alguna. Ni la terminaci&oacute;n o suspensi&oacute;n
+            del acceso, ni cualquier acci&oacute;n o inacci&oacute;n del USUARIO, terminar&aacute; las disposiciones de
+            estos T&eacute;rminos y Condiciones, los que permanecer&aacute;n en plena fuerza y vigor de forma
+            indefinida, sujetas s&oacute;lo a cualquier cambio que REI-NET efect&uacute;e.<br/><br/>
+            La utilizaci&oacute;n e ingreso a la presente p&aacute;gina web de REI-NET ser&aacute; considerado como
+            aceptaci&oacute;n de los t&eacute;rminos de esta Pol&iacute;tica de Privacidad por parte del
+            USUARIO.<br/><br/>
+            Estos T&eacute;rminos y Condiciones se regir&aacute;n e interpretar&aacute;n de acuerdo con las leyes del pa&iacute;s.
+            La aceptaci&oacute;n de estos T&eacute;rminos y Condiciones ser&aacute; regida por las leyes civiles; por lo
+            cual, no existe ninguna relaci&oacute;n de tipo laboral entre los comparecientes. Es decir, que LOS USUARIOS
+            y REI-NET manifiestan que CADA UNA es responsable ante y con sus empleados y trabajadores actuales o los que
+            tuviere en el futuro, y que cada una independientemente ser&aacute; la obligada al pago de remuneraciones,
+            sueldos, o cualquier otra obligaci&oacute;n o restaci&oacute;n
+            de &iacute;ndole social. REI-NET no tiene a la fecha, ni tendr&aacute; frente LOS USUARIOS y/o sus
+            trabajadores, ninguna obligaci&oacute;n patronal ni responsabilidad laboral, ni a&uacute;n a t&iacute;tulo
+            de solidaridad.</p>
+    </div>
 
 {% endblock %}

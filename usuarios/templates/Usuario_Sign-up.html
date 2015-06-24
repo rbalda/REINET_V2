@@ -1,487 +1,514 @@
 {% extends "base.tpl.html" %}
-{% block home %}
-        <a class="navbar-brand link" href="/" >REI-NET</a>
-{% endblock %}
-{% block signin %}
-<li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
-<li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
-{% endblock %}
-{% block content %}
 
-<!-- VENTANA REGISTRAR USUARIO
-================== -->
-  
+{% block raiz %}
+    <a class="navbar-brand link" href="/">REI-NET</a>
+{% endblock %}
+
+{% block barraderecha %}
+    <li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
+    <li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
+{% endblock %}
+
+{% block contenido %}
+
+
     <script type="text/javascript">
-    /*
-    * Autor: Marlon Espinoza
-      Nombre de función: validarLetras
-      Salida: permite el ingreso de solo letras
-      Descripción: Solo permite el ingreso de letras
-    * */
-    function validarLetras(e){
-        key= e.keyCode || e.which;
-        teclado = String.fromCharCode(key).toLocaleLowerCase();
+        /*
+         * Autor: Marlon Espinoza
+         Nombre de función: validarLetras
+         Salida: permite el ingreso de solo letras
+         Descripción: Solo permite el ingreso de letras
+         * */
+        function validarLetras(e) {
+            key = e.keyCode || e.which;
+            teclado = String.fromCharCode(key).toLocaleLowerCase();
 
-        letras = " abcdefghijklmnñopqrstuvwxyz";
-        especiales = ["8","37","38","39","46","164"];
-        teclado_especial = false;
-        for(var i=0;especiales[i];i++){
-            if(key==especiales[i]){
-                teclado_especial=true;
-                break;
+            letras = " abcdefghijklmnñopqrstuvwxyz";
+            especiales = ["8", "37", "38", "39", "46", "164"];
+            teclado_especial = false;
+            for (var i = 0; especiales[i]; i++) {
+                if (key == especiales[i]) {
+                    teclado_especial = true;
+                    break;
+                }
+            }
+            if (letras.indexOf(teclado) == -1 && !teclado_especial) {
+                return false;
             }
         }
-        if(letras.indexOf(teclado)==-1 && !teclado_especial){
-            return false;
-        }
-    }
-    /*
-    * Autor: Marlon Espinoza
-      Nombre de función: validarPassword2
-      Salida: Muestra advertencia si son distintos
-      Descripción: Compara que password 1 y 2 sean iguales
-    * */
-    function validarPassword2(){
-        password1 = document.getElementById('password1')
-        pass2 = document.getElementById('password2')
-
-        if (password1.value==pass2.value) {
-            document.getElementById('noIgual').style.display='none';
-
-        }
-        else{
-            document.getElementById('noIgual').style.display='block';
-
-        }
-
-    }
-    /*
-    * Autor: Marlon Espinoza
-      Nombre de función: validarDigitosId
-      Salida: Muestra advertencia si son distintos
-      Descripción: Compara que password 1 y 2 sean iguales
-    * */
-
-    function validarNumeroDigitosId() {
-        identificacion = document.getElementById("cedula")
-        if(identificacion.value.length==10){
-            document.getElementById('errorCedula').style.display='none';
-        }
-        else{
-            document.getElementById('errorCedula').style.display='block';
-        }
-    }
         /*
-      Autor: Jose Velez
-      Edición: Marlon Espinoza
-      Nombre de función: validarNumero
-      Parámetros: evento
-      Salida: permite el ingreso de solo numeros
-      Descripción: Solo permite el ingreso de digitos
-      */
-      function validarNumero(evt)
-      {
-          var code = (evt.which) ? evt.which : evt.keyCode;
-          identificacion = document.getElementById("cedula")
-          if(identificacion.value.length==10){
-              document.getElementById('errorCedula').style.display='none';
-             // habilitarDeshabilitarSubmit(1);
-          }
-          if(code==8)
-          {
-              //backspace
-              return true;
-          }
-          else if(code>=48 && code<=57)
-          {
-              //is a number
+         * Autor: Marlon Espinoza
+         Nombre de función: validarPassword2
+         Salida: Muestra advertencia si son distintos
+         Descripción: Compara que password 1 y 2 sean iguales
+         * */
+        function validarPassword2() {
+            password1 = document.getElementById('password1')
+            pass2 = document.getElementById('password2')
 
-              return true;
-          }
-          else
-          {
+            if (password1.value == pass2.value) {
+                document.getElementById('noIgual').style.display = 'none';
 
-              return false;
-          }
-      }
+            }
+            else {
+                document.getElementById('noIgual').style.display = 'block';
 
-      /*
-      Autor: Jose Velez
-      Nombre de función: validarUrl
-      Parámetros: evento
-      Salida: ingresa automaticamente el http
-      Descripción: salida del http al escribir una url
-      */
+            }
 
-      function validarURL (abc) {
-              var string = abc.value;
-              if (!~string.indexOf("http") && string!=""){
-                  string = "http://" + string;
-              }
-              abc.value = string;
-              return abc
-      }
-
-      function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah')
-                    .attr('src', e.target.result)
-                    .width(200)
-                    .height(200);
-            };
-
-            reader.readAsDataURL(input.files[0]);
         }
-      }
+        /*
+         * Autor: Marlon Espinoza
+         Nombre de función: validarDigitosId
+         Salida: Muestra advertencia si son distintos
+         Descripción: Compara que password 1 y 2 sean iguales
+         * */
+
+        function validarNumeroDigitosId() {
+            identificacion = document.getElementById("cedula")
+            if (identificacion.value.length == 10) {
+                document.getElementById('errorCedula').style.display = 'none';
+            }
+            else {
+                document.getElementById('errorCedula').style.display = 'block';
+            }
+        }
+        /*
+         Autor: Jose Velez
+         Edición: Marlon Espinoza
+         Nombre de función: validarNumero
+         Parámetros: evento
+         Salida: permite el ingreso de solo numeros
+         Descripción: Solo permite el ingreso de digitos
+         */
+        function validarNumero(evt) {
+            var code = (evt.which) ? evt.which : evt.keyCode;
+            identificacion = document.getElementById("cedula")
+            if (identificacion.value.length == 10) {
+                document.getElementById('errorCedula').style.display = 'none';
+                // habilitarDeshabilitarSubmit(1);
+            }
+            if (code == 8) {
+                //backspace
+                return true;
+            }
+            else if (code >= 48 && code <= 57) {
+                //is a number
+
+                return true;
+            }
+            else {
+
+                return false;
+            }
+        }
+
+        /*
+         Autor: Jose Velez
+         Nombre de función: validarUrl
+         Parámetros: evento
+         Salida: ingresa automaticamente el http
+         Descripción: salida del http al escribir una url
+         */
+
+        function validarURL(abc) {
+            var string = abc.value;
+            if (!~string.indexOf("http") && string != "") {
+                string = "http://" + string;
+            }
+            abc.value = string;
+            return abc
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                            .attr('src', e.target.result)
+                            .width(200)
+                            .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 
     <!-- Page Tip -->
     <div class="page-tip animated slideInDown">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <p>Llene el siguiente formulario para registrarse</p>
-          </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>Llene el siguiente formulario para registrarse</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!-- Main Form -->
     <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3 signup">
-          <h3 class="hl top-zero">Registro de Usuario</h3>
-          <hr>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 signup">
+                <h3 class="hl top-zero">Registro de Usuario</h3>
+                <hr>
 
-          <form role="form" action="/registro_usuario/" method="post" enctype="multipart/form-data" > {%csrf_token%}
-            <div class="form-group">
+                <form role="form" action="/registro_usuario/" method="post"
+                      enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="form-group">
 
-             {% if mensaje %}
-             <div class="form-group">
-              <label class="info-board-red" id="noIgual" style=" color: red">{{mensaje}}</label>
-            </div>
-            {% endif %}
-              <div class="form-group">
-              <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
-            </div>
+                        {% if mensaje %}
+                            <div class="form-group">
+                                <label class="info-board-red" id="noIgual" style=" color: red">{{ mensaje }}</label>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
+                        </div>
 
-              <input required type="text" class="form-control" id="username" name="username" placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu usuario aquí." data-original-title="username" >
-            </div>
-            <div class="form-group">
-              <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as no coinciden</label>
-            </div>
-               <div class="form-group">
-              <div class="row">
-                <div class="col-sm-6">
-                  <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password">
-                </div>
-                <div class="col-sm-6">
-                  <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Asegurate de recordarla" data-original-title="Repeat Password" onchange="validarPassword2()">
-                </div>
-              </div>
-            </div>
-              <div class="form-group">
-              <label class="info-board-red" id="error_nombre" style="display: none; color: red">Los nombres no pueden contener números ni caracteres especiales</label>
-            </div>
-            <div class="form-group">
-              <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" class="form-control" id="nombre"  name="nombres" placeholder="Nombres" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu nombre aquí." data-original-title="Nombre" onkeypress="return validarLetras(event)">
-            </div>
-              <div class="form-group">
-              <label class="info-board-red" id="error_apellido" style="display: none; color: red">Los apellidos no pueden contener números ni caracteres especiales</label>
-            </div>
-            <div class="form-group">
-              <input required type="text" class="form-control" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos" placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos" onkeypress="return validarLetras(event)">
-            </div>
+                        <input required type="text" class="form-control" id="username" name="username"
+                               placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingresa tu usuario aquí." data-original-title="username">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as
+                            no coinciden</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input required type="password" class="form-control margin-bottom-xs" id="password1"
+                                       name="password1" placeholder="Contraseña" data-toggle="popover"
+                                       data-placement="left" data-trigger="focus" data-content="Three symbols minimum."
+                                       data-original-title="Password">
+                            </div>
+                            <div class="col-sm-6">
+                                <input required type="password" class="form-control" id="password2" name="password2"
+                                       placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus"
+                                       data-content="Asegurate de recordarla" data-original-title="Repeat Password"
+                                       onchange="validarPassword2()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="info-board-red" id="error_nombre" style="display: none; color: red">Los nombres no
+                            pueden contener números ni caracteres especiales</label>
+                    </div>
+                    <div class="form-group">
+                        <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$"
+                               class="form-control" id="nombre" name="nombres" placeholder="Nombres"
+                               data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                               onkeypress="return validarLetras(event)">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-board-red" id="error_apellido" style="display: none; color: red">Los
+                            apellidos no pueden contener números ni caracteres especiales</label>
+                    </div>
+                    <div class="form-group">
+                        <input required type="text" class="form-control"
+                               pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos"
+                               placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos"
+                               onkeypress="return validarLetras(event)">
+                    </div>
 
-            <div class="form-group">
-              <label class="info-board-red" id="errorCedula" style="display: none; color: red">C&eacute;dula debe contener 10 d&iacute;gitos</label>
-            </div>
-                <div class="form-group">
-              <label class="info-board-red" id="cedula_usado" style="display: none; color: red"></label>
-            </div>
-         
-             <div class="form-group">
-              <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
-            </div>
-             
-            <div class="form-group">
-            <select class="form-control" id="pais" name="pais">
-          <optgroup label="Pais">
-                    {%for pais in paises%}
-                     <option value="{{pais.id}}">{{pais.name}}</option>
-                    {%endfor%}
-                    </optgroup>
-             </select>
-            </div>
-            
-            <div class="form-group">
-              <select class="form-control" name="ciudad" id="ciudad" required>
-                  <optgroup id="optsCiudades" label="Ciudad">
-                      {%for ciudad in ciudades%}
-                          <option value="{{ciudad.id}}">{{ciudad.name}}</option>
-                      {%endfor%}
-                  </optgroup>
-              </select>
-            </div>
+                    <div class="form-group">
+                        <label class="info-board-red" id="errorCedula" style="display: none; color: red">C&eacute;dula
+                            debe contener 10 d&iacute;gitos</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="info-board-red" id="cedula_usado" style="display: none; color: red"></label>
+                    </div>
 
-            <div class="form-group">
-              <input type="text" class="form-control" id="telefono" maxlength="16" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover"  data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
+                    <div class="form-group">
+                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula"
+                               maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover"
+                               data-placement="left" data-trigger="focus"
+                               data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
+                               onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" id="pais" name="pais">
+                            <optgroup label="Pais">
+                                {% for pais in paises %}
+                                    <option value="{{ pais.id }}">{{ pais.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" name="ciudad" id="ciudad" required>
+                            <optgroup id="optsCiudades" label="Ciudad">
+                                {% for ciudad in ciudades %}
+                                    <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="telefono" maxlength="16" pattern="([0-9]{1,15})"
+                               name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left"
+                               data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono"
+                               onkeypress="return validarNumero(event);">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="info-board-red" id="email_usado" style="display: none; color: red"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <input required type="email" class="form-control" maxlength="50" id="email" name="email"
+                               placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingresa un email valido." data-original-title="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web"
+                               onblur="validarURL(this)" data-toggle="popover" data-placement="left"
+                               data-trigger="focus" data-content="Ingresa tu sitio web aquí."
+                               data-original-title="Sitio Web">
+                    </div>
+
+                    <label id="listarInst">
+                        <a>Click aqu&iacute; para solicitar membresía a instituci&oacute;n</a>
+                    </label>
+                    <label hidden id="mensajeMembresia">
+                        Se enviará una solicitud a la Institución la cual será aprobada posteriormente
+                    </label>
+
+                    <div hidden id="formInstitucion" class="form-group">
+                        <select class="form-control" id="institucion">
+                            <optgroup label="Instutucion">
+                                {% for inst in instituciones %}
+                                    {% if inst.id_institucion != 1 %}
+                                        <option value="{{ inst.id_institucion }}">{{ inst.nombre }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                    <label id="asIndependiente" hidden>
+                        <a>No deseo perternecer a una Insitución por ahora</a>
+                    </label>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" required> Estoy de acuerdo con los <a href="/terminosYcondiciones/">T&eacute;rminos
+                            y Condiciones</a>.
+                        </label>
+                    </div>
+                    <button required id="submit" type="submit" class="btn btn-green">Crear Cuenta</button>
+                    <a style="float:right" class="btn btn-green" href="/iniciarSesion/">Ya poseo una cuenta</a>
+                </form>
             </div>
-     
-            
-           <div class="form-group">
-              <label class="info-board-red" id="email_usado" style="display: none; color: red"></label>
-            </div>
-                       
-            <div class="form-group">
-              <input required type="email" class="form-control" maxlength="50" id="email" name="email" placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa un email valido." data-original-title="Email">
-            </div>
-             <div class="form-group">
-              <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web" onblur="validarURL(this)" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web">
-            </div> 
-            
-            <label id="listarInst" >
-              <a >Click aqu&iacute; para solicitar membresía a instituci&oacute;n</a>
-            </label>
-            <label hidden id="mensajeMembresia">
-              Se enviará una solicitud a la Institución la cual será aprobada posteriormente
-            </label>
-           
-            <div hidden id="formInstitucion" class="form-group">
-            <select  class="form-control" id="institucion" >
-            <optgroup label="Instutucion">
-                    {%for inst in instituciones%}
-                    {%if inst.id_institucion != 1%}
-                     <option value="{{inst.id_institucion}}">{{inst.nombre}}</option>
-                    {%endif%}
-                    {%endfor%}
-                    </optgroup>
-             </select>
-            </div>
-             <label id="asIndependiente" hidden>
-              <a >No deseo perternecer a una Insitución por ahora</a>
-            </label>
-            
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" required> Estoy de acuerdo con los <a href="/terminosYcondiciones/">T&eacute;rminos y Condiciones</a>.
-              </label>
-            </div>
-            <button required id="submit" type="submit" class="btn btn-green">Crear Cuenta</button>
-            <a style="float:right" class="btn btn-green" href="/iniciarSesion/">Ya poseo una cuenta</a>
-          </form>
         </div>
-      </div>
     </div>
 
 
     <script type="text/javascript">
 
-    function habilitarDeshabilitarSubmit(valor){
+    function habilitarDeshabilitarSubmit(valor) {
 
-      if(valor==0){
-        $("#submit").removeAttr("enabled");
+        if (valor == 0) {
+            $("#submit").removeAttr("enabled");
 
-        $("#submit").attr("disabled", "disabled");
+            $("#submit").attr("disabled", "disabled");
 
-      }else if(valor==1){
+        } else if (valor == 1) {
 
-        $("#submit").removeAttr("disabled");
+            $("#submit").removeAttr("disabled");
 
-        $("#submit").attr("enabled", "enabled");        
-      }
+            $("#submit").attr("enabled", "enabled");
+        }
     }
 
-  $(document).ready(function(){
-    /*
-    * Autor: Angel Guale 
-      Nombre de función: obtiene las ciudades al cargar y al cambiar
-      Salida: Muestra las ciudades del pais seleccionado
-      Descripción: obtiene las ciudades mediante ajax
+    $(document).ready(function () {
+        /*
+         * Autor: Angel Guale
+         Nombre de función: obtiene las ciudades al cargar y al cambiar
+         Salida: Muestra las ciudades del pais seleccionado
+         Descripción: obtiene las ciudades mediante ajax
 
-    * */
+         * */
 
-  $("#pais").bind('change',function () {
-    console.log($("#pais option:selected").val());
-    $.ajax({
-      type: "POST",
-      url: "/getCiudades",
-      data: {
-          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-          'paisId' : $("#pais option:selected").val()
-      },
-      success: ciudadSuccess,
-      dataType: 'html'
+        $("#pais").bind('change', function () {
+            console.log($("#pais option:selected").val());
+            $.ajax({
+                type: "POST",
+                url: "/getCiudades",
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                    'paisId': $("#pais option:selected").val()
+                },
+                success: ciudadSuccess,
+                dataType: 'html'
+            });
+        });
+        //para que se cambie hasta cuando carga
+        $('#pais').trigger('change');
+
     });
-  });
-    //para que se cambie hasta cuando carga
-    $('#pais').trigger('change');
 
-});
+    function ciudadSuccess(data, textStatus, jqXHR) {
+        console.log("Succees");
+        $("#optsCiudades").html(data);
+        //console.log(data);
+    }
 
-  function ciudadSuccess(data, textStatus, jqXHR){
-    console.log("Succees");
-    $("#optsCiudades").html(data);
-    //console.log(data);
-  }
-
-  $("#username").change(function(){
-console.log($("#username").val());
-     $.ajax({
-      type: "POST",
-      url: "/verificar_username",
-      data: {
-          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-          'username' : $("#username").val()
-      },
-      success: verificaUser,
-      dataType: 'text'
+    $("#username").change(function () {
+        console.log($("#username").val());
+        $.ajax({
+            type: "POST",
+            url: "/verificar_username",
+            data: {
+                'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                'username': $("#username").val()
+            },
+            success: verificaUser,
+            dataType: 'text'
+        });
     });
-  });
 
 
-  $("#cedula").change(function(){
-console.log($("#cedula").val());
-     $.ajax({
-      type: "POST",
-      url: "/verificar_cedula",
-      data: {
-          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-          'cedula' : $("#cedula").val()
-      },
-      success: verificarCedula,
-      dataType: 'text'
+    $("#cedula").change(function () {
+        console.log($("#cedula").val());
+        $.ajax({
+            type: "POST",
+            url: "/verificar_cedula",
+            data: {
+                'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                'cedula': $("#cedula").val()
+            },
+            success: verificarCedula,
+            dataType: 'text'
+        });
     });
-  });
-  $("#email").change(function(){
-console.log($("#email").val());
-     $.ajax({
-      type: "POST",
-      url: "/verificar_email",
-      data: {
-          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-          'email' : $("#email").val()
-      },
-      success: verificarEmail,
-      dataType: 'text'
+    $("#email").change(function () {
+        console.log($("#email").val());
+        $.ajax({
+            type: "POST",
+            url: "/verificar_email",
+            data: {
+                'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                'email': $("#email").val()
+            },
+            success: verificarEmail,
+            dataType: 'text'
+        });
     });
-  });
 
-  $("#listarInst").click(function(){
-    $("#formInstitucion").attr("hidden", false);
-    $("#asIndependiente").attr("hidden", false);
-    $("#listarInst").attr("hidden", true);
-    $("#institucion").attr("name", "institucion");
-    $("#mensajeMembresia").attr("hidden", false);
+    $("#listarInst").click(function () {
+        $("#formInstitucion").attr("hidden", false);
+        $("#asIndependiente").attr("hidden", false);
+        $("#listarInst").attr("hidden", true);
+        $("#institucion").attr("name", "institucion");
+        $("#mensajeMembresia").attr("hidden", false);
 
-  });
-   $("#asIndependiente").click(function(){
-    $("#formInstitucion").attr("hidden", true);
-    $("#listarInst").attr("hidden", false);
-  $("#mensajeMembresia").attr("hidden", true);
-            $("#institucion").removeAttr("name");
-    $("#asIndependiente").attr("hidden", true);
+    });
+    $("#asIndependiente").click(function () {
+        $("#formInstitucion").attr("hidden", true);
+        $("#listarInst").attr("hidden", false);
+        $("#mensajeMembresia").attr("hidden", true);
+        $("#institucion").removeAttr("name");
+        $("#asIndependiente").attr("hidden", true);
 
-   });
-  function verificaUser(data, textStatus, jqXHR){
-    console.log(data);
-    if(data=="usado"){
+    });
+    function verificaUser(data, textStatus, jqXHR) {
+        console.log(data);
+        if (data == "usado") {
 
-      $("#usuario_usado").html("Nombre de Usuario ya existente");
-      $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
-      $("#usuario_usado").attr("class", "info-board-red");
-      habilitarDeshabilitarSubmit(0);
-      
-    }
-    else{
-      $("#usuario_usado").html("Nombre de Usuario disponible");
-      $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
-      $("#usuario_usado").attr("class", "info-board-green");
-      habilitarDeshabilitarSubmit(1);
-      
-    }
+            $("#usuario_usado").html("Nombre de Usuario ya existente");
+            $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
+            $("#usuario_usado").attr("class", "info-board-red");
+            habilitarDeshabilitarSubmit(0);
+
+        }
+        else {
+            $("#usuario_usado").html("Nombre de Usuario disponible");
+            $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
+            $("#usuario_usado").attr("class", "info-board-green");
+            habilitarDeshabilitarSubmit(1);
+
+        }
 
 
-  }
-
-  function verificarCedula(data, textStatus, jqXHR){
-    console.log(data);
-    if(data=="usado"){
-      $("#cedula_usado").html("Ya existe un usuario registrado con esta cédula. Recuerde que la suplantación de identidad es un delito");
-      $("#cedula_usado").attr("style", "display: block; color: red; text-align:center");
-      $("#cedula_usado").attr("class", "info-board-red");
-      habilitarDeshabilitarSubmit(0);
-      
-    }
-    else{
-      $("#cedula_usado").attr("hidden", "true");
-      $("#cedula_usado").attr("style", "display: none; color: green; text-align:center");
-      //$("#cedula_usado").attr("class", "info-board-green");
-      habilitarDeshabilitarSubmit(1);
-      
     }
 
+    function verificarCedula(data, textStatus, jqXHR) {
+        console.log(data);
+        if (data == "usado") {
+            $("#cedula_usado").html("Ya existe un usuario registrado con esta cédula. Recuerde que la suplantación de identidad es un delito");
+            $("#cedula_usado").attr("style", "display: block; color: red; text-align:center");
+            $("#cedula_usado").attr("class", "info-board-red");
+            habilitarDeshabilitarSubmit(0);
 
-  }
+        }
+        else {
+            $("#cedula_usado").attr("hidden", "true");
+            $("#cedula_usado").attr("style", "display: none; color: green; text-align:center");
+            //$("#cedula_usado").attr("class", "info-board-green");
+            habilitarDeshabilitarSubmit(1);
+
+        }
 
 
-  function verificarEmail(data, textStatus, jqXHR){
-    console.log(data);
-    if(data=="usado"){
-      $("#email_usado").html("Ya existe un usuario registrado con ese email");
-      $("#email_usado").attr("style", "display: block; color: red; text-align:center");
-      $("#email_usado").attr("class", "info-board-red");
-      habilitarDeshabilitarSubmit(0);
-      
-    }
-    else{
-      $("#email_usado").attr("hidden", "true");
-      $("#email_usado").attr("style", "display: none; color: green; text-align:center");
-      //$("#cedula_usado").attr("class", "info-board-green");
-      habilitarDeshabilitarSubmit(1);
-      
     }
 
 
-  }
+    function verificarEmail(data, textStatus, jqXHR) {
+        console.log(data);
+        if (data == "usado") {
+            $("#email_usado").html("Ya existe un usuario registrado con ese email");
+            $("#email_usado").attr("style", "display: block; color: red; text-align:center");
+            $("#email_usado").attr("class", "info-board-red");
+            habilitarDeshabilitarSubmit(0);
 
-  $("#nombre").change(function(){
-   // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
-console.log("UNO");
- if( $("#nombre").val().match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/)){
-  console.log("bien el nombre");
-   $("#error_nombre").attr("style", "display: none; color: green; text-align:center");
-  // habilitarDeshabilitarSubmit(1);
- }else{
-  console.log("DOS");
-  $("#error_nombre").attr("style", "display: block; color: red; text-align:center");
-$("#error_nombre").attr("class", "info-board-red");
+        }
+        else {
+            $("#email_usado").attr("hidden", "true");
+            $("#email_usado").attr("style", "display: none; color: green; text-align:center");
+            //$("#cedula_usado").attr("class", "info-board-green");
+            habilitarDeshabilitarSubmit(1);
+
+        }
+
+
+    }
+
+    $("#nombre").change(function () {
+        // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
+        console.log("UNO");
+        if ($("#nombre").val().match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/)) {
+            console.log("bien el nombre");
+            $("#error_nombre").attr("style", "display: none; color: green; text-align:center");
+            // habilitarDeshabilitarSubmit(1);
+        } else {
+            console.log("DOS");
+            $("#error_nombre").attr("style", "display: block; color: red; text-align:center");
+            $("#error_nombre").attr("class", "info-board-red");
 //habilitarDeshabilitarSubmit(0);
- }
+        }
 
-  });
+    });
 
-$("#apellidos").change(function(){
-   // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
-console.log("UNO");
- if( $("#apellidos").val().match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/)){
-  console.log("bien el nombre");
-   $("#error_apellido").attr("style", "display: none; color: green; text-align:center");
-   //habilitarDeshabilitarSubmit(1);
- }else{
-  console.log("DOS");
-  $("#error_apellido").attr("style", "display: block; color: red; text-align:center");
-$("#error_apellido").attr("class", "info-board-red");
+    $("#apellidos").change(function () {
+        // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
+        console.log("UNO");
+        if ($("#apellidos").val().match(/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/)) {
+            console.log("bien el nombre");
+            $("#error_apellido").attr("style", "display: none; color: green; text-align:center");
+            //habilitarDeshabilitarSubmit(1);
+        } else {
+            console.log("DOS");
+            $("#error_apellido").attr("style", "display: block; color: red; text-align:center");
+            $("#error_apellido").attr("class", "info-board-red");
 //habilitarDeshabilitarSubmit(0);
- }
-
-  });
-
-
-  
-</script>
- {% endblock %}
+        }
+    });
+    </script>
+{% endblock %}
 
 
