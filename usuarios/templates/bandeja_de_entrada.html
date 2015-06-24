@@ -1,67 +1,73 @@
 {% extends "profile_usuario.html" %}
-{%block menuperfil%}
-		<!-- Profile Menu -->
-		<div class="col-sm-4 col-md-3">
-		  <div class="user-menu bottom-15">
-			<ul>
-			 <!--  <li>
-				<a href="#"  class="link" class="active" >
-				  <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li> -->
-			  <li>
-				<a href="/enviarMensaje/">
-				  <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li>
-			  <li>
-				<a href="/bandejaDeEntrada/">
-				  <i class="sign fa fa-envelope bg-red"></i> Entrada <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li>
-			  <li>
-				<a href="/mensajesEnviados/">
-				  <i class="sign fa fa-envelope bg-green"></i> Enviados <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li>
-			 <!--  <li>
-				<a href="#">
-				  <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li> -->
-			</ul>
-		  </div>
-		</div>
-{%endblock%}
 
-{% block contenidoUsuario %}
+{% block menuperfil %}
+    <!-- Profile Menu -->
+    <div class="col-sm-4 col-md-3">
+        <div class="user-menu bottom-15">
+            <ul>
+                <!--  <li>
+                   <a href="#"  class="link" class="active" >
+                     <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
+                   </a>
+                 </li> -->
+                <li>
+                    <a href="/enviarMensaje/">
+                        <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i
+                            class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/bandejaDeEntrada/">
+                        <i class="sign fa fa-envelope bg-red"></i> Entrada <i
+                            class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mensajesEnviados/">
+                        <i class="sign fa fa-envelope bg-green"></i> Enviados <i
+                            class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <!--  <li>
+                   <a href="#">
+                     <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
+				</a>
+			  </li> -->
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block contenidousuario %}
 
     <div class="col-sm-8 col-md-7">
         <h1>Mensajes Recibidos</h1>
         <ul class="text-muted list-inline">
-            <li><i class="fa fa-envelope-o"></i> {{mensajes|length}} mensajes</li>
+            <li><i class="fa fa-envelope-o"></i> {{ mensajes|length }} mensajes</li>
         </ul>
         <div class="pm-list">
             <ul>
-                {%for msj in mensajes%}
-                <li>
-                    <p class="text-muted">
-                        <img src="{{msj.imgEm.url}}" alt="...">
-                        De: <a href="/usuario/{{msj.fk_emisor}}">{{msj.fk_emisor.first_name}}</a><br />
-                        <small>{{msj.fecha_de_envio}}</small>
-                    </p>
-                    <p class="text-muted">
-                        <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
-                    </p>
-                    <p class="text-muted">
-                        <i class="pull-right fa fa-trash"></i>
-                    </p>
-                    <div class="clearfix"></div>
-                </li>
-                {%endfor%}
+                {% for msj in mensajes %}
+                    <li>
+                        <p class="text-muted">
+                            <img src="{{ msj.imgEm.url }}" alt="...">
+                            De: <a href="/usuario/{{ msj.fk_emisor }}">{{ msj.fk_emisor.first_name }}</a><br/>
+                            <small>{{ msj.fecha_de_envio }}</small>
+                        </p>
+                        <p class="text-muted">
+                            <a href="/verMensaje/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.mensaje }}</a>
+                        </p>
+
+                        <p class="text-muted">
+                            <i class="pull-right fa fa-trash"></i>
+                        </p>
+
+                        <div class="clearfix"></div>
+                    </li>
+                {% endfor %}
 
             </ul>
         </div>
     </div>
 
-{%endblock%}
+{% endblock %}

@@ -1,290 +1,309 @@
 {% extends "base.tpl.html" %}
 
-{% block signin %}
-<li id="usuario" class="show">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
-</a>
-<ul class="dropdown-menu">
-<li><a href="/perfilUsuario/" >Mi Perfil</a></li>
-<li><a href="#" data-toggle="modal" data-target="#registrarInstitucion">Registrar Instituci&oacute;n</a> </li>
-<li><a href="/cerrarSesion/" >Cerrar Sesi&oacute;n</a></li>
-</ul>
-</li>
-<li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
+{% block barraderecha %}
+    <li id="usuario" class="show">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/perfilUsuario/">Mi Perfil</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#registrarInstitucion">Registrar Instituci&oacute;n</a>
+            </li>
+            <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
+        </ul>
+    </li>
+    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 
 
-{% block home %}
-<a class="navbar-brand link" href="/inicioUsuario/" >REI-NET</a>
+{% block raiz %}
+    <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
 {% endblock %}
 
 
 {% block inicio %}
-  <a  href="/inicioUsuario/" >Inicio </a>
+    <a href="/inicioUsuario/">Inicio </a>
 {% endblock %}
 
 
-{%block content%}
-<!--registrar peticion de institucion-->
+{% block contenido %}
+    <!--registrar peticion de institucion-->
     <!-- Modal window: Send an email -->
-    <div class="modal fade" id="registrarInstitucion" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="sendemailtitle">Solicitar permiso para registro de instituci&oacute;n</h4>
-            <br/>
-            <p class="text-muted"> Llene esta solicitud con el nombre de la instituci&oacute;n que desea registrar. El administrador del sitio revisar&aacute; su solicitud. Le llegara un correo electronico con el link para registrarla de ser aceptada su solicitud, caso contrario le llegara un correo indicando que ha sido rechazada.</p>
-            <div class="clearfix"></div>
-          </div>
-          <div class="modal-body">
-            <div class="form-group" id='formPeticion'>
+    <div class="modal fade" id="registrarInstitucion" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="sendemailtitle">Solicitar permiso para registro de
+                        instituci&oacute;n</h4>
+                    <br/>
+
+                    <p class="text-muted"> Llene esta solicitud con el nombre de la instituci&oacute;n que desea
+                        registrar. El administrador del sitio revisar&aacute; su solicitud. Le llegara un correo
+                        electronico con el link para registrarla de ser aceptada su solicitud, caso contrario le llegara
+                        un correo indicando que ha sido rechazada.</p>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id='formPeticion'>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre de la Instituci&oacute;n</label>
+                            <input type="text" class="form-control" id="nombre_institucion"
+                                   placeholder="Nombre de la Institucion">
+                        </div>
+                        <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
+                        <button class="btn btn-blue" id="enviarSolicitud">Enviar Solicitud</button>
+                    </div>
+                </div>
             </div>
-            <div>
-              <div class="form-group">
-                <label for="nombre">Nombre de la Instituci&oacute;n</label>
-                <input type="text" class="form-control" id="nombre_institucion" placeholder="Nombre de la Institucion">
-              </div>
-              <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
-              <button class="btn btn-blue" id="enviarSolicitud">Enviar Solicitud</button>
-            </div>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <!-- End of modal window -->
-<!--fin registrar peticion de institucion-->
+    <!--fin registrar peticion de institucion-->
 
-    <div class="section-header" >
-      <div class="container">
-        <div class="row">        	
-          <div class="col-sm-4 " align="left">
-            <h1 class="animated slideInLeft">
-            	<span >Datos Personales</span>
-            </h1>
-        	</div>
-        	<div class="col-sm-4 hidden-xs" align="center">
-            <h1 class="animated slideInLeft">
-            	<span >Destacados</span>
-            </h1>
-        	</div>
-        	<div class="col-sm-4 hidden-sm hidden-xs" align="right">
-            <h1 class="animated slideInLeft">
-            	<span >Notificaciones</span>
-            </h1>
-        	</div>
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 " align="left">
+                    <h1 class="animated slideInLeft">
+                        <span>Datos Personales</span>
+                    </h1>
+                </div>
+                <div class="col-sm-4 hidden-xs" align="center">
+                    <h1 class="animated slideInLeft">
+                        <span>Destacados</span>
+                    </h1>
+                </div>
+                <div class="col-sm-4 hidden-sm hidden-xs" align="right">
+                    <h1 class="animated slideInLeft">
+                        <span>Notificaciones</span>
+                    </h1>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="container">
-    	<div class="row">
-    		<!--Columna de Datos Personales-->
-    	   <div class="col-md-3 col-sm-5 col-xs-12">
-            <div class="panel panel-dark" id="datos">
-              <div id="datosPersonales">
+    <div class="row">
+    <!--Columna de Datos Personales-->
+    <div class="col-md-3 col-sm-5 col-xs-12">
+        <div class="panel panel-dark" id="datos">
+            <div id="datosPersonales">
                 <div class="panel-heading btn-circle">
-                        <div class="avatar thumbnail col-sm-3 col-xs-3" style="width:35px;height:35px">
-                          {% load staticfiles %}
-                          <a href="#" class="bottom-15">
-                              <img src="{{ usuario.foto.url }}" alt="..." >
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-xs-9">
-                            <h4 class="panel-title"><a href="/perfilUsuario/" >{{ usuario.username }}</a></h4>
-                        </div>
+                    <div class="avatar thumbnail col-sm-3 col-xs-3" style="width:35px;height:35px">
+                        {% load staticfiles %}
+                        <a href="#" class="bottom-15">
+                            <img src="{{ usuario.foto.url }}" alt="...">
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xs-9">
+                        <h4 class="panel-title"><a href="/perfilUsuario/">{{ usuario.username }}</a></h4>
+                    </div>
                 </div>
-                   <table class="table table-hover" id="usuarioDatos">
-                          <tbody>
-                            <tr>
-                              <td colspan="2" style="text-align:left">{{ usuario.first_name }} {{ usuario.last_name }}</td>
-                            </tr>
-                            <tr>
-                              <td style="text-align:left">Tel&eacute;fono:</td>
-                              <td style="text-align:right">{{ usuario.telefono }}</td>
-                            </tr>
-                            <tr>
-                              <td style="text-align:left">C&eacute;dula:</td>
-                              <td style="text-align:right">{{ usuario.cedula }}</td>
-                            </tr>
-                            <tr>
-                              <td style="text-align:left">Sitio web:</td>
-                              <td style="text-align:right;word-break: break-all;"><a href="{{ usuario.web }}">{{ usuario.web }}</a></td>
-                            </tr>
-                          </tbody>
-                    </table>
-                </div>
-              </div>
-        </div>
-    		<!--Columna de Destacados-->
-    		
-        <div class="section-header visible-xs">
-          <div class="container">
-            <div class="row">  
-              <div class="col-sm-4" align="left">
-                  <h1 class="animated slideInLeft">
-                    <span >Destacados</span>
-                  </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-sm-7 col-xs-12">
-          <div class="panel panel-blue">
-            <table class="table table-hover" id="usuarioDestacados">
-              <div class="panel-heading btn-circle">
-                <h4 colspan="2" style="text-align:left">Concursos</h4>
-              </div>
-              <tbody>
-                  <tr style="border-style:solid;border-width:1px">
-                      <td>
-                          <div class="avatar-sm-container pull-left" style="width:75px;height:75px"> 
-                            {% load staticfiles %}
-                            <img src="{% static "img/blog-1.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-                         </div>
-                      </td>
-                      <td >
-                        <div>
-                          <p >Concurso Destacado</p>
-                          <p class="btn-sm">Descripci&oacute;n del concurso</p>
-                        </div>
-                      </td>
-                  </tr>
-                  <tr style="border-style:solid;border-width:1px">
-                      <td>
-                        <div class="avatar-sm-container pull-left" style="width:75px;height:75px">
-                          {% load staticfiles %}
-                          <img src="{% static "img/blog-2.jpg" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-                        </div>
-                      </td>
-                      <td >
-                        <div>
-                          <p >Concurso Destacado</p>
-                          <p class="btn-sm">Descripci&oacute;n del concurso</p>
-                        </div>
-                      </td>
-                  </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="panel panel-blue">
-      			<table class="table table-hover" id="usuarioDestacados">
-              <div class="panel-heading btn-circle">
-    						<h4 colspan="2" style="text-align:left">Ofertas</h4>
-              </div>
-              <tbody>
-                 	<tr style="border-style:solid;border-width:1px">
-                  		<td>
-                    			<div class="avatar-sm-container pull-left" style="width:75px;height:75px"> 
-                    			  {% load staticfiles %}
-										        <img src="{% static "img/iPad.png" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									       </div>
-								      </td>
-								      <td >
-      									<div>
-      										<p >Oferta Destacada</p>
-      										<p class="btn-sm">Descripci&oacute;n de la oferta</p>
-      									</div>
-      								</td>
-                  </tr>
-                  <tr style="border-style:solid;border-width:1px">
-                  		<td>
-                    		<div class="avatar-sm-container pull-left" style="width:75px;height:75px">
-                    			{% load staticfiles %}
-										      <img src="{% static "img/iMac.png" %}" alt="..." class="animated fadeInLeft" style="max-width:100%;max-height:100%">
-									      </div>
-								      </td>
-								      <td >
-      									<div>
-      										<p >Oferta Destacada</p>
-      										<p class="btn-sm">Descripci&oacute;n de la oferta</p>
-      									</div>
-      								</td>
-                  </tr>
-              </tbody>
-            </table>
-          </div>
-    		</div>
-    			<!--Columna de Notificaciones-->
-
-        <div class="section-header visible-xs visible-sm" >
-          <div class="container">
-            <div class="row">  
-              <div class="col-sm-4" align="left">
-                  <h1 class="animated slideInLeft">
-                    <span >Notificaciones</span>
-                  </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-
-    		<div class="col-md-3 col-sm-12 col-xs-12" >
-    				<div class="panel panel-dark">
-              <div class="panel-heading btn-circle">
-                      <h4 class="panel-title">Hoy</h4>
-              </div>
-    				    <table class="table table-hover" id="usuarioNoticias">
-                    	<tbody>
-                  			<tr>
-                    			<td class="text-muted">Pepito</td>
-                    			<td style="text-align:center">participa</td>
-                          <td style="text-align:right text-muted">Oferta 1</td>
-                  			</tr>
-                  			<tr>
-                          <td class="text-muted">Ana maría</td>
-                          <td style="text-align:center">comentó</td>
-                          <td style="text-align:right text-muted">Demanda 2</td>
-                        </tr>
-                        <tr>
-                          <td class="text-muted">Juan José</td>
-                          <td style="text-align:center">No participa</td>
-                          <td style="text-align:right text-muted">Oferta 2</td>
-                        </tr>
-                    	</tbody>
+                <table class="table table-hover" id="usuarioDatos">
+                    <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align:left">{{ usuario.first_name }} {{ usuario.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">Tel&eacute;fono:</td>
+                        <td style="text-align:right">{{ usuario.telefono }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">C&eacute;dula:</td>
+                        <td style="text-align:right">{{ usuario.cedula }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">Sitio web:</td>
+                        <td style="text-align:right;word-break: break-all;"><a
+                                href="{{ usuario.web }}">{{ usuario.web }}</a></td>
+                    </tr>
+                    </tbody>
                 </table>
-              </div>
-            <div class="panel panel-dark">
-              <div class="panel-heading btn-circle">
-                      <h4 class="panel-title">Pasadas</h4>
-              </div>
-                 <table class="table table-hover" id="usuarioNoticias">
-                      <tbody>
-                        <tr>
-                          <td class="text-muted">Pepito</td>
-                          <td style="text-align:center">participa</td>
-                          <td style="text-align:right text-muted">Oferta 1</td>
-                        </tr>
-                        <tr>
-                          <td class="text-muted">Ana maría</td>
-                          <td style="text-align:center">comentó</td>
-                          <td style="text-align:right text-muted">Demanda 2</td>
-                        </tr>
-                        <tr>
-                          <td class="text-muted">Juan José</td>
-                          <td style="text-align:center">No participa</td>
-                          <td style="text-align:right text-muted">Oferta 2</td>
-                        </tr>
-                        <tr>
-                          <td class="text-muted">Juan José</td>
-                          <td style="text-align:center">No participa</td>
-                          <td style="text-align:right text-muted">Oferta 2</td>
-                        </tr>
-                        <tr>
-                          <td class="text-muted">Juan José</td>
-                          <td style="text-align:center">No participa</td>
-                          <td style="text-align:right text-muted">Oferta 2</td>
-                        </tr>
-                      </tbody>
-                </table>
-              </div>
+            </div>
         </div>
-
-    		</div>
-    	</div>
     </div>
-    {%csrf_token%}
-<script src="/static/js/enviarSolicitudInstitucion.js"></script>
-{%endblock%} 
+    <!--Columna de Destacados-->
+
+    <div class="section-header visible-xs">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4" align="left">
+                    <h1 class="animated slideInLeft">
+                        <span>Destacados</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-7 col-xs-12">
+        <div class="panel panel-blue">
+            <table class="table table-hover" id="usuarioDestacados">
+                <div class="panel-heading btn-circle">
+                    <h4 colspan="2" style="text-align:left">Concursos</h4>
+                </div>
+                <tbody>
+                <tr style="border-style:solid;border-width:1px">
+                    <td>
+                        <div class="avatar-sm-container pull-left" style="width:75px;height:75px">
+                            {% load staticfiles %}
+                            <img src="{% static "img/blog-1.jpg" %}" alt="..." class="animated fadeInLeft"
+                                 style="max-width:100%;max-height:100%">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <p>Concurso Destacado</p>
+
+                            <p class="btn-sm">Descripci&oacute;n del concurso</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="border-style:solid;border-width:1px">
+                    <td>
+                        <div class="avatar-sm-container pull-left" style="width:75px;height:75px">
+                            {% load staticfiles %}
+                            <img src="{% static "img/blog-2.jpg" %}" alt="..." class="animated fadeInLeft"
+                                 style="max-width:100%;max-height:100%">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <p>Concurso Destacado</p>
+
+                            <p class="btn-sm">Descripci&oacute;n del concurso</p>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel panel-blue">
+            <table class="table table-hover" id="usuarioDestacados">
+                <div class="panel-heading btn-circle">
+                    <h4 colspan="2" style="text-align:left">Ofertas</h4>
+                </div>
+                <tbody>
+                <tr style="border-style:solid;border-width:1px">
+                    <td>
+                        <div class="avatar-sm-container pull-left" style="width:75px;height:75px">
+                            {% load staticfiles %}
+                            <img src="{% static "img/iPad.png" %}" alt="..." class="animated fadeInLeft"
+                                 style="max-width:100%;max-height:100%">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <p>Oferta Destacada</p>
+
+                            <p class="btn-sm">Descripci&oacute;n de la oferta</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="border-style:solid;border-width:1px">
+                    <td>
+                        <div class="avatar-sm-container pull-left" style="width:75px;height:75px">
+                            {% load staticfiles %}
+                            <img src="{% static "img/iMac.png" %}" alt="..." class="animated fadeInLeft"
+                                 style="max-width:100%;max-height:100%">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <p>Oferta Destacada</p>
+
+                            <p class="btn-sm">Descripci&oacute;n de la oferta</p>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--Columna de Notificaciones-->
+
+    <div class="section-header visible-xs visible-sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4" align="left">
+                    <h1 class="animated slideInLeft">
+                        <span>Notificaciones</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="panel panel-dark">
+            <div class="panel-heading btn-circle">
+                <h4 class="panel-title">Hoy</h4>
+            </div>
+            <table class="table table-hover" id="usuarioNoticias">
+                <tbody>
+                <tr>
+                    <td class="text-muted">Pepito</td>
+                    <td style="text-align:center">participa</td>
+                    <td style="text-align:right text-muted">Oferta 1</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Ana maría</td>
+                    <td style="text-align:center">comentó</td>
+                    <td style="text-align:right text-muted">Demanda 2</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Juan José</td>
+                    <td style="text-align:center">No participa</td>
+                    <td style="text-align:right text-muted">Oferta 2</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel panel-dark">
+            <div class="panel-heading btn-circle">
+                <h4 class="panel-title">Pasadas</h4>
+            </div>
+            <table class="table table-hover" id="usuarioNoticias">
+                <tbody>
+                <tr>
+                    <td class="text-muted">Pepito</td>
+                    <td style="text-align:center">participa</td>
+                    <td style="text-align:right text-muted">Oferta 1</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Ana maría</td>
+                    <td style="text-align:center">comentó</td>
+                    <td style="text-align:right text-muted">Demanda 2</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Juan José</td>
+                    <td style="text-align:center">No participa</td>
+                    <td style="text-align:right text-muted">Oferta 2</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Juan José</td>
+                    <td style="text-align:center">No participa</td>
+                    <td style="text-align:right text-muted">Oferta 2</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Juan José</td>
+                    <td style="text-align:center">No participa</td>
+                    <td style="text-align:right text-muted">Oferta 2</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    {% csrf_token %}
+    <script src="/static/js/enviarSolicitudInstitucion.js"></script>
+{% endblock %}
