@@ -124,6 +124,8 @@
                 <br/>
                 {% if institucion != "nohay" %}
                 <small> {{institucion.nombre}} </small>
+                {%else%}
+                <small>Independiente</small>
                 {% endif %}
               </h3>
               <hr>
@@ -186,10 +188,11 @@
                   <tr>
                     <td class="text-muted">Instituci&oacute;n</td>
                     <td style="text-align:right"id="link">
-                        {% for inst in listaInstituciones %}
-                            {% if inst.nombre != "Independiente" %}<a href="/institucion/{{ inst.id_institucion }}">{{ inst.nombre }}</a><br/> {%else%} {{ inst.nombre }} {%endif%}
-                            
-                        {% endfor %}
+                    {% if institucion != "nohay" %}
+                      <a href="/institucion/{{ institucion.id_institucion }}">{{ institucion.nombre }}</a>
+                    {%else%} 
+                      Independiente 
+                    {%endif%}   
                     </td>
                   </tr>
                   <tr>
