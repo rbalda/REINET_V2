@@ -1127,11 +1127,11 @@ que un usuario tiene en su bandeja de entrada
 def bandejaDeEntrada(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
+
 	try:
 		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
 	except:
 		mensajes= None
-
 	args={}
 	args['usuario']=usuario
 	args['mensajes']=mensajes
@@ -1195,16 +1195,50 @@ Descripción: Esta funcion permite visualizar los mensajes
 detalladamente
 """
 
+@login_required
+def verMensaje(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		msj=Mensaje.objects.get(id_mensaje = idM)
+		print "mensaje",msj.id_mensaje
+		usuario_emisor=msj.fk_emisor
+		emisor = Perfil.objects.get(username= usuario_emisor.username)
+		receptor = Perfil.objects.get(username = usuario.username)
+		args['msj']=msj
+		args['usuario_emisor'] = usuario_emisor
+		args['emisor']=emisor
+		args['receptor']=receptor
+		args['usuario']=usuario
+		return render_to_response('ver_mensaje.html',args)
+	except:
+		return HttpResponseRedirect("/bandejaDeEntrada/")
 
 
 
+"""
+Autor: Ray Montiel
+Nombre de funcion: mensajesEnviados
+Entrada: request POST
+Salida: Muestra los mensajes enviados
+Descripción: Esta funcion permite visualizar los mensajes
+enviados a otros usuarios
+"""
 
 
+@login_required
+def mensajesEnviados(request):
+	sesion = request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
 
-
-
-
-
-
-
-
+	try:
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'])[:8]
+	except:
+		mensajes= None
+	args={}
+	args['usuario']=usuario
+	args['mensajes']=mensajes
+	args['range']=range(len(mensajes))
+	return render_to_response('mensajes_enviados.html',args)
