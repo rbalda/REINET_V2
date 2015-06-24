@@ -1136,6 +1136,8 @@ def bandejaDeEntrada(request):
 	args['usuario']=usuario
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
+	for m in mensajes:
+		print m.imgEm
 	return render_to_response('bandeja_de_entrada.html',args)
 
 

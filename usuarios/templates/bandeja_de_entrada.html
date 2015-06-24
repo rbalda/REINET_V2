@@ -46,7 +46,7 @@
                 {%for msj in mensajes%}
                 <li>
                     <p class="text-muted">
-                        <img src="{{usuario.foto.url}}" alt="...">
+                        <img src="{{msj.imgEm.url}}" alt="...">
                         De: <a href="/usuario/{{msj.fk_emisor}}">{{msj.fk_emisor.first_name}}</a><br />
                         <small>{{msj.fecha_de_envio}}</small>
                     </p>
