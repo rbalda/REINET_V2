@@ -79,7 +79,7 @@ class Membresia(models.Model):
     fecha_peticion = models.DateTimeField(auto_now_add=True)
     fecha_aceptacion = models.DateTimeField(default=None, null=True)
     ip_peticion = models.GenericIPAddressField(max_length=45)
-    estado = models.BooleanField(default=False)
+    estado = models.SmallIntegerField(default=0)
     fk_institucion = models.ForeignKey(Institucion)
     fk_usuario = models.ForeignKey(User)
 
