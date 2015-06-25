@@ -548,7 +548,7 @@ Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
-def terminosCondiciones(request): #Error 10, nombre inadecuado de la funcion
+def terminosCondiciones(request):
 	return render(request, 'terms.html')
 
 
@@ -638,7 +638,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 
 
 """
-Autores: Ray Montiel y Edinson Sánchez
+Autores: Ray Montiel, Edinson Sánchez y Roberto Yoncon
 Nombre de funcion: perfilInstitucion
 Entrada: request GET
 Salida: Perfil de Institucion
@@ -659,7 +659,9 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 			print membresia.id_membresia
 			institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
 			#print institucion
+			numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
 			args['institucion'] = institucion
+			args['numMiembros'] = numMiembros
 		else:
 			print "aca"
 			args['error1'] = "Usted no es miembro de ninguna Institucion"
