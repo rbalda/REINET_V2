@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="animated slideInLeft"><span>{{ institucion.nombre }}</span></h1>
+                    <h1 class="animated slideInLeft"><span>INSTITUCIÓN {{ institucion.nombre }}</span></h1>
                 </div>
             </div>
         </div>
@@ -34,225 +34,171 @@
     <div class="container">
         <div class="row">
             <!-- Menu del Perfil -->
-            <div class="col-sm-4 col-md-3">
+            <div class="col-md-3 col-sm-3">
                 <div class="user-menu bottom-15">
                     <ul>
                         <li>
                             <a href="/perfilInstitucion/" class="active">
-                                <i class="sign fa fa-user bg-green"></i> Mi Institución <i
-                                    class="fa fa-chevron-right pull-right"></i>
+                                <i class="sign fa fa-university " style="background-color:#123A82;color:white"></i> General 
+                                <i class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
                         <li>
                             <a href="/editar_perfil_institucion/">
-                                <i class="sign fa fa-edit bg-blue"></i> Editar Instituci&oacute;n <i
-                                    class="fa fa-chevron-right pull-right"></i>
+                                <i class="sign fa fa-edit " style="background-color:#C11F1F;color:white"></i> Editar Información
+                                <i class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
                         <li>
                             <a href="/bandejaDeEntrada/">
-                                <i class="sign fa fa-envelope bg-red"></i> Bandeja de Entrada <i
-                                    class="fa fa-chevron-right pull-right"></i>
+                                <i class="sign fa fa-envelope " style="background-color:#b4baea;color:white"></i>Bandeja de Entrada
+                                <i class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="/cerrarSesion/">
-                                <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar Sesi&oacute;n <i
-                                    class="fa fa-chevron-right pull-right"></i>
+                            <a href="#">
+                                <i class="sign fa fa-users " style="background-color:#0099ff;color:white"></i>Membresias
+                                <i class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
 
-
-            <!-- Foto del Perfil-->
-            <div class="col-sm-8 col-md-6">
-                <div class="row">
-
-                    <div class="col-sm-4">
-                        <div class="thumbnail">
-                            <div class="avatar">
-                                <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                                    <img src="../../media/{{ institucion.logo }}" alt="...">
-                                </a>
-
-                                <!-- ///////////  CAMBIAR FOTO PERFIL ///////// -->
-
-                                <!--
-                                <div class="avatar-bubble">
-                                      <a href="#" data-toggle="modal" data-target="#upload-avatar"><i class="fa fa-plus"></i> Cambiar Imagen de Perfil</a>
-                                </div>
-                                 -->
-
-
-                                <!--
-                                <div class="avatar-bubble">
-                                  <a href="#" data-toggle="modal" data-target="#upload-avatar"><i class="fa fa-plus"></i> Cambiar Imagen de Perfil</a>
-                                </div>
-                                -->
-                            </div>
+            <div class="col-md-9 col-sm-9">
+                <div class="col-md-12">
+                    <h3 class="hl" align="center" style="margin-top:0; margin-bottom:15px">
+                        <strong>{{ institucion.nombre }}</strong>
+                    </h3>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="thumbnail col-md-12" style="margin-bottom: 0px;">
+                        <div class="avatar">
+                            <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+                                <img src="../../media/{{ institucion.logo }}" alt="...">
+                            </a>
                         </div>
                     </div>
-
-                    <!-- /////// VENTANA EMERGENTE PARA CARGAR FOTO /////
-                      <div class="modal fade" id="upload-avatar" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="upload-avatar-title">Upload new avatar</h4>
-                              </div>
-                              <div class="modal-body">
-                                <p>Please choose a file to upload. JPG, PNG, GIF only.</p>
-                                <form role="form">
-                                  <div class="form-group">
-                                    <label for="file">File input</label>
-                                    <input type="file" id="file">
-                                    <p class="help-block">Files up to 5Mb only.</p>
-                                  </div>
-                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                  <button type="button" class="btn btn-green" data-dismiss="modal">Upload</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
+                   
+                    <div class="col-md-12" align="left"> 
+                        <div class="panel-heading btn-outline btn-success" style="text-align:center;background-color:#123A82">
+                            <h4 class="panel-title"> Informaci&oacute;n General </h4>
                         </div>
-                         FIN DE VENTANA EMERGENTE-->
-
-
-                    <!-- Perfil Principal -->
-
-                    <div class="col-sm-8">
-                        <h3 class="hl">{{ institucion.nombre }} <br>
-                            <small> {{ institucion.siglas }} </small>
-                        </h3>
-                        <hr>
-
-                        <div class="bottom-15">
-                            <a href="/enviarMensaje/" data-toggle="modal" data-target="#sendemail"><i class="fa fa-envelope"></i> Redactar
-                                Mensaje</a>
-
-                            <!-- //// VENTANA EMERGENTE EMAIL /////
-                            <div class="modal fade" id="sendemail" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <img src="img/face1.jpg" alt="...">
-                                <h4 class="modal-title" id="sendemailtitle">[ROL]</h4>
-                                <p class="text-muted"><i class="fa fa-envelope"></i> New Email</p>
-                                <div class="clearfix"></div>
-                              </div>
-                              <div class="modal-body">
-                                <form role="form">
-                                  <div class="form-group">
-                                    <label for="subject" class="sr-only">Subject</label>
-                                    <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="message-1" class="sr-only">Message</label>
-                                    <textarea class="form-control" rows="3" id="message-1" placeholder="Enter your message here"></textarea>
-                                  </div>
-                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                  <button type="button" class="btn btn-green" data-dismiss="modal">Send Email</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
+                        <div style="margin:10px">
+                            <i class="fa fa-sort-alpha-asc" style="margin-right:10px"></i>{{ institucion.siglas }}
                         </div>
-                         ////// FIN DE VENTANA EMERGENTE ////// -->
+                        <div style="margin:10px"><i class="fa fa-calendar" style="margin-right:10px">
+                            </i> Creada Noviembre 10, 2013
+                        </div>
+                        <div style="margin:10px">
+                            <i class="fa fa-globe" style="margin-right:10px"></i> {{ institucion.pais }}
+                        </div>
+                        <div style="margin:10px">
+                            <i class="fa fa-code" style="margin-right:10px"></i>{{ institucion.web }}
+                        </div>
+                        <hr style="margin:10px 0 10px 0">
+                    </div>
 
+                    <div class="col-md-12" >                    
+                        <div class="vcard-stats">
+                            <a class="vcard-stat" href="#" style="text-decoration:none">
+                              <strong class="vcard-stat-count">1</strong>
+                              <span class="text-muted">Membresías</span>
+                            </a>
+                            <a class="vcard-stat" href="#" style="text-decoration:none">
+                              <strong class="vcard-stat-count">0</strong>
+                              <span class="text-muted">Concursos</span>
+                            </a>
+                            <a class="vcard-stat" href="#" style="text-decoration:none">
+                              <strong class="vcard-stat-count">3</strong>
+                              <span class="text-muted">Incubaciones</span>
+                            </a>
                         </div>
                     </div>
+                    <br>
+                    <br>
                 </div>
 
-
-                <!-- Informacion General-->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="col-sm-12" id="collapseGeneral">
-
-                            <div class="panel-heading btn-outline btn-success"
-                                 style="text-align:center;background-color:#C11F1F">
-                                <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"
-                                                           href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i>
-                                    Informaci&oacute;n General </a></h4>
+                <div class="col-md-8 col-sm-8">
+                    <div class="col-md-12 col-sm-12" style="margin-bottom:10px">
+                        <div class="block-header">
+                            <h2 style="margin:0 0 5px 0;background-color:#515151">
+                                <span class="title">Misi&oacute;n</span>
+                                <span class="decoration"></span>
+                                <span class="decoration"></span>
+                                <span class="decoration"></span>
+                            </h2>
+                        </div>
+                        <p class="text-center" style="margin-bottom:14px">
+                            Cambiar esto!  es que se supone que las misiones son mas largas hahah Pueden ser cortas igual no se ve mal, pero para probar puse lo que estoy poniendo Att: Nia<br>
+                            {{ institucion.mision }}
+                        </p>
+                        <div class="block-header">
+                                <h2 style="margin:0 0 5px 0;font-size: 18px;">
+                                    <span class="title" >Descripci&oacute;n</span>
+                                    <span class="decoration"></span>
+                                    <span class="decoration"></span>
+                                </h2>
                             </div>
-                            <div id="collapseInfoGeneral" class="panel-collapse collapse in">
-                                <table class="table table-hover">
-                                    <tbody id="infoGeneralBody">
+                            <p class="text-left" style="font-size: 12px; margin-bottom:14px">
+                                Cambiar esto!  es que se supone que las descripciones son mas largas hahah Pueden ser cortas igual no se ve mal, pero para probar puse lo que estoy poniendo Att: Nia<br>
+                                Cambiar esto!  es que se supone que las descripciones son mas largas hahah Pueden ser cortas igual no se ve mal, pero para probar puse lo que estoy poniendo Att: Nia<br>
 
-                                    <tr>
-                                        <td class="text-muted">Descripci&oacute;n</td>
-                                        <td style="text-align:left">{{ institucion.descripcion }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-muted">Misi&oacute;n</td>
-                                        <td style="text-align:left">{{ institucion.mision }}</td>
-                                    </tr>
+                                {{ institucion.descripcion }}
+                            </p>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                            <div class="block-header">
+                                <h2 style="margin:0 0 5px 0;font-size: 18px;">
+                                    <span class="title" >Recursos Ofrecidos</span>
+                                    <span class="decoration"></span>
+                                </h2>
+                            </div>
+                            <p class="text-left" style="font-size: 12px;">
+                                Cambiar esto!  es que se supone que las descripciones son mas largas hahah Pueden ser cortas igual no se ve mal, pero para probar puse lo que estoy poniendo Att: Nia<br>
+                                Cambiar esto!  es que se supone que las descripciones son mas largas hahah Pueden ser cortas igual no se ve mal, pero para probar puse lo que estoy poniendo Att: Nia<br>
+                                {{ institucion.recursos_ofrecidos }}
+                            </p>
+                    </div>
 
-                                    <tr>
-                                        <td class="text-muted">Pa&iacute;s</td>
-                                        <td style="text-align:left">{{ institucion.pais }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="text-muted">P&aacute;gina Web</td>
-                                        <td style="text-align:left">{{ institucion.web }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="text-muted">Recursos Ofrecidos</td>
-                                        <td style="text-align:left">{{ institucion.recursos_ofrecidos }}</td>
-                                    </tr>
-
-
-                                    </tbody>
-                                </table>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="block-inverse">
+                            <div class="head-inverse" style="background: #C11F1F;">
+                                <div class="text-center" style="color:white">Contacto</div>
+                            </div>
+                            <div class="body-inverse">
+                                <div class="user-gallery text-center">
+                                    <table class="table table-hover" style="margin-bottom:0">
+                                        <tbody id="infoContactoBody">
+                                            <tr>
+                                                <td class="text-muted">Nombre</td>
+                                                <td style="text-align:left">{{ usuario.first_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Apellido</td>
+                                                <td style="text-align:left">{{ usuario.last_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Tel&eacute;fono</td>
+                                                <td style="text-align:left">{{ usuario.telefono }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Email</td>
+                                                <td style="text-align:left">{{ usuario.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Website</td>
+                                                <td style="text-align:left">{{ usuario.web }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Informacion del Contacto -->
-            <div class="col-sm-3" id="collapseContacto">
-                <div class="panel-heading btn-outline btn-primary" style="text-align:center;background-color:#123A82">
-                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"
-                                               href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n
-                        de Contacto </a></h4>
-                </div>
-                <div id="collapseInfoContacto" class="panel-collapse collapse in">
-                    <table class="table table-hover">
-                        <tbody id="infoContactoBody">
-                        <tr>
-                            <td class="text-muted">Nombre</td>
-                            <td style="text-align:left">{{ usuario.first_name }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Apellido</td>
-                            <td style="text-align:left">{{ usuario.last_name }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Tel&eacute;fono</td>
-                            <td style="text-align:left">{{ usuario.telefono }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Email</td>
-                            <td style="text-align:left">{{ usuario.email }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Website</td>
-                            <td style="text-align:left">{{ usuario.web }}</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 
-
+</div>
 {% endblock %}
