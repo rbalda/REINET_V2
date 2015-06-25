@@ -37,7 +37,7 @@ urlpatterns = patterns('',
         url(r'^verificar_cedula[/]?$',verificar_cedula, name="verificar_cedula"),
         url(r'^verificar_email[/]?$',verificar_email, name="verificar_email"),
        
-        url(r'^generarCodigo[/]?$', generarCodigo, name='generarCodigo'),
+        url(r'^generar_codigo[/]?$', generar_codigo, name='generar_codigo'),
         url(r'^getCiudades[/]?$',obtenerCiudades,name='institucion'),
         url(r'^institucion/(?P<institucionId>\w{0,50})[/]?$', verPerfilInstituciones,name='institucion'),
 

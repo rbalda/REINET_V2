@@ -793,13 +793,13 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 
 """
 Autor: Angel Guale
-Nombre de funcion: generarCodigo
+Nombre de funcion: generar_codigo
 Entrada: request GET o POST
-Salida: Formulario de generarCodigo
+Salida: Formulario de generar_codigo
 Descripción: Genera un codigo para registrar institucion
 """
 
-def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
+def generar_codigo(request): #Error 10, nombre inadecuado de la funcion
 	if request.method == 'POST':
 		username = request.POST['username'] #Error 10, usar palabras en español
 		usuario = Perfil.objects.get(username=username)
@@ -813,13 +813,13 @@ def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
 		peticion.fk_usuario = usuario
 		peticion.save()
 		args = {}
-		args['mensaje'] = "Codigo Institucion generado"
-		return render_to_response('Administrador_generar_codigo.html', args)
+		args['mensaje'] = "Codigo Institución Generado"
+		return render_to_response('generar_codigo.html', args)
 	else:
 		args = {}
 		args.update(csrf(request))
 
-		return render_to_response('Administrador_generar_codigo.html', args)
+		return render_to_response('generar_codigo.html', args)
 
 
 """

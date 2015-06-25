@@ -1,7 +1,11 @@
 {% extends "base.tpl.html" %}
 
+ {% block complementotitulo %}
+ Generar Codigo
+ {% endblock %}
+
 {% block raiz %}
-    <a class="navbar-brand link" href="#">REI-NET</a>
+    <a class="navbar-brand link" href="/">REI-NET</a>
 {% endblock %}
 
 {% block barraderecha %}
@@ -14,7 +18,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <p>Llene el siguiente formulario para generar codigo de registro de institucion</p>
+                    <p>Llene el siguiente formulario para generar codigo de registro de institución</p>
                 </div>
             </div>
         </div>
@@ -26,7 +30,7 @@
             <div class="col-md-6 col-md-offset-3 signup">
                 <h3 class="hl top-zero">Generar Codigo</h3>
                 <hr>
-                <form role="form" action="/generarCodigo/" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <form role="form" action="/generar_codigo/" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <div class="form-group">
                         <input required type="text" class="form-control" id="username" name="username"
                                placeholder="Usuario Administrador de Institucion" data-toggle="popover"
