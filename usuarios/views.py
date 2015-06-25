@@ -536,7 +536,12 @@ def editar_usuario(request):
 
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
+		user = request.user
+		membresia = Membresia.objects.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 		args.update(csrf(request))
+		print args
 		return render_to_response('Usuario_Edit-Profile.html', args)
 
 
@@ -569,6 +574,10 @@ def inicio(request):
 
 	if usuario is not None:
 		args['usuario'] = usuario
+		user = request.user
+		membresia = Membresia.objects.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 
 		if(usuario.privacidad>=10000):
 			usuario.privacidad = abs(usuario.privacidad-10000)
@@ -576,6 +585,7 @@ def inicio(request):
 			print usuario.privacidad
 
 	else:
+		
 		args['error'] = "Error al cargar los datos"
 
 	args.update(csrf(request))
@@ -605,6 +615,10 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
 		institucion = "nohay"
 		args['esAdmin']= False
+		user = request.user
+		membresia = Membresia.objects.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 		if membresias.filter(es_administrator=1).count() != 0:
 			administracion = membresias.filter(es_administrator=1)
 			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)
@@ -780,11 +794,16 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 		return cerrarSesion(request)
 	else:
 		args = {}
+		user = request.user
+		membresia = Membresia.object.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 		error = "Contraseña Incorrecta"
 		args['error'] = error
 		args['usuario'] = usuario
 		args.update(csrf(request))
 		return render(request, 'Usuario_Edit-Profile.html', args)
+		
 
 
 """
