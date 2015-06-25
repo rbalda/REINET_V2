@@ -1128,7 +1128,7 @@ que un usuario tiene en su bandeja de entrada
 """
 
 @login_required
-def bandejaDeEntrada(request):
+def ver_bandeja_entrada(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 
