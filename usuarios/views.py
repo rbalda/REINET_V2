@@ -38,7 +38,6 @@ Descripción: Corresponde a la creacion de la institucion y el anexo con e usuar
 			 asi como update a la tabla peticion con valor 1 pues se usa el codigo.
 """
 
-
 @login_required
 def registro_institucion(request, codigo):
 	if request.method == 'GET':
@@ -179,6 +178,7 @@ def registrarSolicitud(request):
 		
 		return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
+
 """
 Autor: Pedro Iniguez
 Nombre de funcion: verPeticiones
@@ -195,6 +195,7 @@ def verPeticiones(request):
 		return render_to_response('ver_peticiones.html', args)
 	except:
 		return HttpResponseRedirect('/')
+
 
 """
 Autor: Pedro Iniguez
@@ -235,7 +236,6 @@ Salida: IP del cliente
 Descripción: Esta funcion obtiene la direccion IP del host para hacer uso en
 			 el registro de usuarios o instituciones.
 """
-
 
 def get_client_ip(request): #Error 10, nombre inadecuado de la funcion
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -392,7 +392,6 @@ Salida:
 Descripción:
 """
 
-
 def index(request): #Error 10, nombre inadecuado de la funcion
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/inicioUsuario')
@@ -462,16 +461,16 @@ def cerrarSesion(request):
 
 
 """
-Autor: RELLENAR A QUIEN LE CORRESPONDA
-Nombre de función:
-Parámetros:
-Salida:
-Descripción:
+Autor: Jose Velez - Leonel Ramirez
+Nombre de función: editar_usuario
+Parámetros:request
+Salida: Redirecciona al perfil de usuario
+Descripción: Esta funcion edita la informacion del usuario y la actualiza en la bases de datos
 """
-
 
 @login_required
 def editar_usuario(request):
+	idFoto = 1
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
@@ -493,8 +492,8 @@ def editar_usuario(request):
 		email = request.POST['email']
 		try:
 			foto = request.FILES['imagen']
-
 		except:
+			idFoto = 0 #ID para no guardar foto de noPicture
 			foto = "../../media/noPicture.png"
 		 #Explicar como funciona el array de privacidad.
 		try:
@@ -531,7 +530,8 @@ def editar_usuario(request):
 		#ubicacion=Ubicacion.objects.get(idubicacion=1)
 		#perfil.fkubicacion=ubicacion
 		perfil.privacidad = privacidad
-		perfil.foto = foto
+		if idFoto != 0:
+			perfil.foto = foto
 		perfil.save()
 
 		return HttpResponseRedirect('/perfilUsuario/')
@@ -548,7 +548,6 @@ Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
-
 def terminosCondiciones(request): #Error 10, nombre inadecuado de la funcion
 	return render(request, 'terms.html')
 
@@ -561,7 +560,6 @@ Salida: http
 Descripción: envia la informacion del usuario a una plantilla html
 permite ver la pagina inicial de todo usuario logeado
 """
-
 
 @login_required
 def inicio(request):
@@ -592,7 +590,6 @@ Salida: http
 Descripción: envia la informacion del usuario a una plantilla html
 """
 
-
 @login_required
 def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 	session = request.session['id_usuario']
@@ -605,16 +602,28 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		usuario.save()
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
-		membresia = Membresia.objects.filter(fk_usuario=usuario.id)
+		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
 		institucion = "nohay"
-		if membresia.filter(es_administrator=1).count() != 0:
-			administracion = membresia.filter(es_administrator=1)
-			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)	
-		listaInstituciones = []
-		for num in range(0, membresia.count()):
-			listaInstituciones.append(
-				Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
-		args['listaInstituciones'] = listaInstituciones
+		args['esAdmin']= False
+		if membresias.filter(es_administrator=1).count() != 0:
+			administracion = membresias.filter(es_administrator=1)
+			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)
+			args['esAdmin']= True
+		else:
+			membresia = membresias.filter(es_administrator=0,estado=1)
+			for num in range(0, membresia.count()):
+				institucion = Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion)
+				if institucion.nombre != "Independiente":
+					break
+				else:
+					institucion = "nohay"
+		#listaInstituciones = []
+		#for num in range(0, membresia.count()):
+		#	listaInstituciones.append(
+		#		Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
+		#	print membresia[num].fk_institucion.id_institucion
+
+		#args['listaInstituciones'] = listaInstituciones
 		
 		#print institucion
 		args['institucion'] = institucion
@@ -634,7 +643,6 @@ Nombre de funcion: perfilInstitucion
 Entrada: request GET
 Salida: Perfil de Institucion
 """
-
 
 @login_required
 def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
@@ -664,13 +672,13 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 	#args['usuario']=usuario
 	return render_to_response('profile_institucion.html', args)
 
+
 """
 Autores: Pedro Iniguez
 Nombre de funcion: perfilInstituciones
 Entrada: request GET
 Salida: Perfil de otra institucion de la que no sea admin
 """
-
 
 @login_required
 def verPerfilInstituciones(request, institucionId): 
@@ -703,6 +711,7 @@ def verPerfilInstituciones(request, institucionId):
 	#args['usuario']=usuario
 	return render_to_response('perfil_otra_institucion.html', args)
 
+
 """
 Autor: Pedro Iniguez
 Nombre de funcion: verificarCodigo
@@ -710,7 +719,6 @@ Entrada: request POST
 Salida: Formulario de registro institucion
 Responde con un formulario vacio de registro de institucion
 """
-
 
 @login_required
 def verificarCodigo(request): #Error 10, nombre inadecuado de la funcion
@@ -743,7 +751,6 @@ Salida: Opciones de ciudades para el pais seleccionado
 Responde con options de ciudades
 """
 
-
 def obtenerCiudades(request): #Error 10, nombre inadecuado de la funcion
 	if request.method == 'POST':
 		args = {}
@@ -760,7 +767,6 @@ Parámetros: request
 Salida: http
 Descripción: hace la suspension de la cuenta por parte del usuario
 """
-
 
 @login_required
 def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
@@ -788,7 +794,6 @@ Entrada: request GET o POST
 Salida: Formulario de generarCodigo
 Descripción: Genera un codigo para registrar institucion
 """
-
 
 def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
 	if request.method == 'POST':
@@ -821,7 +826,6 @@ Salida: Formulario de generarCodigo
 Descripción: Genera un codigo para registrar institucion
 """
 
-
 def verificar_username(request):  #Error 10, nombre inadecuado de la funcion
 	if request.method == "POST":
 		userinput = request.POST['username'] #Error 10, usar palabras en español
@@ -836,6 +840,7 @@ def verificar_username(request):  #Error 10, nombre inadecuado de la funcion
 			return HttpResponse("ok")
 	return HttpResponse("no es post")
 
+
 """
 Autor: Angel Guale
 Nombre de funcion: verificar_username
@@ -843,7 +848,6 @@ Entrada: request GET o POST
 Salida: Formulario de generarCodigo
 Descripción: Genera un codigo para registrar institucion
 """
-
 
 def verificar_cedula(request):  #Error 10, nombre inadecuado de la funcion
 	if request.method == "POST":
@@ -859,6 +863,7 @@ def verificar_cedula(request):  #Error 10, nombre inadecuado de la funcion
 			return HttpResponse("ok")
 	return HttpResponse("no es post")
 
+
 """
 Autor: Angel Guale
 Nombre de funcion: verificar_username
@@ -866,7 +871,6 @@ Entrada: request GET o POST
 Salida: Formulario de generarCodigo
 Descripción: Genera un codigo para registrar institucion
 """
-
 
 def verificar_email(request):  #Error 10, nombre inadecuado de la funcion
 	if request.method == "POST":
@@ -907,6 +911,7 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 	else:
 		return HttpResponseRedirect('/inicioUsuario')
 
+
 """
 Autor: Fausto Mora y Roberto Yoncon
 Nombre de funcion: enviarEmailPassword
@@ -914,7 +919,6 @@ Entrada: request POST
 Salida: Se envia un email 
 Descripción: Se envia un email donde el usuario decida, con la Contraseña del usuario 
 """
-
 
 def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
 	destinatario = request.POST['email_recuperacion']
@@ -974,7 +978,6 @@ Descripción: genera una cadena de caracteres con letras mayusculas y digitos en
 de longitud 8 
 """
 
-
 def generarPasswordAleatorea(): #Error 10, nombre inadecuado de la funcion
 	return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
@@ -987,11 +990,8 @@ Salida: http
 Descripción: maneja el error de csrf
 """
 
-
 def csrf_failure(request, reason=""):
 	return HttpResponseRedirect('/index/')
-
-
 
 
 """
@@ -1026,14 +1026,12 @@ def recuperarPassword(request):
 	return render(request,'recuperar_password.html',args)
 
 
-
 """
 Autor: Erika Narvaez
 Nombre de funcion: modificarPerfilInstitucion
 Entrada: request POST
 Salida: Redireccion a perfil
 """
-
 
 @login_required
 def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
@@ -1042,6 +1040,8 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 	paises=Country.objects.all()
 	ciudades=City.objects.all().filter(country_id = paises.first().id)
 	institucion = membresia.fk_institucion
+
+	idLogo = 1 # Id del logo
 	if request.method=='POST':
 		nombre=request.POST.get("nombre")
 		siglas=request.POST.get("siglas")
@@ -1053,10 +1053,9 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 		telefono = request.POST.get("telefonoInstitucion")
 		try:
 			image = request.FILES['logo']
-
 		except:
+			idLogo = 0 #ID para no guardar logo noPicture.png
 			image = "../../media/noPicture.png"
-
 
 		institucion.nombre=nombre
 		institucion.siglas=siglas
@@ -1066,7 +1065,8 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 		institucion.web=web
 		institucion.recursos_ofrecidos=recursos
 		institucion.telefono_contacto=telefono
-		institucion.logo = image
+		if idLogo != 0:
+			institucion.logo = image
 		institucion.save()
 
 		return HttpResponseRedirect('/perfilInstitucion')
@@ -1127,15 +1127,17 @@ que un usuario tiene en su bandeja de entrada
 def bandejaDeEntrada(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
+
 	try:
 		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
 	except:
 		mensajes= None
-
 	args={}
 	args['usuario']=usuario
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
+	for m in mensajes:
+		print m.imgEm
 	return render_to_response('bandeja_de_entrada.html',args)
 
 
@@ -1179,11 +1181,11 @@ def enviarMensaje(request):
 			print e
 			return HttpResponseRedirect('/perfilUsuario/')
 	else:
+		print "porque D:"
 		args = {}
 		args['usuario']=usuario
 		args.update(csrf(request))
 		return render_to_response('enviar_mensaje.html',args)
-
 
 
 """
@@ -1195,16 +1197,48 @@ Descripción: Esta funcion permite visualizar los mensajes
 detalladamente
 """
 
+@login_required
+def verMensaje(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		msj=Mensaje.objects.get(id_mensaje = idM)
+		print "mensaje",msj.id_mensaje
+		usuario_emisor=msj.fk_emisor
+		emisor = Perfil.objects.get(username= usuario_emisor.username)
+		receptor = Perfil.objects.get(username = usuario.username)
+		args['msj']=msj
+		args['usuario_emisor'] = usuario_emisor
+		args['emisor']=emisor
+		args['receptor']=receptor
+		args['usuario']=usuario
+		return render_to_response('ver_mensaje.html',args)
+	except:
+		return HttpResponseRedirect("/bandejaDeEntrada/")
 
 
+"""
+Autor: Ray Montiel
+Nombre de funcion: mensajesEnviados
+Entrada: request POST
+Salida: Muestra los mensajes enviados
+Descripción: Esta funcion permite visualizar los mensajes
+enviados a otros usuarios
+"""
 
+@login_required
+def mensajesEnviados(request):
+	sesion = request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
 
-
-
-
-
-
-
-
-
-
+	try:
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'])[:8]
+	except:
+		mensajes= None
+	args={}
+	args['usuario']=usuario
+	args['mensajes']=mensajes
+	args['range']=range(len(mensajes))
+	return render_to_response('mensajes_enviados.html',args)

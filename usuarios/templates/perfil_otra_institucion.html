@@ -1,164 +1,169 @@
 {% extends "base.tpl.html" %}
 
-{% block signin %}
-<li id="usuario" class="show">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
-</a>
-<ul class="dropdown-menu">
-<li><a href="/perfilUsuario/" >Mi Perfil</a></li>
-<li><a href="/registro_institucion">Registrar Institucion</a></li>
-<li><a href="/cerrarSesion/" >Cerrar Sesi&oacute;n</a></li>
-</ul>
-</li>
-<li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
+{% block barraderecha %}
+    <li id="usuario" class="show">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/perfilUsuario/">Mi Perfil</a></li>
+            <li><a href="/registro_institucion">Registrar Institucion</a></li>
+            <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
+        </ul>
+    </li>
+    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 
-{%block content%}
-    
-<!-- VENTANA PERFIL USUARIO
-================== -->
+{% block contenido %}
+
+    <!-- Ventana Perfil Usuario -->
 
     <div class="section-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <h1 class="animated slideInLeft"><span>{{ institucion.nombre }}</span></h1>
-          </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span>{{ institucion.nombre }}</span></h1>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="container">
-      <div class="row">
+    <div class="row">
 
-        <!-- /////////////  Menu de Perfil  ////////////////// -->
+        <!-- Menu del Perfil -->
         <div class="col-sm-4 col-md-3">
-          <div class="user-menu bottom-15">
-            <ul>
-              <li>
-                <a href="#" class="active">
-                  <i class="sign fa fa-edit bg-green"></i> Solicitar Membres&iacute;a <i class="fa fa-chevron-right pull-right"></i>
-                </a>  
-              </li>
-            </ul>
-          </div>
+            <div class="user-menu bottom-15">
+                <ul>
+                    <li>
+                        <a href="#" class="active">
+                            <i class="sign fa fa-edit bg-green"></i> Solicitar Membres&iacute;a <i
+                                class="fa fa-chevron-right pull-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <div class="col-sm-1"></div>
 
-        <!-- //////////////  FOTO DE PERFIL /////////////// -->
+        <!-- Foto del Perfil-->
         <div class="col-sm-8 col-md-6">
-          <div class="row">
+            <div class="row">
 
-            <div class="col-sm-4">
-              <div class="thumbnail">
-                <div class="avatar">
-                  <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                    <img src="../../media/{{institucion.logo}}" alt="...">
-                  </a>
+                <div class="col-sm-4">
+                    <div class="thumbnail">
+                        <div class="avatar">
+                            <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+                                <img src="../../media/{{ institucion.logo }}" alt="...">
+                            </a>
+
+                        </div>
+                    </div>
 
                 </div>
-              </div>
 
+
+                <!-- Perfil Principal-->
+
+                <div class="col-sm-8">
+                    <h3 class="hl">{{ institucion.nombre }} <br>
+                        <small> {{ institucion.siglas }} </small>
+                    </h3>
+                    <hr>
+
+                    <div class="bottom-15" style="text-align:center">
+                        <a method='POST' href="/enviarMensaje/" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i
+                                class="fa fa-envelope"></i> Redactar Mensaje</a>
+                    </div>
+                </div>
             </div>
 
 
-            <!-- //// PERFIL PRINCIPAL ///// -->
+            <!-- Informacion General-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-6" id="collapseGeneral">
 
-            <div class="col-sm-8">
-              <h3 class="hl">{{ institucion.nombre }} <br>
-                <small> {{institucion.siglas}} </small></h3>
-              <hr>
+                        <div class="panel-heading btn-outline btn-success"
+                             style="text-align:center;background-color:#A2B2AC">
+                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"
+                                                       href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i>
+                                Informaci&oacute;n General </a></h4>
+                        </div>
+                        <div id="collapseInfoGeneral" class="panel-collapse collapse in">
+                            <table class="table table-hover">
+                                <tbody id="infoGeneralBody">
 
-              <div class="bottom-15" style="text-align:center">
-                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i class="fa fa-envelope"></i> Redactar Mensaje</a> 
-              </div>
-            </div>
-          </div>
+                                <tr>
+                                    <td class="text-muted">Descripci&oacute;n</td>
+                                    <td style="text-align:left">{{ institucion.descripcion }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Misi&oacute;n</td>
+                                    <td style="text-align:left">{{ institucion.mision }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-muted">Pais</td>
+                                    <td style="text-align:left">{{ institucion.pais }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-muted">P&aacute;gina Web</td>
+                                    <td style="text-align:left">{{ institucion.web }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-muted">Recursos Ofrecidos</td>
+                                    <td style="text-align:left">{{ institucion.recursos_ofrecidos }}</td>
+                                </tr>
 
 
-          <!-- //////// INFORMACION GENERAL /////////-->
-          <div class="row">
-            <div class="col-sm-12">
-            <div class="col-sm-6" id="collapseGeneral">
-              
-                <div class="panel-heading btn-outline btn-success" style="text-align:center;background-color:#A2B2AC">
-                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral" href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i> Informaci&oacute;n General </a> </h4>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Informacion Contacto-->
+                    <div class="col-sm-6" id="collapseContacto">
+                        <div class="panel-heading btn-outline btn-primary"
+                             style="text-align:center;background-color:#123A82">
+                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"
+                                                       href="#collapseInfoContacto"><i class="fa fa-map-marker"></i>
+                                Informaci&oacute;n de Contacto </a></h4>
+                        </div>
+                        <div id="collapseInfoContacto" class="panel-collapse collapse in">
+                            <table class="table table-hover">
+                                <tbody id="infoContactoBody">
+                                <tr>
+                                    <td class="text-muted">Nombre</td>
+                                    <td style="text-align:left">{{ duenho.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Apellido</td>
+                                    <td style="text-align:left">{{ duenho.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Tel&eacute;fono</td>
+                                    <td style="text-align:left">{{ duenho.telefono }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Email</td>
+                                    <td style="text-align:left">{{ duenho.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Website</td>
+                                    <td style="text-align:left">{{ duenho.web }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div id="collapseInfoGeneral" class="panel-collapse collapse in">
-                  <table class="table table-hover">
-                    <tbody id="infoGeneralBody">
-
-                  <tr>
-                    <td class="text-muted">Descripci&oacute;n</td>
-                    <td style="text-align:left">{{institucion.descripcion}}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Misi&oacute;n</td>
-                    <td style="text-align:left">{{ institucion.mision }}</td>
-                  </tr>
-
-                  <tr>
-                    <td class="text-muted">Pais</td>
-                    <td style="text-align:left">{{ institucion.pais }}</td>
-                  </tr>
-
-                  <tr>
-                    <td class="text-muted">P&aacute;gina Web</td>
-                    <td style="text-align:left">{{ institucion.web }}</td>
-                  </tr>
-
-                  <tr>
-                    <td class="text-muted">Recursos Ofrecidos</td>
-                    <td style="text-align:left">{{ institucion.recursos_ofrecidos }}</td>
-                  </tr>
-                  
-
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-          
-          <!-- //////// INFORMACION CONTACTO /////////-->
-            <div class="col-sm-6" id="collapseContacto">
-              <div class="panel-heading btn-outline btn-primary" style="text-align:center;background-color:#123A82">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto" href="#collapseInfoContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n de Contacto </a> </h4>
-              </div>
-              <div id="collapseInfoContacto" class="panel-collapse collapse in">
-                <table class="table table-hover">
-                <tbody id="infoContactoBody">
-                  <tr>
-                    <td class="text-muted">Nombre  </td>
-                    <td style="text-align:left">{{ duenho.first_name }}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Apellido  </td>
-                    <td style="text-align:left">{{ duenho.last_name }}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Tel&eacute;fono  </td>
-                    <td style="text-align:left">{{ duenho.telefono }}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Email  </td>
-                    <td style="text-align:left">{{ duenho.email }}</td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Website  </td>
-                    <td style="text-align:left">{{ duenho.web }}</td>
-                  </tr>
-
-                </tbody>
-              </table>
-              </div>
             </div>
         </div>
-          
-
-
     </div>
-  </div>
 </div>
-
-{%endblock%} 
+{% endblock %}

@@ -1,78 +1,85 @@
 {% extends "profile_usuario.html" %}
-{%block menuperfil%}
-		<!-- Profile Menu -->
-		<div class="col-sm-4 col-md-3">
-		  <div class="user-menu bottom-15">
-			<ul>
-			 <!--  <li>
-				<a href="#"  class="link" class="active" >
-				  <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
+
+{% block menuperfil %}
+    <!-- Profile Menu -->
+    <div class="col-sm-4 col-md-3">
+        <div class="user-menu bottom-15">
+            <ul>
+                <!--  <li>
+                   <a href="#"  class="link" class="active" >
+                     <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
+                   </a>
+                 </li> -->
+                <li>
+                    <a href="/enviarMensaje/">
+                        <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i
+                            class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/bandejaDeEntrada/">
+                        <i class="sign fa fa-envelope bg-red"></i> Entrada <i
+                            class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mensajesEnviados/">
+                        <i class="sign fa fa-envelope bg-green"></i> Enviados <i
+                            class="fa fa-chevron-right pull-right"></i>
+                    </a>
+                </li>
+                <!--  <li>
+                   <a href="#">
+                     <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
 				</a>
 			  </li> -->
-			  <li>
-				<a href="/enviarMensaje/">
-				  <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li>
-			  <li>
-				<a href="/bandejaDeEntrada/">
-				  <i class="sign fa fa-envelope bg-red"></i> Entrada <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li>
-			  <li>
-				<a href="#">
-				  <i class="sign fa fa-envelope bg-green"></i> Enviados <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li>
-			 <!--  <li>
-				<a href="#">
-				  <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li> -->
-			</ul>
-		  </div>
-		</div>
-{%endblock%}
-
-{% block contenidoUsuario %}
-
-        <div class="col-sm-8 col-md-7">
-          <!-- List of recent dialogs -->
-        <!-- <span class="text-muted"><a href="inbox.html">Inbox</a> <i class="fa fa-long-arrow-right"></i> Dan Smith</span> -->
-          <div class="clearfix"></div>
-          <hr>
-          <div class="pm bottom-15">
-            <div class="media">
-              <!--<a class="pull-left" href="#">
-                <img class="media-object" src="{{MEDIA_URL}}{{msj.imgEm}}" alt="...">
-              </a>-->
-              <div class="media-body">
-                <p><a href="/usuario/{{msj.fk_emisor}}">{{user1.first_name}} {{user1.last_name}} </a></p>
-                <p>
-                  {{msj.mensaje}}
-                </p>
-                 <ul class="text-muted list-inline">
-                  <li><i class="fa fa-clock-o"></i> {{msj.fecha_de_envio}}</li>
-                 <!--  <li><i class="fa fa-trash-o"></i> <a href="#">Delete</a></li>
-                  <li><i class="fa fa-ban"></i> <a href="#">Block this user</a></li> -->
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="message-answer">
-            <img src="{{MEDIA_URL}}{{yo.foto}}" alt="..." class="hidden-xs">
-            <form role="form" method="POST" action="/enviarMensaje/">
-              {%csrf_token%}
-              <div class="form-group">
-                <input type="hidden" class="form-control" id="destinatario" name="destinatario" value="{{msj.fk_emisor}}">
-                <input type="hidden" class="form-control" id="asunto" name="asunto" value="{{msj.asunto}}">
-                <label for="message" class="sr-only">Mensaje:</label>
-                <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"></textarea>
-              </div>
-              <button type="submit" class="btn btn-green">Responder</button>
-            </form>
-            <div class="clearfix"></div>
-          </div>
+            </ul>
         </div>
+    </div>
+{% endblock %}
 
-{%endblock%}
+{% block contenidousuario %}
+
+    <div class="col-sm-8 col-md-7">
+        <div class="clearfix"></div>
+        <hr>
+        <div class="pm bottom-15">
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="{{ emisor.foto.url }}" alt="...">
+                </a>
+
+                <div class="media-body">
+                    <p>
+                        <a href="/usuario/{{ msj.fk_emisor }}">{{ usuario_emisor.first_name }} {{ usuario_emisor.last_name }} </a>
+                    </p>
+
+                    <p>
+                        {{ msj.mensaje }}
+                    </p>
+                    <ul class="text-muted list-inline">
+                        <li><i class="fa fa-clock-o"></i> {{ msj.fecha_de_envio }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="message-answer">
+            <img src="{{ receptor.foto.url }}" alt="..." class="hidden-xs">
+
+            <form role="form" action="/enviarMensaje/" method='POST'>
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="destinatario" name="destinatario"
+                           value="{{ msj.fk_emisor }}">
+                    <input type="hidden" class="form-control" id="asunto" name="asunto" value="{{ msj.asunto }}">
+
+                    <label for="message" class="sr-only">Mensaje:</label>
+                    <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"></textarea>
+                </div>
+                <button type="submit" class="btn btn-green" data-dismiss="modal">Responder</button>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
