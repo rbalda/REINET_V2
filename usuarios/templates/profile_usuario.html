@@ -126,7 +126,7 @@
             <div class="col-sm-8">
                 <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }}
                     <br/>
-                    {% if institucion != "nohay" %}
+                    {% if institucion != "Independiente" %}
                         <small> {{ institucion.nombre }} </small>
                     {% else %}
                         <small>Independiente</small>
@@ -189,7 +189,7 @@
                             <tr>
                                 <td class="text-muted">Instituci&oacute;n</td>
                                 <td style="text-align:right" id="link">
-                                    {% if institucion != "nohay" %}
+                                    {% if institucion != "Independiente" %}
                                         <a href="/institucion/{{ institucion.id_institucion }}">{{ institucion.nombre }}</a>
                                     {% else %}
                                         Independiente

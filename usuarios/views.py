@@ -603,7 +603,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
 		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
-		institucion = "nohay"
+		institucion = "Independiente"
 		args['esAdmin']= False
 		if membresias.filter(es_administrator=1).count() != 0:
 			administracion = membresias.filter(es_administrator=1)
@@ -616,7 +616,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 				if institucion.nombre != "Independiente":
 					break
 				else:
-					institucion = "nohay"
+					institucion = "Independiente"
 		#listaInstituciones = []
 		#for num in range(0, membresia.count()):
 		#	listaInstituciones.append(
@@ -695,6 +695,10 @@ def verPerfilInstituciones(request, institucionId):
 				print "redirect"
 				return redirect('/perfilInstitucion')
 			else:
+				args['esAfiliado']= False
+				esAfiliado = Membresia.objects.filter(fk_institucion=id_institucion,fk_usuario=sesion,estado=1).count()
+				if esAfiliado>0:
+					args['esAfiliado']= True
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
