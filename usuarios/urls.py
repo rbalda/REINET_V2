@@ -37,7 +37,7 @@ urlpatterns = patterns('',
         url(r'^verificar_cedula[/]?$',verificar_cedula, name="verificar_cedula"),
         url(r'^verificar_email[/]?$',verificar_email, name="verificar_email"),
        
-        url(r'^generar_codigo[/]?$', generar_codigo, name='generar_codigo'),
+        url(r'^GenerarCodigo[/]?$', generar_codigo, name='GenerarCodigo'),
         url(r'^getCiudades[/]?$',obtenerCiudades,name='institucion'),
         url(r'^institucion/(?P<institucionId>\w{0,50})[/]?$', verPerfilInstituciones,name='institucion'),
 
@@ -45,7 +45,7 @@ urlpatterns = patterns('',
         url(r'^api/buscar_institucion[/]?',InstitucionBusqueda.as_view(),name='buscar_institucion'),
         url(r'^api/buscar_usuario[/]?',PerfilBusqueda.as_view(),name='buscar_usuario'),
 
-        url(r'^bandejaDeEntrada[/]?$', bandejaDeEntrada, name='bandejaDeEntrada'),
+        url(r'^BandejaDeEntrada[/]?$', ver_bandeja_entrada, name='BandejaDeEntrada'),
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
         url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
         url(r'^mensajesEnviados[/]?$', mensajesEnviados, name='mensajesEnviados'),
