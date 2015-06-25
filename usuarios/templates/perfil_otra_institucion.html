@@ -10,7 +10,7 @@
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
-    <li id="mensajes" class="show"><a href="#" class="link">Mensajes</a></li>
+    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 
@@ -32,19 +32,22 @@
     <div class="row">
 
         <!-- Menu del Perfil -->
+        
         <div class="col-sm-4 col-md-3">
             <div class="user-menu bottom-15">
                 <ul>
+                    {% if esAfiliado != True %}
                     <li>
                         <a href="#" class="active">
                             <i class="sign fa fa-edit bg-green"></i> Solicitar Membres&iacute;a <i
                                 class="fa fa-chevron-right pull-right"></i>
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
-
+        
         <div class="col-sm-1"></div>
 
         <!-- Foto del Perfil-->
@@ -73,7 +76,7 @@
                     <hr>
 
                     <div class="bottom-15" style="text-align:center">
-                        <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i
+                        <a method='POST' href="/enviarMensaje/" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i
                                 class="fa fa-envelope"></i> Redactar Mensaje</a>
                     </div>
                 </div>
@@ -87,8 +90,7 @@
 
                         <div class="panel-heading btn-outline btn-success"
                              style="text-align:center;background-color:#A2B2AC">
-                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"
-                                                       href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i>
+                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"><i class="fa fa-info-circle"></i>
                                 Informaci&oacute;n General </a></h4>
                         </div>
                         <div id="collapseInfoGeneral" class="panel-collapse collapse in">
@@ -111,7 +113,7 @@
 
                                 <tr>
                                     <td class="text-muted">P&aacute;gina Web</td>
-                                    <td style="text-align:left">{{ institucion.web }}</td>
+                                    <td style="text-align:left;word-break: break-all;">{{ institucion.web }}</td>
                                 </tr>
 
                                 <tr>
@@ -129,8 +131,7 @@
                     <div class="col-sm-6" id="collapseContacto">
                         <div class="panel-heading btn-outline btn-primary"
                              style="text-align:center;background-color:#123A82">
-                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"
-                                                       href="#collapseInfoContacto"><i class="fa fa-map-marker"></i>
+                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"><i class="fa fa-map-marker"></i>
                                 Informaci&oacute;n de Contacto </a></h4>
                         </div>
                         <div id="collapseInfoContacto" class="panel-collapse collapse in">
@@ -154,7 +155,7 @@
                                 </tr>
                                 <tr>
                                     <td class="text-muted">Website</td>
-                                    <td style="text-align:left">{{ duenho.web }}</td>
+                                    <td style="text-align:left;word-break: break-all;">{{ duenho.web }}</td>
                                 </tr>
 
                                 </tbody>
@@ -165,5 +166,5 @@
             </div>
         </div>
     </div>
-
+</div>
 {% endblock %}

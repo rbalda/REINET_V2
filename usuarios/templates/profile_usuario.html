@@ -12,7 +12,7 @@
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
-    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
+    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 {% block inicio %}
@@ -62,7 +62,7 @@
                         </li>
                     {% endif %}
                     <li>
-                        <a href="/bandejaDeEntrada/">
+                        <a href="/BandejaDeEntrada/">
                             <i class="sign fa fa-envelope bg-red"></i> Bandeja de Entrada <i
                                 class="fa fa-chevron-right pull-right"></i>
                         </a>
@@ -77,7 +77,7 @@
             </div>
         </div>
     {% endblock %}
-    {% block contenidoUsuario %}
+    {% block contenidousuario %}
         <!-- Foto del Perfil -->
         <div class="col-sm-8 col-md-6">
         <div class="row">
@@ -128,7 +128,7 @@
             <div class="col-sm-8">
                 <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }}
                     <br/>
-                    {% if institucion != "nohay" %}
+                    {% if institucion != "Independiente" %}
                         <small> {{ institucion.nombre }} </small>
                     {% else %}
                         <small>Independiente</small>
@@ -137,7 +137,7 @@
                 <hr>
 
                 <div class="bottom-15">
-                    <a href="/enviarMensaje/" class="btn btn-green btn-sm" data-toggle="modal" data-target="#sendemail"><i
+                    <a method='POST' href="/enviarMensaje/" class="btn btn-green btn-sm" data-toggle="modal" data-target="#sendemail"><i
                             class="fa fa-envelope"></i> Redactar Mensaje</a>
 
                     <!-- //// VENTANA EMERGENTE EMAIL /////
@@ -191,7 +191,7 @@
                             <tr>
                                 <td class="text-muted">Instituci&oacute;n</td>
                                 <td style="text-align:right" id="link">
-                                    {% if institucion != "nohay" %}
+                                    {% if institucion != "Independiente" %}
                                         <a href="/institucion/{{ institucion.id_institucion }}">{{ institucion.nombre }}</a>
                                     {% else %}
                                         Independiente
