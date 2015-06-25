@@ -10,7 +10,7 @@
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
-    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
+    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 
@@ -32,19 +32,22 @@
     <div class="row">
 
         <!-- Menu del Perfil -->
+        
         <div class="col-sm-4 col-md-3">
             <div class="user-menu bottom-15">
                 <ul>
+                    {% if esAfiliado != True %}
                     <li>
                         <a href="#" class="active">
                             <i class="sign fa fa-edit bg-green"></i> Solicitar Membres&iacute;a <i
                                 class="fa fa-chevron-right pull-right"></i>
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
-
+        
         <div class="col-sm-1"></div>
 
         <!-- Foto del Perfil-->

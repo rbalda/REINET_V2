@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'swampdragon',
     'cities_light',
     'usuarios',
 )
@@ -96,7 +97,7 @@ DATABASES = {
         'USER':'reinet',
         'PASSWORD':'ReInEt2015'
     }
- }
+}
 
 """esto para probar localmente mientras el servidor murio
 DATABASES = {
@@ -110,7 +111,7 @@ DATABASES = {
     }
 }
 """
-#
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -120,7 +121,7 @@ DATABASES = {
 #         'USER':'reinet',
 #         'PASSWORD':'ReInEt2015'
 #     }
-# }
+#  }
 
 
 
@@ -174,6 +175,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'reinetespol@gmail.com' # cuenta reinet en gmail
 EMAIL_HOST_PASSWORD = 'reinet1234' # clave de cuenta reinet
 EMAIL_USE_TLS = True
+
+#configuracion de swampdragon para real time
+SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
 
 #Si realizan cambios en este archivo, que sean los technical leaders los que lo realicen.
 #Si algun programador necesita hacer algun cambio conversar con su technical.
