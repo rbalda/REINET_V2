@@ -6,7 +6,9 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="/perfilUsuario/">Mi Perfil</a></li>
+            {% if not es_admin %}
             <li><a href="/registro_institucion">Registrar Institucion</a></li>
+            {% endif %}
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
