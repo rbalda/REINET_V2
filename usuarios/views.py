@@ -695,7 +695,7 @@ Salida: Perfil de otra institucion de la que no sea admin
 """
 
 @login_required
-def verPerfilInstituciones(request, institucionId): 
+def verPerfilInstituciones(request, institucionId):
 	id_institucion = institucionId
 	sesion = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=sesion)
@@ -1282,9 +1282,9 @@ def miembros_institucion(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	args = {}
-	
-	
-	
+
+
+
 	return render_to_response('miembros_institucion.html',args)
 
 
@@ -1302,8 +1302,11 @@ def administrar_membresias(request):
 	institucion_id = request.session['institucion_id']
 	institucion = Institucion.objects.get(id_institucion=institucion_id)
 	args = {}
+	usuarios =[]
 	if institucion is not None:
 		args['institucion']=institucion
+		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
+		args['lista_miembros']=miembros
 
 
 	args.update(csrf(request))
