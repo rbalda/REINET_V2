@@ -31,6 +31,9 @@ urlpatterns = patterns('',
         url(r'^csrf_failure[/]?$', 'usuarios.views.csrf_failure', name='csrf_failure'),
         url(r'^editar_perfil_institucion[/]?$', 'usuarios.views.modificarPerfilInstitucion', name='editarPerfilInstitucion'),
 
+        url(r'^AdministrarMembresias[/]?$', 'usuarios.views.administrar_membresias', name='AdministrarMembresias'),
+        url(r'^MiembrosInstitucion[/]?$', 'usuarios.views.miembros_institucion', name='MiembrosInstitucion'),
+
         url(r'^usuario/(?P<username>\w{0,250})[/]?$','usuarios.views.verCualquierUsuario', name='verUsuario'),
         
         url(r'^verificar_username[/]?$',verificar_username, name="verificar_username"),
@@ -49,6 +52,7 @@ urlpatterns = patterns('',
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
         url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
         url(r'^mensajesEnviados[/]?$', mensajesEnviados, name='mensajesEnviados'),
+
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),
