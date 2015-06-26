@@ -1271,7 +1271,7 @@ def mensajesEnviados(request):
 	return render_to_response('mensajes_enviados.html',args)
 
 """
-Autor: Henry Lasso
+Autor: Rolando Sornoza, Roberto Yoncon
 Nombre de la funcion: mostrar_miembros_institucion
 Entrada:
 Salida: Muestra los miembros de una institución
@@ -1279,9 +1279,14 @@ Descripción:Esta función permite mostrar los miembros que pertenecen a una ins
 """
 @login_required
 def miembros_institucion(request):
-	sesion=request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
+	session = request.session['id_usuario']
+	institucion_id = request.session['institucion_id']
+	institucion = Institucion.objects.get(id_institucion=institucion_id)
 	args = {}
+	if institucion is not None:
+		args['institucion']=institucion
+		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
+		args['lista_miembros']=miembros
 
 
 
@@ -1298,11 +1303,9 @@ Descripción: Muestra las membresias pendientes y aceptadas y permite modificarl
 
 def administrar_membresias(request):
 	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
 	institucion_id = request.session['institucion_id']
 	institucion = Institucion.objects.get(id_institucion=institucion_id)
 	args = {}
-	usuarios =[]
 	if institucion is not None:
 		args['institucion']=institucion
 		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)

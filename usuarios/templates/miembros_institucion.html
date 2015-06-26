@@ -60,70 +60,32 @@
                     <li role="presentation" ><a href="/AdministrarMembresias/">Solicitudes</a></li>
                     <li role="presentation" class="active"><a href="/MiembrosInstitucion/">Miembros</a></li>
                 </ul>
-                
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="../../media/hoteshi.jpg"  alt= "..."style="width: 150px;height: 150px;">
-                        <div class="caption">
-                        <h4>Hoteshi</h4>
-                          <div class="rating">
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i>
-                          </div>
-                            <p>
-                                <STRONG>Cargo:     </STRONG><span>  Estudiante</span><br>
-                                <STRONG>Teléfono:  </STRONG><span>  809898897</span><br>
-                                <STRONG>Email:     </STRONG><span>  hoteshi@dsdsdks.com</span>
-                            </p>
-                            <p><a href="#" class="btn btn-green" role="button"style="margin:0 0 0 50px;">Ver Perfil</a></p>
+                {% for miembro in lista_miembros %}
+                    {% if miembro.estado == 1 %}
+                        <div class="col-md-4">
+                            <div class="thumbnail col-md-12">
+                                {% load staticfiles %}
+                                <img src="{{ miembro.fk_usuario.perfil.foto.url }}"  alt= "..."style="width: 150px;height: 150px;">
+                                <div class="caption">
+                                <h4>{{ miembro.fk_usuario.username }}</h4>
+                                  <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                  </div>
+                                    <p>
+                                        <STRONG>Cargo:     </STRONG><span>  {{ miembro.cargo }}</span><br>
+                                        <STRONG>Teléfono:  </STRONG><span>  {{ miembro.fk_usuario.perfil.telefono }}</span><br>
+                                        <STRONG>Email:     </STRONG><span>  {{ miembro.fk_usuario.email }}</span>
+                                    </p>
+                                    <p><a href="#" class="btn btn-green" role="button"style="margin:0 0 0 50px;">Ver Perfil</a></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <img src="../../media/hoteshi.jpg"  alt= "..."style="width: 150px;height: 150px;">
-                        <div class="caption">
-                        <h4>Hoteshi</h4>
-                          <div class="rating">
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i>
-                          </div>
-                            <p>
-                                <STRONG>Cargo:     </STRONG><span>  Estudiante</span><br>
-                                <STRONG>Teléfono:  </STRONG><span>  809898897</span><br>
-                                <STRONG>Email:     </STRONG><span>  hoteshi@dsdsdks.com</span>
-                            </p>
-                            <p><a href="#" class="btn btn-green" role="button"style="margin:0 0 0 50px;">Ver Perfil</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <img src="../../media/hoteshi.jpg"  alt= "..."style="width: 150px;height: 150px;">
-                        <div class="caption">
-                        <h4>Hoteshi</h4>
-                          <div class="rating">
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i>
-                          </div>
-                            <p>
-                                <STRONG>Cargo:     </STRONG><span>  Estudiante</span><br>
-                                <STRONG>Teléfono:  </STRONG><span>  809898897</span><br>
-                                <STRONG>Email:     </STRONG><span>  hoteshi@dsdsdks.com</span>
-                            </p>
-                            <p><a href="#" class="btn btn-green" role="button"style="margin:0 0 0 50px;">Ver Perfil</a></p>
-                        </div>
-                    </div>
-                </div>
+                    {% endif %}
+                 {% endfor %}
             </div>
         </div>    
     </div>

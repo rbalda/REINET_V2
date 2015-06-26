@@ -64,27 +64,30 @@
                         <div class="pm-list">
                             <ul>
                                 {% for miembro in lista_miembros %}
-                                <li>
-                                    <p class="text-muted" >
-                                        <img src="../../media/noPicture.png" alt="...">
-                                        <a href="#">{{ miembro.fk_usuario.username }}</a>
-                                        <br><STRONG>Cargo:</STRONG> {{ miembro.cargo }}
-                                        <br><STRONG>Fecha de solicitud:</STRONG>
-                                        {{ miembro.fecha_peticion|date:"M d, Y" }}
-                                    </p>
+                                    {% if miembro.estado == 0%}
+                                        <li>
+                                            <p class="text-muted" >
+                                                {% load staticfiles %}
+                                                <img src="{{ miembro.fk_usuario.perfil.foto.url }}" alt="...">
+                                                <a href="#">{{ miembro.fk_usuario.username }}</a>
+                                                <br><STRONG>Cargo:</STRONG> {{ miembro.cargo }}
+                                                <br><STRONG>Fecha de solicitud:</STRONG>
+                                                {{ miembro.fecha_peticion|date:"M d, Y" }}
+                                            </p>
 
-                                    <p class="text-muted" >
-                                        <a class="inbox-dialog"><br>
-                                            <button type="button" class="btn btn-primary btn-md ">
-                                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-md">
-                                                <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
-                                            </button>
-                                        </a>
-                                    </p>
-                                    <div class="clearfix"></div>
-                                </li>
+                                            <p class="text-muted" >
+                                                <a class="inbox-dialog"><br>
+                                                    <button type="button" class="btn btn-primary btn-md ">
+                                                        <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-md">
+                                                        <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
+                                                    </button>
+                                                </a>
+                                            </p>
+                                            <div class="clearfix"></div>
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
