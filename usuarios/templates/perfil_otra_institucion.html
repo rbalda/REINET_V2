@@ -34,44 +34,12 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container col-sm-offset-3">
     <div class="row">
 
         <!-- Menu del Perfil -->
         
-        <div class="col-sm-4 col-md-3">
-            <div class="user-menu bottom-15">
-                <ul>
-                    {% if esAfiliado != True %}
-                    {% csrf_token %}
-                    <label id="listarInst">
-                        <a>Click aqu&iacute; para solicitar membresía a instituci&oacute;n</a>
-                    </label>
-                    <label hidden id="mensajeMembresia">
-                        Se enviará una solicitud a la Institución la cual será aprobada posteriormente
-                    </label>
-
-                    <div hidden id="formInstitucion" class="form-group">
-                        <select class="form-control" id="institucion">
-                            <optgroup label="Instutucion">
-                                {% for inst in instituciones %}
-                                    {% if inst.id_institucion != 1 %}
-                                        <option value="{{ inst.id_institucion }}">{{ inst.nombre }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </optgroup>
-                        </select>
-                    </div>
-                    <label id="asIndependiente" hidden>
-                        <a>No deseo perternecer a una Insitución por ahora</a>
-                    </label>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
         
-        <div class="col-sm-1"></div>
-
         <!-- Foto del Perfil-->
         <div class="col-sm-8 col-md-6">
             <div class="row">
@@ -97,15 +65,46 @@
                     </h3>
                     <hr>
 
-                    <div class="bottom-15" style="text-align:center">
-                        <a method='POST' href="/enviarMensaje/" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i
-                                class="fa fa-envelope"></i> Redactar Mensaje</a>
+                    <div>
+                        <button class="col-sm-6 btn btn-green btn-sm" type="button" style="text-align:center;" onclick="window.location.href='/enviarMensaje/'"><i class="fa fa-envelope btn-sm"></i>Redactar Mensaje</button>
+                        
+                        <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
+                        data-placement="bottom" data-tigger="focus"><i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>                        
+                       
+                    </div>
+                    <div id="popover_content_wrapper" data-placement="bottom" style="display: none">
+                        <div>Complete el siguiente formulario:</div>
+                        <br>
+                        <label>Cargo</label>
+                        <input id="txt_cargo" name="txt_cargo" type="text"
+                                       class="form-control" id="cargo" placeholder="Ingrese su cargo">
+                       <label>Descripci&oacute;n</label>
+                        <input id="txt_description" name="txt_description" type="text"
+                                       class="form-control" id="descripcion" placeholder="Ingrese su cargo">
+                        <br>
+                        <button id="btn_aceptarSuspender" type="submit" class="btn btn-blue" style="left:30%;position:left;">
+                            Confirmar
+                        </button>
+                        <button id="btn_cancelarSuspender" type="submit" class="btn btn-white" style="left:30%;position:right;">
+                            Cancelar
+                        </button>
+                        <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
                     </div>
                 </div>
             </div>
 
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
 
             <!-- Informacion General-->
+            
+
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-6" id="collapseGeneral">
@@ -149,7 +148,7 @@
                         </div>
                     </div>
 
-                    <!-- Informacion Contacto-->
+                    
                     <div class="col-sm-6" id="collapseContacto">
                         <div class="panel-heading btn-outline btn-primary"
                              style="text-align:center;background-color:#123A82">
@@ -190,28 +189,30 @@
     </div>
 </div>
 
-    <script type="text/javascript">
+<script>
+    /*
+     Autor: Kevin Zambrano y Fausto Mora
+     Nombre de funcion: funciones anonimas
+     Entrada: eventos
+     Salida: http
+     Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
+     */
+
+    $(document).ready(function () {
 
 
+        $('#btn_sucribirte').popover({
+            html: true,
+            content: function () {
+                return $('#popover_content_wrapper').html();
 
-    $("#listarInst").click(function () {
-        $("#formInstitucion").attr("hidden", false);
-        $("#asIndependiente").attr("hidden", false);
-        $("#listarInst").attr("hidden", true);
-        $("#institucion").attr("name", "institucion");
-        $("#mensajeMembresia").attr("hidden", false);
+            }
+
+        });
+
 
     });
-    $("#asIndependiente").click(function () {
-        $("#formInstitucion").attr("hidden", true);
-        $("#listarInst").attr("hidden", false);
-        $("#mensajeMembresia").attr("hidden", true);
-        $("#institucion").removeAttr("name");
-        $("#asIndependiente").attr("hidden", true);
 
-    });
-
-    </script>
-
+</script>
 
 {% endblock %}
