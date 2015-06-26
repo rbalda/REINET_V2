@@ -625,10 +625,14 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		esadmin = request.session['es_admin']
 		args['es_admin']= esadmin
 		membresia = membresias.filter(estado=1).exclude(fk_institucion=1).first()
-		try:
-			institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
-			args['institucion'] = institucion
-		except ObjectDoesNotExist:
+		if membresia is not None:
+			try:
+				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+				args['institucion'] = institucion
+			except ObjectDoesNotExist:
+				institucion = "Independiente"
+				args['institucion'] = institucion
+		else:
 			institucion = "Independiente"
 			args['institucion'] = institucion
 
