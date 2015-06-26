@@ -650,33 +650,29 @@ Autores: Ray Montiel, Edinson Sánchez y Roberto Yoncon
 Nombre de funcion: perfilInstitucion
 Entrada: request GET
 Salida: Perfil de Institucion
-Descripcion:
-Ultima Modificacion: Rolando Sornoza - Se corrigio la logica de la funcion.
 """
 
 @login_required
-def perfilInstitucion(request):
-	session = request.session['id_usuario']
+def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
+	session = request.session['id_usuario'] #Error 10, usar palabras en español
 	usuario = Perfil.objects.get(id=session)
 	args = {}
 
 	if usuario is not None:
-		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
-		#Saco la membresia de la que soy administrador, y me aseguro que no sea la institucion independiente.
-		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=usuario.id).exclude(fk_institucion=1).first()
-		#Si existe un registro es por que soy administrador de una institucion.
-		if membresia is not None :
-			if membresia.es_administrator :
-				print membresia.id_membresia
-				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
-				numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
-				args['institucion'] = institucion
-				args['numMiembros'] = numMiembros
-		#Sino, simplemente no tengo ninguna institucion a mi cargo y regreso a mi perfil
+		membresia = Membresia.objects.filter(fk_usuario=usuario.id).first()
+		print "sadhas"
+		if membresia.es_administrator:
+			print "entre"
+			print membresia.id_membresia
+			institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+			#print institucion
+			numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
+			args['institucion'] = institucion
+			args['numMiembros'] = numMiembros
 		else:
+			print "aca"
 			args['error1'] = "Usted no es miembro de ninguna Institucion"
-			return HttpResponseRedirect('/perfilUsuario/')
 
 	else:
 		args['error'] = "Error al cargar los datos"
@@ -1269,6 +1265,40 @@ def mensajesEnviados(request):
 	args['range']=range(len(mensajes))
 	args['es_admin'] = request.session['es_admin']
 	return render_to_response('mensajes_enviados.html',args)
+
+"""
+Autor:
+Nombre de la funcion: mostrarMembresias
+Entrada:
+Salida:Muestra las membresias enviadas
+Descripción:Esta función permite mostrar las membresias 
+"""
+@login_required
+def mostrarMembresias(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	
+	
+	
+	return render_to_response('membresias.html',args)
+
+	"""
+Autor:
+Nombre de la funcion: mostrar_miembros_institucion
+Entrada:
+Salida: Muestra los miembros de una institución
+Descripción:Esta función permite mostrar los miembros que pertenecen a una institución  
+"""
+@login_required
+def mostrar_miembros_institucion(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	
+	
+	
+	return render_to_response('miembros_institucion.html',args)
 
 
 """
