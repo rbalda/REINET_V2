@@ -1152,7 +1152,7 @@ def ver_bandeja_entrada(request):
 	usuario=User.objects.get(id=sesion)
 
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)[:8]
 	except:
 		mensajes= None
 	args={}
@@ -1196,10 +1196,10 @@ def enviarMensaje(request):
 				mensajes.mensaje= texto_mensaje
 				mensajes.fecha_de_envio=datetime.datetime.now()
 				mensajes.save()
-				return HttpResponseRedirect('/bandejaDeEntrada/')
+				return HttpResponseRedirect('/BandejaDeEntrada/')
 			else:
 				print "usuariou invalido1"
-				return HttpResponseRedirect('/bandejaDeEntrada/')
+				return HttpResponseRedirect('/BandejaDeEntrada/')
 		except Exception as e:
 			print "usuariou invalido2"
 			print e
@@ -1242,7 +1242,7 @@ def verMensaje(request):
 		args['es_admin'] = request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
-		return HttpResponseRedirect("/bandejaDeEntrada/")
+		return HttpResponseRedirect("/BandejaDeEntrada/")
 
 
 """
@@ -1260,7 +1260,7 @@ def mensajesEnviados(request):
 	usuario=User.objects.get(id=sesion)
 
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'])[:8]
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = True)[:8]
 	except:
 		mensajes= None
 	args={}
@@ -1314,3 +1314,62 @@ def administrar_membresias(request):
 
 	args.update(csrf(request))
 	return render_to_response('administrar_membresias.html', args)
+
+
+
+
+"""
+Autor: Leonel Ramirez, Jose Velez
+Nombre de funcion: eliminarMensajeRecibido
+Entrada: request POST
+Salida: elimina mensaje en bandeja de entrada.
+Descripción: elimina y actuliza los mensaje del buzon.
+"""
+@login_required
+def eliminarMensajeRecibido(request,):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		#mensaje =Mensaje.objects.filter(id_mensaje=9)
+		#args['mensaje'] = mensaje
+		print "MENSAJE: ",idM
+		mensaje = Mensaje.objects.all().filter(id_mensaje=idM).update(visible_receptor=False)
+		mensaje.borrarMensaje()
+		#args['mensaje'] = mensaje	
+		print "funcion eliminar mensaje:", mensaje.mensaje
+	except :
+		return HttpResponseRedirect('/BandejaDeEntrada/')
+
+
+	#print "Eliminar:  ",mensaje
+	return HttpResponseRedirect('/BandejaDeEntrada/')
+
+"""
+Autor: Leonel Ramirez, Jose Velez
+Nombre de funcion: eliminarMensajeEnviado
+Entrada: request POST
+Salida: elimina mensaje en enviados.
+Descripción: elimina y actuliza los mensaje del buzon.
+"""
+@login_required
+def eliminarMensajeEnviado(request,):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		#mensaje =Mensaje.objects.filter(id_mensaje=9)
+		#args['mensaje'] = mensaje
+		print "MENSAJE: ",idM
+		mensaje = Mensaje.objects.all().filter(id_mensaje=idM).update(visible_emisor=False)
+		mensaje.borrarMensaje()
+		#args['mensaje'] = mensaje	
+		print "funcion eliminar mensaje:", mensaje.mensaje
+	except :
+		return HttpResponseRedirect('/mensajesEnviados/')
+
+
+	#print "Eliminar:  ",mensaje
+	return HttpResponseRedirect('/mensajesEnviados/')

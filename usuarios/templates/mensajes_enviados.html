@@ -53,9 +53,13 @@
                     <p class="text-muted">
                         <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
                     </p>
-                    <p class="text-muted">
-                        <i class="pull-right fa fa-trash"></i>
-                    </p>
+                    <div>
+                        <a id="" href="/eliminarMensajeEnviado/?q={{ msj.id_mensaje }}" class="inbox-dialog">
+                            <p class="text-muted">
+                                <i class="pull-right fa fa-trash"></i>
+                            </p>
+                            </a>
+                        </div>
                     <div class="clearfix"></div>
                 </li>
                 {%endfor%}

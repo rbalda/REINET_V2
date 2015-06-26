@@ -52,7 +52,8 @@ urlpatterns = patterns('',
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
         url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
         url(r'^mensajesEnviados[/]?$', mensajesEnviados, name='mensajesEnviados'),
-
+        url(r'^eliminarMensajeRecibido[/]?$', eliminarMensajeRecibido, name='eliminarMensajeRecibido'),
+        url(r'^eliminarMensajeEnviado[/]?$', eliminarMensajeEnviado, name='eliminarMensajeEnviado'),
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),
