@@ -13,8 +13,11 @@ urlpatterns = patterns('',
         url(r'^recuperarPassword[/]?$','usuarios.views.recuperarPassword',name='recuperarPassword'),
         url(r'^suspender_usuario[/]?$',suspenderUsuario,name='suspenderUsuario'),
 		url(r'^perfilUsuario[/]?$','usuarios.views.perfilUsuario', name='perfilUsuario'),
-
         url(r'^perfilInstitucion[/]?$', 'usuarios.views.perfilInstitucion', name='perfilInstitucion'),
+        
+        url(r'^SolicitudesInstitucion[/]?$', 'usuarios.views.mostrarMembresias', name='SolicitudesInstitucion'),
+        url(r'^MiembrosInstitucion[/]?$', 'usuarios.views.mostrar_miembros_institucion', name='MiembrosInstitucion'),
+
         url(r'^envioSolicitud[/]?$','usuarios.views.registrarSolicitud', name="envio_solicitud"),
         url(r'^registro_institucion/(?P<codigo>\w{0,50})[/]?$',registro_institucion,name='index'),
         url(r'^verPeticiones[/]?$',verPeticiones,name='verPeticiones'),

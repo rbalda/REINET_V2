@@ -1242,3 +1242,37 @@ def mensajesEnviados(request):
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
 	return render_to_response('mensajes_enviados.html',args)
+
+"""
+Autor:
+Nombre de la funcion: mostrarMembresias
+Entrada:
+Salida:Muestra las membresias enviadas
+Descripción:Esta función permite mostrar las membresias 
+"""
+@login_required
+def mostrarMembresias(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	
+	
+	
+	return render_to_response('membresias.html',args)
+
+	"""
+Autor:
+Nombre de la funcion: mostrar_miembros_institucion
+Entrada:
+Salida: Muestra los miembros de una institución
+Descripción:Esta función permite mostrar los miembros que pertenecen a una institución  
+"""
+@login_required
+def mostrar_miembros_institucion(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	
+	
+	
+	return render_to_response('miembros_institucion.html',args)
