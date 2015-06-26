@@ -54,14 +54,15 @@
                         </li>
                         <li>
                             <a href="/SolicitudesInstitucion/">
-                                <i class="sign fa fa-envelope bg-black"></i> Membresías <i
-                                    class="fa fa-chevron-right pull-right"></i>
+                                <i class="sign fa fa-users " style="background-color:#0099ff;color:white"></i>Membres&iacute;as
+                                <i class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
                         
                     </ul>
                 </div>
             </div>
+            
             <div class="col-md-12 col-md-8">
                 <ul class="nav nav-tabs">
                     <li role="presentation" class="active"><a href="/SolicitudesInstitucion/">Solicitudes</a></li>
@@ -70,27 +71,43 @@
                 <div class="row">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <tr class="success">
-                                    <td ><STRONG>Número</STRONG></td>
-                                    <td ><STRONG>Nombres</STRONG></td>
-                                    <td ><STRONG>Cargo</STRONG></td>
-                                    <td ><STRONG>Fecha de Solicitud</STRONG></td>
-                                    <td ><STRONG>Estado</STRONG></td>
-                                </tr>
-                                <tr>
-                                    <td >1</td>
-                                    <td >Henry Lasso</td>
-                                    <td >Estudiante</td>
-                                    <td >24/06/15</td>
-                                    <td ><button type="button" class="btn btn-primary btn-xs">
-                                        <span class="glyphicon glyphicon-plus-sign"></span></button>
-                                        <button type="button" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-minus-sign"></span></button>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="pm-list">
+                        <ul>
+                    <!-- First dialog -->
+                            <li>
+                                <p class="text-muted">
+                                    <img src="../../media/noPicture.png" alt="...">
+                                    <a href="#">Henry Lasso</a><br>
+                                    <STRONG>Cargo:</STRONG> Estudiante <br><STRONG>Fecha de solicitud:</STRONG> 25/06/2015
+                                </p>
+                                <p class="text-muted">
+                                    <a class="inbox-dialog"><br>
+                                        <button type="button" class="btn btn-primary btn-md">
+                                        <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+                                        <button type="button" class="btn btn-default btn-md">
+                                        <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                                    </a>
+                                </p>
+                                <div class="clearfix"></div>
+                            </li>
+                <!-- Second dialog -->
+                            <li>
+                                <p class="text-muted">
+                                    <img src="../../media/noPicture.png" alt="...">
+                                    <a href="#">Henry Lasso</a><br>
+                                    <STRONG>Cargo:</STRONG> Estudiante <br><STRONG>Fecha de solicitud:</STRONG> 25/06/2015
+                                </p>
+                                <p class="text-muted">
+                                    <a class="inbox-dialog"><br>
+                                        <button type="button" class="btn btn-primary btn-md">
+                                        <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+                                        <button type="button" class="btn btn-default btn-md">
+                                        <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                                    </a>
+                                </p>
+                                <div class="clearfix"></div>
+                            </li>                
+                        </ul>
                         </div>
                     </div>
                     <div class="col-md-1"></div>
@@ -98,10 +115,6 @@
             </div>
     </div>
 
-
-
-
-
-
+        
 
 {% endblock %}

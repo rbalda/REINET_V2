@@ -536,7 +536,12 @@ def editar_usuario(request):
 
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
+		user = request.user
+		membresia = Membresia.objects.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 		args.update(csrf(request))
+		print args
 		return render_to_response('Usuario_Edit-Profile.html', args)
 
 
@@ -548,7 +553,7 @@ Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
-def terminosCondiciones(request): #Error 10, nombre inadecuado de la funcion
+def terminosCondiciones(request):
 	return render(request, 'terms.html')
 
 
@@ -569,6 +574,10 @@ def inicio(request):
 
 	if usuario is not None:
 		args['usuario'] = usuario
+		user = request.user
+		membresia = Membresia.objects.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 
 		if(usuario.privacidad>=10000):
 			usuario.privacidad = abs(usuario.privacidad-10000)
@@ -576,6 +585,7 @@ def inicio(request):
 			print usuario.privacidad
 
 	else:
+		
 		args['error'] = "Error al cargar los datos"
 
 	args.update(csrf(request))
@@ -603,8 +613,12 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
 		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
-		institucion = "nohay"
+		institucion = "Independiente"
 		args['esAdmin']= False
+		user = request.user
+		membresia = Membresia.objects.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 		if membresias.filter(es_administrator=1).count() != 0:
 			administracion = membresias.filter(es_administrator=1)
 			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)
@@ -616,7 +630,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 				if institucion.nombre != "Independiente":
 					break
 				else:
-					institucion = "nohay"
+					institucion = "Independiente"
 		#listaInstituciones = []
 		#for num in range(0, membresia.count()):
 		#	listaInstituciones.append(
@@ -638,7 +652,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 
 
 """
-Autores: Ray Montiel y Edinson Sánchez
+Autores: Ray Montiel, Edinson Sánchez y Roberto Yoncon
 Nombre de funcion: perfilInstitucion
 Entrada: request GET
 Salida: Perfil de Institucion
@@ -659,7 +673,9 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 			print membresia.id_membresia
 			institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
 			#print institucion
+			numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
 			args['institucion'] = institucion
+			args['numMiembros'] = numMiembros
 		else:
 			print "aca"
 			args['error1'] = "Usted no es miembro de ninguna Institucion"
@@ -695,6 +711,10 @@ def verPerfilInstituciones(request, institucionId):
 				print "redirect"
 				return redirect('/perfilInstitucion')
 			else:
+				args['esAfiliado']= False
+				esAfiliado = Membresia.objects.filter(fk_institucion=id_institucion,fk_usuario=sesion,estado=1).count()
+				if esAfiliado>0:
+					args['esAfiliado']= True
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
@@ -780,22 +800,27 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 		return cerrarSesion(request)
 	else:
 		args = {}
+		user = request.user
+		membresia = Membresia.object.get(fk_usuario=user)
+		if membresia.es_administrator :
+			args['is_admin']=True
 		error = "Contraseña Incorrecta"
 		args['error'] = error
 		args['usuario'] = usuario
 		args.update(csrf(request))
 		return render(request, 'Usuario_Edit-Profile.html', args)
+		
 
 
 """
 Autor: Angel Guale
-Nombre de funcion: generarCodigo
+Nombre de funcion: generar_codigo
 Entrada: request GET o POST
-Salida: Formulario de generarCodigo
+Salida: Formulario de generar_codigo
 Descripción: Genera un codigo para registrar institucion
 """
 
-def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
+def generar_codigo(request): #Error 10, nombre inadecuado de la funcion
 	if request.method == 'POST':
 		username = request.POST['username'] #Error 10, usar palabras en español
 		usuario = Perfil.objects.get(username=username)
@@ -809,13 +834,13 @@ def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
 		peticion.fk_usuario = usuario
 		peticion.save()
 		args = {}
-		args['mensaje'] = "Codigo Institucion generado"
-		return render_to_response('Administrador_generar_codigo.html', args)
+		args['mensaje'] = "Codigo Institución Generado"
+		return render_to_response('generar_codigo.html', args)
 	else:
 		args = {}
 		args.update(csrf(request))
 
-		return render_to_response('Administrador_generar_codigo.html', args)
+		return render_to_response('generar_codigo.html', args)
 
 
 """
@@ -1124,7 +1149,7 @@ que un usuario tiene en su bandeja de entrada
 """
 
 @login_required
-def bandejaDeEntrada(request):
+def ver_bandeja_entrada(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 
