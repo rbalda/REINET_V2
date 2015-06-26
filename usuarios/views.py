@@ -713,6 +713,7 @@ def verPerfilInstituciones(request, institucionId):
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
 				args['duenho'] = duenho_institucion
+				args['es_admin'] = request.session['es_admin']
 				print "aca"
 		except:
 			return redirect('/inicioUsuario')
@@ -795,15 +796,7 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 	else:
 		args = {}
 		user = request.user
-		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
-		if membresia is not None :
-			if membresia.es_administrator :
-				args['es_admin']=True
-				print "soyadmin"
-		else:
-			args['es_admin']=False
-			print "no soy admin"
-
+		args['es_admin'] = request.session['es_admin']
 		error = "Contraseña Incorrecta"
 		args['error'] = error
 		args['usuario'] = usuario
