@@ -67,9 +67,10 @@
 
                     <div>
                         <button class="col-sm-6 btn btn-green btn-sm" type="button" style="text-align:center;" onclick="window.location.href='/enviarMensaje/'"><i class="fa fa-envelope btn-sm"></i>Redactar Mensaje</button>
-                        
+                        {% if es_afiliado == False %}
                         <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
-                        data-placement="bottom" data-tigger="focus"><i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>                        
+                        data-placement="bottom" data-tigger="focus"><i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>
+                        {% endif %}                        
                        
                     </div>
                     <div id="popover_content_wrapper" data-placement="bottom" style="display: none">

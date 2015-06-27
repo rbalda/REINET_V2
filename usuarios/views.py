@@ -709,16 +709,18 @@ def verPerfilInstituciones(request, institucionId):
 				print "redirect"
 				return redirect('/perfilInstitucion')
 			else:
-				args['esAfiliado']= False
-				esAfiliado = Membresia.objects.filter(fk_institucion=id_institucion,fk_usuario=sesion,estado=1).count()
-				if esAfiliado>0:
-					args['esAfiliado']= True
+				args['es_afiliado'] = False
+				esAfiliado = Membresia.objects.filter(fk_usuario=sesion,estado=1).exclude(fk_institucion=1).count()
+				print 'esAfiliado:' + str(esAfiliado)
+				if esAfiliado>0 or request.session['es_admin']==True:
+					print 'entro'
+					args['es_afiliado']= True
+					print args['es_afiliado']
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
 				args['duenho'] = duenho_institucion
 				args['es_admin'] = request.session['es_admin']
-				print "aca"
 		except:
 			return redirect('/inicioUsuario')
 
