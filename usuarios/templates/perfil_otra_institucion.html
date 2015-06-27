@@ -53,6 +53,7 @@
 
                         </div>
                     </div>
+                </div>
 
             <!-- //// PERFIL PRINCIPAL ///// -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -151,9 +152,9 @@
                 });
               });
 
-              //$('#btn_aceptar_Suscripcion').on("click",function(){
+              
                 $(document).on('click','#btn_aceptar_Suscripcion',function(){
-                    alert($('#txt_cargo').val());
+                    //alert($('#txt_cargo').val());
                     console.log('dentro de suscribirAInstitucion');
                     console.log($('#txt_cargo').text());
                     $.ajax({
