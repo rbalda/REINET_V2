@@ -1159,6 +1159,7 @@ def enviarMensaje(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	if request.method=='POST':
+		print "esa eh lo muchachos"
 		destinatario = request.POST['destinatario']
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
@@ -1169,6 +1170,7 @@ def enviarMensaje(request):
 		try:
 			mensajes = Mensaje()
 			receptor=User.objects.get(username=destinatario)
+			print "oe que tiro :/"
 			if receptor is not None:
 				mensajes.fk_emisor = emisor
 				mensajes.fk_receptor = receptor
