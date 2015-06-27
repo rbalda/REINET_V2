@@ -27,13 +27,13 @@
 		 <script>
 		 	$(document).ready(function(){
 		 		$(function(){
-		 			$('#Aceptar{{m.id_membresia}}').click(accionMembresiaA);
+		 			$('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
 		 			
 		 			function accionMembresiaA(){
 		 				console.log('hizo click en Aceptar');
 		 				$.ajax({
 		 					data : {
-		 						'membresia' : {{m.id_membresia}},
+		 						'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 1,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
 		 					},
@@ -43,23 +43,40 @@
 		 						var objeto = JSON.parse(data);
 
 		 						if (objeto.membresia_save){
-		 							$('#solicitud{{m.id_membresia}}').remove();
+		 							$('#solicitud{{miembro.id_membresia}}').remove();
+		 							$(function(){
+                                  		$('#panel_miembros').ready(actualizarListaMiembros);
+
+                                    	function actualizarListaMiembros(){
+                                    		$.ajax({
+                                      			data:{
+                                        			'institucion':{{institucion.id_institucion}}
+                                      			},
+                                      			type:'get',
+                                      			url: '/MiembrosInstitucion/',
+                                      			success: function(data){
+                                        			$('#panel_miembros').html(data)
+                                      			}
+                                    		});
+                                  		}
+                                	});
 		 						}
 		 					}
 		 				});
 		 			}
-
+		 			
 		 		});
+		 		
 		 	});
 
 		 	$(document).ready(function(){
-		 		$('#Rechazar{{m.id_membresia}}').click(accionMembresiaR);
+		 		$('#Rechazar{{miembro.id_membresia}}').click(accionMembresiaR);
 		 			
 		 			function accionMembresiaR(){
 		 				console.log('hizo click en Rechazar');
 		 				$.ajax({
 		 					data : {
-		 						'membresia' : {{m.id_membresia}},
+		 						'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 0,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
 		 					},
@@ -69,7 +86,7 @@
 		 						var objeto = JSON.parse(data);
 
 		 						if (objeto.membresia_save){
-		 							$('#solicitud{{m.id_membresia}}').remove();
+		 							$('#solicitud{{miembro.id_membresia}}').remove();
 		 						}
 		 					}
 		 				});
