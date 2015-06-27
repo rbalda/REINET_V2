@@ -12,7 +12,7 @@
         </p>
 
         <p class="text-muted" >
-            <a class="inbox-dialog"><br>
+            <a class="inbox-dialog col-sm-offset-4"><br>
                 <button type="button" class="btn btn-green btn-md " id="Aceptar{{miembro.id_membresia}}">
                     <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
                 </button>
@@ -27,13 +27,13 @@
 		 <script>
 		 	$(document).ready(function(){
 		 		$(function(){
-		 			$('#Aceptar{{m.id_membresia}}').click(accionMembresiaA);
+		 			$('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
 		 			
 		 			function accionMembresiaA(){
 		 				console.log('hizo click en Aceptar');
 		 				$.ajax({
 		 					data : {
-		 						'membresia' : {{m.id_membresia}},
+		 						'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 1,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
 		 					},
@@ -43,7 +43,7 @@
 		 						var objeto = JSON.parse(data);
 
 		 						if (objeto.membresia_save){
-		 							$('#solicitud{{m.id_membresia}}').remove();
+		 							$('#solicitud{{miembro.id_membresia}}').remove();
 		 						}
 		 					}
 		 				});
@@ -53,13 +53,13 @@
 		 	});
 
 		 	$(document).ready(function(){
-		 		$('#Rechazar{{m.id_membresia}}').click(accionMembresiaR);
+		 		$('#Rechazar{{miembro.id_membresia}}').click(accionMembresiaR);
 		 			
 		 			function accionMembresiaR(){
 		 				console.log('hizo click en Rechazar');
 		 				$.ajax({
 		 					data : {
-		 						'membresia' : {{m.id_membresia}},
+		 						'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 0,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
 		 					},
@@ -69,7 +69,7 @@
 		 						var objeto = JSON.parse(data);
 
 		 						if (objeto.membresia_save){
-		 							$('#solicitud{{m.id_membresia}}').remove();
+		 							$('#solicitud{{miembro.id_membresia}}').remove();
 		 						}
 		 					}
 		 				});
