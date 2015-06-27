@@ -1335,7 +1335,8 @@ def eliminarMensajeRecibido(request,):
 		#mensaje =Mensaje.objects.filter(id_mensaje=9)
 		#args['mensaje'] = mensaje
 		print "MENSAJE: ",idM
-		mensaje = Mensaje.objects.all().filter(id_mensaje=idM).update(visible_receptor=False)
+		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_receptor=False)
+		mensaje=Mensaje.objects.get(id_mensaje = idM)
 		mensaje.borrarMensaje()
 		#args['mensaje'] = mensaje	
 		print "funcion eliminar mensaje:", mensaje.mensaje
@@ -1363,10 +1364,15 @@ def eliminarMensajeEnviado(request,):
 		#mensaje =Mensaje.objects.filter(id_mensaje=9)
 		#args['mensaje'] = mensaje
 		print "MENSAJE: ",idM
-		mensaje = Mensaje.objects.all().filter(id_mensaje=idM).update(visible_emisor=False)
+		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_emisor=False)
+		mensaje=Mensaje.objects.get(id_mensaje = idM)
+
 		mensaje.borrarMensaje()
 		#args['mensaje'] = mensaje	
-		print "funcion eliminar mensaje:", mensaje.mensaje
+		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
+		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
+		print "mensaje: ", mensaje.mensaje
+	
 	except :
 		return HttpResponseRedirect('/mensajesEnviados/')
 
