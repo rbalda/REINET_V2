@@ -647,6 +647,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 	#args['usuario']=usuario
 	return render_to_response('profile_usuario.html', args)
 
+
 """
 Autores: Ray Montiel, Edinson Sánchez y Roberto Yoncon
 Nombre de funcion: perfilInstitucion
@@ -1408,8 +1409,8 @@ def suscribirAInstitucion(request):
 			solicitudMembresia = Membresia.objects.get(fk_institucion=institucion.id_institucion,fk_usuario=request.user.id)
 
 			if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
-				solicitudMembresia.cargo = 'Miembro'
-				solicitudMembresia.descripcion_cargo = 'descripcion'
+				solicitudMembresia.cargo = request.POST['cargo']
+				solicitudMembresia.descripcion_cargo = request.POST['descripcion']
 				solicitudMembresia.fecha_peticion = datetime.datetime.now()
 				solicitudMembresia.fecha_aceptacion = None
 				solicitudMembresia.estado = 0
@@ -1426,8 +1427,8 @@ def suscribirAInstitucion(request):
 
 				solicitudMembresia = Membresia()
 				solicitudMembresia.es_administrator = False
-				solicitudMembresia.cargo = 'Miembro'
-				solicitudMembresia.descripcion_cargo = 'descripcion'
+				solicitudMembresia.cargo = request.POST['cargo']
+				solicitudMembresia.descripcion_cargo = request.POST['descripcion']
 				solicitudMembresia.fecha_peticion = datetime.datetime.now()
 				solicitudMembresia.fecha_aceptacion = None
 				solicitudMembresia.estado = 0
@@ -1484,4 +1485,65 @@ def verificarSuscripcion(request):
 	else:
 		return redirect('/')
 
+"""
+Autor: Fausto Mora
+Nombre de funcion: buzonMembresias
+Entrada: request get
+Salida: envia un HttpResponse
+Descripción: Esta funcion carga las membresias en el perfil 
+de la institucion
+"""
+
+def buzonMembresias(request):
+	if request.is_ajax():
+		args={}
+		try:
+			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
+			membresiasPendientes = Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 0).order_by('fecha_peticion')
+			args['membresiasPendientes'] = membresiasPendientes
+			args.update(csrf(request))
+			return render(request,'buzon_membresias.html',args)
+
+		except Institucion.DoesNotExist:
+			print 'error no existe institucion'
+		except Membresia.DoesNotExist:
+			print 'error en membresias'
+	else:
+		return redirect('/')
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: accionMembresia
+Entrada: request post
+Salida: envia un response
+Descripción: Esta funcion carga maneja la aceptacion y rechazo
+de las solicitudes de membresia de una institucion
+"""
+
+def accionMembresia(request):
+	if request.is_ajax():
+		print 'dentro del accionMembresia'
+		print 'otra cosa'
+		try:
+			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
+			aux = int(request.POST['accion'])
+			print type(aux)
+			print aux
+			print aux == 1
+			if aux == 1:
+				membresia.estado = 1
+				membresia.fecha_aceptacion = datetime.datetime.now()
+			else:
+				membresia.estado = -1
+
+			
+			membresia.save()
+			print 'al parecer se guardo'
+			response = JsonResponse({'membresia_save':True})
+			return HttpResponse(response.content)
+
+		except Membresia.DoesNotExist:
+			print 'membresia no existe'
+	else:
+		return redirect('/')
 
