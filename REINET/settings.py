@@ -121,7 +121,7 @@ DATABASES = {
 #         'USER':'reinet',
 #         'PASSWORD':'ReInEt2015'
 #     }
-#  }
+# }
 
 
 
@@ -178,6 +178,7 @@ EMAIL_USE_TLS = True
 
 #configuracion de swampdragon para real time
 SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
+DRAGON_URL = 'http//localhost:9999/'
 
 #Si realizan cambios en este archivo, que sean los technical leaders los que lo realicen.
 #Si algun programador necesita hacer algun cambio conversar con su technical.
