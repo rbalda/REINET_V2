@@ -67,12 +67,12 @@
 
                     <div>
                         <button class="col-sm-6 btn btn-green btn-sm" type="button" style="text-align:center;" onclick="window.location.href='/enviarMensaje/'"><i class="fa fa-envelope btn-sm"></i>Redactar Mensaje</button>
-                        
+                        {% if es_afiliado == False %}
                         <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
-                        data-placement="bottom" data-tigger="focus"><i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>                        
-                       
+                        data-placement="bottom" data-tigger="focus"><i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>
+                        {% endif %}
                     </div>
-                    <div id="popover_content_wrapper" data-placement="bottom" style="display: none">
+                    <div id="popover_content_wrapper" data-placement="bottom" style="display: none" role="dialog">
                         <div>Complete el siguiente formulario:</div>
                         <br>
                         <label>Cargo</label>
@@ -80,15 +80,14 @@
                                        class="form-control" id="cargo" placeholder="Ingrese su cargo">
                        <label>Descripci&oacute;n</label>
                         <input id="txt_description" name="txt_description" type="text"
-                                       class="form-control" id="descripcion" placeholder="Ingrese su cargo">
+                                       class="form-control" id="descripcion" placeholder="Ingrese la descripcion del cargo">
                         <br>
-                        <button id="btn_aceptarSuspender" type="submit" class="btn btn-blue" style="left:30%;position:left;">
+                        <button id="btn_aceptar_Suspender" type="button" class="btn btn-blue" style="left:30%;position:left;">
                             Confirmar
                         </button>
-                        <button id="btn_cancelarSuspender" type="submit" class="btn btn-white" style="left:30%;position:right;">
+                        <button id="btn_cancelar_Suspender" type="button" class="btn btn-white" style="left:30%;position:right;">
                             Cancelar
                         </button>
-                        <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
                     </div>
                 </div>
             </div>
@@ -128,7 +127,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td class="text-muted">Pais</td>
+                                    <td class="text-muted">Pa&iacute;s</td>
                                     <td style="text-align:left">{{ institucion.pais }}</td>
                                 </tr>
 
@@ -199,20 +198,15 @@
      */
 
     $(document).ready(function () {
-
-
         $('#btn_sucribirte').popover({
             html: true,
-            content: function () {
+            content: function () { 
                 return $('#popover_content_wrapper').html();
-
             }
-
         });
-
-
     });
-
 </script>
+
+
 
 {% endblock %}

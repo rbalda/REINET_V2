@@ -709,16 +709,18 @@ def verPerfilInstituciones(request, institucionId):
 				print "redirect"
 				return redirect('/perfilInstitucion')
 			else:
-				args['esAfiliado']= False
-				esAfiliado = Membresia.objects.filter(fk_institucion=id_institucion,fk_usuario=sesion,estado=1).count()
-				if esAfiliado>0:
-					args['esAfiliado']= True
+				args['es_afiliado'] = False
+				esAfiliado = Membresia.objects.filter(fk_usuario=sesion,estado=1).exclude(fk_institucion=1).count()
+				print 'esAfiliado:' + str(esAfiliado)
+				if esAfiliado>0 or request.session['es_admin']==True:
+					print 'entro'
+					args['es_afiliado']= True
+					print args['es_afiliado']
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
 				args['duenho'] = duenho_institucion
 				args['es_admin'] = request.session['es_admin']
-				print "aca"
 		except:
 			return redirect('/inicioUsuario')
 
@@ -1179,6 +1181,7 @@ def enviarMensaje(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	if request.method=='POST':
+		print "esa eh lo muchachos"
 		destinatario = request.POST['destinatario']
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
@@ -1189,6 +1192,7 @@ def enviarMensaje(request):
 		try:
 			mensajes = Mensaje()
 			receptor=User.objects.get(username=destinatario)
+			print "oe que tiro :/"
 			if receptor is not None:
 				mensajes.fk_emisor = emisor
 				mensajes.fk_receptor = receptor
