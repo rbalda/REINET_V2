@@ -55,29 +55,52 @@
                     </div>
 
             <!-- //// PERFIL PRINCIPAL ///// -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
             <div class="col-sm-8">
               <h3 class="hl">{{ institucion.nombre }} <br>
                 <small> {{institucion.siglas}} </small></h3>
               <hr>
+                <div class="col-sm-12" style="text-align:center" id="info_suscripcion"></div>
+              <br>  
 
-              <div class="bottom-15" style="text-align:center; color:black;">
-                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i class="fa fa-envelope"></i> Redactar Mensaje</a> 
-              </div>
-
-              <!-- PARTE DE PRUEBA DE FAUSTO PARA INSCRIPCION-->
-
-              <div style="text-align:center" id="info_suscripcion"></div>
-              <div class="bottom-15" style="text-align:center" id="btn_sucribirte">
-                <a href="#" class="btn btn-info" data-toggle="modal"><i class="fa fa-envelope"></i> Solicitar Membresia </a> 
-              </div>
-              
+                <div>
+                    <button class="col-sm-6 btn btn-green btn-sm" type="button" style="text-align:center;" onclick="window.location.href='/enviarMensaje/'"><i class="fa fa-envelope btn-sm"></i>Redactar Mensaje</button>
+                    
+                    <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
+                    data-placement="bottom">
+                    <i class="fa fa-user-plus  btn-sm"></i>
+                    Solicitar Membresia</button>                        
+                   
+                </div>
+                
+                
+                <div id="popover_content_wrapper" data-placement="bottom" style="display: none" role="dialog">
+                
+                    <div>Complete el siguiente formulario:</div>
+                    <br>
+                    <label>Cargo</label>
+                    <input id="txt_cargo" name="txt_cargo" type="text"
+                                   class="form-control" id="cargo" placeholder="Ingrese su cargo">
+                   <label>Descripci&oacute;n</label>
+                    <input id="txt_description" name="txt_description" type="text"
+                                   class="form-control" id="descripcion" placeholder="Ingrese la descripcion del cargo">
+                    <br>
+                    <button id="btn_aceptar_Suscripcion" type="button" class="btn btn-blue" style="left:30%;position:left;">
+                        Enviar
+                    </button>
+                    <button id="btn_cancelar_Suscripcion" type="button" class="btn btn-white" style="left:30%;position:right;" data-toggle="clickover" onclick="$('#btn_sucribirte').popover('hide');">
+                        Cancelar
+                    </button>
+                    
+                </div>
+                
+            </div>
 
               <script>
               $(document).ready(function(){
                 $(function(){
 
-                  $('#info_suscripcion').removeClass("alert alert-info alert-warning")
+                  $('#info_suscripcion').removeClass("alert alert-info alert-warning");
                   $('#info_suscripcion').hide();
                   $('#btn_sucribirte').ready(function (){
                     console.log('dentro de la verificacion');
@@ -125,30 +148,34 @@
                       }
                     });
                   });
+                });
+              });
 
-                  
-
-                  $('#btn_sucribirte').on('click',suscribirAInstitucion);
-
-                  function suscribirAInstitucion(){
+              //$('#btn_aceptar_Suscripcion').on("click",function(){
+                $(document).on('click','#btn_aceptar_Suscripcion',function(){
+                    alert($('#txt_cargo').val());
                     console.log('dentro de suscribirAInstitucion');
+                    console.log($('#txt_cargo').text());
                     $.ajax({
                         data: {
+                        'cargo':$('#txt_cargo').val(),
+                        'descripcion':$('#txt_description').val(),
                         'institucion' : {{institucion.id_institucion}},
                         'csrfmiddlewaretoken' : '{{ csrf_token }}'
                         },
                         type: 'post',
                         url: '/suscribirAInstitucion/',
                         success: function(data){
-                                var html = "<p>Se ha enviado la solicitud</p>"
-                                var objeto = JSON.parse(data)
-                                console.log(objeto)
+                                var html = "<p>Se ha enviado la solicitud</p>";
+                                var objeto = JSON.parse(data);
+                                console.log(objeto);
 
                                 if (objeto.save_estado){
                                   $('#info_suscripcion').addClass("alert alert-success");
                                   $('#info_suscripcion').html(html);
                                   $('#info_suscripcion').removeClass("alert-info");
                                   $('#info_suscripcion').removeClass("alert-warning");
+                                  $('#btn_sucribirte').popover('hide');
                                   $('#btn_sucribirte').hide();
                                   $('#info_suscripcion').show();
                                 }
@@ -156,11 +183,7 @@
 
                         }
                     });
-                  }
-
-
-                });
-              });
+                  });
 
             </script>
             </div>
@@ -169,9 +192,7 @@
             <br>
             <br>
             <br>
-            <br>
-            <br>
-            <br>
+
 
 
             <!-- Informacion General-->

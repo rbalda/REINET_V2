@@ -56,41 +56,61 @@
 
             <div class="col-md-8">
                 <ul class="nav nav-tabs">
-                    <li role="presentation" class="active"><a href="/AdministrarMembresias/">Solicitudes</a></li>
-                    <li role="presentation"><a href="/MiembrosInstitucion/">Miembros</a></li>
+                    <li role="presentation" class="active"><a href="#solicitudes" data-toggle="tab">Solicitudes</a></li>
+                    <li role="presentation"><a href="#miembros" data-toggle="tab">Miembros</a></li>
                 </ul>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="pm-list">
-                            <ul>
-                                {% for miembro in lista_miembros %}
-                                    {% if miembro.estado == 0%}
-                                        <li>
-                                            <p class="text-muted" >
-                                                {% load staticfiles %}
-                                                <img src="{{ miembro.fk_usuario.perfil.foto.url }}" alt="...">
-                                                <a href="#">{{ miembro.fk_usuario.username }}</a>
-                                                <br><STRONG>Cargo:</STRONG> {{ miembro.cargo }}
-                                                <br><STRONG>Fecha de solicitud:</STRONG>
-                                                {{ miembro.fecha_peticion|date:"M d, Y" }}
-                                            </p>
 
-                                            <p class="text-muted" >
-                                                <a class="inbox-dialog"><br>
-                                                    <button type="button" class="btn btn-primary btn-md ">
-                                                        <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
-                                                    </button>
-                                                    <button type="button" class="btn btn-default btn-md">
-                                                        <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
-                                                    </button>
-                                                </a>
-                                            </p>
-                                            <div class="clearfix"></div>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="solicitudes">
+                        <!-- ////// Contenido del tab de solicitudes /////// -->
+
+                    <div ><i id="btn_update" class="fa fa-refresh"></i></div>
+                    <hr>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pm-list">
+                                    <ul id="panel_membresias">
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+
+
+
+                        <script>
+                            $(document).ready(function(){
+                                $(function(){
+                                  console.log('dentro del panel mem');
+                                  console.log({{institucion.id_institucion}})
+                                  $('#panel_membresias').ready(actualizarBuzonMembresia);
+                                  $('#btn_update').click(actualizarBuzonMembresia);
+
+                                    function actualizarBuzonMembresia(){
+                                        console.log('actualizandooo')
+                                    $.ajax({
+                                      data:{
+                                        'institucion':{{institucion.id_institucion}}
+                                      },
+                                      type:'get',
+                                      url: '/buzonMembresias/',
+                                      success: function(data){
+                                        $('#panel_membresias').html(data)
+                                      }
+                                    });
+
+                                  }
+
+
+                                });
+                              });
+                        </script>
+
+                    </div>
+                    <div class="tab-pane" id="miembros">
+                        <!-- ////// Contenido del tab de solicitudes /////// -->
+
                     </div>
                 </div>
             </div>
