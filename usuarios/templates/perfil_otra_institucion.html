@@ -1,16 +1,22 @@
 {% extends "base.tpl.html" %}
 
+{% block raiz %}
+    <a class="navbar-brand link" href="/">REI-NET</a>
+{% endblock %}
+
 {% block barraderecha %}
     <li id="usuario" class="show">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
             <li><a href="/perfilUsuario/">Mi Perfil</a></li>
+            {% if not es_admin %}
             <li><a href="/registro_institucion">Registrar Institucion</a></li>
+            {% endif %}
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
-    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
+    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 
@@ -28,28 +34,12 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container col-sm-offset-3">
     <div class="row">
 
         <!-- Menu del Perfil -->
         
-        <div class="col-sm-4 col-md-3">
-            <div class="user-menu bottom-15">
-                <ul>
-                    {% if esAfiliado != True %}
-                    <li>
-                        <a href="#" class="active">
-                            <i class="sign fa fa-edit bg-green"></i> Solicitar Membres&iacute;a <i
-                                class="fa fa-chevron-right pull-right"></i>
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
         
-        <div class="col-sm-1"></div>
-
         <!-- Foto del Perfil-->
         <div class="col-sm-8 col-md-6">
             <div class="row">
@@ -75,23 +65,52 @@
                     </h3>
                     <hr>
 
-                    <div class="bottom-15" style="text-align:center">
-                        <a method='POST' href="/enviarMensaje/" class="btn btn-warning" data-toggle="modal" data-target="#sendemail"><i
-                                class="fa fa-envelope"></i> Redactar Mensaje</a>
+                    <div>
+                        <button class="col-sm-6 btn btn-green btn-sm" type="button" style="text-align:center;" onclick="window.location.href='/enviarMensaje/'"><i class="fa fa-envelope btn-sm"></i>Redactar Mensaje</button>
+                        {% if es_afiliado == False %}
+                        <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
+                        data-placement="bottom" data-tigger="focus"><i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>
+                        {% endif %}
+                    </div>
+                    <div id="popover_content_wrapper" data-placement="bottom" style="display: none" role="dialog">
+                        <div>Complete el siguiente formulario:</div>
+                        <br>
+                        <label>Cargo</label>
+                        <input id="txt_cargo" name="txt_cargo" type="text"
+                                       class="form-control" id="cargo" placeholder="Ingrese su cargo">
+                       <label>Descripci&oacute;n</label>
+                        <input id="txt_description" name="txt_description" type="text"
+                                       class="form-control" id="descripcion" placeholder="Ingrese la descripcion del cargo">
+                        <br>
+                        <button id="btn_aceptar_Suspender" type="button" class="btn btn-blue" style="left:30%;position:left;">
+                            Confirmar
+                        </button>
+                        <button id="btn_cancelar_Suspender" type="button" class="btn btn-white" style="left:30%;position:right;">
+                            Cancelar
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
 
             <!-- Informacion General-->
+            
+
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-6" id="collapseGeneral">
 
                         <div class="panel-heading btn-outline btn-success"
                              style="text-align:center;background-color:#A2B2AC">
-                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"
-                                                       href="#collapseInfoGeneral"><i class="fa fa-info-circle"></i>
+                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"><i class="fa fa-info-circle"></i>
                                 Informaci&oacute;n General </a></h4>
                         </div>
                         <div id="collapseInfoGeneral" class="panel-collapse collapse in">
@@ -108,13 +127,13 @@
                                 </tr>
 
                                 <tr>
-                                    <td class="text-muted">Pais</td>
+                                    <td class="text-muted">Pa&iacute;s</td>
                                     <td style="text-align:left">{{ institucion.pais }}</td>
                                 </tr>
 
                                 <tr>
                                     <td class="text-muted">P&aacute;gina Web</td>
-                                    <td style="text-align:left">{{ institucion.web }}</td>
+                                    <td style="text-align:left;word-break: break-all;">{{ institucion.web }}</td>
                                 </tr>
 
                                 <tr>
@@ -128,12 +147,11 @@
                         </div>
                     </div>
 
-                    <!-- Informacion Contacto-->
+                    
                     <div class="col-sm-6" id="collapseContacto">
                         <div class="panel-heading btn-outline btn-primary"
                              style="text-align:center;background-color:#123A82">
-                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"
-                                                       href="#collapseInfoContacto"><i class="fa fa-map-marker"></i>
+                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"><i class="fa fa-map-marker"></i>
                                 Informaci&oacute;n de Contacto </a></h4>
                         </div>
                         <div id="collapseInfoContacto" class="panel-collapse collapse in">
@@ -157,7 +175,7 @@
                                 </tr>
                                 <tr>
                                     <td class="text-muted">Website</td>
-                                    <td style="text-align:left">{{ duenho.web }}</td>
+                                    <td style="text-align:left;word-break: break-all;">{{ duenho.web }}</td>
                                 </tr>
 
                                 </tbody>
@@ -169,4 +187,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    /*
+     Autor: Kevin Zambrano y Fausto Mora
+     Nombre de funcion: funciones anonimas
+     Entrada: eventos
+     Salida: http
+     Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
+     */
+
+    $(document).ready(function () {
+        $('#btn_sucribirte').popover({
+            html: true,
+            content: function () { 
+                return $('#popover_content_wrapper').html();
+            }
+        });
+    });
+</script>
+
+
+
 {% endblock %}

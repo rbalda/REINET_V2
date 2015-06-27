@@ -15,6 +15,7 @@ from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 
@@ -42,7 +43,7 @@ Descripción: Corresponde a la creacion de la institucion y el anexo con e usuar
 def registro_institucion(request, codigo):
 	if request.method == 'GET':
 		codigo_usado = codigo
-		try: 
+		try:
 			peticion = Peticion.objects.all().filter(fk_usuario=request.session['id_usuario'], codigo = codigo_usado, usado = 0).first()
 			print peticion.nombre_institucion
 		except:
@@ -118,7 +119,7 @@ def registro_institucion(request, codigo):
 				membresia.fk_institucion = insti
 				membresia.fk_usuario = Perfil.objects.get(id=request.session['id_usuario'])
 				membresia.save()
-
+				request.session['es_admin'] = True
 				print "registros guardados"  #borrar cuando no lo necesiten mas, no olvidar
 				try:
 					membresiaBorrar = Membresia.objects.filter(fk_usuario=request.session['id_usuario'],
@@ -175,7 +176,7 @@ def registrarSolicitud(request):
 			peticion.save()
 			args['esAlerta'] = 0
 			args['msj'] = 'Se ha enviado su solicitud con exito!'
-		
+
 		return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 
@@ -295,7 +296,7 @@ def registro_usuario(request):
 				if usuarioquery is not None: #Error 10, usar palabras en español
 					print "email repetido"
 					raise Email_excepcion("emailrepetido")
-				
+
 				perfil = Perfil()
 				#Error 10, usar palabras en español
 				perfil.username = username
@@ -333,7 +334,7 @@ def registro_usuario(request):
 				membresia.fk_usuario = perfil
 				membresia.save()
 
-				try: 
+				try:
 					id_institucion=request.POST["institucion"];
 					institucion_solicitud=Institucion.objects.get(id_institucion=id_institucion)
 					if institucion_solicitud is not None:
@@ -374,7 +375,7 @@ def registro_usuario(request):
 				args['mensaje'] = mensaje
 				args['instituciones'] = instituciones
 				return render_to_response('Usuario_Sign-up.html', args)
-				
+
 		else:
 			args = {}
 			args.update(csrf(request))
@@ -422,7 +423,7 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 				if user.estado == 1:
 					if request.POST.has_key('remember_me'):
 						request.session.set_expiry(1209600)  # 2 weeks
-			
+
 					request.session['id_usuario'] = usuario.id
 					print user
 					print user.privacidad
@@ -536,7 +537,12 @@ def editar_usuario(request):
 
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
+		user = request.user
+		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
+		esadmin = request.session['es_admin']
+		args['es_admin']= esadmin
 		args.update(csrf(request))
+		print args
 		return render_to_response('Usuario_Edit-Profile.html', args)
 
 
@@ -548,7 +554,7 @@ Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
-def terminosCondiciones(request): #Error 10, nombre inadecuado de la funcion
+def terminosCondiciones(request):
 	return render(request, 'terms.html')
 
 
@@ -569,6 +575,17 @@ def inicio(request):
 
 	if usuario is not None:
 		args['usuario'] = usuario
+		user = request.user
+		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
+		if membresia is not None :
+			if membresia.es_administrator :
+				args['es_admin']=True
+				request.session['es_admin'] = True
+				print "soyadmin"
+		else:
+			args['es_admin']=False
+			request.session['es_admin'] = False
+			print "no soy admin"
 
 		if(usuario.privacidad>=10000):
 			usuario.privacidad = abs(usuario.privacidad-10000)
@@ -576,6 +593,7 @@ def inicio(request):
 			print usuario.privacidad
 
 	else:
+
 		args['error'] = "Error al cargar los datos"
 
 	args.update(csrf(request))
@@ -598,35 +616,25 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 
 	if usuario is not None:
 		args['usuario'] = usuario
+		#cambiar esto, esto solo debe poder hacerlo el administrador
 		usuario.estado = 1
 		usuario.save()
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
 		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
-		institucion = "Independiente"
-		args['esAdmin']= False
-		if membresias.filter(es_administrator=1).count() != 0:
-			administracion = membresias.filter(es_administrator=1)
-			institucion = Institucion.objects.get(id_institucion=administracion[0].fk_institucion.id_institucion)
-			args['esAdmin']= True
+		esadmin = request.session['es_admin']
+		args['es_admin']= esadmin
+		membresia = membresias.filter(estado=1).exclude(fk_institucion=1).first()
+		if membresia is not None:
+			try:
+				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+				args['institucion'] = institucion
+			except ObjectDoesNotExist:
+				institucion = "Independiente"
+				args['institucion'] = institucion
 		else:
-			membresia = membresias.filter(es_administrator=0,estado=1)
-			for num in range(0, membresia.count()):
-				institucion = Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion)
-				if institucion.nombre != "Independiente":
-					break
-				else:
-					institucion = "Independiente"
-		#listaInstituciones = []
-		#for num in range(0, membresia.count()):
-		#	listaInstituciones.append(
-		#		Institucion.objects.get(id_institucion=membresia[num].fk_institucion.id_institucion))
-		#	print membresia[num].fk_institucion.id_institucion
-
-		#args['listaInstituciones'] = listaInstituciones
-		
-		#print institucion
-		args['institucion'] = institucion
+			institucion = "Independiente"
+			args['institucion'] = institucion
 
 	else:
 		args['error'] = "Error al cargar los datos"
@@ -638,7 +646,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 
 
 """
-Autores: Ray Montiel y Edinson Sánchez
+Autores: Ray Montiel, Edinson Sánchez y Roberto Yoncon
 Nombre de funcion: perfilInstitucion
 Entrada: request GET
 Salida: Perfil de Institucion
@@ -651,18 +659,24 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 	args = {}
 
 	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
-		membresia = Membresia.objects.filter(fk_usuario=usuario.id).first()
-		print "sadhas"
-		if membresia.es_administrator:
-			print "entre"
-			print membresia.id_membresia
-			institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
-			#print institucion
-			args['institucion'] = institucion
+		#Saco la membresia de la que soy administrador, y me aseguro que no sea la institucion independiente.
+		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=usuario.id).exclude(fk_institucion=1).first()
+		#Si existe un registro es por que soy administrador de una institucion.
+		if membresia is not None :
+			if membresia.es_administrator :
+				print membresia.id_membresia
+				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+				numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
+				args['institucion'] = institucion
+				args['numMiembros'] = numMiembros
+				request.session['institucion_id'] = institucion.id_institucion
+		#Sino, simplemente no tengo ninguna institucion a mi cargo y regreso a mi perfil
 		else:
-			print "aca"
 			args['error1'] = "Usted no es miembro de ninguna Institucion"
+			return HttpResponseRedirect('/perfilUsuario/')
+
 
 	else:
 		args['error'] = "Error al cargar los datos"
@@ -681,7 +695,7 @@ Salida: Perfil de otra institucion de la que no sea admin
 """
 
 @login_required
-def verPerfilInstituciones(request, institucionId): 
+def verPerfilInstituciones(request, institucionId):
 	id_institucion = institucionId
 	sesion = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=sesion)
@@ -695,15 +709,18 @@ def verPerfilInstituciones(request, institucionId):
 				print "redirect"
 				return redirect('/perfilInstitucion')
 			else:
-				args['esAfiliado']= False
-				esAfiliado = Membresia.objects.filter(fk_institucion=id_institucion,fk_usuario=sesion,estado=1).count()
-				if esAfiliado>0:
-					args['esAfiliado']= True
+				args['es_afiliado'] = False
+				esAfiliado = Membresia.objects.filter(fk_usuario=sesion,estado=1).exclude(fk_institucion=1).count()
+				print 'esAfiliado:' + str(esAfiliado)
+				if esAfiliado>0 or request.session['es_admin']==True:
+					print 'entro'
+					args['es_afiliado']= True
+					print args['es_afiliado']
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
 				args['duenho'] = duenho_institucion
-				print "aca"
+				args['es_admin'] = request.session['es_admin']
 		except:
 			return redirect('/inicioUsuario')
 
@@ -784,6 +801,8 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 		return cerrarSesion(request)
 	else:
 		args = {}
+		user = request.user
+		args['es_admin'] = request.session['es_admin']
 		error = "Contraseña Incorrecta"
 		args['error'] = error
 		args['usuario'] = usuario
@@ -791,15 +810,16 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 		return render(request, 'Usuario_Edit-Profile.html', args)
 
 
+
 """
 Autor: Angel Guale
-Nombre de funcion: generarCodigo
+Nombre de funcion: generar_codigo
 Entrada: request GET o POST
-Salida: Formulario de generarCodigo
+Salida: Formulario de generar_codigo
 Descripción: Genera un codigo para registrar institucion
 """
 
-def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
+def generar_codigo(request): #Error 10, nombre inadecuado de la funcion
 	if request.method == 'POST':
 		username = request.POST['username'] #Error 10, usar palabras en español
 		usuario = Perfil.objects.get(username=username)
@@ -813,13 +833,13 @@ def generarCodigo(request): #Error 10, nombre inadecuado de la funcion
 		peticion.fk_usuario = usuario
 		peticion.save()
 		args = {}
-		args['mensaje'] = "Codigo Institucion generado"
-		return render_to_response('Administrador_generar_codigo.html', args)
+		args['mensaje'] = "Codigo Institución Generado"
+		return render_to_response('generar_codigo.html', args)
 	else:
 		args = {}
 		args.update(csrf(request))
 
-		return render_to_response('Administrador_generar_codigo.html', args)
+		return render_to_response('generar_codigo.html', args)
 
 
 """
@@ -909,6 +929,7 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				args = {}
 				args['usuario'] = perfil
 				args['usuarioSesion'] = usuario
+				args['es_admin'] = request.session['es_admin']
 				return render_to_response("Usuario_vercualquierPerfil.html", args)
 		except:
 			return HttpResponseRedirect('/inicioUsuario')
@@ -1025,7 +1046,7 @@ def recuperarPassword(request):
 			return HttpResponseRedirect('/inicioUsuario/')
 		else:
 			args['error']='Contraseñas no coinciden'
-	
+
 	args.update(csrf(request))
 	return render(request,'recuperar_password.html',args)
 
@@ -1128,18 +1149,19 @@ que un usuario tiene en su bandeja de entrada
 """
 
 @login_required
-def bandejaDeEntrada(request):
+def ver_bandeja_entrada(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'])[:8]
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)[:8]
 	except:
 		mensajes= None
 	args={}
 	args['usuario']=usuario
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
+	args['es_admin'] = request.session['es_admin']
 	for m in mensajes:
 		print m.imgEm
 	return render_to_response('bandeja_de_entrada.html',args)
@@ -1178,10 +1200,10 @@ def enviarMensaje(request):
 				mensajes.mensaje= texto_mensaje
 				mensajes.fecha_de_envio=datetime.datetime.now()
 				mensajes.save()
-				return HttpResponseRedirect('/bandejaDeEntrada/')
+				return HttpResponseRedirect('/BandejaDeEntrada/')
 			else:
 				print "usuariou invalido1"
-				return HttpResponseRedirect('/bandejaDeEntrada/')
+				return HttpResponseRedirect('/BandejaDeEntrada/')
 		except Exception as e:
 			print "usuariou invalido2"
 			print e
@@ -1190,6 +1212,7 @@ def enviarMensaje(request):
 		print "porque D:"
 		args = {}
 		args['usuario']=usuario
+		args['es_admin'] = request.session['es_admin']
 		args.update(csrf(request))
 		return render_to_response('enviar_mensaje.html',args)
 
@@ -1220,9 +1243,10 @@ def verMensaje(request):
 		args['emisor']=emisor
 		args['receptor']=receptor
 		args['usuario']=usuario
+		args['es_admin'] = request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
-		return HttpResponseRedirect("/bandejaDeEntrada/")
+		return HttpResponseRedirect("/BandejaDeEntrada/")
 
 
 """
@@ -1240,11 +1264,116 @@ def mensajesEnviados(request):
 	usuario=User.objects.get(id=sesion)
 
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'])[:8]
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = True)[:8]
 	except:
 		mensajes= None
 	args={}
 	args['usuario']=usuario
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
+	args['es_admin'] = request.session['es_admin']
 	return render_to_response('mensajes_enviados.html',args)
+
+"""
+Autor: Rolando Sornoza, Roberto Yoncon
+Nombre de la funcion: mostrar_miembros_institucion
+Entrada:
+Salida: Muestra los miembros de una institución
+Descripción:Esta función permite mostrar los miembros que pertenecen a una institución  
+"""
+@login_required
+def miembros_institucion(request):
+	session = request.session['id_usuario']
+	institucion_id = request.session['institucion_id']
+	institucion = Institucion.objects.get(id_institucion=institucion_id)
+	args = {}
+	if institucion is not None:
+		args['institucion']=institucion
+		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
+		args['lista_miembros']=miembros
+
+
+
+	return render_to_response('miembros_institucion.html',args)
+
+
+"""
+Autor: Rolando Sornoza, Roberto Yoncon
+Nombre de funcion: administrar_membresias
+Entrada: request POST
+Salida: Listado de las memebresias correspondientes la Institucion.
+Descripción: Muestra las membresias pendientes y aceptadas y permite modificarlas.
+"""
+
+def administrar_membresias(request):
+	session = request.session['id_usuario']
+	institucion_id = request.session['institucion_id']
+	institucion = Institucion.objects.get(id_institucion=institucion_id)
+	args = {}
+	if institucion is not None:
+		args['institucion']=institucion
+		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
+		args['lista_miembros']=miembros
+
+
+	args.update(csrf(request))
+	return render_to_response('administrar_membresias.html', args)
+
+
+
+
+"""
+Autor: Leonel Ramirez, Jose Velez
+Nombre de funcion: eliminarMensajeRecibido
+Entrada: request POST
+Salida: elimina mensaje en bandeja de entrada.
+Descripción: elimina y actuliza los mensaje del buzon.
+"""
+@login_required
+def eliminarMensajeRecibido(request,):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		#mensaje =Mensaje.objects.filter(id_mensaje=9)
+		#args['mensaje'] = mensaje
+		print "MENSAJE: ",idM
+		mensaje = Mensaje.objects.all().filter(id_mensaje=idM).update(visible_receptor=False)
+		mensaje.borrarMensaje()
+		#args['mensaje'] = mensaje	
+		print "funcion eliminar mensaje:", mensaje.mensaje
+	except :
+		return HttpResponseRedirect('/BandejaDeEntrada/')
+
+
+	#print "Eliminar:  ",mensaje
+	return HttpResponseRedirect('/BandejaDeEntrada/')
+
+"""
+Autor: Leonel Ramirez, Jose Velez
+Nombre de funcion: eliminarMensajeEnviado
+Entrada: request POST
+Salida: elimina mensaje en enviados.
+Descripción: elimina y actuliza los mensaje del buzon.
+"""
+@login_required
+def eliminarMensajeEnviado(request,):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		#mensaje =Mensaje.objects.filter(id_mensaje=9)
+		#args['mensaje'] = mensaje
+		print "MENSAJE: ",idM
+		mensaje = Mensaje.objects.all().filter(id_mensaje=idM).update(visible_emisor=False)
+		mensaje.borrarMensaje()
+		#args['mensaje'] = mensaje	
+		print "funcion eliminar mensaje:", mensaje.mensaje
+	except :
+		return HttpResponseRedirect('/mensajesEnviados/')
+
+
+	#print "Eliminar:  ",mensaje
+	return HttpResponseRedirect('/mensajesEnviados/')

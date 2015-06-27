@@ -6,12 +6,13 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="/perfilUsuario/">Mi Perfil</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#registrarInstitucion">Registrar Instituci&oacute;n</a>
-            </li>
+            {% if not es_admin %}
+                <li><a href="/registro_institucion">Registrar Institucion</a></li>
+            {% endif %}
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
-    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
+    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 

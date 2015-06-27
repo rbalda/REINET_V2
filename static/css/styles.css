@@ -1,0 +1,30 @@
+/*PERFIL INSTITUCION
+Mostrar los miembros, concursos e incubaciones */
+
+.vcard-stats {
+  margin-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  cursor:pointer;
+  cursor: hand;
+}
+
+.vcard-stat {
+  float: left;
+  width: 33.333%;
+  font-size: 11px;
+  text-transform: capitalize;
+
+}
+
+.vcard-stat-count {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.text-muted {
+  color: #767676;
+}
