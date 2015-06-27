@@ -29,9 +29,7 @@
          Parámetros: evento
          Salida: permite el ingreso de solo numeros
          Descripción: no permite la entrada de letras
-
          */
-
         function validarNumero(evt) {
             var code = (evt.which) ? evt.which : evt.keyCode;
             if (code == 8) {
@@ -46,7 +44,6 @@
                 return false;
             }
         }
-
         /*
          Autor: Leonel Ramirez
          Nombre de función: validarLetra
@@ -59,7 +56,6 @@
             tecla = String.fromCharCode(key).toLowerCase();
             letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
             especiales = "8-37-39-46";
-
             tecla_especial = false
             for (var i in especiales) {
                 if (key == especiales[i]) {
@@ -67,12 +63,10 @@
                     break;
                 }
             }
-
             if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                 return false;
             }
         }
-
         /*
          Autor: Leonel Ramirez
          Nombre de función: validarUrl
@@ -80,7 +74,6 @@
          Salida: ingresa automaticamente el http
          Descripción: salida del http al escribir una url
          */
-
         function validarURL(abc) {
             var string = abc.value;
             if (!~string.indexOf("http")) {
@@ -89,23 +82,18 @@
             abc.value = string;
             return abc
         }
-
-
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     $('#blah')
                             .attr('src', e.target.result)
                             .width(200)
                             .height(200);
                 };
-
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
     </script>
 
     <div class="section-header">
@@ -331,7 +319,6 @@
                             </div>
 
                             <!--
-
                              -->
 
                             <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="popover"
@@ -353,43 +340,29 @@
                                  Salida: http
                                  Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
                                  */
-
                                 $(document).ready(function () {
-
                                     $('#btn_suspenderCuenta').attr('disabled', 'disabled');
-
                                     $('#txt_password_ingresada').change(function () {
                                         $('#btn_suspenderCuenta').removeAttr('disabled');
-
                                     });
-
-
                                     $('#btn_suspenderCuenta').popover({
                                         html: true,
                                         content: function () {
                                             return $('#popover_content_wrapper').html();
-
                                         }
-
                                     });
-
-
                                 });
-
                             </script>
                             <script>
                                 function archivo(evt) {
                                     var files = evt.target.files; // FileList object
-
                                     // Obtenemos la imagen del campo "file".
                                     for (var i = 0, f; f = files[i]; i++) {
                                         //Solo admitimos imágenes.
                                         if (!f.type.match('image.*')) {
                                             continue;
                                         }
-
                                         var reader = new FileReader();
-
                                         reader.onload = (function (theFile) {
                                             return function (e) {
                                                 document.getElementById('id1').className += 'thumbnail';
@@ -398,11 +371,9 @@
                                                 document.getElementById("list").innerHTML = ['<a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar"> <img src="', e.target.result, '" title="', escape(theFile.name), '"/> </a>'].join('');
                                             };
                                         })(f);
-
                                         reader.readAsDataURL(f);
                                     }
                                 }
-
                                 document.getElementById('files').addEventListener('change', archivo, false);
                             </script>
 
@@ -419,5 +390,3 @@
     </div>
 
 {% endblock %}
-
-

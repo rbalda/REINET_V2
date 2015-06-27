@@ -18,12 +18,15 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
+from django.http import JsonResponse
+
 
 from django.contrib.auth.decorators import login_required
-import datetime, random, string
+import datetime, random, string, socket
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from ipware.ip import *
 from .models import *
 
 from django.contrib.auth.forms import UserCreationForm
@@ -643,7 +646,6 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 	args.update(csrf(request))
 	#args['usuario']=usuario
 	return render_to_response('profile_usuario.html', args)
-
 
 """
 Autores: Ray Montiel, Edinson Sánchez y Roberto Yoncon
@@ -1274,6 +1276,7 @@ def mensajesEnviados(request):
 	args['es_admin'] = request.session['es_admin']
 	return render_to_response('mensajes_enviados.html',args)
 
+
 """
 Autor: Rolando Sornoza, Roberto Yoncon
 Nombre de la funcion: mostrar_miembros_institucion
@@ -1383,3 +1386,102 @@ def eliminarMensajeEnviado(request,):
 
 	#print "Eliminar:  ",mensaje
 	return HttpResponseRedirect('/mensajesEnviados/')
+
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: suscribirAInstitucion
+Entrada: request POST
+Salida: envia una peticion ajax 
+Descripción: Esta funcion envia una peticion ajax para 
+la suscripcion de un usuario a determinada institucion
+"""
+
+def suscribirAInstitucion(request):
+	print 'aca dentro views'
+	if request.is_ajax():	
+		try:
+			institucion = Institucion.objects.get(id_institucion=request.POST['institucion'])
+			print request.POST['institucion']
+			print request.user
+			
+			solicitudMembresia = Membresia.objects.get(fk_institucion=institucion.id_institucion,fk_usuario=request.user.id)
+
+			if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
+				solicitudMembresia.cargo = 'Miembro'
+				solicitudMembresia.descripcion_cargo = 'descripcion'
+				solicitudMembresia.fecha_peticion = datetime.datetime.now()
+				solicitudMembresia.fecha_aceptacion = None
+				solicitudMembresia.estado = 0
+				#solicitudMembresia.ip_peticion = socket.gethostbyname(socket.getfqdn())
+				solicitudMembresia.ip_peticion = get_ip(request, right_most_proxy=True) or get_real_ip(request, right_most_proxy=True)
+				solicitudMembresia.save()
+				print 'se actualizo parece'
+				response = JsonResponse({'save_estado':True})	
+				return HttpResponse(response.content)
+
+		except Institucion.DoesNotExist:
+			print 'institucion no existe'
+		except Membresia.DoesNotExist:
+
+				solicitudMembresia = Membresia()
+				solicitudMembresia.es_administrator = False
+				solicitudMembresia.cargo = 'Miembro'
+				solicitudMembresia.descripcion_cargo = 'descripcion'
+				solicitudMembresia.fecha_peticion = datetime.datetime.now()
+				solicitudMembresia.fecha_aceptacion = None
+				solicitudMembresia.estado = 0
+				#solicitudMembresia.ip_peticion = socket.gethostbyname(socket.getfqdn())
+				solicitudMembresia.ip_peticion = get_ip(request, right_most_proxy=True) or get_real_ip(request, right_most_proxy=True)
+				solicitudMembresia.fk_usuario = request.user
+				solicitudMembresia.fk_institucion = institucion
+				solicitudMembresia.save()
+				print 'se guardo parece'
+				response = JsonResponse({'save_estado':True})	
+				return HttpResponse(response.content)
+	else:
+		return redirect('/')
+
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: verificarSuscripcion
+Entrada: request get
+Salida: envia una peticion ajax 
+Descripción: Esta funcion envia una peticion ajax para 
+la validar el estado de una suscripcion de un usuario 
+"""
+
+def verificarSuscripcion(request):
+	print 'dentro de la verificacion view'
+	if request.is_ajax():
+		try:
+			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
+			print institucion.id_institucion
+			solicitudMembresia = Membresia.objects.get(fk_institucion=institucion.id_institucion,fk_usuario=request.user.id)
+			print solicitudMembresia
+			
+			if solicitudMembresia is not None:
+				print 'si existe membresia'
+				existeMembresia = True
+				estadoMembresia = solicitudMembresia.estado
+
+			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia})	
+			return HttpResponse(response.content)
+		
+		except Membresia.DoesNotExist:
+			print 'no existe membresia'
+			existeMembresia = False
+			estadoMembresia = None
+
+			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia})	
+			return HttpResponse(response.content)
+
+		except Membresia.MultipleObjectsReturned:
+			print 'mas de uno... error, no deberia pasar'
+		except Institucion.DoesNotExist:
+			print 'institucion no existe' 
+	else:
+		return redirect('/')
+
+

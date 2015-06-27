@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'swampdragon',
     'cities_light',
     'usuarios',
+    'ipware',
 )
 
 MIDDLEWARE_CLASSES = (
