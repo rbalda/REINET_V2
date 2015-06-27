@@ -6,11 +6,13 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="/perfilUsuario/">Mi Perfil</a></li>
+            {% if not es_admin %}
             <li><a href="/registro_institucion">Registrar Institucion</a></li>
+            {% endif %}
             <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
         </ul>
     </li>
-    <li id="mensajes" class="show"><a href="/bandejaDeEntrada/" class="link">Mensajes</a></li>
+    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
 {% endblock %}
 
 {% block inicio %}
@@ -51,7 +53,7 @@
                                 class="fa fa-chevron-right pull-right"></i>
                         </a>
                     </li>
-                    {% if esAdmin == True %}
+                    {% if  es_admin %}
                         <li>
                             <a href="/perfilInstitucion/">
                                 <i class="sign fa fa-suitcase bg-turquoise"></i> Administrar Instituci&oacute;n <i
@@ -60,7 +62,7 @@
                         </li>
                     {% endif %}
                     <li>
-                        <a href="/bandejaDeEntrada/">
+                        <a href="/BandejaDeEntrada/">
                             <i class="sign fa fa-envelope bg-red"></i> Bandeja de Entrada <i
                                 class="fa fa-chevron-right pull-right"></i>
                         </a>
@@ -126,7 +128,7 @@
             <div class="col-sm-8">
                 <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }}
                     <br/>
-                    {% if institucion != "nohay" %}
+                    {% if institucion != "Independiente" %}
                         <small> {{ institucion.nombre }} </small>
                     {% else %}
                         <small>Independiente</small>
@@ -135,38 +137,56 @@
                 <hr>
 
                 <div class="bottom-15">
-                    <a method='POST' href="/enviarMensaje/" class="btn btn-green btn-sm" data-toggle="modal" data-target="#sendemail"><i
+                    <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
                             class="fa fa-envelope"></i> Redactar Mensaje</a>
 
-                    <!-- //// VENTANA EMERGENTE EMAIL /////
-                    <div class="modal fade" id="sendemail" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                      <div class="modal-dialog">
+                    <!-- //// VENTANA EMERGENTE EMAIL /////-->
+                <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                    <div class="modal-dialog">
                         <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <img src="img/face1.jpg" alt="...">
-                        <h4 class="modal-title" id="sendemailtitle">[ROL]</h4>
-                        <p class="text-muted"><i class="fa fa-envelope"></i> New Email</p>
-                        <div class="clearfix"></div>
-                      </div>
-                      <div class="modal-body">
-                        <form role="form">
-                          <div class="form-group">
-                            <label for="subject" class="sr-only">Subject</label>
-                            <input type="text" class="form-control" id="subject" placeholder="Subject">
-                          </div>
-                          <div class="form-group">
-                            <label for="message-1" class="sr-only">Message</label>
-                            <textarea class="form-control" rows="3" id="message-1" placeholder="Enter your message here"></textarea>
-                          </div>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                          <button type="button" class="btn btn-green" data-dismiss="modal">Send Email</button>
-                        </form>
-                      </div>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <img src={{ perfil.foto.url }} alt="...">
+                                <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
+                                <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="modal-body">
+                                <!--<form role="form">
+                                    <div class="form-group">
+                                        <label for="subject" class="sr-only">Subject</label>
+                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message-1" class="sr-only">Message</label>
+                                        <textarea class="form-control" rows="3" id="message-1" placeholder="Enter your message here"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-green" data-dismiss="modal">Send Email</button>
+                                </form>-->
+                                <form role="form" action="/enviarMensaje/" method='POST'>
+                                {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="Destinatario">Para:</label>
+                                        <input type="text" class="form-control" id="destinatario" name="destinatario"
+                                        placeholder="Destinatario" maxlength="50" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Asunto">Asunto:</label>
+                                        <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                                        maxlength="40" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Mensaje">Mensaje:</label>
+                                        <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
+                                        required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-green" data-dismiss="modal">Enviar</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                 ////// FIN DE VENTANA EMERGENTE ////// -->
 
                 </div>
             </div>
@@ -189,7 +209,7 @@
                             <tr>
                                 <td class="text-muted">Instituci&oacute;n</td>
                                 <td style="text-align:right" id="link">
-                                    {% if institucion != "nohay" %}
+                                    {% if institucion != "Independiente" %}
                                         <a href="/institucion/{{ institucion.id_institucion }}">{{ institucion.nombre }}</a>
                                     {% else %}
                                         Independiente

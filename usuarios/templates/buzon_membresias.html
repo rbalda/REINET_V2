@@ -1,0 +1,82 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<input type="hidden" value="{{membresiasPendientes|length}}">
+{% for miembro in membresiasPendientes %}
+	<li id="solicitud{{miembro.id_membresia}}">
+        <p class="text-muted" >
+            {% load staticfiles %}
+            <img src="{{ miembro.fk_usuario.perfil.foto.url }}" alt="...">
+            <a href="/usuario/{{ miembro.fk_usuario }}">{{ miembro.fk_usuario.username }}</a>
+            <br><STRONG>Cargo:</STRONG> {{ miembro.cargo }}
+            <br><STRONG>Fecha de solicitud:</STRONG>
+            {{ miembro.fecha_peticion|date:"M d, Y" }}
+        </p>
+
+        <p class="text-muted" >
+            <a class="inbox-dialog"><br>
+                <button type="button" class="btn btn-green btn-md " id="Aceptar{{miembro.id_membresia}}">
+                    <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
+                </button>
+                <button type="button" class="btn btn-default btn-md" id="Rechazar{{miembro.id_membresia}}">
+                    <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
+                </button>
+            </a>
+        </p>
+        <div class="clearfix"></div>
+    </li>
+
+		 <script>
+		 	$(document).ready(function(){
+		 		$(function(){
+		 			$('#Aceptar{{m.id_membresia}}').click(accionMembresiaA);
+		 			
+		 			function accionMembresiaA(){
+		 				console.log('hizo click en Aceptar');
+		 				$.ajax({
+		 					data : {
+		 						'membresia' : {{m.id_membresia}},
+		 						'accion' : 1,
+		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
+		 					},
+		 					type : 'post',
+		 					url : '/accionMembresia/',
+		 					success: function(data){
+		 						var objeto = JSON.parse(data);
+
+		 						if (objeto.membresia_save){
+		 							$('#solicitud{{m.id_membresia}}').remove();
+		 						}
+		 					}
+		 				});
+		 			}
+
+		 		});
+		 	});
+
+		 	$(document).ready(function(){
+		 		$('#Rechazar{{m.id_membresia}}').click(accionMembresiaR);
+		 			
+		 			function accionMembresiaR(){
+		 				console.log('hizo click en Rechazar');
+		 				$.ajax({
+		 					data : {
+		 						'membresia' : {{m.id_membresia}},
+		 						'accion' : 0,
+		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
+		 					},
+		 					type : 'post',
+		 					url : '/accionMembresia/',
+		 					success: function(data){
+		 						var objeto = JSON.parse(data);
+
+		 						if (objeto.membresia_save){
+		 							$('#solicitud{{m.id_membresia}}').remove();
+		 						}
+		 					}
+		 				});
+		 			}
+
+		 		});
+
+		</script>
+{% endfor %}
+</div>
