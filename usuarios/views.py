@@ -557,8 +557,8 @@ Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
-def terminosCondiciones(request):
-	return render(request, 'terms.html')
+def ver_terminos_condiciones(request):
+	return render(request, 'terminos_y_condiciones.html')
 
 
 """
