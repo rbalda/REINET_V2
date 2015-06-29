@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="redInn">
-
+{% load staticfiles %}
 <head>
 
     <meta charset="utf-8">
@@ -14,25 +14,7 @@
         {% block complementotitulo %}
         {% endblock %}
     </title>
-
-    <!-- Funcionalidad de abstraccion de la ruta de los archivos estaticos -->
-    {% load staticfiles %}
-
-    <!-- Links utilizados -->
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <link href="{% static 'css/animate.css' %}" type="text/css" rel="stylesheet"/>
-    <link href="{% static 'css/hideandshow.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'css/elements.css' %}" type="text/css" rel="stylesheet"/>
-    <link href="{% static 'css/custom.css' %}" type="text/css" rel="stylesheet"/>
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-    <link href="{% static 'fonts/font-awesome-4.0.3/css/font-awesome.min.css' %}" type="text/css" rel="stylesheet"/>
-    <link href="{% static 'isotope/css/style.css' %}" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" >
-
-    <!-- Llamado de la libreria JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+    {% include 'contenedorarchivosestaticos/contenedorcss.tpl.html' %}
 </head>
 
 <body>
@@ -52,102 +34,15 @@
         </div>
         {% block barranavegacion %}
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown active">
-
-                        {% block inicio %}
-                            <a href="/">Inicio </a>
-                        {% endblock %}
-
-                    </li>
-                    <li class="dropdown hidden-sm">
-                        <a href="#">OFERTAS </a>
-                    </li>
-                    <li class="dropdown hidden-sm">
-                        <a href="#">DEMANDAS </a>
-                    </li>
-                    <li class="dropdown hidden-sm">
-                        <a href="#">CONCURSOS </a>
-                    </li>
-                    <li class="dropdown hidden-sm">
-                        <a href="#">INCUBACIONES </a>
-                    </li>
-                </ul>
-
+            {% include 'menusuperior/opcionesreinet.tpl.html'%}
                 <ul class="nav navbar-nav navbar-right hidden-xs">
 
                     {% block barraderecha %}
-                        <li id="usuario" class="show">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Mi Perfil</a></li>
-                                <li><a href="/registro_institucion">Crear Institucion</a></li>
-                                <li><a href="#">Cerrar Sesi&oacute;n</a></li>
-                            </ul>
-                        </li>
-                        <!-- Revisar nombre del link -->
-                        <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
+                        {%include 'menusuperior/menulogueado.tpl.html'%}
                     {% endblock %}
 
                     {% block busqueda %}
-                        <li id="search" ng-controller="ControladorBusqueda">
-                            <a href="#" id="search-btn"><i class="fa fa-search" id="search-icon"></i> Buscar</a>
-                            <div class="search-box hidden" id="search-box">
-                                <div class="input-group">
-                                    <form method='GET' name="busqueda" novalidate>
-                                        <input type="text" name="q"
-                                               class="form-control" autocomplete="off"
-                                               placeholder="Búsqueda" ng-model="busqueda_entrada"
-                                               ng-change="buscar_entidades()">
-                                               {% comment %}
-                                                <span class="input-group-btn">
-                                                <input class="btn btn-default" type="submit" value="Ir!">
-                                                </span>
-                                               {% endcomment %}
-                                    </form>
-                                </div>
-                                <ul class="dropdown-menu show lista_busqueda" ng-hide="esta_vacio()">
-                                    <li ng-hide="no_usuarios()" class="item-seleccionado">
-                                        <strong>
-                                            <small class="busqueda-result-header">Usuarios</small>
-                                        </strong>
-                                    </li>
-                                    <li ng-repeat="item in lista_usuarios"
-                                        ng-hide="no_usuarios()" class="item-seleccionado">
-                                        <p class="text-muted busqueda-result">
-                                            <img ng-src="[[item.foto]]" height="24px"/>
-                                            <a ng-href="/usuario/[[item.username]]">
-                                                [[item.first_name]] [[item.last_name]]
-                                            </a>
-                                            <br/>
-                                            <small>
-                                                [[item.fk_ciudad]]
-                                            </small>
-                                        </p>
-                                    </li>
-                                    <li ng-hide="no_instituciones()" class="item-seleccionado">
-                                        <strong>
-                                            <small class="busqueda-result-header">Instituciones</small>
-                                        </strong>
-                                    </li>
-                                    <li ng-repeat="item in lista_instituciones"
-                                        ng-hide="no_instituciones()" class="item-seleccionado">
-                                        <p class="text-muted busqueda-result">
-                                            <img ng-src="[[item.logo]]" height="24px"/>
-                                            <a ng-href="/institucion/[[item.id_institucion]]">
-                                                [[item.siglas]]
-                                            </a>
-                                            <br/>
-                                            [[item.nombre]]
-                                            <br/>
-                                            <small>
-                                                [[item.ciudad]]
-                                            </small>
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        {% include 'menusuperior/barrabusqueda.tpl.html'%}
                     {% endblock %}
 
                 </ul>
@@ -163,97 +58,13 @@
 </div>
 <!-- Pie de Pagina-->
 {% block piedepagina %}
-    <br/>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <!--Contactanos-->
-                <div class="col-sm-4">
-                    <div class="headline"><h3>Cont&aacute;ctanos</h3></div>
-                    <div class="content">
-                        <p>
-                            Guayaquil, GYE<br/>
-                            Nueva Prosperina<br/>
-                            Tel&eacute;fono: 042123456<br/>
-                            Email: <a href="#">admin@espol.edu.ec</a>
-                        </p>
-                    </div>
-                </div>
-                <!--Iconos Sociales-->
-                <div class="col-sm-4">
-                    <div class="headline"><h3>Redes sociales</h3></div>
-                    <div class="content social">
-                        <p>Mantente en contacto:</p>
-                        <ul>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-pinterest"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-youtube"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-github"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-vk"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <!--Suscribirse-->
-                <div class="col-sm-4">
-                    <div class="headline"><h3>Subscr&iacute;bete</h3></div>
-                    <div class="content">
-                        <p>Ingresa su dirección de e-mail abajo para suscribirse a nuestro boletín de noticias
-                            libre.<br/>Nos comprometemos a no molestar a menudo!</p>
-                        <form class="form" role="form">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <label class="sr-only" for="subscribe-email">Dirección Email</label>
-                                        <input type="email" class="form-control" id="subscribe-email"
-                                               placeholder="Ingresa email">
-                                        <span class="input-group-btn">
-                                          <button type="submit" class="btn btn-default">OK</button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Informacion Legal-->
-    <div class="legal">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>&copy; REI-NET 2014. <a href="/terms/">Políticas de Privacidad y T&eacute;rminos del servicio</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include 'piedepagina/piedepagina.tpl.html'%}
 {% endblock %}
 
 <!-- Archivos bases de Bootstrap -->
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/custom.js' %}"></script>
-<script src="{% static 'js/scrolltopcontrol.js' %}"></script>
-<script src="{% static 'js/angular.js' %}"></script>
-<script src="{% static 'js/angular-cookies.js' %}"></script>
-<script src="{% static 'js/angular-route.js' %}"></script>
-<script src="{% static 'js/angular-resource.js' %}"></script>
-<script src="{% static 'js/angular-animate.js' %}"></script>
-<script src="{% static 'js/angular-route.js' %}"></script>
-<script src="{% static 'js/app.js' %}"></script>
-<script src="/static/js/institucion-verifCrea.js"></script>
-
+{%block contenedorjs%}
+    {% include 'contenedorarchivosestaticos/contenedorjs.tpl.html' %}
+    <script src="{% static 'js/app.js' %}"></script>
+{%endblock%}
 </body>
 </html>

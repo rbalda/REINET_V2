@@ -4,10 +4,25 @@
     <a class="navbar-brand" href="/" class="link">REI-NET</a>
 {% endblock %}
 
-{% block barraderecha %}
-    <li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
-    <li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
+{% block barranavegacion %}
+    <div class="collapse navbar-collapse">
+
+        <ul class="nav navbar-nav navbar-right hidden-xs">
+
+            {% block barraderecha %}
+                <li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
+                <li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
+            {% endblock %}
+
+            {% block busqueda %}
+
+            {% endblock %}
+
+        </ul>
+    </div>
 {% endblock %}
+
+
 
 {% block contenido %}
 
