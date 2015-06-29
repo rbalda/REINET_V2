@@ -1,10 +1,14 @@
 <li id="usuario" class="show">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario <b class="caret"></b></a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b></a>
     <ul class="dropdown-menu">
         <li><a href="#">Mi Perfil</a></li>
+        {% if not es_admin %}
         <li><a href="/registro_institucion">Crear Institucion</a></li>
+        {% endif %}
         <li><a href="#">Cerrar Sesi&oacute;n</a></li>
     </ul>
 </li>
 <!-- Revisar nombre del link -->
-<li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
+<li id="mensajes" class="show" ng-controller="MensajesContadorController" >
+    <a href="/BandejaDeEntrada/" class="link">Mensajes&nbsp;<span class="badge">[[contador]]</span></a>
+</li>

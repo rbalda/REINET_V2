@@ -17,7 +17,7 @@
     {% include 'contenedorarchivosestaticos/contenedorcss.tpl.html' %}
 </head>
 
-<body>
+<body ng-cloak>
 
 <!-- Barra de Navegacion -->
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -41,6 +41,7 @@
                         {%include 'menusuperior/menulogueado.tpl.html'%}
                     {% endblock %}
 
+
                     {% block busqueda %}
                         {% include 'menusuperior/barrabusqueda.tpl.html'%}
                     {% endblock %}
@@ -56,6 +57,13 @@
     {% block contenido %}
     {% endblock %}
 </div>
+{% block notificaciones %}
+        <div ng-controller="MensajesControllers"
+             ng-show="mostrarNotificacion"
+                class="info-board info-board-green notificacion">
+                hello
+        </div>
+{% endblock %}
 <!-- Pie de Pagina-->
 {% block piedepagina %}
     {% include 'piedepagina/piedepagina.tpl.html'%}
