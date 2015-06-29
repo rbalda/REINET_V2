@@ -36,6 +36,17 @@ redInn.factory('Entidades',['$http','urls',function($http,urls){
     }
 }]);
 
+
+redInn.factory('ContarNoLeidos',['$http','urls',function($http,urls){
+    return{
+        get_contador: function (success, error) {
+            $http.get(urls.BASE_API + '/contar_no_leidos', {},
+                {headers: {"Content-Type": "application/json"}
+                }).success(success).error(error);
+        }
+    }
+}]);
+
 //controlador que hara la busqueda de los usuario y los mostrara en pantalla
 redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,Entidades){
     $scope.busqueda_entrada = null;
@@ -87,40 +98,72 @@ redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,En
 }]);
 
 
-redInn.controller('MensajesControllers',['$scope','$dragon',function($scope,$dragon){
+redInn.controller('MensajesControllers',['$scope','$dragon','$rootScope',function($scope,$dragon,$rootScope){
     $scope.mensaje = {};
     $scope.mensajes = [];
     $scope.channel = 'mensaje';
     $scope.nroMensajes=0;
+    $scope.mostrarNotificacion = false;
 
+    var notificar = function(){
+        $scope.mostrarNotificacion=true;
+        setTimeout(function () {
+                $scope.$apply(function(){
+                    $scope.mostrarNotificacion=false;
+                });
+            },8000);
+    };
 
+    var usuarioName = function(){
+        var temp = angular.element('#usuario').children();
+        return temp[0].text.replace(/\n/g,'').replace(/ /g,'');
+    };
+
+    var obtenerNuevoMensaje = function(){
+
+    };
 
     $dragon.onReady(
         function(){
-            $dragon.subscribe('mensaje-router',$scope.channel,{}).then(function(response){
+            $dragon.subscribe('mensaje-router',$scope.channel,{fk_receptor__username:usuarioName()}).then(function(response){
                     $scope.dataMapper = new DataMapper(response.data);
                 });
-            $dragon.getSingle('mensaje-router',{id:1}).then(function(response){
+            $dragon.getSingle('mensaje-router',{username:usuarioName()}).then(function(response){
                 $scope.mensaje = response.data;
             });
-            $dragon.getList('mensaje-router',{leido:false}).then(function (response) {
-                $scope.mensajes = response.data;
-            });
-
         });
 
     $dragon.onChannelMessage(function(channels, message) {
         if (indexOf.call(channels, $scope.channel) > -1) {
             $scope.$apply(function() {
                 $scope.dataMapper.mapData($scope.mensajes, message);
+                if(message.action=='created'){
+                    notificar();
+                    $rootScope.$broadcast('actualizar-mensajes');
+                }
             });
         }
     });
-//    $dragon.onChannelMessage(function(channels, message) {
-//    if (indexOf.call(channels, $scope.channel) > -1) {
-//        this.dataMapper.mapData($scope.todoItems, message);
-//        $scope.$apply();
-//    }
-//});
+
+}]);
+
+redInn.controller('MensajesContadorController',['$scope','ContarNoLeidos',function($scope,ContarNoLeidos){
+    $scope.contador=null;
+
+    var contar = function(){
+        ContarNoLeidos.get_contador(
+            function(response){
+                $scope.contador=response;
+            }
+        );
+    };
+
+    contar();
+
+    $scope.$on('actualizar-mensajes',
+        function(){
+            contar();
+        }
+    );
 
 }]);
