@@ -139,8 +139,9 @@ redInn.controller('MensajesControllers',['$scope','$dragon','$rootScope',functio
                 $scope.dataMapper.mapData($scope.mensajes, message);
                 if(message.action=='created'){
                     notificar();
-                    $rootScope.$broadcast('actualizar-mensajes');
+
                 }
+                $rootScope.$broadcast('actualizar-mensajes');
             });
         }
     });
