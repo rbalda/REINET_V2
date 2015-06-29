@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -39,9 +40,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'swampdragon',
+    'swampdragon_auth',
     'cities_light',
-    'usuarios',
     'ipware',
+    'usuarios',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -121,7 +124,16 @@ DATABASES = {
 #         'PORT':'3306',
 #         'USER':'reinet',
 #         'PASSWORD':'ReInEt2015'
-#     }
+#     },
+# #
+# #      'default': {
+# #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+# #         'NAME': 'Reinet',
+# #         'HOST': 'localhost',
+# #         'PORT':'5432',
+# #         'USER':'reinet',
+# #         'PASSWORD':'ReInEt2015'
+# #     }
 # }
 
 
@@ -178,8 +190,10 @@ EMAIL_HOST_PASSWORD = 'reinet1234' # clave de cuenta reinet
 EMAIL_USE_TLS = True
 
 #configuracion de swampdragon para real time
-SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
-DRAGON_URL = 'http//localhost:9999/'
+#SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
+#SWAMP_DRAGON_CONNECTION = ('REINET.mysql_connection.MysqlHeartbeatConnection', '/data')
+SWAMP_DRAGON_CONNECTION = ('swampdragon_auth.socketconnection.HttpDataConnection', '/data')
+DRAGON_URL = 'http://127.0.0.1:9999/'
 
 #Si realizan cambios en este archivo, que sean los technical leaders los que lo realicen.
 #Si algun programador necesita hacer algun cambio conversar con su technical.
