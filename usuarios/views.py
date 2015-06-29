@@ -1349,7 +1349,6 @@ Descripción: Muestra las membresias pendientes y aceptadas y permite modificarl
 """
 
 def administrar_membresias(request):
-	session = request.session['id_usuario']
 	institucion_id = request.session['institucion_id']
 	institucion = Institucion.objects.get(id_institucion=institucion_id)
 	args = {}
@@ -1541,6 +1540,7 @@ def buzonMembresias(request):
 			membresiasPendientes = Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 0).order_by('fecha_peticion')
 			args['membresiasPendientes'] = membresiasPendientes
 			args['institucion'] = institucion
+			args['usuario'] = request.user
 			args.update(csrf(request))
 			return render(request,'buzon_membresias.html',args)
 
@@ -1567,18 +1567,33 @@ def accionMembresia(request):
 		try:
 			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
 			aux = int(request.POST['accion'])
-			print type(aux)
-			print aux
-			print aux == 1
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
 			else:
 				membresia.estado = -1
+				asunto = "Rechazo Solicitud Membresia"
+				texto_mensaje = "Su solicitud ha sido rechazada, debido a politicas internas. BRONZA"
+				try:
+					mensajes = Mensaje()
+					receptor=User.objects.get(id=request.POST['usuarioreceptor'])
+					emisor=User.objects.get(id=request.POST['usuarioemisor'])
+					if receptor is not None:
+						mensajes.fk_emisor = emisor
+						mensajes.fk_receptor = receptor
+						mensajes.asunto = asunto
+						mensajes.mensaje= texto_mensaje
+						mensajes.fecha_de_envio=datetime.datetime.now()
+						mensajes.save()
+					else:
+						print "usuario invalido"
+				except Exception as e:
+					print "error cojudo, resuelvelo angel"
 
-			
 			membresia.save()
 			print 'al parecer se guardo'
+
+
 			response = JsonResponse({'membresia_save':True})
 			return HttpResponse(response.content)
 
@@ -1586,4 +1601,3 @@ def accionMembresia(request):
 			print 'membresia no existe'
 	else:
 		return redirect('/')
-

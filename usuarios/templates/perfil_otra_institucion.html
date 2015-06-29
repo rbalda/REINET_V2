@@ -56,7 +56,6 @@
                 </div>
 
             <!-- //// PERFIL PRINCIPAL ///// -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
             <div class="col-sm-8">
               <h3 class="hl">{{ institucion.nombre }} <br>
                 <small> {{institucion.siglas}} </small></h3>
@@ -89,10 +88,10 @@
                     <textarea id="txt_description" style="resize:none" maxlength="400" rows="4" name="txt_description" type="text" class="form-control" id="descripcion" placeholder="Ingrese la descripcion del cargo"></textarea>
                     <div style="display:none;" id="errorDescripcion" class="alert alert-danger" role="alert">La descripci&oacute;n es requerida y no debe contener caracteres como ¿? ¡! $ % /\"</div>
                     <br/>
-                    <button id="btn_aceptar_Suscripcion" type="button" class="btn btn-blue" style="left:30%;position:left;">
+                    <button id="btn_aceptar_Suscripcion" type="button" class="btn btn-blue" style="left:30%">
                         Enviar
                     </button>
-                    <button id="btn_cancelar_Suscripcion" type="button" class="btn btn-white" style="left:30%;position:right;" data-toggle="clickover" onclick="$('#btn_sucribirte').popover('hide');">
+                    <button id="btn_cancelar_Suscripcion" type="button" class="btn btn-white" style="left:30%" data-toggle="clickover" onclick="$('#btn_sucribirte').popover('hide');">
                         Cancelar
                     </button>
                     
@@ -196,7 +195,7 @@
                     var cargo = $('#txt_cargo').val();
                     var descripcion = $('#txt_description').val();
                     var patroncargo = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-                    var patrondescripcion = /^[_\-.,;a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; 
+                    var patrondescripcion = /^[_/.,;/a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
                     var resultado1 = patroncargo.test(cargo);
                     var resultado2 = patrondescripcion.test(descripcion);
                     if(resultado1 == false)
