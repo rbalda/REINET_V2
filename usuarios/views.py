@@ -358,7 +358,6 @@ def registro_usuario(request):
 					pass
 
 				usuario = auth.authenticate(username=username, password=password)
-				args = {}
 
 				if usuario is not None:
 					if request.POST.has_key('remember_me'): #Error 10, usar palabras en español
@@ -432,6 +431,25 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 					request.session['id_usuario'] = usuario.id
 					print user
 					print user.privacidad
+
+					#Valida si el usuario tiene una institucion a su cargo o es administrador.
+					membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
+					#Intenta obtener si tiene alguna peticion pendiente.
+					peticion_pendiente = Peticion.objects.filter(fk_usuario=user).count()
+					#Si tiene alguna membresia.
+					if membresia is not None :
+						#Si es administrador de alguna institucion o tiene una peticion pendiente.
+						if membresia.es_administrator or peticion_pendiente==0:
+							args['es_admin']=True
+							request.session['es_admin'] = True
+						else:
+							args['es_admin']=False
+							request.session['es_admin'] = False
+					else:
+						args['es_admin']=False
+						request.session['es_admin'] = False
+
+
 					if user.privacidad<10000 :
 						auth.login(request, usuario)
 						return HttpResponseRedirect('/inicioUsuario')
@@ -543,9 +561,10 @@ def editar_usuario(request):
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
 		user = request.user
-		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
-		esadmin = request.session['es_admin']
-		args['es_admin']= esadmin
+		try:
+			args['es_admin'] = request.session['es_admin']
+		except KeyError:
+			args['es_admin'] = False
 		args.update(csrf(request))
 		print args
 		return render_to_response('Usuario_Edit-Profile.html', args)
@@ -559,8 +578,8 @@ Salida: http
 Descripción: Muestra la pagina de Terminos y Condiciones del sistema REINET
 """
 
-def terminosCondiciones(request):
-	return render(request, 'terms.html')
+def ver_terminos_condiciones(request):
+	return render(request, 'terminos_y_condiciones.html')
 
 
 """
@@ -581,16 +600,12 @@ def inicio(request):
 	if usuario is not None:
 		args['usuario'] = usuario
 		user = request.user
-		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
-		if membresia is not None :
-			if membresia.es_administrator :
-				args['es_admin']=True
-				request.session['es_admin'] = True
-				print "soyadmin"
-		else:
-			args['es_admin']=False
-			request.session['es_admin'] = False
-			print "no soy admin"
+
+		try:
+			args['es_admin'] = request.session['es_admin']
+		except KeyError:
+			args['es_admin'] = False
+
 
 		if(usuario.privacidad>=10000):
 			usuario.privacidad = abs(usuario.privacidad-10000)
@@ -627,8 +642,10 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
 		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
-		esadmin = request.session['es_admin']
-		args['es_admin']= esadmin
+		try:
+			args['es_admin'] = request.session['es_admin']
+		except KeyError:
+			args['es_admin'] = False
 		membresia = membresias.filter(estado=1).exclude(fk_institucion=1).first()
 		if membresia is not None:
 			try:
@@ -717,15 +734,16 @@ def verPerfilInstituciones(request, institucionId):
 				args['es_afiliado'] = False
 				esAfiliado = Membresia.objects.filter(fk_usuario=sesion,estado=1).exclude(fk_institucion=1).count()
 				print 'esAfiliado:' + str(esAfiliado)
-				if esAfiliado>0 or request.session['es_admin']==True:
-					print 'entro'
+				if esAfiliado!=0:
 					args['es_afiliado']= True
-					print args['es_afiliado']
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
 				args['duenho'] = duenho_institucion
-				args['es_admin'] = request.session['es_admin']
+				try:
+					args['es_admin'] = request.session['es_admin']
+				except KeyError:
+					args['es_admin'] = False
 		except:
 			return redirect('/inicioUsuario')
 
@@ -807,7 +825,10 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 	else:
 		args = {}
 		user = request.user
-		args['es_admin'] = request.session['es_admin']
+		try:
+			args['es_admin'] = request.session['es_admin']
+		except KeyError:
+			args['es_admin'] = False
 		error = "Contraseña Incorrecta"
 		args['error'] = error
 		args['usuario'] = usuario
@@ -934,7 +955,10 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				args = {}
 				args['usuario'] = perfil
 				args['usuarioSesion'] = usuario
-				args['es_admin'] = request.session['es_admin']
+				try:
+					args['es_admin'] = request.session['es_admin']
+				except KeyError:
+					args['es_admin'] = False
 				return render_to_response("Usuario_vercualquierPerfil.html", args)
 		except:
 			return HttpResponseRedirect('/inicioUsuario')
@@ -1183,7 +1207,10 @@ def ver_bandeja_entrada(request):
 	args['usuario']=usuario
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
-	args['es_admin'] = request.session['es_admin']
+	try:
+		args['es_admin'] = request.session['es_admin']
+	except KeyError:
+		args['es_admin'] = False
 	for m in mensajes:
 		print m.imgEm
 	return render_to_response('bandeja_de_entrada.html',args)
@@ -1234,7 +1261,10 @@ def enviarMensaje(request):
 		print "porque D:"
 		args = {}
 		args['usuario']=usuario
-		args['es_admin'] = request.session['es_admin']
+		try:
+			args['es_admin'] = request.session['es_admin']
+		except KeyError:
+			args['es_admin'] = False
 		args.update(csrf(request))
 		return render_to_response('enviar_mensaje.html',args)
 
@@ -1265,7 +1295,10 @@ def verMensaje(request):
 		args['emisor']=emisor
 		args['receptor']=receptor
 		args['usuario']=usuario
-		args['es_admin'] = request.session['es_admin']
+		try:
+			args['es_admin'] = request.session['es_admin']
+		except KeyError:
+			args['es_admin'] = False
 		return render_to_response('ver_mensaje.html',args)
 	except:
 		return HttpResponseRedirect("/BandejaDeEntrada/")
@@ -1293,7 +1326,10 @@ def mensajesEnviados(request):
 	args['usuario']=usuario
 	args['mensajes']=mensajes
 	args['range']=range(len(mensajes))
-	args['es_admin'] = request.session['es_admin']
+	try:
+		args['es_admin'] = request.session['es_admin']
+	except KeyError:
+		args['es_admin'] = False
 	return render_to_response('mensajes_enviados.html',args)
 
 
@@ -1332,7 +1368,6 @@ Descripción: Muestra las membresias pendientes y aceptadas y permite modificarl
 """
 
 def administrar_membresias(request):
-	session = request.session['id_usuario']
 	institucion_id = request.session['institucion_id']
 	institucion = Institucion.objects.get(id_institucion=institucion_id)
 	args = {}
@@ -1524,6 +1559,7 @@ def buzonMembresias(request):
 			membresiasPendientes = Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 0).order_by('fecha_peticion')
 			args['membresiasPendientes'] = membresiasPendientes
 			args['institucion'] = institucion
+			args['usuario'] = request.user
 			args.update(csrf(request))
 			return render(request,'buzon_membresias.html',args)
 
@@ -1550,18 +1586,33 @@ def accionMembresia(request):
 		try:
 			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
 			aux = int(request.POST['accion'])
-			print type(aux)
-			print aux
-			print aux == 1
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
 			else:
 				membresia.estado = -1
+				asunto = "Rechazo Solicitud Membresia"
+				texto_mensaje = "Su solicitud ha sido rechazada, debido a politicas internas. BRONZA"
+				try:
+					mensajes = Mensaje()
+					receptor=User.objects.get(id=request.POST['usuarioreceptor'])
+					emisor=User.objects.get(id=request.POST['usuarioemisor'])
+					if receptor is not None:
+						mensajes.fk_emisor = emisor
+						mensajes.fk_receptor = receptor
+						mensajes.asunto = asunto
+						mensajes.mensaje= texto_mensaje
+						mensajes.fecha_de_envio=datetime.datetime.now()
+						mensajes.save()
+					else:
+						print "usuario invalido"
+				except Exception as e:
+					print "error cojudo, resuelvelo angel"
 
-			
 			membresia.save()
 			print 'al parecer se guardo'
+
+
 			response = JsonResponse({'membresia_save':True})
 			return HttpResponse(response.content)
 
@@ -1569,4 +1620,3 @@ def accionMembresia(request):
 			print 'membresia no existe'
 	else:
 		return redirect('/')
-
