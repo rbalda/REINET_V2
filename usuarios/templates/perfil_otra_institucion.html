@@ -66,7 +66,6 @@
 
                 <div>
                     <button class="col-sm-6 btn btn-green btn-sm" type="button" style="text-align:center;" onclick="window.location.href='/enviarMensaje/'"><i class="fa fa-envelope btn-sm"></i>Redactar Mensaje</button>
-                    
                     {% if not es_afiliado %}
                       <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
                       data-placement="bottom">
@@ -84,10 +83,12 @@
                     <label>Cargo</label>
                     <input id="txt_cargo" name="txt_cargo" type="text"
                                    class="form-control" id="cargo" placeholder="Ingrese su cargo">
-                   <label>Descripci&oacute;n</label>
-                    <input id="txt_description" name="txt_description" type="text"
-                                   class="form-control" id="descripcion" placeholder="Ingrese la descripcion del cargo">
-                    <br>
+                    <div style="display:none;" id="errorCargo" class="alert alert-danger" role="alert">El nombre del cargo es requerido y no debe contener caracteres especiales</div>
+                    <br/>
+                    <label>Descripci&oacute;n</label>
+                    <textarea id="txt_description" style="resize:none" maxlength="400" rows="4" name="txt_description" type="text" class="form-control" id="descripcion" placeholder="Ingrese la descripcion del cargo"></textarea>
+                    <div style="display:none;" id="errorDescripcion" class="alert alert-danger" role="alert">La descripci&oacute;n es requerida y no debe contener caracteres como ¿? ¡! $ % /\"</div>
+                    <br/>
                     <button id="btn_aceptar_Suscripcion" type="button" class="btn btn-blue" style="left:30%;position:left;">
                         Enviar
                     </button>
@@ -159,35 +160,64 @@
                     //alert($('#txt_cargo').val());
                     console.log('dentro de suscribirAInstitucion');
                     console.log($('#txt_cargo').text());
-                    $.ajax({
-                        data: {
-                        'cargo':$('#txt_cargo').val(),
-                        'descripcion':$('#txt_description').val(),
-                        'institucion' : {{institucion.id_institucion}},
-                        'csrfmiddlewaretoken' : '{{ csrf_token }}'
-                        },
-                        type: 'post',
-                        url: '/suscribirAInstitucion/',
-                        success: function(data){
-                                var html = "<p>Se ha enviado la solicitud</p>";
-                                var objeto = JSON.parse(data);
-                                console.log(objeto);
+                    var formularioValido=validarSolicitud();
+                    if(formularioValido == true){
+                      $.ajax({
+                          data: {
+                          'cargo':$('#txt_cargo').val(),
+                          'descripcion':$('#txt_description').val(),
+                          'institucion' : {{institucion.id_institucion}},
+                          'csrfmiddlewaretoken' : '{{ csrf_token }}'
+                          },
+                          type: 'post',
+                          url: '/suscribirAInstitucion/',
+                          success: function(data){
+                                  var html = "<p>Se ha enviado la solicitud</p>";
+                                  var objeto = JSON.parse(data);
+                                  console.log(objeto);
 
-                                if (objeto.save_estado){
-                                  $('#info_suscripcion').addClass("alert alert-success");
-                                  $('#info_suscripcion').html(html);
-                                  $('#info_suscripcion').removeClass("alert-info");
-                                  $('#info_suscripcion').removeClass("alert-warning");
-                                  $('#btn_sucribirte').popover('hide');
-                                  $('#btn_sucribirte').hide();
-                                  $('#info_suscripcion').show();
-                                }
+                                  if (objeto.save_estado){
+                                    $('#info_suscripcion').addClass("alert alert-success");
+                                    $('#info_suscripcion').html(html);
+                                    $('#info_suscripcion').removeClass("alert-info");
+                                    $('#info_suscripcion').removeClass("alert-warning");
+                                    $('#btn_sucribirte').popover('hide');
+                                    $('#btn_sucribirte').hide();
+                                    $('#info_suscripcion').show();
+                                  }
 
 
-                        }
-                    });
+                          }
+                      });
+                    }
                   });
-
+                  function validarSolicitud()
+                  {
+                    var cargo = $('#txt_cargo').val();
+                    var descripcion = $('#txt_description').val();
+                    var patroncargo = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+                    var patrondescripcion = /^[_\-.,;a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; 
+                    var resultado1 = patroncargo.test(cargo);
+                    var resultado2 = patrondescripcion.test(descripcion);
+                    if(resultado1 == false)
+                    {
+                      $('#errorCargo').css("display","block");
+                    }
+                    else
+                    {
+                      $('#errorCargo').css("display","none");
+                    }
+                    if(resultado2 == false)
+                    {
+                      $('#errorDescripcion').css("display","block");
+                    }
+                    else
+                    {
+                      $('#errorDescripcion').css("display","none");
+                    }
+                    //alert('cargo: ' + resultado1 + ' descripcion '+ resultado2);
+                    return resultado1 && resultado2;
+                  }
             </script>
             </div>
 

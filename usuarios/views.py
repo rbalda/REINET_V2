@@ -1287,18 +1287,21 @@ Descripción:Esta función permite mostrar los miembros que pertenecen a una ins
 """
 @login_required
 def miembros_institucion(request):
-	session = request.session['id_usuario']
-	institucion_id = request.session['institucion_id']
-	institucion = Institucion.objects.get(id_institucion=institucion_id)
-	args = {}
-	if institucion is not None:
-		args['institucion']=institucion
-		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
-		args['lista_miembros']=miembros
+	if request.is_ajax():
+		args={}
+		try:
+			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
+			miembrosActivos= Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 1).order_by('fecha_peticion')
+			args['miembrosActivos'] = miembrosActivos
+			args.update(csrf(request))
+			return render(request,'miembros_institucion.html',args)
 
-
-
-	return render_to_response('miembros_institucion.html',args)
+		except Institucion.DoesNotExist:
+			print 'error no existe institucion'
+		except Membresia.DoesNotExist:
+			print 'error en miembros'
+	else:
+		return redirect('/')
 
 
 """
@@ -1501,6 +1504,7 @@ def buzonMembresias(request):
 			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
 			membresiasPendientes = Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 0).order_by('fecha_peticion')
 			args['membresiasPendientes'] = membresiasPendientes
+			args['institucion'] = institucion
 			args.update(csrf(request))
 			return render(request,'buzon_membresias.html',args)
 

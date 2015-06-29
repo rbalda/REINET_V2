@@ -64,20 +64,35 @@
                     <div class="tab-pane active" id="solicitudes">
                         <!-- ////// Contenido del tab de solicitudes /////// -->
 
-                    <div ><i id="btn_update" class="fa fa-refresh"></i></div>
+                    <div ><i id="btn_update" class="col-md-offset-11 fa fa-refresh"></i></div>
                     <hr>
 
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="pm-list">
+                            <div class="col-md-12" style="height: 200px;overflow:hidden">
+                                <div class="col-md-12 pm-list" style="height:100%; width:100%;overflow:auto">
                                     <ul id="panel_membresias">
-
+                                        
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
 
+
+                       
+
+                    </div>
+                    <div class="tab-pane" id="miembros">
+                        <!-- ////// Contenido del tab de solicitudes /////// -->
+                        <div class="row">
+                            <div class="col-md-12" style="height:200px;overflow:hidden">
+                                <div class="pm-list" style="height:100%; width:100%;overflow:auto">
+                                    <ul id="panel_miembros">
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
                         <script>
                             $(document).ready(function(){
@@ -104,13 +119,26 @@
 
 
                                 });
+                                $(function(){
+                                  $('#panel_miembros').ready(actualizarListaMiembros);
+
+                                    function actualizarListaMiembros(){
+                                        console.log('actualizandooo')
+                                    $.ajax({
+                                      data:{
+                                        'institucion':{{institucion.id_institucion}}
+                                      },
+                                      type:'get',
+                                      url: '/MiembrosInstitucion/',
+                                      success: function(data){
+                                        $('#panel_miembros').html(data)
+                                      }
+                                    });
+
+                                  }
+                                });
                               });
                         </script>
-
-                    </div>
-                    <div class="tab-pane" id="miembros">
-                        <!-- ////// Contenido del tab de solicitudes /////// -->
-
                     </div>
                 </div>
             </div>
