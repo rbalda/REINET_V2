@@ -23,10 +23,12 @@ from django.http import JsonResponse
 
 from django.contrib.auth.decorators import login_required
 import datetime, random, string, socket
+from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ipware.ip import *
+from rest_framework.views import APIView
 from .models import *
 
 from django.contrib.auth.forms import UserCreationForm
@@ -1111,7 +1113,14 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 		return render(request,"institucion_editar.html",args)
 
 
-
+"""
+Autor: Rene Balda
+Nombre de funcion: Busqueda de Institucion y personas
+Entrada: request
+Salida: Redireccion bandeja de entrada
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada
+"""
 class InstitucionBusqueda(ListAPIView):
 	queryset = Institucion.objects.all()
 	serializer_class = InstitucionSerializador
@@ -1124,7 +1133,7 @@ class InstitucionBusqueda(ListAPIView):
 		if busqueda is not None and busqueda!='':
 			queryset = self.get_queryset().filter(siglas__icontains=busqueda)
 			queryset = queryset|self.get_queryset().filter(nombre__icontains=busqueda)
-		lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
+		lista_serializada = self.get_serializer_class()(queryset[:3],many=True)
 		return Response(lista_serializada.data)
 
 class PerfilBusqueda(ListAPIView):
@@ -1139,8 +1148,18 @@ class PerfilBusqueda(ListAPIView):
 		if busqueda is not None and busqueda!='':
 			queryset = self.get_queryset().filter(first_name__icontains=busqueda)
 			queryset = queryset | self.get_queryset().filter(last_name__icontains=busqueda)
-		lista_serializada = self.get_serializer_class()(queryset[:4],many=True)
+		lista_serializada = self.get_serializer_class()(queryset[:3],many=True)
 		return Response(lista_serializada.data)
+
+class NumeroMensajesNoLeidos(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self,request,*args,**kwargs):
+        no_leidos = Mensaje.objects.filter(fk_receptor=request.user,leido=False)
+        total = len(no_leidos)
+        response = Response(total,status=status.HTTP_200_OK)
+        return response
+
 
 """
 Autor: Ray Montiel

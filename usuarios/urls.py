@@ -52,6 +52,8 @@ urlpatterns = patterns('',
 
         url(r'^api/buscar_institucion[/]?',InstitucionBusqueda.as_view(),name='buscar_institucion'),
         url(r'^api/buscar_usuario[/]?',PerfilBusqueda.as_view(),name='buscar_usuario'),
+        url(r'^api/contar_no_leidos[/]?',NumeroMensajesNoLeidos.as_view(),name='contar_no_leidos'),
+
 
         url(r'^BandejaDeEntrada[/]?$', ver_bandeja_entrada, name='BandejaDeEntrada'),
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
