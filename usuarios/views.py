@@ -1303,7 +1303,7 @@ def enviarMensaje(request):
 			print e
 			return HttpResponseRedirect('/BandejaDeEntrada/')
 	else:
-		print "porque D:"
+		print "porque D: esto es GET"
 		args = {}
 		args['usuario']=usuario
 		try:
@@ -1394,7 +1394,8 @@ def completar_username(request):
 		print "holaaa entreee a autocompletar"
 		results = []
 		q = request.GET.get('term', '') #jquery-ui.autocomplete parameter
-		nombres_usuarios = User.objects.filter(username__icontains = q )[:10]
+		print q
+		nombres_usuarios = User.objects.filter(username__contains = q ).values('username').distinct()[:10]
 		print nombres_usuarios
 		for username in nombres_usuarios:
 			name_json = {}
