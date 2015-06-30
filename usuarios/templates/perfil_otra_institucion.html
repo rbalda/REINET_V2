@@ -64,7 +64,43 @@
               <br>  
 
                 <div>
-                    <button class="col-sm-6 btn btn-green btn-sm" type="button" style="text-align:center;" onclick="window.location.href='/enviarMensaje/'"><i class="fa fa-envelope btn-sm"></i>Redactar Mensaje</button>
+                    <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
+                                    class="fa fa-envelope"></i> Redactar Mensaje</a>
+                                                    <!-- //// VENTANA EMERGENTE EMAIL ///// -->
+                                <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <img src={{ usuario.foto.url }} alt="...">
+                                            <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
+                                            <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form role="form" action="/enviarMensaje/" method='POST'>
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="Destinatario">Para:</label>
+                                                    <input type="text" class="form-control" id="destinatario" name="destinatario"
+                                                    placeholder="Destinatario" value="{{ duenho.username }}" maxlength="50" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Asunto">Asunto:</label>
+                                                    <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                                                    maxlength="40" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Mensaje">Mensaje:</label>
+                                                    <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
+                                                    required></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-green">Enviar</button>
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                     {% if not es_afiliado %}
                       <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
                       data-placement="bottom">
