@@ -38,35 +38,29 @@
     <div class="row">
 
         <!-- Menu del Perfil -->
-        
-        
-        <!-- Foto del Perfil-->
-        <div class="col-sm-8 col-md-6">
-            <div class="row">
-
-                <div class="col-sm-4">
-                    <div class="thumbnail">
-                        <div class="avatar">
-                            <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                                <img src="../../media/{{ institucion.logo }}" alt="...">
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-9 col-sm-9">
 
             <!-- //// PERFIL PRINCIPAL ///// -->
-            <div class="col-sm-8">
-              <h3 class="hl">{{ institucion.nombre }} <br>
-                <small> {{institucion.siglas}} </small></h3>
-              <hr>
+            <div class="col-sm-12">
+              <h3 class="hl" align="center" style="margin-top:0; margin-bottom:15px">
+                <strong>{{ institucion.nombre }}</strong>
+                <small> {{institucion.siglas}} </small>
+              </h3>
                 <div class="col-sm-12" style="text-align:center" id="info_suscripcion"></div>
-              <br>  
-
-                <div>
+              <br>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                  <div class="thumbnail col-md-12" style="margin-bottom: 0px;">
+                      <div class="avatar">
+                          <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+                              <img src="../../media/{{ institucion.logo }}" alt="...">
+                          </a>
+                      </div>
+                  </div>
+                  <div>
                     <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
                                     class="fa fa-envelope"></i> Redactar Mensaje</a>
-                                                    <!-- //// VENTANA EMERGENTE EMAIL ///// -->
+                                <!-- //// VENTANA EMERGENTE EMAIL ///// -->
                                 <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -102,17 +96,19 @@
                                     </div>
                                 </div>
                     {% if not es_afiliado %}
-                      <button class="col-sm-6 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:left;" type="button" data-toggle="popover"
+                      <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center;" type="button" data-toggle="popover"
                       data-placement="bottom">
                       <i class="fa fa-user-plus  btn-sm"></i>
-                      Solicitar Membresia</button>   
-                    {% endif %}                     
-                   
-                </div>
-                
-                
+                      Solicitar Membresia</button>
+                    {% endif %}
+
+                  </div>
+
+
+
+
                 <div id="popover_content_wrapper" data-placement="bottom" style="display: none" role="dialog">
-                
+
                     <div>Complete el siguiente formulario:</div>
                     <br>
                     <label>Cargo</label>
@@ -130,15 +126,14 @@
                     <button id="btn_cancelar_Suscripcion" type="button" class="btn btn-default" style="left:30%;margin-left:30px;" data-toggle="clickover" onclick="$('#btn_sucribirte').popover('hide');">
                         Cancelar
                     </button>
-                    
+
                 </div>
-                
+
             </div>
 
               <script>
               $(document).ready(function(){
                 $(function(){
-
                   $('#info_suscripcion').removeClass("alert alert-info alert-warning");
                   $('#info_suscripcion').hide();
                   $('#btn_sucribirte').ready(function (){
@@ -152,11 +147,9 @@
                       success: function(data){
                         var objeto = JSON.parse(data);
                         console.log(objeto);
-
                         if (objeto.existeMembresia) {
                           $('#btn_sucribirte').hide();
                           $('#info_suscripcion').show();
-
                           switch(objeto.estadoMembresia){
                               case -1:
                               //si existe membresia pero fue rechazado
@@ -176,13 +169,12 @@
                                 $('#info_suscripcion').removeClass("alert-warning");
                               break;
                           }
-
                         }else{
                           //no existe membresia
                           $('#btn_sucribirte').show();
                           $('#info_suscripcion').hide();
                         }
-                        
+
                         $('#info_suscripcion').html(html);
                       }
                     });
@@ -190,7 +182,6 @@
                 });
               });
 
-              
                 $(document).on('click','#btn_aceptar_Suscripcion',function(){
                     //alert($('#txt_cargo').val());
                     console.log('dentro de suscribirAInstitucion');
@@ -210,7 +201,6 @@
                                   var html = "<p>Se ha enviado la solicitud</p>";
                                   var objeto = JSON.parse(data);
                                   console.log(objeto);
-
                                   if (objeto.save_estado){
                                     $('#info_suscripcion').addClass("alert alert-success");
                                     $('#info_suscripcion').html(html);
@@ -220,8 +210,6 @@
                                     $('#btn_sucribirte').hide();
                                     $('#info_suscripcion').show();
                                   }
-
-
                           }
                       });
                     }
@@ -254,98 +242,106 @@
                     return resultado1 && resultado2;
                   }
             </script>
-            </div>
 
             <br>
-            <br>
-            <br>
-            <br>
+
 
 
 
             <!-- Informacion General-->
-            
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="col-sm-6" id="collapseGeneral">
-
-                        <div class="panel-heading btn-outline btn-success"
-                             style="text-align:center;background-color:#A2B2AC">
-                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseGeneral"><i class="fa fa-info-circle"></i>
-                                Informaci&oacute;n General </a></h4>
+            <div class="col-md-8 col-sm-8">
+                    <div class="col-md-12 col-sm-12" style="margin-bottom:10px">
+                        <div class="block-header">
+                            <h2 style="margin:0 0 5px 0;background-color:#515151">
+                                <span class="title">Misi&oacute;n</span>
+                                <span class="decoration"></span>
+                                <span class="decoration"></span>
+                                <span class="decoration"></span>
+                            </h2>
                         </div>
-                        <div id="collapseInfoGeneral" class="panel-collapse collapse in">
-                            <table class="table table-hover">
-                                <tbody id="infoGeneralBody">
+                        <p class="text-left" style="margin-bottom:14px">
 
-                                <tr>
-                                    <td class="text-muted">Descripci&oacute;n</td>
-                                    <td style="text-align:left">{{ institucion.descripcion }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Misi&oacute;n</td>
-                                    <td style="text-align:left">{{ institucion.mision }}</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="text-muted">Pa&iacute;s</td>
-                                    <td style="text-align:left">{{ institucion.pais }}</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="text-muted">P&aacute;gina Web</td>
-                                    <td style="text-align:left;word-break: break-all;">{{ institucion.web }}</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="text-muted">Recursos Ofrecidos</td>
-                                    <td style="text-align:left">{{ institucion.recursos_ofrecidos }}</td>
-                                </tr>
+                            {{ institucion.mision }}
+                        </p>
+                        <div class="block-header">
+                                <h2 style="margin:0 0 5px 0;font-size: 18px;">
+                                    <span class="title" >Descripci&oacute;n</span>
+                                    <span class="decoration"></span>
+                                    <span class="decoration"></span>
+                                </h2>
+                            </div>
+                            <p class="text-left" style="font-size: 12px; margin-bottom:14px">
 
 
-                                </tbody>
-                            </table>
-                        </div>
+                                {{ institucion.descripcion }}
+                            </p>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                            <div class="block-header">
+                                <h2 style="margin:0 0 5px 0;font-size: 18px;">
+                                    <span class="title" >Recursos Ofrecidos</span>
+                                    <span class="decoration"></span>
+                                </h2>
+                            </div>
+                            <p class="text-left" style="font-size: 12px;">
+
+                                {{ institucion.recursos_ofrecidos }}
+                            </p>
                     </div>
 
-                    
-                    <div class="col-sm-6" id="collapseContacto">
-                        <div class="panel-heading btn-outline btn-primary"
-                             style="text-align:center;background-color:#123A82">
-                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="collapseContacto"><i class="fa fa-map-marker"></i>
-                                Informaci&oacute;n de Contacto </a></h4>
+                    <div class="col-md-6 col-sm-12" align="left">
+                        <div class="panel-heading btn-outline btn-success" style="text-align:center;background-color:#123A82">
+                            <h4 class="panel-title"> Informaci&oacute;n General </h4>
                         </div>
-                        <div id="collapseInfoContacto" class="panel-collapse collapse in">
-                            <table class="table table-hover">
-                                <tbody id="infoContactoBody">
-                                <tr>
-                                    <td class="text-muted">Nombre</td>
-                                    <td style="text-align:left">{{ duenho.first_name }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Apellido</td>
-                                    <td style="text-align:left">{{ duenho.last_name }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Tel&eacute;fono</td>
-                                    <td style="text-align:left">{{ duenho.telefono }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Email</td>
-                                    <td style="text-align:left">{{ duenho.email }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Website</td>
-                                    <td style="text-align:left;word-break: break-all;">{{ duenho.web }}</td>
-                                </tr>
+                        <div style="margin:10px">
+                            <i class="fa fa-sort-alpha-asc" style="margin-right:10px"></i>{{ institucion.siglas }}
+                        </div>
+                        <div style="margin:10px">
+                            <i class="fa fa-globe" style="margin-right:10px"></i> {{ institucion.pais }}
+                        </div>
+                        <div style="margin:10px">
+                            <i class="fa fa-code" style="margin-right:10px"></i>{{ institucion.web }}
+                        </div>
+                        <hr style="margin:10px 0 10px 0">
+                    </div>
 
-                                </tbody>
-                            </table>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="block-inverse">
+                            <div class="head-inverse" style="background: #C11F1F;">
+                                <div class="text-center" style="color:white">Contacto</div>
+                            </div>
+                            <div class="body-inverse">
+                                <div class="user-gallery text-center">
+                                    <table class="table table-hover" style="margin-bottom:0">
+                                        <tbody id="infoContactoBody">
+                                            <tr>
+                                                <td class="text-muted">Nombre</td>
+                                                <td style="text-align:left">{{ duenho.first_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Apellido</td>
+                                                <td style="text-align:left">{{ duenho.last_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Tel&eacute;fono</td>
+                                                <td style="text-align:left">{{ duenho.telefono }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Email</td>
+                                                <td style="text-align:left">{{ duenho.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">Website</td>
+                                                <td style="text-align:left;word-break: break-all;">{{ duenho.web }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+              </div>
         </div>
     </div>
 </div>
@@ -358,11 +354,10 @@
      Salida: http
      Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
      */
-
     $(document).ready(function () {
         $('#btn_sucribirte').popover({
             html: true,
-            content: function () { 
+            content: function () {
                 return $('#popover_content_wrapper').html();
             }
         });
