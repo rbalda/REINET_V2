@@ -117,29 +117,6 @@ DATABASES = {
 }
 """
 
-DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'Reinet',
-#         'HOST': '192.168.1.39',
-#         'PORT':'3306',
-#         'USER':'reinet',
-#         'PASSWORD':'ReInEt2015'
-#     },
-
-     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Reinet',
-        'HOST': 'localhost',
-        'PORT':'5432',
-        'USER':'reinet',
-        'PASSWORD':'ReInEt2015'
-    },
-
-
-}
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -203,8 +180,8 @@ DRAGON_URL = 'http://127.0.0.1:9999/'
 #Comentar que cambio,cuando se lo hizo y por que se lo realizo.
 
 #para ejecutar test en servidor sqlite
-if 'test' in sys.argv:
-    DATABASES['default']={
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'reinet_test.db'),
-    }
+#if 'test' in sys.argv:
+#    DATABASES['default']={
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'reinet_test.db'),
+#   }
