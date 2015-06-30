@@ -48,7 +48,7 @@
               </h3>
                 <div class="col-sm-12" style="text-align:center" id="info_suscripcion"></div>
               <br>
-            </div>
+            </div>  
             <div class="col-md-4 col-sm-4">
                   <div class="thumbnail col-md-12" style="margin-bottom: 0px;">
                       <div class="avatar">
@@ -58,57 +58,57 @@
                       </div>
                   </div>
                   <div>
-                    <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
+                    <a href="#" class="col-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
                                     class="fa fa-envelope"></i> Redactar Mensaje</a>
-                                <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-                                <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <img src={{ usuario.foto.url }} alt="...">
-                                            <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
-                                            <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form role="form" action="/enviarMensaje/" method='POST'>
-                                                {% csrf_token %}
-                                                <div class="form-group">
-                                                    <label for="Destinatario">Para:</label>
-                                                    <input type="text" class="form-control" id="destinatario" name="destinatario"
-                                                    placeholder="Destinatario" value="{{ duenho.username }}" maxlength="50" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="Asunto">Asunto:</label>
-                                                    <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
-                                                    maxlength="40" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="Mensaje">Mensaje:</label>
-                                                    <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
-                                                    required></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-green">Enviar</button>
-                                            </form>
-                                        </div>
-                                        </div>
-                                    </div>
+                        <!-- //// VENTANA EMERGENTE EMAIL ///// -->
+                        <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <img src={{ usuarioSesion.foto.url }} alt="...">
+                                    <h4 class="modal-title" id="sendemailtitle">{{ usuarioSesion.first_name }} {{ usuarioSesion.last_name }}</h4>
+                                    <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+                                    <div class="clearfix"></div>
                                 </div>
+                                <div class="modal-body">
+                                    <form role="form" action="/enviarMensaje/" method='POST'>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="Destinatario">Para:</label>
+                                            <input type="text" class="form-control" id="destinatario" name="destinatario"
+                                            placeholder="Destinatario" value="{{ usuario.username }}" maxlength="50" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Asunto">Asunto:</label>
+                                            <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                                            maxlength="40" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Mensaje">Mensaje:</label>
+                                            <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
+                                            required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-green">Enviar</button>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                     {% if not es_afiliado %}
                       <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center;" type="button" data-toggle="popover"
                       data-placement="bottom">
                       <i class="fa fa-user-plus  btn-sm"></i>
-                      Solicitar Membresia</button>
-                    {% endif %}
-
+                      Solicitar Membresia</button>   
+                    {% endif %}                     
+                   
                   </div>
-
-
-
-
+              
+                
+                
+                
                 <div id="popover_content_wrapper" data-placement="bottom" style="display: none" role="dialog">
-
+                
                     <div>Complete el siguiente formulario:</div>
                     <br>
                     <label>Cargo</label>
@@ -126,9 +126,9 @@
                     <button id="btn_cancelar_Suscripcion" type="button" class="btn btn-default" style="left:30%;margin-left:30px;" data-toggle="clickover" onclick="$('#btn_sucribirte').popover('hide');">
                         Cancelar
                     </button>
-
+                    
                 </div>
-
+                
             </div>
 
               <script>
@@ -174,14 +174,14 @@
                           $('#btn_sucribirte').show();
                           $('#info_suscripcion').hide();
                         }
-
+                        
                         $('#info_suscripcion').html(html);
                       }
                     });
                   });
                 });
               });
-
+              
                 $(document).on('click','#btn_aceptar_Suscripcion',function(){
                     //alert($('#txt_cargo').val());
                     console.log('dentro de suscribirAInstitucion');
@@ -260,7 +260,7 @@
                             </h2>
                         </div>
                         <p class="text-left" style="margin-bottom:14px">
-
+                            
                             {{ institucion.mision }}
                         </p>
                         <div class="block-header">
@@ -271,7 +271,7 @@
                                 </h2>
                             </div>
                             <p class="text-left" style="font-size: 12px; margin-bottom:14px">
-
+                                
 
                                 {{ institucion.descripcion }}
                             </p>
@@ -284,12 +284,12 @@
                                 </h2>
                             </div>
                             <p class="text-left" style="font-size: 12px;">
-
+                                
                                 {{ institucion.recursos_ofrecidos }}
                             </p>
                     </div>
 
-                    <div class="col-md-6 col-sm-12" align="left">
+                    <div class="col-md-6 col-sm-12" align="left"> 
                         <div class="panel-heading btn-outline btn-success" style="text-align:center;background-color:#123A82">
                             <h4 class="panel-title"> Informaci&oacute;n General </h4>
                         </div>
@@ -357,7 +357,7 @@
     $(document).ready(function () {
         $('#btn_sucribirte').popover({
             html: true,
-            content: function () {
+            content: function () { 
                 return $('#popover_content_wrapper').html();
             }
         });

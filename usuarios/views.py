@@ -5,7 +5,6 @@
 #Descripción: Archivo donde se registran las vistas que atenderan la logica del modulo.
 #Notas/Pendientes: Validar que las variables que se obtienen de las sesiones no sean nulas antes de usarlas.
 from django.core.serializers import json
-import simplejson
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
