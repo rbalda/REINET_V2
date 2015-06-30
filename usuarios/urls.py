@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     	url(r'^index[/]?$',index,name='index'),
     	url(r'^[/]?$',index,name='index'),
     	url(r'^verificar_codigo[/]?$',verificarCodigo,name='institucion'),
-    	url(r'^terminosYcondiciones[/]?$','usuarios.views.terminosCondiciones', name='terminosYcondiciones'),
+    	url(r'^TerminosCondiciones[/]?$','usuarios.views.ver_terminos_condiciones', name='TerminosCondiciones'),
     	url(r'^inicioUsuario[/]?$','usuarios.views.inicio',name='inicioUsuario'),
         url(r'^editar_usuario[/]?$', 'usuarios.views.editar_usuario' ,name='index'),
         url(r'^enviarEmailPassword[/]?$','usuarios.views.enviarEmailPassword',name='enviarEmailPassword'),
@@ -52,6 +52,8 @@ urlpatterns = patterns('',
 
         url(r'^api/buscar_institucion[/]?',InstitucionBusqueda.as_view(),name='buscar_institucion'),
         url(r'^api/buscar_usuario[/]?',PerfilBusqueda.as_view(),name='buscar_usuario'),
+        url(r'^api/contar_no_leidos[/]?',NumeroMensajesNoLeidos.as_view(),name='contar_no_leidos'),
+
 
         url(r'^BandejaDeEntrada[/]?$', ver_bandeja_entrada, name='BandejaDeEntrada'),
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),

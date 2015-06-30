@@ -1,21 +1,26 @@
-var redInn = angular.module('redInn',['ngResource','ngAnimate','ngRoute','ngCookies']);
+var redInn = angular.module('redInn',['ngResource','ngAnimate','ngRoute','ngCookies','SwampDragonServices']);
 
+//Configuracion de angular para que no se confunda con sintaxis django
 redInn.config(['$interpolateProvider','$resourceProvider',function( $interpolateProvider,$resourceProvider){
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
     $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
+//Agregando csrf token en cada peticion ajax que realice angular
 redInn.config(['$httpProvider', function($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
 
+//definiendo urls contantes
 redInn.constant('urls', {
        BASE: '/',
        BASE_API: '/api'
 });
 
+
+//Creando servicio para busqueda de entidades en la barra de busquedas
 redInn.factory('Entidades',['$http','urls',function($http,urls){
     return{
         get_usuarios: function (data, success, error) {
@@ -31,6 +36,18 @@ redInn.factory('Entidades',['$http','urls',function($http,urls){
     }
 }]);
 
+
+redInn.factory('ContarNoLeidos',['$http','urls',function($http,urls){
+    return{
+        get_contador: function (success, error) {
+            $http.get(urls.BASE_API + '/contar_no_leidos', {},
+                {headers: {"Content-Type": "application/json"}
+                }).success(success).error(error);
+        }
+    }
+}]);
+
+//controlador que hara la busqueda de los usuario y los mostrara en pantalla
 redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,Entidades){
     $scope.busqueda_entrada = null;
     $scope.lista_usuarios = [];
@@ -78,4 +95,76 @@ redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,En
             $scope.lista_instituciones = [];
         }
     }
+}]);
+
+
+redInn.controller('MensajesControllers',['$scope','$dragon','$rootScope',function($scope,$dragon,$rootScope){
+    $scope.mensaje = {};
+    $scope.mensajes = [];
+    $scope.channel = 'mensaje';
+    $scope.nroMensajes=0;
+    $scope.mostrarNotificacion = false;
+
+    var notificar = function(){
+        $scope.mostrarNotificacion=true;
+        setTimeout(function () {
+                $scope.$apply(function(){
+                    $scope.mostrarNotificacion=false;
+                });
+            },8000);
+    };
+
+    var usuarioName = function(){
+        var temp = angular.element('#usuario').children();
+        return temp[0].text.replace(/\n/g,'').replace(/ /g,'');
+    };
+
+    var obtenerNuevoMensaje = function(){
+
+    };
+
+    $dragon.onReady(
+        function(){
+            $dragon.subscribe('mensaje-router',$scope.channel,{fk_receptor__username:usuarioName()}).then(function(response){
+                    $scope.dataMapper = new DataMapper(response.data);
+                });
+            $dragon.getSingle('mensaje-router',{username:usuarioName()}).then(function(response){
+                $scope.mensaje = response.data;
+            });
+        });
+
+    $dragon.onChannelMessage(function(channels, message) {
+        if (indexOf.call(channels, $scope.channel) > -1) {
+            $scope.$apply(function() {
+                $scope.dataMapper.mapData($scope.mensajes, message);
+                if(message.action=='created'){
+                    notificar();
+
+                }
+                $rootScope.$broadcast('actualizar-mensajes');
+            });
+        }
+    });
+
+}]);
+
+redInn.controller('MensajesContadorController',['$scope','ContarNoLeidos',function($scope,ContarNoLeidos){
+    $scope.contador=null;
+
+    var contar = function(){
+        ContarNoLeidos.get_contador(
+            function(response){
+                $scope.contador=response;
+            }
+        );
+    };
+
+    contar();
+
+    $scope.$on('actualizar-mensajes',
+        function(){
+            contar();
+        }
+    );
+
 }]);

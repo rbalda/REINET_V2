@@ -1,3 +1,5 @@
+
+
 __author__ = 'rbalda'
 
 from swampdragon import route_handler
@@ -11,11 +13,16 @@ class MensajeRouter(ModelRouter):
     serializer_class = MensajeSerializer
     model = Mensaje
 
+
     def get_object(self, **kwargs):
-        return self.model.objects.get(pk=kwargs['id'])
+        a = self.model.objects.filter(fk_receptor__username=kwargs['username'],leido=False).last()
+        print a
+        return a
 
     def get_query_set(self, **kwargs):
         return self.model.objects.all()
+
+
 
 
 route_handler.register(MensajeRouter)

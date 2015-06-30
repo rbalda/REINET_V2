@@ -76,7 +76,9 @@
 		 				console.log('hizo click en Rechazar');
 		 				$.ajax({
 		 					data : {
-		 						'membresia' : {{miembro.id_membresia}},
+                                'usuarioreceptor' : {{miembro.fk_usuario_id}},
+                                'usuarioemisor' : {{usuario.id}},
+                                'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 0,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
 		 					},
