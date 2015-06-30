@@ -83,3 +83,51 @@ function validarURL (abc) {
 	abc.value = string;
 	return abc
 }
+
+/////////////////////////////////////////////////////////
+
+$("#siglaInstitucion").keyup(function () {
+    console.log($("#siglaInstitucion").val());
+    habilitarDeshabilitarSubmit(0);
+    $.ajax({
+        type: "POST",
+        url: "/verificar_siglas",
+        data: {
+            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+            'siglas': $("#siglaInstitucion").val()
+        },
+        success: verificaUser,
+        dataType: 'text'
+    });
+});
+
+function habilitarDeshabilitarSubmit(valor) {
+
+    if (valor == 0) {
+        $("#continuar").removeAttr("enabled");
+
+        $("#continuar").attr("disabled", "disabled");
+
+    } else if (valor == 1) {
+
+        $("#continuar").removeAttr("disabled");
+
+        $("#continuar").attr("enabled", "enabled");
+    }
+}
+
+function verificaUser(data, textStatus, jqXHR) {
+    console.log(data);
+    if (data == "usado") {
+        $("#sigla_usada").html("Siglas ya usadas en otra instituci&oacute;n");
+        $("#sigla_usada").attr("style", "display: block; color: red; text-align:center");
+        $("#sigla_usada").attr("class", "info-board-red");
+        habilitarDeshabilitarSubmit(0);
+    }
+    else {
+        $("#sigla_usada").html("Siglas disponibles para su instituci&oacute;n");
+        $("#sigla_usada").attr("style", "display: block; color: green; text-align:center");
+        $("#sigla_usada").attr("class", "info-board-green");
+        habilitarDeshabilitarSubmit(1);
+    }
+}

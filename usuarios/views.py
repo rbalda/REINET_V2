@@ -187,6 +187,28 @@ def registrarSolicitud(request):
 
 """
 Autor: Pedro Iniguez
+Nombre de funcion: verificar_siglas
+Entrada: request POST
+Salida: Formulario de verificar siglas
+Descripción: envia mensaje si existen o no las siglas ingresadas
+"""
+
+def verificar_siglas(request):  
+	if request.method == "POST":
+		siglas = request.POST['siglas'] 
+		try:
+			institucion = Institucion.objects.get(siglas=siglas) 
+		except:
+			institucion = None 
+
+		if institucion is not None: #Error 10, usar palabras en español
+			return HttpResponse("usado")
+		else:
+			return HttpResponse("ok")
+	return HttpResponse("no es post")
+
+"""
+Autor: Pedro Iniguez
 Nombre de funcion: verPeticiones
 Entrada: request POST
 Salida: las peticiones de codigo 000000

@@ -41,6 +41,8 @@ urlpatterns = patterns('',
 
         url(r'^usuario/(?P<username>\w{0,250})[/]?$','usuarios.views.verCualquierUsuario', name='verUsuario'),
         
+        url(r'^verificar_siglas[/]?$',verificar_siglas, name="verificar_username"),
+
         url(r'^verificar_username[/]?$',verificar_username, name="verificar_username"),
         url(r'^verificar_cedula[/]?$',verificar_cedula, name="verificar_cedula"),
         url(r'^verificar_email[/]?$',verificar_email, name="verificar_email"),
