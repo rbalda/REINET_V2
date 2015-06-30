@@ -364,6 +364,9 @@ def registro_usuario(request):
 						request.session.set_expiry(1209600)  # 2 weeks
 					auth.login(request, usuario)
 					request.session['id_usuario'] = usuario.id
+					print 'buscar error de sixto'
+					print usuario.id
+					print request.session['id_usuario']
 					return HttpResponseRedirect('/perfilUsuario')
 				else:
 					return HttpResponseRedirect('/iniciarSesion')
@@ -594,6 +597,8 @@ permite ver la pagina inicial de todo usuario logeado
 @login_required
 def inicio(request):
 	session = request.session['id_usuario']
+	print session
+
 	usuario = Perfil.objects.get(id=session)
 	args = {}
 
@@ -603,7 +608,7 @@ def inicio(request):
 
 		try:
 			args['es_admin'] = request.session['es_admin']
-		except KeyError:
+		except:
 			args['es_admin'] = False
 
 
@@ -642,10 +647,12 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		perfil = Perfil.objects.get(username=usuario.username)
 		args['perfil'] = perfil
 		membresias = Membresia.objects.filter(fk_usuario=usuario.id)
+
 		try:
 			args['es_admin'] = request.session['es_admin']
-		except KeyError:
+		except:
 			args['es_admin'] = False
+
 		membresia = membresias.filter(estado=1).exclude(fk_institucion=1).first()
 		if membresia is not None:
 			try:
@@ -663,7 +670,6 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		return HttpResponseRedirect('/iniciarSesion/')
 
 	args.update(csrf(request))
-	#args['usuario']=usuario
 	return render_to_response('profile_usuario.html', args)
 
 
@@ -740,9 +746,13 @@ def verPerfilInstituciones(request, institucionId):
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 				args['institucion'] = institucion
 				args['duenho'] = duenho_institucion
+				print 'verPerfilInstituciones'
+				print args['institucion']
+				print args['duenho']
 				try:
 					args['es_admin'] = request.session['es_admin']
-				except KeyError:
+					print request.session['es_admin']
+				except:
 					args['es_admin'] = False
 		except:
 			return redirect('/inicioUsuario')
@@ -827,7 +837,7 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 		user = request.user
 		try:
 			args['es_admin'] = request.session['es_admin']
-		except KeyError:
+		except:
 			args['es_admin'] = False
 		error = "Contraseña Incorrecta"
 		args['error'] = error
@@ -1266,7 +1276,7 @@ def enviarMensaje(request):
 		except KeyError:
 			args['es_admin'] = False
 		args.update(csrf(request))
-		return render_to_response('enviar_mensaje.html',args)
+		return render(request,'enviar_mensaje.html',args)
 
 
 """
@@ -1472,7 +1482,7 @@ def suscribirAInstitucion(request):
 				solicitudMembresia.fecha_aceptacion = None
 				solicitudMembresia.estado = 0
 				#solicitudMembresia.ip_peticion = socket.gethostbyname(socket.getfqdn())
-				solicitudMembresia.ip_peticion = get_ip(request, right_most_proxy=True) or get_real_ip(request, right_most_proxy=True)
+				solicitudMembresia.ip_peticion = get_client_ip(request)
 				solicitudMembresia.save()
 				print 'se actualizo parece'
 				response = JsonResponse({'save_estado':True})	
@@ -1490,7 +1500,7 @@ def suscribirAInstitucion(request):
 				solicitudMembresia.fecha_aceptacion = None
 				solicitudMembresia.estado = 0
 				#solicitudMembresia.ip_peticion = socket.gethostbyname(socket.getfqdn())
-				solicitudMembresia.ip_peticion = get_ip(request, right_most_proxy=True) or get_real_ip(request, right_most_proxy=True)
+				solicitudMembresia.ip_peticion = get_client_ip(request)
 				solicitudMembresia.fk_usuario = request.user
 				solicitudMembresia.fk_institucion = institucion
 				solicitudMembresia.save()
