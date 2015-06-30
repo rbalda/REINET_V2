@@ -3,7 +3,7 @@
  */
 $(function() {
   $("#destinatario").autocomplete({
-    source: "{% url 'completar_username' %}",
+    source: "/completar_username",
     minLength: 2
   });
 });

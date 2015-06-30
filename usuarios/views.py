@@ -5,7 +5,7 @@
 #Descripción: Archivo donde se registran las vistas que atenderan la logica del modulo.
 #Notas/Pendientes: Validar que las variables que se obtienen de las sesiones no sean nulas antes de usarlas.
 from django.core.serializers import json
-
+import simplejson
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -1274,6 +1274,7 @@ que un usuario tiene en su bandeja de entrada
 def enviarMensaje(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
+	args = {}
 	if request.method=='POST':
 		print "esa eh lo muchachos"
 		destinatario = request.POST['destinatario']
@@ -1283,28 +1284,31 @@ def enviarMensaje(request):
 		print destinatario
 		print emisor
 		print texto_mensaje
-		try:
-			mensajes = Mensaje()
-			receptor=User.objects.get(username=destinatario)
-			print "oe que tiro :/"
-			if receptor is not None:
-				mensajes.fk_emisor = emisor
-				mensajes.fk_receptor = receptor
-				mensajes.asunto = asunto
-				mensajes.mensaje= texto_mensaje
-				mensajes.fecha_de_envio=datetime.datetime.now()
-				mensajes.save()
+
+		if destinatario == emisor:
+			args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
+		else:
+			try:
+				mensajes = Mensaje()
+				receptor=User.objects.get(username=destinatario)
+				print "oe que tiro :/"
+				if receptor is not None:
+					mensajes.fk_emisor = emisor
+					mensajes.fk_receptor = receptor
+					mensajes.asunto = asunto
+					mensajes.mensaje= texto_mensaje
+					mensajes.fecha_de_envio=datetime.datetime.now()
+					mensajes.save()
+					return HttpResponseRedirect('/BandejaDeEntrada/')
+				else:
+					print "usuariou invalido1"
+					return HttpResponseRedirect('/BandejaDeEntrada/')
+			except Exception as e:
+				print "usuariou invalido2"
+				print e
 				return HttpResponseRedirect('/BandejaDeEntrada/')
-			else:
-				print "usuariou invalido1"
-				return HttpResponseRedirect('/BandejaDeEntrada/')
-		except Exception as e:
-			print "usuariou invalido2"
-			print e
-			return HttpResponseRedirect('/BandejaDeEntrada/')
 	else:
 		print "porque D: esto es GET"
-		args = {}
 		args['usuario']=usuario
 		try:
 			args['es_admin'] = request.session['es_admin']
@@ -1392,16 +1396,16 @@ Descripción: Esta funcion permite autocompletar los usernames en el campo de de
 def completar_username(request):
 	if request.is_ajax():
 		print "holaaa entreee a autocompletar"
-		results = []
-		q = request.GET.get('term', '') #jquery-ui.autocomplete parameter
+		q = request.GET.get('q', '') #jquery-ui.autocomplete parameter
 		print q
-		nombres_usuarios = User.objects.filter(username__contains = q ).values('username').distinct()[:10]
+		nombres_usuarios = User.objects.filter(username__icontains = q )[:10]
+		results=[]
 		print nombres_usuarios
-		for username in nombres_usuarios:
+		for nombre in nombres_usuarios:
 			name_json = {}
-			name_json['id'] = username['id_usuario']
-			name_json['label'] = username['username']
-			name_json['value'] = username['username']
+			name_json['id'] = nombre.id_usuario
+			name_json['label'] = nombre.username
+			name_json['value'] = nombre.username
 			results.append(name_json)
 		data = json.dumps(results)
 	else:

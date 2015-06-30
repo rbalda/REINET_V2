@@ -63,7 +63,7 @@ urlpatterns = patterns('',
         url(r'^mensajesEnviados[/]?$', mensajesEnviados, name='mensajesEnviados'),
         url(r'^eliminarMensajeRecibido[/]?$', eliminarMensajeRecibido, name='eliminarMensajeRecibido'),
         url(r'^eliminarMensajeEnviado[/]?$', eliminarMensajeEnviado, name='eliminarMensajeEnviado'),
-        url(r'^completar_username[/]?$', 'usuarios.views.completar_username' , name='completar_username'),
+        url(r'^completar_username[/]?$', completar_username , name='completar_username'),
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),
