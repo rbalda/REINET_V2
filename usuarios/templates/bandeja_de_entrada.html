@@ -58,7 +58,7 @@
                             <a href="/verMensaje/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.mensaje }}</a>
                         </p>
                         <div >
-                            <a id="" href="/eliminarMensajeRecibido/?q={{ msj.id_mensaje }}" class="inbox-dialog">
+                            <a id="eliminaMensaje" href="/eliminarMensajeRecibido/?q={{ msj.id_mensaje }}" class="inbox-dialog">
                             <p class="text-muted">
                                 <i class="pull-right fa fa-trash"></i>
                             </p>
@@ -70,6 +70,21 @@
                 {% endfor %}
 
             </ul>
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+            {% if msjs.has_previous %}
+                <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+            </span>
+
+            {% if msjs.has_next %}
+                <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+            {% endif %}
+            </span>
         </div>
     </div>
 

@@ -4,7 +4,7 @@
 #Codificación: UTF-8
 #Descripción: Archivo donde se registran las vistas que atenderan la logica del modulo.
 #Notas/Pendientes: Validar que las variables que se obtienen de las sesiones no sean nulas antes de usarlas.
-
+from django.core.serializers import json
 
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
@@ -30,6 +30,8 @@ from rest_framework.response import Response
 from ipware.ip import *
 from rest_framework.views import APIView
 from .models import *
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMessage, EmailMultiAlternatives
@@ -1208,13 +1210,13 @@ class PerfilBusqueda(ListAPIView):
 		return Response(lista_serializada.data)
 
 class NumeroMensajesNoLeidos(APIView):
-    permission_classes = (IsAuthenticated,)
+	permission_classes = (IsAuthenticated,)
 
-    def get(self,request,*args,**kwargs):
-        no_leidos = Mensaje.objects.filter(fk_receptor=request.user,leido=False)
-        total = len(no_leidos)
-        response = Response(total,status=status.HTTP_200_OK)
-        return response
+	def get(self,request,*args,**kwargs):
+		no_leidos = Mensaje.objects.filter(fk_receptor=request.user,leido=False)
+		total = len(no_leidos)
+		response = Response(total,status=status.HTTP_200_OK)
+		return response
 
 
 """
@@ -1232,12 +1234,23 @@ def ver_bandeja_entrada(request):
 	usuario=User.objects.get(id=sesion)
 
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)[:8]
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)
 	except:
 		mensajes= None
+
+	paginacion = Paginator(mensajes, 1)
+	pagina = request.GET.get('pagina')
+	try:
+		msjs = paginacion.page(pagina)
+	except PageNotAnInteger:
+		msjs = paginacion.page(1)
+	except EmptyPage:
+
+		msjs = paginacion.page(paginacion.num_pages)
 	args={}
-	args['usuario']=usuario
-	args['mensajes']=mensajes
+	args['usuario'] = usuario
+	args['mensajes'] = mensajes
+	args['msjs'] = msjs
 	args['range']=range(len(mensajes))
 	try:
 		args['es_admin'] = request.session['es_admin']
@@ -1288,7 +1301,7 @@ def enviarMensaje(request):
 		except Exception as e:
 			print "usuariou invalido2"
 			print e
-			return HttpResponseRedirect('/perfilUsuario/')
+			return HttpResponseRedirect('/BandejaDeEntrada/')
 	else:
 		print "porque D:"
 		args = {}
@@ -1319,6 +1332,9 @@ def verMensaje(request):
 		idM = int(request.GET.get('q', ''))
 		msj=Mensaje.objects.get(id_mensaje = idM)
 		print "mensaje",msj.id_mensaje
+		print msj.leido
+		msj.leido = True
+		print msj.leido
 		usuario_emisor=msj.fk_emisor
 		emisor = Perfil.objects.get(username= usuario_emisor.username)
 		receptor = Perfil.objects.get(username = usuario.username)
@@ -1363,6 +1379,35 @@ def mensajesEnviados(request):
 	except KeyError:
 		args['es_admin'] = False
 	return render_to_response('mensajes_enviados.html',args)
+
+"""
+Autor: Ray Montiel
+Nombre de funcion: completar_username
+Entrada: request POST
+Salida: Username
+Descripción: Esta funcion permite autocompletar los usernames en el campo de destinatario
+"""
+
+@login_required
+def completar_username(request):
+	if request.is_ajax():
+		print "holaaa entreee a autocompletar"
+		results = []
+		q = request.GET.get('term', '') #jquery-ui.autocomplete parameter
+		nombres_usuarios = User.objects.filter(username__icontains = q )[:10]
+		print nombres_usuarios
+		for username in nombres_usuarios:
+			name_json = {}
+			name_json['id'] = username['id_usuario']
+			name_json['label'] = username['username']
+			name_json['value'] = username['username']
+			results.append(name_json)
+		data = json.dumps(results)
+	else:
+		data = 'fail'
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
+
 
 
 """

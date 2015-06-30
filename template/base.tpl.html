@@ -9,7 +9,6 @@
     <meta name="author" content="ESPOL">
 
     <link rel="shortcut icon" href="/static/img/favicon.ico">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <title>REI-NET|
         {% block complementotitulo %}
@@ -72,6 +71,9 @@
 
 <!-- Archivos bases de Bootstrap -->
 {%block contenedorjs%}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     {% include 'contenedorarchivosestaticos/contenedorjs.tpl.html' %}
     <script src="{% static 'js/app.js' %}"></script>
 {%endblock%}
