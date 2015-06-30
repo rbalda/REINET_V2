@@ -3,7 +3,8 @@
  */
 $(function() {
   $("#destinatario").autocomplete({
-    source: "/completar_username",
-    minLength: 2
+    source: "/AutocompletarUsuario",
+    minLength:3,
+    labels: [ "username"]
   });
 });

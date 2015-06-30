@@ -4,7 +4,7 @@
 #Codificación: UTF-8
 #Descripción: Archivo donde se registran las vistas que atenderan la logica del modulo.
 #Notas/Pendientes: Validar que las variables que se obtienen de las sesiones no sean nulas antes de usarlas.
-from django.core.serializers import json
+
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -34,8 +34,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMessage, EmailMultiAlternatives
-from usuarios.serializers import InstitucionSerializador, PerfilSerializador
+from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
 
+import json
 """
 Autor: Pedro Iñiguez
 Nombre de función:  registro_institucion
@@ -1395,22 +1396,32 @@ Descripción: Esta funcion permite autocompletar los usernames en el campo de de
 def completar_username(request):
 	if request.is_ajax():
 		print "holaaa entreee a autocompletar"
-		q = request.GET.get('q', '') #jquery-ui.autocomplete parameter
+		q = request.GET.get('term', '') #jquery-ui.autocomplete parameter
 		print q
 		nombres_usuarios = User.objects.filter(username__icontains = q )[:10]
 		results=[]
 		print nombres_usuarios
+
 		for nombre in nombres_usuarios:
+			print nombre.username
 			name_json = {}
-			name_json['id'] = nombre.id_usuario
+			name_json['id'] = nombre.id
 			name_json['label'] = nombre.username
 			name_json['value'] = nombre.username
 			results.append(name_json)
-		data = json.dumps(results)
+		try:
+			data = json.dumps(results)
+		except Exception as e:
+			print e
 	else:
 		data = 'fail'
 	mimetype = 'application/json'
-	return HttpResponse(data, mimetype)
+	try:
+		return HttpResponse(mimetype, data)
+	except Exception as e:
+		print e
+		return HttpResponse("rmontiel super", data)
+
 
 
 
@@ -1701,3 +1712,15 @@ def accionMembresia(request):
 			print 'membresia no existe'
 	else:
 		return redirect('/')
+
+
+class AutocompletarUsuario(APIView):
+	permission_classes = (IsAuthenticated,)
+
+	def get(self,request,*args,**kwargs):
+		user = request.query_params.get('term',None)
+		usuarios = User.objects.filter(username__icontains=user)[:5]
+		serializador = UsuarioSerializador(usuarios,many=True)
+		response = Response(serializador.data)
+		return response
+

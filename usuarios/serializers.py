@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from usuarios.models import Institucion, Perfil
 
 __author__ = 'rbalda'
@@ -18,3 +19,16 @@ class PerfilSerializador(serializers.ModelSerializer):
         model=Perfil
         fields = ('id_perfil','first_name','last_name','foto','fk_ciudad','username')
         read_only_fields = ('id_perfil','first_name','last_name','foto','fk_ciudad','username')
+
+class UsuarioSerializador(serializers.ModelSerializer):
+    label = serializers.SerializerMethodField('getuser',read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('label','username')
+        read_only_fields = ('label','username')
+
+    def getuser(self,obj):
+        return obj.username
+
+
