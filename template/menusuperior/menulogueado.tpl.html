@@ -3,7 +3,7 @@
     <ul class="dropdown-menu">
         <li><a href="/perfilUsuario/">Mi Perfil</a></li>
         
-        {% if not es_admin %}
+        {% if not request.session.es_admin %}
          <li><a href="#" data-toggle="modal" data-target="#registrarInstitucion">Registrar Instituci&oacute;n</a></li>
         {% endif %}
         
