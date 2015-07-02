@@ -4,7 +4,7 @@
 $(function() {
   $("#destinatario").autocomplete({
     source: "/AutocompletarUsuario",
-    minLength:3,
+    minLength:2,
     labels: [ "username"]
   });
 });
