@@ -1338,6 +1338,7 @@ def verMensaje(request):
 		print "mensaje",msj.id_mensaje
 		print msj.leido
 		msj.leido = True
+		msj.save()
 		print msj.leido
 		usuario_emisor=msj.fk_emisor
 		emisor = Perfil.objects.get(username= usuario_emisor.username)
@@ -1383,47 +1384,6 @@ def mensajesEnviados(request):
 	except KeyError:
 		args['es_admin'] = False
 	return render_to_response('mensajes_enviados.html',args)
-
-"""
-Autor: Ray Montiel
-Nombre de funcion: completar_username
-Entrada: request POST
-Salida: Username
-Descripción: Esta funcion permite autocompletar los usernames en el campo de destinatario
-"""
-
-@login_required
-def completar_username(request):
-	if request.is_ajax():
-		print "holaaa entreee a autocompletar"
-		q = request.GET.get('term', '') #jquery-ui.autocomplete parameter
-		print q
-		nombres_usuarios = User.objects.filter(username__icontains = q )[:10]
-		results=[]
-		print nombres_usuarios
-
-		for nombre in nombres_usuarios:
-			print nombre.username
-			name_json = {}
-			name_json['id'] = nombre.id
-			name_json['label'] = nombre.username
-			name_json['value'] = nombre.username
-			results.append(name_json)
-		try:
-			data = json.dumps(results)
-		except Exception as e:
-			print e
-	else:
-		data = 'fail'
-	mimetype = 'application/json'
-	try:
-		return HttpResponse(mimetype, data)
-	except Exception as e:
-		print e
-		return HttpResponse("rmontiel super", data)
-
-
-
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon
