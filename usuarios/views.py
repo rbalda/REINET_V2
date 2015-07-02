@@ -723,6 +723,8 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 				numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
 				args['institucion'] = institucion
 				args['numMiembros'] = numMiembros
+				request.session['es_admin'] = True
+				args['es_admin'] = request.session['es_admin']
 				request.session['institucion_id'] = institucion.id_institucion
 		#Sino, simplemente no tengo ninguna institucion a mi cargo y regreso a mi perfil
 		else:
@@ -773,11 +775,6 @@ def verPerfilInstituciones(request, institucionId):
 				print 'verPerfilInstituciones'
 				print args['institucion']
 				print args['duenho']
-				try:
-					args['es_admin'] = request.session['es_admin']
-					print request.session['es_admin']
-				except:
-					args['es_admin'] = False
 		except:
 			return redirect('/inicioUsuario')
 
@@ -1092,26 +1089,30 @@ recupera la contraseña desde un correo enviado por mail
 """
 
 def recuperarPassword(request):
-	usuario = Perfil.objects.get(id=request.session['id_usuario'])
-	args={}
-	if request.method == 'POST':
-		pass1 = request.POST['passwordSet1']
-		pass2 = request.POST['passwordSet2']
-		if pass1 == pass2:
-			usuario.set_password(pass1)
-			usuario.save()
+	try:
+		usuario = Perfil.objects.get(id=request.session['id_usuario'])
+		args={}
+		if request.method == 'POST':
+			pass1 = request.POST['passwordSet1']
+			pass2 = request.POST['passwordSet2']
+			if pass1 == pass2:
+				usuario.set_password(pass1)
+				usuario.save()
 
-			usuario = auth.authenticate(username=usuario.username, password=pass1)
-			auth.login(request, usuario)
-			request.session['id_usuario'] = usuario.id
+				usuario = auth.authenticate(username=usuario.username, password=pass1)
+				auth.login(request, usuario)
+				request.session['id_usuario'] = usuario.id
 
 
-			return HttpResponseRedirect('/inicioUsuario/')
-		else:
-			args['error']='Contraseñas no coinciden'
+				return HttpResponseRedirect('/inicioUsuario/')
+			else:
+				args['error']='Contraseñas no coinciden'
 
-	args.update(csrf(request))
-	return render(request,'recuperar_password.html',args)
+		args.update(csrf(request))
+		return render(request,'recuperar_password.html',args)
+	except:
+		print 'no existe usuario'
+		return redirect('/')
 
 
 """
@@ -1165,7 +1166,8 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			"usuario":usuario_admin,
 			"institucion":institucion,
 			"ciudades":ciudades,
-			"paises":paises
+			"paises":paises,
+			"es_admin":True
 		}
 		args.update(csrf(request))
 		return render(request,"institucion_editar.html",args)
@@ -1427,6 +1429,8 @@ def administrar_membresias(request):
 		args['institucion']=institucion
 		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
 		args['lista_miembros']=miembros
+		args['es_admin']=True
+		args['usuario'] = request.user
 
 
 	args.update(csrf(request))
