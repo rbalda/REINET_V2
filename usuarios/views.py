@@ -7,7 +7,7 @@
 
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.template import RequestContext,Context, Template
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.contrib import auth
@@ -18,7 +18,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import JsonResponse
-
+from django.conf import settings
+print settings.TEMPLATE_CONTEXT_PROCESSORS
 
 from django.contrib.auth.decorators import login_required
 import datetime, random, string, socket
@@ -452,10 +453,33 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 			if usuario is not None:
 				user = Perfil.objects.get(id=usuario.id)
 				if user.estado == 1:
-					if request.POST.has_key('remember_me'):
-						request.session.set_expiry(1209600)  # 2 weeks
+					#if request.POST.has_key('remember_me'):
+						#request.session.set_expiry(1209600)  # 2 weeks
+
+					#Valida si el usuario tiene una institucion a su cargo o es administrador.
+					membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
+					print 'usuario' 
+					print user.id
+					print 'la membresia'
+					print membresia
+					#Intenta obtener si tiene alguna peticion pendiente.
+					peticion_pendiente = Peticion.objects.filter(fk_usuario=user).count()
+					print 'peticion_pendiente'
+					print peticion_pendiente
+					#Si tiene alguna membresia.
+					if membresia is not None :
+						#Si es administrador de alguna institucion o tiene una peticion pendiente.
+						if membresia.es_administrator or peticion_pendiente==0:
+							request.session['es_admin'] = True
+						else:
+							request.session['es_admin'] = False
+					else:
+						request.session['es_admin'] = False	
+
 
 					request.session['id_usuario'] = usuario.id
+					print 'session es_admin'
+					print request.session['es_admin']
 					print user
 					print user.privacidad
 
@@ -608,6 +632,8 @@ permite ver la pagina inicial de todo usuario logeado
 
 @login_required
 def inicio(request):
+	print 'sesion  es_Admin '
+	print request.session['es_admin']
 	session = request.session['id_usuario']
 	print session
 
@@ -618,21 +644,6 @@ def inicio(request):
 		args['usuario'] = usuario
 		user = request.user
 
-		#Valida si el usuario tiene una institucion a su cargo o es administrador.
-		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
-		#Intenta obtener si tiene alguna peticion pendiente.
-		peticion_pendiente = Peticion.objects.filter(fk_usuario=user).count()
-		#Si tiene alguna membresia.
-		if membresia is not None :
-			#Si es administrador de alguna institucion o tiene una peticion pendiente.
-			if membresia.es_administrator or peticion_pendiente==0:
-				request.session['es_admin'] = True
-			else:
-				request.session['es_admin'] = False
-		else:
-			request.session['es_admin'] = False
-
-
 		if(usuario.privacidad>=10000):
 			usuario.privacidad = abs(usuario.privacidad-10000)
 			usuario.save()
@@ -642,6 +653,7 @@ def inicio(request):
 
 		args['error'] = "Error al cargar los datos"
 
+	args['es_admin']=request.session['es_admin']
 	args.update(csrf(request))
 	return render_to_response('Usuario_Home.html', args)
 
@@ -656,6 +668,8 @@ Descripción: envia la informacion del usuario a una plantilla html
 
 @login_required
 def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
+	print 'session es_admin'
+	print request.session['es_admin']
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
@@ -687,6 +701,7 @@ def perfilUsuario(request): #Error 10, nombre inadecuado de la funcion
 		return HttpResponseRedirect('/iniciarSesion/')
 
 	args.update(csrf(request))
+	args['es_admin']=request.session['es_admin']
 	return render_to_response('profile_usuario.html', args)
 
 
@@ -717,7 +732,6 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 				args['institucion'] = institucion
 				args['numMiembros'] = numMiembros
 				request.session['es_admin'] = True
-				args['es_admin'] = request.session['es_admin']
 				request.session['institucion_id'] = institucion.id_institucion
 		#Sino, simplemente no tengo ninguna institucion a mi cargo y regreso a mi perfil
 		else:
@@ -731,6 +745,7 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 
 	args.update(csrf(request))
 	#args['usuario']=usuario
+	args['es_admin']=request.session['es_admin']
 	return render_to_response('profile_institucion.html', args)
 
 
@@ -777,6 +792,7 @@ def verPerfilInstituciones(request, institucionId):
 
 	args.update(csrf(request))
 	#args['usuario']=usuario
+	args['es_admin']=request.session['es_admin']
 	return render_to_response('perfil_otra_institucion.html', args)
 
 
@@ -985,6 +1001,7 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				args['institucion'] = institucion
 				print institucion.nombre
 				args.update(csrf(request))
+				args['es_admin']=request.session['es_admin']
 				return render(request,"Usuario_vercualquierPerfil.html", args)
 		except:
 			return HttpResponseRedirect('/inicioUsuario')
@@ -1168,6 +1185,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 				"paises":paises,
 			}
 			args.update(csrf(request))
+			args['es_admin']=request.session['es_admin']
 			return render(request,"institucion_editar.html",args)
 	except:
 		return redirect('/')
@@ -1254,6 +1272,7 @@ def ver_bandeja_entrada(request):
 	args['mensajes'] = mensajes
 	args['msjs'] = msjs
 	args['range']=range(len(mensajes))
+	args['es_admin']=request.session['es_admin']
 
 	for m in mensajes:
 		print m.imgEm
@@ -1309,6 +1328,7 @@ def enviarMensaje(request):
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
+		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
 		return render(request,'enviar_mensaje.html',args)
 
@@ -1343,6 +1363,7 @@ def verMensaje(request):
 		args['emisor']=emisor
 		args['receptor']=receptor
 		args['usuario']=usuario
+		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
 		return HttpResponseRedirect("/BandejaDeEntrada/")
@@ -1369,7 +1390,7 @@ def mensajesEnviados(request):
 	args={}
 	args['usuario']=usuario
 	args['mensajes']=mensajes
-	args['range']=range(len(mensajes))
+	args['es_admin']=request.session['es_admin']
 	return render_to_response('mensajes_enviados.html',args)
 
 """
@@ -1413,10 +1434,10 @@ def administrar_membresias(request):
 		institucion = Institucion.objects.get(id_institucion=institucion_id)
 		args = {}
 		if institucion is not None:
+			args['es_admin']=request.session['es_admin']
 			args['institucion']=institucion
 			miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
 			args['lista_miembros']=miembros
-			args['es_admin']=True
 			args['usuario'] = request.user
 
 
