@@ -1438,6 +1438,7 @@ Nombre de funcion: administrar_membresias
 Entrada: request POST
 Salida: Listado de las memebresias correspondientes la Institucion.
 Descripción: Muestra las membresias pendientes y aceptadas y permite modificarlas.
+UltimaModificacion: Fausto Mora 1-07-2015
 """
 
 def administrar_membresias(request):
