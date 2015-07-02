@@ -984,13 +984,26 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 			perfil = Perfil.objects.get(username=username)
 			if username is not None:
 				args = {}
-				args['usuario'] = perfil
-				args['usuarioSesion'] = usuario
+				args['usuario'] = usuario
+				print usuario
+				args['usuario_otro'] = perfil
+				print perfil
+
+				# obtener la membresia del usuario_otro
+				membresia = Membresia.objects.get(fk_usuario=perfil.id)
+				print membresia.id_membresia
+				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+				args['institucion'] = institucion
+				print institucion.nombre
+				
+
 				try:
 					args['es_admin'] = request.session['es_admin']
 				except KeyError:
 					args['es_admin'] = False
-				return render_to_response("Usuario_vercualquierPerfil.html", args)
+
+				args.update(csrf(request))
+				return render(request,"Usuario_vercualquierPerfil.html", args)
 		except:
 			return HttpResponseRedirect('/inicioUsuario')
 	else:
@@ -1006,52 +1019,55 @@ Descripción: Se envia un email donde el usuario decida, con la Contraseña del 
 """
 
 def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
-	destinatario = request.POST['email_recuperacion']
-	args = {}
 	try:
-		usuario = Perfil.objects.get(email=destinatario)
-		username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
+		destinatario = request.POST['email_recuperacion']
+		args = {}
+		try:
+			usuario = Perfil.objects.get(email=destinatario)
+			username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
 
-		priv_actual = usuario.privacidad
-		if(priv_actual<10000):
-			print 'este es la privacidad'
-			print priv_actual
-			priv_nueva = 10000+priv_actual
-			usuario.privacidad = priv_nueva
-			print priv_nueva
+			priv_actual = usuario.privacidad
+			if(priv_actual<10000):
+				print 'este es la privacidad'
+				print priv_actual
+				priv_nueva = 10000+priv_actual
+				usuario.privacidad = priv_nueva
+				print priv_nueva
 
-		print username
-		password = generarPasswordAleatorea() #Error 10, usar palabras en español
-		print password
-		usuario.set_password(password) #Error 10, usar palabras en español
-		usuario.save()
+			print username
+			password = generarPasswordAleatorea() #Error 10, usar palabras en español
+			print password
+			usuario.set_password(password) #Error 10, usar palabras en español
+			usuario.save()
 
-		if destinatario and usuario:
-			try:
-				html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
-					username, password)
-				msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
-											 'REINET <from@server.com>', [destinatario])
-				msg.attach_alternative(html_content, 'text/html')
-				msg.send()
-				args['tipo'] = 'success'
-				args['mensaje'] = 'Mensaje enviado correctamente'
-				print args['mensaje']
-				args.update(csrf(request))
+			if destinatario and usuario:
+				try:
+					html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
+						username, password)
+					msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
+												 'REINET <from@server.com>', [destinatario])
+					msg.attach_alternative(html_content, 'text/html')
+					msg.send()
+					args['tipo'] = 'success'
+					args['mensaje'] = 'Mensaje enviado correctamente'
+					print args['mensaje']
+					args.update(csrf(request))
 
-			except:
-				args['tipo'] = 'error'
-				args['mensaje'] = 'Error de envio. Intentelo denuevo'
-				print args['mensaje']
-				args.update(csrf(request))
+				except:
+					args['tipo'] = 'error'
+					args['mensaje'] = 'Error de envio. Intentelo denuevo'
+					print args['mensaje']
+					args.update(csrf(request))
 
-		return render(request, 'sign-in.html', args)
+			return render(request, 'sign-in.html', args)
+		except Perfil.DoesNotExist:
+			args['tipo'] = 'info'
+			args['mensaje'] = 'No existe usuario asociado a ese email'
+			print args['mensaje']
+			args.update(csrf(request))
+			return render(request, 'sign-in.html', args)
 	except:
-		args['tipo'] = 'info'
-		args['mensaje'] = 'No existe usuario asociado a ese email'
-		print args['mensaje']
-		args.update(csrf(request))
-		return render(request, 'sign-in.html', args)
+		return redirect('/')
 
 
 """
@@ -1124,53 +1140,56 @@ Salida: Redireccion a perfil
 
 @login_required
 def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
-	usuario_admin = request.user #Error 10, usar palabras en español
-	membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
-	paises=Country.objects.all()
-	ciudades=City.objects.all().filter(country_id = paises.first().id)
-	institucion = membresia.fk_institucion
+	try:
+		usuario_admin = request.user #Error 10, usar palabras en español
+		membresia = Membresia.objects.all().filter(fk_usuario=usuario_admin, es_administrator=True).first()
+		paises=Country.objects.all()
+		ciudades=City.objects.all().filter(country_id = paises.first().id)
+		institucion = membresia.fk_institucion
 
-	idLogo = 1 # Id del logo
-	if request.method=='POST':
-		nombre=request.POST.get("nombre")
-		siglas=request.POST.get("siglas")
-		descripcion=request.POST.get("descripcion")
-		mision=request.POST.get("mision")
-		web=request.POST.get("webInstitucion")
-		recursos=request.POST.get("recursosofrecidos")
-		mail=request.POST.get("emailInstitucion")
-		telefono = request.POST.get("telefonoInstitucion")
-		try:
-			image = request.FILES['logo']
-		except:
-			idLogo = 0 #ID para no guardar logo noPicture.png
-			image = "../../media/noPicture.png"
+		idLogo = 1 # Id del logo
+		if request.method=='POST':
+			nombre=request.POST.get("nombre")
+			siglas=request.POST.get("siglas")
+			descripcion=request.POST.get("descripcion")
+			mision=request.POST.get("mision")
+			web=request.POST.get("webInstitucion")
+			recursos=request.POST.get("recursosofrecidos")
+			mail=request.POST.get("emailInstitucion")
+			telefono = request.POST.get("telefonoInstitucion")
+			try:
+				image = request.FILES['logo']
+			except:
+				idLogo = 0 #ID para no guardar logo noPicture.png
+				image = "../../media/noPicture.png"
 
-		institucion.nombre=nombre
-		institucion.siglas=siglas
-		institucion.descripcion=descripcion
-		institucion.mision=mision
-		institucion.correo=mail
-		institucion.web=web
-		institucion.recursos_ofrecidos=recursos
-		institucion.telefono_contacto=telefono
-		if idLogo != 0:
-			institucion.logo = image
-		institucion.save()
+			institucion.nombre=nombre
+			institucion.siglas=siglas
+			institucion.descripcion=descripcion
+			institucion.mision=mision
+			institucion.correo=mail
+			institucion.web=web
+			institucion.recursos_ofrecidos=recursos
+			institucion.telefono_contacto=telefono
+			if idLogo != 0:
+				institucion.logo = image
+			institucion.save()
 
-		return HttpResponseRedirect('/perfilInstitucion')
-	else:
-		#institucion=Institucion.objects.get()
+			return HttpResponseRedirect('/perfilInstitucion')
+		else:
+			#institucion=Institucion.objects.get()
 
-		args ={
-			"usuario":usuario_admin,
-			"institucion":institucion,
-			"ciudades":ciudades,
-			"paises":paises,
-			"es_admin":True
-		}
-		args.update(csrf(request))
-		return render(request,"institucion_editar.html",args)
+			args ={
+				"usuario":usuario_admin,
+				"institucion":institucion,
+				"ciudades":ciudades,
+				"paises":paises,
+				"es_admin":True
+			}
+			args.update(csrf(request))
+			return render(request,"institucion_editar.html",args)
+	except:
+		return redirect('/')
 
 
 """
@@ -1422,19 +1441,22 @@ Descripción: Muestra las membresias pendientes y aceptadas y permite modificarl
 """
 
 def administrar_membresias(request):
-	institucion_id = request.session['institucion_id']
-	institucion = Institucion.objects.get(id_institucion=institucion_id)
-	args = {}
-	if institucion is not None:
-		args['institucion']=institucion
-		miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
-		args['lista_miembros']=miembros
-		args['es_admin']=True
-		args['usuario'] = request.user
+	try:
+		institucion_id = request.session['institucion_id']
+		institucion = Institucion.objects.get(id_institucion=institucion_id)
+		args = {}
+		if institucion is not None:
+			args['institucion']=institucion
+			miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
+			args['lista_miembros']=miembros
+			args['es_admin']=True
+			args['usuario'] = request.user
 
 
-	args.update(csrf(request))
-	return render_to_response('administrar_membresias.html', args)
+		args.update(csrf(request))
+		return render_to_response('administrar_membresias.html', args)
+	except:
+		return redirect('/')
 
 
 
