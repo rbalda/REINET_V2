@@ -31,7 +31,7 @@ from ipware.ip import *
 from rest_framework.views import APIView
 from .models import *
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMessage, EmailMultiAlternatives
@@ -1258,15 +1258,18 @@ def ver_bandeja_entrada(request):
 		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)
 	except:
 		mensajes= None
+	mensajes = mensajes.order_by('-fecha_de_envio')
 
-	paginacion = Paginator(mensajes, 1)
-	pagina = request.GET.get('pagina')
+	paginacion = Paginator(mensajes, 5)
+	print paginacion.count
 	try:
-		msjs = paginacion.page(pagina)
-	except PageNotAnInteger:
-		msjs = paginacion.page(1)
-	except EmptyPage:
+		page=int(request.GET.get('page', '1'))
+	except ValueError:
+		page=1
 
+	try:
+		msjs = paginacion.page(page)
+	except (EmptyPage, InvalidPage):
 		msjs = paginacion.page(paginacion.num_pages)
 	args={}
 	args['usuario'] = usuario
