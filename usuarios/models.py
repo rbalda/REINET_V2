@@ -152,6 +152,7 @@ class Notificacion(SelfPublishModel,models.Model):
     tipo_notificacion = models.TextField(max_length=50)
     descripcion_notificacion = models.TextField(max_length=150)
     url_notificacion = models.URLField(max_length=100)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'Notificacion'
