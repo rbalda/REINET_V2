@@ -36,6 +36,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
+from django.views.decorators.csrf import csrf_exempt
 
 import json
 """
@@ -155,7 +156,7 @@ Nombre de funcion: registrarSolicitud
 Entrada: request POST
 Salida: Registrar peticion
 """
-
+@csrf_exempt
 @login_required
 def registrarSolicitud(request):
 	if request.method == 'POST':
@@ -596,6 +597,7 @@ def editar_usuario(request):
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
 		user = request.user
+		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
 		print args
 		return render_to_response('Usuario_Edit-Profile.html', args)
