@@ -31,11 +31,12 @@ from ipware.ip import *
 from rest_framework.views import APIView
 from .models import *
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
+from django.views.decorators.csrf import csrf_exempt
 
 import json
 """
@@ -155,7 +156,7 @@ Nombre de funcion: registrarSolicitud
 Entrada: request POST
 Salida: Registrar peticion
 """
-
+@csrf_exempt
 @login_required
 def registrarSolicitud(request):
 	if request.method == 'POST':
@@ -591,9 +592,12 @@ def editar_usuario(request):
 			perfil.foto = foto
 		perfil.save()
 
+
+
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
 		user = request.user
+		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
 		print args
 		return render_to_response('Usuario_Edit-Profile.html', args)
@@ -1261,16 +1265,20 @@ def ver_bandeja_entrada(request):
 		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)
 	except:
 		mensajes= None
+	mensajes = mensajes.order_by('-fecha_de_envio')
 
-	paginacion = Paginator(mensajes, 1)
-	pagina = request.GET.get('pagina')
+	paginacion = Paginator(mensajes, 5)
+	print paginacion.count
 	try:
-		msjs = paginacion.page(pagina)
-	except PageNotAnInteger:
-		msjs = paginacion.page(1)
-	except EmptyPage:
+		page=int(request.GET.get('page', '1'))
+	except ValueError:
+		page=1
 
+	try:
+		msjs = paginacion.page(page)
+	except (EmptyPage, InvalidPage):
 		msjs = paginacion.page(paginacion.num_pages)
+
 	args={}
 	args['usuario'] = usuario
 	args['mensajes'] = mensajes
@@ -1281,6 +1289,49 @@ def ver_bandeja_entrada(request):
 	for m in mensajes:
 		print m.imgEm
 	return render_to_response('bandeja_de_entrada.html',args)
+
+
+"""
+Autor: Ray Montiel & Kevin Zambrano
+Nombre de funcion: verMensajes
+Entrada: request
+Salida: Redireccion bandeja de entrada de institucion
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada de institucion
+"""
+
+@login_required
+def ver_bandeja_entrada_institucion(request):
+	sesion = request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+
+	try:
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)
+	except:
+		mensajes= None
+
+	paginacion = Paginator(mensajes, 5)
+
+	try:
+		page=int(request.GET.get('page', '1'))
+	except ValueError:
+		page=1
+
+	try:
+		msjs = paginacion.page(page)
+	except (EmptyPage, InvalidPage):
+		msjs = paginacion.page(paginacion.num_pages)
+
+	args={}
+	args['usuario'] = usuario
+	args['mensajes'] = mensajes
+	args['msjs'] = msjs
+	args['range']=range(len(mensajes))
+	args['es_admin']=request.session['es_admin']
+
+	for m in mensajes:
+		print m.imgEm
+	return render_to_response('bandeja_de_entrada_institucion.html',args)
 
 
 """
@@ -1335,6 +1386,59 @@ def enviarMensaje(request):
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
 		return render(request,'enviar_mensaje.html',args)
+
+"""
+Autor: Ray Montiel & Kevin Zambrano
+Nombre de funcion: enviarMensaje
+Entrada: request POST
+Salida: Redireccion bandeja de entrada de institucion
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario administrador de una institucion tiene en su bandeja de entrada 
+"""
+
+@login_required
+def enviarMensajeInstitucion(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	if request.method=='POST':
+		print "esa eh lo muchachos"
+		destinatario = request.POST['destinatario']
+		asunto = request.POST['asunto']
+		texto_mensaje = request.POST['mensaje']
+		emisor=User.objects.get(id=sesion)
+		print destinatario
+		print emisor
+		print texto_mensaje
+
+		if destinatario == emisor:
+			args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
+		else:
+			try:
+				mensajes = Mensaje()
+				receptor=User.objects.get(username=destinatario)
+				print "oe que tiro :/"
+				if receptor is not None:
+					mensajes.fk_emisor = emisor
+					mensajes.fk_receptor = receptor
+					mensajes.asunto = asunto
+					mensajes.mensaje= texto_mensaje
+					mensajes.fecha_de_envio=datetime.datetime.now()
+					mensajes.save()
+					return HttpResponseRedirect('/BandejaDeEntrada/')
+				else:
+					print "usuariou invalido1"
+					return HttpResponseRedirect('/BandejaDeEntrada/')
+			except Exception as e:
+				print "usuariou invalido2"
+				print e
+				return HttpResponseRedirect('/BandejaDeEntrada/')
+	else:
+		print "porque D: esto es GET"
+		args['usuario']=usuario
+		args['es_admin']=request.session['es_admin']
+		args.update(csrf(request))
+		return render(request,'enviar_mensaje_institucion.html',args)
 
 
 """
@@ -1396,6 +1500,30 @@ def mensajesEnviados(request):
 	args['mensajes']=mensajes
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('mensajes_enviados.html',args)
+
+"""
+Autor: Ray Montiel & Kevin Zambrano
+Nombre de funcion: mensajesEnviados
+Entrada: request POST
+Salida: Muestra los mensajes enviados de una institucion
+Descripción: Esta funcion permite visualizar los mensajes
+enviados a otros usuarios
+"""
+
+@login_required
+def mensajesEnviadosInstitucion(request):
+	sesion = request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+
+	try:
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = True)[:8]
+	except:
+		mensajes= None
+	args={}
+	args['usuario']=usuario
+	args['mensajes']=mensajes
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('mensajes_enviados_institucion.html',args)
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon
