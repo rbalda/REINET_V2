@@ -1274,6 +1274,7 @@ def ver_bandeja_entrada(request):
 		msjs = paginacion.page(page)
 	except (EmptyPage, InvalidPage):
 		msjs = paginacion.page(paginacion.num_pages)
+
 	args={}
 	args['usuario'] = usuario
 	args['mensajes'] = mensajes
@@ -1305,15 +1306,18 @@ def ver_bandeja_entrada_institucion(request):
 	except:
 		mensajes= None
 
-	paginacion = Paginator(mensajes, 1)
-	pagina = request.GET.get('pagina')
-	try:
-		msjs = paginacion.page(pagina)
-	except PageNotAnInteger:
-		msjs = paginacion.page(1)
-	except EmptyPage:
+	paginacion = Paginator(mensajes, 5)
 
+	try:
+		page=int(request.GET.get('page', '1'))
+	except ValueError:
+		page=1
+
+	try:
+		msjs = paginacion.page(page)
+	except (EmptyPage, InvalidPage):
 		msjs = paginacion.page(paginacion.num_pages)
+
 	args={}
 	args['usuario'] = usuario
 	args['mensajes'] = mensajes
