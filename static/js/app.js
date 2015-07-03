@@ -174,3 +174,69 @@ redInn.controller('MensajesContadorController',['$scope','ContarNoLeidos',functi
 /// Controlador de Notificaciones 
 /// Modf:Usado para notificar accion de membresias - Fausto Mora
 
+redInn.controller('NotificacionControllers',['$scope','$dragon','$rootScope',function($scope,$dragon,$rootScope){
+    //$scope.mensaje = {};
+    $scope.notificacion = [];
+    $scope.channel = 'notificacion';
+    $scope.nroNotificacion=0;
+    $scope.mostrarNotificacion = false;
+
+    var notificar = function(){
+        $scope.mostrarNotificacion=true;
+        setTimeout(function () {
+                $scope.$apply(function(){
+                    $scope.mostrarNotificacion=false;
+                });
+            },8000);
+    };
+
+    var usuarioName = function(){
+        var temp = angular.element('#usuario').children();
+        return temp[0].text.replace(/\n/g,'').replace(/ /g,'');
+    };
+
+    $dragon.onReady(
+        function(){
+            $dragon.subscribe('notificacion-router',$scope.channel,{fk_receptor__username:usuarioName()}).then(function(response){
+                    $scope.dataMapper = new DataMapper(response.data);
+                });
+            $dragon.getSingle('notificacion-router',{username:usuarioName()}).then(function(response){
+                $scope.mensaje = response.data;
+            });
+        });
+
+    $dragon.onChannelMessage(function(channels, message) {
+        if (indexOf.call(channels, $scope.channel) > -1) {
+            $scope.$apply(function() {
+                $scope.dataMapper.mapData($scope.mensajes, message);
+                if(message.action=='created'){
+                    notificar();
+
+                }
+                $rootScope.$broadcast('actualizar-notificacion');
+            });
+        }
+    });
+
+}]);
+
+redInn.controller('NotificacionContadorController',['$scope','ContarNoLeidos',function($scope,ContarNoLeidos){
+    $scope.contador_notificacion=null;
+
+    var contar = function(){
+        ContarNoLeidos.get_contador(
+            function(response){
+                $scope.contador_notificacion=response;
+            }
+        );
+    };
+
+    contar();
+
+    $scope.$on('actualizar-notificacion',
+        function(){
+            contar();
+        }
+    );
+
+}]);

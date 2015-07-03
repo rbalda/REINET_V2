@@ -1787,6 +1787,7 @@ def accionMembresia(request):
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
+				texto_mensaje = 'Su solicitud ha sido aceptada'
 			else:
 				membresia.estado = -1
 				asunto = "Rechazo Solicitud Membresia"
@@ -1802,6 +1803,16 @@ def accionMembresia(request):
 						mensajes.mensaje= texto_mensaje
 						mensajes.fecha_de_envio=datetime.datetime.now()
 						mensajes.save()
+
+						notificacion = Notificacion()
+						notificacion.descripcion_notificacion = descripcion
+						notificacion.tipo_notificacion = 'membresia'
+						notificacion.destinatario_notificacion = receptor
+						notificacion.url_notificacion = None
+						notificacion.estado = False
+						notificacion.save()
+						print 'se guardo notificacion al parecer'
+
 					else:
 						print "usuario invalido"
 				except Exception as e:

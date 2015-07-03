@@ -42,7 +42,4 @@ class NotificacionSerializer(ModelRouter):
         return a
 
 
-
-
-
 route_handler.register(NotificacionSerializer)
