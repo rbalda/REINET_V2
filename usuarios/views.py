@@ -1810,6 +1810,7 @@ def accionMembresia(request):
 						notificacion.destinatario_notificacion = receptor
 						notificacion.url_notificacion = None
 						notificacion.estado = False
+						notificacion.fecha_creacion = datetime.datetime.now()
 						notificacion.save()
 						print 'se guardo notificacion al parecer'
 
