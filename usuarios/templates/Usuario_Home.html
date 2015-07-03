@@ -2,24 +2,21 @@
 
 
 {% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
 
-{% block barraderecha %}
-    {% include 'menusuperior/menulogueado.tpl.html' %}
-{% endblock %}
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
 
-{% block busqueda %}
-    {% include 'menusuperior/barrabusqueda.tpl.html'%}
-{% endblock %}
+    {% block raiz %}
+        <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
+    {% endblock %}
 
-{% block raiz %}
-    <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
-{% endblock %}
-
-
-{% block inicio %}
-    <a href="/inicioUsuario/">Inicio </a>
-{% endblock %}
-
+    {% block inicio %}
+        <a href="/inicioUsuario/">Inicio </a>
+    {% endblock %}
 {% endif %}
 
 
