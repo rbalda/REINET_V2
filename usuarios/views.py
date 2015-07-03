@@ -617,6 +617,7 @@ def ver_terminos_condiciones(request):
 
 	print args['base_template']
 
+	args['es_admin']=request.session['es_admin']
 	args.update(csrf(request))
 	return render(request, 'terminos_y_condiciones.html',args)
 
@@ -987,6 +988,9 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 	if username != "":
 		try:
 			perfil = Perfil.objects.get(username=username)
+			print perfil.username
+			print perfil.first_name
+			print perfil.last_name
 			if username is not None:
 				args = {}
 				args['usuario'] = usuario
@@ -995,7 +999,7 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				print perfil
 
 				# obtener la membresia del usuario_otro
-				membresia = Membresia.objects.get(fk_usuario=perfil.id)
+				membresia = Membresia.objects.get(fk_usuario=perfil.id,estado=1)
 				print membresia.id_membresia
 				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
 				args['institucion'] = institucion

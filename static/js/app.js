@@ -168,3 +168,9 @@ redInn.controller('MensajesContadorController',['$scope','ContarNoLeidos',functi
     );
 
 }]);
+
+
+
+/// Controlador de Notificaciones 
+/// Modf:Usado para notificar accion de membresias - Fausto Mora
+
