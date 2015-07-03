@@ -58,9 +58,12 @@ urlpatterns = patterns('',
 
 
         url(r'^BandejaDeEntrada[/]?$', ver_bandeja_entrada, name='BandejaDeEntrada'),
+        url(r'^BandejaDeEntradaInstitucion[/]?$', ver_bandeja_entrada_institucion, name='BandejaDeEntradaInstitucion'),
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
+        url(r'^enviarMensajeInstitucion[/]?$', enviarMensajeInstitucion, name='enviarMensajeInstitucion'),
         url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
         url(r'^mensajesEnviados[/]?$', mensajesEnviados, name='mensajesEnviados'),
+        url(r'^mensajesEnviadosInstitucion[/]?$', mensajesEnviadosInstitucion, name='mensajesEnviadosInstitucion'),
         url(r'^eliminarMensajeRecibido[/]?$', eliminarMensajeRecibido, name='eliminarMensajeRecibido'),
         url(r'^eliminarMensajeEnviado[/]?$', eliminarMensajeEnviado, name='eliminarMensajeEnviado'),
         url(r'^AutocompletarUsuario[/]?$', AutocompletarUsuario.as_view() , name='AutocompletarUsuario'),

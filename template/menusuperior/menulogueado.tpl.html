@@ -6,6 +6,10 @@
         {% if not es_admin %}
          <li><a href="#" data-toggle="modal" data-target="#registrarInstitucion">Registrar Instituci&oacute;n</a></li>
         {% endif %}
+
+        {% if es_admin %}
+         <li><a href="/perfilInstitucion/">Administrar Instituci&oacute;n</a></li>
+        {% endif %}
         
         <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
     </ul>
