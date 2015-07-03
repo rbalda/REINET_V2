@@ -595,6 +595,7 @@ def editar_usuario(request):
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
 		user = request.user
+		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
 		print args
 		return render_to_response('Usuario_Edit-Profile.html', args)

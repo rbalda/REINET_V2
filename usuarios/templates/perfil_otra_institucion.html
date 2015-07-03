@@ -308,18 +308,24 @@
                                                 <td class="text-muted">Apellido</td>
                                                 <td style="text-align:left">{{ duenho.last_name }}</td>
                                             </tr>
+                                            {% if duenho.privacidad|get_digit:3 == 1 %}
                                             <tr>
                                                 <td class="text-muted">Tel&eacute;fono</td>
                                                 <td style="text-align:left">{{ duenho.telefono }}</td>
                                             </tr>
+                                            {% endif %}
+                                            {% if duenho.privacidad|get_digit:1 == 1 %}
                                             <tr>
                                                 <td class="text-muted">Email</td>
                                                 <td style="text-align:left">{{ duenho.email }}</td>
                                             </tr>
+                                            {% endif %}
+                                            {% if duenho.privacidad|get_digit:2 == 1 %}
                                             <tr>
                                                 <td class="text-muted">Website</td>
                                                 <td style="text-align:left;word-break: break-all;">{{ duenho.web }}</td>
                                             </tr>
+                                            {% endif %}
                                         </tbody>
                                     </table>
                                 </div>
