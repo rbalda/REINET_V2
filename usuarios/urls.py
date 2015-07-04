@@ -41,6 +41,8 @@ urlpatterns = patterns('',
 
         url(r'^usuario/(?P<username>\w{0,250})[/]?$','usuarios.views.verCualquierUsuario', name='verUsuario'),
         
+        url(r'^verificar_siglas[/]?$',verificar_siglas, name="verificar_username"),
+
         url(r'^verificar_username[/]?$',verificar_username, name="verificar_username"),
         url(r'^verificar_cedula[/]?$',verificar_cedula, name="verificar_cedula"),
         url(r'^verificar_email[/]?$',verificar_email, name="verificar_email"),
@@ -56,11 +58,17 @@ urlpatterns = patterns('',
 
 
         url(r'^BandejaDeEntrada[/]?$', ver_bandeja_entrada, name='BandejaDeEntrada'),
+        url(r'^BandejaDeEntradaInstitucion[/]?$', ver_bandeja_entrada_institucion, name='BandejaDeEntradaInstitucion'),
         url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
+        url(r'^enviarMensajeInstitucion[/]?$', enviarMensajeInstitucion, name='enviarMensajeInstitucion'),
         url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
+        url(r'^verMensajeEnviado[/]?$', verMensajeEnviado, name='verMensajeEnviado'),
         url(r'^mensajesEnviados[/]?$', mensajesEnviados, name='mensajesEnviados'),
+        url(r'^mensajesEnviadosInstitucion[/]?$', mensajesEnviadosInstitucion, name='mensajesEnviadosInstitucion'),
         url(r'^eliminarMensajeRecibido[/]?$', eliminarMensajeRecibido, name='eliminarMensajeRecibido'),
         url(r'^eliminarMensajeEnviado[/]?$', eliminarMensajeEnviado, name='eliminarMensajeEnviado'),
+        url(r'^AutocompletarUsuario[/]?$', AutocompletarUsuario.as_view() , name='AutocompletarUsuario'),
+
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),

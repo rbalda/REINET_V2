@@ -35,7 +35,7 @@
 {%endblock%}
 
 {% block contenidousuario %}
-
+<link rel="stylesheet" href='/static/css/demo.css'>
     <div class="col-sm-8 col-md-7">
         <h1>Mensajes Enviados</h1>
         <ul class="text-muted list-inline">
@@ -51,20 +51,46 @@
                         <small>{{msj.fecha_de_envio}}</small>
                     </p>
                     <p class="text-muted">
-                        <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
+                        <a href="/verMensajeEnviado/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
                     </p>
-                    <div>
-                        <a id="" href="/eliminarMensajeEnviado/?q={{ msj.id_mensaje }}" class="inbox-dialog">
-                            <p class="text-muted">
-                                <i class="pull-right fa fa-trash"></i>
-                            </p>
-                            </a>
-                        </div>
-                    <div class="clearfix"></div>
+                                           
+                    <p class="text-muted">
+                      <a id="aceptar" href="" class="button" data-type="zoomin">
+                               <i class="pull-right fa fa-trash"></i> 
+                       </a>
+
+                             <div class="overlay-container"> 
+                                    <div class="window-container zoomin">
+                                        <h3>Est&aacute; seguro de enviar el mensaje!</h3><br> 
+                                        <a href="/eliminarMensajeRecibido/?q={{ msj.id_mensaje }}" class="inbox-dialog col-md-6 col-md-offset-2">
+                                            <button class="btn btn-success float-left submit-button">Eliminar</button>
+                                        </a>
+                                        <a href="/BandejaDeEntrada/">
+                                        <button class="btn btn-danger">No</button></a>
+                                    </div>
+                            </div>          
+                    </p>
+                   <div class="clearfix"></div>
                 </li>
                 {%endfor%}
             </ul>
         </div>
-    </div>
+        <div class="pagination">
+            <span class="step-links">
+            {% if msjs.has_previous %}
+                <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+            {% endif %}
 
+            <span class="current">
+                Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+            </span>
+
+            {% if msjs.has_next %}
+                <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+            {% endif %}
+            </span>
+        </div>
+    </div>
+<script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
+    <script type="text/javascript" src="/static/js/demo.js"></script>
 {%endblock%}

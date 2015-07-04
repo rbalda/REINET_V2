@@ -1,23 +1,4 @@
-{% extends "base.tpl.html" %}
-
-{% block raiz %}
-    <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
-{% endblock %}
-
-{% block barraderecha %}
-    <li id="usuario" class="show">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a href="/perfilUsuario">Mi Perfil</a></li>
-            {% if not es_admin %}
-            <li><a href="/registro_institucion">Registrar Institucion</a></li>
-            {% endif %}
-            <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
-        </ul>
-    </li>
-    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
-{% endblock %}
+{% extends "Usuario_Home.html" %}
 
 {% block contenido %}
     <div class="page-tip animated slideInDown">
@@ -50,6 +31,7 @@
                     <!--SIGLA-->
                     <div class="form-group">
                         <label for="siglaInstitucion">Siglas</label>
+                        <label class="info-board-red" id="sigla_usada" style="display: none; color: red"></label>
                         <input type="text" class="form-control" maxlength="12" id="siglaInstitucion"
                                name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
                                maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus"
@@ -171,5 +153,4 @@
             </div>
         </div>
     </div>
-    <script src="/static/js/registrarInstitucion.js"></script>
 {% endblock %}

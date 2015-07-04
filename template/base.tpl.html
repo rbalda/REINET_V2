@@ -9,7 +9,8 @@
     <meta name="author" content="ESPOL">
 
     <link rel="shortcut icon" href="/static/img/favicon.ico">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
 
     <title>REI-NET|
         {% block complementotitulo %}
@@ -34,21 +35,25 @@
             {% endblock %}
         </div>
         {% block barranavegacion %}
+        
             <div class="collapse navbar-collapse">
+            
             {% include 'menusuperior/opcionesreinet.tpl.html'%}
                 <ul class="nav navbar-nav navbar-right hidden-xs">
 
                     {% block barraderecha %}
-                        {%include 'menusuperior/menulogueado.tpl.html'%}
+                        
                     {% endblock %}
 
 
                     {% block busqueda %}
-                        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+                        
                     {% endblock %}
 
                 </ul>
+
             </div>
+        
         {% endblock %}
     </div>
 </div>
@@ -56,6 +61,9 @@
 <!-- Contenido de la Pagina-->
 <div class="wrapper">
     {% block contenido %}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
     {% endblock %}
 </div>
 {% block notificaciones %}
@@ -72,8 +80,12 @@
 
 <!-- Archivos bases de Bootstrap -->
 {%block contenedorjs%}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     {% include 'contenedorarchivosestaticos/contenedorjs.tpl.html' %}
     <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/perfil_usuario.js' %}"></script>
 {%endblock%}
 </body>
 </html>

@@ -2,9 +2,15 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }} <b class="caret"></b></a>
     <ul class="dropdown-menu">
         <li><a href="/perfilUsuario/">Mi Perfil</a></li>
+        
         {% if not es_admin %}
-        <li><a href="/registro_institucion">Crear Institucion</a></li>
+         <li><a href="#" data-toggle="modal" data-target="#registrarInstitucion">Registrar Instituci&oacute;n</a></li>
         {% endif %}
+
+        {% if es_admin %}
+         <li><a href="/perfilInstitucion/">Administrar Instituci&oacute;n</a></li>
+        {% endif %}
+        
         <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
     </ul>
 </li>
@@ -12,3 +18,5 @@
 <li id="mensajes" class="show" ng-controller="MensajesContadorController" >
     <a href="/BandejaDeEntrada/" class="link">Mensajes&nbsp;<span class="badge">[[contador]]</span></a>
 </li>
+
+

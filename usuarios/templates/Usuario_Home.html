@@ -1,72 +1,30 @@
 {% extends "base.tpl.html" %}
 
-{% block barraderecha %}
-    <li id="usuario" class="show">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.username }}<b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a href="/perfilUsuario/">Mi Perfil</a></li>
-            {% if not es_admin %}
-                <li><a href="/registro_institucion">Registrar Institucion</a></li>
-            {% endif %}
-            <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
-        </ul>
-    </li>
-    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
-{% endblock %}
 
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
 
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
 
-{% block raiz %}
-    <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
-{% endblock %}
+    {% block raiz %}
+        <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
+    {% endblock %}
 
-
-{% block inicio %}
-    <a href="/inicioUsuario/">Inicio </a>
-{% endblock %}
+    {% block inicio %}
+        <a href="/inicioUsuario/">Inicio </a>
+    {% endblock %}
+{% endif %}
 
 
 {% block contenido %}
-    <!--registrar peticion de institucion-->
-    <!-- Modal window: Send an email -->
-    <div class="modal fade" id="registrarInstitucion" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Solicitar permiso para registro de
-                        instituci&oacute;n</h4>
-                    <br/>
 
-                    <p class="text-muted"> Llene esta solicitud con el nombre de la instituci&oacute;n que desea
-                        registrar. El administrador del sitio revisar&aacute; su solicitud. Le llegara un correo
-                        electronico con el link para registrarla de ser aceptada su solicitud, caso contrario le llegara
-                        un correo indicando que ha sido rechazada.</p>
-
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group" id='formPeticion'>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="nombre">Nombre de la Instituci&oacute;n</label>
-                            <input type="text" class="form-control" id="nombre_institucion"
-                                   placeholder="Nombre de la Institucion">
-                        </div>
-                        <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
-                        <button class="btn btn-blue" id="enviarSolicitud">Enviar Solicitud</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <!-- End of modal window -->
-    <!--fin registrar peticion de institucion-->
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
 
     <div class="section-header">
         <div class="container">
@@ -305,6 +263,4 @@
 
     </div>
     </div>
-    {% csrf_token %}
-    <script src="/static/js/enviarSolicitudInstitucion.js"></script>
 {% endblock %}

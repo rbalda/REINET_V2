@@ -1,0 +1,118 @@
+{% extends "Usuario_Home.html" %}
+
+
+{% block contenido %}
+
+    <!-- Ventana Perfil Usuario -->
+
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span>INSTITUCIÓN {{ institucion.nombre }}</span></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <!-- Menu del Perfil -->
+            <div class="col-md-3 col-sm-3">
+                <div class="user-menu bottom-15">
+                    <ul>
+                        <li>
+                            <a href="/perfilInstitucion/" >
+                                <i class="sign fa fa-university " style="background-color:#123A82;color:white"></i> General 
+                                <i class="fa fa-chevron-right pull-right"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/editar_perfil_institucion/">
+                                <i class="sign fa fa-edit " style="background-color:#C11F1F;color:white"></i> Editar Informaci&oacute;n
+                                <i class="fa fa-chevron-right pull-right"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/AdministrarMembresias/">
+                                <i class="sign fa fa-users " style="background-color:#0099ff;color:white"></i>Membres&iacute;as
+                                <i class="fa fa-chevron-right pull-right"></i>
+                            </a>
+                        </li>
+                        <li>
+
+                            <a href="/BandejaDeEntradaInstitucion/"  class="active">
+                                <i class="sign fa fa-edit bg-blue " ></i>Nuevo Mensaje
+                                <i class="fa fa-chevron-right pull-right"></i>
+
+                            </a>
+                        </li>
+                        <li>
+
+                            <a href="/BandejaDeEntradaInstitucion/">
+                                <i class="sign fa fa-envelope bg-red"></i>Bandeja de Entrada
+                                <i class="fa fa-chevron-right pull-right"></i>
+
+                            </a>
+                        </li>
+                        <li>
+
+                            <a href="/BandejaDeEntradaInstitucion/">
+                                <i class="sign fa fa-envelope bg-green"></i>Mensajes Enviados
+                                <i class="fa fa-chevron-right pull-right"></i>
+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+{% block contenidousuario %}
+<link rel="stylesheet" href='/static/css/demo.css'>
+    <div class="col-sm-8 col-md-7">
+        <h1>Mensajes Enviados</h1>
+        <ul class="text-muted list-inline">
+            <li><i class="fa fa-envelope-o"></i> {{mensajes|length}} mensajes</li>
+        </ul>
+        <div class="pm-list">
+            <ul>
+                {%for msj in mensajes%}
+                <li>
+                    <p class="text-muted">
+                        <img src="{{msj.imgRc.url}}" alt="...">
+                        Para: <a href="/usuario/{{msj.fk_receptor}}">{{msj.fk_receptor.first_name}}</a><br />
+                        <small>{{msj.fecha_de_envio}}</small>
+                    </p>
+                    <p class="text-muted">
+                        <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
+                    </p>
+                                           
+                    <p class="text-muted">
+                      <a id="aceptar" href="" class="button" data-type="zoomin">
+                               <i class="pull-right fa fa-trash"></i> 
+                       </a>
+
+                             <div class="overlay-container"> 
+                                    <div class="window-container zoomin">
+                                        <h3>Est&aacute; seguro de enviar el mensaje!</h3><br> 
+                                        <a href="/eliminarMensajeRecibido/?q={{ msj.id_mensaje }}" class="inbox-dialog col-md-6 col-md-offset-2">
+                                            <button class="btn btn-success float-left submit-button">Eliminar</button>
+                                        </a>
+                                        <a href="/BandejaDeEntrada/">
+                                        <button class="btn btn-danger">No</button></a>
+                                    </div>
+                            </div>          
+                    </p>
+                   <div class="clearfix"></div>
+                </li>
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+<script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
+    <script type="text/javascript" src="/static/js/demo.js"></script>
+{%endblock%}
+
+</div>
+
+</div>
+{% endblock %}

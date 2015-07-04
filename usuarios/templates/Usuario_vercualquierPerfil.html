@@ -1,26 +1,11 @@
-{% extends "base.tpl.html" %}
-
-{% block barraderecha %}
-    <li id="usuario" class="show">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuarioSesion.username }}<b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a href="/perfilUsuario/">Mi Perfil</a></li>
-            {% if not es_admin %}
-            <li><a href="/registro_institucion">Registrar Institucion</a></li>
-            {% endif %}
-            <li><a href="/cerrarSesion/">Cerrar Sesi&oacute;n</a></li>
-        </ul>
-    </li>
-    <li id="mensajes" class="show"><a href="/BandejaDeEntrada/" class="link">Mensajes</a></li>
-{% endblock %}
-
-{% block inicio %}
-    <a href="/inicioUsuario/">Inicio </a>
-{% endblock %}
+{% extends "Usuario_Home.html" %}
 
 
 {% block contenido %}
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
 
     <div class="section-header">
         <div class="container">
@@ -41,19 +26,19 @@
                     <ul>
                         <li>
                             <a href="#" class="active">
-                                <i class="sign fa fa-user bg-green"></i> Ver ofertas de {{ usuario.first_name }}<i
+                                <i class="sign fa fa-user bg-green"></i> Ver ofertas de {{ usuario_otro.first_name }}<i
                                     class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <i class="sign fa fa-edit bg-blue"></i> Ver concursos de {{ usuario.first_name }}<i
+                                <i class="sign fa fa-edit bg-blue"></i> Ver concursos de {{ usuario_otro.first_name }}<i
                                     class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <i class="sign fa fa-envelope bg-red"></i> Ver demandas de {{ usuario.first_name }} <i
+                                <i class="sign fa fa-envelope bg-red"></i> Ver demandas de {{ usuario_otro.first_name }} <i
                                     class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </li>
@@ -70,7 +55,7 @@
                         <div class="thumbnail">
                             <div class="avatar">
                                 <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                                    <img src="{{ usuario.foto.url }}" alt="...">
+                                    <img src="{{ usuario_otro.foto.url }}" alt="...">
                                 </a>
                                 {% comment %}
                                  <!-- ///////////  CAMBIAR FOTO PERFIL ///////// -->
@@ -80,75 +65,58 @@
                                 {% endcomment %}
                             </div>
                         </div>
-                        {% comment %}
                         <!-- /////// VENTANA EMERGENTE PARA CARGAR FOTO ///// -->
-                          <div class="modal fade" id="upload-avatar" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="upload-avatar-title">Upload new avatar</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                    <p>Please choose a file to upload. JPG, PNG, GIF only.</p>
-                                    <form role="form">
-                                      <div class="form-group">
-                                        <label for="file">File input</label>
-                                        <input type="file" id="file">
-                                        <p class="help-block">Files up to 5Mb only.</p>
-                                      </div>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                      <button type="button" class="btn btn-green" data-dismiss="modal">Upload</button>
-                                    </form>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                         {% endcomment %}
                     </div>
 
 
                     <!-- Perfil Principal-->
                     <div class="col-sm-8">
-                        <h3 class="hl">{{ usuario.first_name }} {{ usuario.last_name }}
+                        <h3 class="hl">{{ usuario_otro.first_name }} {{ usuario_otro.last_name }}
                             <small> {{ institucion.nombre }} </small>
                         </h3>
                         <hr>
 
                         <div class="bottom-15">
-                            <a method='POST' href="/enviarMensaje/" class="btn btn-green btn-sm" data-toggle="modal" data-target="#sendemail"><i
+                            <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
                                     class="fa fa-envelope"></i> Redactar Mensaje</a>
 
-                            {% comment %}
+
                                 <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-                                <div class="modal fade" id="sendemail" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <img src="img/face1.jpg" alt="...">
-                                        <h4 class="modal-title" id="sendemailtitle">[ROL]</h4>
-                                        <p class="text-muted"><i class="fa fa-envelope"></i> New Email</p>
-                                        <div class="clearfix"></div>
-                                      </div>
-                                      <div class="modal-body">
-                                        <form role="form">
-                                          <div class="form-group">
-                                            <label for="subject" class="sr-only">Subject</label>
-                                            <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                          </div>
-                                          <div class="form-group">
-                                            <label for="message-1" class="sr-only">Message</label>
-                                            <textarea class="form-control" rows="3" id="message-1" placeholder="Enter your message here"></textarea>
-                                          </div>
-                                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                          <button type="button" class="btn btn-green" data-dismiss="modal">Send Email</button>
-                                        </form>
-                                      </div>
+                                <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <img src={{ usuarioSesion.foto.url }} alt="...">
+                                            <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
+                                            <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form role="form" action="/enviarMensaje/" method='POST'>
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="Destinatario">Para:</label>
+                                                    <input type="text" class="form-control" id="destinatario" name="destinatario"
+                                                    placeholder="Destinatario" value="{{ usuario_otro.username }}" maxlength="50" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Asunto">Asunto:</label>
+                                                    <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                                                    maxlength="40" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Mensaje">Mensaje:</label>
+                                                    <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
+                                                    required></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-green">Enviar</button>
+                                            </form>
+                                        </div>
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
-                            {% endcomment %}
+
                         </div>
                     </div>
                 </div>
@@ -173,20 +141,20 @@
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Fecha de Registro</td>
-                                        <td style="text-align:right">{{ usuario.fecharegistro }}</td>
+                                        <td style="text-align:right"class ="fecha_registro">{{ usuario_otro.fecha_registro }}</td>
                                     </tr>
                                     {% comment %}
                                     <tr>
                                         <td class="text-muted">&Aacute;reas de inter&eacute;s</td>
-                                        <td style="text-align:right">{{ usuario.areasinteres }}</td>
+                                        <td style="text-align:right">{{ usuario_otro.areasinteres }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Cargo</td>
-                                        <td style="text-align:right">{{usuario.cargo}}</td>
+                                        <td style="text-align:right">{{usuario_otro.cargo}}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Actividades</td>
-                                        <td style="text-align:right">[Actividades del usuario]</td>
+                                        <td style="text-align:right">[Actividades del usuario_otro]</td>
                                     </tr>
                                     {% endcomment %}
                                     <tr>
@@ -208,28 +176,9 @@
 
                                                 }
                                             </style>
-                                            <script type="text/javascript">
-
-                                                function fijarReputacion() {
-                                                    var a = document.getElementsByClassName("rating")[0];
-                                                    var reputacion = parseInt(document.getElementById("reputacion-calificacion").innerHTML);
-                                                    if (reputacion <= 0) {
-                                                        //a.style.display = "none";
-                                                    }
-                                                    else {
-                                                        var estrellitas = a.children;
-                                                        var i = 0;
-                                                        for (i = 0; i < reputacion; i++) {
-                                                            estrellitas[i].innerHTML = "\u2605";
-                                                        }
-
-                                                    }
-
-                                                }
-                                                window.onload = fijarReputacion;
-                                            </script>
+                                            
                                             <span style="display: none"
-                                                  id="reputacion-calificacion">{{ usuario.reputacion }}</span>
+                                                  id="reputacion-calificacion">{{ usuario_otro.reputacion }}</span>
                                 <span class="rating">
                                     <span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span>
                                 </span>
@@ -237,13 +186,20 @@
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Pais</td>
-                                        <td style="text-align:right">{{ usuario.fk_pais }}</td>
+                                        <td style="text-align:right">{{ usuario_otro.fk_pais }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Estado</td>
-                                        <td style="text-align:right">{% if usuario.estado == 1 %} Activo {% else %}
+                                        <td style="text-align:right">{% if usuario_otro.estado == 1 %} Activo {% else %}
                                             Inactivo{% endif %}</td>
                                     </tr>
+                                    {% if usuario_otro.privacidad|get_digit:2 == 1 %}
+                                    <tr>
+                                        <td class="text-muted">Website</td>
+                                        <td style="text-align:right;word-break: break-all;">{{ usuario_otro.web }}</td>
+                                    </tr>
+                                    {% endif %}
+
 
                                     </tbody>
                                 </table>
@@ -265,31 +221,25 @@
                         <tbody id="infoContactoBody">
                         <tr>
                             <td class="text-muted">Nombre</td>
-                            <td style="text-align:right">{{ usuario.first_name }}</td>
+                            <td style="text-align:right">{{ usuario_otro.first_name }}</td>
                         </tr>
                         <tr>
                             <td class="text-muted">Apellido</td>
-                            <td style="text-align:right">{{ usuario.last_name }}</td>
+                            <td style="text-align:right">{{ usuario_otro.last_name }}</td>
                         </tr>
-                        {% if usuario.privacidad|get_digit:3 == 1 %}
+                        {% if usuario_otro.privacidad|get_digit:3 == 1 %}
                             <tr>
                                 <td class="text-muted">Tel&eacute;fono</td>
-                                <td style="text-align:right">{{ usuario.telefono }}</td>
+                                <td style="text-align:right">{{ usuario_otro.telefono }}</td>
                             </tr>
                         {% endif %}
-                        {% if usuario.privacidad|get_digit:1 == 1 %}
+                        {% if usuario_otro.privacidad|get_digit:1 == 1 %}
                             <tr>
                                 <td class="text-muted">Email</td>
-                                <td style="text-align:right">{{ usuario.email }}</td>
+                                <td style="text-align:right">{{ usuario_otro.email }}</td>
                             </tr>
                         {% endif %}
-                        {% if usuario.privacidad|get_digit:2 == 1 %}
-                            <tr>
-                                <td class="text-muted">Website</td>
-                                <td style="text-align:right;word-break: break-all;">{{ usuario.web }}</td>
-                            </tr>
-                        {% endif %}
-
+                        
                         </tbody>
                     </table>
                 </div>
