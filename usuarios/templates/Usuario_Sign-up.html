@@ -154,9 +154,10 @@
                 <hr>
 
                 <form role="form" action="/registro_usuario/" method="post"
-                      enctype="multipart/form-data"> {% csrf_token %}
+                      enctype="multipart/form-data" class="form-horizontal col-md-12"> {% csrf_token %}
+                      
                     <div class="form-group">
-
+                      
                         {% if mensaje %}
                             <div class="form-group">
                                 <label class="info-board-red" id="noIgual" style=" color: red">{{ mensaje }}</label>
@@ -165,52 +166,67 @@
                         <div class="form-group">
                             <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
                         </div>
+                      <label for="Username" class="col-md-3">Usuario</label>
+                      <div class="col-md-9">
 
                         <input required type="text" class="form-control" id="username" name="username"
                                placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tu usuario aquí." data-original-title="username">
+                      </div>
                     </div>
+
                     <div class="form-group">
                         <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as
                             no coinciden</label>
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <input required type="password" class="form-control margin-bottom-xs" id="password1"
+                        <label for="Contraseña" class="col-md-3">Contrase&ntilde;a </label>
+                        <div class="col-md-9">
+                          <input required type="password" class="form-control margin-bottom-xs" id="password1"
                                        name="password1" placeholder="Contraseña" data-toggle="popover"
                                        data-placement="left" data-trigger="focus" data-content="Three symbols minimum."
                                        data-original-title="Password">
-                            </div>
-                            <div class="col-sm-6">
-                                <input required type="password" class="form-control" id="password2" name="password2"
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ContraseñaNueva" class="col-md-3">Repetir Contrase&ntilde;a </label>
+                        <div class="col-md-9">
+                          <input required type="password" class="form-control" id="password2" name="password2"
                                        placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus"
                                        data-content="Asegurate de recordarla" data-original-title="Repeat Password"
                                        onchange="validarPassword2()">
-                            </div>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="info-board-red" id="error_nombre" style="display: none; color: red">Los nombres no
                             pueden contener números ni caracteres especiales</label>
                     </div>
                     <div class="form-group">
+                      <label for="Nombres" class="col-md-3">Nombres</label>
+                      <div class="col-md-9">
                         <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$"
                                class="form-control" id="nombre" name="nombres" placeholder="Nombres"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
                                onkeypress="return validarLetras(event)">
+                      </div>
                     </div>
+
                     <div class="form-group">
                         <label class="info-board-red" id="error_apellido" style="display: none; color: red">Los
                             apellidos no pueden contener números ni caracteres especiales</label>
                     </div>
                     <div class="form-group">
+                      <label for="Apellidos" class="col-md-3">Apellidos</label>
+                      <div class="col-md-9">
                         <input required type="text" class="form-control"
                                pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos"
                                placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos"
                                onkeypress="return validarLetras(event)">
+                      </div>
                     </div>
 
                     <div class="form-group">
@@ -222,38 +238,50 @@
                     </div>
 
                     <div class="form-group">
+                      <label for="Cedula" class="col-md-3">C&eacute;dula</label>
+                      <div class="col-md-9">
                         <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula"
                                maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover"
                                data-placement="left" data-trigger="focus"
                                data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
                                onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
+                      </div>
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control" id="pais" name="pais">
-                            <optgroup label="Pais">
-                                {% for pais in paises %}
-                                    <option value="{{ pais.id }}">{{ pais.name }}</option>
-                                {% endfor %}
-                            </optgroup>
-                        </select>
+                        <label for="Pais" class="col-md-3">Pa&iacute;s</label>
+                        <div class="col-md-9">
+                          <select class="form-control" id="pais" name="pais">
+                              <optgroup label="Pais">
+                                  {% for pais in paises %}
+                                      <option value="{{ pais.id }}">{{ pais.name }}</option>
+                                  {% endfor %}
+                              </optgroup>
+                          </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control" name="ciudad" id="ciudad" required>
-                            <optgroup id="optsCiudades" label="Ciudad">
-                                {% for ciudad in ciudades %}
-                                    <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
-                                {% endfor %}
-                            </optgroup>
-                        </select>
+                        <label for="Ciudad" class="col-md-3">Ciudad</label>
+                        <div class="col-md-9">
+                          <select class="form-control" name="ciudad" id="ciudad" required>
+                              <optgroup id="optsCiudades" label="Ciudad">
+                                  {% for ciudad in ciudades %}
+                                      <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
+                                  {% endfor %}
+                              </optgroup>
+                          </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
+                      <label for="Telefono" class="col-md-3">Telefono</label>
+                      <div class="col-md-9">
                         <input type="text" class="form-control" id="telefono" maxlength="16" pattern="([0-9]{1,15})"
                                name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left"
                                data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono"
                                onkeypress="return validarNumero(event);">
+                      </div>
                     </div>
 
 
@@ -262,15 +290,21 @@
                     </div>
 
                     <div class="form-group">
+                      <label for="Email" class="col-md-3">Email</label>
+                      <div class="col-md-9">
                         <input required type="email" class="form-control" maxlength="50" id="email" name="email"
                                placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa un email valido." data-original-title="Email">
+                      </div>
                     </div>
                     <div class="form-group">
+                      <label for="Website" class="col-md-3">Website</label>
+                      <div class="col-md-9">
                         <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web"
                                onblur="validarURL(this)" data-toggle="popover" data-placement="left"
                                data-trigger="focus" data-content="Ingresa tu sitio web aquí."
                                data-original-title="Sitio Web">
+                      </div>
                     </div>
 
                     <label id="listarInst">
