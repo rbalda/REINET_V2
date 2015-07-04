@@ -141,7 +141,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Fecha de Registro</td>
-                                        <td style="text-align:right">{{ usuario_otro.fecha_registro }}</td>
+                                        <td style="text-align:right"class ="fecha_registro">{{ usuario_otro.fecha_registro }}</td>
                                     </tr>
                                     {% comment %}
                                     <tr>
@@ -176,26 +176,7 @@
 
                                                 }
                                             </style>
-                                            <script type="text/javascript">
-
-                                                function fijarReputacion() {
-                                                    var a = document.getElementsByClassName("rating")[0];
-                                                    var reputacion = parseInt(document.getElementById("reputacion-calificacion").innerHTML);
-                                                    if (reputacion <= 0) {
-                                                        //a.style.display = "none";
-                                                    }
-                                                    else {
-                                                        var estrellitas = a.children;
-                                                        var i = 0;
-                                                        for (i = 0; i < reputacion; i++) {
-                                                            estrellitas[i].innerHTML = "\u2605";
-                                                        }
-
-                                                    }
-
-                                                }
-                                                window.onload = fijarReputacion;
-                                            </script>
+                                            
                                             <span style="display: none"
                                                   id="reputacion-calificacion">{{ usuario_otro.reputacion }}</span>
                                 <span class="rating">
@@ -212,6 +193,13 @@
                                         <td style="text-align:right">{% if usuario_otro.estado == 1 %} Activo {% else %}
                                             Inactivo{% endif %}</td>
                                     </tr>
+                                    {% if usuario_otro.privacidad|get_digit:2 == 1 %}
+                                    <tr>
+                                        <td class="text-muted">Website</td>
+                                        <td style="text-align:right;word-break: break-all;">{{ usuario_otro.web }}</td>
+                                    </tr>
+                                    {% endif %}
+
 
                                     </tbody>
                                 </table>
@@ -251,13 +239,7 @@
                                 <td style="text-align:right">{{ usuario_otro.email }}</td>
                             </tr>
                         {% endif %}
-                        {% if usuario_otro.privacidad|get_digit:2 == 1 %}
-                            <tr>
-                                <td class="text-muted">Website</td>
-                                <td style="text-align:right;word-break: break-all;">{{ usuario_otro.web }}</td>
-                            </tr>
-                        {% endif %}
-
+                        
                         </tbody>
                     </table>
                 </div>
