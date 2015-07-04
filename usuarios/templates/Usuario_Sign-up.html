@@ -23,7 +23,6 @@
         function validarLetras(e) {
             key = e.keyCode || e.which;
             teclado = String.fromCharCode(key).toLocaleLowerCase();
-
             letras = " abcdefghijklmnñopqrstuvwxyz";
             especiales = ["8", "37", "38", "39", "46", "164"];
             teclado_especial = false;
@@ -46,16 +45,12 @@
         function validarPassword2() {
             password1 = document.getElementById('password1')
             pass2 = document.getElementById('password2')
-
             if (password1.value == pass2.value) {
                 document.getElementById('noIgual').style.display = 'none';
-
             }
             else {
                 document.getElementById('noIgual').style.display = 'block';
-
             }
-
         }
         /*
          * Autor: Marlon Espinoza
@@ -63,7 +58,6 @@
          Salida: Muestra advertencia si son distintos
          Descripción: Compara que password 1 y 2 sean iguales
          * */
-
         function validarNumeroDigitosId() {
             identificacion = document.getElementById("cedula")
             if (identificacion.value.length == 10) {
@@ -94,15 +88,12 @@
             }
             else if (code >= 48 && code <= 57) {
                 //is a number
-
                 return true;
             }
             else {
-
                 return false;
             }
         }
-
         /*
          Autor: Jose Velez
          Nombre de función: validarUrl
@@ -110,7 +101,6 @@
          Salida: ingresa automaticamente el http
          Descripción: salida del http al escribir una url
          */
-
         function validarURL(abc) {
             var string = abc.value;
             if (!~string.indexOf("http") && string != "") {
@@ -119,18 +109,15 @@
             abc.value = string;
             return abc
         }
-
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     $('#blah')
                             .attr('src', e.target.result)
                             .width(200)
                             .height(200);
                 };
-
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -310,31 +297,22 @@
 
 
     <script type="text/javascript">
-
     function habilitarDeshabilitarSubmit(valor) {
-
         if (valor == 0) {
             $("#submit").removeAttr("enabled");
-
             $("#submit").attr("disabled", "disabled");
-
         } else if (valor == 1) {
-
             $("#submit").removeAttr("disabled");
-
             $("#submit").attr("enabled", "enabled");
         }
     }
-
     $(document).ready(function () {
         /*
          * Autor: Angel Guale
          Nombre de función: obtiene las ciudades al cargar y al cambiar
          Salida: Muestra las ciudades del pais seleccionado
          Descripción: obtiene las ciudades mediante ajax
-
          * */
-
         $("#pais").bind('change', function () {
             console.log($("#pais option:selected").val());
             $.ajax({
@@ -350,15 +328,12 @@
         });
         //para que se cambie hasta cuando carga
         $('#pais').trigger('change');
-
     });
-
     function ciudadSuccess(data, textStatus, jqXHR) {
         console.log("Succees");
         $("#optsCiudades").html(data);
         //console.log(data);
     }
-
     $("#username").change(function () {
         console.log($("#username").val());
         $.ajax({
@@ -372,8 +347,6 @@
             dataType: 'text'
         });
     });
-
-
     $("#cedula").change(function () {
         console.log($("#cedula").val());
         $.ajax({
@@ -400,14 +373,12 @@
             dataType: 'text'
         });
     });
-
     $("#listarInst").click(function () {
         $("#formInstitucion").attr("hidden", false);
         $("#asIndependiente").attr("hidden", false);
         $("#listarInst").attr("hidden", true);
         $("#institucion").attr("name", "institucion");
         $("#mensajeMembresia").attr("hidden", false);
-
     });
     $("#asIndependiente").click(function () {
         $("#formInstitucion").attr("hidden", true);
@@ -415,29 +386,22 @@
         $("#mensajeMembresia").attr("hidden", true);
         $("#institucion").removeAttr("name");
         $("#asIndependiente").attr("hidden", true);
-
     });
     function verificaUser(data, textStatus, jqXHR) {
         console.log(data);
         if (data == "usado") {
-
             $("#usuario_usado").html("Nombre de Usuario ya existente");
             $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
             $("#usuario_usado").attr("class", "info-board-red");
             habilitarDeshabilitarSubmit(0);
-
         }
         else {
             $("#usuario_usado").html("Nombre de Usuario disponible");
             $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
             $("#usuario_usado").attr("class", "info-board-green");
             habilitarDeshabilitarSubmit(1);
-
         }
-
-
     }
-
     function verificarCedula(data, textStatus, jqXHR) {
         console.log(data);
         if (data == "usado") {
@@ -445,20 +409,14 @@
             $("#cedula_usado").attr("style", "display: block; color: red; text-align:center");
             $("#cedula_usado").attr("class", "info-board-red");
             habilitarDeshabilitarSubmit(0);
-
         }
         else {
             $("#cedula_usado").attr("hidden", "true");
             $("#cedula_usado").attr("style", "display: none; color: green; text-align:center");
             //$("#cedula_usado").attr("class", "info-board-green");
             habilitarDeshabilitarSubmit(1);
-
         }
-
-
     }
-
-
     function verificarEmail(data, textStatus, jqXHR) {
         console.log(data);
         if (data == "usado") {
@@ -466,19 +424,14 @@
             $("#email_usado").attr("style", "display: block; color: red; text-align:center");
             $("#email_usado").attr("class", "info-board-red");
             habilitarDeshabilitarSubmit(0);
-
         }
         else {
             $("#email_usado").attr("hidden", "true");
             $("#email_usado").attr("style", "display: none; color: green; text-align:center");
             //$("#cedula_usado").attr("class", "info-board-green");
             habilitarDeshabilitarSubmit(1);
-
         }
-
-
     }
-
     $("#nombre").change(function () {
         // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
         console.log("UNO");
@@ -492,9 +445,7 @@
             $("#error_nombre").attr("class", "info-board-red");
 //habilitarDeshabilitarSubmit(0);
         }
-
     });
-
     $("#apellidos").change(function () {
         // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
         console.log("UNO");
@@ -511,5 +462,3 @@
     });
     </script>
 {% endblock %}
-
-

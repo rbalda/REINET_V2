@@ -51,7 +51,7 @@
                         <small>{{msj.fecha_de_envio}}</small>
                     </p>
                     <p class="text-muted">
-                        <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
+                        <a href="/verMensajeEnviado/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
                     </p>
                                            
                     <p class="text-muted">
@@ -74,6 +74,21 @@
                 </li>
                 {%endfor%}
             </ul>
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+            {% if msjs.has_previous %}
+                <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+            </span>
+
+            {% if msjs.has_next %}
+                <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+            {% endif %}
+            </span>
         </div>
     </div>
 <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>

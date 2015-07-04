@@ -65,10 +65,10 @@
     {% endblock %}
     {% block contenidousuario %}
         <!-- Foto del Perfil -->
-        <div class="col-sm-8 col-md-6">
+        <div class="col-sm-5 col-sm-6">
         <div class="row">
 
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="thumbnail">
                     <div class="avatar">
                         <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
@@ -122,11 +122,7 @@
                 </h3>
                 <hr>
 
-                <div class="bottom-15">
-
-                    <!-- //// VENTANA EMERGENTE EMAIL /////-->
-
-                </div>
+                
             </div>
         </div>
 
@@ -156,7 +152,7 @@
                             </tr>
                             <tr>
                                 <td class="text-muted">Fecha de Registro</td>
-                                <td style="text-align:right">{{ perfil.fecha_registro }}</td>
+                                <td style="text-align:right" class ="fecha_registro"style="display: none">{{ perfil.fecha_registro }}</td>
                             </tr>
                             <!--     <tr>
                                   <td class="text-muted">&Aacute;reas de inter&eacute;s</td>
@@ -191,28 +187,9 @@
                                     </style>
 
 
-                                    <script type="text/javascript">
-
-                                        function fijarReputacion() {
-                                            var a = document.getElementsByClassName("rating")[0];
-                                            var reputacion = parseInt(document.getElementById("reputacion-calificacion").innerHTML);
-                                            if (reputacion <= 0) {
-                                                //a.style.display = "none";
-                                            }
-                                            else {
-                                                var estrellitas = a.children;
-                                                var i = 0;
-                                                for (i = 0; i < reputacion; i++) {
-                                                    estrellitas[i].innerHTML = "\u2605";
-                                                }
-
-                                            }
-
-                                        }
-                                        window.onload = fijarReputacion;
-                                    </script>
-                                    <span style="display: none"
-                                          id="reputacion-calificacion">{{ usuario.reputacion }}</span>
+                        <span style="display: none"
+                            id="reputacion-calificacion">{{ usuario.reputacion }}
+                        </span>
                         <span class="rating">
                             <span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span>
                         </span>
@@ -227,6 +204,7 @@
                                 <td style="text-align:right">{% if usuario.estado == 1 %} Activo {% else %}
                                     Inactivo{% endif %}</td>
                             </tr>
+                            
 
                             </tbody>
                         </table>
@@ -237,8 +215,9 @@
             </div>
         </div>
         </div>
+
         <!-- Informacion de Contacto -->
-        <div class="col-sm-3" id="collapseContacto">
+        <div class="col-sm-4" id="collapseContacto">
             <div class="panel-heading btn-outline btn-warning" style="text-align:center">
                 <h4 class="panel-title"><a data-parent="collapseContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n
                     de Contacto </a></h4>

@@ -46,12 +46,12 @@
         <div class="pm bottom-15">
             <div class="media">
                 <a class="pull-left" href="#">
-                    <img class="media-object" src="{{ emisor.foto.url }}" alt="...">
+                    <img class="media-object" src="{{ receptor.foto.url }}" alt="...">
                 </a>
 
                 <div class="media-body">
                     <p>
-                        <b>De:</b> <a href="/usuario/{{ msj.fk_emisor }}">{{ usuario_emisor.first_name }} {{ usuario_emisor.last_name }} </a>
+                        <b>Para:</b> <a href="/usuario/{{ msj.fk_receptor }}">{{ usuario_receptor.first_name }} {{ usuario_receptor.last_name }} </a>
                     </p>
                     <p>
                         <b>Asunto:</b>&nbsp; {{ msj.asunto }}
@@ -86,7 +86,7 @@
                             <div class="form-group">
                                 <label for="Destinatario">Para:</label>
                                 <input type="text" class="form-control" id="destinatario" name="destinatario"
-                                placeholder="Destinatario" value="{{ emisor.username }}" maxlength="50" required>
+                                placeholder="Destinatario" value="{{ receptor.username }}" maxlength="50" required>
                             </div>
                             <div class="form-group">
                                 <label for="Asunto">Asunto:</label>
