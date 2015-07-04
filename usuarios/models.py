@@ -6,7 +6,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from cities_light.models import City, Country
 from swampdragon.models import SelfPublishModel
-from usuarios.dragon_serializers import MensajeSerializer
+from usuarios.dragon_serializers import MensajeSerializer, NotificacionSerializer
 
 """
 Autor: René Balda
@@ -146,6 +146,7 @@ class Peticion(models.Model):
     class Meta:
         db_table = 'Peticion'
 
+
 class Notificacion(SelfPublishModel,models.Model):
     id_notificacion = models.AutoField(primary_key=True)
     estado_notificacion = models.BooleanField(default=False)
@@ -154,6 +155,8 @@ class Notificacion(SelfPublishModel,models.Model):
     descripcion_notificacion = models.TextField(max_length=150)
     url_notificacion = models.URLField(max_length=100)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    serializer_class = NotificacionSerializer
 
     class Meta:
         db_table = 'Notificacion'
+
