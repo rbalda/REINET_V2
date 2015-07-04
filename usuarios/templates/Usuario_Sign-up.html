@@ -23,7 +23,6 @@
         function validarLetras(e) {
             key = e.keyCode || e.which;
             teclado = String.fromCharCode(key).toLocaleLowerCase();
-
             letras = " abcdefghijklmnñopqrstuvwxyz";
             especiales = ["8", "37", "38", "39", "46", "164"];
             teclado_especial = false;
@@ -46,16 +45,12 @@
         function validarPassword2() {
             password1 = document.getElementById('password1')
             pass2 = document.getElementById('password2')
-
             if (password1.value == pass2.value) {
                 document.getElementById('noIgual').style.display = 'none';
-
             }
             else {
                 document.getElementById('noIgual').style.display = 'block';
-
             }
-
         }
         /*
          * Autor: Marlon Espinoza
@@ -63,7 +58,6 @@
          Salida: Muestra advertencia si son distintos
          Descripción: Compara que password 1 y 2 sean iguales
          * */
-
         function validarNumeroDigitosId() {
             identificacion = document.getElementById("cedula")
             if (identificacion.value.length == 10) {
@@ -94,15 +88,12 @@
             }
             else if (code >= 48 && code <= 57) {
                 //is a number
-
                 return true;
             }
             else {
-
                 return false;
             }
         }
-
         /*
          Autor: Jose Velez
          Nombre de función: validarUrl
@@ -110,7 +101,6 @@
          Salida: ingresa automaticamente el http
          Descripción: salida del http al escribir una url
          */
-
         function validarURL(abc) {
             var string = abc.value;
             if (!~string.indexOf("http") && string != "") {
@@ -119,18 +109,15 @@
             abc.value = string;
             return abc
         }
-
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     $('#blah')
                             .attr('src', e.target.result)
                             .width(200)
                             .height(200);
                 };
-
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -154,10 +141,9 @@
                 <hr>
 
                 <form role="form" action="/registro_usuario/" method="post"
-                      enctype="multipart/form-data" class="form-horizontal col-md-12"> {% csrf_token %}
-                      
+                      enctype="multipart/form-data"> {% csrf_token %}
                     <div class="form-group">
-                      
+
                         {% if mensaje %}
                             <div class="form-group">
                                 <label class="info-board-red" id="noIgual" style=" color: red">{{ mensaje }}</label>
@@ -166,67 +152,52 @@
                         <div class="form-group">
                             <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
                         </div>
-                      <label for="Username" class="col-md-3">Usuario</label>
-                      <div class="col-md-9">
 
                         <input required type="text" class="form-control" id="username" name="username"
                                placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tu usuario aquí." data-original-title="username">
-                      </div>
                     </div>
-
                     <div class="form-group">
                         <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as
                             no coinciden</label>
                     </div>
                     <div class="form-group">
-                        <label for="Contraseña" class="col-md-3">Contrase&ntilde;a </label>
-                        <div class="col-md-9">
-                          <input required type="password" class="form-control margin-bottom-xs" id="password1"
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input required type="password" class="form-control margin-bottom-xs" id="password1"
                                        name="password1" placeholder="Contraseña" data-toggle="popover"
                                        data-placement="left" data-trigger="focus" data-content="Three symbols minimum."
                                        data-original-title="Password">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ContraseñaNueva" class="col-md-3">Repetir Contrase&ntilde;a </label>
-                        <div class="col-md-9">
-                          <input required type="password" class="form-control" id="password2" name="password2"
+                            </div>
+                            <div class="col-sm-6">
+                                <input required type="password" class="form-control" id="password2" name="password2"
                                        placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus"
                                        data-content="Asegurate de recordarla" data-original-title="Repeat Password"
                                        onchange="validarPassword2()">
+                            </div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label class="info-board-red" id="error_nombre" style="display: none; color: red">Los nombres no
                             pueden contener números ni caracteres especiales</label>
                     </div>
                     <div class="form-group">
-                      <label for="Nombres" class="col-md-3">Nombres</label>
-                      <div class="col-md-9">
                         <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$"
                                class="form-control" id="nombre" name="nombres" placeholder="Nombres"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
                                onkeypress="return validarLetras(event)">
-                      </div>
                     </div>
-
                     <div class="form-group">
                         <label class="info-board-red" id="error_apellido" style="display: none; color: red">Los
                             apellidos no pueden contener números ni caracteres especiales</label>
                     </div>
                     <div class="form-group">
-                      <label for="Apellidos" class="col-md-3">Apellidos</label>
-                      <div class="col-md-9">
                         <input required type="text" class="form-control"
                                pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos"
                                placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos"
                                onkeypress="return validarLetras(event)">
-                      </div>
                     </div>
 
                     <div class="form-group">
@@ -238,50 +209,38 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="Cedula" class="col-md-3">C&eacute;dula</label>
-                      <div class="col-md-9">
                         <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula"
                                maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover"
                                data-placement="left" data-trigger="focus"
                                data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
                                onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
-                      </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="Pais" class="col-md-3">Pa&iacute;s</label>
-                        <div class="col-md-9">
-                          <select class="form-control" id="pais" name="pais">
-                              <optgroup label="Pais">
-                                  {% for pais in paises %}
-                                      <option value="{{ pais.id }}">{{ pais.name }}</option>
-                                  {% endfor %}
-                              </optgroup>
-                          </select>
-                        </div>
+                        <select class="form-control" id="pais" name="pais">
+                            <optgroup label="Pais">
+                                {% for pais in paises %}
+                                    <option value="{{ pais.id }}">{{ pais.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="Ciudad" class="col-md-3">Ciudad</label>
-                        <div class="col-md-9">
-                          <select class="form-control" name="ciudad" id="ciudad" required>
-                              <optgroup id="optsCiudades" label="Ciudad">
-                                  {% for ciudad in ciudades %}
-                                      <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
-                                  {% endfor %}
-                              </optgroup>
-                          </select>
-                        </div>
+                        <select class="form-control" name="ciudad" id="ciudad" required>
+                            <optgroup id="optsCiudades" label="Ciudad">
+                                {% for ciudad in ciudades %}
+                                    <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
                     </div>
 
                     <div class="form-group">
-                      <label for="Telefono" class="col-md-3">Telefono</label>
-                      <div class="col-md-9">
                         <input type="text" class="form-control" id="telefono" maxlength="16" pattern="([0-9]{1,15})"
                                name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left"
                                data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono"
                                onkeypress="return validarNumero(event);">
-                      </div>
                     </div>
 
 
@@ -290,21 +249,15 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="Email" class="col-md-3">Email</label>
-                      <div class="col-md-9">
                         <input required type="email" class="form-control" maxlength="50" id="email" name="email"
                                placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa un email valido." data-original-title="Email">
-                      </div>
                     </div>
                     <div class="form-group">
-                      <label for="Website" class="col-md-3">Website</label>
-                      <div class="col-md-9">
                         <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web"
                                onblur="validarURL(this)" data-toggle="popover" data-placement="left"
                                data-trigger="focus" data-content="Ingresa tu sitio web aquí."
                                data-original-title="Sitio Web">
-                      </div>
                     </div>
 
                     <label id="listarInst">
@@ -344,31 +297,22 @@
 
 
     <script type="text/javascript">
-
     function habilitarDeshabilitarSubmit(valor) {
-
         if (valor == 0) {
             $("#submit").removeAttr("enabled");
-
             $("#submit").attr("disabled", "disabled");
-
         } else if (valor == 1) {
-
             $("#submit").removeAttr("disabled");
-
             $("#submit").attr("enabled", "enabled");
         }
     }
-
     $(document).ready(function () {
         /*
          * Autor: Angel Guale
          Nombre de función: obtiene las ciudades al cargar y al cambiar
          Salida: Muestra las ciudades del pais seleccionado
          Descripción: obtiene las ciudades mediante ajax
-
          * */
-
         $("#pais").bind('change', function () {
             console.log($("#pais option:selected").val());
             $.ajax({
@@ -384,15 +328,12 @@
         });
         //para que se cambie hasta cuando carga
         $('#pais').trigger('change');
-
     });
-
     function ciudadSuccess(data, textStatus, jqXHR) {
         console.log("Succees");
         $("#optsCiudades").html(data);
         //console.log(data);
     }
-
     $("#username").change(function () {
         console.log($("#username").val());
         $.ajax({
@@ -406,8 +347,6 @@
             dataType: 'text'
         });
     });
-
-
     $("#cedula").change(function () {
         console.log($("#cedula").val());
         $.ajax({
@@ -434,14 +373,12 @@
             dataType: 'text'
         });
     });
-
     $("#listarInst").click(function () {
         $("#formInstitucion").attr("hidden", false);
         $("#asIndependiente").attr("hidden", false);
         $("#listarInst").attr("hidden", true);
         $("#institucion").attr("name", "institucion");
         $("#mensajeMembresia").attr("hidden", false);
-
     });
     $("#asIndependiente").click(function () {
         $("#formInstitucion").attr("hidden", true);
@@ -449,29 +386,22 @@
         $("#mensajeMembresia").attr("hidden", true);
         $("#institucion").removeAttr("name");
         $("#asIndependiente").attr("hidden", true);
-
     });
     function verificaUser(data, textStatus, jqXHR) {
         console.log(data);
         if (data == "usado") {
-
             $("#usuario_usado").html("Nombre de Usuario ya existente");
             $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
             $("#usuario_usado").attr("class", "info-board-red");
             habilitarDeshabilitarSubmit(0);
-
         }
         else {
             $("#usuario_usado").html("Nombre de Usuario disponible");
             $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
             $("#usuario_usado").attr("class", "info-board-green");
             habilitarDeshabilitarSubmit(1);
-
         }
-
-
     }
-
     function verificarCedula(data, textStatus, jqXHR) {
         console.log(data);
         if (data == "usado") {
@@ -479,20 +409,14 @@
             $("#cedula_usado").attr("style", "display: block; color: red; text-align:center");
             $("#cedula_usado").attr("class", "info-board-red");
             habilitarDeshabilitarSubmit(0);
-
         }
         else {
             $("#cedula_usado").attr("hidden", "true");
             $("#cedula_usado").attr("style", "display: none; color: green; text-align:center");
             //$("#cedula_usado").attr("class", "info-board-green");
             habilitarDeshabilitarSubmit(1);
-
         }
-
-
     }
-
-
     function verificarEmail(data, textStatus, jqXHR) {
         console.log(data);
         if (data == "usado") {
@@ -500,19 +424,14 @@
             $("#email_usado").attr("style", "display: block; color: red; text-align:center");
             $("#email_usado").attr("class", "info-board-red");
             habilitarDeshabilitarSubmit(0);
-
         }
         else {
             $("#email_usado").attr("hidden", "true");
             $("#email_usado").attr("style", "display: none; color: green; text-align:center");
             //$("#cedula_usado").attr("class", "info-board-green");
             habilitarDeshabilitarSubmit(1);
-
         }
-
-
     }
-
     $("#nombre").change(function () {
         // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
         console.log("UNO");
@@ -526,9 +445,7 @@
             $("#error_nombre").attr("class", "info-board-red");
 //habilitarDeshabilitarSubmit(0);
         }
-
     });
-
     $("#apellidos").change(function () {
         // letras_latinas = "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/";
         console.log("UNO");
@@ -545,5 +462,3 @@
     });
     </script>
 {% endblock %}
-
-

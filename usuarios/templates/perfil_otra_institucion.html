@@ -205,7 +205,7 @@
                     var cargo = $('#txt_cargo').val();
                     var descripcion = $('#txt_description').val();
                     var patroncargo = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-                    var patrondescripcion = /^[_/.,;/a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+                    var patrondescripcion = /^[_\-.,;a-z0-9A-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
                     var resultado1 = patroncargo.test(cargo);
                     var resultado2 = patrondescripcion.test(descripcion);
                     if(resultado1 == false)
