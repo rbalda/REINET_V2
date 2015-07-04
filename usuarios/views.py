@@ -1472,7 +1472,40 @@ def verMensaje(request):
 	except:
 		return HttpResponseRedirect("/BandejaDeEntrada/")
 
+"""
+Autor: Ray Montiel
+Nombre de funcion: verMensaje
+Entrada: request POST
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite visualizar los mensajes
+detalladamente
+"""
 
+@login_required
+def verMensajeEnviado(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		msj=Mensaje.objects.get(id_mensaje = idM)
+		print "mensaje",msj.id_mensaje
+		print msj.leido
+		msj.leido = True
+		msj.save()
+		print msj.leido
+		usuario_receptor=msj.fk_receptor
+		receptor = Perfil.objects.get(username= usuario_receptor.username)
+		emisor = Perfil.objects.get(username = usuario.username)
+		args['msj']=msj
+		args['usuario_receptor'] = usuario_receptor
+		args['emisor']=emisor
+		args['receptor']=receptor
+		args['usuario']=usuario
+		args['es_admin']=request.session['es_admin']
+		return render_to_response('ver_mensaje_enviado.html',args)
+	except:
+		return HttpResponseRedirect("/BandejaDeEntrada/")
 """
 Autor: Ray Montiel
 Nombre de funcion: mensajesEnviados
@@ -1488,11 +1521,25 @@ def mensajesEnviados(request):
 	usuario=User.objects.get(id=sesion)
 
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = True)[:8]
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = True)
 	except:
 		mensajes= None
+
+	paginacion = Paginator(mensajes, 5)
+
+	try:
+		page=int(request.GET.get('page', '1'))
+	except ValueError:
+		page=1
+
+	try:
+		msjs = paginacion.page(page)
+	except (EmptyPage, InvalidPage):
+		msjs = paginacion.page(paginacion.num_pages)
+
 	args={}
 	args['usuario']=usuario
+	args['msjs']=msjs
 	args['mensajes']=mensajes
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('mensajes_enviados.html',args)
