@@ -33,6 +33,8 @@
 		 				console.log('hizo click en Aceptar');
 		 				$.ajax({
 		 					data : {
+		 						'usuarioreceptor' : {{miembro.fk_usuario_id}},
+                                'usuarioemisor' : {{usuario.id}},
 		 						'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 1,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'

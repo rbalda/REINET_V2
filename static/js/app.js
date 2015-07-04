@@ -42,10 +42,18 @@ redInn.factory('ContarNoLeidos',['$http','urls',function($http,urls){
         get_contador: function (success, error) {
             $http.get(urls.BASE_API + '/contar_no_leidos', {},
                 {headers: {"Content-Type": "application/json"}
+                }).success(success).error(error);    
+        },
+        get_notificacion: function(success,error){
+            $http.get(urls.BASE_API + '/notificaciones_no_leidas', {},
+                {headers: {"Content-Type": "application/json"}
                 }).success(success).error(error);
         }
+
     }
 }]);
+
+
 
 //controlador que hara la busqueda de los usuario y los mostrara en pantalla
 redInn.controller('ControladorBusqueda',['$scope','Entidades',function($scope,Entidades){
@@ -197,7 +205,7 @@ redInn.controller('NotificacionControllers',['$scope','$dragon','$rootScope',fun
 
     $dragon.onReady(
         function(){
-            $dragon.subscribe('notificacion-router',$scope.channel,{fk_receptor__username:usuarioName()}).then(function(response){
+            $dragon.subscribe('notificacion-router',$scope.channel,{}).then(function(response){
                     $scope.dataMapper = new DataMapper(response.data);
                 });
             $dragon.getSingle('notificacion-router',{username:usuarioName()}).then(function(response){
@@ -224,7 +232,7 @@ redInn.controller('NotificacionContadorController',['$scope','ContarNoLeidos',fu
     $scope.contador_notificacion=null;
 
     var contar = function(){
-        ContarNoLeidos.get_contador(
+        ContarNoLeidos.get_notificacion(
             function(response){
                 $scope.contador_notificacion=response;
             }

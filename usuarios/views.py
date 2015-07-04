@@ -19,7 +19,6 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.conf import settings
-print settings.TEMPLATE_CONTEXT_PROCESSORS
 
 from django.contrib.auth.decorators import login_required
 import datetime, random, string, socket
@@ -302,6 +301,7 @@ def registro_usuario(request):
 		return HttpResponseRedirect('/inicioUsuario/')
 
 	else:
+
 		if request.method == 'POST':
 			username = request.POST['username']  #Error 10, usar palabras en español
 			password = request.POST['password1']  #Error 10, usar palabras en español
@@ -390,6 +390,7 @@ def registro_usuario(request):
 						request.session.set_expiry(1209600)  # 2 weeks
 					auth.login(request, usuario)
 					request.session['id_usuario'] = usuario.id
+					request.session['es_admin'] = False
 					print 'buscar error de sixto'
 					print usuario.id
 					print request.session['id_usuario']
@@ -454,33 +455,12 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 			if usuario is not None:
 				user = Perfil.objects.get(id=usuario.id)
 				if user.estado == 1:
-					#if request.POST.has_key('remember_me'):
-						#request.session.set_expiry(1209600)  # 2 weeks
-
-					#Valida si el usuario tiene una institucion a su cargo o es administrador.
-					membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
-					print 'usuario' 
-					print user.id
-					print 'la membresia'
-					print membresia
-					#Intenta obtener si tiene alguna peticion pendiente.
-					peticion_pendiente = Peticion.objects.filter(fk_usuario=user).count()
-					print 'peticion_pendiente'
-					print peticion_pendiente
-					#Si tiene alguna membresia.
-					if membresia is not None :
-						#Si es administrador de alguna institucion o tiene una peticion pendiente.
-						if membresia.es_administrator or peticion_pendiente==0:
-							request.session['es_admin'] = True
-						else:
-							request.session['es_admin'] = False
-					else:
-						request.session['es_admin'] = False	
+					if request.POST.has_key('remember_me'):
+						request.session.set_expiry(1209600)  # 2 weeks
 
 
 					request.session['id_usuario'] = usuario.id
 					print 'session es_admin'
-					print request.session['es_admin']
 					print user
 					print user.privacidad
 
@@ -637,8 +617,6 @@ permite ver la pagina inicial de todo usuario logeado
 
 @login_required
 def inicio(request):
-	print 'sesion  es_Admin '
-	print request.session['es_admin']
 	session = request.session['id_usuario']
 	print session
 
@@ -648,6 +626,26 @@ def inicio(request):
 	if usuario is not None:
 		args['usuario'] = usuario
 		user = request.user
+
+		#Valida si el usuario tiene una institucion a su cargo o es administrador.
+		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
+		print 'usuario' 
+		print user.id
+		print 'la membresia'
+		print membresia
+		#Intenta obtener si tiene alguna peticion pendiente.
+		peticion_pendiente = Peticion.objects.filter(fk_usuario=user).count()
+		print 'peticion_pendiente'
+		print peticion_pendiente
+		#Si tiene alguna membresia.
+		if membresia is not None :
+			#Si es administrador de alguna institucion o tiene una peticion pendiente.
+			if membresia.es_administrator or peticion_pendiente==0:
+				request.session['es_admin'] = True
+			else:
+				request.session['es_admin'] = False
+		else:
+			request.session['es_admin'] = False	
 
 		if(usuario.privacidad>=10000):
 			usuario.privacidad = abs(usuario.privacidad-10000)
@@ -1247,6 +1245,16 @@ class NumeroMensajesNoLeidos(APIView):
 		return response
 
 
+class NumeroNotificacionesNoLeidos(APIView):
+	permission_classes = (IsAuthenticated,)
+
+	def get(self,request,*args,**kwargs):
+		no_leidos = Notificacion.objects.filter(destinatario_notificacion=request.user,estado=False)
+		total = len(no_leidos)
+		response = Response(total,status=status.HTTP_200_OK)
+		return response
+
+
 """
 Autor: Ray Montiel
 Nombre de funcion: verMensajes
@@ -1787,37 +1795,40 @@ def accionMembresia(request):
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
+				asunto = 'Solicitud Aceptada'
 				texto_mensaje = 'Su solicitud ha sido aceptada'
 			else:
-				membresia.estado = -1
-				asunto = "Rechazo Solicitud Membresia"
-				texto_mensaje = "Su solicitud ha sido rechazada, debido a politicas internas. BRONZA"
-				try:
-					mensajes = Mensaje()
-					receptor=User.objects.get(id=request.POST['usuarioreceptor'])
-					emisor=User.objects.get(id=request.POST['usuarioemisor'])
-					if receptor is not None:
-						mensajes.fk_emisor = emisor
-						mensajes.fk_receptor = receptor
-						mensajes.asunto = asunto
-						mensajes.mensaje= texto_mensaje
-						mensajes.fecha_de_envio=datetime.datetime.now()
-						mensajes.save()
+				if aux == -1:
+					membresia.estado = -1
+					asunto = "Rechazo Solicitud Membresia"
+					texto_mensaje = "Su solicitud ha sido rechazada, debido a politicas internas."
 
-						notificacion = Notificacion()
-						notificacion.descripcion_notificacion = descripcion
-						notificacion.tipo_notificacion = 'membresia'
-						notificacion.destinatario_notificacion = receptor
-						notificacion.url_notificacion = None
-						notificacion.estado = False
-						notificacion.fecha_creacion = datetime.datetime.now()
-						notificacion.save()
-						print 'se guardo notificacion al parecer'
+			try:
+				mensajes = Mensaje()
+				receptor=User.objects.get(id=request.POST['usuarioreceptor'])
+				emisor=User.objects.get(id=request.POST['usuarioemisor'])
+				if receptor is not None:
+					mensajes.fk_emisor = emisor
+					mensajes.fk_receptor = receptor
+					mensajes.asunto = asunto
+					mensajes.mensaje= texto_mensaje
+					mensajes.fecha_de_envio=datetime.datetime.now()
+					mensajes.save()
+				else:
+					print "usuario invalido"
+			except Exception as e:
+				print e
+				print "error cojudo, resuelvelo angel"
 
-					else:
-						print "usuario invalido"
-				except Exception as e:
-					print "error cojudo, resuelvelo angel"
+
+			notificacion = Notificacion()
+			notificacion.descripcion_notificacion = texto_mensaje
+			notificacion.tipo_notificacion = 'accion-membresia'
+			notificacion.destinatario_notificacion = membresia.fk_usuario
+			notificacion.url_notificacion = 'www.lalal.com'
+			notificacion.estado = False
+			notificacion.save()
+			print 'se guardo notificacion al parecer'
 
 			membresia.save()
 			print 'al parecer se guardo'

@@ -37,9 +37,12 @@ class NotificacionSerializer(ModelRouter):
 
 
     def get_object(self, **kwargs):
-        a = self.model.objects.filter(fk_receptor__username=kwargs['username'],leido=False).last()
+        a = self.model.objects.filter(destinatario_notificacion=kwargs['username']).last()
         print a
         return a
+
+    def get_query_set(self, **kwargs):
+        return self.model.objects.all()
 
 
 route_handler.register(NotificacionSerializer)
