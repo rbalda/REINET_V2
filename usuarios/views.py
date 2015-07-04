@@ -390,6 +390,7 @@ def registro_usuario(request):
 						request.session.set_expiry(1209600)  # 2 weeks
 					auth.login(request, usuario)
 					request.session['id_usuario'] = usuario.id
+					request.session['es_admin']=False
 					print 'buscar error de sixto'
 					print usuario.id
 					print request.session['id_usuario']
