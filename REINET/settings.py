@@ -105,19 +105,19 @@ DATABASES = {
         'PASSWORD':'ReInEt2015'
     }
 }
+
 """
 #esto para probar localmente mientras el servidor murio
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'reinet',
+        'NAME': 'reinet'
         'HOST': 'localhost',
         'PORT':'3306',
         'USER':'root',
         'PASSWORD':''
     }
-}
-"""
+}"""
 
 
 # Internationalization
