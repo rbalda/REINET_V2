@@ -65,10 +65,10 @@
     {% endblock %}
     {% block contenidousuario %}
         <!-- Foto del Perfil -->
-        <div class="col-sm-8 col-md-6">
+        <div class="col-sm-5 col-sm-6">
         <div class="row">
 
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="thumbnail">
                     <div class="avatar">
                         <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
@@ -122,11 +122,7 @@
                 </h3>
                 <hr>
 
-                <div class="bottom-15">
-
-                    <!-- //// VENTANA EMERGENTE EMAIL /////-->
-
-                </div>
+                
             </div>
         </div>
 
@@ -208,11 +204,7 @@
                                 <td style="text-align:right">{% if usuario.estado == 1 %} Activo {% else %}
                                     Inactivo{% endif %}</td>
                             </tr>
-                            <tr>
-                                <td class="text-muted">Website</td>
-                                <td style="text-align:right;word-break: break-all;">{{ usuario.web }}</td>
-                            </tr>
-
+                            
 
                             </tbody>
                         </table>
@@ -225,7 +217,7 @@
         </div>
 
         <!-- Informacion de Contacto -->
-        <div class="col-sm-3" id="collapseContacto">
+        <div class="col-sm-4" id="collapseContacto">
             <div class="panel-heading btn-outline btn-warning" style="text-align:center">
                 <h4 class="panel-title"><a data-parent="collapseContacto"><i class="fa fa-map-marker"></i> Informaci&oacute;n
                     de Contacto </a></h4>
@@ -249,6 +241,11 @@
                         <td class="text-muted">Email</td>
                         <td style="text-align:right">{{ usuario.email }}</td>
                     </tr>
+                    <tr>
+                        <td class="text-muted">Website</td>
+                        <td style="text-align:right;word-break: break-all;">adsasdfsfsdsdfsdf{{ usuario.web }}</td>
+                    </tr>
+
                     </tbody>
                 </table>
             </div>
