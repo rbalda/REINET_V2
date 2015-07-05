@@ -19,9 +19,19 @@
     <a href="#" class="link"><i class="fa fa-check-circle-o"><span class="badge">[[contador_notificacion]]</span></i></a>
 </li>
 
+{% if not es_admin %}
 <!-- Revisar nombre del link -->
 <li id="mensajes" class="show" ng-controller="MensajesContadorController" >
     <a href="/BandejaDeEntrada/" class="link">Mensajes&nbsp;<span class="badge">[[contador]]</span></a>
 </li>
+{% endif %}
 
-
+{% if es_admin %}
+<li id="mensajes_drop" class="show">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="mensajes" ng-controller="MensajesContadorController">MENSAJES&nbsp;<span class="badge">[[contador]]</span></a>
+    <ul class="dropdown-menu"> 
+        <li><a href="/BandejaDeEntrada/" class="link">Mensajes&nbsp; a t&iacute;</a></li>
+        <li><a href="/BandejaDeEntradaInstitucion/" class="link">Mensajes&nbsp; a Instituci&oacute;n</a></li>
+    </ul>
+</li>
+{% endif %}

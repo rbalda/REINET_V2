@@ -106,15 +106,16 @@ DATABASES = {
     }
 }
 
-"""#esto para probar localmente mientras el servidor murio
+"""
+#esto para probar localmente mientras el servidor murio
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test_reinet',
+        'NAME': 'reinet'
         'HOST': 'localhost',
         'PORT':'3306',
         'USER':'root',
-        'PASSWORD':'root'
+        'PASSWORD':''
     }
 }"""
 

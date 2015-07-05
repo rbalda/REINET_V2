@@ -1,44 +1,7 @@
-{% extends "profile_usuario.html" %}
+{% extends "profile_institucion.html" %}
 
-{% block menuperfil %}
-    <!-- Profile Menu -->
-    <div class="col-sm-4 col-md-3">
-        <div class="user-menu bottom-15">
-            <ul>
-                <!--  <li>
-                   <a href="#"  class="link" class="active" >
-                     <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
-                   </a>
-                 </li> -->
-                <li>
-                    <a href="/enviarMensaje/">
-                        <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i
-                            class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/BandejaDeEntrada/">
-                        <i class="sign fa fa-envelope bg-red"></i> Entrada <i
-                            class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/mensajesEnviados/">
-                        <i class="sign fa fa-envelope bg-green"></i> Enviados <i
-                            class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                </li>
-                <!--  <li>
-                   <a href="#">
-                     <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li> -->
-            </ul>
-        </div>
-    </div>
-{% endblock %}
 
-{% block contenidousuario %}
+{% block contenidoinstitucion %}
 
     <div class="col-sm-8 col-md-7">
         <div class="clearfix"></div>
@@ -46,12 +9,12 @@
         <div class="pm bottom-15">
             <div class="media">
                 <a class="pull-left" href="#">
-                    <img class="media-object" src="{{ emisor.foto.url }}" alt="...">
+                    <img class="media-object" src="{{ receptor.foto.url }}" alt="...">
                 </a>
 
                 <div class="media-body">
                     <p>
-                        <b>De:</b> <a href="/usuario/{{ msj.fk_emisor }}">{{ usuario_emisor.first_name }} {{ usuario_emisor.last_name }} </a>
+                        <b>Para:</b> <a href="/usuario/{{ msj.fk_receptor }}">{{ usuario_receptor.first_name }} {{ usuario_receptor.last_name }} </a>
                     </p>
                     <p>
                         <b>Asunto:</b>&nbsp; {{ msj.asunto }}
@@ -66,11 +29,11 @@
             </div>
         </div>
         <div class="message-answer" style="text-align:center">
-            <a href="#" class="btn-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
+            <a href="#" class="btn-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensajeInstitucion"><i
                  class="fa fa-envelope"></i> Responder</a>
         </div>
             <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-            <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+            <div class="modal fade" id="enviarMensajeInstitucion" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
@@ -81,12 +44,12 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="modal-body">
-                        <form role="form" action="/enviarMensaje/" method='POST'>
+                        <form role="form" action="/enviarMensajeInstitucion/" method='POST'>
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="Destinatario">Para:</label>
                                 <input type="text" class="form-control" id="destinatario" name="destinatario"
-                                placeholder="Destinatario" value="{{ msj.fk_emisor }}" maxlength="50" required>
+                                placeholder="Destinatario" value="{{ receptor.username }}" maxlength="50" required>
                             </div>
                             <div class="form-group">
                                 <label for="Asunto">Asunto:</label>
@@ -107,5 +70,5 @@
             <div class="clearfix"></div>
 
     </div>
-
 {% endblock %}
+
