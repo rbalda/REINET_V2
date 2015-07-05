@@ -552,10 +552,12 @@ def editar_usuario(request):
 	idFoto = 1
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
+	membresia = Membresia.objects.get(fk_usuario_id=session)
 	args = {}
 
 	if usuario is not None:
 		args['usuario'] = usuario
+		args['membresia'] = membresia
 	else:
 		args['error'] = "Error al cargar los datos"
 
@@ -612,8 +614,12 @@ def editar_usuario(request):
 		if idFoto != 0:
 			perfil.foto = foto
 		perfil.save()
-
-
+		
+		if request.POST.has_key('cargo'):
+			miembro = membresia
+			miembro.cargo = request.POST['cargo']
+			miembro.descripcion_cargo = request.POST['descripcion-cargo']
+			miembro.save()
 
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
