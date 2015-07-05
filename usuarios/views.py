@@ -549,6 +549,38 @@ def editarContrasena(request):
 		return render_to_response('Usuario_Edit_Password.html', args)
 
 
+
+
+
+"""
+Autor: Leonel Ramirez - jose Velez
+Nombre de funcion: verificar_contrasena
+Entrada: request GET o POST
+Salida: Formulario de generarCodigo
+Descripción: Genera un codigo para  verificar que la contraseña 
+"""
+
+def verificar_contrasena(request):  
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	print "Usuario-contrasena: ",usuario
+
+
+	if request.method == "POST":
+		contrasena = request.POST['passwordActual'] 
+		print "contrasena: ",contrasena
+		autentificacion = auth.authenticate(username=usuario, password=contrasena)
+		
+		if autentificacion is not None:
+			print "Valido"
+			return HttpResponse("valido")
+		else:
+			return HttpResponse("invalido")
+			print "inValido"
+	return HttpResponse("no es post")
+
+
+
 """
 Autor: Jose Velez - Leonel Ramirez
 Nombre de función: editar_usuario
