@@ -2126,7 +2126,8 @@ def accionMembresia(request):
 				membresia.fecha_aceptacion = datetime.datetime.now()
 			elif aux == 0 :
 					membresia.estado = -1
-
+			membresia.save()
+			print 'al parecer se guardo'
 			notificacion = Notificacion()
 			notificacion.descripcion_notificacion = "Estado de Membresia"
 			notificacion.tipo_notificacion = 'accion-membresia'
@@ -2136,8 +2137,7 @@ def accionMembresia(request):
 			notificacion.save()
 			print 'se guardo notificacion al parecer'
 
-			membresia.save()
-			print 'al parecer se guardo'
+
 
 
 			response = JsonResponse({'membresia_save':True})

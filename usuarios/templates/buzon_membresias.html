@@ -49,7 +49,7 @@
                                             <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
                                             required></textarea>
                                         </div>
-                                        <button type="submit" class="btn btn-green">Enviar</button>
+                                        <button type="submit" id="enviar" onclick="clicked();" class="btn btn-green">Enviar</button>
                                     </form>
                                 </div>
                                 </div>
@@ -63,11 +63,18 @@
 		 <script>
 		 	$(document).ready(function(){
 		 		$(function(){
-		 			$('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
 		 			var asunto = document.getElementById("asunto");
+                    var enviar = document.getElementById("enviar");
                     var contenido = document.getElementById("mensaje");
                     asunto.value = "Aceptación de Solicitud Membresia";
                     contenido.value = "Su solicitud ha sido Aceptada, Bienvenido :)";
+
+                    function clicked () {
+                        enviar.submit();
+                        $('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
+                    }
+
+
 		 			function accionMembresiaA(){
 		 				console.log('hizo click en Aceptar');
 		 				$.ajax({
@@ -109,14 +116,20 @@
 		 	});
 
 		 	$(document).ready(function(){
-		 		$('#Rechazar{{miembro.id_membresia}}').click(accionMembresiaR);
 		 		var asunto = document.getElementById("asunto");
                 var contenido = document.getElementById("mensaje");
+                var enviar = document.getElementById("enviar");
                 asunto.value = "Rechazo de Solicitud Membresia";
                 contenido.value = "Su solicitud ha sido rechazada por los siguientes motivos: -Completa el mensaje por favor :D-";
+
+                function clicked () {
+                        enviar.submit();
+                        $('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
+                    }
+                $('#Rechazar{{miembro.id_membresia}}').click(accionMembresiaR);
 		 			function accionMembresiaR(){
 		 				console.log('hizo click en Rechazar');
-		 				$.ajax({
+                        $.ajax({
 		 					data : {
                                 'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 0,
