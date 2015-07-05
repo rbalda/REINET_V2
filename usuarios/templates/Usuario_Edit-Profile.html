@@ -197,10 +197,7 @@
                 <label for="Cedula" class="col-md-2">C&eacute;dula</label>
 
                 <div class="col-md-8">
-                    <input required type="text" disabled pattern="([0-9]{1,15})" class="form-control" id="cedula"
-                           name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus"
-                           data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
-                           value="{{ usuario.cedula }}" onkeypress="return validarNumero(event);">
+                    <input required type="text" disabled pattern="([0-9]{1,15})" class="form-control" id="cedula" name="cedula" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" value="{{ usuario.cedula }}" onkeypress="return validarNumero(event);" minlength="10" maxlength="10" >
 
                 </div>
                 <div class="col-md-2">
@@ -219,10 +216,7 @@
                 <label for="Telefono" class="col-md-2">Tel&eacute;fono</label>
 
                 <div class="col-md-8">
-                    <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono"
-                           data-toggle="popover" data-placement="left" data-trigger="focus"
-                           data-content="Ingresa tu cargo aquí." data-original-title="Telefono"
-                           value="{{ usuario.telefono }}" onkeypress="return validarNumero(event);">
+                    <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" value="{{ usuario.telefono }}" onkeypress="return validarNumero(event);" minlength="10" maxlength="10" >
                 </div>
                 <div class="col-md-2">
                     <select name="PrivacidadTelefono" id="PrivacidadTelefono" class="form-control" style="font-family: 'FontAwesome', Helvetica;">
