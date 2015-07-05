@@ -278,6 +278,32 @@
                     </select>
                 </div>
             </div>
+            
+        {% if not membresia.fk_institucion_id == 1 %}
+	    <!--CARGO-->
+            <div class="form-group">
+                <label for="Email" class="col-md-2">Cargo</label>
+
+                <div class="col-md-8">
+                    <input required type="text" class="form-control" id="cargo" name="cargo"
+                           data-toggle="popover" data-placement="left" data-trigger="focus"
+                           data-original-title="Cargo" maxlength="45"
+                           value="{{ membresia.cargo }}">
+                </div>
+            </div>
+	    <!--DESCRIPCION DEL CARGO-->
+            <div class="form-group">
+                <label for="Email" class="col-md-2">Descripci&oacute;n del Cargo</label>
+
+                <div class="col-md-8">
+                    <input required type="text" class="form-control" id="descripcion-cargo" name="descripcion-cargo"
+                           data-toggle="popover" data-placement="left" data-trigger="focus"
+                           data-original-title="Descripcion del Cargo" maxlength="45"
+                           value="{{ membresia.descripcion_cargo }}">
+                </div>
+            </div>
+	    {% endif %}
+	    
             <!--IMAGEN-->
             <div class="form-group">
                 <label class="col-md-2">Imagen</label>

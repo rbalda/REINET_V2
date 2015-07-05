@@ -518,18 +518,29 @@ def editarContrasena(request):
 		args['error'] = "Error al cargar los datos"
 
 	if request.method == 'POST':
+		contrasenaActual = request.POST['passwordActual']
 		contrasenaNueva = request.POST['password1']
 		contrasenaRepetida = request.POST['password2']
 
-		if contrasenaNueva == contrasenaRepetida:
-			autentificacion = auth.authenticate(username=usuario, password=contrasenaNueva)
-			if autentificacion is not None:
+		print "usuario: ",usuario
+		print "contrasenaNueva: ",contrasenaNueva
+		print "contrasenaRepetida: ",contrasenaRepetida
+
+		
+		autentificacion = auth.authenticate(username=usuario, password=contrasenaActual)
+		if autentificacion is not None:
+			print "Entro autentificacion: "
+			if contrasenaNueva == contrasenaRepetida:
 				perfil = usuario
 				perfil.set_password(contrasenaNueva)
 				perfil.save()
 				return HttpResponseRedirect('/perfilUsuario/')
 			else:
+				print "Contraseña diferente: "
 				return HttpResponseRedirect('/editarContrasena/')
+		else:
+			print "NO Entro autentificacion: "
+			return HttpResponseRedirect('/editarContrasena/')
 	else:
 		user = request.user
 		args['es_admin']=request.session['es_admin']
@@ -551,10 +562,12 @@ def editar_usuario(request):
 	idFoto = 1
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
+	membresia = Membresia.objects.get(fk_usuario_id=session)
 	args = {}
 
 	if usuario is not None:
 		args['usuario'] = usuario
+		args['membresia'] = membresia
 	else:
 		args['error'] = "Error al cargar los datos"
 
@@ -611,8 +624,12 @@ def editar_usuario(request):
 		if idFoto != 0:
 			perfil.foto = foto
 		perfil.save()
-
-
+		
+		if request.POST.has_key('cargo'):
+			miembro = membresia
+			miembro.cargo = request.POST['cargo']
+			miembro.descripcion_cargo = request.POST['descripcion-cargo']
+			miembro.save()
 
 		return HttpResponseRedirect('/perfilUsuario/')
 	else:
@@ -1864,6 +1881,65 @@ def eliminarMensajeEnviado(request,):
 	#print "Eliminar:  ",mensaje
 	return HttpResponseRedirect('/mensajesEnviados/')
 
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: eliminarMensajeRecibidoInstitucion
+Entrada: request POST
+Salida: elimina mensaje .
+Descripción: marca eliminado mensaje y actuliza template.
+"""
+@login_required
+def eliminarMensajeRecibidoInstitucion(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		#mensaje =Mensaje.objects.filter(id_mensaje=9)
+		#args['mensaje'] = mensaje
+		print "MENSAJE: ",idM
+		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_receptor=False)
+		mensaje=Mensaje.objects.get(id_mensaje = idM)
+
+		mensaje.borrarMensaje()
+		#args['mensaje'] = mensaje	
+		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
+		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
+		print "mensaje: ", mensaje.mensaje
+		return HttpResponseRedirect('/BandejaDeEntradaInstitucion/')
+	except:
+		return HttpResponseRedirect('/BandejaDeEntradaInstitucion/')
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: eliminarMensajeEnviadoInstitucion
+Entrada: request POST
+Salida: elimina mensaje en enviados.
+Descripción: elimina y actuliza los mensaje del buzon.
+"""
+@login_required
+def eliminarMensajeEnviadoInstitucion(request,):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		#mensaje =Mensaje.objects.filter(id_mensaje=9)
+		#args['mensaje'] = mensaje
+		print "MENSAJE: ",idM
+		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_emisor=False)
+		mensaje=Mensaje.objects.get(id_mensaje = idM)
+
+		mensaje.borrarMensaje()
+		#args['mensaje'] = mensaje	
+		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
+		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
+		print "mensaje: ", mensaje.mensaje
+		return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
+	
+	except :
+		return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
 
 """
 Autor: Fausto Mora
