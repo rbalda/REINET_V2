@@ -17,7 +17,7 @@
                 <h3 class="hl top-zero">Registro de Institución</h3>
                 <hr>
                 <form role="form" action="/registro_institucion/registering" method="post"
-                      enctype="multipart/form-data">{% csrf_token %}
+                      enctype="multipart/form-data" name="registrar_institucion" novalidate>{% csrf_token %}
                     <!--NOMBRE-->
                     <div class="form-group">
                         <label for="nombreInstitucion">Nombre de la instituci&oacute;n</label>
@@ -34,30 +34,46 @@
                         <label class="info-board-red" id="sigla_usada" style="display: none; color: red"></label>
                         <input type="text" class="form-control" maxlength="12" id="siglaInstitucion"
                                name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
-                               maxlength="16" data-toggle="popover" data-placement="left" data-trigger="focus"
+                               maxlength="30" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese las siglas de la Institucion"
-                               data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" required>
+                               data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" ng-model="institucion.siglaInstitucion" required unique-siglas>
                     </div>
                     <!--DESCRIPCION-->
                     <div class="form-group">
                         <label for="descInstitucion">Descripci&oacute;n</label>
+                        <div ng-messages='registrar_institucion.descInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.descInstitucion.$dirty && registrar_institucion.descInstitucion.$invalid">
+                            La descripci&oacute;n debe tener entre 3 y 240 caracteres.
+                          </label>
+                        </div>
                         <input type="text" class="form-control" id="descInstitucion" name="descInstitucion"
                                placeholder="Descripcion de la Institucion"
                                maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese las descripcion de la Institucion"
-                               data-original-title="Descripcion" required>
+                               data-original-title="Descripcion" ng-model="institucion.descInstitucion" ng-pattern="/^[a-zA-Z0-9]{3,240}$/" ng-required="true">
+                        
                     </div>
                     <!--MISION-->
                     <div class="form-group">
                         <label for="misionInstitucion">Misi&oacute;n</label>
+                        <div ng-messages='registrar_institucion.descInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.misionInstitucion.$dirty && registrar_institucion.misionInstitucion.$invalid">
+                            La misi&oacute;n debe tener entre 3 y 240 caracteres.
+                          </label>
+                        </div>
                         <input type="text" class="form-control" id="misionInstitucion" name="misionInstitucion"
                                placeholder="Misión"
                                maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese la misión de la Institución" data-original-title="Misión" required>
+                               data-content="Ingrese la misión de la Institución" data-original-title="Misión" ng-model="institucion.misionInstitucion" ng-pattern="/^[a-zA-Z0-9]{3,240}$/" ng-required="true">
                     </div>
                     <!--PAIS-->
                     <div class="form-group">
                         <label for="pais">Pa&iacute;s</label>
+                        <div ng-messages='registrar_institucion.ciudadInstitucion.$error' >
+                          <label class="info-board-blue" style="display: block; color: blue; text-align:center" ng-show="registrar_institucion.ciudadInstitucion.$pristine">
+                            No olvide seleccionar su pa&iacute;s y ciudad de origen.
+                          </label>
+                        </div>
                         <select class="form-control" name="paisInstitucion" id="paisInstitucion" required>
                             <optgroup label="Pais">
                                 {% for pais in paises %}
@@ -69,7 +85,7 @@
                     <!--CIUDAD-->
                     <div class="form-group">
                         <label for="ciudad">Ciudad</label>
-                        <select class="form-control" name="ciudadInstitucion" id="ciudadInstitucion" required>
+                        <select class="form-control" name="ciudadInstitucion" id="ciudadInstitucion" ng-model="institucion.ciudadInstitucion" ng-required="true">
                             <optgroup id="optsCiudades" label="Ciudad">
                                 {% for ciudad in ciudades %}
                                     <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
@@ -81,76 +97,113 @@
 
                     <div class="form-group">
                         <label for="recursosInstitucion">Recursos ofrecidos</label>
+                        <div ng-messages='registrar_institucion.recursosInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.recursosInstitucion.$dirty && registrar_institucion.recursosInstitucion.$invalid">
+                            La misi&oacute;n debe tener entre 3 y 240 caracteres.
+                          </label>
+                        </div>
                         <input type="text" class="form-control" id="recursosInstitucion" name="recursosInstitucion"
                                placeholder="Recursos Ofrecidos"
                                maxlength="200" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese los recursos que ofrece la Institución"
-                               data-original-title="Recursos Ofrecidos" required>
+                               data-original-title="Recursos Ofrecidos" ng-model="institucion.recursosInstitucion" ng-pattern="/^[a-zA-Z0-9]{3,240}$/" ng-required="true">
                     </div>
                     <!--CARGO-->
                     <div class="form-group">
                         <label for="cargoInstitucion">Cargo</label>
+                        <div ng-messages='registrar_institucion.cargoInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.cargoInstitucion.$dirty && registrar_institucion.cargoInstitucion.$invalid">
+                            El cargo debe tener entre 3 y 35 caracteres.
+                          </label>
+                        </div>
                         <input type="text" class="form-control" id="cargoInstitucion" name="cargoInstitucion"
                                placeholder="Indique su cargo en la Institucion"
                                maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese su cargo en la Institución" data-original-title="Cargo"
-                               onkeypress="return validarLetras(event)" required>
+                               onkeypress="return validarLetras(event)" ng-model="institucion.cargoInstitucion" ng-pattern="/^[a-zA-Z0-9]{3,35}$/" ng-required="true">
                     </div>
                     <!--DESCRIPCION DE CARGO-->
                     <div class="form-group">
-                        <label for="cargoDescInstitucion">Descripci&oacute;n del cargo</label>
+                        <label for="cargoDescInstitucion">Descripci&oacute;n de su cargo en la instituci&oacute;n</label>
+                        <div ng-messages='registrar_institucion.cargoDescInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.cargoDescInstitucion.$dirty && registrar_institucion.cargoDescInstitucion.$invalid">
+                            La descripci&oacute;n del cargo debe tener entre 3 y 240 caracteres.
+                          </label>
+                        </div>
                         <input type="text" class="form-control" id="cargoDescInstitucion" name="cargoDescInstitucion"
                                placeholder="Indique de que se trata su cargo"
                                maxlength="100" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese de que se trata su cargo" data-original-title="Desc Cargo"
-                               required>
+                               ng-model="institucion.cargoDescInstitucion" ng-pattern="/^[a-zA-Z0-9]{3,240}$/" ng-required="true">
                     </div>
                     <!--TELEFONO-->
                     <div class="form-group">
                         <label for="telefonoInstitucion">Tel&eacute;fono</label>
+                        <div ng-messages='registrar_institucion.telefonoInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.telefonoInstitucion.$dirty && registrar_institucion.telefonoInstitucion.$invalid">
+                            El tel&eacute;fono debe tener entre 9 y 15 n&uacute;meros.
+                          </label>
+                        </div>
                         <input type="tel" class="form-control" maxlength="16" id="telefonoInstitucion"
                                name="telefonoInstitucion" pattern="([0-9]{1,15})" placeholder="Telefono del Contacto"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese el telefono del contacto de la Institución"
-                               data-original-title="Telefono" onkeypress="return validarNumero(event);" required>
+                               data-original-title="Telefono" onkeypress="return validarNumero(event);" ng-model="institucion.telefonoInstitucion" ng-pattern="/^[0-9]{9,15}$/" ng-required="true">
                     </div>
                     <!--EMAIL-->
                     <div class="form-group">
                         <label for="emailInstitucion">E-mail</label>
+                        <div ng-messages='registrar_institucion.emailInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.emailInstitucion.$dirty && registrar_institucion.emailInstitucion.$invalid">
+                            El email esta incorrecto. Ejemplo: ejemplo@reinet.com.
+                          </label>
+                        </div>
                         <input type="email" class="form-control" maxlength="45" id="emailInstitucion"
                                name="emailInstitucion"
                                pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}"
                                placeholder="Email"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese el correo electronico de la Institución"
-                               data-original-title="Email" required>
+                               data-original-title="Email" ng-model="institucion.emailInstitucion" ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/" ng-required="true">
                     </div>
                     <!--SITIO WEB-->
-                    <div class="form-group">
+                    <div class="form-grop">
                         <label for="webInstitucion">Sitio web</label>
-                        <input type="text" class="form-control" maxlength="45" id="webInstitucion"
-                               onblur="validarURL(this)" name="webInstitucion" placeholder="Dirección web"
+                        <div ng-messages='registrar_institucion.webInstitucion.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.webInstitucion.$dirty && registrar_institucion.webInstitucion.$invalid">
+                            El sitio web debe tener entre 3 y 240 caracteres y usar http://. 
+                            Ejemplo: http://www.reinet.org
+                          </label>
+                        </div>
+                        <input type="url" class="form-control" maxlength="45" id="webInstitucion"
+                               name="webInstitucion" placeholder="Dirección web"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese la dirección web de la Institución"
-                               data-original-title="Dirección Web" required>
+                               data-original-title="Dirección Web" ng-model="institucion.webInstitucion" ng-required="true">
                     </div>
                     <label for="logo">Logo</label>
                     <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left"
                            data-trigger="focus" data-content="Ingrese logo de la Institución" data-original-title="Logo"
-                           onchange="readURL(this);" required>
+                           onchange="readURL(this);">
                     <img id="blah" src="../../media/{{ institucion.logo }}" alt="your image"/>
 
                     <div class="checkbox">
+                        <div ng-messages='registrar_institucion.check.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.check.$dirty && registrar_institucion.check.$invalid">
+                            Debe estar de acuerdo con los T&eacute;rminos de Servicio y las Politicas de Privacidad.
+                          </label>
+                        </div>
                         <label>
-                            <input type="checkbox" required> Estoy de acuerdo con los <a href="#">Términos de
+                            <input type="checkbox" name="check" ng-model="institucion.check" ng-required="true"> Estoy de acuerdo con los <a href="#">Términos de
                             servicio</a> y las
                             <a href="#">Politicas de Privacidad</a>
                         </label>
                     </div>
 
-                    <button id="continuar" type="submit" class="btn btn-green">Continuar</button>
+                    <button id="continuar" type="submit" class="btn btn-green" ng-disabled="registrar_institucion.$invalid">"Continuar</button>
                 </form>
             </div>
         </div>
+      
     </div>
 {% endblock %}
