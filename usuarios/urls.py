@@ -71,7 +71,7 @@ urlpatterns = patterns('',
         url(r'^eliminarMensajeEnviado[/]?$', eliminarMensajeEnviado, name='eliminarMensajeEnviado'),
         url(r'^AutocompletarUsuario[/]?$', AutocompletarUsuario.as_view() , name='AutocompletarUsuario'),
 
-        url(r'^NotFound[/]?$', vista_404, name='vista_404'),
+        url(r'^NotFound[/]?$', vista_404, name='NotFound'),
 )
 # url(regex=r'^check_cedula/(?P<cedula>\d+)/$',
 # view=CedulaCheck.as_view(),

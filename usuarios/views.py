@@ -1441,14 +1441,14 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					return HttpResponseRedirect('/verMensajeEnviado/')
+					return HttpResponseRedirect('/BandejaDeEntrada/')
 				else:
 					print "usuariou invalido1"
 					return HttpResponseRedirect('/enviarMensaje/')
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/NotFound/')
+				return HttpResponseRedirect('/mensajesEnviados/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1524,7 +1524,7 @@ def enviarMensajeInstitucion(request):
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/NotFound/')
+				return HttpResponseRedirect('/enviarMensajeInstitucion/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1566,7 +1566,7 @@ def verMensaje(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
-		return HttpResponseRedirect("/NotFound/")
+		return HttpResponseRedirect("/BandejaDeEntrada/")
 
 """
 Autor: Ray Montiel
@@ -1601,7 +1601,7 @@ def verMensajeEnviado(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje_enviado.html',args)
 	except:
-		return HttpResponseRedirect("/NotFound/")
+		return HttpResponseRedirect("/mensajesEnviados/")
 """
 Autor: Fausto Mora
 Nombre de funcion: verMensajeInstitucion
