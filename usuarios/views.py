@@ -518,19 +518,29 @@ def editarContrasena(request):
 		args['error'] = "Error al cargar los datos"
 
 	if request.method == 'POST':
+		contrasenaActual = request.POST['passwordActual']
 		contrasenaNueva = request.POST['password1']
 		contrasenaRepetida = request.POST['password2']
 
+		print "usuario: ",usuario
+		print "contrasenaNueva: ",contrasenaNueva
+		print "contrasenaRepetida: ",contrasenaRepetida
+
 		
-		autentificacion = auth.authenticate(username=usuario, password=contrasenaNueva)
+		autentificacion = auth.authenticate(username=usuario, password=contrasenaActual)
 		if autentificacion is not None:
+			print "Entro autentificacion: "
 			if contrasenaNueva == contrasenaRepetida:
 				perfil = usuario
 				perfil.set_password(contrasenaNueva)
 				perfil.save()
 				return HttpResponseRedirect('/perfilUsuario/')
-		else:
+			else:
+				print "Contraseña diferente: "
 				return HttpResponseRedirect('/editarContrasena/')
+		else:
+			print "NO Entro autentificacion: "
+			return HttpResponseRedirect('/editarContrasena/')
 	else:
 		user = request.user
 		args['es_admin']=request.session['es_admin']
