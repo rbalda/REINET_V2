@@ -146,7 +146,7 @@ def registro_institucion(request, codigo):
 		except:
 			print "algo fallo"  #borrar cuando no lo necesiten mas, no olvidar
 			#Error 6, falta retroalimentacion para el usuario.
-			return redirect('/inicioUsuario')
+			return redirect('/NotFound')
 
 
 """
@@ -225,7 +225,7 @@ def verPeticiones(request):
 		args.update(csrf(request))
 		return render_to_response('ver_peticiones.html', args)
 	except:
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/NotFound')
 
 
 """
@@ -784,7 +784,7 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 
 	else:
 		args['error'] = "Error al cargar los datos"
-		return HttpResponseRedirect('/iniciarSesion/')
+		return HttpResponseRedirect('/NotFound/')
 
 	args.update(csrf(request))
 	#args['usuario']=usuario
@@ -1050,9 +1050,9 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				args['es_admin']=request.session['es_admin']
 				return render(request,"Usuario_vercualquierPerfil.html", args)
 		except:
-			return HttpResponseRedirect('/inicioUsuario')
+			return HttpResponseRedirect('/NotFound')
 	else:
-		return HttpResponseRedirect('/inicioUsuario')
+		return HttpResponseRedirect('/NotFound')
 
 
 """
@@ -1507,6 +1507,7 @@ def enviarMensajeInstitucion(request):
 				print 'hay un grave error aqui'
 
 			try:
+
 				if receptor is not None:
 					mensajes = Mensaje()
 					mensajes.fk_emisor = emisor
@@ -1565,7 +1566,7 @@ def verMensaje(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
-		return HttpResponseRedirect("/BandejaDeEntrada/")
+		return HttpResponseRedirect("/NotFound/")
 
 """
 Autor: Ray Montiel
@@ -1669,7 +1670,7 @@ def verMensajeEnviadoInstitucion(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje_enviado_institucion.html',args)
 	except:
-		return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
+		return HttpResponseRedirect("/NotFound/")
 
 """
 Autor: Ray Montiel
@@ -2066,3 +2067,15 @@ class AutocompletarUsuario(APIView):
 		response = Response(serializador.data)
 		return response
 
+def vista_404(request):
+	try:
+		id_session=request.session['id_user']
+	except:
+		id_session=None
+	args={}
+	if id_session is not None:
+		tipo404="inicio_view"
+	else:
+		tipo404="index"
+	args['tipo404']=tipo404
+	return render_to_response('404.html',args,context_instance=RequestContext(request))
