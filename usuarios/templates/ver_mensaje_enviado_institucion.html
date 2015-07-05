@@ -1,0 +1,74 @@
+{% extends "profile_institucion.html" %}
+
+
+{% block contenidoinstitucion %}
+
+    <div class="col-sm-8 col-md-7">
+        <div class="clearfix"></div>
+        <hr>
+        <div class="pm bottom-15">
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="{{ receptor.foto.url }}" alt="...">
+                </a>
+
+                <div class="media-body">
+                    <p>
+                        <b>Para:</b> <a href="/usuario/{{ msj.fk_receptor }}">{{ usuario_receptor.first_name }} {{ usuario_receptor.last_name }} </a>
+                    </p>
+                    <p>
+                        <b>Asunto:</b>&nbsp; {{ msj.asunto }}
+                    </p>
+                    <p>
+                        <b>Mensaje:</b> <br>{{ msj.mensaje }}
+                    </p>
+                    <ul class="text-muted list-inline">
+                        <li><i class="fa fa-clock-o"></i> {{ msj.fecha_de_envio }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="message-answer" style="text-align:center">
+            <a href="#" class="btn-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensajeInstitucion"><i
+                 class="fa fa-envelope"></i> Responder</a>
+        </div>
+            <!-- //// VENTANA EMERGENTE EMAIL ///// -->
+            <div class="modal fade" id="enviarMensajeInstitucion" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <img src={{ receptor.foto.url }} alt="...">
+                        <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
+                        <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/enviarMensajeInstitucion/" method='POST'>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="Destinatario">Para:</label>
+                                <input type="text" class="form-control" id="destinatario" name="destinatario"
+                                placeholder="Destinatario" value="{{ receptor.username }}" maxlength="50" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="Asunto">Asunto:</label>
+                                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                                maxlength="40" value="RE:{{ msj.asunto }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="Mensaje">Mensaje:</label>
+                                <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
+                                required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-green">Enviar</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+    </div>
+{% endblock %}
+

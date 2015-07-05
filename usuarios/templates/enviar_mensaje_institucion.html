@@ -40,7 +40,7 @@
                         </li>
                         <li>
 
-                            <a href="/BandejaDeEntradaInstitucion/"  class="active">
+                            <a href="/enviarMensajeInstitucion/"  class="active">
                                 <i class="sign fa fa-edit bg-blue " ></i>Nuevo Mensaje
                                 <i class="fa fa-chevron-right pull-right"></i>
 
@@ -56,7 +56,7 @@
                         </li>
                         <li>
 
-                            <a href="/BandejaDeEntradaInstitucion/">
+                            <a href="/mensajesEnviadosInstitucion/">
                                 <i class="sign fa fa-envelope bg-green"></i>Mensajes Enviados
                                 <i class="fa fa-chevron-right pull-right"></i>
 
@@ -72,7 +72,7 @@
         <div class="modal-body">
             <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
 
-            <form role="form" action="/enviarMensaje/" method='POST'>
+            <form role="form" action="/enviarMensajeInstitucion/" method='POST'>
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="Destinatario">Para:</label>
@@ -100,7 +100,7 @@
                                 <button type="submit" class="btn btn-green"> Si</button>
                             </div>
                            
-                            <a href="/enviarMensaje/">
+                            <a href="/enviarMensajeInstitucion/">
                             <input type="button" value="No" class="button btn btn-danger">
                             </a>
                             

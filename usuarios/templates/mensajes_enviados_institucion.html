@@ -40,7 +40,7 @@
                         </li>
                         <li>
 
-                            <a href="/BandejaDeEntradaInstitucion/"  class="active">
+                            <a href="/enviarMensajeInstitucion/"  class="active">
                                 <i class="sign fa fa-edit bg-blue " ></i>Nuevo Mensaje
                                 <i class="fa fa-chevron-right pull-right"></i>
 
@@ -56,7 +56,7 @@
                         </li>
                         <li>
 
-                            <a href="/BandejaDeEntradaInstitucion/">
+                            <a href="/mensajesEnviadosInstitucion/">
                                 <i class="sign fa fa-envelope bg-green"></i>Mensajes Enviados
                                 <i class="fa fa-chevron-right pull-right"></i>
 
@@ -83,7 +83,7 @@
                         <small>{{msj.fecha_de_envio}}</small>
                     </p>
                     <p class="text-muted">
-                        <a href="/verMensaje/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
+                        <a href="/verMensajeEnviadoInstitucion/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
                     </p>
                                            
                     <p class="text-muted">
@@ -97,7 +97,7 @@
                                         <a href="/eliminarMensajeRecibido/?q={{ msj.id_mensaje }}" class="inbox-dialog col-md-6 col-md-offset-2">
                                             <button class="btn btn-success float-left submit-button">Eliminar</button>
                                         </a>
-                                        <a href="/BandejaDeEntrada/">
+                                        <a href="/BandejaDeEntradaInstitucion/">
                                         <button class="btn btn-danger">No</button></a>
                                     </div>
                             </div>          
