@@ -521,14 +521,15 @@ def editarContrasena(request):
 		contrasenaNueva = request.POST['password1']
 		contrasenaRepetida = request.POST['password2']
 
-		if contrasenaNueva == contrasenaRepetida:
-			autentificacion = auth.authenticate(username=usuario, password=contrasenaNueva)
-			if autentificacion is not None:
+		
+		autentificacion = auth.authenticate(username=usuario, password=contrasenaNueva)
+		if autentificacion is not None:
+			if contrasenaNueva == contrasenaRepetida:
 				perfil = usuario
 				perfil.set_password(contrasenaNueva)
 				perfil.save()
 				return HttpResponseRedirect('/perfilUsuario/')
-			else:
+		else:
 				return HttpResponseRedirect('/editarContrasena/')
 	else:
 		user = request.user
