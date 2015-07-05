@@ -603,7 +603,7 @@ def editar_usuario(request):
 	idFoto = 1
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
-	Membresia.objects.filter(fk_usuario_id=session,estado=1).last()
+	membresia = Membresia.objects.filter(fk_usuario_id=session,estado=1).last()
 	args = {}
 
 	if usuario is not None:
