@@ -110,8 +110,11 @@ def registro_institucion(request, codigo):
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
-				insti.logo = image #Error 10, usar palabras en español
-				insti.save()
+				try:
+					insti.logo = image #Error 10, usar palabras en español
+					insti.save()
+				except:
+					print "imagen no subida"
 
 				peticion.usado = 1
 				peticion.save()
@@ -195,10 +198,15 @@ Entrada: request POST
 Salida: Formulario de verificar siglas
 Descripción: envia mensaje si existen o no las siglas ingresadas
 """
-
+@csrf_exempt
 def verificar_siglas(request):  
 	if request.method == "POST":
-		siglas = request.POST['siglas'] 
+		siglas = request.POST['siglas']
+		if (len(siglas)<3):
+			return HttpResponse("usado")
+		if (siglas == "undefined"):
+			return HttpResponse("undefined")
+		print "hello"
 		try:
 			institucion = Institucion.objects.get(siglas=siglas) 
 		except:
