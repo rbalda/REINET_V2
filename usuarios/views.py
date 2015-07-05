@@ -1490,14 +1490,14 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					return HttpResponseRedirect('/BandejaDeEntrada/')
+					return HttpResponseRedirect('/mensajesEnviados/')
 				else:
 					print "usuariou invalido1"
 					return HttpResponseRedirect('/enviarMensaje/')
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/mensajesEnviados/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1573,7 +1573,7 @@ def enviarMensajeInstitucion(request):
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/enviarMensajeInstitucion/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario

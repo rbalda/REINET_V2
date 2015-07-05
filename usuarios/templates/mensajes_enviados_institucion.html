@@ -7,6 +7,7 @@
     <div class="col-sm-8 col-md-7">
         
         <div >
+            <div class="col-md-offset-6">
             <ul class="list-inline" style="margin-bottom: 0px;"align="right">
                 <li>
                     <a href="/BandejaDeEntradaInstitucion/" class="btn btn-default btn-sm">
@@ -18,50 +19,79 @@
                         <p style="margin-bottom:0px"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
                     </a>
                 </li>
+
+
             </ul>
+            </div>
             <h3 class="hl text-left zero-top" style="margin-top: 5px;font-weight:400">Mensajes Enviados</h3>
             <ul class="text-muted list-inline" align="left">
                 <li><i class="fa fa-envelope-o"></i> {{ mensajes|length }} mensajes</li>
+                
             </ul>
-            
-        </div>
 
+        </div>
+        
+        
         <div class="pm-list">
             <ul>
-                {%for msj in msjs%}
+                {% for msj in msjs %}
                 <li>
                     <p class="text-muted">
-                        <img src="{{msj.imgRc.url}}" alt="...">
-                        Para: <a href="/usuario/{{msj.fk_receptor}}">{{msj.fk_receptor.first_name}}</a><br />
-                        <small>{{msj.fecha_de_envio}}</small>
-                    </p>
-                    <p class="text-muted">
-                        <a href="/verMensajeEnviadoInstitucion/?q={{msj.id_mensaje}}" class="inbox-dialog">{{msj.mensaje}}</a>
-                    </p>
-                                           
-                    <p class="text-muted">
-                      <a id="aceptar" href="" class="button" data-type="zoomin">
-                               <i class="pull-right fa fa-trash"></i> 
-                       </a>
+                            <img src="{{ msj.imgEm.url }}" alt="...">
+                            De: <a href="/usuario/{{ msj.fk_emisor }}">{{ msj.fk_emisor.first_name }}</a><br/>
+                            <small>{{ msj.fecha_de_envio }}</small>
+                        </p>
+                        <p class="text-muted">
+                            <a href="/verMensajeEnviadoInstitucion/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.mensaje }}</a>
+                        </p>
 
-                             <div class="overlay-container"> 
-                                    <div class="window-container zoomin">
-                                        <h3>Est&aacute; seguro de enviar el mensaje!</h3><br> 
-                                        <a href="/eliminarMensajeEnviadoInstitucion/?q={{ msj.id_mensaje }}" class="inbox-dialog col-md-6 col-md-offset-2">
-                                            <button class="btn btn-success float-left submit-button">Eliminar</button>
-                                        </a>
-                                        <a href="/BandejaDeEntradaInstitucion/">
-                                        <button class="btn btn-danger">No</button></a>
-                                    </div>
-                            </div>          
-                    </p>
-                   <div class="clearfix"></div>
-                </li>
-                {%endfor%}
+                        <p class="text-muted">
+                        
+                            <a id="{{ msj.id_mensaje }}" href="" class="button aceptar_institucion" data-type="zoomin">
+                               
+                                    <i class="pull-right fa fa-trash"></i> 
+                            </a>
+
+                        </p>
+                      
+                        <div class="clearfix"></div>
+                    </li>
+                {% endfor %}
+
+                <div class="overlay-container">
+                        <div class="window-container zoomin">
+                            <h3>Est&aacute; seguro de eliminar el mensaje!</h3><br>
+                            <a id="eliminarEnviadoInstitucion" href="" class="inbox-dialog col-md-6 col-md-offset-2">
+                                <button class="btn btn-danger float-left submit-button">Confirmar</button>
+                            </a>
+                            <a href="">
+                            <button class="btn btn-default" name="close">Cancelar</button></a>
+                        </div>
+                </div>
+
             </ul>
         </div>
+        
+       
+        <div class="row text-center">
+            <div class="pagination">
+                <span class="step-links">
+                {% if msjs.has_previous %}
+                    <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                <span class="current">
+                    Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                </span>
+
+                {% if msjs.has_next %}
+                    <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                {% endif %}
+                </span>
+            </div>
+        </div>
     </div>
+
 <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
     <script type="text/javascript" src="/static/js/demo.js"></script>
-{%endblock%}
-
+{% endblock %}
