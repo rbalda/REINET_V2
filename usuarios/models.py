@@ -98,6 +98,7 @@ class Mensaje(SelfPublishModel, models.Model):
     visible_emisor = models.BooleanField(default=True)
     visible_receptor = models.BooleanField(default=True)
     leido = models.BooleanField(default=False)
+    tipo_mensaje = models.CharField(max_length=45,null=True)
     serializer_class = MensajeSerializer
 
 

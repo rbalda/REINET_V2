@@ -500,6 +500,45 @@ def cerrarSesion(request):
 
 
 """
+Autor: Jose Velez
+Nombre de función: editarContrasena
+Parámetros:request
+Salida: Redirecciona al perfil de usuario
+Descripción: Esta funcion edita la contraseña del usuario y la actualiza en la bases de datos
+"""
+
+def editarContrasena(request):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+
+	if usuario is not None:
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+
+	if request.method == 'POST':
+		contrasenaNueva = request.POST['password1']
+		contrasenaRepetida = request.POST['password2']
+
+		if contrasenaNueva == contrasenaRepetida:
+			autentificacion = auth.authenticate(username=usuario, password=contrasenaNueva)
+			if autentificacion is not None:
+				perfil = usuario
+				perfil.set_password(contrasenaNueva)
+				perfil.save()
+				return HttpResponseRedirect('/perfilUsuario/')
+			else:
+				return HttpResponseRedirect('/editarContrasena/')
+	else:
+		user = request.user
+		args['es_admin']=request.session['es_admin']
+		args.update(csrf(request))
+		print args
+		return render_to_response('Usuario_Edit_Password.html', args)
+
+
+"""
 Autor: Jose Velez - Leonel Ramirez
 Nombre de función: editar_usuario
 Parámetros:request
@@ -521,7 +560,7 @@ def editar_usuario(request):
 
 	if request.method == 'POST':
 		#print request.POST
-		nombres = request.POST['nombres']
+		nombres = request.POST['nombres'] 
 		apellidos = request.POST['apellidos']
 		#cedula=request.POST['cedula']
 		#cargo=request.POST['cargo']

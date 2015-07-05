@@ -16,5 +16,12 @@ $(document).ready(function() {
 	$('.close').click(function() {
 		$('.overlay-container').fadeOut().end().find('.window-container').removeClass('window-container-visible');
 	});
-	
+    $("button[name='close']").click(function() {
+		$('.overlay-container').fadeOut().end().find('.window-container').removeClass('window-container-visible');
+	});
+	$('.enviar').click(function(){
+       if($('.destinatario').text()){
+
+       }
+    });
 });
