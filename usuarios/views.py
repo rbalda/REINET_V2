@@ -56,7 +56,7 @@ def registro_institucion(request, codigo):
 			print peticion.nombre_institucion
 		except:
 			print "not gotten"
-			return HttpResponseRedirect('/NotFound')
+			return HttpResponseRedirect('/inicioUsuario')
 
 		session = request.session['id_usuario']  #Error 10, usar sesion o algun otro
 		usuario = Perfil.objects.get(id=session)
@@ -142,11 +142,11 @@ def registro_institucion(request, codigo):
 			else:
 				print "peticion ya usada"  #borrar cuando no lo necesiten mas, no olvidar
 				#Error 6, falta retroalimentacion para el usuario.
-				return redirect('/NotFound')
+				return redirect('/inicioUsuario')
 		except:
 			print "algo fallo"  #borrar cuando no lo necesiten mas, no olvidar
 			#Error 6, falta retroalimentacion para el usuario.
-			return redirect('/NotFound')
+			return redirect('/inicioUsuario')
 
 
 """
@@ -784,7 +784,7 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 
 	else:
 		args['error'] = "Error al cargar los datos"
-		return HttpResponseRedirect('/NotFound/')
+		return HttpResponseRedirect('/iniciarSesion/')
 
 	args.update(csrf(request))
 	#args['usuario']=usuario
@@ -827,7 +827,7 @@ def verPerfilInstituciones(request, institucionId):
 				print args['institucion']
 				print args['duenho']
 		except:
-			return redirect('/NotFound')
+			return redirect('/inicioUsuario')
 
 	else:
 		args['error'] = "Error al cargar los datos"
@@ -1050,9 +1050,9 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				args['es_admin']=request.session['es_admin']
 				return render(request,"Usuario_vercualquierPerfil.html", args)
 		except:
-			return HttpResponseRedirect('/NotFound')
+			return HttpResponseRedirect('/inicioUsuario')
 	else:
-		return HttpResponseRedirect('/NotFound')
+		return HttpResponseRedirect('/inicioUsuario')
 
 
 """
@@ -1234,7 +1234,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			args['es_admin']=request.session['es_admin']
 			return render(request,"institucion_editar.html",args)
 	except:
-		return redirect('/NotFound')
+		return redirect('/')
 
 
 """
@@ -1302,6 +1302,7 @@ Entrada: request
 Salida: Redireccion bandeja de entrada
 Descripción: Esta funcion permite visualizar los mensajes
 que un usuario tiene en su bandeja de entrada
+UltimaModificacion: Fausto Mora - 4/7/15  
 """
 
 @login_required
@@ -1310,7 +1311,7 @@ def ver_bandeja_entrada(request):
 	usuario=User.objects.get(id=sesion)
 
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-institucion').exclude(tipo_mensaje='usuario-institucion')
 	except:
 		mensajes= None
 	mensajes = mensajes.order_by('-fecha_de_envio')
@@ -1346,6 +1347,7 @@ Entrada: request
 Salida: Redireccion bandeja de entrada de institucion
 Descripción: Esta funcion permite visualizar los mensajes
 que un usuario tiene en su bandeja de entrada de institucion
+UltimaModificacion: Fausto Mora - 4/7/15  
 """
 
 @login_required
@@ -1353,10 +1355,9 @@ def ver_bandeja_entrada_institucion(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 
-	try:
-		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = True)
-	except:
-		mensajes= None
+	
+	mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
+	print mensajes
 
 	paginacion = Paginator(mensajes, 5)
 
@@ -1397,7 +1398,7 @@ def enviarMensaje(request):
 	usuario=User.objects.get(id=sesion)
 	args = {}
 	if request.method=='POST':
-		print "esa eh lo muchachos"
+		print "envio de mensajes desde usuario"
 		destinatario = request.POST['destinatario']
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
@@ -1409,23 +1410,43 @@ def enviarMensaje(request):
 		if destinatario == emisor:
 			args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
 		else:
+
+			# averiguamos quien es el destinatario.... si es inst o usuario
+			print 'averiguaremos el destinatario'
 			try:
-				mensajes = Mensaje()
-				receptor=User.objects.get(username=destinatario)
-				print "oe que tiro :/"
+				print 'sera usuario?'
+				receptor_aux = User.objects.get(username=destinatario)
+				receptor=receptor_aux
+				print receptor_aux
+				tipo_mensaje = 'usuario-usuario'
+			except User.DoesNotExist:
+				print 'No es usuario'
+				print 'sera institucion?'
+				receptor_aux = Institucion.objects.get(siglas=destinatario)
+				membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+				receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+				print receptor_aux
+				tipo_mensaje = 'usuario-institucion'
+			except Institucion.DoesNotExist:
+				print 'No es institucion'
+				print 'hay un grave error aqui'
+
+			try:
 				if receptor is not None:
+					mensajes = Mensaje()
 					mensajes.fk_emisor = emisor
 					mensajes.fk_receptor = receptor
 					mensajes.asunto = asunto
+					mensajes.tipo_mensaje = tipo_mensaje
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					return HttpResponseRedirect('/BandejaDeEntrada/')
+					return HttpResponseRedirect('/verMensajeEnviado/')
 				else:
 					print "usuariou invalido1"
-					return HttpResponseRedirect('/BandejaDeEntrada/')
+					return HttpResponseRedirect('/enviarMensaje/')
 			except Exception as e:
-				print "usuariou invalido2"
+				print "erro al guardar mensaje"
 				print e
 				return HttpResponseRedirect('/NotFound/')
 	else:
@@ -1441,16 +1462,18 @@ Nombre de funcion: enviarMensaje
 Entrada: request POST
 Salida: Redireccion bandeja de entrada de institucion
 Descripción: Esta funcion permite visualizar los mensajes
-que un usuario administrador de una institucion tiene en su bandeja de entrada 
+que un usuario administrador de una institucion tiene en su bandeja de entrada
+UltimaModificacion: Fausto Mora - 4/7/15  
 """
 
 @login_required
 def enviarMensajeInstitucion(request):
+	print 'dentro de enviar mensaje institucion'
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	args = {}
 	if request.method=='POST':
-		print "esa eh lo muchachos"
+		print "envio de mensajes desde institucion"
 		destinatario = request.POST['destinatario']
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
@@ -1462,23 +1485,43 @@ def enviarMensajeInstitucion(request):
 		if destinatario == emisor:
 			args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
 		else:
+
+			# averiguamos quien es el destinatario.... si es inst o usuario
+			print 'averiguaremos el destinatario'
 			try:
-				mensajes = Mensaje()
-				receptor=User.objects.get(username=destinatario)
-				print "oe que tiro :/"
+				print 'sera usuario?'
+				receptor_aux = User.objects.get(username=destinatario)
+				receptor=receptor_aux
+				print receptor_aux
+				tipo_mensaje = 'institucion-usuario'
+			except User.DoesNotExist:
+				print 'No es usuario'
+				print 'sera institucion?'
+				receptor_aux = Institucion.objects.get(siglas=destinatario)
+				membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+				receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+				print receptor_aux
+				tipo_mensaje = 'institucion-institucion'
+			except Institucion.DoesNotExist:
+				print 'No es institucion'
+				print 'hay un grave error aqui'
+
+			try:
 				if receptor is not None:
+					mensajes = Mensaje()
 					mensajes.fk_emisor = emisor
 					mensajes.fk_receptor = receptor
 					mensajes.asunto = asunto
+					mensajes.tipo_mensaje = tipo_mensaje
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					return HttpResponseRedirect('/BandejaDeEntrada/')
+					return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
 				else:
 					print "usuariou invalido1"
-					return HttpResponseRedirect('/BandejaDeEntrada/')
+					return HttpResponseRedirect('/enviarMensajeInstitucion/')
 			except Exception as e:
-				print "usuariou invalido2"
+				print "erro al guardar mensaje"
 				print e
 				return HttpResponseRedirect('/NotFound/')
 	else:
@@ -1522,7 +1565,7 @@ def verMensaje(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
-		return HttpResponseRedirect("/NotFound/")
+		return HttpResponseRedirect("/BandejaDeEntrada/")
 
 """
 Autor: Ray Montiel
@@ -1559,12 +1602,83 @@ def verMensajeEnviado(request):
 	except:
 		return HttpResponseRedirect("/NotFound/")
 """
+Autor: Fausto Mora
+Nombre de funcion: verMensajeInstitucion
+Entrada: request POST
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite visualizar los mensajes
+detalladamente desde el buzon de administrador de institucion
+"""
+
+@login_required
+def verMensajeInstitucion(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	#try:
+	idM = int(request.GET.get('q', ''))
+	msj=Mensaje.objects.get(id_mensaje = idM)
+	print "mensaje",msj.id_mensaje
+	print msj.leido
+	msj.leido = True
+	msj.save()
+	print msj.leido
+	usuario_emisor=msj.fk_emisor
+	emisor = Perfil.objects.get(username= usuario_emisor.username)
+	receptor = Perfil.objects.get(username = usuario.username)
+	args['msj']=msj
+	args['usuario_emisor'] = usuario_emisor
+	args['emisor']=emisor
+	args['receptor']=receptor
+	args['usuario']=usuario
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('ver_mensaje_institucion.html',args)
+	#except:
+	#	return HttpResponseRedirect("/BandejaDeEntradaInstitucion/")
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: verMensajeEnviadoInstitucion
+Entrada: request POST
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite visualizar los mensajes
+detalladamente desde el buzon de administrador de institucion
+"""
+
+@login_required
+def verMensajeEnviadoInstitucion(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	try:
+		idM = int(request.GET.get('q', ''))
+		msj=Mensaje.objects.get(id_mensaje = idM)
+		print "mensaje",msj.id_mensaje
+		print msj.leido
+		msj.leido = True
+		msj.save()
+		print msj.leido
+		usuario_receptor=msj.fk_receptor
+		receptor = Perfil.objects.get(username= usuario_receptor.username)
+		emisor = Perfil.objects.get(username = usuario.username)
+		args['msj']=msj
+		args['usuario_receptor'] = usuario_receptor
+		args['emisor']=emisor
+		args['receptor']=receptor
+		args['usuario']=usuario
+		args['es_admin']=request.session['es_admin']
+		return render_to_response('ver_mensaje_enviado_institucion.html',args)
+	except:
+		return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
+
+"""
 Autor: Ray Montiel
 Nombre de funcion: mensajesEnviados
 Entrada: request POST
 Salida: Muestra los mensajes enviados
 Descripción: Esta funcion permite visualizar los mensajes
 enviados a otros usuarios
+UltimaModificacion: Fausto Mora - 4/7/15  
 """
 
 @login_required
@@ -1572,10 +1686,9 @@ def mensajesEnviados(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 
-	try:
-		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = True)
-	except:
-		mensajes= None
+
+	mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='institucion-institucion')
+	print mensajes
 
 	paginacion = Paginator(mensajes, 5)
 
@@ -1610,12 +1723,24 @@ def mensajesEnviadosInstitucion(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 
+
+	mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
+	print mensajes
+
+	paginacion = Paginator(mensajes, 5)
 	try:
-		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = True)[:8]
-	except:
-		mensajes= None
+		page=int(request.GET.get('page', '1'))
+	except ValueError:
+		page=1
+
+	try:
+		msjs = paginacion.page(page)
+	except (EmptyPage, InvalidPage):
+		msjs = paginacion.page(paginacion.num_pages)
+
 	args={}
 	args['usuario']=usuario
+	args['msjs']=msjs
 	args['mensajes']=mensajes
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('mensajes_enviados_institucion.html',args)
@@ -1671,7 +1796,7 @@ def administrar_membresias(request):
 		args.update(csrf(request))
 		return render_to_response('administrar_membresias.html', args)
 	except:
-		return redirect('/NotFound')
+		return redirect('/')
 
 
 
@@ -1699,7 +1824,9 @@ def eliminarMensajeRecibido(request,):
 		#args['mensaje'] = mensaje	
 		print "funcion eliminar mensaje:", mensaje.mensaje
 	except :
-		return HttpResponseRedirect('/NotFound/')
+		return HttpResponseRedirect('/BandejaDeEntrada/')
+
+
 	#print "Eliminar:  ",mensaje
 	return HttpResponseRedirect('/BandejaDeEntrada/')
 
@@ -1728,8 +1855,11 @@ def eliminarMensajeEnviado(request,):
 		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
 		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
 		print "mensaje: ", mensaje.mensaje
+	
 	except :
-		return HttpResponseRedirect('/NotFound/')
+		return HttpResponseRedirect('/mensajesEnviados/')
+
+
 	#print "Eliminar:  ",mensaje
 	return HttpResponseRedirect('/mensajesEnviados/')
 
@@ -1828,7 +1958,7 @@ def verificarSuscripcion(request):
 		except Institucion.DoesNotExist:
 			print 'institucion no existe' 
 	else:
-		return redirect('/NotFound/')
+		return redirect('/')
 
 """
 Autor: Fausto Mora
@@ -1880,10 +2010,10 @@ def accionMembresia(request):
 				asunto = 'Solicitud Aceptada'
 				texto_mensaje = 'Su solicitud ha sido aceptada'
 			else:
-				if aux == -1:
+				if aux == 0:
 					membresia.estado = -1
 					asunto = "Rechazo Solicitud Membresia"
-					texto_mensaje = "Su solicitud ha sido rechazada, debido a politicas internas."
+					texto_mensaje = "Su solicitud a " + membresia.fk_institucion.nombre + "ha sido rechazada, debido a politicas internas."
 
 			try:
 				mensajes = Mensaje()
@@ -1893,6 +2023,7 @@ def accionMembresia(request):
 					mensajes.fk_emisor = emisor
 					mensajes.fk_receptor = receptor
 					mensajes.asunto = asunto
+					mensajes.tipo_mensaje = 'institucion-usuario'
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
@@ -1935,17 +2066,3 @@ class AutocompletarUsuario(APIView):
 		response = Response(serializador.data)
 		return response
 
-def vista_404(request):
-	try:
-		sesion=request.session['id_usuario']
-	except:
-		sesion=None
-
-	args={}
-	if sesion is not None:
-		tipo404="inicioUsuario"
-	else:
-		tipo404="index"
-
-	args['tipo404']=tipo404
-	return render_to_response('../template/404.html',args)
