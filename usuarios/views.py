@@ -56,7 +56,7 @@ def registro_institucion(request, codigo):
 			print peticion.nombre_institucion
 		except:
 			print "not gotten"
-			return HttpResponseRedirect('/inicioUsuario')
+			return HttpResponseRedirect('/NotFound')
 
 		session = request.session['id_usuario']  #Error 10, usar sesion o algun otro
 		usuario = Perfil.objects.get(id=session)
@@ -142,11 +142,11 @@ def registro_institucion(request, codigo):
 			else:
 				print "peticion ya usada"  #borrar cuando no lo necesiten mas, no olvidar
 				#Error 6, falta retroalimentacion para el usuario.
-				return redirect('/inicioUsuario')
+				return redirect('/NotFound')
 		except:
 			print "algo fallo"  #borrar cuando no lo necesiten mas, no olvidar
 			#Error 6, falta retroalimentacion para el usuario.
-			return redirect('/inicioUsuario')
+			return redirect('/NotFound')
 
 
 """
@@ -784,7 +784,7 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 
 	else:
 		args['error'] = "Error al cargar los datos"
-		return HttpResponseRedirect('/iniciarSesion/')
+		return HttpResponseRedirect('/NotFound/')
 
 	args.update(csrf(request))
 	#args['usuario']=usuario
@@ -827,7 +827,7 @@ def verPerfilInstituciones(request, institucionId):
 				print args['institucion']
 				print args['duenho']
 		except:
-			return redirect('/inicioUsuario')
+			return redirect('/NotFound')
 
 	else:
 		args['error'] = "Error al cargar los datos"
@@ -1050,9 +1050,9 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				args['es_admin']=request.session['es_admin']
 				return render(request,"Usuario_vercualquierPerfil.html", args)
 		except:
-			return HttpResponseRedirect('/inicioUsuario')
+			return HttpResponseRedirect('/NotFound')
 	else:
-		return HttpResponseRedirect('/inicioUsuario')
+		return HttpResponseRedirect('/NotFound')
 
 
 """
@@ -1234,7 +1234,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			args['es_admin']=request.session['es_admin']
 			return render(request,"institucion_editar.html",args)
 	except:
-		return redirect('/')
+		return redirect('/NotFound')
 
 
 """
@@ -1427,7 +1427,7 @@ def enviarMensaje(request):
 			except Exception as e:
 				print "usuariou invalido2"
 				print e
-				return HttpResponseRedirect('/BandejaDeEntrada/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1480,7 +1480,7 @@ def enviarMensajeInstitucion(request):
 			except Exception as e:
 				print "usuariou invalido2"
 				print e
-				return HttpResponseRedirect('/BandejaDeEntrada/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1522,7 +1522,7 @@ def verMensaje(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
-		return HttpResponseRedirect("/BandejaDeEntrada/")
+		return HttpResponseRedirect("/NotFound/")
 
 """
 Autor: Ray Montiel
@@ -1557,7 +1557,7 @@ def verMensajeEnviado(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje_enviado.html',args)
 	except:
-		return HttpResponseRedirect("/BandejaDeEntrada/")
+		return HttpResponseRedirect("/NotFound/")
 """
 Autor: Ray Montiel
 Nombre de funcion: mensajesEnviados
@@ -1643,7 +1643,7 @@ def miembros_institucion(request):
 		except Membresia.DoesNotExist:
 			print 'error en miembros'
 	else:
-		return redirect('/')
+		return redirect('/NotFound')
 
 
 """
@@ -1671,7 +1671,7 @@ def administrar_membresias(request):
 		args.update(csrf(request))
 		return render_to_response('administrar_membresias.html', args)
 	except:
-		return redirect('/')
+		return redirect('/NotFound')
 
 
 
@@ -1699,9 +1699,7 @@ def eliminarMensajeRecibido(request,):
 		#args['mensaje'] = mensaje	
 		print "funcion eliminar mensaje:", mensaje.mensaje
 	except :
-		return HttpResponseRedirect('/BandejaDeEntrada/')
-
-
+		return HttpResponseRedirect('/NotFound/')
 	#print "Eliminar:  ",mensaje
 	return HttpResponseRedirect('/BandejaDeEntrada/')
 
@@ -1730,11 +1728,8 @@ def eliminarMensajeEnviado(request,):
 		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
 		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
 		print "mensaje: ", mensaje.mensaje
-	
 	except :
-		return HttpResponseRedirect('/mensajesEnviados/')
-
-
+		return HttpResponseRedirect('/NotFound/')
 	#print "Eliminar:  ",mensaje
 	return HttpResponseRedirect('/mensajesEnviados/')
 
@@ -1833,7 +1828,7 @@ def verificarSuscripcion(request):
 		except Institucion.DoesNotExist:
 			print 'institucion no existe' 
 	else:
-		return redirect('/')
+		return redirect('/NotFound/')
 
 """
 Autor: Fausto Mora
@@ -1940,3 +1935,17 @@ class AutocompletarUsuario(APIView):
 		response = Response(serializador.data)
 		return response
 
+def vista_404(request):
+	try:
+		sesion=request.session['id_usuario']
+	except:
+		sesion=None
+
+	args={}
+	if sesion is not None:
+		tipo404="inicioUsuario"
+	else:
+		tipo404="index"
+
+	args['tipo404']=tipo404
+	return render_to_response('../template/404.html',args)
