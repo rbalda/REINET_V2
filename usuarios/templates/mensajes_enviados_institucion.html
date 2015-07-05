@@ -38,11 +38,11 @@
                 <li>
                     <p class="text-muted">
                             <img src="{{ msj.imgEm.url }}" alt="...">
-                            De: <a href="/usuario/{{ msj.fk_emisor }}">{{ msj.fk_emisor.first_name }}</a><br/>
+                            Para: <a href="/usuario/{{ msj.fk_receptor }}">{{ msj.fk_receptor.first_name }}</a><br/>
                             <small>{{ msj.fecha_de_envio }}</small>
                         </p>
                         <p class="text-muted">
-                            <a href="/verMensajeEnviadoInstitucion/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.mensaje }}</a>
+                            <a href="/verMensajeEnviadoInstitucion/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.asunto }}</a>
                         </p>
 
                         <p class="text-muted">

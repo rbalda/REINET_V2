@@ -832,8 +832,9 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 				numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
 				args['institucion'] = institucion
 				args['numMiembros'] = numMiembros
-				request.session['es_admin'] = True
 				request.session['institucion_id'] = institucion.id_institucion
+				request.session['es_admin'] = True
+				request.session['institucion_nombre'] = institucion.nombre
 		#Sino, simplemente no tengo ninguna institucion a mi cargo y regreso a mi perfil
 		else:
 			args['error1'] = "Usted no es miembro de ninguna Institucion"
@@ -847,6 +848,7 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 	args.update(csrf(request))
 	#args['usuario']=usuario
 	args['es_admin']=request.session['es_admin']
+	args['institucion_nombre'] = request.session['institucion_nombre']
 	return render_to_response('profile_institucion.html', args)
 
 
@@ -1290,6 +1292,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			}
 			args.update(csrf(request))
 			args['es_admin']=request.session['es_admin']
+			args['institucion_nombre'] = request.session['institucion_nombre']
 			return render(request,"institucion_editar.html",args)
 	except:
 		return redirect('/')
@@ -1435,6 +1438,8 @@ def ver_bandeja_entrada_institucion(request):
 	args['msjs'] = msjs
 	args['range']=range(len(mensajes))
 	args['es_admin']=request.session['es_admin']
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args.update(csrf(request))
 
 	for m in mensajes:
 		print m.imgEm
@@ -1587,6 +1592,7 @@ def enviarMensajeInstitucion(request):
 		print "porque D: esto es GET"
 		args['usuario']=usuario
 		args['es_admin']=request.session['es_admin']
+		args['institucion_nombre'] = request.session['institucion_nombre']
 		args.update(csrf(request))
 		return render(request,'enviar_mensaje_institucion.html',args)
 
@@ -1691,6 +1697,8 @@ def verMensajeInstitucion(request):
 	args['receptor']=receptor
 	args['usuario']=usuario
 	args['es_admin']=request.session['es_admin']
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args.update(csrf(request))
 	return render_to_response('ver_mensaje_institucion.html',args)
 	#except:
 	#	return HttpResponseRedirect("/BandejaDeEntradaInstitucion/")
@@ -1726,6 +1734,8 @@ def verMensajeEnviadoInstitucion(request):
 		args['receptor']=receptor
 		args['usuario']=usuario
 		args['es_admin']=request.session['es_admin']
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args.update(csrf(request))
 		return render_to_response('ver_mensaje_enviado_institucion.html',args)
 	except:
 		return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
@@ -1802,6 +1812,8 @@ def mensajesEnviadosInstitucion(request):
 	args['msjs']=msjs
 	args['mensajes']=mensajes
 	args['es_admin']=request.session['es_admin']
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args.update(csrf(request))
 	return render_to_response('mensajes_enviados_institucion.html',args)
 
 """
@@ -1819,6 +1831,8 @@ def miembros_institucion(request):
 			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
 			miembrosActivos= Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 1).order_by('fecha_peticion')
 			args['miembrosActivos'] = miembrosActivos
+			args['institucion_nombre'] = request.session['institucion_nombre']
+			args['institucion']=institucion
 			args.update(csrf(request))
 			return render(request,'miembros_institucion.html',args)
 
@@ -1846,6 +1860,7 @@ def administrar_membresias(request):
 		args = {}
 		if institucion is not None:
 			args['es_admin']=request.session['es_admin']
+			args['institucion_nombre'] = request.session['institucion_nombre']
 			args['institucion']=institucion
 			miembros = Membresia.objects.filter(fk_institucion=institucion.id_institucion)
 			args['lista_miembros']=miembros
