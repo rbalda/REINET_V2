@@ -146,7 +146,7 @@ def registro_institucion(request, codigo):
 		except:
 			print "algo fallo"  #borrar cuando no lo necesiten mas, no olvidar
 			#Error 6, falta retroalimentacion para el usuario.
-			return redirect('/inicioUsuario')
+			return redirect('/NotFound')
 
 
 """
@@ -225,7 +225,7 @@ def verPeticiones(request):
 		args.update(csrf(request))
 		return render_to_response('ver_peticiones.html', args)
 	except:
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/NotFound')
 
 
 """
@@ -521,14 +521,15 @@ def editarContrasena(request):
 		contrasenaNueva = request.POST['password1']
 		contrasenaRepetida = request.POST['password2']
 
-		if contrasenaNueva == contrasenaRepetida:
-			autentificacion = auth.authenticate(username=usuario, password=contrasenaNueva)
-			if autentificacion is not None:
+		
+		autentificacion = auth.authenticate(username=usuario, password=contrasenaNueva)
+		if autentificacion is not None:
+			if contrasenaNueva == contrasenaRepetida:
 				perfil = usuario
 				perfil.set_password(contrasenaNueva)
 				perfil.save()
 				return HttpResponseRedirect('/perfilUsuario/')
-			else:
+		else:
 				return HttpResponseRedirect('/editarContrasena/')
 	else:
 		user = request.user
@@ -784,7 +785,7 @@ def perfilInstitucion(request): #Error 10, nombre inadecuado de la funcion
 
 	else:
 		args['error'] = "Error al cargar los datos"
-		return HttpResponseRedirect('/iniciarSesion/')
+		return HttpResponseRedirect('/NotFound/')
 
 	args.update(csrf(request))
 	#args['usuario']=usuario
@@ -1050,9 +1051,9 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
 				args['es_admin']=request.session['es_admin']
 				return render(request,"Usuario_vercualquierPerfil.html", args)
 		except:
-			return HttpResponseRedirect('/inicioUsuario')
+			return HttpResponseRedirect('/NotFound')
 	else:
-		return HttpResponseRedirect('/inicioUsuario')
+		return HttpResponseRedirect('/NotFound')
 
 
 """
@@ -1359,8 +1360,6 @@ def ver_bandeja_entrada_institucion(request):
 	mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
 	print mensajes
 
-	#mensajes= None
-
 	paginacion = Paginator(mensajes, 5)
 
 	try:
@@ -1392,7 +1391,6 @@ Entrada: request POST
 Salida: Redireccion bandeja de entrada
 Descripción: Esta funcion permite visualizar los mensajes
 que un usuario tiene en su bandeja de entrada
-UltimaModificacion: Fausto Mora - 4/7/15  
 """
 
 @login_required
@@ -1451,7 +1449,7 @@ def enviarMensaje(request):
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/enviarMensaje/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1510,6 +1508,7 @@ def enviarMensajeInstitucion(request):
 				print 'hay un grave error aqui'
 
 			try:
+
 				if receptor is not None:
 					mensajes = Mensaje()
 					mensajes.fk_emisor = emisor
@@ -1526,7 +1525,7 @@ def enviarMensajeInstitucion(request):
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/enviarMensajeInstitucion/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1568,7 +1567,7 @@ def verMensaje(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje.html',args)
 	except:
-		return HttpResponseRedirect("/BandejaDeEntrada/")
+		return HttpResponseRedirect("/NotFound/")
 
 """
 Autor: Ray Montiel
@@ -1603,9 +1602,7 @@ def verMensajeEnviado(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje_enviado.html',args)
 	except:
-		return HttpResponseRedirect("/mensajesEnviados/")
-
-
+		return HttpResponseRedirect("/NotFound/")
 """
 Autor: Fausto Mora
 Nombre de funcion: verMensajeInstitucion
@@ -1674,7 +1671,7 @@ def verMensajeEnviadoInstitucion(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje_enviado_institucion.html',args)
 	except:
-		return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
+		return HttpResponseRedirect("/NotFound/")
 
 """
 Autor: Ray Montiel
@@ -1721,7 +1718,6 @@ Entrada: request POST
 Salida: Muestra los mensajes enviados de una institucion
 Descripción: Esta funcion permite visualizar los mensajes
 enviados a otros usuarios
-UltimaModificacion: Fausto Mora - 4/7/15  
 """
 
 @login_required
@@ -1774,7 +1770,7 @@ def miembros_institucion(request):
 		except Membresia.DoesNotExist:
 			print 'error en miembros'
 	else:
-		return redirect('/')
+		return redirect('/NotFound')
 
 
 """
@@ -2069,8 +2065,6 @@ def accionMembresia(request):
 		try:
 			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
 			aux = int(request.POST['accion'])
-			texto_mensaje = {}
-			asunto = {}
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
@@ -2133,3 +2127,15 @@ class AutocompletarUsuario(APIView):
 		response = Response(serializador.data)
 		return response
 
+def vista_404(request):
+	try:
+		id_session=request.session['id_user']
+	except:
+		id_session=None
+	args={}
+	if id_session is not None:
+		tipo404="inicio_view"
+	else:
+		tipo404="index"
+	args['tipo404']=tipo404
+	return render_to_response('404.html',args,context_instance=RequestContext(request))

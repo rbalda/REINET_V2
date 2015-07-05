@@ -343,7 +343,7 @@
                 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
                 'username': $("#username").val()
             },
-            success: verificaUser,
+            success: verificarUser,
             dataType: 'text'
         });
     });
@@ -387,8 +387,8 @@
         $("#institucion").removeAttr("name");
         $("#asIndependiente").attr("hidden", true);
     });
-    function verificaUser(data, textStatus, jqXHR) {
-        console.log(data);
+    function verificarUser(data, textStatus, jqXHR) {
+        console.log("en verificar user");
         if (data == "usado") {
             $("#usuario_usado").html("Nombre de Usuario ya existente");
             $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
