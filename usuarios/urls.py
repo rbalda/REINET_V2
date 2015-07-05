@@ -71,6 +71,8 @@ urlpatterns = patterns('',
         url(r'^mensajesEnviadosInstitucion[/]?$', 'usuarios.views.mensajesEnviadosInstitucion', name='mensajesEnviadosInstitucion'),
         url(r'^eliminarMensajeRecibido[/]?$', eliminarMensajeRecibido, name='eliminarMensajeRecibido'),
         url(r'^eliminarMensajeEnviado[/]?$', eliminarMensajeEnviado, name='eliminarMensajeEnviado'),
+        url(r'^eliminarMensajeRecibidoInstitucion[/]?$', eliminarMensajeRecibidoInstitucion, name='eliminarMensajeRecibidoInstitucion'),
+        url(r'^eliminarMensajeEnviadoInstitucion[/]?$', eliminarMensajeEnviadoInstitucion, name='eliminarMensajeEnviadoInstitucion'),
         url(r'^AutocompletarUsuario[/]?$', AutocompletarUsuario.as_view() , name='AutocompletarUsuario'),
 
 )
