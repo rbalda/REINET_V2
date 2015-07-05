@@ -9,13 +9,15 @@ $(document).ready(function() {
 			window.setTimeout(function(){
 				$('.window-container.'+type).addClass('window-container-visible');
 			}, 100);
-			
+
 		});
         $('.overlay-container').position({
                 my: "center",
                 at: "center",
                 of: window
             });
+
+
 	});
     $('.aceptar').click(function(){
         var id=$(this).attr('id');
