@@ -121,6 +121,22 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+        /*
+         * Autor: Leonel Ramirez - Jose Velez
+         Nombre de función: validarRangoContrasena
+         Salida: Muestra advertencia si son distintos
+         Descripción: Compara que password 1 y 2 sean iguales
+         * */
+        function validarRangoContrasena() {
+            contrasena = document.getElementById("password1")
+            if (contrasena.value.length >= 4 && contrasena.value.length <= 15 ) {
+                document.getElementById('errorContrasena').style.display = 'none';
+            }
+            else {
+                document.getElementById('errorContrasena').style.display = 'block';
+            }
+        }
+
     </script>
 
     <!-- Page Tip -->
@@ -160,6 +176,7 @@
                     <div class="form-group">
                         <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as
                             no coinciden</label>
+                        <label class="info-board-red" id="errorContrasena" style="display: none; color: red">*Contrase&ntilde;a debe almenos 4 caracteres y m&aacute;ximo 15 caracteres</label>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -167,7 +184,7 @@
                                 <input required type="password" class="form-control margin-bottom-xs" id="password1"
                                        name="password1" placeholder="Contraseña" data-toggle="popover"
                                        data-placement="left" data-trigger="focus" data-content="Three symbols minimum."
-                                       data-original-title="Password">
+                                       data-original-title="Password" onchange="validarRangoContrasena()" maxlength="15" minlength="4">
                             </div>
                             <div class="col-sm-6">
                                 <input required type="password" class="form-control" id="password2" name="password2"
@@ -209,11 +226,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula"
-                               maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover"
-                               data-placement="left" data-trigger="focus"
-                               data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
-                               onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
+                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
                     </div>
 
                     <div class="form-group">
@@ -237,10 +250,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="telefono" maxlength="16" pattern="([0-9]{1,15})"
-                               name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left"
-                               data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono"
-                               onkeypress="return validarNumero(event);">
+                        <input type="text" class="form-control" id="telefono" minlength="10" maxlength="10" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
                     </div>
 
 
