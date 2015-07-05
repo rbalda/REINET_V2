@@ -202,6 +202,7 @@ Descripción: envia mensaje si existen o no las siglas ingresadas
 def verificar_siglas(request):  
 	if request.method == "POST":
 		siglas = request.POST['siglas']
+		print len(siglas)
 		if (len(siglas)<3):
 			return HttpResponse("usado")
 		if (siglas == "undefined"):
