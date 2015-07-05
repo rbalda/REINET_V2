@@ -1407,7 +1407,7 @@ def ver_bandeja_entrada_institucion(request):
 	
 	mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
 	print mensajes
-
+	mensajes = mensajes.order_by('-fecha_de_envio')
 	paginacion = Paginator(mensajes, 5)
 
 	try:
@@ -1719,7 +1719,7 @@ def verMensajeEnviadoInstitucion(request):
 		args['es_admin']=request.session['es_admin']
 		return render_to_response('ver_mensaje_enviado_institucion.html',args)
 	except:
-		return HttpResponseRedirect("/NotFound/")
+		return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
 
 """
 Autor: Ray Montiel
@@ -1739,7 +1739,7 @@ def mensajesEnviados(request):
 
 	mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='institucion-institucion')
 	print mensajes
-
+	mensajes = mensajes.order_by('-fecha_de_envio')
 	paginacion = Paginator(mensajes, 5)
 
 	try:
@@ -1776,7 +1776,7 @@ def mensajesEnviadosInstitucion(request):
 
 	mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
 	print mensajes
-
+	mensajes = mensajes.order_by('-fecha_de_envio')
 	paginacion = Paginator(mensajes, 5)
 	try:
 		page=int(request.GET.get('page', '1'))
