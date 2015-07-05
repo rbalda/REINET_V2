@@ -1458,6 +1458,7 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
+					print "Se envio un mensaje"
 					return HttpResponseRedirect('/verMensajeEnviado/')
 				else:
 					print "usuariou invalido1"
