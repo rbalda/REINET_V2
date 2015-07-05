@@ -11,6 +11,11 @@ $(document).ready(function() {
 			}, 100);
 			
 		});
+        $('.overlay-container').position({
+                my: "center",
+                at: "center",
+                of: window
+            });
 	});
     $('.aceptar').click(function(){
         var id=$(this).attr('id');
