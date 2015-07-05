@@ -2109,42 +2109,17 @@ de las solicitudes de membresia de una institucion
 def accionMembresia(request):
 	if request.is_ajax():
 		print 'dentro del accionMembresia'
-		print 'otra cosa'
 		try:
-			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
+			membresia = Membresia.objects.filter(id_membresia=request.POST['membresia']).first()
 			aux = int(request.POST['accion'])
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
-				asunto = 'Solicitud Aceptada'
-				texto_mensaje = 'Su solicitud ha sido aceptada'
-			else:
-				if aux == 0:
+			elif aux == 0 :
 					membresia.estado = -1
-					asunto = "Rechazo Solicitud Membresia"
-					texto_mensaje = "Su solicitud a " + membresia.fk_institucion.nombre + "ha sido rechazada, debido a politicas internas."
-
-			try:
-				mensajes = Mensaje()
-				receptor=User.objects.get(id=request.POST['usuarioreceptor'])
-				emisor=User.objects.get(id=request.POST['usuarioemisor'])
-				if receptor is not None:
-					mensajes.fk_emisor = emisor
-					mensajes.fk_receptor = receptor
-					mensajes.asunto = asunto
-					mensajes.tipo_mensaje = 'institucion-usuario'
-					mensajes.mensaje= texto_mensaje
-					mensajes.fecha_de_envio=datetime.datetime.now()
-					mensajes.save()
-				else:
-					print "usuario invalido"
-			except Exception as e:
-				print e
-				print "error cojudo, resuelvelo angel"
-
 
 			notificacion = Notificacion()
-			notificacion.descripcion_notificacion = texto_mensaje
+			notificacion.descripcion_notificacion = "Estado de Membresia"
 			notificacion.tipo_notificacion = 'accion-membresia'
 			notificacion.destinatario_notificacion = membresia.fk_usuario
 			notificacion.url_notificacion = 'www.lalal.com'
@@ -2159,8 +2134,8 @@ def accionMembresia(request):
 			response = JsonResponse({'membresia_save':True})
 			return HttpResponse(response.content)
 
-		except Membresia.DoesNotExist:
-			print 'membresia no existe'
+		except Exception as e:
+			print e
 	else:
 		return redirect('/')
 
