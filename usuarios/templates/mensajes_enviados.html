@@ -55,24 +55,25 @@
                     </p>
                                            
                     <p class="text-muted">
-                      <a id="aceptar" href="" class="button" data-type="zoomin">
+                      <a id="{{msj.id_mensaje}}" href="" class="button aceptar" data-type="zoomin">
                                <i class="pull-right fa fa-trash"></i> 
                        </a>
 
-                             <div class="overlay-container"> 
-                                    <div class="window-container zoomin">
-                                        <h3>Est&aacute; seguro de eliminar el mensaje!</h3><br>
-                                        <a href="/eliminarMensajeRecibido/?q={{ msj.id_mensaje }}" class="inbox-dialog col-md-6 col-md-offset-2">
-                                            <button class="btn btn-success float-left submit-button">Eliminar</button>
-                                        </a>
-                                        <a href="">
-                                        <button class="btn btn-danger" name="close">No</button></a>
-                                    </div>
-                            </div>          
+
                     </p>
                    <div class="clearfix"></div>
                 </li>
                 {%endfor%}
+                <div class="overlay-container">
+                        <div class="window-container zoomin">
+                            <h3>Est&aacute; seguro de eliminar el mensaje!</h3><br>
+                            <a id="eliminarEnviado" href="" class="inbox-dialog col-md-6 col-md-offset-2">
+                                <button class="btn btn-success float-left submit-button">Eliminar</button>
+                            </a>
+                            <a href="">
+                            <button class="btn btn-danger" name="close">No</button></a>
+                        </div>
+                </div>
             </ul>
         </div>
         <div class="pagination">
