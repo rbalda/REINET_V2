@@ -27,6 +27,18 @@ $(document).ready(function() {
         var id=$(this).attr('id');
         $('#eliminarRecibido').attr('href',"/eliminarMensajeRecibido/?q=".concat(id));
     });
+
+    //esto es para las mensajeria de instituciones
+    $('.aceptar_institucion').click(function(){
+        var id=$(this).attr('id');
+        $('#eliminarEnviadoInstitucion').attr('href',"/eliminarMensajeEnviadoInstitucion/?q=".concat(id));
+    });
+    $('.aceptar_institucion').click(function(){
+        var id=$(this).attr('id');
+        $('#eliminarRecibidoInstitucion').attr('href',"/eliminarMensajeRecibidoInstitucion/?q=".concat(id));
+    });
+
+
 	
 	$('.close').click(function() {
 		$('.overlay-container').fadeOut().end().find('.window-container').removeClass('window-container-visible');

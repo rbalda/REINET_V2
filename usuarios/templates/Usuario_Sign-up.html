@@ -226,11 +226,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula"
-                               maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover"
-                               data-placement="left" data-trigger="focus"
-                               data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación"
-                               onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
+                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
                     </div>
 
                     <div class="form-group">
@@ -254,10 +250,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="telefono" maxlength="16" pattern="([0-9]{1,15})"
-                               name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left"
-                               data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono"
-                               onkeypress="return validarNumero(event);">
+                        <input type="text" class="form-control" id="telefono" minlength="10" maxlength="10" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
                     </div>
 
 

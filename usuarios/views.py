@@ -110,8 +110,11 @@ def registro_institucion(request, codigo):
 				insti.ciudad = ciudad
 				insti.pais = pais
 				insti.save()
-				insti.logo = image #Error 10, usar palabras en español
-				insti.save()
+				try:
+					insti.logo = image #Error 10, usar palabras en español
+					insti.save()
+				except:
+					print "imagen no subida"
 
 				peticion.usado = 1
 				peticion.save()
@@ -195,10 +198,16 @@ Entrada: request POST
 Salida: Formulario de verificar siglas
 Descripción: envia mensaje si existen o no las siglas ingresadas
 """
-
+@csrf_exempt
 def verificar_siglas(request):  
 	if request.method == "POST":
-		siglas = request.POST['siglas'] 
+		siglas = request.POST['siglas']
+		print len(siglas)
+		if (len(siglas)<3):
+			return HttpResponse("usado")
+		if (siglas == "undefined"):
+			return HttpResponse("undefined")
+		print "hello"
 		try:
 			institucion = Institucion.objects.get(siglas=siglas) 
 		except:
@@ -1490,14 +1499,14 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					return HttpResponseRedirect('/BandejaDeEntrada/')
+					return HttpResponseRedirect('/mensajesEnviados/')
 				else:
 					print "usuariou invalido1"
 					return HttpResponseRedirect('/enviarMensaje/')
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/mensajesEnviados/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario
@@ -1573,7 +1582,7 @@ def enviarMensajeInstitucion(request):
 			except Exception as e:
 				print "erro al guardar mensaje"
 				print e
-				return HttpResponseRedirect('/enviarMensajeInstitucion/')
+				return HttpResponseRedirect('/NotFound/')
 	else:
 		print "porque D: esto es GET"
 		args['usuario']=usuario

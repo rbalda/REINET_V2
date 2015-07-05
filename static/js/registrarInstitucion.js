@@ -85,7 +85,7 @@ function validarURL (abc) {
 }
 
 /////////////////////////////////////////////////////////
-
+/*
 $("#siglaInstitucion").keyup(function () {
     console.log($("#siglaInstitucion").val());
     habilitarDeshabilitarSubmit(0);
@@ -96,7 +96,22 @@ $("#siglaInstitucion").keyup(function () {
             'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
             'siglas': $("#siglaInstitucion").val()
         },
-        success: verificaUser,
+        success: verificaSiglas,
+        dataType: 'text'
+    });
+});
+
+$("#siglaInstitucion").change(function () {
+    console.log($("#siglaInstitucion").val());
+    habilitarDeshabilitarSubmit(0);
+    $.ajax({
+        type: "POST",
+        url: "/verificar_siglas",
+        data: {
+            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+            'siglas': $("#siglaInstitucion").val()
+        },
+        success: verificaSiglas,
         dataType: 'text'
     });
 });
@@ -107,19 +122,17 @@ function habilitarDeshabilitarSubmit(valor) {
         $("#continuar").removeAttr("enabled");
 
         $("#continuar").attr("disabled", "disabled");
-
-    } else if (valor == 1) {
-
+    }else{
         $("#continuar").removeAttr("disabled");
 
         $("#continuar").attr("enabled", "enabled");
     }
 }
 
-function verificaUser(data, textStatus, jqXHR) {
+function verificaSiglas(data, textStatus, jqXHR) {
     console.log(data);
     if (data == "usado") {
-        $("#sigla_usada").html("Siglas ya usadas en otra instituci&oacute;n");
+        $("#sigla_usada").html("Siglas para su instituci&oacute;n no v&aacute;lidas. Debe tener m&iacute;nimo 3 caracters y debe ser unica");
         $("#sigla_usada").attr("style", "display: block; color: red; text-align:center");
         $("#sigla_usada").attr("class", "info-board-red");
         habilitarDeshabilitarSubmit(0);
@@ -130,4 +143,4 @@ function verificaUser(data, textStatus, jqXHR) {
         $("#sigla_usada").attr("class", "info-board-green");
         habilitarDeshabilitarSubmit(1);
     }
-}
+}*/
