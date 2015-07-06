@@ -11,11 +11,7 @@ $(document).ready(function() {
 			}, 100);
 
 		});
-        $('.overlay-container').position({
-                my: "center",
-                at: "center",
-                of: window
-            });
+    centraVentana($('.overlay-container'));
 
 
 	});
@@ -51,4 +47,27 @@ $(document).ready(function() {
 
        }
     });
+    function centraVentana(ventana){
+
+        //dimensiones de la ventana del cliente
+
+        var anchoCliente = document.documentElement.clientWidth;
+
+        var altoCliente = document.documentElement.clientHeight;
+
+        ventana.css("position","absolute");
+        //dimensiones de la ventana que nos llega
+
+        var anchoVentana = ventana.width();
+
+        var altoVentana = ventana.height();
+
+        //centramos la ventana con los cálculos necesarios
+
+        ventana.css("left",(anchoCliente-2*anchoVentana)/2);
+
+        ventana.css("top",Math.max(10,(altoCliente-2*altoVentana)/2)+$(window).scrollTop());
+
+    }
+
 });
