@@ -20,41 +20,6 @@
                     <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
                 </button>
 
-                        <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-                        <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <img src={{ usuarioSesion.foto.url }} alt="...">
-                                    <h4 class="modal-title" id="sendemailtitle">{{ institucion.nombre }}</h4>
-                                    <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form" action="" method='POST'>
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <label for="Destinatario">Para:</label>
-                                            <input type="text" class="form-control" id="destinatario_form" name="destinatario"
-                                            placeholder="Destinatario" value="{{ miembro.fk_usuario.username }}" maxlength="50" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Asunto">Asunto:</label>
-                                            <input type="text" class="form-control" id="asunto_form" name="asunto" placeholder="Asunto"
-                                            maxlength="40" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Mensaje">Mensaje:</label>
-                                            <textarea class="form-control" maxlength="1000" rows="3" id="mensaje_form" name="mensaje"
-                                            required></textarea>
-                                        </div>
-                                        <button data-dismiss="modal" class="btn btn-green">Enviar</button>
-                                    </form>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
             </a>
         </p>
         <div class="clearfix"></div>
@@ -63,22 +28,29 @@
 		 <script>
 		 	$(document).ready(function(){
 		 		$(function(){
-		 			var asunto_form = document.getElementById("asunto_form");
-                    var contenido_form = document.getElementById("mensaje_form");
-                    $('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
+                    var opcion = -1;
+
+                    $('#Rechazar{{miembro.id_membresia}}').click(function(){
+                        console.log('rechazo solicitud');
+                        opcion = 0;
+                    });
+
+                    $('#Aceptar{{miembro.id_membresia}}').click(function(){
+                        console.log('acepto solicitud');
+                        opcion = 1;
+                    });
 
 
-		 			function accionMembresiaA(){
-		 				console.log('hizo click en Aceptar');
-                        asunto_form.value = "Aceptación de Solicitud Membresia";
-                        contenido_form.value = "Su solicitud ha sido Aceptada, Bienvenido :)";
+		 			$(document).on('click','#accionMembresia',function(){
+		 				console.log('hizo click en accion membresia');
+                        console.log($('#asunto_form').val());
+                        console.log($('#mensaje_form').val());
 		 				$.ajax({
 		 					data : {
-                                //'destinatario' : {{miembro.fk_usuario_id}},
-                                'asunto' : asunto_form.value,
-                                'mensaje' : contenido_form.value,
+                                'asunto' : $('#asunto_form').val(),
+                                'mensaje' : $('#mensaje_form').val(),
                                 'membresia' : {{miembro.id_membresia}},
-		 						'accion' : 1,
+		 						'accion' : opcion,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
 		 					},
 		 					type : 'post',
@@ -107,40 +79,46 @@
 		 						}
 		 					}
 		 				});
-		 			}
-		 			
 		 		});
-		 		
-		 	});
 
-		 	$(document).ready(function(){
-		 		var asunto_form = document.getElementById("asunto_form");
-                var contenido_form = document.getElementById("mensaje_form");
-                $('#Rechazar{{miembro.id_membresia}}').click(accionMembresiaR);
+             });
 
-		 			function accionMembresiaR(){
-		 				console.log('hizo click en Rechazar');
-                        asunto_form.value = "Rechazo de Solicitud Membresia";
-                        contenido_form.value = "Su solicitud ha sido rechazada por los siguientes motivos: -Completa el mensaje por favor :D-";
-                        $.ajax({
-		 					data : {
-                                'asunto' : asunto_form.value,
-                                'mensaje' : contenido_form.value,
-                                'membresia' : {{miembro.id_membresia}},
-		 						'accion' : 0,
-		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
-		 					},
-		 					type : 'post',
-		 					url : '/accionMembresia/',
-		 					success: function(data){
-		 						var objeto = JSON.parse(data);
-		 						$('#solicitud{{miembro.id_membresia}}').remove();
-		 					}
-		 				});
-		 			}
-
-		 		});
+         });
 
 		</script>
 {% endfor %}
+
+<!-- //// VENTANA EMERGENTE EMAIL ///// -->
+                        <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <img src={{ usuarioSesion.foto.url }} alt="...">
+                                    <h4 class="modal-title" id="sendemailtitle">{{ institucion.nombre }}</h4>
+                                    <p class="text-muted"><i class="fa fa-envelope"></i>Mensaje Membresia</p>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form" action="" method='POST'>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="Asunto">Asunto:</label>
+                                            <input type="text" class="form-control" id="asunto_form" name="asunto" placeholder="Asunto"
+                                            maxlength="40" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Mensaje">Mensaje:</label>
+                                            <textarea class="form-control" maxlength="1000" rows="3" id="mensaje_form" name="mensaje"
+                                            required></textarea>
+                                        </div>
+                                        <button data-dismiss="modal" class="btn btn-blue" id="accionMembresia">Enviar</button>
+
+                                         <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Canelar</button>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
 </div>

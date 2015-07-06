@@ -2134,7 +2134,7 @@ def accionMembresia(request):
 	if request.is_ajax():
 		print 'dentro del accionMembresia'
 		try:
-			membresia = Membresia.objects.filter(id_membresia=request.POST['membresia']).first()
+			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
 			aux = int(request.POST['accion'])
 			if aux == 1:
 				membresia.estado = 1
@@ -2145,23 +2145,28 @@ def accionMembresia(request):
 			membresia.save()
 			print 'al parecer se guardo'
 
+			try:
+				asunto = request.POST['asunto']
+				texto_mensaje = request.POST['mensaje']
+				print asunto
+				print texto_mensaje
 
-			asunto = request.POST['asunto']
-			texto_mensaje = request.POST['mensaje']
-			receptor = User.objects.get(username=membresia.fk_usuario.username)
+				receptor = User.objects.get(username=membresia.fk_usuario.username)
+				receptor_aux = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+				membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+				emisor = User.objects.get(username=membresia_institucion.fk_usuario.username)
 
-			receptor_aux = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
-			membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
-			emisor = User.objects.get(username=membresia_institucion.fk_usuario.username)
-
-			mensajes = Mensaje()
-			mensajes.fk_emisor = emisor
-			mensajes.fk_receptor = receptor
-			mensajes.asunto = asunto
-			mensajes.tipo_mensaje = "institucion-usuario"
-			mensajes.mensaje= texto_mensaje
-			mensajes.fecha_de_envio=datetime.datetime.now()
-			mensajes.save()
+				mensajes = Mensaje()
+				mensajes.fk_emisor = emisor
+				mensajes.fk_receptor = receptor
+				mensajes.asunto = asunto
+				mensajes.tipo_mensaje = "institucion-usuario"
+				mensajes.mensaje= texto_mensaje
+				mensajes.fecha_de_envio=datetime.datetime.now()
+				mensajes.save()
+			except Exception as e:
+				print 'error al enviar mensaje'
+				print e
 
 			notificacion = Notificacion()
 			notificacion.descripcion_notificacion = "Estado de Membresia"
@@ -2175,7 +2180,8 @@ def accionMembresia(request):
 			response = JsonResponse({'membresia_save':True})
 			return HttpResponse(response.content)
 
-		except Exception as e:
+		except Membresia.DoesNotExist:
+			print 'membresia no existe'
 			print e
 	else:
 		return redirect('/')
