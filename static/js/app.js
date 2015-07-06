@@ -205,7 +205,7 @@ redInn.controller('NotificacionControllers',['$scope','$dragon','$rootScope',fun
 
     $dragon.onReady(
         function(){
-            $dragon.subscribe('notificacion-router',$scope.channel,{}).then(function(response){
+            $dragon.subscribe('notificacion-router',$scope.channel,{destinatario_notificacion__username:usuarioName()}).then(function(response){
                     $scope.dataMapper = new DataMapper(response.data);
                 });
             $dragon.getSingle('notificacion-router',{username:usuarioName()}).then(function(response){
@@ -216,7 +216,7 @@ redInn.controller('NotificacionControllers',['$scope','$dragon','$rootScope',fun
     $dragon.onChannelMessage(function(channels, message) {
         if (indexOf.call(channels, $scope.channel) > -1) {
             $scope.$apply(function() {
-                $scope.dataMapper.mapData($scope.mensajes, message);
+                $scope.dataMapper.mapData($scope.notificacion, message);
                 if(message.action=='created'){
                     notificar();
 

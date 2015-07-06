@@ -90,7 +90,7 @@ class Membresia(models.Model):
 class Mensaje(SelfPublishModel, models.Model):
     id_mensaje = models.AutoField(primary_key=True)
     mensaje = models.CharField(max_length=1000)
-    fecha_de_envio = models.DateTimeField()
+    fecha_de_envio = models.DateTimeField(auto_now_add=True)
     asunto = models.CharField(max_length=45)
     tipo_mensaje = models.CharField(max_length=45)
     fk_emisor = models.ForeignKey(User, related_name='mensajes_enviados')

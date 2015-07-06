@@ -1347,7 +1347,7 @@ class NumeroNotificacionesNoLeidos(APIView):
 	permission_classes = (IsAuthenticated,)
 
 	def get(self,request,*args,**kwargs):
-		no_leidos = Notificacion.objects.filter(destinatario_notificacion=request.user,estado=False)
+		no_leidos = Notificacion.objects.filter(destinatario_notificacion=request.user,estado_notificacion=False)
 		total = len(no_leidos)
 		response = Response(total,status=status.HTTP_200_OK)
 		return response

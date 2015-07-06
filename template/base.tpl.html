@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="/static/img/favicon.ico">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-
+    <script src="{% static 'js/custom.js' %}"></script>
     <title>REI-NET|
         {% block complementotitulo %}
         {% endblock %}
@@ -67,9 +67,16 @@
     {% endblock %}
 </div>
 {% block notificaciones %}
-        <div id="notif" 
-                class="notificacion">
-                Bienvenido a REINET               
+        <div ng-controller="MensajesControllers"
+             ng-show="mostrarNotificacion"
+                class="info-board info-board-green notificacion">
+                hello
+        </div>
+
+        <div ng-controller="NotificacionControllers"
+             ng-show="mostrarNotificacion"
+                class="info-board info-board-red notificacion">
+                Im a notify
         </div>
 {% endblock %}
 <!-- Pie de Pagina-->
