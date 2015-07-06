@@ -2141,8 +2141,28 @@ def accionMembresia(request):
 				membresia.fecha_aceptacion = datetime.datetime.now()
 			elif aux == 0 :
 					membresia.estado = -1
+
 			membresia.save()
 			print 'al parecer se guardo'
+
+
+			asunto = request.POST['asunto']
+			texto_mensaje = request.POST['mensaje']
+			receptor = User.objects.get(username=membresia.fk_usuario.username)
+
+			receptor_aux = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+			membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+			emisor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+
+			mensajes = Mensaje()
+			mensajes.fk_emisor = emisor
+			mensajes.fk_receptor = receptor
+			mensajes.asunto = asunto
+			mensajes.tipo_mensaje = "institucion-usuario"
+			mensajes.mensaje= texto_mensaje
+			mensajes.fecha_de_envio=datetime.datetime.now()
+			mensajes.save()
+
 			notificacion = Notificacion()
 			notificacion.descripcion_notificacion = "Estado de Membresia"
 			notificacion.tipo_notificacion = 'accion-membresia'
@@ -2151,9 +2171,6 @@ def accionMembresia(request):
 			notificacion.estado = False
 			notificacion.save()
 			print 'se guardo notificacion al parecer'
-
-
-
 
 			response = JsonResponse({'membresia_save':True})
 			return HttpResponse(response.content)
