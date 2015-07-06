@@ -29,14 +29,17 @@
 		 	$(document).ready(function(){
 		 		$(function(){
                     var opcion = -1;
+                    var asunto = " ";
 
                     $('#Rechazar{{miembro.id_membresia}}').click(function(){
                         console.log('rechazo solicitud');
+                        asunto = "Su solicitud a {{ institucion.nombre }} a sido rechazada"
                         opcion = 0;
                     });
 
                     $('#Aceptar{{miembro.id_membresia}}').click(function(){
                         console.log('acepto solicitud');
+                        asunto = "Su solicitud a {{ institucion.nombre }} a sido aceptada"
                         opcion = 1;
                     });
 
@@ -47,7 +50,7 @@
                         console.log($('#mensaje_form').val());
 		 				$.ajax({
 		 					data : {
-                                'asunto' : $('#asunto_form').val(),
+                                'asunto' : asunto,
                                 'mensaje' : $('#mensaje_form').val(),
                                 'membresia' : {{miembro.id_membresia}},
 		 						'accion' : opcion,
@@ -102,11 +105,6 @@
                                 <div class="modal-body">
                                     <form role="form" action="" method='POST'>
                                         {% csrf_token %}
-                                        <div class="form-group">
-                                            <label for="Asunto">Asunto:</label>
-                                            <input type="text" class="form-control" id="asunto_form" name="asunto" placeholder="Asunto"
-                                            maxlength="40" required>
-                                        </div>
                                         <div class="form-group">
                                             <label for="Mensaje">Mensaje:</label>
                                             <textarea class="form-control" maxlength="1000" rows="3" id="mensaje_form" name="mensaje"

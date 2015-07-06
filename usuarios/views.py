@@ -2146,7 +2146,7 @@ def accionMembresia(request):
 			print 'al parecer se guardo'
 
 			try:
-				asunto = request.POST['asunto']
+				asunto = str(request.POST['asunto']).replace('&#39;','')
 				texto_mensaje = request.POST['mensaje']
 				print asunto
 				print texto_mensaje
