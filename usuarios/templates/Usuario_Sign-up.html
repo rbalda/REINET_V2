@@ -156,8 +156,8 @@
                 <h3 class="hl top-zero">Registro de Usuario</h3>
                 <hr>
 
-                <form role="form" action="/registro_usuario/" method="post"
-                      enctype="multipart/form-data"> {% csrf_token %}
+                <form role="form" action="/registro_usuario/" method="post" name="registro_usuario_form"
+                      enctype="multipart/form-data" novalidate> {% csrf_token %}
                     <div class="form-group">
 
                         {% if mensaje %}
@@ -169,9 +169,17 @@
                             <label class="info-board-red" id="usuario_usado" style="display: none; color: red"></label>
                         </div>
 
-                        <input required type="text" class="form-control" id="username" name="username"
+                        
+                        <input required type="text" class="form-control" id="username" name="username" maxlength="20"
                                placeholder="Usuario" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingresa tu usuario aquí." data-original-title="username">
+                               data-content="Ingresa tu usuario aquí." data-original-title="username" ng-required="true" ng-pattern="/^[a-zA-Z][a-zA-Z0-9]{3,30}$/" ng-model="perfil.username" unique-user>
+
+                        <div ng-messages='registro_usuario_form.username.$error'>
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.username.$dirty && registro_usuario_form.username.$invalid">
+                          El usuario debe tener entre 4 y 30 caracteres no especiales y empezar con una letra.
+                          </label>
+                        </div>
+                        
                     </div>
                     <div class="form-group">
                         <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as
@@ -184,26 +192,40 @@
                                 <input required type="password" class="form-control margin-bottom-xs" id="password1"
                                        name="password1" placeholder="Contraseña" data-toggle="popover"
                                        data-placement="left" data-trigger="focus" data-content="Three symbols minimum."
-                                       data-original-title="Password" onchange="validarRangoContrasena()" maxlength="15" minlength="4">
+                                       data-original-title="Password" onchange="validarRangoContrasena()" maxlength="15" minlength="4" ng-required="true" ng-pattern="/[a-zA-Z0-9]{4,30}$/">
                             </div>
                             <div class="col-sm-6">
                                 <input required type="password" class="form-control" id="password2" name="password2"
                                        placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus"
                                        data-content="Asegurate de recordarla" data-original-title="Repeat Password"
-                                       onchange="validarPassword2()">
+                                       onchange="validarPassword2()" ng-required="true" ng-pattern="/[a-zA-Z0-9]{4,30}$/">
                             </div>
+
                         </div>
+                        <div ng-messages='registro_usuario_form.password1.$error'>
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.password1.$dirty && registro_usuario_form.password1.$invalid">
+                          Las contraseñas debe tener entre 4 y 30 caracteres alfanumericos.
+                          </label>
+                        </div>
+
                     </div>
+
                     <div class="form-group">
-                        <label class="info-board-red" id="error_nombre" style="display: none; color: red">Los nombres no
-                            pueden contener números ni caracteres especiales</label>
-                    </div>
-                    <div class="form-group">
-                        <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$"
+                        
+                        <input required type="text" pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]{3,30}$"
                                class="form-control" id="nombre" name="nombres" placeholder="Nombres"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                               onkeypress="return validarLetras(event)">
+                               onkeypress="return validarLetras(event)" ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]{3,35}$/"
+                               ng-required="true" ng-model="perfil.nombres"
+                               >
+                               <div ng-messages='registro_usuario_form.nombres.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.nombres.$dirty && registro_usuario_form.nombres.$invalid">
+                            El nombre debe tener entre 3 y 35 caracteres no especiales.
+                          </label>
+
+                        </div>
+                        
                     </div>
                     <div class="form-group">
                         <label class="info-board-red" id="error_apellido" style="display: none; color: red">Los
@@ -214,7 +236,14 @@
                                pattern="^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$" id="apellidos" name="apellidos"
                                placeholder="Apellidos" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingresa tus apellidos aquí." data-original-title="Apellidos"
-                               onkeypress="return validarLetras(event)">
+                               onkeypress="return validarLetras(event)" ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]{3,35}$/" ng-required="true">
+                                    <div ng-messages='registro_usuario_form.apellidos.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.apellidos.$dirty && registro_usuario_form.apellidos.$invalid">
+                            Los apellidos debe tener entre 3 y 35 caracteres no especiales.
+                          </label>
+
+                        </div>
+                        
                     </div>
 
                     <div class="form-group">
@@ -226,11 +255,16 @@
                     </div>
 
                     <div class="form-group">
-                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()">
+                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()" ng-required="true" ng-pattern="/([0-9]{10})$/">
+                     <div ng-messages='registro_usuario_form.cedula.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.cedula.$dirty && registro_usuario_form.cedula.$invalid">
+                            La cedula debe tener 10 d&iacute;gitos.
+                          </label>
+                      </div>
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control" id="pais" name="pais">
+                        <select class="form-control" id="pais" name="pais" ng-required="true">
                             <optgroup label="Pais">
                                 {% for pais in paises %}
                                     <option value="{{ pais.id }}">{{ pais.name }}</option>
@@ -240,7 +274,7 @@
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control" name="ciudad" id="ciudad" required>
+                        <select class="form-control" name="ciudad" id="ciudad" ng-required="true">
                             <optgroup id="optsCiudades" label="Ciudad">
                                 {% for ciudad in ciudades %}
                                     <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
@@ -250,7 +284,13 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="telefono" minlength="10" maxlength="10" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);">
+                        <input type="text" class="form-control" id="telefono" minlength="10" maxlength="10" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);" ng-required="true" ng-pattern="/([0-9]{8,10})$/">
+                         <div ng-messages='registro_usuario_form.cedula.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.cedula.$dirty && registro_usuario_form.cedula.$invalid">
+                            El telefono debe tener 10 numeros.
+                          </label>
+                      </div>
+                    
                     </div>
 
 
@@ -261,13 +301,13 @@
                     <div class="form-group">
                         <input required type="email" class="form-control" maxlength="50" id="email" name="email"
                                placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingresa un email valido." data-original-title="Email">
+                               data-content="Ingresa un email valido." data-original-title="Email" ng-model="perfil.email" ng-required="true" unique-email>
                     </div>
                     <div class="form-group">
                         <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web"
                                onblur="validarURL(this)" data-toggle="popover" data-placement="left"
                                data-trigger="focus" data-content="Ingresa tu sitio web aquí."
-                               data-original-title="Sitio Web">
+                               data-original-title="Sitio Web" ng-required="true">
                     </div>
 
                     <label id="listarInst">
@@ -292,13 +332,19 @@
                         <a>No deseo perternecer a una Insitución por ahora</a>
                     </label>
 
-                    <div class="checkbox">
+                     <div class="checkbox">
+                        <div ng-messages='registro_usuario_form.check.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.check.$dirty && registro_usuario_form.check.$invalid">
+                            Debe estar de acuerdo con los T&eacute;rminos de Servicio y las Politicas de Privacidad.
+                          </label>
+                        </div>
                         <label>
-                            <input type="checkbox" required> Estoy de acuerdo con los <a href="/terminosYcondiciones/">T&eacute;rminos
-                            y Condiciones</a>.
+                            <input type="checkbox" name="check" ng-model="perfil.check" ng-required="true"> Estoy de acuerdo con los <a href="#">Términos de
+                            servicio</a> y las
+                            <a href="#">Politicas de Privacidad</a>
                         </label>
                     </div>
-                    <button required id="submit" type="submit" class="btn btn-green">Crear Cuenta</button>
+                    <button required id="submit" type="submit" class="btn btn-green" ng-disabled="registro_usuario_form.$invalid" >Crear Cuenta</button>
                     <a style="float:right" class="btn btn-green" href="/iniciarSesion/">Ya poseo una cuenta</a>
                 </form>
             </div>
@@ -307,6 +353,7 @@
 
 
     <script type="text/javascript">
+
     function habilitarDeshabilitarSubmit(valor) {
         if (valor == 0) {
             $("#submit").removeAttr("enabled");
@@ -344,6 +391,24 @@
         $("#optsCiudades").html(data);
         //console.log(data);
     }
+$("#listarInst").click(function () {
+        $("#formInstitucion").attr("hidden", false);
+        $("#asIndependiente").attr("hidden", false);
+        $("#listarInst").attr("hidden", true);
+        $("#institucion").attr("name", "institucion");
+        $("#mensajeMembresia").attr("hidden", false);
+        $("#formInstitucion").attr("ng-required", "true");
+    });
+    $("#asIndependiente").click(function () {
+        $("#formInstitucion").attr("hidden", true);
+        $("#listarInst").attr("hidden", false);
+        $("#mensajeMembresia").attr("hidden", true);
+        $("#institucion").removeAttr("name");
+        $("#asIndependiente").attr("hidden", true);
+        $("#formInstitucion").removeAttr("ng-required");
+    });
+    
+    /*
     $("#username").change(function () {
         console.log($("#username").val());
         $.ajax({
@@ -382,20 +447,6 @@
             success: verificarEmail,
             dataType: 'text'
         });
-    });
-    $("#listarInst").click(function () {
-        $("#formInstitucion").attr("hidden", false);
-        $("#asIndependiente").attr("hidden", false);
-        $("#listarInst").attr("hidden", true);
-        $("#institucion").attr("name", "institucion");
-        $("#mensajeMembresia").attr("hidden", false);
-    });
-    $("#asIndependiente").click(function () {
-        $("#formInstitucion").attr("hidden", true);
-        $("#listarInst").attr("hidden", false);
-        $("#mensajeMembresia").attr("hidden", true);
-        $("#institucion").removeAttr("name");
-        $("#asIndependiente").attr("hidden", true);
     });
     function verificarUser(data, textStatus, jqXHR) {
         console.log("en verificar user");
@@ -472,5 +523,6 @@
 //habilitarDeshabilitarSubmit(0);
         }
     });
+*/
     </script>
 {% endblock %}

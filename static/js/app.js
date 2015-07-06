@@ -271,20 +271,21 @@ redInn.directive('uniqueSiglas', function($http){
                     .success(function(data, status, headers, config) {
                       if (data == "usado") {
                             ctrl.$setValidity('uniqueSiglas', false);
-                            console.log("usado");
                             $("#sigla_usada").html("Siglas para su instituci&oacute;n no v&aacute;lidas. Debe tener m&iacute;nimo 3 caracters y debe ser unica");
                             $("#sigla_usada").attr("style", "display: block; color: red; text-align:center");
                             $("#sigla_usada").attr("class", "info-board-red");
                           }
                           else if (data == "ok"){
                             ctrl.$setValidity('uniqueSiglas', true);
-                            console.log("valido");
                             $("#sigla_usada").html("Siglas disponibles para su instituci&oacute;n");
                             $("#sigla_usada").attr("style", "display: block; color: green; text-align:center");
                             $("#sigla_usada").attr("class", "info-board-green");
                           }
                           else {
                             ctrl.$setValidity('uniqueSiglas', false);
+                            $("#sigla_usada").html("Ingrese las siglas de su instituci&oacute;n. Ni el campo vac&iacute;o ni \"undefined\" estan permitido.");
+                            $("#sigla_usada").attr("style", "display: block; color: blue; text-align:center");
+                            $("#sigla_usada").attr("class", "info-board-blue");
                           }
                     })
                     .error(function(data, status, headers, config) {
@@ -292,6 +293,111 @@ redInn.directive('uniqueSiglas', function($http){
                     });
 
                   }, 200);
+                })
+              }
+            }
+          });
+
+
+
+redInn.directive('uniqueUser', function($http){
+            var toId;
+            return {
+              require: 'ngModel',
+              link: function(scope, elem, attr, ctrl) {
+                //when the scope changes, revisar las siglas.
+                scope.$watch(attr.ngModel, function(value) {
+                  // if there was a previous attempt, stop it.
+                  if(toId) clearTimeout(toId);
+                  if(value!= undefined){
+                  console.log("estamos adentro del directive");
+                  toId = setTimeout(function(){
+                    $http(
+                    {
+                        method: 'POST',
+                        url: '/verificar_username',
+                        data: 'username='+value,
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    })
+                    .success(function(data, status, headers, config) {
+                      if (data == "usado") {
+                            ctrl.$setValidity('uniqueUser', false);
+                            $("#usuario_usado").html("Nombre de usuario no disponible");
+                            $("#usuario_usado").attr("style", "display: block; color: red; text-align:center");
+                            $("#usuario_usado").attr("class", "info-board-red");
+                          }
+                          else if (data == "ok"){
+                            ctrl.$setValidity('uniqueUser', true);
+                            $("#usuario_usado").html("Nombre de usuario disponible");
+                            $("#usuario_usado").attr("style", "display: block; color: green; text-align:center");
+                            $("#usuario_usado").attr("class", "info-board-green");
+                          }
+                          else {
+                            ctrl.$setValidity('uniqueUser', false);
+                            $("#usuario_usado").html("Ingrese username");
+                            $("#usuario_usado").attr("style", "display: block; color: blue; text-align:center");
+                            $("#usuario_usado").attr("class", "info-board-blue");
+                          }
+                    })
+                    .error(function(data, status, headers, config) {
+                      console.log("error")
+                    });
+
+                  }, 200);
+                    }
+                })
+              }
+            }
+          });
+
+
+
+redInn.directive('uniqueEmail', function($http){
+            var toId;
+            return {
+              require: 'ngModel',
+              link: function(scope, elem, attr, ctrl) {
+                //when the scope changes, revisar las siglas.
+                scope.$watch(attr.ngModel, function(value) {
+                  // if there was a previous attempt, stop it.
+                  if(toId) clearTimeout(toId);
+                 
+                  if(value!= undefined && value.length>3){
+                  console.log("estamos adentro del directive email");
+                  toId = setTimeout(function(){
+                    $http(
+                    {
+                        method: 'POST',
+                        url: '/verificar_email',
+                        data: 'email='+value,
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    })
+                    .success(function(data, status, headers, config) {
+                      if (data == "usado") {
+                            ctrl.$setValidity('uniqueEmail', false);
+                            $("#email_usado").html("Email no disponible");
+                            $("#email_usado").attr("style", "display: block; color: red; text-align:center");
+                            $("#email_usado").attr("class", "info-board-red");
+                          }
+                          else if (data == "ok"){
+                            ctrl.$setValidity('uniqueEmail', true);
+                            $("#email_usado").html("Email disponible");
+                            $("#email_usado").attr("style", "display: block; color: green; text-align:center");
+                            $("#email_usado").attr("class", "info-board-green");
+                          }
+                          else {
+                            ctrl.$setValidity('uniqueEmail', false);
+                            $("#email_usado").html("Ingrese email");
+                            $("#email_usado").attr("style", "display: block; color: blue; text-align:center");
+                            $("#email_usado").attr("class", "info-board-blue");
+                          }
+                    })
+                    .error(function(data, status, headers, config) {
+                      console.log("error")
+                    });
+
+                  }, 200);
+                    }
                 })
               }
             }
