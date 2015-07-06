@@ -248,3 +248,52 @@ redInn.controller('NotificacionContadorController',['$scope','ContarNoLeidos',fu
     );
 
 }]);
+
+redInn.directive('uniqueSiglas', function($http){
+            var toId;
+            return {
+              require: 'ngModel',
+              link: function(scope, elem, attr, ctrl) { 
+                //when the scope changes, revisar las siglas.
+                scope.$watch(attr.ngModel, function(value) {
+                  // if there was a previous attempt, stop it.
+                  if(toId) clearTimeout(toId);
+
+                  console.log("sigleando");
+                  toId = setTimeout(function(){
+                    $http(
+                    {
+                        method: 'POST', 
+                        url: '/verificar_siglas',
+                        data: 'siglas='+value,
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    })
+                    .success(function(data, status, headers, config) {
+                      if (data == "usado") {
+                            ctrl.$setValidity('uniqueSiglas', false);
+                            $("#sigla_usada").html("Siglas para su instituci&oacute;n no v&aacute;lidas. Debe tener m&iacute;nimo 3 caracters y debe ser unica");
+                            $("#sigla_usada").attr("style", "display: block; color: red; text-align:center");
+                            $("#sigla_usada").attr("class", "info-board-red");
+                          }
+                          else if (data == "ok"){
+                            ctrl.$setValidity('uniqueSiglas', true);
+                            $("#sigla_usada").html("Siglas disponibles para su instituci&oacute;n");
+                            $("#sigla_usada").attr("style", "display: block; color: green; text-align:center");
+                            $("#sigla_usada").attr("class", "info-board-green");
+                          }
+                          else {
+                            ctrl.$setValidity('uniqueSiglas', false);
+                            $("#sigla_usada").html("Ingrese las siglas de su instituci&oacute;n. Ni el campo vac&iacute;o ni \"undefined\" estan permitido.");
+                            $("#sigla_usada").attr("style", "display: block; color: blue; text-align:center");
+                            $("#sigla_usada").attr("class", "info-board-blue");
+                          }
+                    })
+                    .error(function(data, status, headers, config) {
+                      console.log("error")
+                    });
+
+                  }, 200);
+                })
+              }
+            }
+          });

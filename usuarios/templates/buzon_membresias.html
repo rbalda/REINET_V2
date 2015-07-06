@@ -13,12 +13,48 @@
 
         <p class="text-muted" >
             <a class="inbox-dialog col-sm-offset-4"><br>
-                <button type="button" class="btn btn-green btn-md " id="Aceptar{{miembro.id_membresia}}">
+                <button type="button" class="btn btn-green btn-md " id="Aceptar{{miembro.id_membresia}}"  data-toggle="modal" data-target="#enviarMensaje">
                     <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
                 </button>
-                <button type="button" class="btn btn-default btn-md" id="Rechazar{{miembro.id_membresia}}">
+                <button type="button" class="btn btn-default btn-md" id="Rechazar{{miembro.id_membresia}}" data-toggle="modal" data-target="#enviarMensaje">
                     <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
                 </button>
+
+                        <!-- //// VENTANA EMERGENTE EMAIL ///// -->
+                        <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <img src={{ usuarioSesion.foto.url }} alt="...">
+                                    <h4 class="modal-title" id="sendemailtitle">{{ usuarioSesion.first_name }} {{ usuarioSesion.last_name }}</h4>
+                                    <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form" action="/enviarMensajeInstitucion/" method='POST'>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="Destinatario">Para:</label>
+                                            <input type="text" class="form-control" id="destinatario" name="destinatario"
+                                            placeholder="Destinatario" value="{{ miembro.fk_usuario.username }}" maxlength="50" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Asunto">Asunto:</label>
+                                            <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                                            maxlength="40" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Mensaje">Mensaje:</label>
+                                            <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
+                                            required></textarea>
+                                        </div>
+                                        <button type="submit" id="enviar" onclick="clicked();" class="btn btn-green">Enviar</button>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
             </a>
         </p>
         <div class="clearfix"></div>
@@ -27,14 +63,22 @@
 		 <script>
 		 	$(document).ready(function(){
 		 		$(function(){
-		 			$('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
-		 			
+		 			var asunto = document.getElementById("asunto");
+                    var enviar = document.getElementById("enviar");
+                    var contenido = document.getElementById("mensaje");
+                    asunto.value = "Aceptación de Solicitud Membresia";
+                    contenido.value = "Su solicitud ha sido Aceptada, Bienvenido :)";
+
+                    function clicked () {
+                        enviar.submit();
+                        $('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
+                    }
+
+
 		 			function accionMembresiaA(){
 		 				console.log('hizo click en Aceptar');
 		 				$.ajax({
 		 					data : {
-		 						'usuarioreceptor' : {{miembro.fk_usuario_id}},
-                                'usuarioemisor' : {{usuario.id}},
 		 						'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 1,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
@@ -72,14 +116,21 @@
 		 	});
 
 		 	$(document).ready(function(){
-		 		$('#Rechazar{{miembro.id_membresia}}').click(accionMembresiaR);
-		 			
+		 		var asunto = document.getElementById("asunto");
+                var contenido = document.getElementById("mensaje");
+                var enviar = document.getElementById("enviar");
+                asunto.value = "Rechazo de Solicitud Membresia";
+                contenido.value = "Su solicitud ha sido rechazada por los siguientes motivos: -Completa el mensaje por favor :D-";
+
+                function clicked () {
+                        enviar.submit();
+                        $('#Aceptar{{miembro.id_membresia}}').click(accionMembresiaA);
+                    }
+                $('#Rechazar{{miembro.id_membresia}}').click(accionMembresiaR);
 		 			function accionMembresiaR(){
 		 				console.log('hizo click en Rechazar');
-		 				$.ajax({
+                        $.ajax({
 		 					data : {
-                                'usuarioreceptor' : {{miembro.fk_usuario_id}},
-                                'usuarioemisor' : {{usuario.id}},
                                 'membresia' : {{miembro.id_membresia}},
 		 						'accion' : 0,
 		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
