@@ -281,6 +281,7 @@
                 <div class="col-md-8">
                     <input required type="text" class="form-control" id="cargo" name="cargo"
                            data-toggle="popover" data-placement="left" data-trigger="focus"
+                           onkeypress="return validarLetras(event);"
                            data-original-title="Cargo" maxlength="45"
                            value="{{ membresia.cargo }}">
                 </div>
@@ -292,6 +293,7 @@
                 <div class="col-md-8">
                     <input required type="text" class="form-control" id="descripcion-cargo" name="descripcion-cargo"
                            data-toggle="popover" data-placement="left" data-trigger="focus"
+                           onkeypress="return validarLetras(event);"
                            data-original-title="Descripcion del Cargo" maxlength="45"
                            value="{{ membresia.descripcion_cargo }}">
                 </div>
