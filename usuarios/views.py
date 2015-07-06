@@ -517,11 +517,12 @@ Descripción: Esta funcion edita la contraseña del usuario y la actualiza en la
 
 def editarContrasena(request):
 	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
+	usuarioSession = Perfil.objects.get(id=session)
 	args = {}
 
-	if usuario is not None:
-		args['usuario'] = usuario
+	
+	if usuarioSession is not None:
+		args['usuario'] = usuarioSession
 	else:
 		args['error'] = "Error al cargar los datos"
 
@@ -530,19 +531,32 @@ def editarContrasena(request):
 		contrasenaNueva = request.POST['password1']
 		contrasenaRepetida = request.POST['password2']
 
-		print "usuario: ",usuario
+		print "usuario: ",usuarioSession
 		print "contrasenaNueva: ",contrasenaNueva
 		print "contrasenaRepetida: ",contrasenaRepetida
 
 		
-		autentificacion = auth.authenticate(username=usuario, password=contrasenaActual)
-		if autentificacion is not None:
+		usuario = auth.authenticate(username=usuarioSession, password=contrasenaActual)
+		if usuario is not None:
 			print "Entro autentificacion: "
 			if contrasenaNueva == contrasenaRepetida:
 				perfil = usuario
 				perfil.set_password(contrasenaNueva)
 				perfil.save()
-				return HttpResponseRedirect('/perfilUsuario/')
+				
+				if request.POST.has_key('remember_me'): #Error 10, usar palabras en español
+						request.session.set_expiry(1209600)  # 2 weeks
+				auth.login(request, usuario)
+				request.session['id_usuario'] = usuario.id
+				request.session['es_admin'] = False
+				print usuario.id
+				print request.session['id_usuario']
+				
+				args['es_admin']=request.session['es_admin']
+				args.update(csrf(request))
+				mensaje = "La contraseña se cambio exitosamente"
+				args['mensaje'] = mensaje
+				return render_to_response('Usuario_Edit_Password.html', args)
 			else:
 				print "Contraseña diferente: "
 				return HttpResponseRedirect('/editarContrasena/')
@@ -551,6 +565,7 @@ def editarContrasena(request):
 			return HttpResponseRedirect('/editarContrasena/')
 	else:
 		user = request.user
+
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
 		print args
