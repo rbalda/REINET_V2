@@ -123,8 +123,12 @@ redInn.controller('MensajesControllers',['$scope','$dragon','$rootScope',functio
     };
 
     var usuarioName = function(){
-        var temp = angular.element('#usuario').children();
-        return temp[0].text.replace(/\n/g,'').replace(/ /g,'');
+        try {
+            var temp = angular.element('#usuario').children();
+            return temp[0].text.replace(/\n/g, '').replace(/ /g, '');
+        } catch(e){
+
+        }
     };
 
     var obtenerNuevoMensaje = function(){
@@ -199,8 +203,12 @@ redInn.controller('NotificacionControllers',['$scope','$dragon','$rootScope',fun
     };
 
     var usuarioName = function(){
-        var temp = angular.element('#usuario').children();
-        return temp[0].text.replace(/\n/g,'').replace(/ /g,'');
+        try {
+            var temp = angular.element('#usuario').children();
+            return temp[0].text.replace(/\n/g, '').replace(/ /g, '');
+        } catch(e){
+
+        }
     };
 
     $dragon.onReady(
