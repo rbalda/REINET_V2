@@ -2,6 +2,15 @@ from django.test import TestCase
 from django.test import Client
 from models import *
 # Create your tests here.
+
+class testPerfilOtroUsuario(TestCase):
+    def test_otro_usuario(self):
+        c = Client()
+        response = c.get('/usuario/',{"username":"dlaaz"})
+        response.status_code
+
+
+
 class registroTest(TestCase):
 
 
