@@ -5,39 +5,33 @@
 #Descripción: Archivo donde se registran las vistas que atenderan la logica del modulo.
 #Notas/Pendientes: Validar que las variables que se obtienen de las sesiones no sean nulas antes de usarlas.
 
+import random
+import string
+
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
-from django.template import RequestContext,Context, Template
+from django.template import RequestContext
 from django.core.context_processors import csrf
-from django.core.urlresolvers import reverse
 from django.contrib import auth
-from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.conf import settings
-
 from django.contrib.auth.decorators import login_required
-import datetime, random, string, socket
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from ipware.ip import *
 from rest_framework.views import APIView
-from .models import *
-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
-
-from django.contrib.auth.forms import UserCreationForm
-from django.core.mail import EmailMessage, EmailMultiAlternatives
-from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 
-import json
+from .models import *
+from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
+
+
 """
 Autor: Pedro Iñiguez
 Nombre de función:  registro_institucion
