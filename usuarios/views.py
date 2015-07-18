@@ -749,6 +749,8 @@ def inicio(request):
 			#Si es administrador de alguna institucion o tiene una peticion pendiente.
 			if membresia.es_administrator or peticion_pendiente==0:
 				request.session['es_admin'] = True
+				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+				request.session['institucion_nombre']=institucion.nombre
 			else:
 				request.session['es_admin'] = False
 		else:
@@ -1422,37 +1424,40 @@ UltimaModificacion: Fausto Mora - 4/7/15
 
 @login_required
 def ver_bandeja_entrada_institucion(request):
-	sesion = request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
+	if request.session['es_admin']:
+		sesion = request.session['id_usuario']
+		usuario=User.objects.get(id=sesion)
 
-	
-	mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
-	print mensajes
-	mensajes = mensajes.order_by('-fecha_de_envio')
-	paginacion = Paginator(mensajes, 5)
+		
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
+		print mensajes
+		mensajes = mensajes.order_by('-fecha_de_envio')
+		paginacion = Paginator(mensajes, 5)
 
-	try:
-		page=int(request.GET.get('page', '1'))
-	except ValueError:
-		page=1
+		try:
+			page=int(request.GET.get('page', '1'))
+		except ValueError:
+			page=1
 
-	try:
-		msjs = paginacion.page(page)
-	except (EmptyPage, InvalidPage):
-		msjs = paginacion.page(paginacion.num_pages)
+		try:
+			msjs = paginacion.page(page)
+		except (EmptyPage, InvalidPage):
+			msjs = paginacion.page(paginacion.num_pages)
 
-	args={}
-	args['usuario'] = usuario
-	args['mensajes'] = mensajes
-	args['msjs'] = msjs
-	args['range']=range(len(mensajes))
-	args['es_admin']=request.session['es_admin']
-	args['institucion_nombre'] = request.session['institucion_nombre']
-	args.update(csrf(request))
+		args={}
+		args['usuario'] = usuario
+		args['mensajes'] = mensajes
+		args['msjs'] = msjs
+		args['range']=range(len(mensajes))
+		args['es_admin']=request.session['es_admin']
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args.update(csrf(request))
 
-	for m in mensajes:
-		print m.imgEm
-	return render_to_response('bandeja_de_entrada_institucion.html',args)
+		for m in mensajes:
+			print m.imgEm
+		return render_to_response('bandeja_de_entrada_institucion.html',args)
+	else:
+		return redirect('/')
 
 
 """
@@ -1540,70 +1545,73 @@ UltimaModificacion: Fausto Mora - 4/7/15
 
 @login_required
 def enviarMensajeInstitucion(request):
-	print 'dentro de enviar mensaje institucion'
-	sesion=request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
-	args = {}
-	if request.method=='POST':
-		print "envio de mensajes desde institucion"
-		destinatario = request.POST['destinatario']
-		asunto = request.POST['asunto']
-		texto_mensaje = request.POST['mensaje']
-		emisor=User.objects.get(id=sesion)
-		print destinatario
-		print emisor
-		print texto_mensaje
+	if request.session['es_admin']:
+		print 'dentro de enviar mensaje institucion'
+		sesion=request.session['id_usuario']
+		usuario=User.objects.get(id=sesion)
+		args = {}
+		if request.method=='POST':
+			print "envio de mensajes desde institucion"
+			destinatario = request.POST['destinatario']
+			asunto = request.POST['asunto']
+			texto_mensaje = request.POST['mensaje']
+			emisor=User.objects.get(id=sesion)
+			print destinatario
+			print emisor
+			print texto_mensaje
 
-		if destinatario == emisor:
-			args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
+			if destinatario == emisor:
+				args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
+			else:
+
+				# averiguamos quien es el destinatario.... si es inst o usuario
+				print 'averiguaremos el destinatario'
+				try:
+					print 'sera usuario?'
+					receptor_aux = User.objects.get(username=destinatario)
+					receptor=receptor_aux
+					print receptor_aux
+					tipo_mensaje = 'institucion-usuario'
+				except User.DoesNotExist:
+					print 'No es usuario'
+					print 'sera institucion?'
+					receptor_aux = Institucion.objects.get(siglas=destinatario)
+					membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+					receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+					print receptor_aux
+					tipo_mensaje = 'institucion-institucion'
+				except Institucion.DoesNotExist:
+					print 'No es institucion'
+					print 'hay un grave error aqui'
+
+				try:
+
+					if receptor is not None:
+						mensajes = Mensaje()
+						mensajes.fk_emisor = emisor
+						mensajes.fk_receptor = receptor
+						mensajes.asunto = asunto
+						mensajes.tipo_mensaje = tipo_mensaje
+						mensajes.mensaje= texto_mensaje
+						mensajes.fecha_de_envio=datetime.datetime.now()
+						mensajes.save()
+						return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
+					else:
+						print "usuariou invalido1"
+						return HttpResponseRedirect('/enviarMensajeInstitucion/')
+				except Exception as e:
+					print "erro al guardar mensaje"
+					print e
+					return HttpResponseRedirect('/NotFound/')
 		else:
-
-			# averiguamos quien es el destinatario.... si es inst o usuario
-			print 'averiguaremos el destinatario'
-			try:
-				print 'sera usuario?'
-				receptor_aux = User.objects.get(username=destinatario)
-				receptor=receptor_aux
-				print receptor_aux
-				tipo_mensaje = 'institucion-usuario'
-			except User.DoesNotExist:
-				print 'No es usuario'
-				print 'sera institucion?'
-				receptor_aux = Institucion.objects.get(siglas=destinatario)
-				membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
-				receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
-				print receptor_aux
-				tipo_mensaje = 'institucion-institucion'
-			except Institucion.DoesNotExist:
-				print 'No es institucion'
-				print 'hay un grave error aqui'
-
-			try:
-
-				if receptor is not None:
-					mensajes = Mensaje()
-					mensajes.fk_emisor = emisor
-					mensajes.fk_receptor = receptor
-					mensajes.asunto = asunto
-					mensajes.tipo_mensaje = tipo_mensaje
-					mensajes.mensaje= texto_mensaje
-					mensajes.fecha_de_envio=datetime.datetime.now()
-					mensajes.save()
-					return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
-				else:
-					print "usuariou invalido1"
-					return HttpResponseRedirect('/enviarMensajeInstitucion/')
-			except Exception as e:
-				print "erro al guardar mensaje"
-				print e
-				return HttpResponseRedirect('/NotFound/')
+			print "porque D: esto es GET"
+			args['usuario']=usuario
+			args['es_admin']=request.session['es_admin']
+			args['institucion_nombre'] = request.session['institucion_nombre']
+			args.update(csrf(request))
+			return render(request,'enviar_mensaje_institucion.html',args)
 	else:
-		print "porque D: esto es GET"
-		args['usuario']=usuario
-		args['es_admin']=request.session['es_admin']
-		args['institucion_nombre'] = request.session['institucion_nombre']
-		args.update(csrf(request))
-		return render(request,'enviar_mensaje_institucion.html',args)
+		return redirect('/')
 
 
 """
@@ -1686,31 +1694,32 @@ detalladamente desde el buzon de administrador de institucion
 
 @login_required
 def verMensajeInstitucion(request):
-	sesion=request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
-	args = {}
-	#try:
-	idM = int(request.GET.get('q', ''))
-	msj=Mensaje.objects.get(id_mensaje = idM)
-	print "mensaje",msj.id_mensaje
-	print msj.leido
-	msj.leido = True
-	msj.save()
-	print msj.leido
-	usuario_emisor=msj.fk_emisor
-	emisor = Perfil.objects.get(username= usuario_emisor.username)
-	receptor = Perfil.objects.get(username = usuario.username)
-	args['msj']=msj
-	args['usuario_emisor'] = usuario_emisor
-	args['emisor']=emisor
-	args['receptor']=receptor
-	args['usuario']=usuario
-	args['es_admin']=request.session['es_admin']
-	args['institucion_nombre'] = request.session['institucion_nombre']
-	args.update(csrf(request))
-	return render_to_response('ver_mensaje_institucion.html',args)
-	#except:
-	#	return HttpResponseRedirect("/BandejaDeEntradaInstitucion/")
+	if request.session['es_admin']:
+		sesion=request.session['id_usuario']
+		usuario=User.objects.get(id=sesion)
+		args = {}
+		#try:
+		idM = int(request.GET.get('q', ''))
+		msj=Mensaje.objects.get(id_mensaje = idM)
+		print "mensaje",msj.id_mensaje
+		print msj.leido
+		msj.leido = True
+		msj.save()
+		print msj.leido
+		usuario_emisor=msj.fk_emisor
+		emisor = Perfil.objects.get(username= usuario_emisor.username)
+		receptor = Perfil.objects.get(username = usuario.username)
+		args['msj']=msj
+		args['usuario_emisor'] = usuario_emisor
+		args['emisor']=emisor
+		args['receptor']=receptor
+		args['usuario']=usuario
+		args['es_admin']=request.session['es_admin']
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args.update(csrf(request))
+		return render_to_response('ver_mensaje_institucion.html',args)
+	else:
+		return redirect('/')	
 
 """
 Autor: Fausto Mora
@@ -1723,31 +1732,34 @@ detalladamente desde el buzon de administrador de institucion
 
 @login_required
 def verMensajeEnviadoInstitucion(request):
-	sesion=request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
-	args = {}
-	try:
-		idM = int(request.GET.get('q', ''))
-		msj=Mensaje.objects.get(id_mensaje = idM)
-		print "mensaje",msj.id_mensaje
-		print msj.leido
-		msj.leido = True
-		msj.save()
-		print msj.leido
-		usuario_receptor=msj.fk_receptor
-		receptor = Perfil.objects.get(username= usuario_receptor.username)
-		emisor = Perfil.objects.get(username = usuario.username)
-		args['msj']=msj
-		args['usuario_receptor'] = usuario_receptor
-		args['emisor']=emisor
-		args['receptor']=receptor
-		args['usuario']=usuario
-		args['es_admin']=request.session['es_admin']
-		args['institucion_nombre'] = request.session['institucion_nombre']
-		args.update(csrf(request))
-		return render_to_response('ver_mensaje_enviado_institucion.html',args)
-	except:
-		return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
+	if request.session['es_admin']:
+		sesion=request.session['id_usuario']
+		usuario=User.objects.get(id=sesion)
+		args = {}
+		try:
+			idM = int(request.GET.get('q', ''))
+			msj=Mensaje.objects.get(id_mensaje = idM)
+			print "mensaje",msj.id_mensaje
+			print msj.leido
+			msj.leido = True
+			msj.save()
+			print msj.leido
+			usuario_receptor=msj.fk_receptor
+			receptor = Perfil.objects.get(username= usuario_receptor.username)
+			emisor = Perfil.objects.get(username = usuario.username)
+			args['msj']=msj
+			args['usuario_receptor'] = usuario_receptor
+			args['emisor']=emisor
+			args['receptor']=receptor
+			args['usuario']=usuario
+			args['es_admin']=request.session['es_admin']
+			args['institucion_nombre'] = request.session['institucion_nombre']
+			args.update(csrf(request))
+			return render_to_response('ver_mensaje_enviado_institucion.html',args)
+		except:
+			return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
+	else:
+		return redirect('/')
 
 """
 Autor: Ray Montiel
@@ -1798,32 +1810,35 @@ enviados a otros usuarios
 
 @login_required
 def mensajesEnviadosInstitucion(request):
-	sesion = request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
+	if request.session['es_admin']:
+		sesion = request.session['id_usuario']
+		usuario=User.objects.get(id=sesion)
 
 
-	mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
-	print mensajes
-	mensajes = mensajes.order_by('-fecha_de_envio')
-	paginacion = Paginator(mensajes, 5)
-	try:
-		page=int(request.GET.get('page', '1'))
-	except ValueError:
-		page=1
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
+		print mensajes
+		mensajes = mensajes.order_by('-fecha_de_envio')
+		paginacion = Paginator(mensajes, 5)
+		try:
+			page=int(request.GET.get('page', '1'))
+		except ValueError:
+			page=1
 
-	try:
-		msjs = paginacion.page(page)
-	except (EmptyPage, InvalidPage):
-		msjs = paginacion.page(paginacion.num_pages)
+		try:
+			msjs = paginacion.page(page)
+		except (EmptyPage, InvalidPage):
+			msjs = paginacion.page(paginacion.num_pages)
 
-	args={}
-	args['usuario']=usuario
-	args['msjs']=msjs
-	args['mensajes']=mensajes
-	args['es_admin']=request.session['es_admin']
-	args['institucion_nombre'] = request.session['institucion_nombre']
-	args.update(csrf(request))
-	return render_to_response('mensajes_enviados_institucion.html',args)
+		args={}
+		args['usuario']=usuario
+		args['msjs']=msjs
+		args['mensajes']=mensajes
+		args['es_admin']=request.session['es_admin']
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args.update(csrf(request))
+		return render_to_response('mensajes_enviados_institucion.html',args)
+	else:
+		return redirect('/')
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon
