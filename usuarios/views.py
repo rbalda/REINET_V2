@@ -504,39 +504,31 @@ def cerrarSesion(request):
 
 """
 Autor: Jose Velez
-Nombre de función: editarContrasena
+Nombre de función: editar_contrasena
 Parámetros:request
 Salida: Redirecciona al perfil de usuario
 Descripción: Esta funcion edita la contraseña del usuario y la actualiza en la bases de datos
 """
 
-def editarContrasena(request):
+def editar_contrasena(request):
 	session = request.session['id_usuario']
-	usuarioSession = Perfil.objects.get(id=session)
+	session_usuario = Perfil.objects.get(id=session)
 	args = {}
 
-	
-	if usuarioSession is not None:
-		args['usuario'] = usuarioSession
+	if session_usuario is not None:
+		args['usuario'] = session_usuario
 	else:
 		args['error'] = "Error al cargar los datos"
 
 	if request.method == 'POST':
-		contrasenaActual = request.POST['passwordActual']
-		contrasenaNueva = request.POST['password1']
-		contrasenaRepetida = request.POST['password2']
-
-		print "usuario: ",usuarioSession
-		print "contrasenaNueva: ",contrasenaNueva
-		print "contrasenaRepetida: ",contrasenaRepetida
-
-		
-		usuario = auth.authenticate(username=usuarioSession, password=contrasenaActual)
+		contrasena_actual = request.POST['passwordActual']
+		contrasena_nueva = request.POST['password1']
+		contrasena_repetida = request.POST['password2']
+		usuario = auth.authenticate(username=session_usuario, password=contrasena_actual)
 		if usuario is not None:
-			print "Entro autentificacion: "
-			if contrasenaNueva == contrasenaRepetida:
+			if contrasena_nueva == contrasena_repetida:
 				perfil = usuario
-				perfil.set_password(contrasenaNueva)
+				perfil.set_password(contrasena_nueva)
 				perfil.save()
 				
 				if request.POST.has_key('remember_me'): #Error 10, usar palabras en español
@@ -544,36 +536,27 @@ def editarContrasena(request):
 				auth.login(request, usuario)
 				request.session['id_usuario'] = usuario.id
 				request.session['es_admin'] = False
-				print usuario.id
-				print request.session['id_usuario']
-				
 				args['es_admin']=request.session['es_admin']
 				args.update(csrf(request))
 				mensaje = "La contraseña se cambio exitosamente"
 				args['mensaje'] = mensaje
-				return render_to_response('Usuario_Edit_Password.html', args)
+				return render_to_response('editar_contrasena_usuario.html', args)
 			else:
-				print "Contraseña diferente: "
-				return HttpResponseRedirect('/editarContrasena/')
+				return HttpResponseRedirect('/editar_contrasena/')
 		else:
-			print "NO Entro autentificacion: "
-			return HttpResponseRedirect('/editarContrasena/')
+			return HttpResponseRedirect('/editar_contrasena/')
 	else:
 		user = request.user
 
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
-		print args
-		return render_to_response('Usuario_Edit_Password.html', args)
-
-
-
+		return render_to_response('editar_contrasena_usuario.html', args)
 
 
 """
 Autor: Leonel Ramirez - jose Velez
 Nombre de funcion: verificar_contrasena
-Entrada: request GET o POST
+Parámetros: request GET o POST
 Salida: Formulario de generarCodigo
 Descripción: Genera un codigo para  verificar que la contraseña 
 """
@@ -581,20 +564,14 @@ Descripción: Genera un codigo para  verificar que la contraseña
 def verificar_contrasena(request):  
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
-	print "Usuario-contrasena: ",usuario
-
-
 	if request.method == "POST":
-		contrasena = request.POST['passwordActual'] 
-		print "contrasena: ",contrasena
+		contrasena = request.POST['passwordActual']
 		autentificacion = auth.authenticate(username=usuario, password=contrasena)
 		
 		if autentificacion is not None:
-			print "Valido"
 			return HttpResponse("valido")
 		else:
 			return HttpResponse("invalido")
-			print "inValido"
 	return HttpResponse("no es post")
 
 
