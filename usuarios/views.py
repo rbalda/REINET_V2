@@ -582,11 +582,12 @@ Nombre de función: editar_usuario
 Parámetros:request
 Salida: Redirecciona al perfil de usuario
 Descripción: Esta funcion edita la informacion del usuario y la actualiza en la bases de datos
+la opcion privacidad sirve para ocultar datos que no quieres que se muestre a otros usuarios
 """
 
 @login_required
-def editar_usuario(request):
-	idFoto = 1
+def editar_perfil_usuario(request):
+	ID_FOTO = 1
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	membresia = Membresia.objects.filter(fk_usuario_id=session,estado=1).last()
@@ -599,56 +600,36 @@ def editar_usuario(request):
 		args['error'] = "Error al cargar los datos"
 
 	if request.method == 'POST':
-		#print request.POST
 		nombres = request.POST['nombres'] 
 		apellidos = request.POST['apellidos']
-		#cedula=request.POST['cedula']
-		#cargo=request.POST['cargo']
 		telefono = request.POST['telefono']
-		#actividad=request.POST['actividad']
 		website = request.POST['website']
 		email = request.POST['email']
 		try:
 			foto = request.FILES['imagen']
 		except:
-			idFoto = 0 #ID para no guardar foto de noPicture
+			ID_FOTO = 0 #ID para no guardar foto de noPicture
 			foto = "../../media/noPicture.png"
 		 #Explicar como funciona el array de privacidad.
 		try:
-			#privacidadNom=request.POST['PrivacidadNombre']
-			#privacidadApe=request.POST['PrivacidadApellido']
 			privacidadCed = request.POST['PrivacidadCedula']
 			privacidadTel = request.POST['PrivacidadTelefono']
 			privacidadWeb = request.POST['PrivacidadWeb']
 			privacidadMai = request.POST['PrivacidadMail']
-			#if privacidadWeb=="1" and privacidadMai=="1":
-			#	privacidadWeb='3'
-			#elif privacidadWeb=="0" and privacidadMai=="1":
-			#	privacidadWeb='2'
-			#privacidad=privacidadNom+privacidadApe+privacidadCed+privacidadTel+privacidadWeb
 			privacidad = privacidadCed + privacidadTel + privacidadWeb + privacidadMai
 
 		except:
 			privacidad = 1111
 
-		print foto
 		perfil = usuario
 		perfil.first_name = nombres
 		perfil.last_name = apellidos
-		#perfil.cedula=cedula
-		#perfil.cargo=cargo
-		#perfil.actividad=actividad
 		perfil.web = website
 		perfil.email = email
-		#perfil.ciudad=ciudad
-		#perfil.fechaNacimiento=fechaNacimiento
-		#perfil.areasInteres=areasInteres
 		perfil.fecharegistro = datetime.datetime.now()
 		perfil.telefono = telefono
-		#ubicacion=Ubicacion.objects.get(idubicacion=1)
-		#perfil.fkubicacion=ubicacion
 		perfil.privacidad = privacidad
-		if idFoto != 0:
+		if ID_FOTO != 0:
 			perfil.foto = foto
 		perfil.save()
 		
@@ -663,8 +644,7 @@ def editar_usuario(request):
 		user = request.user
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
-		print args
-		return render_to_response('Usuario_Edit-Profile.html', args)
+		return render_to_response('editar_perfil_usuario.html', args)
 
 
 """
@@ -960,7 +940,7 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 		args['error'] = error
 		args['usuario'] = usuario
 		args.update(csrf(request))
-		return render(request, 'Usuario_Edit-Profile.html', args)
+		return render(request, 'editar_perfil_usuario.html', args)
 
 
 
