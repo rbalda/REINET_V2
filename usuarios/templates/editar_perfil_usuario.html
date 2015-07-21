@@ -6,79 +6,6 @@
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
-    <script type="text/javascript">
-        /*
-         Autor: Leonel Ramirez
-         Nombre de función: validarNumero
-         Parámetros: evento
-         Salida: permite el ingreso de solo numeros
-         Descripción: no permite la entrada de letras
-         */
-        function validarNumero(evt) {
-            var code = (evt.which) ? evt.which : evt.keyCode;
-            if (code == 8) {
-                //backspace
-                return true;
-            }
-            else if (code >= 48 && code <= 57) {
-                //is a number
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        /*
-         Autor: Leonel Ramirez
-         Nombre de función: validarLetra
-         Parámetros: evento
-         Salida: permite el ingreso de solo letras
-         Descripción: no permite la entrada de numeros
-         */
-        function validarLetras(e) {
-            key = e.keyCode || e.which;
-            tecla = String.fromCharCode(key).toLowerCase();
-            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
-            especiales = "8-37-39-46";
-            tecla_especial = false
-            for (var i in especiales) {
-                if (key == especiales[i]) {
-                    tecla_especial = true;
-                    break;
-                }
-            }
-            if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                return false;
-            }
-        }
-        /*
-         Autor: Leonel Ramirez
-         Nombre de función: validarUrl
-         Parámetros: evento
-         Salida: ingresa automaticamente el http
-         Descripción: salida del http al escribir una url
-         */
-        function validarURL(abc) {
-            var string = abc.value;
-            if (!~string.indexOf("http")) {
-                string = "http://" + string;
-            }
-            abc.value = string;
-            return abc
-        }
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#blah')
-                            .attr('src', e.target.result)
-                            .width(200)
-                            .height(200);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
 
     <div class="section-header">
         <div class="container">
@@ -144,7 +71,7 @@
     <div class="signup col-md-9">
         <h3 class="hl top-zero">Editar Usuario</h3>
         <hr>
-        <form role="form" action="/editar_usuario/" method="post" enctype="multipart/form-data"
+        <form role="form" action="/EditarUsuario/" method="post" enctype="multipart/form-data"
               class="form-horizontal col-md-12">{% csrf_token %}
             <!--NOMBRES-->
             <div class="form-group">
@@ -397,6 +324,8 @@
                                     });
                                 });
                             </script>
+
+
                             <script>
                                 function archivo(evt) {
                                     var files = evt.target.files; // FileList object
@@ -421,6 +350,89 @@
                                 document.getElementById('files').addEventListener('change', archivo, false);
                             </script>
 
+                            <script type="text/javascript">
+
+
+                                    /*
+                                     Autor: Leonel Ramirez
+                                     Nombre de función: validarNumero
+                                     Parámetros: evento
+                                     Salida: permite el ingreso de solo numeros
+                                     Descripción: no permite la entrada de letras
+                                     */
+                                    function validarNumero(evt) {
+                                        var code = (evt.which) ? evt.which : evt.keyCode;
+                                        if (code == 8) {
+                                            //backspace
+                                            return true;
+                                        }
+                                        else if (code >= 48 && code <= 57) {
+                                            //is a number
+                                            return true;
+                                        }
+                                        else {
+                                            return false;
+                                        }
+                                    }
+
+
+                                    /*
+                                     Autor: Leonel Ramirez
+                                     Nombre de función: validarLetra
+                                     Parámetros: evento
+                                     Salida: permite el ingreso de solo letras
+                                     Descripción: no permite la entrada de numeros
+                                     */
+                                    function validarLetras(e) {
+                                        key = e.keyCode || e.which;
+                                        tecla = String.fromCharCode(key).toLowerCase();
+                                        letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+                                        especiales = "8-37-39-46";
+                                        tecla_especial = false
+                                        for (var i in especiales) {
+                                            if (key == especiales[i]) {
+                                                tecla_especial = true;
+                                                break;
+                                            }
+                                        }
+                                        if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                                            return false;
+                                        }
+                                    }
+
+
+                                    /*
+                                     Autor: Leonel Ramirez
+                                     Nombre de función: validarUrl
+                                     Parámetros: evento
+                                     Salida: ingresa automaticamente el http
+                                     Descripción: salida del http al escribir una url
+                                     */
+                                    function validarURL(abc) {
+                                        var string = abc.value;
+                                        if (!~string.indexOf("http")) {
+                                            string = "http://" + string;
+                                        }
+                                        abc.value = string;
+                                        return abc
+                                    }
+
+
+                                    function readURL(input) {
+                                        if (input.files && input.files[0]) {
+                                            var reader = new FileReader();
+                                            reader.onload = function (e) {
+                                                $('#blah')
+                                                        .attr('src', e.target.result)
+                                                        .width(200)
+                                                        .height(200);
+                                            };
+                                            reader.readAsDataURL(input.files[0]);
+                                        }
+                                    }
+
+
+                                </script>
 
                         </form>
                     </div>

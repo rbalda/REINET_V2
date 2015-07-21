@@ -501,39 +501,31 @@ def cerrarSesion(request):
 
 """
 Autor: Jose Velez
-Nombre de función: editarContrasena
+Nombre de función: editar_contrasena
 Parámetros:request
 Salida: Redirecciona al perfil de usuario
 Descripción: Esta funcion edita la contraseña del usuario y la actualiza en la bases de datos
 """
 
-def editarContrasena(request):
+def editar_contrasena(request):
 	session = request.session['id_usuario']
-	usuarioSession = Perfil.objects.get(id=session)
+	session_usuario = Perfil.objects.get(id=session)
 	args = {}
 
-	
-	if usuarioSession is not None:
-		args['usuario'] = usuarioSession
+	if session_usuario is not None:
+		args['usuario'] = session_usuario
 	else:
 		args['error'] = "Error al cargar los datos"
 
 	if request.method == 'POST':
-		contrasenaActual = request.POST['passwordActual']
-		contrasenaNueva = request.POST['password1']
-		contrasenaRepetida = request.POST['password2']
-
-		print "usuario: ",usuarioSession
-		print "contrasenaNueva: ",contrasenaNueva
-		print "contrasenaRepetida: ",contrasenaRepetida
-
-		
-		usuario = auth.authenticate(username=usuarioSession, password=contrasenaActual)
+		contrasena_actual = request.POST['passwordActual']
+		contrasena_nueva = request.POST['password1']
+		contrasena_repetida = request.POST['password2']
+		usuario = auth.authenticate(username=session_usuario, password=contrasena_actual)
 		if usuario is not None:
-			print "Entro autentificacion: "
-			if contrasenaNueva == contrasenaRepetida:
+			if contrasena_nueva == contrasena_repetida:
 				perfil = usuario
-				perfil.set_password(contrasenaNueva)
+				perfil.set_password(contrasena_nueva)
 				perfil.save()
 				
 				if request.POST.has_key('remember_me'): #Error 10, usar palabras en español
@@ -541,36 +533,27 @@ def editarContrasena(request):
 				auth.login(request, usuario)
 				request.session['id_usuario'] = usuario.id
 				request.session['es_admin'] = False
-				print usuario.id
-				print request.session['id_usuario']
-				
 				args['es_admin']=request.session['es_admin']
 				args.update(csrf(request))
 				mensaje = "La contraseña se cambio exitosamente"
 				args['mensaje'] = mensaje
-				return render_to_response('Usuario_Edit_Password.html', args)
+				return render_to_response('editar_contrasena_usuario.html', args)
 			else:
-				print "Contraseña diferente: "
-				return HttpResponseRedirect('/editarContrasena/')
+				return HttpResponseRedirect('/editar_contrasena/')
 		else:
-			print "NO Entro autentificacion: "
-			return HttpResponseRedirect('/editarContrasena/')
+			return HttpResponseRedirect('/editar_contrasena/')
 	else:
 		user = request.user
 
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
-		print args
-		return render_to_response('Usuario_Edit_Password.html', args)
-
-
-
+		return render_to_response('editar_contrasena_usuario.html', args)
 
 
 """
 Autor: Leonel Ramirez - jose Velez
 Nombre de funcion: verificar_contrasena
-Entrada: request GET o POST
+Parámetros: request GET o POST
 Salida: Formulario de generarCodigo
 Descripción: Genera un codigo para  verificar que la contraseña 
 """
@@ -578,20 +561,14 @@ Descripción: Genera un codigo para  verificar que la contraseña
 def verificar_contrasena(request):  
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
-	print "Usuario-contrasena: ",usuario
-
-
 	if request.method == "POST":
-		contrasena = request.POST['passwordActual'] 
-		print "contrasena: ",contrasena
+		contrasena = request.POST['passwordActual']
 		autentificacion = auth.authenticate(username=usuario, password=contrasena)
 		
 		if autentificacion is not None:
-			print "Valido"
 			return HttpResponse("valido")
 		else:
 			return HttpResponse("invalido")
-			print "inValido"
 	return HttpResponse("no es post")
 
 
@@ -602,11 +579,12 @@ Nombre de función: editar_usuario
 Parámetros:request
 Salida: Redirecciona al perfil de usuario
 Descripción: Esta funcion edita la informacion del usuario y la actualiza en la bases de datos
+la opcion privacidad sirve para ocultar datos que no quieres que se muestre a otros usuarios
 """
 
 @login_required
-def editar_usuario(request):
-	idFoto = 1
+def editar_perfil_usuario(request):
+	ID_FOTO = 1
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	membresia = Membresia.objects.filter(fk_usuario_id=session,estado=1).last()
@@ -619,56 +597,36 @@ def editar_usuario(request):
 		args['error'] = "Error al cargar los datos"
 
 	if request.method == 'POST':
-		#print request.POST
 		nombres = request.POST['nombres'] 
 		apellidos = request.POST['apellidos']
-		#cedula=request.POST['cedula']
-		#cargo=request.POST['cargo']
 		telefono = request.POST['telefono']
-		#actividad=request.POST['actividad']
 		website = request.POST['website']
 		email = request.POST['email']
 		try:
 			foto = request.FILES['imagen']
 		except:
-			idFoto = 0 #ID para no guardar foto de noPicture
+			ID_FOTO = 0 #ID para no guardar foto de noPicture
 			foto = "../../media/noPicture.png"
 		 #Explicar como funciona el array de privacidad.
 		try:
-			#privacidadNom=request.POST['PrivacidadNombre']
-			#privacidadApe=request.POST['PrivacidadApellido']
 			privacidadCed = request.POST['PrivacidadCedula']
 			privacidadTel = request.POST['PrivacidadTelefono']
 			privacidadWeb = request.POST['PrivacidadWeb']
 			privacidadMai = request.POST['PrivacidadMail']
-			#if privacidadWeb=="1" and privacidadMai=="1":
-			#	privacidadWeb='3'
-			#elif privacidadWeb=="0" and privacidadMai=="1":
-			#	privacidadWeb='2'
-			#privacidad=privacidadNom+privacidadApe+privacidadCed+privacidadTel+privacidadWeb
 			privacidad = privacidadCed + privacidadTel + privacidadWeb + privacidadMai
 
 		except:
 			privacidad = 1111
 
-		print foto
 		perfil = usuario
 		perfil.first_name = nombres
 		perfil.last_name = apellidos
-		#perfil.cedula=cedula
-		#perfil.cargo=cargo
-		#perfil.actividad=actividad
 		perfil.web = website
 		perfil.email = email
-		#perfil.ciudad=ciudad
-		#perfil.fechaNacimiento=fechaNacimiento
-		#perfil.areasInteres=areasInteres
 		perfil.fecharegistro = datetime.datetime.now()
 		perfil.telefono = telefono
-		#ubicacion=Ubicacion.objects.get(idubicacion=1)
-		#perfil.fkubicacion=ubicacion
 		perfil.privacidad = privacidad
-		if idFoto != 0:
+		if ID_FOTO != 0:
 			perfil.foto = foto
 		perfil.save()
 		
@@ -683,8 +641,7 @@ def editar_usuario(request):
 		user = request.user
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
-		print args
-		return render_to_response('Usuario_Edit-Profile.html', args)
+		return render_to_response('editar_perfil_usuario.html', args)
 
 
 """
@@ -980,7 +937,7 @@ def suspenderUsuario(request):  #Error 10, nombre inadecuado de la funcion
 		args['error'] = error
 		args['usuario'] = usuario
 		args.update(csrf(request))
-		return render(request, 'Usuario_Edit-Profile.html', args)
+		return render(request, 'editar_perfil_usuario.html', args)
 
 
 
