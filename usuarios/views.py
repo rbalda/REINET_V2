@@ -467,13 +467,10 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 					print 'session es_admin'
 					print user
 					print user.privacidad
+					
+					auth.login(request, usuario)
+					return HttpResponseRedirect('/inicioUsuario')
 
-					if user.privacidad<10000 :
-						auth.login(request, usuario)
-						return HttpResponseRedirect('/inicioUsuario')
-					else:
-						args.update(csrf(request))
-						return render(request,'recuperar_password.html',args)
 				else:
 					if user.estado == 0:
 						args['mensajeSuspendido']='Su usuario se encuentra suspendido. Contactar con el Administrador para más información'
@@ -1139,50 +1136,51 @@ def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
 		destinatario = request.POST['email_recuperacion']
 		args = {}
 		try:
-			usuario = Perfil.objects.get(email=destinatario)
+			usuario = User.objects.get(email=destinatario)
 			username = usuario.username.encode('utf-8', errors='ignore') #Error 10, usar palabras en español
 
-			priv_actual = usuario.privacidad
-			if(priv_actual<10000):
-				print 'este es la privacidad'
-				print priv_actual
-				priv_nueva = 10000+priv_actual
-				usuario.privacidad = priv_nueva
-				print priv_nueva
+			codigo = generarPasswordAleatorea()
+			link='http://localhost:8000/recuperarPassword/'+ codigo
+			# link cuando este en realease -  no se si funcionara - no estoy seguro del puerto tampoco
+			#link='http://201.183.227.87:13306/recuperarPassword/'
+			
+			if codigo:
+				peticion = Peticion()
+				peticion.nombre_institucion = 'tipo-recuperar-password'
+				peticion.codigo = codigo
+				peticion.usado = False
+				peticion.fk_usuario = usuario
+				peticion.save()
 
-			print username
-			password = generarPasswordAleatorea() #Error 10, usar palabras en español
-			print password
-			usuario.set_password(password) #Error 10, usar palabras en español
-			usuario.save()
+				if destinatario and usuario:
+					try:
+						html_content = "<p><h2>Hola... </h2><h4>Se te ha enviado este email para restablecer tu credencial de acceso a Reinet.</h4><br><h4> Tu nombre de Usuario es:</b> %s .Para resetear tu contraseña dale click al siguiente link: </h4><a href=%s>http://www.reinet.org/recuperarPassword/%s</a> <br><h4>Muchas gracias por usar nuestro sitio!</h4><br><h4>El equipo de Reinet</h4></p>" % (
+							username,link,codigo)
+						msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
+													 'REINET <from@server.com>', [destinatario])
+						msg.attach_alternative(html_content, 'text/html')
+						msg.send()
+						args['tipo'] = 'success'
+						args['mensaje'] = 'Mensaje enviado correctamente'
+						print args['mensaje']
+						args.update(csrf(request))
 
-			if destinatario and usuario:
-				try:
-					html_content = "<p><h2>Hola... Tus datos de acceso son:</h2><br><b>Nombre de Usuario:</b> %s <br><b>Contraseña:</b> %s <br><br><h4>Esta sera tu nueva credencial, se recomienda que la cambies apenas accedas a tu perfil... Gracias¡¡</h4></p>" % (
-						username, password)
-					msg = EmailMultiAlternatives('Credenciales de Acceso a Reinet', html_content,
-												 'REINET <from@server.com>', [destinatario])
-					msg.attach_alternative(html_content, 'text/html')
-					msg.send()
-					args['tipo'] = 'success'
-					args['mensaje'] = 'Mensaje enviado correctamente'
-					print args['mensaje']
-					args.update(csrf(request))
-
-				except:
-					args['tipo'] = 'error'
-					args['mensaje'] = 'Error de envio. Intentelo denuevo'
-					print args['mensaje']
-					args.update(csrf(request))
+					except:
+						args['tipo'] = 'error'
+						args['mensaje'] = 'Error de envio. Intentelo denuevo'
+						print args['mensaje']
+						args.update(csrf(request))
 
 			return render(request, 'sign-in.html', args)
-		except Perfil.DoesNotExist:
+
+		except User.DoesNotExist:
 			args['tipo'] = 'info'
 			args['mensaje'] = 'No existe usuario asociado a ese email'
 			print args['mensaje']
 			args.update(csrf(request))
 			return render(request, 'sign-in.html', args)
 	except:
+		print 'error'
 		return redirect('/')
 
 
@@ -1217,35 +1215,55 @@ Nombre de funcion: recuperarPassword
 Entrada: request POST
 Salida: Redireccion inicio usuario
 Descripción: Esta funcion permite el cambio de contraseña cuando se 
-recupera la contraseña desde un correo enviado por mail
+recupera la contraseña desde un correo enviado por mail, mediante redireccion
 """
 
-def recuperarPassword(request):
-	try:
-		usuario = Perfil.objects.get(id=request.session['id_usuario'])
-		args={}
-		if request.method == 'POST':
-			pass1 = request.POST['passwordSet1']
-			pass2 = request.POST['passwordSet2']
-			if pass1 == pass2:
-				usuario.set_password(pass1)
-				usuario.save()
+def recuperarPassword(request,codigo):
+	codigo_password = codigo
+	print codigo
+	if codigo_password:
+		try:
+			# usare la tabla peticion para crear el nexo con el usuario a la hora de cambiar contraseña
+			peticion = Peticion.objects.get(codigo=codigo_password)
+			# validacion de la tabla peticiones para poder resetear contraseña
+			if not peticion.usado and peticion.nombre_institucion == 'tipo-recuperar-password':
 
-				usuario = auth.authenticate(username=usuario.username, password=pass1)
-				auth.login(request, usuario)
-				request.session['id_usuario'] = usuario.id
+				usuario = User.objects.get(id=peticion.fk_usuario.id)
+				args={}
+				if request.method == 'POST':
+					pass1 = request.POST['passwordSet1']
+					pass2 = request.POST['passwordSet2']
+					if pass1 == pass2:
+						usuario.set_password(pass1)
+						usuario.save()
 
+						peticion.usado = True
+						peticion.save()
 
-				return HttpResponseRedirect('/inicioUsuario/')
+						usuario = auth.authenticate(username=usuario.username, password=pass1)
+						auth.login(request, usuario)
+						request.session['id_usuario'] = usuario.id
+						return HttpResponseRedirect('/inicioUsuario/')
+					else:
+						print 'pass no coincidieron'
+						return redirect('/NotFound/')
+
+				args['codigo']=codigo_password
+				args.update(csrf(request))
+				return render(request,'recuperar_password.html',args)
 			else:
-				args['error']='Contraseñas no coinciden'
+				print 'peticion usada o diferente peticion'
+				return redirect('/NotFound/')
 
-		args.update(csrf(request))
-		return render(request,'recuperar_password.html',args)
-	except:
-		print 'no existe usuario'
-		return redirect('/')
-
+		except Peticion.DoesNotExist:
+			print 'peticion no existe'
+			return redirect('/NotFound/')
+		except User.DoesNotExist:
+			print 'usuario no existe'
+			return redirect('/NotFound/')
+	else:
+		print 'codigo es nulo'
+		return redirect('/NotFound/')
 
 """
 Autor: Erika Narvaez

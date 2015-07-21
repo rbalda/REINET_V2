@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 
 		url(r'^cerrarSesion[/]?$','usuarios.views.cerrarSesion', name='cerrarSesion'),
 		url(r'^iniciarSesion[/]?$','usuarios.views.iniciarSesion', name='iniciarSesion'),
-        url(r'^recuperarPassword[/]?$','usuarios.views.recuperarPassword',name='recuperarPassword'),
+        url(r'^recuperarPassword/(?P<codigo>\w{0,50})[/]?$','usuarios.views.recuperarPassword',name='recuperarPassword'),
         url(r'^suspender_usuario[/]?$','usuarios.views.suspenderUsuario',name='suspenderUsuario'),
 		url(r'^perfilUsuario[/]?$','usuarios.views.perfilUsuario', name='perfilUsuario'),
         url(r'^suscribirAInstitucion/$','usuarios.views.suscribirAInstitucion', name='suscribirAInstitucion'),
