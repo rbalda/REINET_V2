@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li>
-                        <a href="/editarContrasena/">
+                        <a href="/EditarContrasena/">
                             <i class="sign fa fa-pencil" style="background-color:#ED9C28;color:white"></i> Cambiar Contrase&ntilde;a <i
                                 class="fa fa-chevron-right pull-right"></i>
                         </a>
@@ -268,8 +268,9 @@
                         <script>
                             $('#bsc').attr('class', 'panel-body collapse in');
                         </script>
-                        <div class="alert alert-danger">
-                            <p>{{ error }}</p>
+                        <div class="alert alert-warning alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong><p>{{ error }}</p></strong>
                         </div>
                     {% endif %}
 
@@ -281,7 +282,7 @@
 
                         <p class="text-muted">Ingresa contraseña para validar tu usuario</p>
 
-                        <form class="form-inline" role="form" action="/suspender_usuario/"
+                        <form class="form-inline" role="form" action="/suspenderUsuario/"
                               method="POST">{% csrf_token %}
                             <div class="form-group">
                                 <label class="sr-only" for="email-pwd">Suspension de Cuenta</label>
@@ -292,39 +293,43 @@
                             <!--
                              -->
 
-                            <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="popover"
-                                    data-placement="bottom" data-trigger="focus">Suspender
+                            <button id="btn_suspenderCuenta" type="button" class="btn btn-red" data-toggle="modal" data-placement="bottom" data-target="#suspender_Cuenta_Modal">Suspender
                             </button>
-                            <div id="popover_content_wrapper" style="display: none">
-                                <div>¿Est&aacute;s seguro de querer suspender tu cuenta en ReiNet?</div>
-                                <br>
-                                <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">
-                                    Confirmar
-                                </button>
-                            </div>
 
-                            <script>
-                                /*
-                                 Autor: Kevin Zambrano y Fausto Mora
-                                 Nombre de funcion: funciones anonimas
-                                 Entrada: eventos
-                                 Salida: http
-                                 Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
-                                 */
-                                $(document).ready(function () {
-                                    $('#btn_suspenderCuenta').attr('disabled', 'disabled');
-                                    $('#txt_password_ingresada').change(function () {
-                                        $('#btn_suspenderCuenta').removeAttr('disabled');
-                                    });
-                                    $('#btn_suspenderCuenta').popover({
-                                        html: true,
-                                        content: function () {
-                                            return $('#popover_content_wrapper').html();
-                                        }
-                                    });
-                                });
-                            </script>
+<!-- Modal window: Send an email -->
+<div class="modal fade" id="suspender_Cuenta_Modal" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <br/>
+                <br/>
+                
+                <p class="text-warning" align="justify"> Una vez enviada su solicitud de suspensi&oacute;n, su cuenta en Reinet se suspender&aacute; inmediatamente e indefinidamente. </p>
 
+                <p class="text-warning" align="left">Para volver a reactivarla deber&aacute; comunicarse con el administrador general de Reinet. </p>
+
+                <p> <strong><h5 class="text-danger">Est&aacute; seguro de querer suspender su cuenta en Reinet?</h5> </strong></p>
+                
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="modal-body">
+                    <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
+                    <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End of modal window -->
+</form>
+<script type="text/javascript" src="/static/js/verificar-password.js"></script>
+
+<!-- Fin de modal de suspender cuenta -->
 
                             <script>
                                 function archivo(evt) {
@@ -432,9 +437,7 @@
                                     }
 
 
-                                </script>
-
-                        </form>
+                                </script> 
                     </div>
                 </div>
             </div>

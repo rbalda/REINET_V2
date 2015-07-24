@@ -5,7 +5,7 @@
  bloquean la accion de ingreso
  Descripción: Compara que password 1 y 2 sean iguales, que cumpla el tamano
  entre 4 a 15 caracteres
- Nota: las funciones implementan con nombres de clases para poder generalizar 
+ Nota: las funciones se implementan con nombres de clases para poder generalizar 
  el script y que se pueda usar para otras validaciones similares
  * */
 
@@ -61,6 +61,27 @@ $(document).ready(function () {
 		}
 	}
 
+
+// parte especifica de suspender cuenta por el usuario
+
+/*
+ Autor: Kevin Zambrano y Fausto Mora
+ Nombre de funcion: funciones anonimas
+ Entrada: eventos
+ Salida: http
+ Descripción: genera un handler para los eventos en la interaccion con suspender cuenta usuario
+ */
+
+    $('#btn_suspenderCuenta').attr('disabled', 'disabled');
+    $('#txt_password_ingresada').keyup(function () {
+        $('#btn_suspenderCuenta').removeAttr('disabled');
+    });
+    $('#btn_suspenderCuenta').popover({
+        html: true,
+        content: function () {
+            return $('#popover_content_wrapper').html();
+        }
+    });
 
 
 // fin del script
