@@ -31,13 +31,8 @@ urlpatterns = patterns('',
     	url(r'^verificar_codigo[/]?$',verificarCodigo,name='institucion'),
     	url(r'^TerminosCondiciones[/]?$','usuarios.views.ver_terminos_condiciones', name='TerminosCondiciones'),
     	url(r'^inicioUsuario[/]?$','usuarios.views.inicio',name='inicioUsuario'),
-<<<<<<< HEAD
         url(r'^EditarUsuario[/]?$', 'usuarios.views.editar_perfil_usuario' ,name='index'),
-        url(r'^editarContrasena[/]?$', 'usuarios.views.editarContrasena' ,name='editarContrasena'),
-=======
-        url(r'^editar_usuario[/]?$', 'usuarios.views.editar_usuario' ,name='index'),
         url(r'^EditarContrasena[/]?$', 'usuarios.views.editar_contrasena' ,name='editar_contrasena'),
->>>>>>> f8f871c9a2c8273e1106b7798876a0f3d3dc38be
         url(r'^enviarEmailPassword[/]?$','usuarios.views.enviarEmailPassword',name='enviarEmailPassword'),
         url(r'^csrf_failure[/]?$', 'usuarios.views.csrf_failure', name='csrf_failure'),
         url(r'^editar_perfil_institucion[/]?$', 'usuarios.views.modificarPerfilInstitucion', name='editarPerfilInstitucion'),
