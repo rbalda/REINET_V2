@@ -707,13 +707,10 @@ def inicio(request):
 				request.session['institucion_nombre']=institucion.nombre
 			else:
 				request.session['es_admin'] = False
+				request.session['institucion_nombre']=None
 		else:
 			request.session['es_admin'] = False	
-
-		if(usuario.privacidad>=10000):
-			usuario.privacidad = abs(usuario.privacidad-10000)
-			usuario.save()
-			print usuario.privacidad
+			request.session['institucion_nombre']=None
 
 	else:
 
@@ -2006,7 +2003,7 @@ la suscripcion de un usuario a determinada institucion
 """
 
 def suscribirAInstitucion(request):
-	print 'aca dentro views'
+	print 'aca dentro suscribirAInstitucion'
 	if request.is_ajax():	
 		try:
 			institucion = Institucion.objects.get(id_institucion=request.POST['institucion'])
@@ -2014,6 +2011,8 @@ def suscribirAInstitucion(request):
 			print request.user
 			
 			solicitudMembresia = Membresia.objects.get(fk_institucion=institucion.id_institucion,fk_usuario=request.user.id)
+			print 'imprimiendo membresia'
+			print solicitudMembresia.id_membresia
 
 			if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
 				solicitudMembresia.cargo = request.POST['cargo']
@@ -2026,12 +2025,16 @@ def suscribirAInstitucion(request):
 				solicitudMembresia.save()
 				print 'se actualizo parece'
 				response = JsonResponse({'save_estado':True})	
+				print response
 				return HttpResponse(response.content)
 
 		except Institucion.DoesNotExist:
 			print 'institucion no existe'
+			response = JsonResponse({'save_estado':False})	
+			print response
+			return HttpResponse(response.content)
 		except Membresia.DoesNotExist:
-
+				print 'membresia no existe y se crea una'
 				solicitudMembresia = Membresia()
 				solicitudMembresia.es_administrator = False
 				solicitudMembresia.cargo = request.POST['cargo']
@@ -2046,8 +2049,10 @@ def suscribirAInstitucion(request):
 				solicitudMembresia.save()
 				print 'se guardo parece'
 				response = JsonResponse({'save_estado':True})	
+				print response
 				return HttpResponse(response.content)
 	else:
+		print 'no es un ajax - en suscribirAInstitucion'
 		return redirect('/')
 
 
@@ -2061,7 +2066,6 @@ la validar el estado de una suscripcion de un usuario
 """
 
 def verificarSuscripcion(request):
-	print 'dentro de la verificacion view'
 	if request.is_ajax():
 		try:
 			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
@@ -2070,7 +2074,6 @@ def verificarSuscripcion(request):
 			print solicitudMembresia
 			
 			if solicitudMembresia is not None:
-				print 'si existe membresia'
 				existeMembresia = True
 				estadoMembresia = solicitudMembresia.estado
 
@@ -2078,7 +2081,6 @@ def verificarSuscripcion(request):
 			return HttpResponse(response.content)
 		
 		except Membresia.DoesNotExist:
-			print 'no existe membresia'
 			existeMembresia = False
 			estadoMembresia = None
 
