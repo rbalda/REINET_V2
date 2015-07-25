@@ -193,13 +193,7 @@
                                         <td style="text-align:right">{% if usuario_otro.estado == 1 %} Activo {% else %}
                                             Inactivo{% endif %}</td>
                                     </tr>
-                                    {% if usuario_otro.privacidad|get_digit:2 == 1 %}
-                                    <tr>
-                                        <td class="text-muted">Website</td>
-                                        <td style="text-align:right;word-break: break-all;">{{ usuario_otro.web }}</td>
-                                    </tr>
-                                    {% endif %}
-
+                                    
 
                                     </tbody>
                                 </table>
@@ -239,6 +233,13 @@
                                 <td style="text-align:right">{{ usuario_otro.email }}</td>
                             </tr>
                         {% endif %}
+                        {% if usuario_otro.privacidad|get_digit:2 == 1 %}
+                                    <tr>
+                                        <td class="text-muted">Website</td>
+                                        <td style="text-align:right;">{{ usuario_otro.web }}</td>
+                                    </tr>
+                                    {% endif %}
+
                         
                         </tbody>
                     </table>
