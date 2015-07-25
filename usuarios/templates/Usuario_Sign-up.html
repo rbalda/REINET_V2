@@ -255,7 +255,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()" ng-required="true" ng-pattern="/([0-9]{10})$/">
+                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" ng-required="true" ng-pattern="/([0-9]{10})$/" ng-model="perfil.cedula">
                      <div ng-messages='registro_usuario_form.cedula.$error' >
                           <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.cedula.$dirty && registro_usuario_form.cedula.$invalid">
                             La cedula debe tener 10 d&iacute;gitos.
@@ -263,6 +263,24 @@
                       </div>
                     </div>
 
+
+                    <div class="form-group">
+                        
+                        <input required type="text" pattern="/^\d+$/"
+                               class="form-control" id="telefono" name="telefono" placeholder="Teléfono"
+                               data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingresa tu telefono aquí." data-original-title="telefono"
+                               onkeypress="return validarNumero(event)" ng-pattern="/[0-9]{7,10}$/"
+                               ng-required="true" ng-model="perfil.telefono"
+                               >
+                               <div ng-messages='registro_usuario_form.telefono.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.telefono.$dirty && registro_usuario_form.telefono.$invalid">
+                            El teléfono debe tener entre 7 y 10 números.
+                          </label>
+
+                        </div>
+                        
+                    </div>
                     <div class="form-group">
                         <select class="form-control" id="pais" name="pais" ng-required="true">
                             <optgroup label="Pais">
@@ -282,17 +300,6 @@
                             </optgroup>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="telefono" minlength="10" maxlength="10" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);" ng-required="true" ng-pattern="/([0-9]{8,10})$/">
-                         <div ng-messages='registro_usuario_form.cedula.$error' >
-                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.cedula.$dirty && registro_usuario_form.cedula.$invalid">
-                            El telefono debe tener 10 numeros.
-                          </label>
-                      </div>
-                    
-                    </div>
-
 
                     <div class="form-group">
                         <label class="info-board-red" id="email_usado" style="display: none; color: red"></label>
