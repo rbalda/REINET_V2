@@ -1,0 +1,11 @@
+<!--
+Autor: Rolando Sornoza
+Descripcion: Respuesta que enviamos por ajax en el metodo success, para anadir al modal confirmacion mensajes.
+-->
+
+
+{% if alertaMensaje %}
+        <label class="info-board-red" id="noIgual" style=" color: red">{{ RetroMensaje }}</label>
+{% else %}
+        <label class="info-board-green" id="noIgual" style=" color: green">{{ RetroMensaje }}</label>
+{% endif %}
