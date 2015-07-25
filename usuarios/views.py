@@ -819,6 +819,8 @@ Autores: Pedro Iniguez
 Nombre de funcion: perfilInstituciones
 Entrada: request GET
 Salida: Perfil de otra institucion de la que no sea admin
+UltimaModificacion: Fausto Mora - se le agrego un argumento para saber si la institucion
+a la que queria acceder es la misma a la que pertenece
 """
 
 @login_required
@@ -836,20 +838,27 @@ def verPerfilInstituciones(request, institucionId):
 				print "redirect"
 				return redirect('/perfilInstitucion')
 			else:
-				args['es_afiliado'] = False
-				esAfiliado = Membresia.objects.filter(fk_usuario=sesion,estado=1).exclude(fk_institucion=1).count()
-				print 'esAfiliado:' + str(esAfiliado)
-				if esAfiliado!=0:
-					args['es_afiliado']= True
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
+
+				# aqui buscaqueremos si es afiliado a la misma institucion que desea buscar
+				institucion_afiliada = Membresia.objects.filter(fk_usuario=sesion,estado=1).exclude(fk_institucion=1).first()
+				if institucion_afiliada:
+					args['es_afiliado']=True
+					print institucion_afiliada.fk_institucion.nombre
+
+					print 'es la misma institucion'
+					print institucion_afiliada.fk_institucion.nombre
+					print institucion.nombre
+					args['misma_institucion'] = institucion_afiliada.fk_institucion.id_institucion == institucion.id_institucion
+					print args['misma_institucion']
+				else:
+					args['es_afiliado']=False
+
 				args['institucion'] = institucion
 				args['duenho'] = duenho_institucion
-				print 'verPerfilInstituciones'
-				print args['institucion']
-				print args['duenho']
 		except:
-			return redirect('/inicioUsuario')
+			return redirect('/NotFound')
 
 	else:
 		args['error'] = "Error al cargar los datos"

@@ -83,7 +83,11 @@
                       <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center; margin-top:5px;" type="button" data-toggle="popover"
                       data-placement="bottom">
                       <i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>
-                      <script type="text/javascript"> var es_afiliado = "{{es_afiliado}}"</script>   
+
+                      <script type="text/javascript"> 
+                      var misma_institucion = {{misma_institucion|yesno:"true,false"}}; 
+                      var es_afiliado={{es_afiliado|yesno:"true,false"}};
+                      </script>   
 
                   <div class="col-sm-12 alert-dismissible" style="text-align:center; margin-top:10px;" role="alert" id="info_suscripcion">
                     <button id="info_suscripcion_close" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -225,7 +229,6 @@
     </div>
     <input id="inst_value" type="hidden" value="{{institucion.id_institucion}}">
 </div>
-
 <script type="text/javascript" src="/static/js/perfil-otra-institucion.js"></script>
 
 {% endblock %}
