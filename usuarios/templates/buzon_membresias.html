@@ -46,6 +46,7 @@
 
 		 			$(document).on('click','#accionMembresia',function(){
 		 				console.log('hizo click en accion membresia');
+		 				document.getElementById("accionMembresia").disabled=true;
                         console.log($('#asunto_form').val());
                         console.log($('#mensaje_form').val());
 		 				$.ajax({
