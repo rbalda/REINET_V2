@@ -29,43 +29,52 @@
 
 	        $('#btn_sucribirte').ready(function (){
 	            console.log('dentro de la verificacion');
-	            $.ajax({
-	              data:{
-	                'institucion':$('#inst_value').val()
-	              },
-	              type:'get',
-	              url: '/verificarSuscripcion/',
-	              success: function(data){
-	                var objeto = JSON.parse(data);
-	                console.log(objeto);
-	                if (objeto.existeMembresia) {
-	                  switch(objeto.estadoMembresia){
-	                      case -1:
-	                      //si existe membresia pero fue rechazado
-	                        $('#btn_sucribirte').attr('disabled', false);
-	                      break;
-	                      case 0:
-	                      //si existe membresia pendiente de accion
-	                      	$('#btn_sucribirte').attr('disabled', true);
-	                      	$('#btn_sucribirte').css('color', 'blue');
-	                        var html = "Usted ya ha enviado una solicitud"
-	                        $('#btn_sucribirte').text(html);
-	                        
-	                      break;
-	                      case 1:
-	                      //si existe membresia aceptada
-	                      	$('#btn_sucribirte').attr('disabled', true);
-	                      	$('#btn_sucribirte').css('color', 'blue');
-	                        var html = "Usted ya pertenece a esta Institución"
-	                        $('#btn_sucribirte').text(html);
-	                      break;
-	                  }
-	                }else{
-	                  //no existe membresia
-	                  $('#btn_sucribirte').attr('disabled', false);
-	                }
-	              }
-	            });
+	            console.log('misma_institucion'+misma_institucion);
+	            if (misma_institucion==false && es_afiliado == true){
+	            	console.log('misma institucion false');
+					$('#btn_sucribirte').attr('disabled', true);
+
+    			}else if(misma_institucion==true || es_afiliado==false){
+    				console.log('misma institucion true');
+    				$.ajax({
+		              data:{
+		                'institucion':$('#inst_value').val()
+		              },
+		              type:'get',
+		              url: '/verificarSuscripcion/',
+		              success: function(data){
+		                var objeto = JSON.parse(data);
+		                console.log(objeto);
+		                if (objeto.existeMembresia) {
+		                  switch(objeto.estadoMembresia){
+		                      case -1:
+		                      //si existe membresia pero fue rechazado
+		                        $('#btn_sucribirte').attr('disabled', false);
+		                      break;
+		                      case 0:
+		                      //si existe membresia pendiente de accion
+		                      	$('#btn_sucribirte').attr('disabled', true);
+		                      	$('#btn_sucribirte').css('color', 'blue');
+		                        var html = "Usted ya ha enviado una solicitud"
+		                        $('#btn_sucribirte').text(html);
+		                        
+		                      break;
+		                      case 1:
+		                      //si existe membresia aceptada
+		                      	$('#btn_sucribirte').attr('disabled', true);
+		                      	$('#btn_sucribirte').css('color', 'blue');
+		                        var html = "Usted ya pertenece a esta Institución"
+		                        $('#btn_sucribirte').text(html);
+		                      break;
+		                  }
+		                }else{
+		                  //no existe membresia
+		                  $('#btn_sucribirte').attr('disabled', false);
+		                }
+		              }
+		            });
+				//fin de else es_afiliado
+    			}
 	        });
 	    });
     });
