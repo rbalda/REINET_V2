@@ -13,6 +13,9 @@
 
 		});
 
+    	$('#btn_sucribirte').css('font-weight', 'bold');
+
+
         $('#btn_sucribirte').popover({
             html: true,
             content: function () { 
@@ -23,6 +26,7 @@
         $(function(){
 	        $('#info_suscripcion').removeClass("alert alert-info alert-warning");
 	        $('#info_suscripcion').hide();
+
 	        $('#btn_sucribirte').ready(function (){
 	            console.log('dentro de la verificacion');
 	            $.ajax({
@@ -35,34 +39,31 @@
 	                var objeto = JSON.parse(data);
 	                console.log(objeto);
 	                if (objeto.existeMembresia) {
-	                  $('#btn_sucribirte').hide();
-	                  $('#info_suscripcion').show();
 	                  switch(objeto.estadoMembresia){
 	                      case -1:
 	                      //si existe membresia pero fue rechazado
-	                        $('#btn_sucribirte').show();
-	                        $('#info_suscripcion').hide();
+	                        $('#btn_sucribirte').attr('disabled', false);
 	                      break;
 	                      case 0:
 	                      //si existe membresia pendiente de accion
-	                        var html = "<p>Usted ya ha enviado una solicitud</p>"
-	                        $('#info_suscripcion').addClass("alert alert-warning");
-	                        $('#info_suscripcion').removeClass("alert-info");
+	                      	$('#btn_sucribirte').attr('disabled', true);
+	                      	$('#btn_sucribirte').css('color', 'blue');
+	                        var html = "Usted ya ha enviado una solicitud"
+	                        $('#btn_sucribirte').text(html);
+	                        
 	                      break;
 	                      case 1:
 	                      //si existe membresia aceptada
-	                        var html = "<p>Usted ya pertenece a esta Institucion</p>"
-	                        $('#info_suscripcion').addClass("alert alert-info");
-	                        $('#info_suscripcion').removeClass("alert-warning");
+	                      	$('#btn_sucribirte').attr('disabled', true);
+	                      	$('#btn_sucribirte').css('color', 'blue');
+	                        var html = "Usted ya pertenece a esta Institución"
+	                        $('#btn_sucribirte').text(html);
 	                      break;
 	                  }
 	                }else{
 	                  //no existe membresia
-	                  $('#btn_sucribirte').show();
-	                  $('#info_suscripcion').hide();
+	                  $('#btn_sucribirte').attr('disabled', false);
 	                }
-	                
-	                $('#info_suscripcion').html(html);
 	              }
 	            });
 	        });
@@ -70,7 +71,6 @@
     });
 
 $(document).on('click','#btn_aceptar_Suscripcion',function(){
-    //alert($('#txt_cargo').val());
     console.log('dentro de suscribirAInstitucion');
     console.log($('#txt_cargo').val());
     console.log($('#txt_description').val())
@@ -91,16 +91,19 @@ $(document).on('click','#btn_aceptar_Suscripcion',function(){
                   console.log('aqui se imprime el objeto')
                   console.log(objeto);
                   if (objeto.save_estado){
-                    $('#info_suscripcion').addClass("alert alert-success");
-                    $('#info_suscripcion').html(html);
-                    $('#info_suscripcion').removeClass("alert-info");
+                  	$('#btn_sucribirte').attr('disabled', true);
+                  	$('#btn_sucribirte').popover('hide');
+                  	$('#btn_sucribirte').text("Solicitud Enviada");
+                  	$('#btn_sucribirte').css('color', 'blue');
+
+                    $('#info_suscripcion').addClass("alert alert-info");
+                    $('#info_suscripcion_txt').html(html);
                     $('#info_suscripcion').removeClass("alert-warning");
-                    $('#btn_sucribirte').popover('hide');
-                    $('#btn_sucribirte').hide();
                     $('#info_suscripcion').show();
                   }else{
                   	$('#info_suscripcion').addClass("alert alert-warning");
-                  	$('#info_suscripcion').html("<p>Error inesperado</p>");
+                  	$('#info_suscripcion_txt').html("<p>Error inesperado. <br>Vuelva a intentarlo mas tarde</p>");
+                  	$('#info_suscripcion').show();
                   }
           }
       });

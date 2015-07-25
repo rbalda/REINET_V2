@@ -32,7 +32,6 @@
                 <strong>{{ institucion.nombre }}</strong>
                 <small> {{institucion.siglas}} </small>
               </h3>
-                <div class="col-sm-offset-4 col-sm-4" style="text-align:center" id="info_suscripcion"></div>
               <br>
             </div>  
             <div class="col-md-4 col-sm-4">
@@ -44,8 +43,7 @@
                       </div>
                   </div>
                   <div>
-                    <a href="#" class="col-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
-                                    class="fa fa-envelope"></i> Redactar Mensaje</a>
+                    <a href="#" class="col-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje" style="font-weight:bold;"><i class="fa fa-envelope"></i> Redactar Mensaje</a>
                         <!-- //// VENTANA EMERGENTE EMAIL ///// -->
                         <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
                             <div class="modal-dialog">
@@ -81,12 +79,16 @@
                                 </div>
                             </div>
                         </div>
-                    {% if not es_afiliado %}
-                      <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center;" type="button" data-toggle="popover"
+
+                      <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center; margin-top:5px;" type="button" data-toggle="popover"
                       data-placement="bottom">
-                      <i class="fa fa-user-plus  btn-sm"></i>
-                      Solicitar Membresia</button>   
-                    {% endif %}                     
+                      <i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>
+                      <script type="text/javascript"> var es_afiliado = "{{es_afiliado}}"</script>   
+
+                  <div class="col-sm-12 alert-dismissible" style="text-align:center; margin-top:10px;" role="alert" id="info_suscripcion">
+                    <button id="info_suscripcion_close" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong><p id="info_suscripcion_txt"></p></strong>
+                  </div>                     
                    
                   </div>
               
