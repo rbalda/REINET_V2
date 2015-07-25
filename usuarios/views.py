@@ -1442,6 +1442,8 @@ Entrada: request POST
 Salida: Redireccion bandeja de entrada
 Descripción: Esta funcion permite visualizar los mensajes
 que un usuario tiene en su bandeja de entrada
+Ultima Modificacion: Rolando Sornoza - Se realizo la implementacion de añadir mensajes de retroalimentacion
+y se valido cosas que estaban mal validadas.
 """
 
 @login_required
@@ -1455,34 +1457,26 @@ def enviarMensaje(request):
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
 		emisor=User.objects.get(id=sesion)
-		print destinatario
-		print emisor
-		print texto_mensaje
 
-		if destinatario == emisor:
-			args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
+		if destinatario == emisor.username:
+			args['RetroMensaje'] = 'El mensaje te lo estas enviando tu tarado'
+			args['alertaMensaje'] = 1
+			return render_to_response("respuesta_mensaje.html",args)
 		else:
-
-			# averiguamos quien es el destinatario.... si es inst o usuario
-			print 'averiguaremos el destinatario'
 			try:
-				print 'sera usuario?'
 				receptor_aux = User.objects.get(username=destinatario)
 				receptor=receptor_aux
-				print receptor_aux
 				tipo_mensaje = 'usuario-usuario'
 			except User.DoesNotExist:
-				print 'No es usuario'
-				print 'sera institucion?'
-				receptor_aux = Institucion.objects.get(siglas=destinatario)
-				membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
-				receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
-				print receptor_aux
-				tipo_mensaje = 'usuario-institucion'
-			except Institucion.DoesNotExist:
-				print 'No es institucion'
-				print 'hay un grave error aqui'
-
+				try:
+					receptor_aux = Institucion.objects.get(siglas=destinatario)
+					membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+					receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+					tipo_mensaje = 'usuario-institucion'
+				except Institucion.DoesNotExist:
+					args['RetroMensaje'] = 'El usuario no existe'
+					args['alertaMensaje'] = 1
+					return render_to_response("respuesta_mensaje.html",args)
 			try:
 				if receptor is not None:
 					mensajes = Mensaje()
@@ -1493,16 +1487,18 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					return HttpResponseRedirect('/mensajesEnviados/')
+					args['RetroMensaje'] = 'El mensaje ha sido enviado correctamente Bronza'
+					args['alertaMensaje'] = 0
+					return render_to_response("respuesta_mensaje.html",args)
 				else:
-					print "usuariou invalido1"
-					return HttpResponseRedirect('/enviarMensaje/')
+					args['RetroMensaje'] = 'Usuario Invalido Bronza'
+					args['alertaMensaje'] = 1
+					return render_to_response("respuesta_mensaje.html",args)
 			except Exception as e:
-				print "erro al guardar mensaje"
-				print e
-				return HttpResponseRedirect('/NotFound/')
+				args['RetroMensaje'] = 'Algo Salio Mal, lloremos juntos.'
+				args['alertaMensaje'] = 1
+				return render_to_response("respuesta_mensaje.html",args)
 	else:
-		print "porque D: esto es GET"
 		args['usuario']=usuario
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))

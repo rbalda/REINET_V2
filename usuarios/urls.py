@@ -61,7 +61,7 @@ urlpatterns = patterns('',
 
         url(r'^BandejaDeEntrada[/]?$', ver_bandeja_entrada, name='BandejaDeEntrada'),
         url(r'^BandejaDeEntradaInstitucion[/]?$', ver_bandeja_entrada_institucion, name='BandejaDeEntradaInstitucion'),
-        url(r'^enviarMensaje[/]?$', enviarMensaje, name='enviarMensaje'),
+        url(r'^enviarMensaje[/]?$', 'usuarios.views.enviarMensaje', name='enviarMensaje'),
         url(r'^enviarMensajeInstitucion[/]?$', enviarMensajeInstitucion, name='enviarMensajeInstitucion'),
         url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
         url(r'^verMensajeEnviado[/]?$', verMensajeEnviado, name='verMensajeEnviado'),
