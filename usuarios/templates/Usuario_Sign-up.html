@@ -265,23 +265,6 @@
 
 
                     <div class="form-group">
-                        
-                        <input required type="text" pattern="/^\d+$/"
-                               class="form-control" id="telefono" name="telefono" placeholder="Teléfono"
-                               data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingresa tu telefono aquí." data-original-title="telefono"
-                               onkeypress="return validarNumero(event)" ng-pattern="/[0-9]{7,10}$/"
-                               ng-required="true" ng-model="perfil.telefono"
-                               >
-                               <div ng-messages='registro_usuario_form.telefono.$error' >
-                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.telefono.$dirty && registro_usuario_form.telefono.$invalid">
-                            El teléfono debe tener entre 7 y 10 números.
-                          </label>
-
-                        </div>
-                        
-                    </div>
-                    <div class="form-group">
                         <select class="form-control" id="pais" name="pais" ng-required="true">
                             <optgroup label="Pais">
                                 {% for pais in paises %}
@@ -305,6 +288,7 @@
                         <label class="info-board-red" id="email_usado" style="display: none; color: red"></label>
                     </div>
 
+
                     <div class="form-group">
                         <input required type="email" class="form-control" maxlength="50" id="email" name="email"
                                placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus"
@@ -317,10 +301,33 @@
 
                     </div>
                     <div class="form-group">
-                        <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web"
-                               onblur="validarURL(this)" data-toggle="popover" data-placement="left"
-                               data-trigger="focus" data-content="Ingresa tu sitio web aquí."
-                               data-original-title="Sitio Web" ng-required="true">
+                        
+                        <input required type="text"  class="form-control" id="telefono" name="telefono" placeholder="Teléfono"
+                               data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingresa tu telefono aquí." data-original-title="telefono"
+                               onkeypress="return validarNumero(event)" ng-pattern="/^([0-9]{7,10})$/"
+                               ng-required="true" ng-model="perfil.telefono" maxlength="10"
+                               >
+                               <div ng-messages='registro_usuario_form.telefono.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.telefono.$dirty && registro_usuario_form.telefono.$invalid">
+                            El teléfono debe tener entre 7 y 10 números.
+                          </label>
+
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="website" name="website" placeholder="Sitio Web"
+                               data-toggle="popover" data-placement="left"
+                               data-trigger="focus" data-content="Ingresa tu sitio web aquí." onblur="validarURL(this)"
+                               data-original-title="Sitio Web" ng-pattern="/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/" ng-model="perfil.website" ng-required="true">
+                                      <div ng-messages='registro_usuario_form.website.$error' >
+                                 <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.website.$dirty && registro_usuario_form.website.$invalid">
+                                   Ingrese una url válida.
+                                 </label>
+
+                               </div>
                     </div>
 
                     <label id="listarInst">
