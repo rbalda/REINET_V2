@@ -159,11 +159,18 @@ def registrarSolicitud(request):
 		args = {}
 		try:
 			peticion = Peticion.objects.get(fk_usuario = request.session['id_usuario'])
-			args['msj'] = 'Usted ya ha enviado una solicitud anteriormente.'
+			args['msj'] = 'Usted ya ha enviado una solicitud anteriormente. Por favor, revise su correo.'
 			args['esAlerta'] = 1
 			return render_to_response('respuesta_Solicitud_Institucion.html', args)
 		except:
 			print "not loaded"
+
+		membresiaOtra = Membresia.objects.filter(fk_usuario = request.session['id_usuario']).exclude(fk_institucion = 1)
+		if (len(membresiaOtra)>0):
+			print len(membresiaOtra)
+			args['msj'] = 'Usted ya pertenece a otra institucion.'
+			args['esAlerta'] = 1
+			return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 		try:
 			peticion = Peticion.objects.get(nombre_institucion = request.POST['nombre_institucion'])
@@ -180,7 +187,7 @@ def registrarSolicitud(request):
 			peticion.fk_usuario = usuario
 			peticion.save()
 			args['esAlerta'] = 0
-			args['msj'] = 'Se ha enviado su solicitud con exito!'
+			args['msj'] = 'Se ha enviado su solicitud con exito! Se enviara; un mail de confirmacion a su correo cuando se apruebe la misma.'
 
 		return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
@@ -839,7 +846,10 @@ def verPerfilInstituciones(request, institucionId):
 				return redirect('/perfilInstitucion')
 			else:
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
+				numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
+
+				args['numMiembros'] = numMiembros
 
 				# aqui buscaqueremos si es afiliado a la misma institucion que desea buscar
 				institucion_afiliada = Membresia.objects.filter(fk_usuario=sesion,estado=1).exclude(fk_institucion=1).first()
@@ -1832,6 +1842,7 @@ def miembros_institucion(request):
 			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
 			miembrosActivos= Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 1).order_by('fecha_peticion')
 			args['miembrosActivos'] = miembrosActivos
+			args['numMiembros'] = len(miembrosActivos); 
 			args['institucion_nombre'] = request.session['institucion_nombre']
 			args['institucion']=institucion
 			args.update(csrf(request))

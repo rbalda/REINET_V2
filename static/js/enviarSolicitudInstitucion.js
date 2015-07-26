@@ -15,4 +15,5 @@ $("#enviarSolicitud").click(function () {
 
 function solicitudSuccess(data, textStatus, jqXHR){
 	$("#formPeticion").html(data);
+	$("#nombre_institucion").val("");
 }

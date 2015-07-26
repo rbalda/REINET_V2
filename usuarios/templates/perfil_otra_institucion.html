@@ -20,21 +20,21 @@
         </div>
     </div>
 
-    <div class="container col-sm-offset-3">
+    <div class="container ">
     <div class="row">
 
         <!-- Menu del Perfil -->
-        <div class="col-md-9 col-sm-9">
+        <div class="col-md-11 col-sm-11 col-sm-offset-1">
 
             <!-- //// PERFIL PRINCIPAL ///// -->
             <div class="col-sm-12">
               <h3 class="hl" align="center" style="margin-top:0; margin-bottom:15px">
                 <strong>{{ institucion.nombre }}</strong>
-                <small> {{ institucion.siglas }} </small>
+                
               </h3>
               <br>
             </div>  
-            <div class="col-md-4 col-sm-4">
+            <div class="col-md-3 col-sm-3">
                   <div class="thumbnail col-md-12" style="margin-bottom: 0px;">
                       <div class="avatar">
                           <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
@@ -80,8 +80,7 @@
                             </div>
                         </div>
 
-                      <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center; margin-top:5px;" type="button" data-toggle="popover"
-                      data-placement="bottom">
+                      <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center; margin-top:5px;" type="button" data-toggle="popover" data-placement="bottom">
                       <i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>
 
                       <script type="text/javascript"> 
@@ -89,12 +88,28 @@
                       var es_afiliado={{es_afiliado|yesno:"true,false"}};
                       </script>   
 
-                  <div class="col-sm-12 alert-dismissible" style="text-align:center; margin-top:10px;" role="alert" id="info_suscripcion">
-                    <button id="info_suscripcion_close" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong><p id="info_suscripcion_txt"></p></strong>
-                  </div>                     
+                      <div class="col-sm-12 alert-dismissible" style="text-align:center; margin-top:10px;" role="alert" id="info_suscripcion">
+                        <button id="info_suscripcion_close" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong><p id="info_suscripcion_txt"></p></strong>
+                      </div>    
+                    <div class="col-md-12" >                    
+                        <div class="vcard-stats">
+                            <a class="vcard-stat" href="#" style="text-decoration:none">
+                              <strong class="vcard-stat-count">{{ numMiembros }}</strong>
+                              <span class="text-muted">Membres&iacute;as</span>
+                            </a>
+                            <a class="vcard-stat" href="#" style="text-decoration:none">
+                              <strong class="vcard-stat-count">0</strong>
+                              <span class="text-muted">Concursos</span>
+                            </a>
+                            <a class="vcard-stat" href="#" style="text-decoration:none">
+                              <strong class="vcard-stat-count">0</strong>
+                              <span class="text-muted">Incubaciones</span>
+                            </a>
+                        </div>
+                    </div>                 
                    
-                  </div>
+                </div>
               
                 
                 
@@ -126,7 +141,7 @@
             <br>
 
             <!-- Informacion General-->
-            <div class="col-md-8 col-sm-8">
+            <div class="col-md-9 col-sm-9">
                     <div class="col-md-12 col-sm-12" style="margin-bottom:10px">
                         <div class="block-header">
                             <h2 style="margin:0 0 5px 0;background-color:#515151">
