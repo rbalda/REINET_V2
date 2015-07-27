@@ -1620,19 +1620,23 @@ def verMensaje(request):
 		msj=Mensaje.objects.get(id_mensaje = idM)
 		print "mensaje",msj.id_mensaje
 		print msj.leido
-		msj.leido = True
-		msj.save()
-		print msj.leido
-		usuario_emisor=msj.fk_emisor
-		emisor = Perfil.objects.get(username= usuario_emisor.username)
-		receptor = Perfil.objects.get(username = usuario.username)
-		args['msj']=msj
-		args['usuario_emisor'] = usuario_emisor
-		args['emisor']=emisor
-		args['receptor']=receptor
-		args['usuario']=usuario
-		args['es_admin']=request.session['es_admin']
-		return render_to_response('ver_mensaje.html',args)
+		if msj.fk_receptor == usuario:
+			msj.leido = True
+			msj.save()
+			print msj.leido
+			usuario_emisor=msj.fk_emisor
+			emisor = Perfil.objects.get(username= usuario_emisor.username)
+			receptor = Perfil.objects.get(username = usuario.username)
+			args['msj']=msj
+			args['usuario_emisor'] = usuario_emisor
+			args['emisor']=emisor
+			args['receptor']=receptor
+			args['usuario']=usuario
+			args['es_admin']=request.session['es_admin']
+			return render_to_response('ver_mensaje.html',args)
+		else:
+			print "mi usuario es", msj.fk_receptor, "y tengo", usuario
+			return HttpResponseRedirect("/BandejaDeEntrada/")
 	except:
 		return HttpResponseRedirect("/BandejaDeEntrada/")
 
@@ -1655,19 +1659,25 @@ def verMensajeEnviado(request):
 		msj=Mensaje.objects.get(id_mensaje = idM)
 		print "mensaje",msj.id_mensaje
 		print msj.leido
-		msj.leido = True
-		msj.save()
-		print msj.leido
-		usuario_receptor=msj.fk_receptor
-		receptor = Perfil.objects.get(username= usuario_receptor.username)
-		emisor = Perfil.objects.get(username = usuario.username)
-		args['msj']=msj
-		args['usuario_receptor'] = usuario_receptor
-		args['emisor']=emisor
-		args['receptor']=receptor
-		args['usuario']=usuario
-		args['es_admin']=request.session['es_admin']
-		return render_to_response('ver_mensaje_enviado.html',args)
+		print msj.fk_emisor
+		print usuario
+		if msj.fk_emisor == usuario:
+			msj.leido = True
+			msj.save()
+			print msj.leido
+			usuario_receptor=msj.fk_receptor
+			receptor = Perfil.objects.get(username= usuario_receptor.username)
+			emisor = Perfil.objects.get(username = usuario.username)
+			args['msj']=msj
+			args['usuario_receptor'] = usuario_receptor
+			args['emisor']=emisor
+			args['receptor']=receptor
+			args['usuario']=usuario
+			args['es_admin']=request.session['es_admin']
+			return render_to_response('ver_mensaje_enviado.html',args)
+		else:
+			print "porque no entre si mi usuario es", msj.fk_emisor.id, usuario.id
+			return HttpResponseRedirect("/mensajesEnviados/")
 	except:
 		return HttpResponseRedirect("/mensajesEnviados/")
 """
