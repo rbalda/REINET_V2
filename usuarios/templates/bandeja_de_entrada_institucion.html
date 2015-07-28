@@ -37,26 +37,25 @@
             <ul>
                 {% for msj in msjs %}
                 <li>
+                    <div class="col-md-12">
+                        <p class="text-muted">
+                        {% if msj.tipo_mensaje == 'institucion-usuario' or msj.tipo_mensaje == 'institucion-institucion'%}
+                            <a data-toggle="tooltip" title="Admin de Instituci&oacute;n" data-placement="top">
+                            <i class="fa fa-bookmark" style="color:yellow;"></i></a>
+                        {% endif %}
+                            <a id="{{ msj.id_mensaje }}" href="" class="col-md-offset-8 button aceptar" data-type="zoomin"><i class="pull-right fa fa-trash"></i></a>
+                        </p>
+                    </div>
                     <p class="text-muted">
                             <img src="{{ msj.imgEm.url }}" alt="...">
                             De: <a href="/usuario/{{ msj.fk_emisor }}">{{ msj.fk_emisor.first_name }}</a><br/>
                             <small>{{ msj.fecha_de_envio }}</small>
-                        </p>
-                        <p class="text-muted">
-                            <a href="/verMensajeInstitucion/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.asunto }}</a>
-                        </p>
-
-                        <p class="text-muted">
-                        
-                            <a id="{{ msj.id_mensaje }}" href="" class="button aceptar_institucion" data-type="zoomin">
-                               
-                                    <i class="pull-right fa fa-trash"></i> 
-                            </a>
-
-                        </p>
-                      
-                        <div class="clearfix"></div>
-                    </li>
+                    </p>
+                    <p class="text-muted">
+                        <a href="/verMensajeInstitucion/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.asunto }}</a>
+                    </p>
+                    <div class="clearfix"></div>
+                </li>
                 {% endfor %}
 
                 <div class="overlay-container">
@@ -95,4 +94,5 @@
 
 <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
     <script type="text/javascript" src="/static/js/demo.js"></script>
+    <script type="text/javascript" src="/static/js/data-toggle-admin-institucion.js"></script>
 {% endblock %}

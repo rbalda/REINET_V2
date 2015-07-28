@@ -95,7 +95,6 @@ $(document).on('click','#btn_aceptar_Suscripcion',function(){
           type: 'post',
           url: '/suscribirAInstitucion/',
           success: function(data){
-                  var html = "<p>Se ha enviado la solicitud</p>";
                   var objeto = JSON.parse(data);
                   console.log('aqui se imprime el objeto')
                   console.log(objeto);
@@ -105,13 +104,15 @@ $(document).on('click','#btn_aceptar_Suscripcion',function(){
                   	$('#btn_sucribirte').text("Solicitud Enviada");
                   	$('#btn_sucribirte').css('color', 'blue');
 
+                  	var html = '<p><span class="glyphicon glyphicon-ok-sign"></span> Se ha enviado la solicitud</p>';
                     $('#info_suscripcion').addClass("alert alert-info");
                     $('#info_suscripcion_txt').html(html);
                     $('#info_suscripcion').removeClass("alert-warning");
                     $('#info_suscripcion').show();
                   }else{
+                  	var html = '<p><span class="glyphicon glyphicon-exclamation-sign"></span> Error inesperado. <br>Vuelva a intentarlo mas tarde</p>';
                   	$('#info_suscripcion').addClass("alert alert-warning");
-                  	$('#info_suscripcion_txt').html("<p>Error inesperado. <br>Vuelva a intentarlo mas tarde</p>");
+                  	$('#info_suscripcion_txt').html(html);
                   	$('#info_suscripcion').show();
                   }
           }
