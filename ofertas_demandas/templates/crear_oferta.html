@@ -28,23 +28,79 @@
           <!-- Tab panes -->
           <form  class="form-horizontal col-md-12">
           <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="informacion">
-                <!--NOMBRES-->
-            <div class="form-group">
-                <label for="Nombres" class="col-md-2">Nombres</label>
+             <div role="tabpanel" class="tab-pane active" id="informacion">
+                 
+                 <!--NOMBRES-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Nombres</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control" onkeypress="return validarLetras(event);"
+                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                             >
+                     </div>
+                 </div>
+                 
+                 <!--Tipo-->
+                 <div class="form-group">
+                     <label for="Tipo" class="col-md-2">Tipo</label>
+                     <div class="col-md-8">
+                        <input type="checkbox" name="tecnologia" value="tecnologia">Tecnolog&iacute;a<br>
+                        <input type="checkbox" name="prototipo" value="prototipo">Prototipo<br> 
+                        <input type="checkbox" name="emprendimiento" value="emprendimiento">Emprendimiento
+                     </div>
+                 </div>
+                
+                 <!--Descripicion-->
+                 <div class="form-group">
+                     <label for="Descripcion" class="col-md-2">Descripci&oacute;n</label>
+                     <div class="col-md-6">
+                         <textarea name="Descripcion" rows="9" cols="74" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
+                     </div>
+                 </div>
 
-                <div class="col-md-8">
-                    <input required autofocus type="text" class="form-control" onkeypress="return validarLetras(event);"
-                           id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                           data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                           value='{{ usuario.first_name }}'>
+                <!--Fotos-->
+                <div class="form-group">
+                    <label class="col-md-2">Fotos</label>
+                    <div class="col-md-6">
+                        <input name="imagen" type="file" id="files">
+                        <div id="id1" style="float:left" class="thumbnail">
+                            <div id="list" class="avatar">
+                                <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+                                <img src="#" alt="...">
+                                </a>
+                            </div>
+                        </div>
+                     </div>
                 </div>
-            </div>
 
-            </div>
-            <div role="tabpanel" class="tab-pane" id="profile">...</div>
-            <div role="tabpanel" class="tab-pane" id="messages">...</div>
-            <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                 <!--Dominio-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Dominio</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control"
+                             id="dominio" name="dominio" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu descripcion aquí." data-original-title="dominio"
+                             >
+                     </div>
+                 </div>  
+
+                 <!--Sub dominio-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Sub Dominio</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control"
+                             id="sub_dominio" name="sub_dominio" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu descripcion aquí." data-original-title="dominio"
+                             >
+                     </div>
+                 </div>
+
+
+              </div>
+          <div role="tabpanel" class="tab-pane" id="profile">...</div>
+          <div role="tabpanel" class="tab-pane" id="messages">...</div>
+          <div role="tabpanel" class="tab-pane" id="settings">...</div>
           </div>
           </form>
         </div>
