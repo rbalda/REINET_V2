@@ -1464,17 +1464,20 @@ def enviarMensaje(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	args = {}
+	#Cuando se envia el mensaje por POST
 	if request.method=='POST':
-		print "envio de mensajes desde usuario"
 		destinatario = request.POST['destinatario']
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
 		emisor=User.objects.get(id=sesion)
+		args['tipoAlerta'] = ''
+		args['mensajeAlerta'] = ''
 
 		if destinatario == emisor.username:
-			args['RetroMensaje'] = 'El mensaje te lo estas enviando tu tarado'
-			args['alertaMensaje'] = 1
-			return render_to_response("respuesta_mensaje.html",args)
+			args['tipoAlerta'] = 'error'
+			args['mensajeAlerta'] = 'No te puedes enviar un mensaje tu mismo.'
+			args.update(csrf(request))
+			return render_to_response("enviar_mensaje.html",args)
 		else:
 			try:
 				receptor_aux = User.objects.get(username=destinatario)
@@ -1487,9 +1490,10 @@ def enviarMensaje(request):
 					receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
 					tipo_mensaje = 'usuario-institucion'
 				except Institucion.DoesNotExist:
-					args['RetroMensaje'] = 'El usuario no existe'
-					args['alertaMensaje'] = 1
-					return render_to_response("respuesta_mensaje.html",args)
+					args['tipoAlerta'] = 'error'
+					args['mensajeAlerta'] = 'El destinatario no existe dentro de la comunidad.'
+					args.update(csrf(request))
+					return render_to_response("enviar_mensaje.html",args)
 			try:
 				if receptor is not None:
 					mensajes = Mensaje()
@@ -1500,17 +1504,21 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					args['RetroMensaje'] = 'El mensaje ha sido enviado correctamente Bronza'
-					args['alertaMensaje'] = 0
-					return render_to_response("respuesta_mensaje.html",args)
+					args['tipoAlerta'] = 'completado'
+					args['mensajeAlerta'] = 'El mensaje ha sido enviado correctamente.'
+					args.update(csrf(request))
+					return render_to_response("enviar_mensaje.html",args)
 				else:
-					args['RetroMensaje'] = 'Usuario Invalido Bronza'
-					args['alertaMensaje'] = 1
-					return render_to_response("respuesta_mensaje.html",args)
+					args['tipoAlerta'] = 'error'
+					args['mensajeAlerta'] = 'Algo salió mal, lloremos juntos.'
+					args.update(csrf(request))
+					return render_to_response("enviar_mensaje.html",args)
 			except Exception as e:
-				args['RetroMensaje'] = 'Algo Salio Mal, lloremos juntos.'
-				args['alertaMensaje'] = 1
-				return render_to_response("respuesta_mensaje.html",args)
+				args['tipoAlerta'] = 'error'
+				args['mensajeAlerta'] = 'Algo salió demasiado mal, quema la computadora!'
+				args.update(csrf(request))
+				return render_to_response("enviar_mensaje.html",args)
+	#Si entras por primera vez.
 	else:
 		args['usuario']=usuario
 		args['es_admin']=request.session['es_admin']

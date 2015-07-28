@@ -1,16 +1,10 @@
 {% extends "profile_usuario.html" %}
 
 {% block menuperfil %}
-    {% include 'confirmacion_mensajes.html' %}
     <!-- Profile Menu -->
     <div class="col-sm-4 col-md-3">
         <div class="user-menu bottom-15">
             <ul>
-                <!--  <li>
-                   <a href="#"  class="link" class="active" >
-                     <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
-                   </a>
-                 </li> -->
                 <li>
                     <a href="/enviarMensaje/" class="active">
                         <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i
@@ -29,22 +23,16 @@
                             class="fa fa-chevron-right pull-right"></i>
                     </a>
                 </li>
-                <!--  <li>
-                   <a href="#">
-                     <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li> -->
             </ul>
         </div>
     </div>
 {% endblock %}
+
 {% block contenidousuario %}
-<link rel="stylesheet" href='/static/css/demo.css'>
     <div class="col-sm-8 col-md-7">
         <div class="modal-body">
             <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
-
-            <form>
+            <form  role="form" action="/enviarMensaje/" method='POST'>
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="Destinatario">Para:</label>
@@ -61,36 +49,24 @@
                     <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
                               required></textarea>
                 </div>
-                    <button class="btn btn-green"  data-toggle="modal"  data-target="#modalConfirmacion" id="enviarMensaje">Enviar</button>
+                <button type="submit" class="btn btn-green">Enviar</button>
                 <div class="clearfix"></div>
+                </br>
+                {% if mensajeAlerta %}
+                    {% if tipoAlerta == 'completado' %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong><p><span class="glyphicon glyphicon-ok-sign"></span> {{ mensajeAlerta }}</p></strong>
+                    </div>
+                    {% elif tipoAlerta == 'error' %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeAlerta }}</p></strong>
+                    </div>
+                    {% endif %}
+                {% endif %}
             </form>
         </div>
     </div>
-<script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
-<script type="text/javascript" src="/static/js/demo.js"></script>
-<script>
-
-$("#enviarMensaje").click(function () {
-	$.ajax({
-		  type: "POST",
-		  url: "/enviarMensaje",
-		  data: {
-              'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-	          'destinatario' : $("#destinatario").val(),
-              'asunto' : $("#asunto").val(),
-              'mensaje' : $("#mensaje").val()
-		  },
-		  success: function solicitudSuccess(data){
-                    console.log("olakase");
-                    $("#contenidoRetroalimentacion").html(data);
-                    $('#destinatario').val('');
-                    $('#asunto').val('');
-                    $('#mensaje').val('');
-                },
-		  dataType: 'html'
-	});
-
-});
-
-</script>
 {% endblock %}
+
