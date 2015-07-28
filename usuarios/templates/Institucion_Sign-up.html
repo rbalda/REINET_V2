@@ -18,25 +18,25 @@
                 <hr>
                 <form role="form" action="/registro_institucion/registering" method="post"
                       enctype="multipart/form-data" name="registrar_institucion" novalidate>{% csrf_token %}
-                    <!--NOMBRE-->
+                    <!--SIGLAS-->
                     <div class="form-group">
-                        <label for="nombreInstitucion">Nombre de la instituci&oacute;n</label>
-                        <label class="form-control" id="nombreInstitucion" placeholder="Nombre de la Institución"
+                        <label for="nombreInstitucion">Siglas de la instituci&oacute;n</label>
+                        <label class="form-control" placeholder="Nombre de la Institución"
                                maxlength="50" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese el nombre de la Institución."
                                data-original-title="Nombre Institucion">
                             {{ insti }}
                         </label>
                     </div>
-                    <!--SIGLA-->
+                    <!--NOMBRES-->
                     <div class="form-group">
-                        <label for="siglaInstitucion">Siglas</label>
+                        <label >Nombre de la instituci&oacute;n</label>
                         <label class="info-board-red" id="sigla_usada" style="display: none; color: red"></label>
-                        <input type="text" class="form-control" maxlength="25" id="siglaInstitucion"
-                               name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
-                               maxlength="25" data-toggle="popover" data-placement="left" data-trigger="focus"
+                        <input type="text" class="form-control" maxlength="65" id="nombreInstitucion"
+                               name="nombreInstitucion" placeholder="Nombre de la Institucion"
+                               maxlength="65" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese las siglas de la Institucion"
-                               data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" ng-model="institucion.siglaInstitucion" required unique-siglas>
+                               data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" ng-model="institucion.nombreInstitucion" required unique-nombre>
                     </div>
                     <!--DESCRIPCION-->
                     <div class="form-group">

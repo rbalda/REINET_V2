@@ -257,7 +257,7 @@ redInn.controller('NotificacionContadorController',['$scope','ContarNoLeidos',fu
 
 }]);
 
-redInn.directive('uniqueSiglas', function($http){
+redInn.directive('uniqueNombre', function($http){
             var toId;
             return {
               require: 'ngModel',
@@ -279,19 +279,19 @@ redInn.directive('uniqueSiglas', function($http){
                     .success(function(data, status, headers, config) {
                       if (data == "usado") {
                             ctrl.$setValidity('uniqueSiglas', false);
-                            $("#sigla_usada").html("Siglas para su instituci&oacute;n no v&aacute;lidas. Debe tener m&iacute;nimo 3 caracters y debe ser unica");
+                            $("#sigla_usada").html("Nombre para su instituci&oacute;n no v&aacute;lido. Debe tener m&iacute;nimo 3 caracters y debe ser unico");
                             $("#sigla_usada").attr("style", "display: block; color: red; text-align:center");
                             $("#sigla_usada").attr("class", "info-board-red");
                           }
                           else if (data == "ok"){
                             ctrl.$setValidity('uniqueSiglas', true);
-                            $("#sigla_usada").html("Siglas disponibles para su instituci&oacute;n");
+                            $("#sigla_usada").html("Nombre disponible para su instituci&oacute;n.");
                             $("#sigla_usada").attr("style", "display: block; color: green; text-align:center");
                             $("#sigla_usada").attr("class", "info-board-green");
                           }
                           else {
                             ctrl.$setValidity('uniqueSiglas', false);
-                            $("#sigla_usada").html("Ingrese las siglas de su instituci&oacute;n. Ni el campo vac&iacute;o ni \"undefined\" estan permitido.");
+                            $("#sigla_usada").html("Ingrese el nombre de su instituci&oacute;n.");
                             $("#sigla_usada").attr("style", "display: block; color: blue; text-align:center");
                             $("#sigla_usada").attr("class", "info-board-blue");
                           }
