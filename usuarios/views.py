@@ -1456,8 +1456,7 @@ Entrada: request POST
 Salida: Redireccion bandeja de entrada
 Descripción: Esta funcion permite visualizar los mensajes
 que un usuario tiene en su bandeja de entrada
-Ultima Modificacion: Rolando Sornoza - Se realizo la implementacion de añadir mensajes de retroalimentacion
-y se valido cosas que estaban mal validadas.
+Ultima Modificacion: Rolando Sornoza - Se estandarizo la retroalimentacion de mensajes para ser presentadas, por medio de POST.
 """
 
 @login_required
@@ -1473,11 +1472,11 @@ def enviarMensaje(request):
 		emisor=User.objects.get(id=sesion)
 		args['tipoAlerta'] = ''
 		args['mensajeAlerta'] = ''
+		args.update(csrf(request))
 
 		if destinatario == emisor.username:
 			args['tipoAlerta'] = 'error'
 			args['mensajeAlerta'] = 'No te puedes enviar un mensaje tu mismo.'
-			args.update(csrf(request))
 			return render_to_response("enviar_mensaje.html",args)
 		else:
 			try:
@@ -1493,7 +1492,6 @@ def enviarMensaje(request):
 				except Institucion.DoesNotExist:
 					args['tipoAlerta'] = 'error'
 					args['mensajeAlerta'] = 'El destinatario no existe dentro de la comunidad.'
-					args.update(csrf(request))
 					return render_to_response("enviar_mensaje.html",args)
 			try:
 				if receptor is not None:
@@ -1507,17 +1505,14 @@ def enviarMensaje(request):
 					mensajes.save()
 					args['tipoAlerta'] = 'completado'
 					args['mensajeAlerta'] = 'El mensaje ha sido enviado correctamente.'
-					args.update(csrf(request))
 					return render_to_response("enviar_mensaje.html",args)
 				else:
 					args['tipoAlerta'] = 'error'
 					args['mensajeAlerta'] = 'Algo salió mal, lloremos juntos.'
-					args.update(csrf(request))
 					return render_to_response("enviar_mensaje.html",args)
 			except Exception as e:
 				args['tipoAlerta'] = 'error'
 				args['mensajeAlerta'] = 'Algo salió demasiado mal, quema la computadora!'
-				args.update(csrf(request))
 				return render_to_response("enviar_mensaje.html",args)
 	#Si entras por primera vez.
 	else:
@@ -1621,15 +1616,14 @@ def verMensaje(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	args = {}
+
 	try:
 		idM = int(request.GET.get('q', ''))
 		msj=Mensaje.objects.get(id_mensaje = idM)
-		print "mensaje",msj.id_mensaje
-		print msj.leido
+		args.update(csrf(request))
 		if msj.fk_receptor == usuario:
 			msj.leido = True
 			msj.save()
-			print msj.leido
 			usuario_emisor=msj.fk_emisor
 			emisor = Perfil.objects.get(username= usuario_emisor.username)
 			receptor = Perfil.objects.get(username = usuario.username)
@@ -1641,7 +1635,6 @@ def verMensaje(request):
 			args['es_admin']=request.session['es_admin']
 			return render_to_response('ver_mensaje.html',args)
 		else:
-			print "mi usuario es", msj.fk_receptor, "y tengo", usuario
 			return HttpResponseRedirect("/BandejaDeEntrada/")
 	except:
 		return HttpResponseRedirect("/BandejaDeEntrada/")
