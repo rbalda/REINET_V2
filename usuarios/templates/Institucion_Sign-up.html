@@ -32,9 +32,9 @@
                     <div class="form-group">
                         <label >Nombre de la instituci&oacute;n</label>
                         <label class="info-board-red" id="sigla_usada" style="display: none; color: red"></label>
-                        <input type="text" class="form-control" maxlength="25" id="nombreInstitucion"
-                               name="nombreInstitucion" placeholder="Siglas/Nombre abreviado"
-                               maxlength="25" data-toggle="popover" data-placement="left" data-trigger="focus"
+                        <input type="text" class="form-control" maxlength="65" id="nombreInstitucion"
+                               name="nombreInstitucion" placeholder="Nombre de la Institucion"
+                               maxlength="65" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese las siglas de la Institucion"
                                data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" ng-model="institucion.nombreInstitucion" required unique-nombre>
                     </div>
