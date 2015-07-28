@@ -1,16 +1,10 @@
 {% extends "profile_usuario.html" %}
 
 {% block menuperfil %}
-    <!-- Profile Menu -->
     <div class="col-sm-4 col-md-3">
         <div class="user-menu bottom-15">
             <ul>
-                <!--  <li>
-                   <a href="#"  class="link" class="active" >
-                     <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
-                   </a>
-                 </li> -->
-                <li>
+               <li>
                     <a href="/enviarMensaje/">
                         <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i
                             class="fa fa-chevron-right pull-right"></i>
@@ -28,27 +22,19 @@
                             class="fa fa-chevron-right pull-right"></i>
                     </a>
                 </li>
-                <!--  <li>
-                   <a href="#">
-                     <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li> -->
             </ul>
         </div>
     </div>
 {% endblock %}
 
 {% block contenidousuario %}
-
     <div class="col-sm-8 col-md-7">
         <div class="clearfix"></div>
-        <hr>
         <div class="pm bottom-15">
             <div class="media">
                 <a class="pull-left" href="#">
                     <img class="media-object" src="{{ emisor.foto.url }}" alt="...">
                 </a>
-
                 <div class="media-body">
                     <p>
                         <b>De:</b> <a href="/usuario/{{ msj.fk_emisor }}">{{ usuario_emisor.first_name }} {{ usuario_emisor.last_name }} </a>
@@ -67,12 +53,14 @@
         </div>
         <div class="message-answer" style="text-align:center">
             <a href="#" class="btn-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
-                 class="fa fa-envelope"></i> Responder</a>
+               class="fa fa-envelope"></i> Responder</a>
         </div>
-            <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-            <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+
+        <!-- //// VENTANA EMERGENTE EMAIL ///// -->
+        <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <img src={{ receptor.foto.url }} alt="...">
@@ -86,26 +74,25 @@
                             <div class="form-group">
                                 <label for="Destinatario">Para:</label>
                                 <input type="text" class="form-control" id="destinatario" name="destinatario"
-                                placeholder="Destinatario" value="{{ msj.fk_emisor }}" maxlength="50" required>
+                                       placeholder="Destinatario" value="{{ msj.fk_emisor }}" maxlength="50" required>
                             </div>
                             <div class="form-group">
                                 <label for="Asunto">Asunto:</label>
                                 <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
-                                maxlength="40" value="RE:{{ msj.asunto }}" required>
+                                       maxlength="40" value="RE:{{ msj.asunto }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="Mensaje">Mensaje:</label>
                                 <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
-                                required></textarea>
+                                          required></textarea>
                             </div>
                             <button type="submit" class="btn btn-green">Enviar</button>
                         </form>
                     </div>
-                    </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
-
+        </div>
+        <div class="clearfix"></div>
     </div>
 
 {% endblock %}

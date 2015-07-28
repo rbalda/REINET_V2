@@ -1,19 +1,14 @@
-$("#enviarMensaje").click(function () {
-    console.log($("#destinatario").val());
-	$.ajax({
-		  type: "POST",
-		  url: "/enviarMensaje",
-		  data: {
-              'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-	          'destinatario' : $("#destinatario").val(),
-              'asunto' : $("#asunto").val(),
-              'mensaje' : $("#mensaje").val()
-		  },
-		  success: function solicitudSuccess(data){
-                    console.log("olakase");
-                    $("#contenidoRetroalimentacion").html(data);
-                },
-		  dataType: 'html'
-	});
-
+$('#destinatario').on('keyup change', function (evt) {
+    var destinatario = $('#destinatario').val();
+    var username = "{{usuario.username}}";
+    console.log(destinatario.toLowerCase());
+    console.log('emisor' + username);
+    if (destinatario.toLowerCase() == username.toLowerCase()) {
+        document.getElementById("divAlertaUsuario").style.display = 'block';
+        $('.mensaje_error').text("No puedes enviarte el mensaje a ti mismo");
+        $('#btn_enviar_mensaje_nuevo').attr('disabled', true);
+    } else if (destinatario != usuario) {
+        document.getElementById("divAlertaUsuario").style.display = 'none';
+        $('#btn_enviar_mensaje_nuevo').attr('disabled', false);
+    }
 });
