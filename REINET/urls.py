@@ -26,7 +26,7 @@ from ofertas.views import *
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^',include('usuarios.urls')),
-    url(r'^',include('ofertas.urls')),
+    url(r'^',include('ofertas_demandas.urls')),
 )
 
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

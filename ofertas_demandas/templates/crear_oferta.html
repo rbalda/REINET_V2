@@ -1,0 +1,53 @@
+{% extends "oferta_inicio.html" %}
+
+{% block contenido %}
+<link rel="stylesheet" href='/static/css/demo.css'>
+
+<div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span>CREAR OFERTA </span></h1>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="container">
+
+    <div class="row">
+        <div class=" col-md-12">
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <form  class="form-horizontal col-md-12">
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="informacion">
+                <!--NOMBRES-->
+            <div class="form-group">
+                <label for="Nombres" class="col-md-2">Nombres</label>
+
+                <div class="col-md-8">
+                    <input required autofocus type="text" class="form-control" onkeypress="return validarLetras(event);"
+                           id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                           data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                           value='{{ usuario.first_name }}'>
+                </div>
+            </div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">...</div>
+            <div role="tabpanel" class="tab-pane" id="messages">...</div>
+            <div role="tabpanel" class="tab-pane" id="settings">...</div>
+          </div>
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock%}
