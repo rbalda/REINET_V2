@@ -5,6 +5,6 @@ $(function() {
   $("#destinatario").autocomplete({
     source: "/AutocompletarUsuario",
     minLength:2,
-    labels: [ "username"]
+    labels: [ "first_name"]
   });
 });

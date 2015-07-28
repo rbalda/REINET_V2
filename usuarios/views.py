@@ -2216,8 +2216,8 @@ class AutocompletarUsuario(APIView):
 	permission_classes = (IsAuthenticated,)
 
 	def get(self,request,*args,**kwargs):
-		user = request.query_params.get('term',None)
-		usuarios = User.objects.filter(username__icontains=user)[:5]
+		nombre = request.query_params.get('term',None)
+		usuarios = User.objects.filter(first_name__icontains=nombre)[:5]
 		serializador = UsuarioSerializador(usuarios,many=True)
 		response = Response(serializador.data)
 		return response
