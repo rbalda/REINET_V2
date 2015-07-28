@@ -74,7 +74,7 @@ def registro_institucion(request, codigo):
 			peticion = Peticion.objects.all().filter(fk_usuario=request.session['id_usuario']).first()
 			if (peticion.usado == 0):
 
-				siglas = request.POST['siglaInstitucion']
+				nombre = request.POST['nombreInstitucion']
 				desc = request.POST['descInstitucion']  #Error 10, usar palabras completas no abreviaturas
 				mision = request.POST['misionInstitucion']
 				recursos = request.POST['recursosInstitucion']
@@ -93,8 +93,8 @@ def registro_institucion(request, codigo):
 
 				insti = Institucion();  #Error 10, usar palabras completas no abreviaturas
 				#Error 1, punto y coma por que?
-				insti.nombre = peticion.nombre_institucion
-				insti.siglas = siglas
+				insti.nombre = nombre
+				insti.siglas = peticion.nombre_institucion
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.web = web  #Error 10, usar palabras en español
@@ -156,6 +156,7 @@ Salida: Registrar peticion
 @login_required
 def registrarSolicitud(request):
 	if request.method == 'POST':
+		print "hi"
 		args = {}
 		try:
 			peticion = Peticion.objects.get(fk_usuario = request.session['id_usuario'])
@@ -173,8 +174,8 @@ def registrarSolicitud(request):
 			return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 		try:
-			peticion = Peticion.objects.get(nombre_institucion = request.POST['nombre_institucion'])
-			args['msj'] = 'Ya existe una INSTITUCION con este nombre'
+			peticion = Peticion.objects.get(siglas = request.POST['siglas_institucion'])
+			args['msj'] = 'Ya existe una INSTITUCION con esas siglas'
 			args['esAlerta'] = 1
 			return render_to_response('respuesta_Solicitud_Institucion.html', args)
 		except:
@@ -182,7 +183,7 @@ def registrarSolicitud(request):
 			usuario = Perfil.objects.get(id=request.session['id_usuario'])
 			peticion = Peticion()
 			peticion.codigo = '000000'
-			peticion.nombre_institucion = request.POST['nombre_institucion']
+			peticion.nombre_institucion = request.POST['siglas_institucion']
 			peticion.usado = 0
 			peticion.fk_usuario = usuario
 			peticion.save()
@@ -210,14 +211,12 @@ def verificar_siglas(request):
 			return HttpResponse("undefined")
 		print "hello"
 		try:
-			institucion = Institucion.objects.get(siglas=siglas) 
+			institucion = Institucion.objects.get(nombre_institucion=siglas)
+			nombre_institucion 
 		except:
-			institucion = None 
+			institucion = None
+			return HttpResponse("ok") 
 
-		if institucion is not None: #Error 10, usar palabras en español
-			return HttpResponse("usado")
-		else:
-			return HttpResponse("ok")
 	return HttpResponse("no es post")
 
 """
@@ -1256,7 +1255,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 
 		idLogo = 1 # Id del logo
 		if request.method=='POST':
-			siglas=request.POST.get("siglas")
+			#siglas=request.POST.get("siglas")
 			descripcion=request.POST.get("descInstitucion")
 			mision=request.POST.get("misionInstitucion")
 			web=request.POST.get("webInstitucion")
@@ -1266,10 +1265,10 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			try:
 				image = request.FILES['logo']
 			except:
-				idLogo = 0 #ID para no guardar logo noPicture.png
+				idLogo = 0 
 				image = "../../media/noPicture.png"
 
-			institucion.siglas=siglas
+			#institucion.siglas=siglas
 			institucion.descripcion=descripcion
 			institucion.mision=mision
 			institucion.correo=mail
