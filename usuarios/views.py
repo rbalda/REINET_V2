@@ -174,7 +174,7 @@ def registrarSolicitud(request):
 			return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 		try:
-			peticion = Peticion.objects.get(siglas = request.POST['siglas_institucion'])
+			peticion = Peticion.objects.get(nombre_institucion = request.POST['siglas_institucion'])
 			args['msj'] = 'Ya existe una INSTITUCION con esas siglas'
 			args['esAlerta'] = 1
 			return render_to_response('respuesta_Solicitud_Institucion.html', args)
@@ -188,7 +188,7 @@ def registrarSolicitud(request):
 			peticion.fk_usuario = usuario
 			peticion.save()
 			args['esAlerta'] = 0
-			args['msj'] = 'Se ha enviado su solicitud con exito! Se enviara; un mail de confirmacion a su correo cuando se apruebe la misma.'
+			args['msj'] = 'Se ha enviado su solicitud con exito! Se enviar&aacute; un mail de confirmacion a su correo cuando se apruebe la misma.'
 
 		return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
@@ -209,10 +209,10 @@ def verificar_siglas(request):
 			return HttpResponse("usado")
 		if (siglas == "undefined"):
 			return HttpResponse("undefined")
-		print "hello"
+		print request.POST['siglas']
 		try:
-			institucion = Institucion.objects.get(nombre_institucion=siglas)
-			nombre_institucion 
+			institucion = Institucion.objects.get(nombre=siglas)
+			return HttpResponse("usado")
 		except:
 			institucion = None
 			return HttpResponse("ok") 
