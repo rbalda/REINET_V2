@@ -55,7 +55,7 @@
                  <div class="form-group">
                      <label for="Descripcion" class="col-md-2">Descripci&oacute;n</label>
                      <div class="col-md-6">
-                         <textarea name="Descripcion" rows="9" cols="74" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
+                         <textarea required autofocus name="Descripcion" rows="9"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
                      </div>
                  </div>
 
@@ -91,11 +91,26 @@
                      <div class="col-md-6">
                          <input required autofocus type="text" class="form-control"
                              id="sub_dominio" name="sub_dominio" data-toggle="popover" data-placement="left" data-trigger="focus"
-                             data-content="Ingresa tu descripcion aquí." data-original-title="dominio"
+                             data-content="Ingresa tu descripcion aquí." data-original-title="subdominio"
                              >
                      </div>
                  </div>
 
+                 <!--Palabras Clave-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Palabras Claves</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control"
+                             id="sub_dominio" name="palabras_clave" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu descripcion aquí." data-original-title="palabraclaveS"
+                             >
+                     </div>
+                 </div>
+
+                 <!--grupo de palabras clave-->
+                  <div class="form-group">
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</button>
+                 </div>
 
               </div>
           <div role="tabpanel" class="tab-pane" id="profile">...</div>
