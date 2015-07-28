@@ -74,7 +74,7 @@ def registro_institucion(request, codigo):
 			peticion = Peticion.objects.all().filter(fk_usuario=request.session['id_usuario']).first()
 			if (peticion.usado == 0):
 
-				siglas = request.POST['siglaInstitucion']
+				nombre = request.POST['nombreInstitucion']
 				desc = request.POST['descInstitucion']  #Error 10, usar palabras completas no abreviaturas
 				mision = request.POST['misionInstitucion']
 				recursos = request.POST['recursosInstitucion']
@@ -93,8 +93,8 @@ def registro_institucion(request, codigo):
 
 				insti = Institucion();  #Error 10, usar palabras completas no abreviaturas
 				#Error 1, punto y coma por que?
-				insti.nombre = peticion.nombre_institucion
-				insti.siglas = siglas
+				insti.nombre = nombre
+				insti.siglas = peticion.nombre_institucion
 				insti.descripcion = desc
 				insti.mision = mision
 				insti.web = web  #Error 10, usar palabras en español
@@ -156,6 +156,7 @@ Salida: Registrar peticion
 @login_required
 def registrarSolicitud(request):
 	if request.method == 'POST':
+		print "hi"
 		args = {}
 		try:
 			peticion = Peticion.objects.get(fk_usuario = request.session['id_usuario'])
@@ -173,8 +174,8 @@ def registrarSolicitud(request):
 			return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 		try:
-			peticion = Peticion.objects.get(nombre_institucion = request.POST['nombre_institucion'])
-			args['msj'] = 'Ya existe una INSTITUCION con este nombre'
+			peticion = Peticion.objects.get(nombre_institucion = request.POST['siglas_institucion'])
+			args['msj'] = 'Ya existe una INSTITUCION con esas siglas'
 			args['esAlerta'] = 1
 			return render_to_response('respuesta_Solicitud_Institucion.html', args)
 		except:
@@ -182,12 +183,12 @@ def registrarSolicitud(request):
 			usuario = Perfil.objects.get(id=request.session['id_usuario'])
 			peticion = Peticion()
 			peticion.codigo = '000000'
-			peticion.nombre_institucion = request.POST['nombre_institucion']
+			peticion.nombre_institucion = request.POST['siglas_institucion']
 			peticion.usado = 0
 			peticion.fk_usuario = usuario
 			peticion.save()
 			args['esAlerta'] = 0
-			args['msj'] = 'Se ha enviado su solicitud con exito! Se enviara; un mail de confirmacion a su correo cuando se apruebe la misma.'
+			args['msj'] = 'Se ha enviado su solicitud con exito! Se enviar&aacute; un mail de confirmacion a su correo cuando se apruebe la misma.'
 
 		return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
@@ -208,16 +209,14 @@ def verificar_siglas(request):
 			return HttpResponse("usado")
 		if (siglas == "undefined"):
 			return HttpResponse("undefined")
-		print "hello"
+		print request.POST['siglas']
 		try:
-			institucion = Institucion.objects.get(siglas=siglas) 
-		except:
-			institucion = None 
-
-		if institucion is not None: #Error 10, usar palabras en español
+			institucion = Institucion.objects.get(nombre=siglas)
 			return HttpResponse("usado")
-		else:
-			return HttpResponse("ok")
+		except:
+			institucion = None
+			return HttpResponse("ok") 
+
 	return HttpResponse("no es post")
 
 """
@@ -1256,7 +1255,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 
 		idLogo = 1 # Id del logo
 		if request.method=='POST':
-			siglas=request.POST.get("siglas")
+			#siglas=request.POST.get("siglas")
 			descripcion=request.POST.get("descInstitucion")
 			mision=request.POST.get("misionInstitucion")
 			web=request.POST.get("webInstitucion")
@@ -1266,10 +1265,10 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			try:
 				image = request.FILES['logo']
 			except:
-				idLogo = 0 #ID para no guardar logo noPicture.png
+				idLogo = 0 
 				image = "../../media/noPicture.png"
 
-			institucion.siglas=siglas
+			#institucion.siglas=siglas
 			institucion.descripcion=descripcion
 			institucion.mision=mision
 			institucion.correo=mail
@@ -1456,8 +1455,7 @@ Entrada: request POST
 Salida: Redireccion bandeja de entrada
 Descripción: Esta funcion permite visualizar los mensajes
 que un usuario tiene en su bandeja de entrada
-Ultima Modificacion: Rolando Sornoza - Se realizo la implementacion de añadir mensajes de retroalimentacion
-y se valido cosas que estaban mal validadas.
+Ultima Modificacion: Rolando Sornoza - Se estandarizo la retroalimentacion de mensajes para ser presentadas, por medio de POST.
 """
 
 @login_required
@@ -1465,17 +1463,25 @@ def enviarMensaje(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	args = {}
+	#Cuando se envia el mensaje por POST
 	if request.method=='POST':
-		print "envio de mensajes desde usuario"
+		destinatario_txt = request.POST['destinatario_txt']
+		print destinatario_txt
+		nombres = request.POST['nombres']
+		print nombres
 		destinatario = request.POST['destinatario']
+		print destinatario
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
 		emisor=User.objects.get(id=sesion)
+		args['tipoAlerta'] = ''
+		args['mensajeAlerta'] = ''
+		args.update(csrf(request))
 
 		if destinatario == emisor.username:
-			args['RetroMensaje'] = 'El mensaje te lo estas enviando tu tarado'
-			args['alertaMensaje'] = 1
-			return render_to_response("respuesta_mensaje.html",args)
+			args['tipoAlerta'] = 'error'
+			args['mensajeAlerta'] = 'No te puedes enviar un mensaje tu mismo.'
+			return render_to_response("enviar_mensaje.html",args)
 		else:
 			try:
 				receptor_aux = User.objects.get(username=destinatario)
@@ -1488,9 +1494,9 @@ def enviarMensaje(request):
 					receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
 					tipo_mensaje = 'usuario-institucion'
 				except Institucion.DoesNotExist:
-					args['RetroMensaje'] = 'El usuario no existe'
-					args['alertaMensaje'] = 1
-					return render_to_response("respuesta_mensaje.html",args)
+					args['tipoAlerta'] = 'error'
+					args['mensajeAlerta'] = 'El destinatario no existe dentro de la comunidad.'
+					return render_to_response("enviar_mensaje.html",args)
 			try:
 				if receptor is not None:
 					mensajes = Mensaje()
@@ -1501,17 +1507,18 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					args['RetroMensaje'] = 'El mensaje ha sido enviado correctamente Bronza'
-					args['alertaMensaje'] = 0
-					return render_to_response("respuesta_mensaje.html",args)
+					args['tipoAlerta'] = 'completado'
+					args['mensajeAlerta'] = 'El mensaje ha sido enviado correctamente.'
+					return render_to_response("enviar_mensaje.html",args)
 				else:
-					args['RetroMensaje'] = 'Usuario Invalido Bronza'
-					args['alertaMensaje'] = 1
-					return render_to_response("respuesta_mensaje.html",args)
+					args['tipoAlerta'] = 'error'
+					args['mensajeAlerta'] = 'Algo salió mal, lloremos juntos.'
+					return render_to_response("enviar_mensaje.html",args)
 			except Exception as e:
-				args['RetroMensaje'] = 'Algo Salio Mal, lloremos juntos.'
-				args['alertaMensaje'] = 1
-				return render_to_response("respuesta_mensaje.html",args)
+				args['tipoAlerta'] = 'error'
+				args['mensajeAlerta'] = 'Algo salió demasiado mal, quema la computadora!'
+				return render_to_response("enviar_mensaje.html",args)
+	#Si entras por primera vez.
 	else:
 		args['usuario']=usuario
 		args['es_admin']=request.session['es_admin']
@@ -1613,15 +1620,14 @@ def verMensaje(request):
 	sesion=request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
 	args = {}
+
 	try:
 		idM = int(request.GET.get('q', ''))
 		msj=Mensaje.objects.get(id_mensaje = idM)
-		print "mensaje",msj.id_mensaje
-		print msj.leido
+		args.update(csrf(request))
 		if msj.fk_receptor == usuario:
 			msj.leido = True
 			msj.save()
-			print msj.leido
 			usuario_emisor=msj.fk_emisor
 			emisor = Perfil.objects.get(username= usuario_emisor.username)
 			receptor = Perfil.objects.get(username = usuario.username)
@@ -1633,7 +1639,6 @@ def verMensaje(request):
 			args['es_admin']=request.session['es_admin']
 			return render_to_response('ver_mensaje.html',args)
 		else:
-			print "mi usuario es", msj.fk_receptor, "y tengo", usuario
 			return HttpResponseRedirect("/BandejaDeEntrada/")
 	except:
 		return HttpResponseRedirect("/BandejaDeEntrada/")

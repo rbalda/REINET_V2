@@ -15,19 +15,16 @@ if (input.files && input.files[0]) {
 }
 
 $("#paisInstitucion").change(function () {
-console.log('hellou its me');
-console.log($("#paisInstitucion option:selected").val());
-$.ajax({
-  type: "POST",
-  url: "/getCiudades",
-  data: {
-      'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-      'paisId' : $("#paisInstitucion option:selected").val()
-  },
-  success: ciudadSuccess,
-  dataType: 'html'
-});
-console.log('bye');
+  $.ajax({
+    type: "POST",
+    url: "/getCiudades",
+    data: {
+        'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+        'paisId' : $("#paisInstitucion option:selected").val()
+    },
+    success: ciudadSuccess,
+    dataType: 'html'
+  });
 });
 
 function ciudadSuccess(data, textStatus, jqXHR){

@@ -30,6 +30,6 @@ class UsuarioSerializador(serializers.ModelSerializer):
         read_only_fields = ('label','first_name','last_name','username')
 
     def getuser(self,obj):
-        return obj.first_name + ' ' + obj.last_name + ' - ' + obj.username
+        return obj.first_name + ' ' + obj.last_name + '-' + obj.username
 
 
