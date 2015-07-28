@@ -1,0 +1,72 @@
+
+{% extends "base.tpl.html" %}
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
+
+    {% block raiz %}
+        <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
+    {% endblock %}
+
+    {% block inicio %}
+        <a href="/inicioUsuario/">Inicio </a>
+    {% endblock %}
+
+    {% block ofertas %}
+        <a href="/InicioOferta/">OFERTA </a>
+    {% endblock %}
+{% endif %}
+
+
+
+{% block contenido %}
+<link rel="stylesheet" href='/static/css/demo.css'>
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+
+
+
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span>OFERTAS DE LA RED</span></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+    <div class="row">
+
+
+    <!-- Editar Perfil Usuario-->
+    <div class=" col-xs-6 col-sm-8 col-md-9">
+    <div class="row">
+    <div class="signup col-md-9">
+        
+        <h3 class="hl top-zero">Editar Contrase&ntilde;a</h3>
+        <hr>
+        <div class="col-md-9">
+                <br>
+        </div>
+        <a href="#">
+          <button type="button" class="button"> Crear oferta </button> 
+        </a>
+        </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+   
+  
+{% endblock %}

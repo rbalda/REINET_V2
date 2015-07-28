@@ -2,13 +2,15 @@
     <li class="dropdown active">
 
         {% block inicio %}
-            <a href="/">Inicio </a>
+            <a href="/">Inicio</a>
         {% endblock %}
 
     </li>
     
     <li class="dropdown hidden-sm">
-        <a href="#">OFERTAS </a>
+        {% block ofertas %}
+            <a href="/InicioOferta/">OFERTAS</a>
+        {% endblock %}
     </li>
     <li class="dropdown hidden-sm">
         <a href="#">DEMANDAS </a>
