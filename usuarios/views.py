@@ -2212,6 +2212,26 @@ def accionMembresia(request):
 		return redirect('/')
 
 
+def removerMembresia(request):		
+	if request.is_ajax():
+		print'dentro de removerMembresia'
+		try:
+			
+			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
+			membresia.estado = -1
+			membresia.save()
+			response = JsonResponse({'membresia_save':True})
+			print'se removio'
+			return HttpResponse(response.content)
+
+		except Membresia.DoesNotExist:
+			print 'error al remover miembro'
+			response = JsonResponse({'membresia_save':False})
+			return HttpResponse(response.content)
+	else:
+		return redirect('/')
+
+
 class AutocompletarUsuario(APIView):
 	permission_classes = (IsAuthenticated,)
 

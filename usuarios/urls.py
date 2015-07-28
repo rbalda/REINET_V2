@@ -17,6 +17,7 @@ urlpatterns = patterns('',
         url(r'^verificarSuscripcion/$','usuarios.views.verificarSuscripcion', name='verificarSuscripcion'),
         url(r'^buzonMembresias/$','usuarios.views.buzonMembresias', name='buzonMembresias'),
         url(r'^accionMembresia/$','usuarios.views.accionMembresia', name='accionMembresia'),
+        url(r'^removerMembresia/$','usuarios.views.removerMembresia', name='removerMembresia'),
 
 
         url(r'^perfilInstitucion[/]?$', 'usuarios.views.perfilInstitucion', name='perfilInstitucion'),
