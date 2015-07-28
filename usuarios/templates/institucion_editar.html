@@ -12,7 +12,7 @@
                         <form role="form" action="/editar_perfil_institucion/" method="post"
                               enctype="multipart/form-data"
                               class="form-horizontal col-md-12"
-                              name="editar_institucion">{% csrf_token %}
+                              name="editar_institucion" novalidate>{% csrf_token %}
                             <!--NOMBRE-->
                             <div class="form-group">
                                 <label for="nombreInstitucion" class="col-md-4">Nombre de la instituci&oacute;n</label>
@@ -35,15 +35,15 @@
                                 <label class="info-board-red" id="sigla_usada" style="display: none; color: red"></label>
 
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="siglaInstitucion"
+                                    <input disabled type="text" class="form-control" id="siglaInstitucion"
                                            name="siglas"
-                                           placeholder="Siglas/Nombre abreviado" maxlength="25" data-toggle="popover"
+                                           maxlength="25" data-toggle="popover"
                                            data-placement="left" data-trigger="focus"
                                            data-content="Ingrese las siglas de la Institucion"
                                            data-original-title="Nombre abreviado"
                                            onkeypress="return validarLetras(event)"
-                                           ng-model="institucion.siglaInstitucion" ng-required="true"
-                                           ng-init="institucion.siglaInstitucion='{{ institucion.siglas }}'">
+                                           
+                                           value="{{ institucion.siglas }}">
                                 </div>
                             </div>
                             <!--DESCRIPCION-->
@@ -57,7 +57,7 @@
                                 <div class="col-md-8">
                                     <textarea class="col-md-12" class="form-control" id="descInstitucion" name="descInstitucion"
                                            placeholder="Descripcion de la Institucion"
-                                           maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus"
+                                           maxlength="240" data-toggle="popover" data-placement="left" data-trigger="focus"
                                            data-content="Ingrese las descripcion de la Institucion"
                                            data-original-title="Descripcion" ng-model="institucion.descInstitucion"
                                            ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_0-9 ]{3,240}$/" ng-required="true"
@@ -93,7 +93,13 @@
                                     <select class="form-control" name="pais" id="paisInstitucion" required>
                                         <optgroup label="Pais">
                                             {% for pais in paises %}
+                                                  {% if institucion.pais.id == pais.id %}
+                                             <option value="{{ pais.id }}" selected>{{ pais.name }}</option>
+                                              
+                                                {%else%}
                                                 <option value="{{ pais.id }}">{{ pais.name }}</option>
+                                              
+                                              {% endif %}
                                             {% endfor %}
                                         </optgroup>
                                     </select>
@@ -107,7 +113,11 @@
                                     <select class="form-control" name="ciudad" id="ciudadInstitucion" required>
                                         <optgroup id="optsCiudades" label="Ciudad">
                                             {% for ciudad in ciudades %}
-                                                <option value="{{ ciudad.id }}">{{ ciudad.name }}</option>
+                                            {% if institucion.ciudad.id == ciudad.id %}
+                                                <option value="{{ ciudad.id }}" selected>{{ ciudad.name }}</option>
+                                                {% else %}
+                                                  <option value="{{ ciudad.id }}" >{{ ciudad.name }}</option>
+                                              {% endif %}
                                             {% endfor %}
                                         </optgroup>
                                     </select>
@@ -154,22 +164,30 @@
                                 </div>
                             </div>
                             <!--EMAIL-->
+                            <script>
+                                redInn.controller('ExampleController', ['$scope', function($scope) {
+                                    $scope.email = {
+                                      text: 'me@dfgdsf.com'
+                                    };
+                                  }]);
+                              </script>
                             <div class="form-group">
                                 <label for="emailInstitucion" class="col-md-4">E-mail</label>
-                                <div ng-messages='editar_institucion.emailInstitucion.$error' >
+                                
+                                <div class="col-md-8" ng-controller="ExampleController">
+                                  <div ng-messages='editar_institucion.emailInstitucion.$error' >
                                   <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="editar_institucion.emailInstitucion.$dirty && editar_institucion.emailInstitucion.$invalid">
-                                    El email esta incorrecto. Ejemplo: ejemplo@reinet.com.
+                                    Ingrese una dirección de email válida. Ejemplo: ejemplo@reinet.com.
                                   </label>
                                 </div>
-                                <div class="col-md-8">
-                                    <input type="email" class="form-control" id="emailInstitucion"
-                                           name="emailInstitucion"
-                                           pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}"
+                                    <input type="email"  ng-model="email.text" class="form-control" id="emailInstitucion"
+                                           name="emailInstitucion" 
+                                          ng-pattern="/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/"
                                            placeholder="Email" maxlength="45" data-toggle="popover"
                                            data-placement="left"
                                            data-trigger="focus"
                                            data-content="Ingrese el correo electronico de la Institución"
-                                           data-original-title="Email" required value="{{ institucion.correo }}">
+                                           data-original-title="Email" ng-required >
                                 </div>
                             </div>
                             <!--SITIO WEB-->

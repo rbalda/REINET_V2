@@ -1256,7 +1256,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 
 		idLogo = 1 # Id del logo
 		if request.method=='POST':
-			siglas=request.POST.get("siglas")
+			#siglas=request.POST.get("siglas")
 			descripcion=request.POST.get("descInstitucion")
 			mision=request.POST.get("misionInstitucion")
 			web=request.POST.get("webInstitucion")
@@ -1266,10 +1266,10 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			try:
 				image = request.FILES['logo']
 			except:
-				idLogo = 0 #ID para no guardar logo noPicture.png
+				idLogo = 0 
 				image = "../../media/noPicture.png"
 
-			institucion.siglas=siglas
+			#institucion.siglas=siglas
 			institucion.descripcion=descripcion
 			institucion.mision=mision
 			institucion.correo=mail
