@@ -1465,7 +1465,12 @@ def enviarMensaje(request):
 	args = {}
 	#Cuando se envia el mensaje por POST
 	if request.method=='POST':
+		destinatario_txt = request.POST['destinatario_txt']
+		print destinatario_txt
+		nombres = request.POST['nombres']
+		print nombres
 		destinatario = request.POST['destinatario']
+		print destinatario
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
 		emisor=User.objects.get(id=sesion)

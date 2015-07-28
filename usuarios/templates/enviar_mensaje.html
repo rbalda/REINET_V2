@@ -36,8 +36,13 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="Destinatario">Para:</label>
-                    <input type="text" class="form-control" id="destinatario" name="destinatario"
+                    <input type="text" class="form-control" id="destinatario_txt" name="destinatario_txt"
                            placeholder="Destinatario" maxlength="50" required>
+
+                    <input type="text" id="nombres" name="nombres">
+
+                    <input type="text" id="destinatario" name="destinatario">
+
                 </div>
 
 
@@ -75,8 +80,10 @@
         </div>
     </div>
 
+
 {% load staticfiles %}
 <script src="{% static 'js/usuarios/enviar_mensajes.js' %}"></script>
+<script src="{% static 'js/autocompletar.js' %}"></script>
 {% endblock %}
 
 

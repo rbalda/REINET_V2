@@ -274,7 +274,7 @@ redInn.directive('uniqueNombre', function($http){
                         method: 'POST', 
                         url: '/verificar_siglas',
                         data: 'siglas='+value,
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                     .success(function(data, status, headers, config) {
                       if (data == "usado") {
@@ -325,7 +325,7 @@ redInn.directive('uniqueUser', function($http){
                         method: 'POST',
                         url: '/verificar_username',
                         data: 'username='+value,
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                     .success(function(data, status, headers, config) {
                       if (data == "usado") {
@@ -378,7 +378,7 @@ redInn.directive('uniqueEmail', function($http){
                         method: 'POST',
                         url: '/verificar_email',
                         data: 'email='+value,
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                     .success(function(data, status, headers, config) {
                       if (data == "usado") {
