@@ -22,6 +22,9 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 
+from usuarios.models import *
+
+
 """
 Autor: Leonel Ramirez
 Nombre de funcion: ofertas
@@ -47,3 +50,29 @@ Descripcion: para llamar la pagina oferta inicio
 def crear_ofertas(request):
 	args = {}
 	return render_to_response('crear_oferta.html',args)
+
+"""
+Autor: Roberto Yoncon
+Nombre de funcion: verCualquierOferta
+Parametros: request
+Salida: http
+Descripcion: funcion para ver una oferta publicada
+"""
+@login_required
+def verCualquierOferta(request):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	args.update(csrf(request))
+	args['es_admin']=request.session['es_admin']
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	return render_to_response('oferta_ver_otra.html',args)

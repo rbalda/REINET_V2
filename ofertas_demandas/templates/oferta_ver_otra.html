@@ -1,0 +1,213 @@
+{% extends "oferta_inicio.html" %}
+
+
+{% block contenido %}
+<link rel="stylesheet" href='/static/css/demo.css'>
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+<style>
+ .section-header h1 span {
+    border-bottom: 5px solid green;
+    padding-bottom: 10px;
+ }
+ .rating {
+    unicode-bidi: bidi-override;
+    text-align: center;
+    font-size: 20px;
+    color: gold;
+ }
+
+ .rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+    / / content : "\2606";
+ }
+</style>
+
+
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span>OFERTA</span></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+    <div class="row">
+
+
+    <!-- Editar Perfil Usuario-->
+    <div class=" col-xs-6 col-sm-8 col-md-12">
+
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-8">
+                    <div class="row">
+                    <figure>
+                        <div class="thumbnail col-md-3">
+                            <div class="avatar">
+                                <span class="thumbnail bottom-12">
+                                    <!--NSERTAR FOTO DE OFERTA-->
+                                    <img src="/../../media/hoteshi.jpg" alt="...">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="container col-md-9">
+                            <!-- INSERTAR DATOS OFERTA -->
+                            <h4 style="font-size: 15px;color: green">Nombre de la Oferta</h4>
+                            <p style="font-size: 13px">
+                                <!-- INSERTAR DATOS OFERTA -->
+                                Descripcion de la oferta. 
+                                <br><br>Tipo de Oferta
+                                <br>Fecha Publicaci&oacute;n
+                                <br>Numero de Miembros
+                            </p>
+                            <span class="rating">
+                                <span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span>
+                            </span>
+                        </div>
+                    </figure>
+                    </div>
+<!-- Nav tabs -->
+                <div class="row">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#comentarios" aria-controls="home" role="tab" data-toggle="tab">COMENTARIOS</a></li>
+                    <li role="presentation"><a href="#modeloNegocios" aria-controls="home" role="tab" data-toggle="tab">MODELO DE NEGOCIOS</a></li>
+                    <li role="presentation"><a href="#industria" aria-controls="home" role="tab" data-toggle="tab">INDUSTRIA</a></li>
+                    <li role="presentation"><a href="#estadoLogros" aria-controls="home" role="tab" data-toggle="tab">ESTADO</a></li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content col-md-12">
+                    <!--TAB COMENTARIOS -->
+                    <div role="tabpanel" class="tab-pane active" id="comentarios">
+                        <div class="col-md-12 col-sm-8 col-xs-6">
+                            <h4>21 comments</h4>
+                            <hr>
+                            <div class="comment">
+                                <div class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object" src="/../../media/hoteshi.jpg" alt="...">
+                                    </a>
+                                    <div class="media-body">
+                                        <p><a href="profile.html">Username</a></p>
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                                        </p>
+                                        <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-clock-o"></i> 20 minutes ago</li>
+                                            <li><i class="fa fa-cog"></i> <a href="#">Edit</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment">
+                                <div class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object" src="/../../media/hoteshi.jpg" alt="...">
+                                    </a>
+                                    <div class="media-body">
+                                        <p><a href="profile.html">Username</a></p>
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                                        </p>
+                                        <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-calendar"></i> 11/10/2013 </li>
+                                            <li><i class="fa fa-cog"></i> <a href="#">Edit</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--TAB MODELO DE NEGOCIOS-->
+                    <div role="tabpanel" class="tab-pane" id="modeloNegocios">
+                        <div class="col-md-12 col-sm-8 col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--TAB INDUSTRIA-->
+                    <div role="tabpanel" class="tab-pane" id="industria">
+                        <div class="col-md-12 col-sm-8 col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--TAB ESTADO-->
+                    <div role="tabpanel" class="tab-pane" id="estadoLogros">
+                        <div class="col-md-12 col-sm-8 col-xs-6">
+                            <h4>Disponibilidad del producto o servicio</h4>
+                            <hr>
+                            <p>2 años</p>
+                            <br/>
+                            <h4>Estrategia de crecimiento</h4>
+                            <hr>
+                            <p>Colocar estrategia de crecimiento de oferta</p>
+                            <br/>
+                            <h4>Estado de propiedad intelectual</h4>
+                            <hr>
+                            <p>Colocar estado de propiedad intelectual de oferta</p>
+                            <br/>
+                            <h4>Evidencia de tracci&oacute;n</h4>
+                            <hr>
+                            <p>Colocar evidencia de traccion</p>
+                        </div>                
+                    </div>
+                  </div>
+                </div>
+            </div>
+                <div class="col-md-4">
+                    <div>
+                    <h4> Tags </h4>
+                    <hr>
+                    <!-- INSERTAR TAGS DE OFERTA-->
+                    <p class="tags">
+                        <a href="#">Bootstrap</a>
+                        <a href="#">HTML5</a>
+                        <a href="#">Highland</a>
+                        <a href="#">Blog post</a>
+                        <a href="#">CSS3</a>
+                        <a href="#">jQuery</a>
+                    </p>
+                    <br/>
+                    </div>
+                    <div>
+                        <h4>Perfil del cliente</h4>
+                        <hr>
+                        <!--INSERTAR PERFIL DEL CLIENTE-->
+                        <p>
+                            Insertar perfil del cliente
+                        </p>
+                        <br/>
+                    </div>
+                    <div>
+                        <h4>Perfil del beneficiario</h4>
+                        <hr>
+                        <!-- INSERTAR PERFIL DEL BENEFICIARIO-->
+                        <p>
+                            Insertar perfil del beneficiario
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+   
+  
+{% endblock %}
