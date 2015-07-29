@@ -7,6 +7,10 @@
         <hr>
         <div class="pm bottom-15">
             <div class="media">
+                {% if msj.tipo_mensaje == 'institucion-usuario' or msj.tipo_mensaje == 'institucion-institucion'%}
+                    <a data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
+                    <i class="fa fa-bookmark" style="color:blue;"></i></a>
+                {% endif %}
                 <a class="pull-left" href="#">
                     <img class="media-object" src="{{ emisor.foto.url }}" alt="...">
                 </a>
