@@ -44,41 +44,42 @@
                   </div>
                   <div>
                     <a href="#" class="col-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje" style="font-weight:bold;"><i class="fa fa-envelope"></i> Redactar Mensaje</a>
-                        <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-                        <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <img src={{ usuarioSesion.foto.url }} alt="...">
-                                    <h4 class="modal-title" id="sendemailtitle">{{ usuarioSesion.first_name }} {{ usuarioSesion.last_name }}</h4>
-                                    <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form" action="/enviarMensaje/" method='POST'>
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <label for="Destinatario">Para:</label>
-                                            <p class="text-muted"> {{ institucion.siglas }}</p>
-                                            <input type="hidden" id="destinatario" name="destinatario" value="{{ institucion.siglas }}" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Asunto">Asunto:</label>
-                                            <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
-                                            maxlength="40" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Mensaje">Mensaje:</label>
-                                            <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
-                                            required></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-green">Enviar</button>
-                                    </form>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
+
+<!-- //// VENTANA EMERGENTE EMAIL ///// -->
+<div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close cancelar" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <img src={{ usuario.foto.url }} alt="...">
+            <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
+            <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+            <div class="clearfix"></div>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="Destinatario">Para:</label>
+                    <p class="text-muted"> {{ institucion.siglas }}</p>
+                    <input type="hidden" id="destinatario" name="destinatario" value="{{ institucion.siglas }}" />
+                </div>
+                <div class="form-group">
+                    <label for="Asunto">Asunto:</label>
+                    <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                    maxlength="40" required>
+                </div>
+                <div class="form-group">
+                    <label for="Mensaje">Mensaje:</label>
+                    <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
+                    required></textarea>
+                </div>
+                <button data-dismiss="modal" class="btn btn-blue" id="enviarMensajePerfilInstitucion">Enviar</button>
+                 <button type="button" class="btn btn-default cancelar" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 
                       <button class="col-sm-12 btn btn-blue btn-sm" id="btn_sucribirte" style="text-align:center; margin-top:5px;" type="button" data-toggle="popover" data-placement="bottom">
                       <i class="fa fa-user-plus  btn-sm"></i>Solicitar Membresia</button>
@@ -242,6 +243,10 @@
     </div>
     <input id="inst_value" type="hidden" value="{{institucion.id_institucion}}">
 </div>
+<script>
+    var emisor = '{{ usuario.id }}';
+    console.log('id de emisor' + emisor);
+</script>
 <script type="text/javascript" src="/static/js/perfil-otra-institucion.js"></script>
 
 {% endblock %}

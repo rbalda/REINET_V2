@@ -46,50 +46,70 @@
 
 		 			$(document).on('click','#accionMembresia{{miembro.id_membresia}}',function(){
 		 				console.log('hizo click en accion membresia');
-		 				//document.getElementById("accionMembresia{{miembro.id_membresia}}").disabled=true;
-                        console.log($('#asunto_form').val());
                         console.log($('#mensaje_form').val());
-		 				$.ajax({
-		 					data : {
-                                'asunto' : asunto,
-                                'mensaje' : $('#mensaje_form').val(),
-                                'membresia' : {{miembro.id_membresia}},
-		 						'accion' : opcion,
-		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
-		 					},
-		 					type : 'post',
-		 					url : '/accionMembresia/',
-                            beforeSend: function(){
-                                $('#Rechazar{{miembro.id_membresia}}').attr('disabled',true);
-                                $('#Aceptar{{miembro.id_membresia}}').attr('disabled',true);
-                                $('#accionMembresia{{miembro.id_membresia}}').attr('disabled',true);
-                            },
-		 					success: function(data){
-		 						var objeto = JSON.parse(data);
+                        if(CamposVacios()){
+                            console.log('campos vacions');
+                        }else{
+                                $.ajax({
+                                    data : {
+                                        'asunto' : asunto,
+                                        'mensaje' : $('#mensaje_form').val(),
+                                        'membresia' : {{miembro.id_membresia}},
+                                        'accion' : opcion,
+                                        'csrfmiddlewaretoken' : '{{ csrf_token }}'
+                                    },
+                                    type : 'post',
+                                    url : '/accionMembresia/',
+                                    beforeSend: function(){
+                                        $('#Rechazar{{miembro.id_membresia}}').attr('disabled',true);
+                                        $('#Aceptar{{miembro.id_membresia}}').attr('disabled',true);
+                                        $('#accionMembresia{{miembro.id_membresia}}').attr('disabled',true);
+                                    },
+                                    success: function(data){
+                                        var objeto = JSON.parse(data);
 
-		 						if (objeto.membresia_save){
-		 							$('#solicitud{{miembro.id_membresia}}').remove();
-		 							$(function(){
-                                  		$('#panel_miembros').ready(actualizarListaMiembros);
+                                        if (objeto.membresia_save){
+                                            $('#solicitud{{miembro.id_membresia}}').remove();
+                                            $(function(){
+                                                $('#panel_miembros').ready(actualizarListaMiembros);
 
-                                    	function actualizarListaMiembros(){
-                                    		$.ajax({
-                                      			data:{
-                                        			'institucion':{{institucion.id_institucion}}
-                                      			},
-                                      			type:'get',
-                                      			url: '/MiembrosInstitucion/',
-                                      			success: function(data){
-                                        			$('#panel_miembros').html(data)
-                                      			}
-                                    		});
-                                  		}
-                                	});
-		 						}
-		 					}
-		 				});
-		 		});
+                                                function actualizarListaMiembros(){
+                                                    $.ajax({
+                                                        data:{
+                                                            'institucion':{{institucion.id_institucion}}
+                                                        },
+                                                        type:'get',
+                                                        url: '/MiembrosInstitucion/',
+                                                        success: function(data){
+                                                            $('#panel_miembros').html(data)
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                        }
 
+		 		   });// fin de document accionmembresia
+
+                      $('.cancelar').on('click',function(){
+                            limpiarInputsMensajes();
+                        });
+
+                          function limpiarInputsMensajes(){
+                              $('#mensaje_form').val("");
+                          }
+
+                          function CamposVacios(){
+                              if($('#mensaje_form').val() ==""){
+                                  return true;
+                              }else{
+                                  return false;
+                              }
+                          }
+
+                // fin de function
              });
 
          });
@@ -102,7 +122,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close cancelar" data-dismiss="modal" aria-hidden="true">&times;</button>
             <img src={{ usuarioSesion.foto.url }} alt="...">
             <h4 class="modal-title" id="sendemailtitle">{{ institucion.nombre }}</h4>
             <p class="text-muted"><i class="fa fa-envelope"></i>Mensaje Membresia</p>
@@ -122,7 +142,7 @@
                 </div>
                 <button data-dismiss="modal" class="btn btn-blue" id="accionMembresia{{miembro.id_membresia}}">Enviar</button>
 
-                 <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                 <button type="button" class="btn btn-default cancelar" data-dismiss="modal" aria-hidden="true">Cancelar</button>
             </form>
         </div>
         </div>

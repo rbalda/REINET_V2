@@ -77,6 +77,73 @@
     			}
 	        });
 	    });
+
+      $('#enviarMensajePerfilInstitucion').on('click',function(){
+        console.log('dentro de enviarMensajePerfilInstitucion');
+        var destinatario = $('#destinatario').val();
+        var asunto = $('#asunto').val();
+        var mensaje = $('#mensaje').val();
+        console.log(emisor + " " + destinatario + " " + asunto + " " + mensaje);
+
+        if(CamposVacios()){
+          console.log('campos vacios');
+        }else{
+              $.ajax({
+              data:{
+                'emisor': emisor,
+                'destinatario': destinatario,
+                'asunto': asunto,
+                'mensaje': mensaje,
+                'csrfmiddlewaretoken' : $.cookie('csrftoken')
+              },
+              type:'post',
+              url:'/enviarMensajePerfilInstitucion/',
+              beforeSend: function(){
+                  $('#enviarMensajePerfilInstitucion').attr('disabled',true);
+              },
+              success: function(data){
+                var objeto = JSON.parse(data);
+                if(objeto.save_estado){
+                  var html = '<p><span class="glyphicon glyphicon-ok-sign"></span> Mensaje Enviado con exitosamente</p>';
+                  $('#info_suscripcion').addClass("alert alert-info");
+                  $('#info_suscripcion_txt').html(html);
+                  $('#info_suscripcion').removeClass("alert-warning");
+                  $('#info_suscripcion').show();
+                }else{
+                  var html = '<p><span class="glyphicon glyphicon-exclamation-sign"></span> Error al enviar mensaje</p>';
+                  $('#info_suscripcion').addClass("alert alert-warning");
+                  $('#info_suscripcion_txt').html(html);
+                  $('#info_suscripcion').removeClass("alert-info");
+                  $('#info_suscripcion').show();
+                }
+
+              },
+              complete: function(){
+                  limpiarInputsMensajes();
+                  $('#enviarMensajePerfilInstitucion').attr('disabled',false);
+                  $('#enviarMensaje').modal('toggle');
+              }
+            });
+        }
+      });
+
+      $('.cancelar').on('click',function(){
+              limpiarInputsMensajes();
+      });
+
+      function limpiarInputsMensajes(){
+          $('#asunto').val("");
+          $('#mensaje').val("");
+      }
+
+      function CamposVacios(){
+          if(($('#asunto').val()=="") &&  ($('#mensaje').val() =="") ){
+              return true;
+          }else{
+              return false;
+          }
+      }
+
     });
 
 $(document).on('click','#btn_aceptar_Suscripcion',function(){
@@ -113,6 +180,7 @@ $(document).on('click','#btn_aceptar_Suscripcion',function(){
                   	var html = '<p><span class="glyphicon glyphicon-exclamation-sign"></span> Error inesperado. <br>Vuelva a intentarlo mas tarde</p>';
                   	$('#info_suscripcion').addClass("alert alert-warning");
                   	$('#info_suscripcion_txt').html(html);
+                    $('#info_suscripcion').removeClass("alert-info");
                   	$('#info_suscripcion').show();
                   }
           }

@@ -19,6 +19,8 @@ urlpatterns = patterns('',
         url(r'^accionMembresia/$','usuarios.views.accionMembresia', name='accionMembresia'),
         url(r'^removerMembresia/$','usuarios.views.removerMembresia', name='removerMembresia'),
 
+        url(r'^enviarMensajePerfilInstitucion/$','usuarios.views.enviarMensajePerfilInstitucion', name='enviarMensajePerfilInstitucion'),
+
 
         url(r'^perfilInstitucion[/]?$', 'usuarios.views.perfilInstitucion', name='perfilInstitucion'),
         url(r'^envioSolicitud[/]?$','usuarios.views.registrarSolicitud', name="envio_solicitud"),

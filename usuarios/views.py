@@ -2126,7 +2126,7 @@ def verificarSuscripcion(request):
 """
 Autor: Fausto Mora
 Nombre de funcion: buzonMembresias
-Entrada: request get
+Entrada: request ajax get
 Salida: envia un HttpResponse
 Descripción: Esta funcion carga las membresias en el perfil 
 de la institucion
@@ -2154,8 +2154,8 @@ def buzonMembresias(request):
 """
 Autor: Fausto Mora
 Nombre de funcion: accionMembresia
-Entrada: request post
-Salida: envia un response
+Entrada: request ajax post id_membresia
+Salida: JsonResponse
 Descripción: Esta funcion carga maneja la aceptacion y rechazo
 de las solicitudes de membresia de una institucion
 """
@@ -2219,8 +2219,8 @@ def accionMembresia(request):
 """
 Autor: Fausto Mora
 Nombre de funcion: removerMembresia
-Entrada: request post
-Salida: envia un response
+Entrada: id_membresia por ajax post
+Salida: JsonResponse
 Descripción: funcion para remover membresia a miembros
 de una institucion
 """
@@ -2243,6 +2243,58 @@ def removerMembresia(request):
 			return HttpResponse(response.content)
 	else:
 		return redirect('/')
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: enviarMensajePerfilInstitucion
+Entrada: emisor,destinatario,asunto,mensaje por ajax post
+Salida: JsonResponse
+Descripción: permite enviar mensaje desde el perfil de una institucion
+"""
+
+@login_required
+def enviarMensajePerfilInstitucion(request):
+    if request.is_ajax():
+        print 'dentro de enviar mensaje institucion'
+        print request.POST['emisor']
+        emisor=User.objects.get(id=request.POST['emisor'])
+        destinatario = request.POST['destinatario']
+        asunto = request.POST['asunto']
+        texto_mensaje = request.POST['mensaje']
+
+        try:
+            print 'buscando institucion'
+            receptor_aux = Institucion.objects.get(siglas=destinatario)
+            membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+            receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+            print receptor_aux
+            tipo_mensaje = 'usuario-institucion'
+        except Institucion.DoesNotExist:
+            print 'No existe institucion - cambiaron el hidden'
+            response = JsonResponse({'save_estado':False})
+            return HttpResponse(response.content)
+        except User.DoesNotExist:
+        	print 'error grave - no existe usuario'
+        	response = JsonResponse({'save_estado':False})
+        	return HttpResponse(response.content)
+
+        if receptor is not None:
+            mensajes = Mensaje()
+            mensajes.fk_emisor = emisor
+            mensajes.fk_receptor = receptor
+            mensajes.asunto = asunto
+            mensajes.tipo_mensaje = tipo_mensaje
+            mensajes.mensaje= texto_mensaje
+            mensajes.fecha_de_envio=datetime.datetime.now()
+            mensajes.save()
+
+            response = JsonResponse({'save_estado':True})
+            return HttpResponse(response.content)
+        else:
+            response = JsonResponse({'save_estado':False})
+            return HttpResponse(response.content)
+    else:
+        return redirect('/')
 
 class AutocompletarUsuario(APIView):
 	permission_classes = (IsAuthenticated,)
