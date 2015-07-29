@@ -20,9 +20,10 @@
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+            <li role="presentation"><a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Client/Usuario</a></li>
+            <li role="presentation"><a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
+            <li role="presentation"><a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
+            <li role="presentation"><a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
           </ul>
 
           <!-- Tab panes -->
@@ -34,7 +35,7 @@
                  <div class="form-group">
                      <label for="Nombres" class="col-md-2">Nombres</label>
                      <div class="col-md-6">
-                         <input required autofocus type="text" class="form-control" onkeypress="return validarLetras(event);"
+                         <input required autofocus type="text" class="form-control" 
                              id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
                              data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
                              >
@@ -107,16 +108,211 @@
                      </div>
                  </div>
 
-                 <!--grupo de palabras clave-->
-                  <div class="form-group">
-                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</button>
+                  <!-- Tags -->
+                <div class="form-group col-md-8">
+                <label class="col-md-3"></label>  
+                  <p class="tags col-md-9">
+                    <a href="#">Arte</a>
+                    <a href="#">Educaci&oacute;n</a>
+                    <a href="#">Alimentos y Bebidas</a>
+                    <a href="#">Turismo</a>
+                    <a href="#">Salud</a>
+                    <a href="#">Automotriz</a>
+                    <a href="#">Tecnolog&iacute;a</a>
+                    <a href="#">Ciencias Biol&oacute;gicas</a>
+                    <a href="#">Electr&oacute;nica</a>
+                  </p>
+                </div>
+                <div class="col-md-8">
+                 <button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+                </div>
+            </div>
+
+          <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+              <!--Perfil Cliente-->
+              <div class="form-group">
+                     <label for="Descripcion" class="col-md-2">Perfil Cliente</label>
+                     <div class="col-md-6">
+                         <textarea required autofocus name="Descripcion" rows="6"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"></textarea>
+                     </div>
                  </div>
 
-              </div>
-          <div role="tabpanel" class="tab-pane" id="profile">...</div>
-          <div role="tabpanel" class="tab-pane" id="messages">...</div>
-          <div role="tabpanel" class="tab-pane" id="settings">...</div>
+              <!--Perfil Cliente-->
+              <div class="form-group">
+                     <label for="Descripcion" class="col-md-2">Perfil del Beneficiario</label>
+                     <div class="col-md-6">
+                         <textarea required autofocus name="Descripcion" rows="6"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"></textarea>
+                     </div>
+              </div>  
+              
+              <div class="col-md-8">
+                 <button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+              </div>       
           </div>
+
+
+          <div role="tabpanel" class="tab-pane" id="modelo">
+              <!--Canvas del modelo ne negocio-->
+             <h3 class="hl">Canvas del Modelo de negocios</h3>
+             <hr>
+              <div class="col-md-12">
+                     <div class="col-md-2">                    
+                         <label class="col-md-12" style="text-align:center">Socio Clave</label>
+                         <textarea required autofocus name="Descripcion" rows="10" cols="20"></textarea>
+                     </div>
+
+                     <div class="col-md-2">                    
+                         <label class="col-md-12" style="text-align:center">Actividades Clave</label>
+                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                         <label class="col-md-12" style="text-align:center">Recursos Clave</label>
+                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                     </div>
+
+                     <div class="col-md-2" style="text-align:center">                    
+                         <label> Propuesta por Valor</label>
+                         <textarea required autofocus name="Descripcion" rows="10" cols="20"></textarea>
+                     </div>
+
+                     <div class="col-md-2" style="text-align:center">                    
+                         <label>Relaciones con Clientes</label>
+                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                         <label class="col-md-12" style="text-align:center">Canales</label>
+                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                     </div>
+
+                     <div class="col-md-2" style="text-align:center">                    
+                         <label style="text-align:center">Segmentos  del  cliente</label>
+                         <textarea required autofocus name="Descripcion" rows="10" cols="19"></textarea>
+                     </div>
+              </div>
+              <div class="col-md-12">
+                    <div class="col-md-5">                    
+                         <label class="col-md-12" style="text-align:center">Estructura de Costos</label>
+                         <textarea required autofocus name="Descripcion" rows="5" class="col-md-12"></textarea>
+
+                     </div>
+                     <div class="col-md-5">                    
+                         <label class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
+                         <textarea required autofocus name="Descripcion" rows="5" class="col-md-12"></textarea>
+                   </div>  
+              </div>
+
+              <div class="col-md-10">
+                 <br><button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+              </div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="industria">
+              <!--Industria Competidores-->
+
+              <!--Tendencias-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Tendencias Relevantes</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control" 
+                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                             >
+                     </div>
+                 </div>
+
+                 <!--Alternativas de solucion-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Alternativas de Soluci&oacute;n Existentes</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control" 
+                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                             >
+                     </div>
+                 </div>
+
+                 <!--Competidores-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Competidores</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control" 
+                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                             >
+                     </div>
+                 </div>
+
+                 <!--Diagrama de Porter-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Competidores</label>
+                     <div class="col-md-2">                    
+                         <textarea required autofocus name="Descripcion" rows="8" class="col-md-12"></textarea>
+                     </div>
+                     <div class="col-md-4">                                 
+                         <textarea required autofocus name="Descripcion" class="col-md-12" rows="3" cols="20"></textarea>
+                         <label class="col-md-12"></label>
+                         <div class="col-md-12">
+                             <label class="col-md-8">Rivalidad en la Industria</label>
+                             <textarea required autofocus name="Descripcion" class="col-md-4"  rows="8" ></textarea>
+                             <textarea required autofocus name="Descripcion" class="col-md-12 col-md-offset-1"  rows="4" ></textarea>
+                         </div>
+                           
+                     </div>
+                 </div>
+
+             <div class="col-md-8">
+                 <br><button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+              </div>
+
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="esta_logro">
+            <!--Estados y logros-->   
+            <!--Tiempo disponibilidad-->
+                 <div class="form-group">
+                    <div class="col-md-8">
+                        <label>Tiempo de disponilidad del producto o servicio</label>
+                        <input required autofocus type="text" 
+                                 id="dominio" name="dominio" data-toggle="popover" data-placement="left" size="4" data-trigger="focus" data-original-title="dominio"
+                                 >
+                        <label>Años</label>
+                    </div> 
+                 </div> 
+
+                 <!--Estrategia de crecimiento-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Estrategia de crecimiento</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control"
+                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                             >
+                     </div>
+                 </div>
+
+                 <!--Estado de propiedad Intelectual-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Estado de propiedad Intelectual</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control"
+                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                             >
+                     </div>
+                 </div>
+
+                 <!--Evidencia de Traccion-->
+                 <div class="form-group">
+                     <label for="Nombres" class="col-md-2">Evidencia de Tracci&oacute;n</label>
+                     <div class="col-md-6">
+                         <input required autofocus type="text" class="form-control" 
+                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
+                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
+                             >
+                     </div>
+                 </div>
+
+                 <div class="col-md-8">
+                    <br><button type="submit" class="btn btn-blue pull-right">Guardar</button> 
+                 </div>
+          </div>
+        </div>
           </form>
         </div>
     </div>
