@@ -104,7 +104,7 @@
               success: function(data){
                 var objeto = JSON.parse(data);
                 if(objeto.save_estado){
-                  var html = '<p><span class="glyphicon glyphicon-ok-sign"></span> Mensaje Enviado con exitosamente</p>';
+                  var html = '<p><span class="glyphicon glyphicon-ok-sign"></span> Mensaje Enviado Exitosamente</p>';
                   $('#info_suscripcion').addClass("alert alert-info");
                   $('#info_suscripcion_txt').html(html);
                   $('#info_suscripcion').removeClass("alert-warning");
