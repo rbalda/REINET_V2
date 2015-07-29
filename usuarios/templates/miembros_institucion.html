@@ -1,7 +1,7 @@
-<div class="col-md-offset-1"> Miembros Activos en su instituci&oacute;n = {{ numMiembros }} </div>
+ <div style="margin-left:10px;"><p class="text-muted"><i class="fa fa-users"> Miembros {{ numMiembros }}</i></p></div>
 {% for miembro in miembrosActivos %}
     <li id="miembro{{miembro.id_membresia}}">
-        <p class="text-muted" >
+        <p class="text-muted">
             {% load staticfiles %}
             <img src="{{ miembro.fk_usuario.perfil.foto.url }}" alt="...">
             <a href="/usuario/{{ miembro.fk_usuario }}">{{ miembro.fk_usuario.username }}</a>
@@ -9,6 +9,89 @@
             <br><STRONG>Fecha de solicitud:</STRONG>
             {{ miembro.fecha_peticion|date:"M d, Y" }}
         </p>
+        <p class="text-muted">
+        {% if not miembro.es_administrator %}
+            <a id="eliminar_{{miembro.id_membresia}}" href="#" class="col-md-offset-9 button" data-toggle="modal" data-type="zoomin" data-target="#remover_miembro{{miembro.id_membresia}}"><i class="fa fa-user-times"></i></a>
+        {% endif %}
+        </p>
         <div class="clearfix"></div>
     </li>
+
+
+<!-- Modal window: Send an email -->
+<div class="modal fade" id="remover_miembro{{miembro.id_membresia}}" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <br/>
+                <p> <h5 class="text-warning"> Esta seguro que desea remover este usuario de la Instituci&oacute;n?</h5></p>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="modal-body">
+                    <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
+                    <button id="btn_remover_miembro{{miembro.id_membresia}}" type="submit" class="btn btn-warning" style="left:15px;position:relative;">Confirmar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" style="left:40px;position:relative;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End of modal window -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(function(){
+
+            $(document).on('click','#btn_remover_miembro{{miembro.id_membresia}}',function(){
+                console.log('hizo click en remover miembro');
+                $.ajax({
+                    data : {
+                        'membresia' : {{miembro.id_membresia}},
+                        'csrfmiddlewaretoken' : '{{ csrf_token }}'
+                    },
+                    type : 'post',
+                    url : '/removerMembresia/',
+                    beforeSend: function(){
+                        $("#btn_remover_miembro{{miembro.id_membresia}}").attr('disabled',true);
+                    },
+                    success: function(data){
+                        var objeto = JSON.parse(data);
+                        if (objeto.membresia_save){
+                            $('#miembro{{miembro.id_membresia}}').remove();
+                            $(function(){
+                                $('#panel_miembros').ready(actualizarListaMiembros);
+
+                                function actualizarListaMiembros(){
+                                    $.ajax({
+                                        data:{
+                                            'institucion':{{institucion.id_institucion}}
+                                        },
+                                        type:'get',
+                                        url: '/MiembrosInstitucion/',
+                                        success: function(data){
+                                            $('#panel_miembros').html(data);
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            console.log('Ocurrio un error en removerMembresia');
+                        }
+                    },
+                    complete: function(){
+                        $("#btn_remover_miembro{{miembro.id_membresia}}").attr('disabled',false);
+                    }
+                });
+            });
+
+        });
+
+    });
+</script>
+
 {% endfor %}
+
