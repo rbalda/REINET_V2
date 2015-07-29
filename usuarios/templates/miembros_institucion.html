@@ -31,7 +31,7 @@
 
             <div class="modal-body">
                     <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
-                    <button id="btn_remover_miembro{{miembro.id_membresia}}" type="submit" class="btn btn-warning" style="left:15px;position:relative;">Confirmar</button>
+                    <button id="btn_remover_miembro{{miembro.id_membresia}}" class="btn btn-warning" style="left:15px;position:relative;" data-dismiss="modal">Confirmar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" style="left:40px;position:relative;">Cancelar</button>
                 </div>
             </div>
@@ -57,6 +57,7 @@
                     url : '/removerMembresia/',
                     beforeSend: function(){
                         $("#btn_remover_miembro{{miembro.id_membresia}}").attr('disabled',true);
+                        $("#eliminar_{{miembro.id_membresia}}").attr('disabled',true);
                     },
                     success: function(data){
                         var objeto = JSON.parse(data);
@@ -81,9 +82,6 @@
                         }else{
                             console.log('Ocurrio un error en removerMembresia');
                         }
-                    },
-                    complete: function(){
-                        $("#btn_remover_miembro{{miembro.id_membresia}}").attr('disabled',false);
                     }
                 });
             });

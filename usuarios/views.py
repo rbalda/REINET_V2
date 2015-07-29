@@ -845,7 +845,7 @@ def verPerfilInstituciones(request, institucionId):
 				return redirect('/perfilInstitucion')
 			else:
 				institucion = Institucion.objects.get(id_institucion=id_institucion)
-				numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion).values_list('fk_usuario_id', flat=True).distinct().count()
+				numMiembros = Membresia.objects.filter(fk_institucion_id=institucion.id_institucion,estado=1).values_list('fk_usuario_id', flat=True).distinct().count()
 				duenho_institucion = Perfil.objects.get(id = membresia.fk_usuario.id)
 
 				args['numMiembros'] = numMiembros
