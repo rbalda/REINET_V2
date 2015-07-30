@@ -64,6 +64,19 @@ def crear_oferta_publicable(request):
 	return render_to_response('oferta_publicable.html',args)
 
 """
+
+Autor: Sixto Castro
+Nombre de funcion: crear_oferta_editable
+Parametros: request
+Salida:
+Descripcion: para llamar la pagina oferta inicio
+"""
+@login_required
+def crear_oferta_editable(request):
+	args = {}
+	return render_to_response('oferta_editable.html',args)
+
+"""
 Autor: Roberto Yoncon
 Nombre de funcion: verCualquierOferta
 Parametros: request

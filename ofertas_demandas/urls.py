@@ -7,5 +7,6 @@ urlpatterns = patterns('',
 		url(r'^InicioOferta[/]?$','ofertas_demandas.views.ofertas', name='InicioOferta'),
 		url(r'^CrearOferta[/]?$','ofertas_demandas.views.crear_ofertas', name='CrearOferta'),
 		url(r'^OfertaPublicable[/]?$','ofertas_demandas.views.crear_oferta_publicable', name='OfertaPublicable'),
+		url(r'^OfertaEditable[/]?$','ofertas_demandas.views.crear_oferta_editable', name='OfertaEditable'),
 		url(r'^oferta[/]?$','ofertas_demandas.views.verCualquierOferta', name='verOferta'),
 		)
