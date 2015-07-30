@@ -279,14 +279,14 @@ $(document).ready(function(){
                         console.log('dentro de mensaje enviado exitosamente');
                         $('#info_mensaje_enviado').removeClass('alert-danger');
                         $('#info_mensaje_enviado').show();
-                        var html = "<strong><p>Mensaje Enviado Exitosamente</p></strong>";
+                        var html = "<strong><p><span class='glyphicon glyphicon-ok-sign'></span>Mensaje Enviado Exitosamente</p></strong>";
                         $('#info_mensaje_enviado').addClass('alert alert-info');
                         $('#info_mensaje_enviado_txt').html(html);
                         nuevoMensajeInstitucion();
                     }else{
                         $('#info_mensaje_enviado').removeClass('alert-info');
                         $('#info_mensaje_enviado').show();
-                        var html = "<strong><p>Error al enviar mensaje</p></strong>";
+                        var html = "<strong><p><span class='glyphicon glyphicon-exclamation-sign'></span>Error al enviar mensaje</p></strong>";
                         $('#info_mensaje_enviado').addClass('alert alert-danger');
                         $('#info_mensaje_enviado_txt').html(html);
                         nuevoMensajeInstitucion();
