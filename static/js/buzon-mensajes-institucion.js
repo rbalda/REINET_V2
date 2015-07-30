@@ -134,9 +134,10 @@ function eliminarMensajeInstitucion(id_mensaje){
         success: function (data) {
             var objeto = JSON.parse(data);
             if(objeto.save_estado){
-                $('#mensaje'+id_mensaje).remove();
+                mensaje_id = objeto.id_mensaje;
+                $('#mensaje'+mensaje_id).remove();
             }else{
-                alert('Erro al eliminar mensaje');
+                alert('Error al eliminar mensaje');
             }
         }
     });

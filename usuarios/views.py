@@ -1973,7 +1973,7 @@ def eliminarMensajeInstitucion(request):
 				mensaje.save()
 
 				mensaje.borrarMensaje()
-				response = JsonResponse({'save_estado':True})
+				response = JsonResponse({'save_estado':True,'id_mensaje':mensaje_id})
 				return HttpResponse(response.content)
 			else: #si es bandeja de salida
 				if tipo == 'receptor':
@@ -1981,7 +1981,7 @@ def eliminarMensajeInstitucion(request):
 					mensaje.save()
 
 					mensaje.borrarMensaje()
-					response = JsonResponse({'save_estado':True})
+					response = JsonResponse({'save_estado':True,'id_mensaje':mensaje_id})
 					return HttpResponse(response.content)
 
 		except Mensaje.DoesNotExist:
