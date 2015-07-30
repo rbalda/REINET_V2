@@ -1,0 +1,58 @@
+{% extends "profile_institucion.html" %}
+
+
+{% block contenidoinstitucion %}
+
+<link rel="stylesheet" href='/static/css/demo.css'>
+    <div class="col-sm-8 col-md-7">
+
+        <div id="info_mensaje_enviado" class=" col-sm-offset-2 col-sm-6 alert-dismissible" role="alert" style="text-align: center;">
+          <button type="button" class="close" onclick="$('#info_mensaje_enviado').hide();" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong><p id="info_mensaje_enviado_txt"></p></strong>
+        </div>
+        
+        <div >
+            <div class="col-md-offset-2 col-md-10">
+            <ul class="list-inline" style="margin-bottom: 0px;"align="right">
+
+                <li>
+                    <button type="button" id="nuevo_mensaje_institucion" class="btn btn-dark btn-sm">
+                        <p style="margin-bottom:0px"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" id="buzon_salida_institucion" class="btn btn-default btn-sm">
+                        <i class="sign fa fa-reply"></i> Mensajes Enviados
+                    </button>
+                </li>
+                <li>
+                    <button type="button" id="buzon_entrada_institucion" class="btn btn-default btn-sm">
+                        <i class="sign fa fa-share"></i> Mensajes Recibidos
+                    </button>
+                </li>
+
+
+            </ul>
+            </div>
+
+
+        </div>
+
+        <br/>
+        <br/>
+
+        <div id="panel_mensajes" class="col-sm-12">
+
+
+
+        </div>
+
+
+    </div>
+    <script>
+        var usuario = {{ usuario.id }};
+        var username = "{{ usuario.username }}";
+
+    </script>
+    <script src="/static/js/buzon-mensajes-institucion.js"></script>
+{% endblock %}

@@ -1401,54 +1401,6 @@ def ver_bandeja_entrada(request):
 
 
 """
-Autor: Ray Montiel & Kevin Zambrano
-Nombre de funcion: verMensajes
-Entrada: request
-Salida: Redireccion bandeja de entrada de institucion
-Descripción: Esta funcion permite visualizar los mensajes
-que un usuario tiene en su bandeja de entrada de institucion
-UltimaModificacion: Fausto Mora - 4/7/15  
-"""
-
-@login_required
-def ver_bandeja_entrada_institucion(request):
-	if request.session['es_admin']:
-		sesion = request.session['id_usuario']
-		usuario=User.objects.get(id=sesion)
-
-		
-		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
-		print mensajes
-		mensajes = mensajes.order_by('-fecha_de_envio')
-		paginacion = Paginator(mensajes, 5)
-
-		try:
-			page=int(request.GET.get('page', '1'))
-		except ValueError:
-			page=1
-
-		try:
-			msjs = paginacion.page(page)
-		except (EmptyPage, InvalidPage):
-			msjs = paginacion.page(paginacion.num_pages)
-
-		args={}
-		args['usuario'] = usuario
-		args['mensajes'] = mensajes
-		args['msjs'] = msjs
-		args['range']=range(len(mensajes))
-		args['es_admin']=request.session['es_admin']
-		args['institucion_nombre'] = request.session['institucion_nombre']
-		args.update(csrf(request))
-
-		for m in mensajes:
-			print m.imgEm
-		return render_to_response('bandeja_de_entrada_institucion.html',args)
-	else:
-		return redirect('/')
-
-
-"""
 Autor: Ray Montiel
 Nombre de funcion: enviarMensaje
 Entrada: request POST
@@ -1524,86 +1476,6 @@ def enviarMensaje(request):
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
 		return render(request,'enviar_mensaje.html',args)
-
-"""
-Autor: Ray Montiel & Kevin Zambrano
-Nombre de funcion: enviarMensaje
-Entrada: request POST
-Salida: Redireccion bandeja de entrada de institucion
-Descripción: Esta funcion permite visualizar los mensajes
-que un usuario administrador de una institucion tiene en su bandeja de entrada
-UltimaModificacion: Fausto Mora - 4/7/15  
-"""
-
-@login_required
-def enviarMensajeInstitucion(request):
-	if request.session['es_admin']:
-		print 'dentro de enviar mensaje institucion'
-		sesion=request.session['id_usuario']
-		usuario=User.objects.get(id=sesion)
-		args = {}
-		if request.method=='POST':
-			print "envio de mensajes desde institucion"
-			destinatario = request.POST['destinatario']
-			asunto = request.POST['asunto']
-			texto_mensaje = request.POST['mensaje']
-			emisor=User.objects.get(id=sesion)
-			print destinatario
-			print emisor
-			print texto_mensaje
-
-			if destinatario == emisor:
-				args['mensaje_alerta']="No te puedes auto-enviar un mensaje"
-			else:
-
-				# averiguamos quien es el destinatario.... si es inst o usuario
-				print 'averiguaremos el destinatario'
-				try:
-					print 'sera usuario?'
-					receptor_aux = User.objects.get(username=destinatario)
-					receptor=receptor_aux
-					print receptor_aux
-					tipo_mensaje = 'institucion-usuario'
-				except User.DoesNotExist:
-					print 'No es usuario'
-					print 'sera institucion?'
-					receptor_aux = Institucion.objects.get(siglas=destinatario)
-					membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
-					receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
-					print receptor_aux
-					tipo_mensaje = 'institucion-institucion'
-				except Institucion.DoesNotExist:
-					print 'No es institucion'
-					print 'hay un grave error aqui'
-
-				try:
-
-					if receptor is not None:
-						mensajes = Mensaje()
-						mensajes.fk_emisor = emisor
-						mensajes.fk_receptor = receptor
-						mensajes.asunto = asunto
-						mensajes.tipo_mensaje = tipo_mensaje
-						mensajes.mensaje= texto_mensaje
-						mensajes.fecha_de_envio=datetime.datetime.now()
-						mensajes.save()
-						return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
-					else:
-						print "usuariou invalido1"
-						return HttpResponseRedirect('/enviarMensajeInstitucion/')
-				except Exception as e:
-					print "erro al guardar mensaje"
-					print e
-					return HttpResponseRedirect('/NotFound/')
-		else:
-			print "porque D: esto es GET"
-			args['usuario']=usuario
-			args['es_admin']=request.session['es_admin']
-			args['institucion_nombre'] = request.session['institucion_nombre']
-			args.update(csrf(request))
-			return render(request,'enviar_mensaje_institucion.html',args)
-	else:
-		return redirect('/')
 
 
 """
@@ -1683,83 +1555,7 @@ def verMensajeEnviado(request):
 			return HttpResponseRedirect("/mensajesEnviados/")
 	except:
 		return HttpResponseRedirect("/mensajesEnviados/")
-"""
-Autor: Fausto Mora
-Nombre de funcion: verMensajeInstitucion
-Entrada: request POST
-Salida: Redireccion mensaje recibido
-Descripción: Esta funcion permite visualizar los mensajes
-detalladamente desde el buzon de administrador de institucion
-"""
 
-@login_required
-def verMensajeInstitucion(request):
-	if request.session['es_admin']:
-		sesion=request.session['id_usuario']
-		usuario=User.objects.get(id=sesion)
-		args = {}
-		#try:
-		idM = int(request.GET.get('q', ''))
-		msj=Mensaje.objects.get(id_mensaje = idM)
-		print "mensaje",msj.id_mensaje
-		print msj.leido
-		msj.leido = True
-		msj.save()
-		print msj.leido
-		usuario_emisor=msj.fk_emisor
-		emisor = Perfil.objects.get(username= usuario_emisor.username)
-		receptor = Perfil.objects.get(username = usuario.username)
-		args['msj']=msj
-		args['usuario_emisor'] = usuario_emisor
-		args['emisor']=emisor
-		args['receptor']=receptor
-		args['usuario']=usuario
-		args['es_admin']=request.session['es_admin']
-		args['institucion_nombre'] = request.session['institucion_nombre']
-		args.update(csrf(request))
-		return render_to_response('ver_mensaje_institucion.html',args)
-	else:
-		return redirect('/')	
-
-"""
-Autor: Fausto Mora
-Nombre de funcion: verMensajeEnviadoInstitucion
-Entrada: request POST
-Salida: Redireccion mensaje recibido
-Descripción: Esta funcion permite visualizar los mensajes
-detalladamente desde el buzon de administrador de institucion
-"""
-
-@login_required
-def verMensajeEnviadoInstitucion(request):
-	if request.session['es_admin']:
-		sesion=request.session['id_usuario']
-		usuario=User.objects.get(id=sesion)
-		args = {}
-		try:
-			idM = int(request.GET.get('q', ''))
-			msj=Mensaje.objects.get(id_mensaje = idM)
-			print "mensaje",msj.id_mensaje
-			print msj.leido
-			msj.leido = True
-			msj.save()
-			print msj.leido
-			usuario_receptor=msj.fk_receptor
-			receptor = Perfil.objects.get(username= usuario_receptor.username)
-			emisor = Perfil.objects.get(username = usuario.username)
-			args['msj']=msj
-			args['usuario_receptor'] = usuario_receptor
-			args['emisor']=emisor
-			args['receptor']=receptor
-			args['usuario']=usuario
-			args['es_admin']=request.session['es_admin']
-			args['institucion_nombre'] = request.session['institucion_nombre']
-			args.update(csrf(request))
-			return render_to_response('ver_mensaje_enviado_institucion.html',args)
-		except:
-			return HttpResponseRedirect("/mensajesEnviadosInstitucion/")
-	else:
-		return redirect('/')
 
 """
 Autor: Ray Montiel
@@ -1799,46 +1595,6 @@ def mensajesEnviados(request):
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('mensajes_enviados.html',args)
 
-"""
-Autor: Ray Montiel & Kevin Zambrano
-Nombre de funcion: mensajesEnviados
-Entrada: request POST
-Salida: Muestra los mensajes enviados de una institucion
-Descripción: Esta funcion permite visualizar los mensajes
-enviados a otros usuarios
-"""
-
-@login_required
-def mensajesEnviadosInstitucion(request):
-	if request.session['es_admin']:
-		sesion = request.session['id_usuario']
-		usuario=User.objects.get(id=sesion)
-
-
-		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
-		print mensajes
-		mensajes = mensajes.order_by('-fecha_de_envio')
-		paginacion = Paginator(mensajes, 5)
-		try:
-			page=int(request.GET.get('page', '1'))
-		except ValueError:
-			page=1
-
-		try:
-			msjs = paginacion.page(page)
-		except (EmptyPage, InvalidPage):
-			msjs = paginacion.page(paginacion.num_pages)
-
-		args={}
-		args['usuario']=usuario
-		args['msjs']=msjs
-		args['mensajes']=mensajes
-		args['es_admin']=request.session['es_admin']
-		args['institucion_nombre'] = request.session['institucion_nombre']
-		args.update(csrf(request))
-		return render_to_response('mensajes_enviados_institucion.html',args)
-	else:
-		return redirect('/')
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon
@@ -1896,8 +1652,6 @@ def administrar_membresias(request):
 		return render_to_response('administrar_membresias.html', args)
 	except:
 		return redirect('/')
-
-
 
 
 """
@@ -1964,63 +1718,278 @@ def eliminarMensajeEnviado(request,):
 
 
 """
-Autor: Fausto Mora
-Nombre de funcion: eliminarMensajeRecibidoInstitucion
-Entrada: request POST
-Salida: elimina mensaje .
-Descripción: marca eliminado mensaje y actuliza template.
+Autor: FaustoMora
+Nombre de funcion: BuzonMensajesInstitucion
+Entrada: request
+Salida: Redireccion bandeja de entrada de institucion
+Descripción: Esta funcion permite visualizar el buzon completo
+de la institucion
 """
-@login_required
-def eliminarMensajeRecibidoInstitucion(request):
-	sesion=request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
-	args = {}
-	try:
-		idM = int(request.GET.get('q', ''))
-		#mensaje =Mensaje.objects.filter(id_mensaje=9)
-		#args['mensaje'] = mensaje
-		print "MENSAJE: ",idM
-		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_receptor=False)
-		mensaje=Mensaje.objects.get(id_mensaje = idM)
 
-		mensaje.borrarMensaje()
-		#args['mensaje'] = mensaje	
-		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
-		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
-		print "mensaje: ", mensaje.mensaje
-		return HttpResponseRedirect('/BandejaDeEntradaInstitucion/')
-	except:
-		return HttpResponseRedirect('/BandejaDeEntradaInstitucion/')
+@login_required
+def BuzonMensajesInstitucion(request):
+    if request.session['es_admin']:
+        sesion = request.session['id_usuario']
+        usuario=User.objects.get(id=sesion)
+
+
+        args={}
+        args['usuario'] = usuario
+        args['es_admin']=request.session['es_admin']
+        args['institucion_nombre'] = request.session['institucion_nombre']
+        args.update(csrf(request))
+
+        return render_to_response('buzon_mensajes_institucion.html',args)
+    else:
+        return redirect('/')
+
 
 """
 Autor: Fausto Mora
-Nombre de funcion: eliminarMensajeEnviadoInstitucion
-Entrada: request POST
-Salida: elimina mensaje en enviados.
-Descripción: elimina y actuliza los mensaje del buzon.
+Nombre de funcion: BandejaDeEntradaInstitucion
+Entrada: request get
+Salida: Redireccion bandeja de entrada de institucion
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada de institucion
 """
-@login_required
-def eliminarMensajeEnviadoInstitucion(request,):
-	sesion=request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
-	args = {}
-	try:
-		idM = int(request.GET.get('q', ''))
-		#mensaje =Mensaje.objects.filter(id_mensaje=9)
-		#args['mensaje'] = mensaje
-		print "MENSAJE: ",idM
-		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_emisor=False)
-		mensaje=Mensaje.objects.get(id_mensaje = idM)
 
-		mensaje.borrarMensaje()
-		#args['mensaje'] = mensaje	
-		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
-		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
-		print "mensaje: ", mensaje.mensaje
-		return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
+@login_required
+def BandejaDeEntradaInstitucion(request):
+    if request.is_ajax():
+        print 'dentro de bandeja de entrada institucion'
+
+        usuario = User.objects.get(id=request.GET['usuario_id'])
+        mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
+        mensajes = mensajes.order_by('-fecha_de_envio')
+        paginacion = Paginator(mensajes, 5)
+
+        try:
+            msjs = paginacion.page(request.GET['pagina'])
+        except (EmptyPage, InvalidPage):
+            msjs = paginacion.page(paginacion.num_pages)
+
+        args={}
+        args['usuario'] = usuario
+        args['mensajes'] = mensajes
+        args['msjs'] = msjs
+        args.update(csrf(request))
+        return render(request,'bandeja_de_entrada_institucion.html',args)
+    else:
+        return redirect('/')
+
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: BandejaSalidaInstitucion
+Entrada: request get
+Salida: Muestra los mensajes enviados de una institucion
+Descripción: Esta funcion permite visualizar los mensajes
+enviados a otros usuarios ddesde el buzon de institucion
+"""
+
+@login_required
+def BandejaSalidaInstitucion(request):
+    if request.is_ajax():
+        print 'en bandeja de salida institucion'
+
+        usuario=User.objects.get(id=request.GET['usuario_id'])
+        mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
+        mensajes = mensajes.order_by('-fecha_de_envio')
+        paginacion = Paginator(mensajes, 5)
+
+
+        try:
+            msjs = paginacion.page(request.GET['pagina'])
+        except (EmptyPage, InvalidPage):
+            msjs = paginacion.page(paginacion.num_pages)
+
+        args={}
+        args['usuario']=usuario
+        args['msjs']=msjs
+        args['mensajes']=mensajes
+        args.update(csrf(request))
+        return render(request,'bandeja_de_salida_institucion.html',args)
+    else:
+        return redirect('/')
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: nuevoMensajeInstitucion
+Entrada: request get
+Salida: html
+Descripción: Esta funcion carga la plantilla para envio de mensajes desde
+perfil de institucion
+
+"""
+
+@login_required
+def nuevoMensajeInstitucion(request):
+    if request.is_ajax():
+        print 'en nuevo mensaje institucion'
+
+        return render(request,'nuevo_mensaje_institucion.html')
+    else:
+        return redirect('/')
 	
-	except :
-		return HttpResponseRedirect('/mensajesEnviadosInstitucion/')
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: enviarMensajeInstitucion
+Entrada: request POST
+Salida: Redireccion bandeja de entrada de institucion
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario administrador de una institucion tiene en su bandeja de entrada
+"""
+
+@login_required
+def enviarMensajeInstitucion(request):
+    if request.is_ajax():
+        print 'dentro de enviar mensaje institucion'
+        print request.POST['emisor']
+        emisor=User.objects.get(id=request.POST['emisor'])
+        destinatario = request.POST['destinatario']
+        asunto = request.POST['asunto']
+        texto_mensaje = request.POST['mensaje']
+
+        if destinatario != emisor:
+            # averiguamos quien es el destinatario.... si es inst o usuario
+            print 'averiguaremos el destinatario'
+            try:
+                print 'sera usuario?'
+                receptor_aux = User.objects.get(username=destinatario)
+                receptor=receptor_aux
+                print receptor_aux
+                tipo_mensaje = 'institucion-usuario'
+            except User.DoesNotExist:
+                print 'No es usuario'
+                print 'sera institucion?'
+                receptor_aux = Institucion.objects.get(siglas=destinatario)
+                membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+                receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+                print receptor_aux
+                tipo_mensaje = 'institucion-institucion'
+            except Institucion.DoesNotExist:
+                print 'No es institucion'
+                print 'hay un grave error aqui'
+                response = JsonResponse({'save_estado':False})
+                return HttpResponse(response.content)
+
+            try:
+                if receptor is not None:
+                    mensajes = Mensaje()
+                    mensajes.fk_emisor = emisor
+                    mensajes.fk_receptor = receptor
+                    mensajes.asunto = asunto
+                    mensajes.tipo_mensaje = tipo_mensaje
+                    mensajes.mensaje= texto_mensaje
+                    mensajes.fecha_de_envio=datetime.datetime.now()
+                    mensajes.save()
+
+                    response = JsonResponse({'save_estado':True})
+                    return HttpResponse(response.content)
+                else:
+                    response = JsonResponse({'save_estado':False})
+                    return HttpResponse(response.content)
+            except Exception as e:
+                print e
+                response = JsonResponse({'save_estado':False})
+                return HttpResponse(response.content)
+        else:
+            response = JsonResponse({'save_estado':False})
+            return HttpResponse(response.content)
+    else:
+        return redirect('/')
+	
+"""
+Autor: Fausto Mora
+Nombre de funcion: verMensajeInstitucion
+Entrada: request POST
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite visualizar los mensajes
+detalladamente desde el buzon de administrador de institucion
+"""
+
+@login_required
+def verMensajeInstitucion(request):
+    print 'en ver mensaje institucion'
+    if request.is_ajax():
+        id_mensaje=request.GET['id_mensaje']
+        tipo = request.GET['tipo_envio']
+        mensaje_id=string.replace(id_mensaje,'mensaje_','')
+        print mensaje_id
+        try:
+            args = {}
+            msj = Mensaje.objects.get(id_mensaje=mensaje_id)
+            msj.leido = True
+            msj.save()
+
+            emisor = User.objects.get(username= msj.fk_emisor.username)
+            receptor = User.objects.get(username = msj.fk_receptor.username)
+
+            args['msj']=msj
+            #args['emisor']=emisor
+            #args['receptor']=receptor
+            args['usuario']= request.user
+
+            if tipo == 'emisor':
+                args['tipo_envio']=True
+            else:
+                if tipo == 'receptor':
+                    args['tipo_envio']=False
+
+            #args['es_admin']=request.session['es_admin']
+            #args['institucion_nombre'] = request.session['institucion_nombre']
+            args.update(csrf(request))
+            return render_to_response('ver_mensaje_institucion.html',args)
+        except Mensaje.DoesNotExist:
+            print 'no encontro el mensaje'
+            return redirect('/NotFound/')
+    else:
+        return redirect('/')
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: eliminarMensajeInstitucion
+Entrada: request POST
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite eliminar mensajes
+ desde el buzon de administrador de institucion
+"""
+
+@login_required
+def eliminarMensajeInstitucion(request):
+	if request.is_ajax():
+		print 'dentro de eliminar mensaje'
+		id_mensaje = request.POST['id_mensaje']
+		mensaje_id=string.replace(id_mensaje,'eliminar_mensaje_','')
+		tipo = request.POST['tipo_envio']
+		print 'id mensaje' + mensaje_id
+		try:
+			mensaje = Mensaje.objects.get(id_mensaje=mensaje_id)
+
+			# si es bandeja entrada
+			if tipo == 'emisor':
+				mensaje.visible_receptor=False
+				mensaje.save()
+
+				mensaje.borrarMensaje()
+				response = JsonResponse({'save_estado':True})
+				return HttpResponse(response.content)
+			else: #si es bandeja de salida
+				if tipo == 'receptor':
+					mensaje.visible_emisor=False
+					mensaje.save()
+
+					mensaje.borrarMensaje()
+					response = JsonResponse({'save_estado':True})
+					return HttpResponse(response.content)
+
+		except Mensaje.DoesNotExist:
+			print 'mensaje no existe'
+			response = JsonResponse({'save_estado':False})
+			return HttpResponse(response.content)
+	else:
+		return redirect('/')
 
 """
 Autor: Fausto Mora
