@@ -24,6 +24,14 @@ function limpiarInputsMensajes(){
     $('#mensaje').val("");
 }
 
+function camposVacios(){
+    if ( ($('#destinatario').val()=="") || ($('#asunto').val()=="") ){
+        $('#btn_enviar_mensaje_nuevo').attr('disabled',true);
+    }else{
+        $('#btn_enviar_mensaje_nuevo').attr('disabled',false);
+    }
+}
+
 function buzonEntradaInstitucion() {
     console.log('dentro de buzon de entrada institucion');
     $.ajax({
@@ -82,6 +90,7 @@ function nuevoMensajeInstitucion(){
             $('#panel_mensajes').html(data);
         },
         complete: function(){
+            camposVacios();
             desbloquearBotones();
         }
     });
@@ -227,16 +236,18 @@ $(document).ready(function(){
             console.log(destinatario.toLowerCase());
             console.log('emisor' + username.toLowerCase());
 
-            if(destinatario.toLowerCase()==username.toLowerCase()){
-                $('.mensaje_error').text("No puedes enviarte el mensaje a ti mismo");
-                $('.mensaje_error').addClass('alert alert-warning');
-                $('.mensaje_error').fadeIn();
-                $('#btn_enviar_mensaje_nuevo').attr('disabled',true);
-            }else if(destinatario!= usuario) {
-                $('.mensaje_error').fadeOut();
-                $('.mensaje_error').text("");
-                $('.mensaje_error').removeClass('alert alert-warning');
-                $('#btn_enviar_mensaje_nuevo').attr('disabled', false);
+            if(($('#destinatario').val()!="") && ($('#asunto').val()!="")){
+                if(destinatario.toLowerCase()==username.toLowerCase()){
+                    $('.mensaje_error').text("No puedes enviarte el mensaje a ti mismo");
+                    $('.mensaje_error').addClass('alert alert-warning');
+                    $('.mensaje_error').fadeIn();
+                    $('#btn_enviar_mensaje_nuevo').attr('disabled',true);
+                }else if(destinatario!= usuario) {
+                    $('.mensaje_error').fadeOut();
+                    $('.mensaje_error').text("");
+                    $('.mensaje_error').removeClass('alert alert-warning');
+                    $('#btn_enviar_mensaje_nuevo').attr('disabled', false);
+                }
             }
 	    });
 
