@@ -1,5 +1,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<input type="hidden" value="{{membresiasPendientes|length}}">
+<div style="margin-left:10px;"><p class="text-muted"><span class="glyphicon glyphicon-list-alt"></span> Solicitudes Pendientes {{membresiasPendientes|length}}</p></div>
+
+
 {% for miembro in membresiasPendientes %}
 	<li id="solicitud{{miembro.id_membresia}}">
         <p class="text-muted" >
