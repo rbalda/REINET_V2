@@ -1,0 +1,136 @@
+
+{% extends "oferta_inicio.html" %}
+
+
+{% block contenido %}
+<link rel="stylesheet" href='/static/css/demo.css'>
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+
+
+	<div class="section-header">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12">
+	                    <h1 class="animated slideInLeft" ><span>Nombre de la Oferta</span></h1>
+	                </div>
+	            </div>
+	        </div>
+	</div>
+	<div class="row">
+  		<div class="col-md-1">
+  		</div>
+  		<div class="col-md-9">
+  			<ul class="nav nav-tabs nav-justified">
+  				<li class="active"><a href="#detalle" data-toggle="tab">Detalle</a></li>
+				<li><a href="#equipo_trabajo" data-toggle="tab">Equipo</a></li>
+				<li><a href="#Solicitudes_equipo" data-toggle="tab">Solicitudes</a></li>
+				<li><a href="#" data-toggle="tab">Comentarios</a></li>
+			</ul>
+			<div class="tab-content col-md-12">
+        		<div role="tabpanel" class="tab-pane active" id="detalle">
+        			
+        		</div>
+
+        		<div role="tabpanel" class="tab-pane" id="Solicitudes_equipo">
+        			<div class="col-md-2">
+        			</div>
+
+        			<div class="col-md-9" style="margin-top:40px">
+        				<div class="pm-list" style="font-size:12px">
+                        	<ul>
+                    <!-- First dialog -->
+                            	<li>
+                                	<p class="text-muted">
+                                    	<img src="../../media/noPicture.png" alt="...">
+                                    	<a href="#">Henry Lasso</a><br>
+                                    	<STRONG>Rol:</STRONG> sdaasdsda <br><STRONG>Fecha de solicitud:</STRONG> 25/06/2015
+                                	</p>
+                                	<p class="text-muted">
+                                    	<a class="inbox-dialog"><br>
+                                        
+                                        	<button type="button" class="btn btn-green"  style="margin-left:50px">
+                                        	<span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+                                        	<button type="button" class="btn btn-default btn-md">
+                                        	<span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                                        
+                                    	</a>
+                                	</p>
+                                	<div class="clearfix"></div>
+                            	</li>
+                            	<li>
+                                	<p class="text-muted">
+                                    	<img src="../../media/noPicture.png" alt="...">
+                                    	<a href="#">Henry Lasso</a><br>
+                                    	<STRONG>Rol:</STRONG> sdaasdsda <br><STRONG>Fecha de solicitud:</STRONG> 25/06/2015
+                                	</p>
+                                	  <p class="text-muted">
+                                    	<a class="inbox-dialog"><br>
+                                        	<button type="button" class="btn btn-green" style="margin-left:50px">
+                                        	<span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+                                        	<button type="button" class="btn btn-default btn-md">
+                                        	<span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                                    	</a>
+                                	  </p>
+                                	<div class="clearfix"></div>
+                            	</li>
+                        	</ul>
+                </div>	
+        			</div>
+            <div class="col-md-2">
+            </div>
+            </div>
+        		<div role="tabpanel" class="tab-pane" id="equipo_trabajo">
+              <div class="col-xs-2">
+              </div>
+        			<div class="col-xs-8">
+        				<div class="team" style="font-size:12px">
+            				<div class="member-left" style="margin-top:50px;height:110px;width:500px">
+              					<div class="col-md-6">
+              						<img src="/../../media/ofertas-demandas/integrante1.jpg" alt="Team Member" class="left">
+              						<STRONG>Alex </STRONG><br>
+              						<span class="position">ESPOL</span>
+              					</div>
+              					<div class="col-md-4">
+              						<p>Rol:kjhajxxxxxxzjh</p>
+              						<p>Estado:sasas</p>
+              					</div>
+              					<div>
+              						<ul class="text-muted">
+              						  <p ><i class="fa fa-cog"></i> <a href="#">Editar Rol</a></p>
+										        <p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
+                          </ul>
+								        </div>
+            				</div>
+            				<div class="member-left" style="margin-top:50px;height:110px;width:500px">
+                        <div class="col-md-6">
+                          <img src="/../../media/ofertas-demandas/integrante1.jpg" alt="Team Member" class="left">
+                          <STRONG>Alex </STRONG><br>
+                          <span class="position">ESPOL</span>
+                        </div>
+                        <div class="col-md-4">
+                          <p>Rol:kjhajxxxxxxzjh</p>
+                          <p>Estado:sasas</p>
+                        </div>
+                        <div>
+                          <ul class="text-muted">
+                            <p ><i class="fa fa-cog"></i> <a href="#">Editar Rol</a></p>
+                            <p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
+                          </ul>
+                        </div>
+                    </div>
+        				</div>
+        			</div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-blue"><i class="sign fa fa-user bg-blue"></i> Añadir Usuario</button> 
+              </div>
+        		</div>
+        	</div>	
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+  </div> 
+{% endblock %}	    

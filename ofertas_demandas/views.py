@@ -76,3 +76,16 @@ def verCualquierOferta(request):
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	return render_to_response('oferta_ver_otra.html',args)
+"""
+Autor: Henry Lasso
+Nombre de funcion: administrarOferta
+Parametros: request
+Salida: 
+Descripcion: funcion para administrar mi oferta publicada.
+"""
+
+@login_required
+def administrar_miOferta(request):
+	args = {}
+	return render_to_response('administrar_oferta.html',args)
+
