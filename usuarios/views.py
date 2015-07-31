@@ -2124,17 +2124,19 @@ def accionMembresia(request):
 		try:
 			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
 			aux = int(request.POST['accion'])
+			asunto = str(request.POST['asunto']).replace('&#39;','')
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
+				asunto= 'Su solicitud a ' + asunto + ' ha sido aceptada'
 			elif aux == 0 :
 					membresia.estado = -1
-
+					asunto= 'Su solicitud a ' + asunto + ' ha sido rechazada'
 			membresia.save()
 			print 'al parecer se guardo'
 
 			try:
-				asunto = str(request.POST['asunto']).replace('&#39;','')
+				
 				texto_mensaje = request.POST['mensaje']
 				print asunto
 				print texto_mensaje

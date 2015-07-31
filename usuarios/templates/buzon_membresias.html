@@ -31,17 +31,14 @@
 		 	$(document).ready(function(){
 		 		$(function(){
                     var opcion = -1;
-                    var asunto = " ";
 
                     $('#Rechazar{{miembro.id_membresia}}').click(function(){
                         console.log('rechazo solicitud');
-                        asunto = "Su solicitud a {{ institucion.nombre }} a sido rechazada"
                         opcion = 0;
                     });
 
                     $('#Aceptar{{miembro.id_membresia}}').click(function(){
                         console.log('acepto solicitud');
-                        asunto = "Su solicitud a {{ institucion.nombre }} a sido aceptada"
                         opcion = 1;
                     });
 
@@ -49,49 +46,46 @@
 		 			$(document).on('click','#accionMembresia{{miembro.id_membresia}}',function(){
 		 				console.log('hizo click en accion membresia');
                         console.log($('#mensaje_form').val());
-                        if(CamposVacios()){
-                            console.log('campos vacions');
-                        }else{
-                                $.ajax({
-                                    data : {
-                                        'asunto' : asunto,
-                                        'mensaje' : $('#mensaje_form').val(),
-                                        'membresia' : {{miembro.id_membresia}},
-                                        'accion' : opcion,
-                                        'csrfmiddlewaretoken' : '{{ csrf_token }}'
-                                    },
-                                    type : 'post',
-                                    url : '/accionMembresia/',
-                                    beforeSend: function(){
-                                        $('#Rechazar{{miembro.id_membresia}}').attr('disabled',true);
-                                        $('#Aceptar{{miembro.id_membresia}}').attr('disabled',true);
-                                        $('#accionMembresia{{miembro.id_membresia}}').attr('disabled',true);
-                                    },
-                                    success: function(data){
-                                        var objeto = JSON.parse(data);
 
-                                        if (objeto.membresia_save){
-                                            $('#solicitud{{miembro.id_membresia}}').remove();
-                                            $(function(){
-                                                $('#panel_miembros').ready(actualizarListaMiembros);
+                            $.ajax({
+                                data : {
+                                    'asunto' : '{{ institucion.nombre }}',
+                                    'mensaje' : $('#mensaje_form').val(),
+                                    'membresia' : {{miembro.id_membresia}},
+                                    'accion' : opcion,
+                                    'csrfmiddlewaretoken' : '{{ csrf_token }}'
+                                },
+                                type : 'post',
+                                url : '/accionMembresia/',
+                                beforeSend: function(){
+                                    $('#Rechazar{{miembro.id_membresia}}').attr('disabled',true);
+                                    $('#Aceptar{{miembro.id_membresia}}').attr('disabled',true);
+                                    $('#accionMembresia{{miembro.id_membresia}}').attr('disabled',true);
+                                },
+                                success: function(data){
+                                    var objeto = JSON.parse(data);
 
-                                                function actualizarListaMiembros(){
-                                                    $.ajax({
-                                                        data:{
-                                                            'institucion':{{institucion.id_institucion}}
-                                                        },
-                                                        type:'get',
-                                                        url: '/MiembrosInstitucion/',
-                                                        success: function(data){
-                                                            $('#panel_miembros').html(data)
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        }
+                                    if (objeto.membresia_save){
+                                        $('#solicitud{{miembro.id_membresia}}').remove();
+                                        $(function(){
+                                            $('#panel_miembros').ready(actualizarListaMiembros);
+
+                                            function actualizarListaMiembros(){
+                                                $.ajax({
+                                                    data:{
+                                                        'institucion':{{institucion.id_institucion}}
+                                                    },
+                                                    type:'get',
+                                                    url: '/MiembrosInstitucion/',
+                                                    success: function(data){
+                                                        $('#panel_miembros').html(data)
+                                                    }
+                                                });
+                                            }
+                                        });
                                     }
-                                });
-                        }
+                                }
+                            });
 
 		 		   });// fin de document accionmembresia
 
@@ -101,14 +95,6 @@
 
                           function limpiarInputsMensajes(){
                               $('#mensaje_form').val("");
-                          }
-
-                          function CamposVacios(){
-                              if($('#mensaje_form').val() ==""){
-                                  return true;
-                              }else{
-                                  return false;
-                              }
                           }
 
                 // fin de function
