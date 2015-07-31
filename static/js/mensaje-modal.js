@@ -1,3 +1,11 @@
+/*
+Autor: Leonel Ramirez
+Nombre de la funcion: scrip para el modal mensaje  
+Parámetros: eventos
+Salida: Al activarse el evento aparece automaticamente un modal con un mensaje de confirmacion
+Descripción: la funcion que se encuentran a continuacion  muestra el mensaje de confirmacion de forma de un modal
+"""
+*/
 $(document).ready(function() {
 	
 	$('.button').click(function() {
@@ -13,6 +21,15 @@ $(document).ready(function() {
 		});
     centraVentana($('.overlay-container'));
 
+/*
+Autor: Marlon Espinoza
+Nombre del archivo: script que obtiene el id
+Parámetros: eventos
+Salida: obtiene el id del mensaje a eliminar
+Descripción: al dar clinck en el evento obtiene el id del mensaje que es elije para ser eliminado hay
+             4 funciones a continuacion tienen el mismo funcionamiento pero para cada tipo de mensaje
+             como eliminarMensajeEnviadoInstitucion
+*/
 
 	});
     $('.aceptar').click(function(){
@@ -35,7 +52,14 @@ $(document).ready(function() {
     });
 
 
-	
+/*
+Autor: Leonel Ramirez
+Nombre de la funcion: scrip para cerrar el modal 
+Parámetros: eventos
+Salida: cierra le modal 
+Descripción: al dar clic en el boton cerra o cancelar se cierra automaticamente el modal
+*/
+
 	$('.close').click(function() {
 		$('.overlay-container').fadeOut().end().find('.window-container').removeClass('window-container-visible');
 	});
@@ -47,6 +71,16 @@ $(document).ready(function() {
 
        }
     });
+
+
+/*
+Autor: Marlon Espinoza
+Nombre de la funcion: scrip para centrar el modal en la ventana 
+Parámetros: eventos
+Salida: centra el modal del mensaje de confirmacion
+Descripción: la funcion se encarga de centrar el modal
+*/
+
     function centraVentana(ventana){
 
         //dimensiones de la ventana del cliente
