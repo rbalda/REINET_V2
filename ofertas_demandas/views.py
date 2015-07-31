@@ -110,7 +110,20 @@ Descripcion: funcion para administrar mi oferta publicada.
 """
 
 @login_required
-def administrar_miOferta(request):
+def administrar_Oferta(request):
 	args = {}
 	return render_to_response('administrar_oferta.html',args)
+
+"""
+Autor: Estefania Lozano
+Nombre de funcion: administarBorrador
+Parametros: request
+Salida: 
+Descripcion: funcion para administrar mi oferta publicada.
+"""
+
+@login_required
+def administrar_Borrador(request):
+	args = {}
+	return render_to_response('administrar_borrador.html',args)
 

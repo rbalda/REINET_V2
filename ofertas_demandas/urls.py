@@ -9,5 +9,6 @@ urlpatterns = patterns('',
 		url(r'^OfertaPublicable[/]?$','ofertas_demandas.views.crear_oferta_publicable', name='OfertaPublicable'),
 		url(r'^OfertaEditable[/]?$','ofertas_demandas.views.crear_oferta_editable', name='OfertaEditable'),
 		url(r'^oferta[/]?$','ofertas_demandas.views.verCualquierOferta', name='verOferta'),
-		url(r'^administrarOferta[/]?$','ofertas_demandas.views.administrar_miOferta', name='AdministrarOferta'),
+		url(r'^administrarOferta[/]?$','ofertas_demandas.views.administrar_Oferta', name='AdministrarOferta'),
+		url(r'^administrarBorrador[/]?$','ofertas_demandas.views.administrar_Borrador', name='administrarBorrador'),
 		)

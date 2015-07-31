@@ -5,132 +5,316 @@
 {% block contenido %}
 <link rel="stylesheet" href='/static/css/demo.css'>
 
-    {% block registrarinstitucion %}
-        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
-    {% endblock %}
+		{% block registrarinstitucion %}
+				{% include 'menusuperior/registrarinstitucion.tpl.html' %}
+		{% endblock %}
 
 
 	<div class="section-header">
-	        <div class="container">
-	            <div class="row">
-	                <div class="col-sm-12">
-	                    <h1 class="animated slideInLeft" ><span>Nombre de la Oferta</span></h1>
-	                </div>
-	            </div>
-	        </div>
+					<div class="container">
+							<div class="row">
+									<div class="col-sm-12">
+											<h1 class="animated slideInLeft" ><span>OFERTA PUBLICADA</span></h1>
+									</div>
+							</div>
+					</div>
 	</div>
-	<div class="row">
-  		<div class="col-md-1">
-  		</div>
-  		<div class="col-md-9">
-  			<ul class="nav nav-tabs nav-justified">
-  				<li class="active"><a href="#detalle" data-toggle="tab">Detalle</a></li>
-				<li><a href="#equipo_trabajo" data-toggle="tab">Equipo</a></li>
-				<li><a href="#Solicitudes_equipo" data-toggle="tab">Solicitudes</a></li>
-				<li><a href="#" data-toggle="tab">Comentarios</a></li>
-			</ul>
-			<div class="tab-content col-md-12">
-        		<div role="tabpanel" class="tab-pane active" id="detalle">
-        			
-        		</div>
+<!-- Main body
+================== -->
+<div class="container">
+		<div class="row">
+			<div class="col-sm-8">
+					<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                <div class="col-md-8 col-xs-7" align="left" style="padding-left: 0px;">
+                      <h4>Nombre de la oferta</h4>
+                      <ul class="text-muted list-inline">
+                        <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                        <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                        <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                      </ul>
+                 </div>
+                <div class="col-md-4 col-xs-5" align="right" style="padding-top: 15px;padding-right: 0px;">
+                     <a href="#" class="btn btn-default">
+                        <i class="fa fa-files-o"></i>
+                        Duplicar Oferta
+                      </a>
+                      <p class="text-muted" style="font-size:11px">*Puede crear otra oferta a partir de esta</p><p>
+                </p></div>
+          </div>
 
-        		<div role="tabpanel" class="tab-pane" id="Solicitudes_equipo">
-        			<div class="col-md-2">
-        			</div>
+					<div class="blog-text">
 
-        			<div class="col-md-9" style="margin-top:40px">
-        				<div class="pm-list" style="font-size:12px">
-                        	<ul>
-                    <!-- First dialog -->
-                            	<li>
-                                	<p class="text-muted">
-                                    	<img src="../../media/noPicture.png" alt="...">
-                                    	<a href="#">Henry Lasso</a><br>
-                                    	<STRONG>Rol:</STRONG> sdaasdsda <br><STRONG>Fecha de solicitud:</STRONG> 25/06/2015
-                                	</p>
-                                	<p class="text-muted">
-                                    	<a class="inbox-dialog"><br>
-                                        
-                                        	<button type="button" class="btn btn-green"  style="margin-left:50px">
-                                        	<span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                        	<button type="button" class="btn btn-default btn-md">
-                                        	<span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                        
-                                    	</a>
-                                	</p>
-                                	<div class="clearfix"></div>
-                            	</li>
-                            	<li>
-                                	<p class="text-muted">
-                                    	<img src="../../media/noPicture.png" alt="...">
-                                    	<a href="#">Henry Lasso</a><br>
-                                    	<STRONG>Rol:</STRONG> sdaasdsda <br><STRONG>Fecha de solicitud:</STRONG> 25/06/2015
-                                	</p>
-                                	  <p class="text-muted">
-                                    	<a class="inbox-dialog"><br>
-                                        	<button type="button" class="btn btn-green" style="margin-left:50px">
-                                        	<span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                        	<button type="button" class="btn btn-default btn-md">
-                                        	<span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                    	</a>
-                                	  </p>
-                                	<div class="clearfix"></div>
-                            	</li>
-                        	</ul>
-                </div>	
-        			</div>
-            <div class="col-md-2">
-            </div>
-            </div>
-        		<div role="tabpanel" class="tab-pane" id="equipo_trabajo">
-              <div class="col-xs-2">
-              </div>
-        			<div class="col-xs-8">
-        				<div class="team" style="font-size:12px">
-            				<div class="member-left" style="margin-top:50px;height:110px;width:500px">
-              					<div class="col-md-6">
-              						<img src="/../../media/ofertas-demandas/integrante1.jpg" alt="Team Member" class="left">
-              						<STRONG>Alex </STRONG><br>
-              						<span class="position">ESPOL</span>
-              					</div>
-              					<div class="col-md-4">
-              						<p>Rol:kjhajxxxxxxzjh</p>
-              						<p>Estado:sasas</p>
-              					</div>
-              					<div>
-              						<ul class="text-muted">
-              						  <p ><i class="fa fa-cog"></i> <a href="#">Editar Rol</a></p>
-										        <p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
-                          </ul>
-								        </div>
-            				</div>
-            				<div class="member-left" style="margin-top:50px;height:110px;width:500px">
-                        <div class="col-md-6">
-                          <img src="/../../media/ofertas-demandas/integrante1.jpg" alt="Team Member" class="left">
-                          <STRONG>Alex </STRONG><br>
-                          <span class="position">ESPOL</span>
-                        </div>
-                        <div class="col-md-4">
-                          <p>Rol:kjhajxxxxxxzjh</p>
-                          <p>Estado:sasas</p>
-                        </div>
-                        <div>
-                          <ul class="text-muted">
-                            <p ><i class="fa fa-cog"></i> <a href="#">Editar Rol</a></p>
-                            <p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
-                          </ul>
-                        </div>
-                    </div>
-        				</div>
-        			</div>
-              <div class="col-md-2">
-                <button type="button" class="btn btn-blue"><i class="sign fa fa-user bg-blue"></i> Añadir Usuario</button> 
-              </div>
-        		</div>
-        	</div>	
-        </div>
-        <div class="col-md-2"></div>
-      </div>
-    </div>
-  </div> 
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+						</li>
+						<li role="presentation">
+							<a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+						</li>
+						<li role="presentation">
+							<a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+						</li>
+						<li role="presentation">
+							<a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a>
+						</li>
+						<li role="presentation">
+							<a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a>
+						</li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content row">
+								<div role="tabpanel" class="tab-pane active" id="informacion">
+										<div class="col-md-4 col-sm-4 col-xs-4">
+												<div class="block-inverse">
+													<div class="head-inverse">
+															<img class=" img-responsive" src="/../../media/ofertas-demandas/integrante1.jpg" alt="...">
+													</div>
+													<div class="body-inverse">
+														<p class="text-center">
+															<strong class="text-muted">Fotos</strong>
+														</p>
+														<div class="user-gallery text-center">
+															<a href="#"><img src="/../../media/ofertas-demandas/face1.jpg" alt="..."></a>
+															<a href="#"><img src="/../../media/ofertas-demandas/face2.jpg" alt="..."></a>
+															<a href="#"><img src="/../../media/ofertas-demandas/face3.jpg" alt="..."></a>
+														</div>
+													</div>
+												</div>
+										</div>
+										<div class="col-md-8 col-sm-8 col-xs-8">
+
+													<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+										</div>
+										
+									
+								</div>
+
+								<div role="tabpanel" class="tab-pane" id="cliente_usuario">
+									<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+								</div>
+
+
+								<div role="tabpanel" class="tab-pane" id="modelo">
+									<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+								</div>  
+
+								<div role="tabpanel" class="tab-pane" id="industria">
+										<!--Industria Competidores-->
+										<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+									 
+								</div>
+
+								<div role="tabpanel" class="tab-pane" id="esta_logro">
+										<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+								</div>
+					</div>
+
+				</div>
+
+				<br><br><br><br>
+					<!--
+						<img class="pull-right img-responsive blog-img" alt="..." src="img/works1.jpg">
+
+					<!-- Comments list -->
+					<h4>
+						COMENTARIOS
+					</h4>
+					<hr>
+					<div align=right>
+						<p><a href="#" class="btn btn-red" style="color:white"><span class="badge" style="background-color:white; color:#C0392B">24</span>&nbsp;&nbsp;Comentarios nuevos</a></p>
+						<p class="text-muted" style="font-size:11px">*Los comentarios de otros usuarios deben ser aprobados para estar visibles<p>
+					</div>
+					<div class="comment">
+						<div class="media">
+							<a class="pull-left" href="#">
+								<img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
+							</a>
+							<div class="media-body">
+								<p><a href="profile.html">Username</a></p>
+								<div class="thumbnail" style="margin-bottom:0px">
+											<div class="caption" style="padding-top:0px; padding-bottom:0px">
+													<div class="rating">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+													</div>
+											</div>
+								</div>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								</p>
+								<ul class="text-muted list-inline">
+									<li><i class="fa fa-calendar"></i> 11/10/2013</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="media">
+							<a class="pull-left" href="#">
+								<img class="media-object img-circle" src="/../../media/ofertas-demandas/face1.jpg" alt="...">
+							</a>
+							<div class="media-body">
+								<p><a href="profile.html">Username 2</a></p>
+								<div class="thumbnail" style="margin-bottom:0px">
+											<div class="caption" style="padding-top:0px; padding-bottom:0px">
+													<div class="rating">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+													</div>
+											</div>
+								</div>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								</p>
+								<ul class="text-muted list-inline">
+									<li><i class="fa fa-calendar"></i> 11/10/2013</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="media">
+							<a class="pull-left" href="#">
+								<img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+							</a>
+							<div class="media-body">
+								<p><a href="profile.html">Username 3</a></p>
+								<div class="thumbnail" style="margin-bottom:0px">
+											<div class="caption" style="padding-top:0px; padding-bottom:0px">
+													<div class="rating">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+													</div>
+											</div>
+								</div>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								</p>
+								<ul class="text-muted list-inline">
+									<li><i class="fa fa-calendar"></i> 11/10/2013</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+			</div>
+
+
+			<div class="col-sm-4">
+					<!-- Social Links -->
+					 <h4>
+						CALIFICACI&Oacute;N GENERAL
+					</h4>         
+					<hr>
+					<div class="thumbnail" align=center style="margin-bottom:0px">
+						<div class="caption" style="padding-top:0px; padding-bottom:0px">
+								<div class="rating">
+									<i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i>
+								</div>
+						</div>
+					</div>
+					<!-- Tags -->
+					<h4>
+						PALABRAS CLAVES
+					</h4>  
+					<hr>
+					<p class="tags">
+						<a href="#">Industria</a>
+						<a href="#">Autos</a>
+						<a href="#">Startup</a>
+						<a href="#">Espol</a>
+					</p>
+					<br />
+					<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+								<div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
+											<h4>ESTADO DE LA OFERTA</h4> 
+								 </div>
+								<div class="col-md-3 col-xs-4" align="right" style="padding-right: 0px;">
+											<a href="#" class="btn btn-blue"><i class="fa fa-pencil"></i></a>
+								</div>
+					</div>
+					
+					<hr>
+					<div class="info-board info-board-green">
+							<p align=center>
+								<b>ACTIVO</b>
+							</p>
+					</div>
+
+					<br />
+					
+					<!-- Recently Added -->
+					<div class="panel panel-default">
+						<div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+							<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+								<div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
+											<h4>EQUIPO</h4> 
+								 </div>
+								<div class="col-md-3 col-xs-4" align="right" style="padding-right: 0px;">
+											<a href="#" class="btn btn-blue"><i class="fa fa-pencil"></i></a>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+							<div class="recent-blogs">
+								<div class="team">
+											<div align=center>
+												<p>
+													<a href="#" class="btn btn-red" style="color:white;margin-top: 20px">
+														<span class="badge" style="background-color:white; color:#C0392B">2</span>
+														&nbsp;&nbsp;Solicitudes de participaci&oacute;n</a></p>
+											</div>
+											<hr>
+											<div class="member-left" style="margin-bottom: 0px;">
+												<img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
+												margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+												<a href="#"> 
+													<h4>Alex Smith</h4>
+												</a>
+												<p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+												<p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">CEO</b></p>
+																					 
+											</div>
+											<div class="member-left" style="margin-bottom: 0px;">
+												<img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
+												margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+												<a href="#"> 
+													<h4>Fernando Rodriguez</h4>
+												</a>
+												<p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+												<p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">Designer</b></p>                     
+											</div>
+											<div class="member-left" style="margin-bottom: 0px;">
+												<img src="/../../media/ofertas-demandas/face3.jpg" alt="Team Member" class="left" style="
+												margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+												<a href="#"> 
+													<h4>Margarita Altamirano</h4>
+												</a>
+												<p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+												<p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">Programmer</b></p>                 
+											</div>
+											
+								</div>
+
+
+
+
+								
+							</div>
+						</div>
+					</div>          
+			</div>
+
+		</div>
+</div>
 {% endblock %}	    
