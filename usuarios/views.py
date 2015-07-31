@@ -710,6 +710,7 @@ def inicio(request):
 			if membresia.es_administrator or peticion_pendiente==0:
 				request.session['es_admin'] = True
 				institucion = Institucion.objects.get(id_institucion=membresia.fk_institucion.id_institucion)
+				request.session['institucion_id']=institucion.id_institucion
 				request.session['institucion_nombre']=institucion.nombre
 			else:
 				request.session['es_admin'] = False
