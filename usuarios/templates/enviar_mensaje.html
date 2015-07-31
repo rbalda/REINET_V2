@@ -36,15 +36,19 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="Destinatario">Para:</label>
+                    <input type="text" class="form-control" id="destinatario" name="destinatario"
+                           placeholder="Destinatario" maxlength="50" required>
+
+                    <!--
+                    RAY BRONZA
                     <input type="text" class="form-control" id="destinatario_txt" name="destinatario_txt"
                            placeholder="Destinatario" maxlength="50" required>
 
                     <input type="text" id="nombres" name="nombres">
 
-                    <input type="text" id="destinatario" name="destinatario">
+                    <input type="text" id="destinatario" name="destinatario"> -->
 
                 </div>
-
 
                 <div class="alert alert-danger" role="alert" hidden="True" id="divAlertaUsuario">
                   <strong class="mensaje_error"></strong>
@@ -82,8 +86,24 @@
 
 
 {% load staticfiles %}
-<script src="{% static 'js/usuarios/enviar_mensajes.js' %}"></script>
-<script src="{% static 'js/autocompletar.js' %}"></script>
+<script>
+$('#destinatario').on('keyup change', function (evt) {
+    var destinatario = $('#destinatario').val();
+    var username = "{{usuario.username}}";
+    console.log(destinatario.toLowerCase());
+    console.log('emisor' + username);
+    if (destinatario.toLowerCase() == username.toLowerCase()) {
+        document.getElementById("divAlertaUsuario").style.display = 'block';
+        $('.mensaje_error').text("No puedes enviarte el mensaje a ti mismo");
+        $('#btn_enviar_mensaje_nuevo').attr('disabled', true);
+    } else if (destinatario != usuario) {
+        document.getElementById("divAlertaUsuario").style.display = 'none';
+        $('#btn_enviar_mensaje_nuevo').attr('disabled', false);
+    }
+});
+</script>
+<!--
+<script src="{% static 'js/autocompletar.js' %}"></script> -->
 {% endblock %}
 
 

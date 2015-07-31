@@ -38,6 +38,17 @@
 <link rel="stylesheet" href='/static/css/demo.css'>
     <div class="col-sm-8 col-md-7">
         <h1>Mensajes Enviados</h1>
+        {% if mensajeAlerta %}
+            {% if tipoAlerta == 'completado' %}
+            <div class="alert alert-success alert-dismissible" role="alert" id="divAlerta">
+              <strong><p><span class="glyphicon glyphicon-ok-sign"></span> {{ mensajeAlerta }}</p></strong>
+            </div>
+            {% elif tipoAlerta == 'error' %}
+            <div class="alert alert-danger alert-dismissible" role="alert" id="divAlerta">
+              <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeAlerta }}</p></strong>
+            </div>
+            {% endif %}
+        {% endif %}
         <ul class="text-muted list-inline">
             <li><i class="fa fa-envelope-o"></i> {{mensajes|length}} mensajes</li>
         </ul>
@@ -93,6 +104,12 @@
             </span>
         </div>
     </div>
+
 <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
-    <script type="text/javascript" src="/static/js/demo.js"></script>
+<script type="text/javascript" src="/static/js/demo.js"></script>
+<script type="text/javascript">
+      $(document).ready( function() {
+        $('#divAlerta').delay(1000).fadeOut();
+      });
+</script>
 {%endblock%}

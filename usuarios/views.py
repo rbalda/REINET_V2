@@ -1417,12 +1417,7 @@ def enviarMensaje(request):
 	args = {}
 	#Cuando se envia el mensaje por POST
 	if request.method=='POST':
-		destinatario_txt = request.POST['destinatario_txt']
-		print destinatario_txt
-		nombres = request.POST['nombres']
-		print nombres
 		destinatario = request.POST['destinatario']
-		print destinatario
 		asunto = request.POST['asunto']
 		texto_mensaje = request.POST['mensaje']
 		emisor=User.objects.get(id=sesion)
@@ -1459,9 +1454,9 @@ def enviarMensaje(request):
 					mensajes.mensaje= texto_mensaje
 					mensajes.fecha_de_envio=datetime.datetime.now()
 					mensajes.save()
-					args['tipoAlerta'] = 'completado'
-					args['mensajeAlerta'] = 'El mensaje ha sido enviado correctamente.'
-					return render_to_response("enviar_mensaje.html",args)
+					request.session['tipoAlerta-SS']= 'completado'
+					request.session['mensajeAlerta-SS'] = 'El mensaje ha sido enviado correctamente.'
+					return HttpResponseRedirect("/mensajesEnviados")
 				else:
 					args['tipoAlerta'] = 'error'
 					args['mensajeAlerta'] = 'Algo salió mal, lloremos juntos.'
@@ -1593,6 +1588,13 @@ def mensajesEnviados(request):
 	args['msjs']=msjs
 	args['mensajes']=mensajes
 	args['es_admin']=request.session['es_admin']
+	try:
+		args['tipoAlerta'] = request.session['tipoAlerta-SS']
+		args['mensajeAlerta'] = request.session['mensajeAlerta-SS']
+	except:
+		args['tipoAlerta'] = ""
+		args['mensajeAlerta'] = ""
+
 	return render_to_response('mensajes_enviados.html',args)
 
 
@@ -1728,20 +1730,20 @@ de la institucion
 
 @login_required
 def BuzonMensajesInstitucion(request):
-    if request.session['es_admin']:
-        sesion = request.session['id_usuario']
-        usuario=User.objects.get(id=sesion)
+	if request.session['es_admin']:
+		sesion = request.session['id_usuario']
+		usuario=User.objects.get(id=sesion)
 
 
-        args={}
-        args['usuario'] = usuario
-        args['es_admin']=request.session['es_admin']
-        args['institucion_nombre'] = request.session['institucion_nombre']
-        args.update(csrf(request))
+		args={}
+		args['usuario'] = usuario
+		args['es_admin']=request.session['es_admin']
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args.update(csrf(request))
 
-        return render_to_response('buzon_mensajes_institucion.html',args)
-    else:
-        return redirect('/')
+		return render_to_response('buzon_mensajes_institucion.html',args)
+	else:
+		return redirect('/')
 
 
 """
@@ -1755,27 +1757,27 @@ que un usuario tiene en su bandeja de entrada de institucion
 
 @login_required
 def BandejaDeEntradaInstitucion(request):
-    if request.is_ajax():
-        print 'dentro de bandeja de entrada institucion'
+	if request.is_ajax():
+		print 'dentro de bandeja de entrada institucion'
 
-        usuario = User.objects.get(id=request.GET['usuario_id'])
-        mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
-        mensajes = mensajes.order_by('-fecha_de_envio')
-        paginacion = Paginator(mensajes, 5)
+		usuario = User.objects.get(id=request.GET['usuario_id'])
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
+		mensajes = mensajes.order_by('-fecha_de_envio')
+		paginacion = Paginator(mensajes, 5)
 
-        try:
-            msjs = paginacion.page(request.GET['pagina'])
-        except (EmptyPage, InvalidPage):
-            msjs = paginacion.page(paginacion.num_pages)
+		try:
+			msjs = paginacion.page(request.GET['pagina'])
+		except (EmptyPage, InvalidPage):
+			msjs = paginacion.page(paginacion.num_pages)
 
-        args={}
-        args['usuario'] = usuario
-        args['mensajes'] = mensajes
-        args['msjs'] = msjs
-        args.update(csrf(request))
-        return render(request,'bandeja_de_entrada_institucion.html',args)
-    else:
-        return redirect('/')
+		args={}
+		args['usuario'] = usuario
+		args['mensajes'] = mensajes
+		args['msjs'] = msjs
+		args.update(csrf(request))
+		return render(request,'bandeja_de_entrada_institucion.html',args)
+	else:
+		return redirect('/')
 
 
 """
@@ -1789,28 +1791,28 @@ enviados a otros usuarios ddesde el buzon de institucion
 
 @login_required
 def BandejaSalidaInstitucion(request):
-    if request.is_ajax():
-        print 'en bandeja de salida institucion'
+	if request.is_ajax():
+		print 'en bandeja de salida institucion'
 
-        usuario=User.objects.get(id=request.GET['usuario_id'])
-        mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
-        mensajes = mensajes.order_by('-fecha_de_envio')
-        paginacion = Paginator(mensajes, 5)
+		usuario=User.objects.get(id=request.GET['usuario_id'])
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
+		mensajes = mensajes.order_by('-fecha_de_envio')
+		paginacion = Paginator(mensajes, 5)
 
 
-        try:
-            msjs = paginacion.page(request.GET['pagina'])
-        except (EmptyPage, InvalidPage):
-            msjs = paginacion.page(paginacion.num_pages)
+		try:
+			msjs = paginacion.page(request.GET['pagina'])
+		except (EmptyPage, InvalidPage):
+			msjs = paginacion.page(paginacion.num_pages)
 
-        args={}
-        args['usuario']=usuario
-        args['msjs']=msjs
-        args['mensajes']=mensajes
-        args.update(csrf(request))
-        return render(request,'bandeja_de_salida_institucion.html',args)
-    else:
-        return redirect('/')
+		args={}
+		args['usuario']=usuario
+		args['msjs']=msjs
+		args['mensajes']=mensajes
+		args.update(csrf(request))
+		return render(request,'bandeja_de_salida_institucion.html',args)
+	else:
+		return redirect('/')
 
 """
 Autor: Fausto Mora
@@ -1824,12 +1826,12 @@ perfil de institucion
 
 @login_required
 def nuevoMensajeInstitucion(request):
-    if request.is_ajax():
-        print 'en nuevo mensaje institucion'
+	if request.is_ajax():
+		print 'en nuevo mensaje institucion'
 
-        return render(request,'nuevo_mensaje_institucion.html')
-    else:
-        return redirect('/')
+		return render(request,'nuevo_mensaje_institucion.html')
+	else:
+		return redirect('/')
 	
 
 """
@@ -1843,62 +1845,62 @@ que un usuario administrador de una institucion tiene en su bandeja de entrada
 
 @login_required
 def enviarMensajeInstitucion(request):
-    if request.is_ajax():
-        print 'dentro de enviar mensaje institucion'
-        print request.POST['emisor']
-        emisor=User.objects.get(id=request.POST['emisor'])
-        destinatario = request.POST['destinatario']
-        asunto = request.POST['asunto']
-        texto_mensaje = request.POST['mensaje']
+	if request.is_ajax():
+		print 'dentro de enviar mensaje institucion'
+		print request.POST['emisor']
+		emisor=User.objects.get(id=request.POST['emisor'])
+		destinatario = request.POST['destinatario']
+		asunto = request.POST['asunto']
+		texto_mensaje = request.POST['mensaje']
 
-        if destinatario != emisor:
-            # averiguamos quien es el destinatario.... si es inst o usuario
-            print 'averiguaremos el destinatario'
-            try:
-                print 'sera usuario?'
-                receptor_aux = User.objects.get(username=destinatario)
-                receptor=receptor_aux
-                print receptor_aux
-                tipo_mensaje = 'institucion-usuario'
-            except User.DoesNotExist:
-                print 'No es usuario'
-                print 'sera institucion?'
-                receptor_aux = Institucion.objects.get(siglas=destinatario)
-                membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
-                receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
-                print receptor_aux
-                tipo_mensaje = 'institucion-institucion'
-            except Institucion.DoesNotExist:
-                print 'No es institucion'
-                print 'hay un grave error aqui'
-                response = JsonResponse({'save_estado':False})
-                return HttpResponse(response.content)
+		if destinatario != emisor:
+			# averiguamos quien es el destinatario.... si es inst o usuario
+			print 'averiguaremos el destinatario'
+			try:
+				print 'sera usuario?'
+				receptor_aux = User.objects.get(username=destinatario)
+				receptor=receptor_aux
+				print receptor_aux
+				tipo_mensaje = 'institucion-usuario'
+			except User.DoesNotExist:
+				print 'No es usuario'
+				print 'sera institucion?'
+				receptor_aux = Institucion.objects.get(siglas=destinatario)
+				membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+				receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+				print receptor_aux
+				tipo_mensaje = 'institucion-institucion'
+			except Institucion.DoesNotExist:
+				print 'No es institucion'
+				print 'hay un grave error aqui'
+				response = JsonResponse({'save_estado':False})
+				return HttpResponse(response.content)
 
-            try:
-                if receptor is not None:
-                    mensajes = Mensaje()
-                    mensajes.fk_emisor = emisor
-                    mensajes.fk_receptor = receptor
-                    mensajes.asunto = asunto
-                    mensajes.tipo_mensaje = tipo_mensaje
-                    mensajes.mensaje= texto_mensaje
-                    mensajes.fecha_de_envio=datetime.datetime.now()
-                    mensajes.save()
+			try:
+				if receptor is not None:
+					mensajes = Mensaje()
+					mensajes.fk_emisor = emisor
+					mensajes.fk_receptor = receptor
+					mensajes.asunto = asunto
+					mensajes.tipo_mensaje = tipo_mensaje
+					mensajes.mensaje= texto_mensaje
+					mensajes.fecha_de_envio=datetime.datetime.now()
+					mensajes.save()
 
-                    response = JsonResponse({'save_estado':True})
-                    return HttpResponse(response.content)
-                else:
-                    response = JsonResponse({'save_estado':False})
-                    return HttpResponse(response.content)
-            except Exception as e:
-                print e
-                response = JsonResponse({'save_estado':False})
-                return HttpResponse(response.content)
-        else:
-            response = JsonResponse({'save_estado':False})
-            return HttpResponse(response.content)
-    else:
-        return redirect('/')
+					response = JsonResponse({'save_estado':True})
+					return HttpResponse(response.content)
+				else:
+					response = JsonResponse({'save_estado':False})
+					return HttpResponse(response.content)
+			except Exception as e:
+				print e
+				response = JsonResponse({'save_estado':False})
+				return HttpResponse(response.content)
+		else:
+			response = JsonResponse({'save_estado':False})
+			return HttpResponse(response.content)
+	else:
+		return redirect('/')
 	
 """
 Autor: Fausto Mora
@@ -1911,41 +1913,41 @@ detalladamente desde el buzon de administrador de institucion
 
 @login_required
 def verMensajeInstitucion(request):
-    print 'en ver mensaje institucion'
-    if request.is_ajax():
-        id_mensaje=request.GET['id_mensaje']
-        tipo = request.GET['tipo_envio']
-        mensaje_id=string.replace(id_mensaje,'mensaje_','')
-        print mensaje_id
-        try:
-            args = {}
-            msj = Mensaje.objects.get(id_mensaje=mensaje_id)
-            msj.leido = True
-            msj.save()
+	print 'en ver mensaje institucion'
+	if request.is_ajax():
+		id_mensaje=request.GET['id_mensaje']
+		tipo = request.GET['tipo_envio']
+		mensaje_id=string.replace(id_mensaje,'mensaje_','')
+		print mensaje_id
+		try:
+			args = {}
+			msj = Mensaje.objects.get(id_mensaje=mensaje_id)
+			msj.leido = True
+			msj.save()
 
-            emisor = User.objects.get(username= msj.fk_emisor.username)
-            receptor = User.objects.get(username = msj.fk_receptor.username)
+			emisor = User.objects.get(username= msj.fk_emisor.username)
+			receptor = User.objects.get(username = msj.fk_receptor.username)
 
-            args['msj']=msj
-            #args['emisor']=emisor
-            #args['receptor']=receptor
-            args['usuario']= request.user
+			args['msj']=msj
+			#args['emisor']=emisor
+			#args['receptor']=receptor
+			args['usuario']= request.user
 
-            if tipo == 'emisor':
-                args['tipo_envio']=True
-            else:
-                if tipo == 'receptor':
-                    args['tipo_envio']=False
+			if tipo == 'emisor':
+				args['tipo_envio']=True
+			else:
+				if tipo == 'receptor':
+					args['tipo_envio']=False
 
-            #args['es_admin']=request.session['es_admin']
-            #args['institucion_nombre'] = request.session['institucion_nombre']
-            args.update(csrf(request))
-            return render_to_response('ver_mensaje_institucion.html',args)
-        except Mensaje.DoesNotExist:
-            print 'no encontro el mensaje'
-            return redirect('/NotFound/')
-    else:
-        return redirect('/')
+			#args['es_admin']=request.session['es_admin']
+			#args['institucion_nombre'] = request.session['institucion_nombre']
+			args.update(csrf(request))
+			return render_to_response('ver_mensaje_institucion.html',args)
+		except Mensaje.DoesNotExist:
+			print 'no encontro el mensaje'
+			return redirect('/NotFound/')
+	else:
+		return redirect('/')
 
 """
 Autor: Fausto Mora
@@ -2223,47 +2225,47 @@ Descripción: permite enviar mensaje desde el perfil de una institucion
 
 @login_required
 def enviarMensajePerfilInstitucion(request):
-    if request.is_ajax():
-        print 'dentro de enviar mensaje institucion'
-        print request.POST['emisor']
-        emisor=User.objects.get(id=request.POST['emisor'])
-        destinatario = request.POST['destinatario']
-        asunto = request.POST['asunto']
-        texto_mensaje = request.POST['mensaje']
+	if request.is_ajax():
+		print 'dentro de enviar mensaje institucion'
+		print request.POST['emisor']
+		emisor=User.objects.get(id=request.POST['emisor'])
+		destinatario = request.POST['destinatario']
+		asunto = request.POST['asunto']
+		texto_mensaje = request.POST['mensaje']
 
-        try:
-            print 'buscando institucion'
-            receptor_aux = Institucion.objects.get(siglas=destinatario)
-            membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
-            receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
-            print receptor_aux
-            tipo_mensaje = 'usuario-institucion'
-        except Institucion.DoesNotExist:
-            print 'No existe institucion - cambiaron el hidden'
-            response = JsonResponse({'save_estado':False})
-            return HttpResponse(response.content)
-        except User.DoesNotExist:
-        	print 'error grave - no existe usuario'
-        	response = JsonResponse({'save_estado':False})
-        	return HttpResponse(response.content)
+		try:
+			print 'buscando institucion'
+			receptor_aux = Institucion.objects.get(siglas=destinatario)
+			membresia_institucion = Membresia.objects.get(fk_institucion=receptor_aux,es_administrator=1)
+			receptor = User.objects.get(username=membresia_institucion.fk_usuario.username)
+			print receptor_aux
+			tipo_mensaje = 'usuario-institucion'
+		except Institucion.DoesNotExist:
+			print 'No existe institucion - cambiaron el hidden'
+			response = JsonResponse({'save_estado':False})
+			return HttpResponse(response.content)
+		except User.DoesNotExist:
+			print 'error grave - no existe usuario'
+			response = JsonResponse({'save_estado':False})
+			return HttpResponse(response.content)
 
-        if receptor is not None:
-            mensajes = Mensaje()
-            mensajes.fk_emisor = emisor
-            mensajes.fk_receptor = receptor
-            mensajes.asunto = asunto
-            mensajes.tipo_mensaje = tipo_mensaje
-            mensajes.mensaje= texto_mensaje
-            mensajes.fecha_de_envio=datetime.datetime.now()
-            mensajes.save()
+		if receptor is not None:
+			mensajes = Mensaje()
+			mensajes.fk_emisor = emisor
+			mensajes.fk_receptor = receptor
+			mensajes.asunto = asunto
+			mensajes.tipo_mensaje = tipo_mensaje
+			mensajes.mensaje= texto_mensaje
+			mensajes.fecha_de_envio=datetime.datetime.now()
+			mensajes.save()
 
-            response = JsonResponse({'save_estado':True})
-            return HttpResponse(response.content)
-        else:
-            response = JsonResponse({'save_estado':False})
-            return HttpResponse(response.content)
-    else:
-        return redirect('/')
+			response = JsonResponse({'save_estado':True})
+			return HttpResponse(response.content)
+		else:
+			response = JsonResponse({'save_estado':False})
+			return HttpResponse(response.content)
+	else:
+		return redirect('/')
 
 class AutocompletarUsuario(APIView):
 	permission_classes = (IsAuthenticated,)
