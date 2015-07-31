@@ -24,7 +24,7 @@
         });
 
         $(function(){
-	        $('#info_suscripcion').removeClass("alert alert-info alert-warning");
+	        $('#info_suscripcion').removeClass("alert alert-danger alert-success");
 	        $('#info_suscripcion').hide();
 
 	        $('#btn_sucribirte').ready(function (){
@@ -105,15 +105,15 @@
                 var objeto = JSON.parse(data);
                 if(objeto.save_estado){
                   var html = '<p><span class="glyphicon glyphicon-ok-sign"></span> Mensaje Enviado Exitosamente</p>';
-                  $('#info_suscripcion').addClass("alert alert-info");
+                  $('#info_suscripcion').addClass("alert alert-success");
                   $('#info_suscripcion_txt').html(html);
-                  $('#info_suscripcion').removeClass("alert-warning");
+                  $('#info_suscripcion').removeClass("alert-danger");
                   $('#info_suscripcion').show();
                 }else{
                   var html = '<p><span class="glyphicon glyphicon-exclamation-sign"></span> Error al enviar mensaje</p>';
-                  $('#info_suscripcion').addClass("alert alert-warning");
+                  $('#info_suscripcion').addClass("alert alert-danger");
                   $('#info_suscripcion_txt').html(html);
-                  $('#info_suscripcion').removeClass("alert-info");
+                  $('#info_suscripcion').removeClass("alert-success");
                   $('#info_suscripcion').show();
                 }
 
@@ -172,15 +172,15 @@ $(document).on('click','#btn_aceptar_Suscripcion',function(){
                   	$('#btn_sucribirte').css('color', 'blue');
 
                   	var html = '<p><span class="glyphicon glyphicon-ok-sign"></span> Se ha enviado la solicitud</p>';
-                    $('#info_suscripcion').addClass("alert alert-info");
+                    $('#info_suscripcion').addClass("alert alert-success");
                     $('#info_suscripcion_txt').html(html);
-                    $('#info_suscripcion').removeClass("alert-warning");
+                    $('#info_suscripcion').removeClass("alert-danger");
                     $('#info_suscripcion').show();
                   }else{
                   	var html = '<p><span class="glyphicon glyphicon-exclamation-sign"></span> Error inesperado. <br>Vuelva a intentarlo mas tarde</p>';
-                  	$('#info_suscripcion').addClass("alert alert-warning");
+                  	$('#info_suscripcion').addClass("alert alert-danger");
                   	$('#info_suscripcion_txt').html(html);
-                    $('#info_suscripcion').removeClass("alert-info");
+                    $('#info_suscripcion').removeClass("alert-success");
                   	$('#info_suscripcion').show();
                   }
           }
