@@ -201,7 +201,7 @@ Salida: Formulario de verificar siglas
 Descripción: envia mensaje si existen o no las siglas ingresadas
 """
 @csrf_exempt
-def verificar_siglas(request):  
+def verificar_siglas(request):
 	if request.method == "POST":
 		siglas = request.POST['siglas']
 		print len(siglas)
@@ -215,7 +215,7 @@ def verificar_siglas(request):
 			return HttpResponse("usado")
 		except:
 			institucion = None
-			return HttpResponse("ok") 
+			return HttpResponse("ok")
 
 	return HttpResponse("no es post")
 
@@ -473,7 +473,7 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 					print 'session es_admin'
 					print user
 					print user.privacidad
-					
+
 					auth.login(request, usuario)
 					return HttpResponseRedirect('/inicioUsuario')
 
@@ -533,7 +533,7 @@ def editar_contrasena(request):
 				perfil = usuario
 				perfil.set_password(contrasena_nueva)
 				perfil.save()
-				
+
 				if request.POST.has_key('remember_me'): #Error 10, usar palabras en español
 						request.session.set_expiry(1209600)  # 2 weeks
 				auth.login(request, usuario)
@@ -564,13 +564,13 @@ Salida: Formulario de generarCodigo
 Descripción: Genera un codigo para  verificar que la contraseña 
 """
 
-def verificar_contrasena(request):  
+def verificar_contrasena(request):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	if request.method == "POST":
 		contrasena = request.POST['passwordActual']
 		autentificacion = auth.authenticate(username=usuario, password=contrasena)
-		
+
 		if autentificacion is not None:
 			return HttpResponse("valido")
 		else:
@@ -603,7 +603,7 @@ def editar_perfil_usuario(request):
 		args['error'] = "Error al cargar los datos"
 
 	if request.method == 'POST':
-		nombres = request.POST['nombres'] 
+		nombres = request.POST['nombres']
 		apellidos = request.POST['apellidos']
 		telefono = request.POST['telefono']
 		website = request.POST['website']
@@ -635,7 +635,7 @@ def editar_perfil_usuario(request):
 		if ID_FOTO != 0:
 			perfil.foto = foto
 		perfil.save()
-		
+
 		if request.POST.has_key('cargo'):
 			miembro = membresia
 			miembro.cargo = request.POST['cargo']
@@ -696,7 +696,7 @@ def inicio(request):
 
 		#Valida si el usuario tiene una institucion a su cargo o es administrador.
 		membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
-		print 'usuario' 
+		print 'usuario'
 		print user.id
 		print 'la membresia'
 		print membresia
@@ -715,7 +715,7 @@ def inicio(request):
 				request.session['es_admin'] = False
 				request.session['institucion_nombre']=None
 		else:
-			request.session['es_admin'] = False	
+			request.session['es_admin'] = False
 			request.session['institucion_nombre']=None
 
 	else:
@@ -1115,7 +1115,7 @@ def enviarEmailPassword(request): #Error 10, nombre inadecuado de la funcion
 			link='http://localhost:8000/recuperarPassword/'+ codigo
 			# link cuando este en realease -  no se si funcionara - no estoy seguro del puerto tampoco
 			#link='http://201.183.227.87:13306/recuperarPassword/'
-			
+
 			if codigo:
 				peticion = Peticion()
 				peticion.nombre_institucion = 'tipo-recuperar-password'
@@ -1265,7 +1265,7 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 			try:
 				image = request.FILES['logo']
 			except:
-				idLogo = 0 
+				idLogo = 0
 				image = "../../media/noPicture.png"
 
 			#institucion.siglas=siglas
@@ -1456,6 +1456,7 @@ def enviarMensaje(request):
 					mensajes.save()
 					request.session['tipoAlerta-SS']= 'completado'
 					request.session['mensajeAlerta-SS'] = 'El mensaje ha sido enviado correctamente.'
+					request.session['avisado-SS'] = 0
 					return HttpResponseRedirect("/mensajesEnviados")
 				else:
 					args['tipoAlerta'] = 'error'
@@ -1527,14 +1528,9 @@ def verMensajeEnviado(request):
 	try:
 		idM = int(request.GET.get('q', ''))
 		msj=Mensaje.objects.get(id_mensaje = idM)
-		print "mensaje",msj.id_mensaje
-		print msj.leido
-		print msj.fk_emisor
-		print usuario
 		if msj.fk_emisor == usuario:
 			msj.leido = True
 			msj.save()
-			print msj.leido
 			usuario_receptor=msj.fk_receptor
 			receptor = Perfil.objects.get(username= usuario_receptor.username)
 			emisor = Perfil.objects.get(username = usuario.username)
@@ -1546,7 +1542,6 @@ def verMensajeEnviado(request):
 			args['es_admin']=request.session['es_admin']
 			return render_to_response('ver_mensaje_enviado.html',args)
 		else:
-			print "porque no entre si mi usuario es", msj.fk_emisor.id, usuario.id
 			return HttpResponseRedirect("/mensajesEnviados/")
 	except:
 		return HttpResponseRedirect("/mensajesEnviados/")
@@ -1566,7 +1561,10 @@ UltimaModificacion: Fausto Mora - 4/7/15
 def mensajesEnviados(request):
 	sesion = request.session['id_usuario']
 	usuario=User.objects.get(id=sesion)
-
+	try:
+		avisado = request.session['avisado-SS']
+	except:
+		avisado = 1
 
 	mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='institucion-institucion')
 	print mensajes
@@ -1588,12 +1586,14 @@ def mensajesEnviados(request):
 	args['msjs']=msjs
 	args['mensajes']=mensajes
 	args['es_admin']=request.session['es_admin']
-	try:
-		args['tipoAlerta'] = request.session['tipoAlerta-SS']
-		args['mensajeAlerta'] = request.session['mensajeAlerta-SS']
-	except:
-		args['tipoAlerta'] = ""
-		args['mensajeAlerta'] = ""
+	if avisado == 0:
+		try:
+			args['tipoAlerta'] = request.session['tipoAlerta-SS']
+			args['mensajeAlerta'] = request.session['mensajeAlerta-SS']
+			request.session['avisado-SS'] = 1
+		except:
+			args['tipoAlerta'] = ""
+			args['mensajeAlerta'] = ""
 
 	return render_to_response('mensajes_enviados.html',args)
 
@@ -1613,7 +1613,7 @@ def miembros_institucion(request):
 			institucion = Institucion.objects.get(id_institucion=request.GET['institucion'])
 			miembrosActivos= Membresia.objects.filter(fk_institucion=institucion.id_institucion, estado = 1).order_by('fecha_peticion')
 			args['miembrosActivos'] = miembrosActivos
-			args['numMiembros'] = len(miembrosActivos); 
+			args['numMiembros'] = len(miembrosActivos);
 			args['institucion_nombre'] = request.session['institucion_nombre']
 			args['institucion']=institucion
 			args.update(csrf(request))
@@ -1676,7 +1676,7 @@ def eliminarMensajeRecibido(request,):
 		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_receptor=False)
 		mensaje=Mensaje.objects.get(id_mensaje = idM)
 		mensaje.borrarMensaje()
-		#args['mensaje'] = mensaje	
+		#args['mensaje'] = mensaje
 		print "funcion eliminar mensaje:", mensaje.mensaje
 	except :
 		return HttpResponseRedirect('/BandejaDeEntrada/')
@@ -1695,27 +1695,14 @@ Descripción: elimina y actuliza los mensaje del buzon.
 @login_required
 def eliminarMensajeEnviado(request,):
 	sesion=request.session['id_usuario']
-	usuario=User.objects.get(id=sesion)
 	args = {}
 	try:
 		idM = int(request.GET.get('q', ''))
-		#mensaje =Mensaje.objects.filter(id_mensaje=9)
-		#args['mensaje'] = mensaje
-		print "MENSAJE: ",idM
 		Mensaje.objects.all().filter(id_mensaje=idM).update(visible_emisor=False)
 		mensaje=Mensaje.objects.get(id_mensaje = idM)
-
 		mensaje.borrarMensaje()
-		#args['mensaje'] = mensaje	
-		print "funcion eliminar mensaje fk_emisor:", mensaje.fk_emisor
-		print "funcion eliminar mensaje fk_receptor:", mensaje.fk_receptor
-		print "mensaje: ", mensaje.mensaje
-	
 	except :
 		return HttpResponseRedirect('/mensajesEnviados/')
-
-
-	#print "Eliminar:  ",mensaje
 	return HttpResponseRedirect('/mensajesEnviados/')
 
 
@@ -1832,7 +1819,7 @@ def nuevoMensajeInstitucion(request):
 		return render(request,'nuevo_mensaje_institucion.html')
 	else:
 		return redirect('/')
-	
+
 
 """
 Autor: Fausto Mora
@@ -1901,7 +1888,7 @@ def enviarMensajeInstitucion(request):
 			return HttpResponse(response.content)
 	else:
 		return redirect('/')
-	
+
 """
 Autor: Fausto Mora
 Nombre de funcion: verMensajeInstitucion
@@ -2004,12 +1991,12 @@ la suscripcion de un usuario a determinada institucion
 
 def suscribirAInstitucion(request):
 	print 'aca dentro suscribirAInstitucion'
-	if request.is_ajax():	
+	if request.is_ajax():
 		try:
 			institucion = Institucion.objects.get(id_institucion=request.POST['institucion'])
 			print request.POST['institucion']
 			print request.user
-			
+
 			solicitudMembresia = Membresia.objects.get(fk_institucion=institucion.id_institucion,fk_usuario=request.user.id)
 			print 'imprimiendo membresia'
 			print solicitudMembresia.id_membresia
@@ -2024,13 +2011,13 @@ def suscribirAInstitucion(request):
 				solicitudMembresia.ip_peticion = get_client_ip(request)
 				solicitudMembresia.save()
 				print 'se actualizo parece'
-				response = JsonResponse({'save_estado':True})	
+				response = JsonResponse({'save_estado':True})
 				print response
 				return HttpResponse(response.content)
 
 		except Institucion.DoesNotExist:
 			print 'institucion no existe'
-			response = JsonResponse({'save_estado':False})	
+			response = JsonResponse({'save_estado':False})
 			print response
 			return HttpResponse(response.content)
 		except Membresia.DoesNotExist:
@@ -2048,7 +2035,7 @@ def suscribirAInstitucion(request):
 				solicitudMembresia.fk_institucion = institucion
 				solicitudMembresia.save()
 				print 'se guardo parece'
-				response = JsonResponse({'save_estado':True})	
+				response = JsonResponse({'save_estado':True})
 				print response
 				return HttpResponse(response.content)
 	else:
@@ -2072,25 +2059,25 @@ def verificarSuscripcion(request):
 			print institucion.id_institucion
 			solicitudMembresia = Membresia.objects.get(fk_institucion=institucion.id_institucion,fk_usuario=request.user.id)
 			print solicitudMembresia
-			
+
 			if solicitudMembresia is not None:
 				existeMembresia = True
 				estadoMembresia = solicitudMembresia.estado
 
-			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia})	
+			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia})
 			return HttpResponse(response.content)
-		
+
 		except Membresia.DoesNotExist:
 			existeMembresia = False
 			estadoMembresia = None
 
-			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia})	
+			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia})
 			return HttpResponse(response.content)
 
 		except Membresia.MultipleObjectsReturned:
 			print 'mas de uno... error, no deberia pasar'
 		except Institucion.DoesNotExist:
-			print 'institucion no existe' 
+			print 'institucion no existe'
 	else:
 		return redirect('/')
 
@@ -2196,11 +2183,11 @@ Descripción: funcion para remover membresia a miembros
 de una institucion
 """
 
-def removerMembresia(request):		
+def removerMembresia(request):
 	if request.is_ajax():
 		print'dentro de removerMembresia'
 		try:
-			
+
 			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
 			membresia.estado = -1
 			membresia.save()
