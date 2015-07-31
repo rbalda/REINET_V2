@@ -50,28 +50,89 @@
                 <div class=" col-md-8">
                     <div class="row">
                     <figure>
-                        <div class="thumbnail col-md-3">
-                            <div class="avatar">
-                                <span class="thumbnail bottom-12">
-                                    <!--NSERTAR FOTO DE OFERTA-->
-                                    <img src="/../../media/hoteshi.jpg" alt="...">
-                                </span>
+                            <div class="thumbnail col-md-3">
+                                <div class="avatar">
+                                    <span class="thumbnail bottom-12">
+                                        <!--NSERTAR FOTO DE OFERTA-->
+                                        <img src="/../../media/hoteshi.jpg" alt="...">
+                                    </span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="container col-md-9">
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <h4 style="font-size: 15px;color: green">Nombre de la Oferta</h4>
-                            <p style="font-size: 13px">
+                            <div class="container col-md-9">
                                 <!-- INSERTAR DATOS OFERTA -->
-                                Descripcion de la oferta. 
-                                <br><br>Tipo de Oferta
-                                <br>Fecha Publicaci&oacute;n
-                                <br>Numero de Miembros
-                            </p>
-                            <span class="rating">
-                                <span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span>
-                            </span>
+                                <h4 style="font-size: 15px;color: green">Nombre de la Oferta</h4>
+                                <p style="font-size: 13px">
+                                    <!-- INSERTAR DATOS OFERTA -->
+                                    Descripcion de la oferta. 
+                                    <br><br>Tipo de Oferta
+                                    <br>Fecha Publicaci&oacute;n
+                                    <br>Numero de Miembros
+                                </p>
+                                <span class="rating">
+                                    <span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span>
+                                </span>
+                                
+
+                            <div class="bottom-15">
+                                <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#solicitarEquipo">
+                                    Solicitar Pertenecer al Equipo de la Oferta
+                                </a>
+
+
+                                <!-- //// VENTANA EMERGENTE EMAIL ///// -->
+                                <div class="modal modal-vcenter fade" id="solicitarEquipo" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                
+                                                <h4 class="modal-title" id="sendemailtitle">Solicitar pertener al equipo de trabajo de la oferta</h4>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" action="" method=''>
+                                                    <!--{% csrf_token %}-->
+                                                    <div class="form-group">
+                                                        <label for="Comentario">Añadir Comentario:</label>
+                                                        <input type="text" class="form-control" id="comentario" name="comentario"
+                                                        placeholder="Comentario.." maxlength="150">
+                                                    </div>
+                                                    <a href="" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud">
+                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                                    </a> 
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal modal-vcenter fade" id="confirmarcionSolicitud" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" action="" method=''>
+                                                    <!--{% csrf_token %}-->
+                                                    <div class="form-group">
+                                                        <label for="Confirmacion">Se ha enviado su solicitud con &eacute;xito</label>
+                                                    </div>
+                                                    <a href="" class="button">
+                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                                    </a> 
+                                                </form>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </figure>
                     </div>
@@ -89,6 +150,70 @@
                   <div class="tab-content col-md-12">
                     <!--TAB COMENTARIOS -->
                     <div role="tabpanel" class="tab-pane active" id="comentarios">
+                        <div class="panel panel-blue">
+
+                            <div class="panel-heading">
+                                <h3 id="titulo_comentar" class="panel-title">Calificar Y Comentar La Oferta</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    <span class="rating">
+                                            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
+                                            <label for="rating-input-1-5" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1"/>
+                                            <label for="rating-input-1-4" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1"/>
+                                            <label for="rating-input-1-3" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1"/>
+                                            <label for="rating-input-1-2" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1"/>
+                                            <label for="rating-input-1-1" class="rating-star"></label>
+                                    </span>
+                                </div>
+                                <form role="form" action="" method=''>
+                                    <!--{% csrf_token %}-->
+                                    <div class="form-group">
+                                        <label for="Comentario">Añadir Comentario:</label>
+                                        <input type="text" class="form-control" id="comentario" name="comentario"
+                                        placeholder="Comentario.." maxlength="150">
+                                    </div>
+                                    <a href="" class="button" data-toggle="modal" data-target="#confirmarcionCC">
+                                        <button type="button" class="btn btn-green" data-dismiss="modal">Enviar</button>
+                                    </a> 
+                                </form>
+                                <div class="modal modal-vcenter fade" id="confirmarcionCC" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" action="" method=''>
+                                                    <!--{% csrf_token %}-->
+                                                    <div class="form-group">
+                                                        <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
+                                                    </div>
+                                                    <a href="" class="button">
+                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                                    </a> 
+                                                </form>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
                         <div class="col-md-12 col-sm-8 col-xs-6">
                             <!-- INSERTAR DATOS OFERTA -->
                             <h4>21 comments</h4>
@@ -290,18 +415,18 @@
             </div>
                 <div class="col-md-4">
                     <div>
-                    <h4> Tags </h4>
-                    <hr>
-                    <!-- INSERTAR TAGS DE OFERTA-->
-                    <p class="tags">
-                        <a href="#">Bootstrap</a>
-                        <a href="#">HTML5</a>
-                        <a href="#">Highland</a>
-                        <a href="#">Blog post</a>
-                        <a href="#">CSS3</a>
-                        <a href="#">jQuery</a>
-                    </p>
-                    <br/>
+                        <h4> Tags </h4>
+                        <hr>
+                        <!-- INSERTAR TAGS DE OFERTA-->
+                        <p class="tags">
+                            <a href="#">Bootstrap</a>
+                            <a href="#">HTML5</a>
+                            <a href="#">Highland</a>
+                            <a href="#">Blog post</a>
+                            <a href="#">CSS3</a>
+                            <a href="#">jQuery</a>
+                        </p>
+                        <br/>
                     </div>
                     <div>
                         <h4>Perfil del cliente</h4>
