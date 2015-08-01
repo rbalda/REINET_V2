@@ -189,14 +189,15 @@
                             <!--SITIO WEB-->
                             <div class="form-group">
                                 <label for="webInstitucion" class="col-md-4">Sitio web</label>
-                                <div ng-messages='editar_institucion.webInstitucion.$error' >
+                              
+                                <div class="col-md-8">
+                                    <div ng-messages='editar_institucion.webInstitucion.$error' >
                                   <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="editar_institucion.webInstitucion.$dirty && editar_institucion.webInstitucion.$invalid">
                                     El sitio web debe tener entre 3 y 240 caracteres.
                                     Ejemplo: www.reinet.org
                                   </label>
                                 </div>
-                                <div class="col-md-8">
-                                <input type="text" class="form-control" maxlength="45" id="webInstitucion"
+                                <input type="text" class="form-control" maxlength="245" id="webInstitucion"
                                        name="webInstitucion" placeholder="Dirección web"
                                        data-toggle="popover" data-placement="left" data-trigger="focus"
                                        data-content="Ingrese la dirección web de la Institución"
