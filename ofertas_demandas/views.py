@@ -127,3 +127,15 @@ def administrar_Borrador(request):
 	args = {}
 	return render_to_response('administrar_borrador.html',args)
 
+"""
+Autor: Jose Velez Gomez
+Nombre de funcion: editar_borrador
+Parametros: request
+Salida: 
+Descripcion: funcion para editar un borrador
+"""
+@login_required
+def editar_borrador(request):
+	args = {}
+	return render_to_response('editar_borrador.html',args)
+

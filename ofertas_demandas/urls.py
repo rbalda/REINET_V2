@@ -11,4 +11,5 @@ urlpatterns = patterns('',
 		url(r'^oferta[/]?$','ofertas_demandas.views.verCualquierOferta', name='verOferta'),
 		url(r'^administrarOferta[/]?$','ofertas_demandas.views.administrar_Oferta', name='AdministrarOferta'),
 		url(r'^administrarBorrador[/]?$','ofertas_demandas.views.administrar_Borrador', name='administrarBorrador'),
+		url(r'^EditarBorrador[/]?$','ofertas_demandas.views.editar_borrador', name='EditarBorrador'),
 		)
