@@ -1,5 +1,6 @@
 
 function fijarReputacion() {
+    try{
     var a = document.getElementsByClassName("rating")[0];
     var reputacion = parseInt(document.getElementById("reputacion-calificacion").innerHTML);
     if (reputacion <= 0) {
@@ -14,6 +15,10 @@ function fijarReputacion() {
 
     }
     convertirFecha();
+        }catch(err){
+            console.log(err);
+
+        }
 }
 function convertirFecha(){
     var td_fecha=document.getElementsByClassName("fecha_registro")[0];
@@ -64,7 +69,10 @@ function convertirFecha(){
                                                 
     td_fecha.innerHTML=dia+'/'+mes+'/'+año;
 
-}                                               
+}                                           
+try{
 window.onload = fijarReputacion;                                            
-
+}catch(err){
+    console.log("fallo reputacion");
+}
                                                 
