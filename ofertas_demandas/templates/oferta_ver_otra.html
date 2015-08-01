@@ -23,7 +23,6 @@
     display: inline-block;
     position: relative;
     width: 1.1em;
-    / / content : "\2606";
  }
 </style>
 
@@ -38,43 +37,471 @@
         </div>
     </div>
 
-    <div class="container">
-    <div class="row">
+<!-- Main body
+================== -->
+<div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                <div class="col-md-8 col-xs-7" align="left" style="padding-left: 0px;">
+                      <h4>Nombre de la oferta</h4>
+                      <ul class="text-muted list-inline">
+                        <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                        <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                        <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                      </ul>
+                 </div>
+          </div>
+
+                    <div class="blog-text">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content row">
+                                <div role="tabpanel" class="tab-pane active" id="informacion">
+                                        <div class="col-md-4 col-sm-4 col-xs-4">
+                                                <div class="block-inverse">
+                                                    <div class="head-inverse">
+                                                            <img class=" img-responsive" src="/../../media/ofertas-demandas/integrante1.jpg" alt="...">
+                                                    </div>
+                                                    <div class="body-inverse">
+                                                        <p class="text-center">
+                                                            <strong class="text-muted">Fotos</strong>
+                                                        </p>
+                                                        <div class="user-gallery text-center">
+                                                            <a href="#"><img src="/../../media/ofertas-demandas/face1.jpg" alt="..."></a>
+                                                            <a href="#"><img src="/../../media/ofertas-demandas/face2.jpg" alt="..."></a>
+                                                            <a href="#"><img src="/../../media/ofertas-demandas/face3.jpg" alt="..."></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-xs-8">
+
+                                                                    <!--NOMBRES-->
+                                             <div class="form-group">
+                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Nombres</label>
+
+                                                 <label>Oferta 1</label>
 
 
-    <!-- Editar Perfil Usuario-->
-    <div class=" col-xs-6 col-sm-8 col-md-12">
+                                             </div>
+                                            <!--Tipo-->
+                                             <div class="form-group">
+                                                 <label style="color: darkgray" for="Tipo" class="col-md-3">Tipo</label>
 
-        <div class="container">
-            <div class="row">
-                <div class=" col-md-8">
-                    <div class="row">
-                    <figure>
-                            <div class="thumbnail col-md-3">
-                                <div class="avatar">
-                                    <span class="thumbnail bottom-12">
-                                        <!--NSERTAR FOTO DE OFERTA-->
-                                        <img src="/../../media/hoteshi.jpg" alt="...">
+                                                 <label>Tecnolog&iacute;a</label>
+
+                                             </div>
+
+                                            <!--Descripción-->
+                                            <div class="form-group">
+                                                 <label  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</label>
+                                                 <label>Las pruebas inicales</label>
+
+
+                                             </div>
+
+                                            <!--Dominio-->
+                                             <div class="form-group">
+                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Dominio</label>
+
+                                                 <label>Dominio</label>
+
+                                             </div>
+
+                                            <!--Subdominio-->
+                                             <div class="form-group">
+                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</label>
+
+                                                  <label>Sub-dominio</label>
+
+                                             </div>
+
+                                            <!--Palabras Clave-->
+                                             <div class="form-group">
+                                                 <label  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</label>
+                                                 <label>Arte, Alimentos y Bebidas, Automotriz</label>
+                                             </div>
+                                        </div>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                                    <!--Perfil Cliente-->
+                                      <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-2">Perfil Cliente</label>
+                                              <label>Arte, Alimentos y Bebidas, Automotriz</label>
+
+                                         </div>
+
+                                      <!--Perfil Beneficiario-->
+                                      <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-2">Perfil del Beneficiario</label>
+                                            <label>Arte, Alimentos y Bebidas, Automotriz</label>
+
+                                      </div>
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane" id="modelo">
+                                    <!--Canvas del modelo de negocio-->
+                                 <h3 style="text-align:center" class="hl">  Canvas del Modelo de negocios</h3>
+                                 <hr>
+                                  <div class="col-md-12">
+                                     <div class="col-md-2">
+                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Socio Clave</label>
+                                         <label style="text-align:center" >Pruebas inicales</label>
+                                      </div>
+
+                                     <div class="col-md-2">
+                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Actividades Clave</label>
+                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
+                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Recursos Clave</label>
+                                        <label style="text-align:center" >Pruebas inicales</label>
+                                     </div>
+
+                                     <div class="col-md-2" style="text-align:center">
+                                         <label style="color: darkgray"> Propuesta por Valor</label>
+                                         <label style="text-align:center" >Pruebas inicales</label>
+                                     </div>
+
+                                     <div class="col-md-2" style="text-align:center">
+                                         <label style="color: darkgray">Relaciones con Clientes</label>
+                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
+                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Canales</label>
+                                         <label style="text-align:center" >Pruebas inicales</label>
+                                     </div>
+
+                                     <div class="col-md-2" style="text-align:center">
+                                         <label style="color: darkgray" style="text-align:center">Segmentos  del  cliente</label>
+                                         <label style="text-align:center" >Pruebas inicales</label>
+                                     </div>
+                                </div>
+
+                              <div class="col-md-12">
+                                  <br><br>
+                                    <div class="col-md-6">
+                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Estructura de Costos</label>
+                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
+                                     </div>
+                                     <div class="col-md-6">
+                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
+                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
+                                   </div>
+                              </div>
+
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane" id="industria">
+                                         <!--Industria Competidores-->
+
+                                    <!--Tendencias-->
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</label>
+                                              <label>Tendencias Relevantes</label>
+
+                                     </div>
+
+
+                                     <!--Alternativas de solucion-->
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</label>
+                                              <label>Alternativas de Soluci&oacute;n Existentes</label>
+
+                                     </div>
+
+
+                                     <!--Competidores-->
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Competidores</label>
+                                              <label>ESPOL</label>
+
+                                     </div>
+
+
+                                     <!--Diagrama de Porter-->
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</label>
+                                              <br><br><br><br><br><br>
+                                     </div>
+                                     <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Rivalidad en la Industria</label>
+                                              <label>Rivalidad en la Industria</label>
+
+                                     </div>
+
+
+
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane" id="esta_logro">
+
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
+                                              <label>6 años</label>
+
+                                     </div>
+
+
+                                     <!--Estrategia de crecimiento-->
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</label>
+                                              <label>Pruebas iniciales</label>
+
+                                     </div>
+
+
+                                     <!--Estado de propiedad Intelectual-->
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</label>
+                                              <label>Pruebas iniciales</label>
+
+                                     </div>
+
+
+                                     <!--Evidencia de Traccion-->
+                                    <div class="form-group">
+                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</label>
+                                              <label>Pruebas iniciales</label>
+
+                                     </div>
+
+                                </div>
+                    </div>
+
+                </div>
+
+                <br><br><br><br>
+                    <!--
+                        <img class="pull-right img-responsive blog-img" alt="..." src="img/works1.jpg">
+
+                    <!-- Comments list -->
+                    <h4>
+                        COMENTARIOS
+                    </h4>
+                    <hr>
+                    <div class="panel panel-blue">
+
+                            <div class="panel-heading">
+                                <h3 id="titulo_comentar" class="panel-title">Calificar Y Comentar La Oferta</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    <span class="rating">
+                                            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
+                                            <label for="rating-input-1-5" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1"/>
+                                            <label for="rating-input-1-4" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1"/>
+                                            <label for="rating-input-1-3" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1"/>
+                                            <label for="rating-input-1-2" class="rating-star"></label>
+
+                                            <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1"/>
+                                            <label for="rating-input-1-1" class="rating-star"></label>
                                     </span>
                                 </div>
-                            </div>
-
-                            <div class="container col-md-9">
-                                <!-- INSERTAR DATOS OFERTA -->
-                                <h4 style="font-size: 15px;color: green">Nombre de la Oferta</h4>
-                                <p style="font-size: 13px">
-                                    <!-- INSERTAR DATOS OFERTA -->
-                                    Descripcion de la oferta. 
-                                    <br><br>Tipo de Oferta
-                                    <br>Fecha Publicaci&oacute;n
-                                    <br>Numero de Miembros
-                                </p>
-                                <span class="rating">
-                                    <span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span><span>&#x2606;</span>
-                                </span>
+                                <form role="form" action="" method=''>
+                                    <!--{% csrf_token %}-->
+                                    <div class="form-group">
+                                        <label for="Comentario">Añadir Comentario:</label>
+                                        <input type="text" class="form-control" id="comentario" name="comentario"
+                                        placeholder="Comentario.." maxlength="150">
+                                    </div>
+                                    <a href="" class="button" data-toggle="modal" data-target="#confirmarcionCC">
+                                        <button type="button" class="btn btn-green" style="float:right" data-dismiss="modal">Enviar</button>
+                                    </a> 
+                                </form>
+                                <div class="modal modal-vcenter fade" id="confirmarcionCC" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" action="" method=''>
+                                                    <!--{% csrf_token %}-->
+                                                    <div class="form-group">
+                                                        <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
+                                                    </div>
+                                                    <a href="" class="button">
+                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                                    </a> 
+                                                </form>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
                                 
+                            </div>
+                            
+                        </div>
+                        <div align=center>
+                        <p class="text-muted" style="font-size:11px;">*Los comentarios de otros usuarios deben ser aprobados para ser mostrados</p>
+                        </div>
+                    <div class="comment">
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
+                            </a>
+                            <div class="media-body">
+                                <p><a href="profile.html">Username</a></p>
+                                <div class="thumbnail" style="margin-bottom:0px">
+                                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                    </div>
+                                            </div>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                                </p>
+                                <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face1.jpg" alt="...">
+                            </a>
+                            <div class="media-body">
+                                <p><a href="profile.html">Username 2</a></p>
+                                <div class="thumbnail" style="margin-bottom:0px">
+                                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                    </div>
+                                            </div>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                                </p>
+                                <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+                            </a>
+                            <div class="media-body">
+                                <p><a href="profile.html">Username 3</a></p>
+                                <div class="thumbnail" style="margin-bottom:0px">
+                                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                    </div>
+                                            </div>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                                </p>
+                                <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </div>
 
-                            <div class="bottom-15">
+
+            <div class="col-sm-4">
+                    <!-- Social Links -->
+                     <h4>
+                        CALIFICACI&Oacute;N GENERAL
+                    </h4>         
+                    <hr>
+                    <div class="thumbnail" align=center style="margin-bottom:0px">
+                        <div class="caption" style="padding-top:0px; padding-bottom:0px">
+                                <div class="rating">
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i>
+                                </div>
+                        </div>
+                    </div>
+                    <!-- Tags -->
+                    <h4>
+                        PALABRAS CLAVES
+                    </h4>  
+                    <hr>
+                    <p class="tags">
+                        <a href="#">Industria</a>
+                        <a href="#">Autos</a>
+                        <a href="#">Startup</a>
+                        <a href="#">Espol</a>
+                    </p>
+                    <br />
+                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                <div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
+                                            <h4>ESTADO DE LA OFERTA</h4> 
+                                 </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="info-board info-board-green">
+                            <p align=center>
+                                <b>ACTIVO</b>
+                            </p>
+                    </div>
+
+                    <br />
+                    
+                    <!-- Recently Added -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+                            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                <div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
+                                            <h4>EQUIPO</h4> 
+                                 </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+                            <div class="recent-blogs">
+                                <div class="team">
+                                            <div align=center style="margin-top: 20px">
                                 <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#solicitarEquipo">
                                     Solicitar Pertenecer al Equipo de la Oferta
                                 </a>
@@ -87,7 +514,7 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                 
-                                                <h4 class="modal-title" id="sendemailtitle">Solicitar pertener al equipo de trabajo de la oferta</h4>
+                                                <h4 class="modal-title" id="sendemailtitle">Solicitar pertenecer al equipo de trabajo de la oferta</h4>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="modal-body">
@@ -99,7 +526,7 @@
                                                         placeholder="Comentario.." maxlength="150">
                                                     </div>
                                                     <a href="" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud">
-                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                                        <button type="button" class="btn btn-green" data-dismiss="modal" style="right:0px">Aceptar</button>
                                                     </a> 
                                                 </form>
                                             </div>
@@ -132,325 +559,43 @@
                                     </div>
                                     
                                 </div>
-                            </div>
-                        </div>
-                    </figure>
-                    </div>
-                <!-- Nav tabs -->
-                <div class="row">
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#comentarios" aria-controls="home" role="tab" data-toggle="tab">Comentarios</a></li>
-                    <li role="presentation"><a href="#modeloNegocios" aria-controls="home" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
-                    <li role="presentation"><a href="#industria" aria-controls="home" role="tab" data-toggle="tab">Industra/Competidores</a></li>
-                    <li role="presentation"><a href="#estadoLogros" aria-controls="home" role="tab" data-toggle="tab">Estado/Logros</a></li>
-                    <li role="presentation"><a href="#miembrosActivos" aria-controls="home" role="tab" data-toggle="tab">Miembros Activos</a></li>
-                  </ul>
-
-                  <!-- Tab panes -->
-                  <div class="tab-content col-md-12">
-                    <!--TAB COMENTARIOS -->
-                    <div role="tabpanel" class="tab-pane active" id="comentarios">
-                        <div class="panel panel-blue">
-
-                            <div class="panel-heading">
-                                <h3 id="titulo_comentar" class="panel-title">Calificar Y Comentar La Oferta</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div>
-                                    <span class="rating">
-                                            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
-                                            <label for="rating-input-1-5" class="rating-star"></label>
-
-                                            <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1"/>
-                                            <label for="rating-input-1-4" class="rating-star"></label>
-
-                                            <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1"/>
-                                            <label for="rating-input-1-3" class="rating-star"></label>
-
-                                            <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1"/>
-                                            <label for="rating-input-1-2" class="rating-star"></label>
-
-                                            <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1"/>
-                                            <label for="rating-input-1-1" class="rating-star"></label>
-                                    </span>
-                                </div>
-                                <form role="form" action="" method=''>
-                                    <!--{% csrf_token %}-->
-                                    <div class="form-group">
-                                        <label for="Comentario">Añadir Comentario:</label>
-                                        <input type="text" class="form-control" id="comentario" name="comentario"
-                                        placeholder="Comentario.." maxlength="150">
-                                    </div>
-                                    <a href="" class="button" data-toggle="modal" data-target="#confirmarcionCC">
-                                        <button type="button" class="btn btn-green" data-dismiss="modal">Enviar</button>
-                                    </a> 
-                                </form>
-                                <div class="modal modal-vcenter fade" id="confirmarcionCC" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
-                                                <div class="clearfix"></div>
+                                            <hr>
+                                            <div class="member-left" style="margin-bottom: 0px;">
+                                                <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
+                                                margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+                                                <a href="#"> 
+                                                    <h4>Alex Smith</h4>
+                                                </a>
+                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">CEO</b></p>
+                                                                                     
                                             </div>
-                                            <div class="modal-body">
-                                                <form role="form" action="" method=''>
-                                                    <!--{% csrf_token %}-->
-                                                    <div class="form-group">
-                                                        <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
-                                                    </div>
-                                                    <a href="" class="button">
-                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                                                    </a> 
-                                                </form>
+                                            <div class="member-left" style="margin-bottom: 0px;">
+                                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
+                                                margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+                                                <a href="#"> 
+                                                    <h4>Fernando Rodriguez</h4>
+                                                </a>
+                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">Designer</b></p>                     
+                                            </div>
+                                            <div class="member-left" style="margin-bottom: 0px;">
+                                                <img src="/../../media/ofertas-demandas/face3.jpg" alt="Team Member" class="left" style="
+                                                margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+                                                <a href="#"> 
+                                                    <h4>Margarita Altamirano</h4>
+                                                </a>
+                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">Programmer</b></p>                 
                                             </div>
                                             
-                                        </div>
-                                        
-                                    </div>
-                                    
                                 </div>
-                                
-                            </div>
-                            
-                        </div>
-                        <div class="col-md-12 col-sm-8 col-xs-6">
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <h4>21 comments</h4>
-                            <hr>
-
-                            <div class="comment">
-                                <div class="media">
-                                    <a class="pull-left" href="#">
-                                        <!-- INSERTAR DATOS OFERTA -->
-                                        <img class="media-object" src="/../../media/hoteshi.jpg" alt="...">
-                                    </a>
-                                    <div class="media-body">
-                                        <p><a href="profile.html">Username</a></p>
-                                        <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                                        </p>
-                                        <ul class="text-muted list-inline">
-                                            <li><i class="fa fa-clock-o"></i> 20 minutes ago</li>
-                                            <li><i class="fa fa-cog"></i> <a href="#">Edit</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="comment">
-                                <div class="media">
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object" src="/../../media/hoteshi.jpg" alt="...">
-                                    </a>
-                                    <div class="media-body">
-                                        <p><a href="profile.html">Username</a></p>
-                                        <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                                        </p>
-                                        <ul class="text-muted list-inline">
-                                            <li><i class="fa fa-calendar"></i> 11/10/2013 </li>
-                                            <li><i class="fa fa-cog"></i> <a href="#">Edit</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!--TAB MODELO DE NEGOCIOS-->
-                    <div role="tabpanel" class="tab-pane" id="modeloNegocios">
-                        <div class="col-md-12 col-sm-8 col-xs-6">
-                            <h4 class="hl">Canvas del Modelo de negocios</h4>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="col-md-2" style="border: 1px solid #ddd;">                    
-                                    <label style="text-align:center">Socio Clave</label>
-                                    <!-- INSERTAR DATOS OFERTA -->
-                                    <p>Datos</p>
-                                </div>
-
-                                <div class="col-md-2" style="text-align:center"> 
-                                    <div style="border: 1px solid #ddd;">                      
-                                        <label style="text-align:center">Actividades Clave</label>
-                                        <!-- INSERTAR DATOS OFERTA -->
-                                        <p>Datos</p>
-                                    </div>
-                                    <div style="border: 1px solid #ddd;">   
-                                        <label style="text-align:center">Recursos Clave</label>
-                                        <!-- INSERTAR DATOS OFERTA -->
-                                        <p>Datos</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2" style="border: 1px solid #ddd;text-align:center">                    
-                                    <label> Propuesta por Valor</label>
-                                    <!-- INSERTAR DATOS OFERTA -->
-                                    <p>Datos</p>
-                                </div>
-
-                                <div class="col-md-2" style="text-align:center">  
-                                    <div style="border: 1px solid #ddd;">                  
-                                        <label>Relaciones con Clientes</label>
-                                        <!-- INSERTAR DATOS OFERTA -->
-                                        <p>Datos</p>
-                                    </div>
-                                    <div style="border: 1px solid #ddd;">
-                                        <label style="text-align:center">Canales</label>
-                                        <!-- INSERTAR DATOS OFERTA -->
-                                        <p>Datos</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2" style="border: 1px solid #ddd;text-align:center">                    
-                                    <label style="text-align:center">Segmentos  del  cliente</label>
-                                    <!-- INSERTAR DATOS OFERTA -->
-                                    <p>Datos</p>
-                                </div>
-                            </div>
-                            <div class="col-md-12" style="text-align:center">
-                                <div class="col-md-5" style="border: 1px solid #ddd;">                    
-                                    <label style="text-align:center">Estructura de Costos</label>
-                                    <!-- INSERTAR DATOS OFERTA -->
-                                    <p>Datos</p>
-
-                                </div>
-                                <div class="col-md-5" style="border: 1px solid #ddd;">                    
-                                    <label style="text-align:center">Fuentes de Ingresos</label>
-                                    <!-- INSERTAR DATOS OFERTA -->
-                                    <p>Datos</p>
-                                </div>  
-                            </div>
-
-                        </div>
-                    </div>
-                    <!--TAB INDUSTRIA-->
-                    <div role="tabpanel" class="tab-pane" id="industria">
-                        <div class="col-md-12 col-sm-8 col-xs-6">
-                            <h4>Tendencias Relevantes</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>Insertar tendencias de oferta</p>
-                            <br/>
-                            <h4>Alternativas de Soluci&oacute;n Existentes</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>Insertar alternativas</p>
-                            <br/>
-                            <h4>Competidores</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>Insertar posibles competidores</p>
-                            <br/>
-                            <h4>Disponibilidad del producto o servicio</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>Insertar disponibilidad del producto</p>
-                            <br/>
-
-                            <h4>Diagrama de Porter</h4>
-                            <hr>
-                            <div class="col-md-4" style="border: 1px solid #ddd;text-align:center">                                      
-                                <label>Proveedores</label>
-                                <!-- INSERTAR DATOS OFERTA -->
-                                <p>Datos</p>
-                            </div>
-                            <div class="col-md-8" style="border: 1px solid #ddd;text-align:center">                                 
-                                <label>Nuevos Competidores</label>
-                                <!-- INSERTAR DATOS OFERTA -->
-                                <p>Datos</p>
-                            </div>
-                            <div class="col-md-12" style="text-align:center">
-                                <label>Rivalidad en la Industria</label>
-                            </div>
-                           <div class="col-md-8" style="border: 1px solid #ddd;text-align:center">                                      
-                                <label>Sustitutos</label>
-                                <!-- INSERTAR DATOS OFERTA -->
-                                <p>Datos</p>
-                            </div>
-                            <div class="col-md-4" style="border: 1px solid #ddd;text-align:center">                                 
-                                <label>Compradores</label>
-                                <!-- INSERTAR DATOS OFERTA -->
-                                <p>Datos</p>
                             </div>
                         </div>
-                    </div>
-                    <!--TAB ESTADO-->
-                    <div role="tabpanel" class="tab-pane" id="estadoLogros">
-                        <div class="col-md-12 col-sm-8 col-xs-6">
-                            <h4>Disponibilidad del producto o servicio</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>2 años</p>
-                            <br/>
-                            <h4>Estrategia de crecimiento</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>Colocar estrategia de crecimiento de oferta</p>
-                            <br/>
-                            <h4>Estado de propiedad intelectual</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>Colocar estado de propiedad intelectual de oferta</p>
-                            <br/>
-                            <h4>Evidencia de tracci&oacute;n</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <p>Colocar evidencia de traccion</p>
-                        </div>                
-                    </div>
-                    <!--TAB MIEMBROS-->
-                    <div role="tabpanel" class="tab-pane" id="miembrosActivos">
-                        <div class="col-md-12 col-sm-8 col-xs-6">
-                            <h4>Miembros Activos</h4>
-                            <hr>
-                            <!-- INSERTAR DATOS OFERTA -->
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="/../../media/hoteshi.jpg" alt="...">
-                            </a>
-                        </div>                
-                    </div>
-                  </div>
-                </div>
+                    </div>          
             </div>
-                <div class="col-md-4">
-                    <div>
-                        <h4> Tags </h4>
-                        <hr>
-                        <!-- INSERTAR TAGS DE OFERTA-->
-                        <p class="tags">
-                            <a href="#">Bootstrap</a>
-                            <a href="#">HTML5</a>
-                            <a href="#">Highland</a>
-                            <a href="#">Blog post</a>
-                            <a href="#">CSS3</a>
-                            <a href="#">jQuery</a>
-                        </p>
-                        <br/>
-                    </div>
-                    <div>
-                        <h4>Perfil del cliente</h4>
-                        <hr>
-                        <!--INSERTAR PERFIL DEL CLIENTE-->
-                        <p>
-                            Insertar perfil del cliente
-                        </p>
-                        <br/>
-                    </div>
-                    <div>
-                        <h4>Perfil del beneficiario</h4>
-                        <hr>
-                        <!-- INSERTAR PERFIL DEL BENEFICIARIO-->
-                        <p>
-                            Insertar perfil del beneficiario
-                        </p>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
-    </div>
-    </div>
-   
-  
-{% endblock %}
+</div>
+{% endblock %}      
