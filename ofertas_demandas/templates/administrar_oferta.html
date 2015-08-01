@@ -538,6 +538,13 @@
 														&nbsp;&nbsp;Solicitudes de participaci&oacute;n</a></p>
 											</div>
 											<hr>
+                                            <div align=center>
+                                                <p>
+                                                    <a href="#" class="btn btn-red" style="color:white;" data-toggle="modal" data-target="#agregarMiembro">
+                                                        Agregar nuevo miembro</a>
+                                                </p>
+                                            </div>
+                                            <hr>
 											<div class="member-left" style="margin-bottom: 0px;">
 												<img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
 												margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
@@ -568,6 +575,64 @@
 											</div>
 											
 								</div>
+                                <div id="agregarMiembro" class="modal fade" role="dialog" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Agregar nuevo miembro al equipo</h4>
+                                            </div>
+                                            <div class="modal-body"style="font-size:12px;height:300px;overflow-y:auto">
+                                                <form role="form" action="" method=''>
+                                                    <div class="form-group">
+                                                        <label for="Busqueda">Buscar usuario:</label>
+                                                        <input type="text" class="form-control" id="buscarAgregarMiembro" name="buscarAgregarMiembro"
+                                                        placeholder="Búsqueda.." maxlength="150">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="AsignarRol">Asignar rol:</label>
+                                                        <input type="text" class="form-control" id="asignarRol" name="asignarRol"
+                                                        placeholder="Ingresar rol del usuario.." maxlength="150">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="Mensaje">Añadir mensaje:</label>
+                                                        <input type="text" class="form-control" id="mensaje" name="mensaje"
+                                                        placeholder="Mensaje.." maxlength="150">
+                                                    </div>
+                                                    <a href="" class="button" data-toggle="modal" data-target="#confirmarAgregarMiembro">
+                                                        <button type="button" class="btn btn-green" data-dismiss="modal" style="float:right">Aceptar</button>
+                                                    </a> 
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="modal modal-vcenter fade" id="confirmarAgregarMiembro" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" action="" method=''>
+                                                    <div class="form-group">
+                                                        <label for="Confirmacion">Se ha enviado su solicitud con &eacute;xito</label>
+                                                    </div>
+                                                    <a href="" class="button">
+                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                                    </a> 
+                                                </form>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
 								<div id="solicitudesEquipo" class="modal fade" role="dialog">
   									<div class="modal-dialog">
   										<div class="modal-content">
