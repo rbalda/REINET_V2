@@ -448,6 +448,7 @@
 									      </div>
 									      <div class="modal-body">
 											<div class="team" style="font-size:12px;height:200px;overflow-y:scroll">
+                                                <form>
             									<div class="member-left" style="height:110px;width:500px">
               										<div class="col-md-6">
               											<img src="/../../media/ofertas-demandas/integrante1.jpg" alt="TeamMember" class="left">
@@ -455,12 +456,46 @@
               											<span class="position">ESPOL</span>
               										</div>
               										<div class="col-md-4">
-              											<p>Rol:CEO</p>
+              											<input type="text" id="rolUsuario1" name="rol1" value="CEO" disabled></input>
               											<p>Estado:ACTIVO</p>
               										</div>
               										<div>
               											<ul class="text-muted">
-              						  						<p ><i class="fa fa-cog"></i> <a href="#">Editar Rol</a></p>
+              						  						<p ><i class="fa fa-cog"></i> <a href="javascript:editarRol($('#rolUsuario1'))">Editar Rol</a></p>
+										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
+                          								</ul>
+								        			</div>
+            									</div>
+            									<div class="member-left" style="margin-top:50px;height:110px;width:500px">
+              										<div class="col-md-6">
+              											<img src="/../../media/ofertas-demandas/face2.jpg" alt="TeamMember" class="left">
+              											<STRONG>Fernando Rodriguez</STRONG><br>
+              											<span class="position">ESPOL</span>
+              										</div>
+              										<div class="col-md-4">
+              											<input type="text" id="rolUsuario2" name="rol2" value="Designer" disabled></input>
+              											<p>Estado:ACTIVO</p>
+              										</div>
+              										<div>
+              											<ul class="text-muted">
+              						  						<p ><i class="fa fa-cog"></i> <a href="javascript:editarRol($('#rolUsuario2'))">Editar Rol</a></p>
+										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
+                          								</ul>
+								        			</div>
+            									</div>
+            									<div class="member-left" style="margin-top:50px;height:110px;width:500px">
+              										<div class="col-md-6">
+              											<img src="/../../media/ofertas-demandas/face2.jpg" alt="TeamMember" class="left">
+              											<STRONG>Fernando Rodriguez</STRONG><br>
+              											<span class="position">ESPOL</span>
+              										</div>
+              										<div class="col-md-4">
+              											<input type="text" id="rolUsuario3" name="rol3" value="Designer" disabled></input>
+              											<p>Estado:ACTIVO</p>
+              										</div>
+              										<div>
+              											<ul class="text-muted">
+              						  						<p ><i class="fa fa-cog"></i> <a href="javascript:editarRol($('#rolUsuario3'))">Editar Rol</a></p>
 										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
                           								</ul>
 								        			</div>
@@ -482,44 +517,11 @@
                           								</ul>
 								        			</div>
             									</div>
-            									<div class="member-left" style="margin-top:50px;height:110px;width:500px">
-              										<div class="col-md-6">
-              											<img src="/../../media/ofertas-demandas/face2.jpg" alt="TeamMember" class="left">
-              											<STRONG>Fernando Rodriguez</STRONG><br>
-              											<span class="position">ESPOL</span>
-              										</div>
-              										<div class="col-md-4">
-              											<p>Rol:Designer</p>
-              											<p>Estado:ACTIVO</p>
-              										</div>
-              										<div>
-              											<ul class="text-muted">
-              						  						<p ><i class="fa fa-cog"></i> <a href="#">Editar Rol</a></p>
-										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
-                          								</ul>
-								        			</div>
-            									</div>
-            									<div class="member-left" style="margin-top:50px;height:110px;width:500px">
-              										<div class="col-md-6">
-              											<img src="/../../media/ofertas-demandas/face2.jpg" alt="TeamMember" class="left">
-              											<STRONG>Fernando Rodriguez</STRONG><br>
-              											<span class="position">ESPOL</span>
-              										</div>
-              										<div class="col-md-4">
-              											<p>Rol:Designer</p>
-              											<p>Estado:ACTIVO</p>
-              										</div>
-              										<div>
-              											<ul class="text-muted">
-              						  						<p ><i class="fa fa-cog"></i> <a href="#">Editar Rol</a></p>
-										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="#">  Editar Estado</a><p>
-                          								</ul>
-								        			</div>
-            									</div>
+                                                </form>
 									      	</div>
 
 									      <div class="modal-footer">
-									        <button type="button" class="btn btn-default" data-dismiss="modal" >Cancelar</button>
+									        <button id="btnCancelarEditarEquipo" type="button" class="btn btn-default" data-dismiss="modal" >Cancelar</button>
 									        <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Guardar</button>
 									      </div>
 									    </div>
@@ -702,7 +704,7 @@
 								      </div>
 								      <div class="modal-footer">
 								        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modalEquipo">No</button>
-								        <button type="button" class="btn btn-success" data-dismiss="modal">Sí</button>
+								        <button id="btnGuardarEditarEquipo" type="button" class="btn btn-success" data-dismiss="modal">Sí</button>
 								      </div>
 								    </div>
 								  </div>
@@ -797,5 +799,19 @@
 			</div>
 
 		</div>
+        <script>
+        
+        function editarRol($inputEditable){
+            $inputEditable.prop('disabled', false);
+        }
+
+        $('#btnCancelarEditarEquipo').click(function(){
+            $('input[name^=rol]').prop('disabled', true);
+        });
+        $('#btnGuardarEditarEquipo').click(function(){
+            $('input[name^=rol]').prop('disabled', true);
+        });
+
+        </script>
 </div>
 {% endblock %}	    
