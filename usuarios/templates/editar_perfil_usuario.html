@@ -79,7 +79,7 @@
                 <label for="Telefono" class="col-md-2">Tel&eacute;fono</label>
 
                 <div class="col-md-8">
-                    <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" value="{{ usuario.telefono }}" onkeypress="return validarNumero(event);" minlength="10" maxlength="10" >
+                    <input type="text" class="form-control" id="telefono" pattern="([0-9]{1,15})" name="telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu telefono aquí." data-original-title="Telefono" value="{{ usuario.telefono }}" onkeypress="return validarNumero(event);" minlength="10" maxlength="10" >
                 </div>
                 <div class="col-md-2">
                     <select name="PrivacidadTelefono" id="PrivacidadTelefono" class="form-control" style="font-family: 'FontAwesome', Helvetica;">
@@ -136,32 +136,32 @@
                 </div>
             </div>
             
-        {% if membresia.fk_institucion_id == 1 %}
-	    <!--CARGO-->
-            <div class="form-group">
-                <label for="Email" class="col-md-2">Cargo</label>
+            {% if membresia.fk_institucion_id == 1 %}
+            <!--CARGO-->
+                <div class="form-group">
+                    <label for="Email" class="col-md-2">Cargo</label>
 
-                <div class="col-md-8">
-                    <input required type="text" class="form-control" id="cargo" name="cargo"
-                           data-toggle="popover" data-placement="left" data-trigger="focus"
-                           onkeypress="return validarLetras(event);"
-                           data-original-title="Cargo" maxlength="45"
-                           value="{{ membresia.cargo }}">
+                    <div class="col-md-8">
+                        <input required type="text" class="form-control" id="cargo" name="cargo"
+                               data-toggle="popover" data-placement="left" data-trigger="focus"
+                               onkeypress="return validarLetras(event);"
+                               data-original-title="Cargo" maxlength="45"
+                               value="{{ membresia.cargo }}">
+                    </div>
                 </div>
-            </div>
-	    <!--DESCRIPCION DEL CARGO-->
-            <div class="form-group">
-                <label for="Email" class="col-md-2">Descripci&oacute;n del Cargo</label>
+            <!--DESCRIPCION DEL CARGO-->
+                <div class="form-group">
+                    <label for="Email" class="col-md-2">Descripci&oacute;n del Cargo</label>
 
-                <div class="col-md-8">
-                    <input required type="text" class="form-control" id="descripcion-cargo" name="descripcion-cargo"
-                           data-toggle="popover" data-placement="left" data-trigger="focus"
-                           onkeypress="return validarLetras(event);"
-                           data-original-title="Descripcion del Cargo" maxlength="45"
-                           value="{{ membresia.descripcion_cargo }}">
+                    <div class="col-md-8">
+                        <input required type="text" class="form-control" id="descripcion-cargo" name="descripcion-cargo"
+                               data-toggle="popover" data-placement="left" data-trigger="focus"
+                               onkeypress="return validarLetras(event);"
+                               data-original-title="Descripcion del Cargo" maxlength="45"
+                               value="{{ membresia.descripcion_cargo }}">
+                    </div>
                 </div>
-            </div>
-	    {% endif %}
+            {% endif %}
 	    
             <!--IMAGEN-->
             <div class="form-group">
@@ -232,40 +232,40 @@
                             <button id="btn_suspenderCuenta" type="button" class="btn btn-danger" data-toggle="modal" data-placement="bottom" data-target="#suspender_Cuenta_Modal">Suspender
                             </button>
 
-<!-- Modal window: Send an email -->
-<div class="modal fade" id="suspender_Cuenta_Modal" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header" >
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <br/>
-                <br/>
-                
-                <p class="text-warning" align="justify"> Una vez enviada su solicitud de suspensi&oacute;n, su cuenta en Reinet se suspender&aacute; inmediatamente e indefinidamente. </p>
+                            <!-- Modal window: Send an email -->
+                            <div class="modal fade" id="suspender_Cuenta_Modal" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header" >
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <br/>
+                                            <br/>
 
-                <p class="text-warning" align="left">Para volver a reactivarla deber&aacute; comunicarse con el administrador general de Reinet. </p>
+                                            <p class="text-warning" align="justify"> Una vez enviada su solicitud de suspensi&oacute;n, su cuenta en Reinet se suspender&aacute; inmediatamente e indefinidamente. </p>
 
-                <p> <strong><h5 class="text-danger">Est&aacute; seguro de querer suspender su cuenta en Reinet?</h5> </strong></p>
-                
-                <div class="clearfix"></div>
-            </div>
+                                            <p class="text-warning" align="left">Para volver a reactivarla deber&aacute; comunicarse con el administrador general de Reinet. </p>
 
-            <div class="modal-body">
-                    <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
-                    <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">Confirmar</button>
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- End of modal window -->
-</form>
-<script type="text/javascript" src="/static/js/verificar-password.js"></script>
+                                            <p> <strong><h5 class="text-danger">Est&aacute; seguro de querer suspender su cuenta en Reinet?</h5> </strong></p>
 
-<!-- Fin de modal de suspender cuenta -->
+                                            <div class="clearfix"></div>
+                                        </div>
+
+                                        <div class="modal-body">
+                                                <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
+                                                <button id="btn_aceptarSuspender" type="submit" class="btn btn-red" style="left:30%;position:relative;">Confirmar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                        </form>
+
+                            <script type="text/javascript" src="/static/js/verificar-password.js"></script>
+
+                            <!-- Fin de modal de suspender cuenta -->
 
                             <script>
                                 function archivo(evt) {
@@ -373,15 +373,13 @@
                                     }
 
 
-                                </script> 
+                            </script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
-    </div>
+</div>
+
 
 {% endblock %}
