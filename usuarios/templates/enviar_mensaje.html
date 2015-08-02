@@ -32,21 +32,19 @@
     <div class="col-sm-8 col-md-7">
         <div class="modal-body">
             <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
-            <form  role="form" action="/enviarMensaje/" method='POST'>
+            <form id="formulario" name="formulario" role="form" action="/enviarMensaje/" method='POST'>
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="Destinatario">Para:</label>
-                    <input type="text" class="form-control" id="destinatario" name="destinatario"
+                    <!--<input type="text" class="form-control" id="destinatario" name="destinatario"
                            placeholder="Destinatario" maxlength="50" required>
 
-                    <!--
-                    RAY BRONZA
+                    ANDRES BRONZA :v
+                    -->
                     <input type="text" class="form-control" id="destinatario_txt" name="destinatario_txt"
                            placeholder="Destinatario" maxlength="50" required>
 
-                    <input type="text" id="nombres" name="nombres">
-
-                    <input type="text" id="destinatario" name="destinatario"> -->
+                    <input type="text" id="destinatario" name="destinatario" hidden>
 
                 </div>
 

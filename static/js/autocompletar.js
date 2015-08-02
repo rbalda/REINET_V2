@@ -23,8 +23,7 @@ $("#destinatario_txt").on('change',function(responseText) {
 });
 */
 
-
-  $('#destinatario_txt').on('change',function(){
+  $('#destinatario_txt').on('keyup change click',function(){
 
     var nameVal = $('#destinatario_txt').val()
 
@@ -38,8 +37,5 @@ $("#destinatario_txt").on('change',function(responseText) {
 
     var lastName = nameVal.slice(lastNameLength);
 
-    $('#nombres').val(nameSplit[0]);
-    $('#destinatario').val(lastName);
-
-
+    $('#destinatario').val(nameSplit[1]);
   });
