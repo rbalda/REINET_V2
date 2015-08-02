@@ -2126,14 +2126,18 @@ def accionMembresia(request):
 			membresia = Membresia.objects.get(id_membresia=request.POST['membresia'])
 			aux = int(request.POST['accion'])
 			asunto = str(request.POST['asunto']).replace('&#39;','')
+
 			if aux == 1:
 				membresia.estado = 1
 				membresia.fecha_aceptacion = datetime.datetime.now()
+				membresia.save()
 				asunto= 'Su solicitud a ' + asunto + ' ha sido aceptada'
+				
 			elif aux == 0 :
 					membresia.estado = -1
+					membresia.save()
 					asunto= 'Su solicitud a ' + asunto + ' ha sido rechazada'
-			membresia.save()
+
 			print 'al parecer se guardo'
 
 			try:
@@ -2166,7 +2170,6 @@ def accionMembresia(request):
 			notificacion.url_notificacion = 'www.lalal.com'
 			notificacion.estado = False
 			notificacion.save()
-			print 'se guardo notificacion al parecer'
 
 			response = JsonResponse({'membresia_save':True})
 			return HttpResponse(response.content)

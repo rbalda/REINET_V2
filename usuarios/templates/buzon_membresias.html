@@ -28,9 +28,10 @@
     </li>
 
 		 <script>
+            var opcion;
 		 	$(document).ready(function(){
 		 		$(function(){
-                    var opcion = -1;
+                    
 
                     $('#Rechazar{{miembro.id_membresia}}').click(function(){
                         console.log('rechazo solicitud');
@@ -67,22 +68,8 @@
 
                                     if (objeto.membresia_save){
                                         $('#solicitud{{miembro.id_membresia}}').remove();
-                                        $(function(){
-                                            $('#panel_miembros').ready(actualizarListaMiembros);
-
-                                            function actualizarListaMiembros(){
-                                                $.ajax({
-                                                    data:{
-                                                        'institucion':{{institucion.id_institucion}}
-                                                    },
-                                                    type:'get',
-                                                    url: '/MiembrosInstitucion/',
-                                                    success: function(data){
-                                                        $('#panel_miembros').html(data)
-                                                    }
-                                                });
-                                            }
-                                        });
+                                    }else{
+                                    console.log('alerta error grave - solicitud no se guardo');
                                     }
                                 }
                             });
