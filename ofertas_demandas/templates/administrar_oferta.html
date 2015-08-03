@@ -34,7 +34,7 @@
                       </ul>
                  </div>
                 <div class="col-md-4 col-xs-5" align="right" style="padding-top: 15px;padding-right: 0px;">
-                     <a href="#" class="btn btn-default">
+                     <a href="/OfertaEditable/" class="btn btn-default">
                         <i class="fa fa-files-o"></i>
                         Duplicar Oferta
                       </a>
@@ -106,7 +106,7 @@
                                             <!--Descripción-->
                                             <div class="form-group">
                                                  <label  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</label>
-                                                 <label>Las pruebas inicales</label>
+                                                 <label>Pruebas inicales</label>
 
 
                                              </div>
@@ -166,31 +166,31 @@
                                   <div class="col-md-12">
                                      <div class="col-md-2">
                                          <label style="color: darkgray" class="col-md-12" style="text-align:center">Socio Clave</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
+                                         <label style="text-align:center" >Pruebas iniciales</label>
                                       </div>
 
                                      <div class="col-md-2">
                                          <label style="color: darkgray" class="col-md-12" style="text-align:center">Actividades Clave</label>
-                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
+                                         <label style="text-align:center" >Pruebas iniciales</label><br><br><br>
                                          <label style="color: darkgray" class="col-md-12" style="text-align:center">Recursos Clave</label>
-                                        <label style="text-align:center" >Pruebas inicales</label>
+                                        <label style="text-align:center" >Pruebas iniciales</label>
                                      </div>
 
                                      <div class="col-md-2" style="text-align:center">
                                          <label style="color: darkgray"> Propuesta por Valor</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
+                                         <label style="text-align:center" >Pruebas iniciales</label>
                                      </div>
 
                                      <div class="col-md-2" style="text-align:center">
                                          <label style="color: darkgray">Relaciones con Clientes</label>
-                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
+                                         <label style="text-align:center" >Pruebas iniciales</label><br><br><br>
                                          <label style="color: darkgray" class="col-md-12" style="text-align:center">Canales</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
+                                         <label style="text-align:center" >Pruebas iniciales</label>
                                      </div>
 
                                      <div class="col-md-2" style="text-align:center">
                                          <label style="color: darkgray" style="text-align:center">Segmentos  del  cliente</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
+                                         <label style="text-align:center" >Pruebas iniciales</label>
                                      </div>
                                 </div>
 
@@ -198,11 +198,11 @@
                                   <br><br>
                                     <div class="col-md-6">
                                          <label style="color: darkgray" class="col-md-12" style="text-align:center">Estructura de Costos</label>
-                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
+                                         <label class="col-md-6" style="text-align:center" >Pruebas iniciales</label>
                                      </div>
                                      <div class="col-md-6">
                                          <label style="color: darkgray" class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
-                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
+                                         <label class="col-md-6" style="text-align:center" >Pruebas iniciales</label>
                                    </div>
                               </div>
 
@@ -412,16 +412,36 @@
 											<h4>ESTADO DE LA OFERTA</h4> 
 								 </div>
 								<div class="col-md-3 col-xs-4" align="right" style="padding-right: 0px;">
-											<a href="#" class="btn btn-blue"><i class="fa fa-pencil"></i></a>
+											<a onclick="editarEstadoOferta()" class="btn btn-blue"><i class="fa fa-pencil"></i></a>
 								</div>
+                                <script>
+                                    function editarEstadoOferta() {
+                                       document.getElementById("estadoOferta").removeAttribute("disabled");
+                                       document.getElementById("btnGuardar").style.visibility="visible";
+                                    }
+                                </script>
 					</div>
 					
 					<hr>
 					<div class="info-board info-board-green">
-							<p align=center>
-								<b>ACTIVO</b>
-							</p>
-					</div>
+                            <a href="#" style="color:black;margin-top: 30px" data-toggle="modal" data-target="#cambiarDeEstadoTrabajo">
+                                <label style="margin-left:50%;" id="estadoOferta" list="estadoLista">Activo</label>
+                            </a>
+                                <datalist id="estadoLista">
+                                  <option value="ACTIVA">
+                                  <option value="TERMINADA">
+                                  <option value="DESACTIVADA">
+                                  <option value="CENSURADA">
+                                </datalist>
+                            <button onclick="guardarEstadoOferta()" id="btnGuardar" align=right class="btn btn-blue" style="visibility: hidden; margin-left:5%" ">Guardar</button>
+					        <script>
+                                    function guardarEstadoOferta() {
+                                        document.getElementById("estadoOferta").setAttribute("disabled","true");
+                                        document.getElementById("btnGuardar").style.visibility="hidden";
+                                    }
+                             </script>
+
+                    </div>
 
 					<br />
 					
@@ -546,8 +566,10 @@
 												<a href="#"> 
 													<h4>Alex Smith</h4>
 												</a>
-												<p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
-												<p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">CEO</b></p>
+											
+                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+												
+                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">CEO</b></p>
 																					 
 											</div>
 											<div class="member-left" style="margin-bottom: 0px;">
@@ -683,6 +705,30 @@
 								    	</div>
 								  	</div>
 								</div>
+
+                                <div id="cambiarDeEstadoTrabajo" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Cambiar Estado</h4>
+                                            </div>
+                                            <div>
+                                                <div class="col-md-12">
+                                                        <div class="col-md-8">
+                                                        <input type="checkbox" name="tecnologia" value="tecnologia">Activo<br>
+                                                        <input type="checkbox" name="prototipo" value="prototipo">Desactivo<br>    
+                                                </div>
+                                                <div class="col-md-10">
+                                                 <button class="btn btn-blue ">Guardar Cambios</button> 
+                                                 </div>                                                              
+                                            </div>                                            
+                                            <div class="modal-footer"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
 								<div id="guardarEditarEquipo" class="modal fade" role="dialog">
 								  <div class="modal-dialog">
 
@@ -785,6 +831,10 @@
   										</div>
   									</div>
   								</div>
+
+
+                                
+
   							</div>
 							</div>
 						</div>
