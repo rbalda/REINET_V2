@@ -1,3 +1,4 @@
+from ofertas_demandas import routers
 from views import *
 from django.conf.urls import patterns, url
 from django.conf import settings
@@ -13,3 +14,5 @@ urlpatterns = patterns('',
 		url(r'^administrarBorrador[/]?$','ofertas_demandas.views.administrar_Borrador', name='administrarBorrador'),
 		url(r'^EditarBorrador[/]?$','ofertas_demandas.views.editar_borrador', name='EditarBorrador'),
 		)
+
+urlpatterns += routers.ofertas_routers
