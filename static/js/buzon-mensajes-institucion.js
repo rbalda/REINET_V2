@@ -289,7 +289,7 @@ $(document).ready(function(){
                         var html = "<strong><p><span class='glyphicon glyphicon-exclamation-sign'></span>Error al enviar mensaje</p></strong>";
                         $('#info_mensaje_enviado').addClass('alert alert-danger');
                         $('#info_mensaje_enviado_txt').html(html);
-                        buzonSalidaInstitucion();
+                        nuevoMensajeInstitucion();
                     }
                 },
                 complete: function(){
