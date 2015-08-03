@@ -282,7 +282,7 @@ $(document).ready(function(){
                         var html = "<strong><p><span class='glyphicon glyphicon-ok-sign'></span>Mensaje Enviado Exitosamente</p></strong>";
                         $('#info_mensaje_enviado').addClass('alert alert-success');
                         $('#info_mensaje_enviado_txt').html(html);
-                        nuevoMensajeInstitucion();
+                        buzonSalidaInstitucion();
                     }else{
                         $('#info_mensaje_enviado').removeClass('alert-success');
                         $('#info_mensaje_enviado').show();
