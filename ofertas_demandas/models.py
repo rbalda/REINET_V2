@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from usuarios.models import Perfil
+from usuarios.models import Perfil, Institucion
 
 
 class DiagramaPorter(models.Model):
@@ -56,12 +56,12 @@ class Oferta(models.Model):
     equipo = models.ManyToManyField(Perfil,through='MiembroEquipo',through_fields=('fk_oferta_en_que_participa','fk_participante'),related_name='participa_en')
     palabras_clave = models.ManyToManyField('PalabraClave',related_name='ofertas_con_esta_palabra')
     comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
-
+    alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
 
     class Meta:
         db_table = 'Oferta'
-        unique_together = ('id_oferta','codigo')
-        index_together = ['id_oferta','codigo']
+       # unique_together = ('id_oferta','codigo')
+       # index_together = ['id_oferta','codigo']
 
 
 class MiembroEquipo(models.Model):
@@ -107,3 +107,5 @@ class ComentarioCalificacion(models.Model):
 
     class Meta:
         db_table= 'ComentarioCalificacion'
+
+
