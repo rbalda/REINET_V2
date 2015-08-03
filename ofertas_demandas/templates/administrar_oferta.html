@@ -424,8 +424,9 @@
 					
 					<hr>
 					<div class="info-board info-board-green">
-
-                            <input style="margin-left:10%;  text-align: center" id="estadoOferta" list="estadoLista" value="ACTIVO" disabled>
+                            <a href="#" style="color:black;margin-top: 30px" data-toggle="modal" data-target="#cambiarDeEstadoTrabajo">
+                                <label style="margin-left:50%;" id="estadoOferta" list="estadoLista">Activo</label>
+                            </a>
                                 <datalist id="estadoLista">
                                   <option value="ACTIVA">
                                   <option value="TERMINADA">
@@ -565,8 +566,10 @@
 												<a href="#"> 
 													<h4>Alex Smith</h4>
 												</a>
-												<p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
-												<p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">CEO</b></p>
+											
+                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
+												
+                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">CEO</b></p>
 																					 
 											</div>
 											<div class="member-left" style="margin-bottom: 0px;">
@@ -702,6 +705,30 @@
 								    	</div>
 								  	</div>
 								</div>
+
+                                <div id="cambiarDeEstadoTrabajo" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Cambiar Estado</h4>
+                                            </div>
+                                            <div>
+                                                <div class="col-md-12">
+                                                        <div class="col-md-8">
+                                                        <input type="checkbox" name="tecnologia" value="tecnologia">Activo<br>
+                                                        <input type="checkbox" name="prototipo" value="prototipo">Desactivo<br>    
+                                                </div>
+                                                <div class="col-md-10">
+                                                 <button class="btn btn-blue ">Guardar Cambios</button> 
+                                                 </div>                                                              
+                                            </div>                                            
+                                            <div class="modal-footer"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
 								<div id="guardarEditarEquipo" class="modal fade" role="dialog">
 								  <div class="modal-dialog">
 
@@ -804,6 +831,10 @@
   										</div>
   									</div>
   								</div>
+
+
+                                
+
   							</div>
 							</div>
 						</div>
