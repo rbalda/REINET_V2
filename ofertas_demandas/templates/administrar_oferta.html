@@ -416,7 +416,7 @@
 								</div>
                                 <script>
                                     function editarEstadoOferta() {
-                                       document.getElementById("estado").removeAttribute("disabled");
+                                       document.getElementById("estadoOferta").removeAttribute("disabled");
                                        document.getElementById("btnGuardar").style.visibility="visible";
                                     }
                                 </script>
@@ -424,10 +424,9 @@
 					
 					<hr>
 					<div class="info-board info-board-green">
-
-
-                            <input style="margin-left:10%;  text-align: center" id="estado" list="estado" name="estado1"id="estadoUsuario1" value="ACTIVO" disabled>
-                                <datalist id="estado">
+                                
+                            <input style="margin-left:10%;  text-align: center" id="estadoOferta" list="estadoLista" value="ACTIVO" disabled>
+                                <datalist id="estadoLista">
                                   <option value="ACTIVA">
                                   <option value="TERMINADA">
                                   <option value="DESACTIVADA">
@@ -436,7 +435,7 @@
                             <button onclick="guardarEstadoOferta()" id="btnGuardar" align=right class="btn btn-blue" style="visibility: hidden; margin-left:5%" ">Guardar</button>
 					        <script>
                                     function guardarEstadoOferta() {
-                                        document.getElementById("estado").setAttribute("disabled","true");
+                                        document.getElementById("estadoOferta").setAttribute("disabled","true");
                                         document.getElementById("btnGuardar").style.visibility="hidden";
                                     }
                              </script>
