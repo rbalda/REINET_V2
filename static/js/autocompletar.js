@@ -5,7 +5,7 @@ $(function() {
   $("#destinatario_txt").autocomplete({
     source: "/AutocompletarUsuario",
     minLength:2,
-    labels: [ "first_name"]
+    labels: [ "first_name" || "siglas"]
   });
 });
 
@@ -37,7 +37,7 @@ $("#destinatario_txt").on('change',function(responseText) {
 
     var lastName = nameVal.slice(lastNameLength);
 
-    if (sepuedesplit()){
+    if (existeDivision()){
         $('#destinatario').val(nameSplit[1]);
     }else{
         $('#destinatario').val(nameVal);
@@ -47,7 +47,7 @@ $("#destinatario_txt").on('change',function(responseText) {
   });
 
 
-function sepuedesplit(){
+function existeDivision(){
     var nameVal = $('#destinatario_txt').val()
 
     var nameLength = nameVal.length;

@@ -33,3 +33,13 @@ class UsuarioSerializador(serializers.ModelSerializer):
         return obj.first_name + ' ' + obj.last_name + '-' + obj.username
 
 
+class InstitucionSiglaSerializador(serializers.ModelSerializer):
+    label = serializers.SerializerMethodField('getsiglas',read_only=True)
+
+    class Meta:
+        model = Institucion
+        fields = ('label','nombre','siglas')
+        read_only_fields = ('label','nombre','siglas')
+
+    def getsiglas(self,obj):
+        return obj.nombre + '-' + obj.siglas
