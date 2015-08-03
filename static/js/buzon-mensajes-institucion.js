@@ -19,7 +19,7 @@ function desbloquearBotones(){
 }
 
 function limpiarInputsMensajes(){
-    $('#destinatario').val("");
+    $('#destinatario_txt').val("");
     $('#asunto').val("");
     $('#mensaje').val("");
 }
