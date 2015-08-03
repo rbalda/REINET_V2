@@ -412,16 +412,36 @@
 											<h4>ESTADO DE LA OFERTA</h4> 
 								 </div>
 								<div class="col-md-3 col-xs-4" align="right" style="padding-right: 0px;">
-											<a href="#" class="btn btn-blue"><i class="fa fa-pencil"></i></a>
+											<a onclick="editarEstadoOferta()" class="btn btn-blue"><i class="fa fa-pencil"></i></a>
 								</div>
+                                <script>
+                                    function editarEstadoOferta() {
+                                       document.getElementById("estado").removeAttribute("disabled");
+                                       document.getElementById("btnGuardar").style.visibility="visible";
+                                    }
+                                </script>
 					</div>
 					
 					<hr>
 					<div class="info-board info-board-green">
-							<p align=center>
-								<b>ACTIVO</b>
-							</p>
-					</div>
+
+
+                            <input style="margin-left:10%;  text-align: center" id="estado" list="estado" name="estado1"id="estadoUsuario1" value="ACTIVO" disabled>
+                                <datalist id="estado">
+                                  <option value="ACTIVA">
+                                  <option value="TERMINADA">
+                                  <option value="DESACTIVADA">
+                                  <option value="CENSURADA">
+                                </datalist>
+                            <button onclick="guardarEstadoOferta()" id="btnGuardar" align=right class="btn btn-blue" style="visibility: hidden; margin-left:5%" ">Guardar</button>
+					        <script>
+                                    function guardarEstadoOferta() {
+                                        document.getElementById("estado").setAttribute("disabled","true");
+                                        document.getElementById("btnGuardar").style.visibility="hidden";
+                                    }
+                             </script>
+
+                    </div>
 
 					<br />
 					
