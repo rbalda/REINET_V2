@@ -23,7 +23,7 @@ $("#destinatario_txt").on('change',function(responseText) {
 });
 */
 
-  $('#destinatario_txt').on('keyup change click',function(){
+  $('#formulario').on('keyup change click',function(){
 
     var nameVal = $('#destinatario_txt').val()
 
@@ -37,5 +37,33 @@ $("#destinatario_txt").on('change',function(responseText) {
 
     var lastName = nameVal.slice(lastNameLength);
 
-    $('#destinatario').val(nameSplit[1]);
+    if (sepuedesplit()){
+        $('#destinatario').val(nameSplit[1]);
+    }else{
+        $('#destinatario').val(nameVal);
+    }
+
+
   });
+
+
+function sepuedesplit(){
+    var nameVal = $('#destinatario_txt').val()
+
+    var nameLength = nameVal.length;
+
+    var nameSplit = nameVal.split('-');
+
+    var lastLength = nameLength - nameSplit[0].length;
+
+    var lastNameLength = nameSplit[0].length + lastLength;
+
+    var lastName = nameVal.slice(lastNameLength);
+
+    if(nameSplit.length >1){
+        return true;
+    }else{
+        return false;
+    }
+
+}
