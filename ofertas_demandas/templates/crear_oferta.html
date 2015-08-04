@@ -15,21 +15,27 @@
 <div class="container">
 
     <div class="row">
+    <form  class="form-horizontal col-md-12">
         <div class=" col-md-12">
 
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
-            <li role="presentation"><a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
+            <li role="presentation" id="prueba"><a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
             <li role="presentation"><a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
             <li role="presentation"><a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
             <li role="presentation"><a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
+            
+            <div class="form-group col-md-3 pull-right">
+                <button class="btn btn-green pull-left col-md-5" type="submit">Guardar</button>
+                <button class="btn btn-red pull-right col-md-5" type="button">Cancelar</button>
+            </div>
           </ul>
 
           <!-- Tab panes -->
-          <form  class="form-horizontal col-md-12">
+          
           <div class="tab-content">
-             <div role="tabpanel" class="tab-pane active" id="informacion">
+          <div role="tabpanel" class="tab-pane active" id="informacion">
                  
                  <!--NOMBRES-->
                  <div class="form-group">
@@ -56,7 +62,7 @@
                  <div class="form-group">
                      <label for="Descripcion" class="col-md-2">Descripci&oacute;n</label>
                      <div class="col-md-6">
-                         <textarea required autofocus name="Descripcion" rows="9"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
+                         <textarea required autofocus name="Descripcion" style="resize:none" rows="9"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
                      </div>
                  </div>
 
@@ -110,21 +116,23 @@
 
                   <!-- Tags -->
                 <div class="form-group col-md-8">
-                <label class="col-md-3"></label>  
-                  <p class="tags col-md-9">
-                    <a href="#">Arte</a>
-                    <a href="#">Educaci&oacute;n</a>
-                    <a href="#">Alimentos y Bebidas</a>
-                    <a href="#">Turismo</a>
-                    <a href="#">Salud</a>
-                    <a href="#">Automotriz</a>
-                    <a href="#">Tecnolog&iacute;a</a>
-                    <a href="#">Ciencias Biol&oacute;gicas</a>
-                    <a href="#">Electr&oacute;nica</a>
-                  </p>
+                    <label class="col-md-3"></label>  
+                      <p class="tags col-md-9">
+                        <a href="#">Arte</a>
+                        <a href="#">Educaci&oacute;n</a>
+                        <a href="#">Alimentos y Bebidas</a>
+                        <a href="#">Turismo</a>
+                        <a href="#">Salud</a>
+                        <a href="#">Automotriz</a>
+                        <a href="#">Tecnolog&iacute;a</a>
+                        <a href="#">Ciencias Biol&oacute;gicas</a>
+                        <a href="#">Electr&oacute;nica</a>
+                      </p>
                 </div>
                 <div class="col-md-8">
-                 <button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+                    <a href="#cliente_usuario"  aria-controls="messages" role="tab" data-toggle="tab">
+                       <input type="button" class="btn btn-blue pull-right" value="Siguiente"> 
+                    </a>
                 </div>
             </div>
 
@@ -146,7 +154,9 @@
               </div>  
               
               <div class="col-md-8">
-                 <button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+                  <a href="#modelo"  aria-controls="messages" role="tab" data-toggle="tab">
+                       <input type="button" class="btn btn-blue pull-right" value="Siguiente"> 
+                    </a>
               </div>       
           </div>
 
@@ -158,47 +168,49 @@
               <div class="col-md-12">
                      <div class="col-md-2">                    
                          <label class="col-md-12" style="text-align:center">Socio Clave</label>
-                         <textarea required autofocus name="Descripcion" rows="10" cols="20"></textarea>
+                         <textarea required autofocus name="Descripcion" style="resize:none" rows="10" cols="18"></textarea>
                      </div>
 
                      <div class="col-md-2">                    
-                         <label class="col-md-12" style="text-align:center">Actividades Clave</label>
-                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                         <label style="text-align:center">Actividades Clave</label>
+                         <textarea required autofocus name="Descripcion" style="resize:none" rows="4" cols="18"></textarea>
                          <label class="col-md-12" style="text-align:center">Recursos Clave</label>
-                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                         <textarea required autofocus name="Descripcion" style="resize:none" rows="4" cols="18"></textarea>
                      </div>
 
                      <div class="col-md-2" style="text-align:center">                    
                          <label> Propuesta por Valor</label>
-                         <textarea required autofocus name="Descripcion" rows="10" cols="20"></textarea>
+                         <textarea required autofocus name="Descripcion" style="resize:none" rows="10" cols="18"></textarea>
                      </div>
 
                      <div class="col-md-2" style="text-align:center">                    
                          <label>Relaciones con Clientes</label>
-                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                         <textarea required autofocus name="Descripcion" style="resize:none" rows="4" cols="18"></textarea>
                          <label class="col-md-12" style="text-align:center">Canales</label>
-                         <textarea required autofocus name="Descripcion" rows="4" cols="20"></textarea>
+                         <textarea required autofocus name="Descripcion" rows="4" style="resize:none" cols="18"></textarea>
                      </div>
 
                      <div class="col-md-2" style="text-align:center">                    
                          <label style="text-align:center">Segmentos  del  cliente</label>
-                         <textarea required autofocus name="Descripcion" rows="10" cols="19"></textarea>
+                         <textarea required autofocus name="Descripcion" style="resize:none" rows="10" cols="19"></textarea>
                      </div>
               </div>
               <div class="col-md-12">
                     <div class="col-md-5">                    
                          <label class="col-md-12" style="text-align:center">Estructura de Costos</label>
-                         <textarea required autofocus name="Descripcion" rows="5" class="col-md-12"></textarea>
+                         <textarea required autofocus name="Descripcion" rows="5" style="resize:none" class="col-md-12"></textarea>
 
                      </div>
                      <div class="col-md-5">                    
                          <label class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
-                         <textarea required autofocus name="Descripcion" rows="5" class="col-md-12"></textarea>
-                   </div>  
-              </div>
+                         <textarea required autofocus name="Descripcion" rows="5" style="resize:none" class="col-md-12"></textarea>
+                     </div>  
+              </div> 
 
               <div class="col-md-10">
-                 <br><button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+                 <br> <a href="#industria"  aria-controls="messages" role="tab" data-toggle="tab">
+                       <input type="button" class="btn btn-blue pull-right" value="Siguiente"> 
+                    </a>
               </div>
           </div>
 
@@ -247,17 +259,19 @@
                          
                          <div>
                              <label class="col-md-12 "></label>
-                             <textarea required autofocus name="Descripcion" class="col-md-5" rows="3" cols="10"></textarea>
+                             <textarea required autofocus name="Descripcion" class="col-md-5" style="resize:none "rows="3" cols="10"></textarea>
                              <label class="col-md-2">Rivalidad en la Industria</label>   
-                             <textarea required autofocus name="Descripcion" class="col-md-5" rows="3" cols="10"></textarea>
+                             <textarea required autofocus name="Descripcion" class="col-md-5" style="resize:none" rows="3" cols="10"></textarea>
                              <label class="col-md-12 "></label>
                          </div>
-                         <textarea required autofocus name="Descripcion" rows="3" class="col-md-12"></textarea>
+                         <textarea required autofocus name="Descripcion" rows="3" style="resize:none" class="col-md-12"></textarea>
                      </div>
                  </div>
 
              <div class="col-md-8">
-                 <br><button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+                 <br> <a href="#esta_logro"  aria-controls="messages" role="tab" data-toggle="tab">
+                       <input type="button" class="btn btn-blue pull-right" value="Siguiente"> 
+                    </a>
               </div>
 
           </div>
@@ -307,14 +321,10 @@
                              >
                      </div>
                  </div>
-
-                 <div class="col-md-8">
-                    <br><button type="submit" class="btn btn-blue pull-right">Guardar</button> 
-                 </div>
-          </div>
-        </div>
-          </form>
-        </div>
+             </div>
+           </div>
+         </div>
+       </form>
     </div>
     <script type="text/javascript">
         /*
@@ -340,6 +350,18 @@
                 return false;
             }
         }
+
+
+        var $tabs = $('.tabbable li');
+
+        $('#prevtab').on('click', function() {
+            $tabs.filter('.active').prev('li').find('a[data-toggle="tab"]').tab('show');
+        });
+
+        $('#nexttab').on('click', function() {
+            $tabs.filter('.active').next('li').find('a[data-toggle="tab"]').tab('show');
+        });
+
     </script>
 </div>
 {% endblock%}
