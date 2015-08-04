@@ -193,8 +193,7 @@
                                 <div class="col-md-8">
                                     <div ng-messages='editar_institucion.webInstitucion.$error' >
                                   <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="editar_institucion.webInstitucion.$dirty && editar_institucion.webInstitucion.$invalid">
-                                    El sitio web debe tener entre 3 y 240 caracteres.
-                                    Ejemplo: www.reinet.org
+                                     Ingrese una url válida.
                                   </label>
                                 </div>
                                 <input type="text" class="form-control" maxlength="245" id="webInstitucion"
@@ -202,7 +201,7 @@
                                        data-toggle="popover" data-placement="left" data-trigger="focus"
                                        data-content="Ingrese la dirección web de la Institución"
                                        data-original-title="Dirección Web" ng-model="institucion.webInstitucion"
-                                       ng-pattern="/^www\.[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/" ng-required="true"
+                                       ng-pattern="/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/" ng-required="true"
                                        ng-init="institucion.webInstitucion='{{ institucion.web }}'">
 
                                 </div>

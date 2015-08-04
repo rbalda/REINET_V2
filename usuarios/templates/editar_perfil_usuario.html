@@ -100,6 +100,7 @@
                     <input type="url" class="form-control" id="website" onblur="validarURL(this)" name="website"
                            data-toggle="popover" data-placement="left" data-trigger="focus"
                            data-content="Ingresa tu sitio web aquí." data-original-title="Sitio Web"
+                           pattern="/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/"
                            value='{{ usuario.web }}'>
                 </div>
                 <div class="col-md-2">
