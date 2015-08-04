@@ -19,7 +19,7 @@ function desbloquearBotones(){
 }
 
 function limpiarInputsMensajes(){
-    $('#destinatario').val("");
+    $('#destinatario_txt').val("");
     $('#asunto').val("");
     $('#mensaje').val("");
 }
@@ -232,7 +232,7 @@ $(document).ready(function(){
         });
 
 
-        $(document).bind('keyup change','#destinatario',function(evt){
+        $(document).on('keyup change','#destinatario, #asunto',function(evt){
             var destinatario = $('#destinatario').val();
             console.log(destinatario.toLowerCase());
             console.log('emisor' + username.toLowerCase());
@@ -243,7 +243,7 @@ $(document).ready(function(){
                     $('.mensaje_error').addClass('alert alert-warning');
                     $('.mensaje_error').fadeIn();
                     $('#btn_enviar_mensaje_nuevo').attr('disabled',true);
-                }else if(destinatario!= usuario) {
+                }else{
                     $('.mensaje_error').fadeOut();
                     $('.mensaje_error').text("");
                     $('.mensaje_error').removeClass('alert alert-warning');
@@ -282,7 +282,7 @@ $(document).ready(function(){
                         var html = "<strong><p><span class='glyphicon glyphicon-ok-sign'></span>Mensaje Enviado Exitosamente</p></strong>";
                         $('#info_mensaje_enviado').addClass('alert alert-success');
                         $('#info_mensaje_enviado_txt').html(html);
-                        nuevoMensajeInstitucion();
+                        buzonSalidaInstitucion();
                     }else{
                         $('#info_mensaje_enviado').removeClass('alert-success');
                         $('#info_mensaje_enviado').show();

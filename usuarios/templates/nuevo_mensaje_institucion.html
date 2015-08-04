@@ -3,10 +3,11 @@
     <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
 
     <div>
-        <div class="form-group">
+        <div class="form-group" id="formulario" name="formulario">
             <label for="Destinatario">Para:</label>
-            <input type="text" class="form-control" id="destinatario" name="destinatario"
-                   placeholder="Destinatario" maxlength="50" required>
+            <input type="text" class="form-control" id="destinatario_txt" name="destinatario_txt"
+                           placeholder="Destinatario" maxlength="50" required>
+            <input type="hidden" id="destinatario" name="destinatario">
         </div>
         <div class="form-group">
             <p class="mensaje_error"></p>

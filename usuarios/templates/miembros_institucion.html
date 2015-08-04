@@ -45,7 +45,6 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(function(){
 
             $(document).on('click','#btn_remover_miembro{{miembro.id_membresia}}',function(){
                 console.log('hizo click en remover miembro');
@@ -63,33 +62,32 @@
                     success: function(data){
                         var objeto = JSON.parse(data);
                         if (objeto.membresia_save){
-                            $('#miembro{{miembro.id_membresia}}').remove();
-                            $(function(){
-                                $('#panel_miembros').ready(actualizarListaMiembros);
-
-                                function actualizarListaMiembros(){
-                                    $.ajax({
-                                        data:{
-                                            'institucion':{{institucion.id_institucion}}
-                                        },
-                                        type:'get',
-                                        url: '/MiembrosInstitucion/',
-                                        success: function(data){
-                                            $('#panel_miembros').html(data);
-                                        }
-                                    });
-                                }
-                            });
+                            $('#miembro{{miembro.id_membresia}}').remove();                        
                         }else{
                             console.log('Ocurrio un error en removerMembresia');
                         }
+                    },
+                    complete: function(){
+                        actualizarListaMiembros();
                     }
                 });
             });
 
-        });
 
+                function actualizarListaMiembros(){
+                    $.ajax({
+                        data:{
+                            'institucion':{{institucion.id_institucion}}
+                        },
+                        type:'get',
+                        url: '/MiembrosInstitucion/',
+                        success: function(data){
+                            $('#panel_miembros').html(data);
+                        }
+                    });
+                }
     });
+
 </script>
 
 {% endfor %}
