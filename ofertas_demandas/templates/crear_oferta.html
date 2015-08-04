@@ -19,8 +19,8 @@
 
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
-            <li role="presentation"><a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
+            <li role="presentation" class="active" ><a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
+            <li role="presentation" id="prueba"><a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
             <li role="presentation"><a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
             <li role="presentation"><a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
             <li role="presentation"><a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
@@ -110,21 +110,30 @@
 
                   <!-- Tags -->
                 <div class="form-group col-md-8">
-                <label class="col-md-3"></label>  
-                  <p class="tags col-md-9">
-                    <a href="#">Arte</a>
-                    <a href="#">Educaci&oacute;n</a>
-                    <a href="#">Alimentos y Bebidas</a>
-                    <a href="#">Turismo</a>
-                    <a href="#">Salud</a>
-                    <a href="#">Automotriz</a>
-                    <a href="#">Tecnolog&iacute;a</a>
-                    <a href="#">Ciencias Biol&oacute;gicas</a>
-                    <a href="#">Electr&oacute;nica</a>
-                  </p>
+                    <label class="col-md-3"></label>  
+                      <p class="tags col-md-9">
+                        <a href="#">Arte</a>
+                        <a href="#">Educaci&oacute;n</a>
+                        <a href="#">Alimentos y Bebidas</a>
+                        <a href="#">Turismo</a>
+                        <a href="#">Salud</a>
+                        <a href="#">Automotriz</a>
+                        <a href="#">Tecnolog&iacute;a</a>
+                        <a href="#">Ciencias Biol&oacute;gicas</a>
+                        <a href="#">Electr&oacute;nica</a>
+                      </p>
                 </div>
+
+                <div class="form-group col-md-8">
+                    <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">
+                        <input type="button" class="btn btn-blue pull-right" value="Siguiente">
+                    </a>
+                </div>
+
+
                 <div class="col-md-8">
-                 <button type="submit" class="btn btn-blue pull-right">Siguiente</button> 
+
+                  <button type="submit" class="btn btn-blue pull-right">Siguiente</button>
                 </div>
             </div>
 
@@ -263,8 +272,6 @@
           </div>
 
           <div role="tabpanel" class="tab-pane" id="esta_logro">
-            <!--Estados y logros-->   
-            <!--Tiempo disponibilidad-->
                  <div class="form-group">
                     <div class="col-md-8">
                         <label>Tiempo de disponilidad del producto o servicio</label>
