@@ -7,31 +7,12 @@
     {% block registrarinstitucion %}
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
-<style>
- .section-header h1 span {
-    border-bottom: 5px solid green;
-    padding-bottom: 10px;
- }
- .rating {
-    unicode-bidi: bidi-override;
-    text-align: center;
-    font-size: 20px;
-    color: gold;
- }
-
- .rating > span {
-    display: inline-block;
-    position: relative;
-    width: 1.1em;
- }
-</style>
-
 
     <div class="section-header">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="animated slideInLeft"><span>OFERTA</span></h1>
+                    <h1 class="animated slideInLeft"><span style="border-bottom: 5px solid #72A53B;">OFERTA</span></h1>
                 </div>
             </div>
         </div>
@@ -40,268 +21,198 @@
 <!-- Main body
 ================== -->
 <div class="container">
-        <div class="row">
-            <div class="col-sm-8">
-                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                <div class="col-md-8 col-xs-7" align="left" style="padding-left: 0px;">
-                      <h4>Nombre de la oferta</h4>
-                      <ul class="text-muted list-inline">
-                        <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
-                        <li><i class="fa fa-calendar"></i> November 10, 2013</li>
-                        <li><i class="fa fa-comments-o"></i> 21 comments</li>
-                      </ul>
-                 </div>
-          </div>
+    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;"align="left">
+        <div class="col-md-7">
+            <h4>Nombre de la oferta</h4>
+            <ul class="text-muted list-inline">
+                <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                <li><i class="fa fa-comments-o"></i> 21 comments</li>
+            </ul>
+            
+        </div>
+    </div>
 
-                    <div class="blog-text">
-
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
-                            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a>
-                        </li>
-                    </ul>
-
-                    <!-- Tab panes -->
-                    <div class="tab-content row">
-                                <div role="tabpanel" class="tab-pane active" id="informacion">
-                                        <div class="col-md-4 col-sm-4 col-xs-4">
-                                                <div class="block-inverse">
-                                                    <div class="head-inverse">
-                                                            <img class=" img-responsive" src="/../../media/ofertas-demandas/integrante1.jpg" alt="...">
-                                                    </div>
-                                                    <div class="body-inverse">
-                                                        <p class="text-center">
-                                                            <strong class="text-muted">Fotos</strong>
-                                                        </p>
-                                                        <div class="user-gallery text-center">
-                                                            <a href="#"><img src="/../../media/ofertas-demandas/face1.jpg" alt="..."></a>
-                                                            <a href="#"><img src="/../../media/ofertas-demandas/face2.jpg" alt="..."></a>
-                                                            <a href="#"><img src="/../../media/ofertas-demandas/face3.jpg" alt="..."></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <div class="col-md-8 col-sm-8 col-xs-8">
-
-                                                                    <!--NOMBRES-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Nombres</label>
-
-                                                 <label>Oferta 1</label>
-
-
-                                             </div>
-                                            <!--Tipo-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Tipo" class="col-md-3">Tipo</label>
-
-                                                 <label>Tecnolog&iacute;a</label>
-
-                                             </div>
-
-                                            <!--Descripción-->
-                                            <div class="form-group">
-                                                 <label  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</label>
-                                                 <label>Las pruebas inicales</label>
-
-
-                                             </div>
-
-                                            <!--Dominio-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Dominio</label>
-
-                                                 <label>Dominio</label>
-
-                                             </div>
-
-                                            <!--Subdominio-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</label>
-
-                                                  <label>Sub-dominio</label>
-
-                                             </div>
-
-                                            <!--Palabras Clave-->
-                                             <div class="form-group">
-                                                 <label  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</label>
-                                                 <label>Arte, Alimentos y Bebidas, Automotriz</label>
-                                             </div>
-                                        </div>
+    <div class="col-md-12">
+        <div class="col-md-8" style="padding-left: 0px;">
+            <div class="blog-text">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs " role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content row">
+                    <div role="tabpanel" class="tab-pane active" id="informacion">
+                        <div class="col-md-12">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="block-inverse">
+                                    <div class="head-inverse">
+                                        <p class="text-center"><strong class="text-muted">Galeria</strong></p>
+                                        <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
+                                    </div>
+                                    <div class="body-inverse">                                      
+                                        <ul class="row list-inline gallery-list-small" style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+                                            <li class="col-xs-6">
+                                              <a href="#">
+                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
+                                              </a>
+                                            </li>
+                                            <li class="col-xs-6">
+                                              <a href="#">
+                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg" alt="...">
+                                              </a>
+                                            </li>
+                                            <li class="col-xs-6">
+                                              <a href="#">
+                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg" alt="...">
+                                              </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-
-                                <div role="tabpanel" class="tab-pane" id="cliente_usuario">
-                                    <!--Perfil Cliente-->
-                                      <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-2">Perfil Cliente</label>
-                                              <label>Arte, Alimentos y Bebidas, Automotriz</label>
-
-                                         </div>
-
-                                      <!--Perfil Beneficiario-->
-                                      <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-2">Perfil del Beneficiario</label>
-                                            <label>Arte, Alimentos y Bebidas, Automotriz</label>
-
-                                      </div>
-                                </div>
-
-
-                                <div role="tabpanel" class="tab-pane" id="modelo">
-                                    <!--Canvas del modelo de negocio-->
-                                 <h3 style="text-align:center" class="hl">  Canvas del Modelo de negocios</h3>
-                                 <hr>
-                                  <div class="col-md-12">
-                                     <div class="col-md-2">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Socio Clave</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                      </div>
-
-                                     <div class="col-md-2">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Actividades Clave</label>
-                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Recursos Clave</label>
-                                        <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-
-                                     <div class="col-md-2" style="text-align:center">
-                                         <label style="color: darkgray"> Propuesta por Valor</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-
-                                     <div class="col-md-2" style="text-align:center">
-                                         <label style="color: darkgray">Relaciones con Clientes</label>
-                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Canales</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-
-                                     <div class="col-md-2" style="text-align:center">
-                                         <label style="color: darkgray" style="text-align:center">Segmentos  del  cliente</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-                                </div>
-
-                              <div class="col-md-12">
-                                  <br><br>
-                                    <div class="col-md-6">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Estructura de Costos</label>
-                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-                                     <div class="col-md-6">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
-                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
-                                   </div>
-                              </div>
-
-                                </div>
-
-
-                                <div role="tabpanel" class="tab-pane" id="industria">
-                                         <!--Industria Competidores-->
-
-                                    <!--Tendencias-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</label>
-                                              <label>Tendencias Relevantes</label>
-
-                                     </div>
-
-
-                                     <!--Alternativas de solucion-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</label>
-                                              <label>Alternativas de Soluci&oacute;n Existentes</label>
-
-                                     </div>
-
-
-                                     <!--Competidores-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Competidores</label>
-                                              <label>ESPOL</label>
-
-                                     </div>
-
-
-                                     <!--Diagrama de Porter-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</label>
-                                              <br><br><br><br><br><br>
-                                     </div>
-                                     <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Rivalidad en la Industria</label>
-                                              <label>Rivalidad en la Industria</label>
-
-                                     </div>
-
-
-
-                                </div>
-
-                                <div role="tabpanel" class="tab-pane" id="esta_logro">
-
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
-                                              <label>6 años</label>
-
-                                     </div>
-
-
-                                     <!--Estrategia de crecimiento-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</label>
-                                              <label>Pruebas iniciales</label>
-
-                                     </div>
-
-
-                                     <!--Estado de propiedad Intelectual-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</label>
-                                              <label>Pruebas iniciales</label>
-
-                                     </div>
-
-
-                                     <!--Evidencia de Traccion-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</label>
-                                              <label>Pruebas iniciales</label>
-
-                                     </div>
-
-                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-8">
+                                <!--Tipo-->
+                                <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
+                                <p>Tecnolog&iacute;a</label>
+                                <!--Descripcion-->
+                                <p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
+                                <p>Pruebas inicales</label>
+                                <!--Dominio-->
+                                <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
+                                <p>Dominio</label>
+                                <!--Subdominio-->
+                                <p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
+                                <p>Sub-dominio</label>
+                                <!--Palabras Clave-->
+                                <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
+                                <p class="tags">
+                                    <a >Industria</a>
+                                    <a >Autos</a>
+                                    <a >Startup</a>
+                                    <a>Espol</a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                        <div class="col-md-12">
+                            <!--Perfil Cliente-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-2">Perfil Cliente</p>
+                            <p>Arte, Alimentos y Bebidas, Automotriz</p>
+                            <!--Perfil Beneficiario-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-2">Perfil del Beneficiario</p>
+                            <p>Arte, Alimentos y Bebidas, Automotriz</p>
+                        </div>  
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="modelo">
+                        <div class="col-md-12">
+                            <!--Canvas del modelo de negocio-->
+                            <h3 style="text-align:center" class="hl">  Canvas del Modelo de negocios</h3>
+                            <hr>
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <p style="color: darkgray" class="col-md-12" style="text-align:center">Socio Clave</p>
+                                    <p style="text-align:center" >Pruebas iniciales</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <p style="color: darkgray" class="col-md-12" style="text-align:center">Actividades Clave</p>
+                                    <p style="text-align:center" >Pruebas iniciales</p><br><br><br>
+                                    <p style="color: darkgray" class="col-md-12" style="text-align:center">Recursos Clave</p>
+                                    <p style="text-align:center" >Pruebas iniciales</p>
+                                </div>
+                                <div class="col-md-2" style="text-align:center">
+                                     <p style="color: darkgray"> Propuesta por Valor</p>
+                                     <p style="text-align:center" >Pruebas iniciales</p>
+                                </div>
+                                <div class="col-md-2" style="text-align:center">
+                                     <p style="color: darkgray">Relaciones con Clientes</p>
+                                     <p style="text-align:center" >Pruebas iniciales</p><br><br><br>
+                                     <p style="color: darkgray" class="col-md-12" style="text-align:center">Canales</p>
+                                     <p style="text-align:center" >Pruebas iniciales</p>
+                                </div>
+                                <div class="col-md-2" style="text-align:center">
+                                     <p style="color: darkgray" style="text-align:center">Segmentos  del  cliente</p>
+                                     <p style="text-align:center" >Pruebas iniciales</p>
+                                </div>
+                            </div>
 
+                            <div class="col-md-12">
+                                <br><br>
+                                <div class="col-md-6">
+                                    <p style="color: darkgray" class="col-md-12" style="text-align:center">Estructura de Costos</p>
+                                    <p class="col-md-6" style="text-align:center" >Pruebas iniciales</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p style="color: darkgray" class="col-md-12" style="text-align:center">Fuentes de Ingresos</p>
+                                    <p class="col-md-6" style="text-align:center" >Pruebas iniciales</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="industria">
+                        <div class="col-md-12">
+                            <!--Tendencias-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
+                            <p>Tendencias Relevantes</p>
+                             <!--Alternativas de solucion-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</p>
+                            <p>Alternativas de Soluci&oacute;n Existentes</p>
+                            <!--Competidores-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Competidores</p>
+                            <p>ESPOL</p>
+                            <!--Diagrama de Porter-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
+                            <br><br>
+                            <div style="margin-left:10% ; height:70%;width:70%; text-align: center">
+                                <img width="400" height="400"   src="/../../media/ofertas-demandas/mcdonalds.jpg" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="esta_logro">
+                        <div class="col-md-12">
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo de disponilidad del producto o servicio</p>
+                            <p>6 años</p>
+                            <!--Estrategia de crecimiento-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
+                            <p>Pruebas iniciales</p>
+                            <!--Estado de propiedad Intelectual-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
+                            <p>Pruebas iniciales</p>
+                            <!--Evidencia de Traccion-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
+                            <p>Pruebas iniciales</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <br><br><br><br>
                     <!--
                         <img class="pull-right img-responsive blog-img" alt="..." src="img/works1.jpg">
 
                     <!-- Comments list -->
+                    <br/>
                     <h4>
-                        COMENTARIOS
+                        Comentarios
                     </h4>
                     <hr>
-                    <div class="panel panel-blue">
+                    <div class="panel panel-green">
 
-                            <div class="panel-heading">
+                            <div class="panel-heading" >
                                 <h3 id="titulo_comentar" class="panel-title">Calificar Y Comentar La Oferta</h3>
                             </div>
                             <div class="panel-body">
@@ -448,9 +359,8 @@
             <div class="col-sm-4">
                     <!-- Social Links -->
                      <h4>
-                        CALIFICACI&Oacute;N GENERAL
+                        Calificaci&oacute;n general
                     </h4>         
-                    <hr>
                     <div class="thumbnail" align=center style="margin-bottom:0px">
                         <div class="caption" style="padding-top:0px; padding-bottom:0px">
                                 <div class="rating">
@@ -462,28 +372,16 @@
                                 </div>
                         </div>
                     </div>
-                    <!-- Tags -->
-                    <h4>
-                        PALABRAS CLAVES
-                    </h4>  
-                    <hr>
-                    <p class="tags">
-                        <a href="#">Industria</a>
-                        <a href="#">Autos</a>
-                        <a href="#">Startup</a>
-                        <a href="#">Espol</a>
-                    </p>
-                    <br />
                     <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
                                 <div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
-                                            <h4>ESTADO DE LA OFERTA</h4> 
+                                            <h4>Estado</h4> 
+                                            
                                  </div>
                     </div>
-                    
-                    <hr>
+                    <br/>
                     <div class="info-board info-board-green">
                             <p align=center>
-                                <b>ACTIVO</b>
+                                <b>ACTIVA</b>
                             </p>
                     </div>
 
@@ -494,7 +392,7 @@
                         <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
                             <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
                                 <div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
-                                            <h4>EQUIPO</h4> 
+                                            <h4>Equipo</h4> 
                                  </div>
                             </div>
                         </div>
