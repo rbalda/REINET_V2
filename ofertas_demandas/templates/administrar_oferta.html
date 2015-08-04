@@ -436,7 +436,7 @@
 										<a href="#" class="btn btn-blue" data-toggle="modal" data-target="#modalEquipo"><i class="fa fa-pencil"></i></a>
 								</div>
 								<div id="modalEquipo" class="modal fade" role="dialog">
-  									<div class="modal-dialog">
+  									<div class="modal-dialog" style="width:800px">
   										<div class="modal-content">
 									      <div class="modal-header" style="background-color:#F6F7F7">
 									      	
@@ -447,13 +447,13 @@
 									      <div class="modal-body">
 											<div class="team" style="font-size:12px;height:200px;overflow-y:scroll">
                                                 <form>
-            									<div class="member-left" style="height:110px;width:500px">
-              										<div class="col-md-6">
+            									<div class="member-left" style="height:110px;width:700px">
+              										<div class="col-md-5">
               											<img src="/../../media/ofertas-demandas/integrante1.jpg" alt="TeamMember" class="left">
               											<STRONG>Alex Smith</STRONG><br>
               											<span class="position">ESPOL</span>
               										</div>
-              										<div class="col-md-4">
+              										<div class="col-md-3">
               											<input type="text" id="rolUsuario1" name="rol1" value="CEO" disabled></input>
                                                         <input list="estado" name="estado1"id="estadoUsuario1" value="ACTIVO" disabled>
                                                         <datalist id="estado">
@@ -461,20 +461,20 @@
                                                           <option value="INACTIVO">
                                                         </datalist>
               										</div>
-              										<div>
+              										<div class="col-md-4">
               											<ul class="text-muted">
               						  						<p ><i class="fa fa-cog"></i> <a href="javascript:editarRol($('#rolUsuario1'))">Editar Rol</a></p>
-										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="javascript:editarEstado($('#estadoUsuario1'))">  Editar Estado</a><p>
+										        			<p style=""><i class="fa fa-cog"></i> <a href="javascript:editarEstado($('#estadoUsuario1'))">  Editar Estado</a><p>
                           								</ul>
 								        			</div>
             									</div>
-            									<div class="member-left" style="margin-top:50px;height:110px;width:500px">
-              										<div class="col-md-6">
+            									<div class="member-left" style="margin-top:50px;height:110px;width:700px">
+              										<div class="col-md-5">
               											<img src="/../../media/ofertas-demandas/face2.jpg" alt="TeamMember" class="left">
               											<STRONG>Fernando Rodriguez</STRONG><br>
               											<span class="position">ESPOL</span>
               										</div>
-              										<div class="col-md-4">
+              										<div class="col-md-3">
               											<input type="text" id="rolUsuario2" name="rol2" value="Designer" disabled></input>
                                                         <input list="estado" name="estado2"id="estadoUsuario2" value="ACTIVO" disabled>
                                                         <datalist id="estado">
@@ -482,20 +482,20 @@
                                                           <option value="INACTIVO">
                                                         </datalist>
               										</div>
-              										<div>
+              										<div class="col-md-4">
               											<ul class="text-muted">
               						  						<p ><i class="fa fa-cog"></i> <a href="javascript:editarRol($('#rolUsuario2'))">Editar Rol</a></p>
-										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="javascript:editarEstado($('#estadoUsuario2'))">  Editar Estado</a><p>
+										        			<p ><i class="fa fa-cog"></i> <a href="javascript:editarEstado($('#estadoUsuario2'))">  Editar Estado</a><p>
                           								</ul>
 								        			</div>
             									</div>
-            									<div class="member-left" style="margin-top:50px;height:110px;width:500px">
-              										<div class="col-md-6">
+            									<div class="member-left" style="margin-top:50px;height:110px;width:700px">
+              										<div class="col-md-5">
               											<img src="/../../media/ofertas-demandas/face2.jpg" alt="TeamMember" class="left">
               											<STRONG>Fernando Rodriguez</STRONG><br>
               											<span class="position">ESPOL</span>
               										</div>
-              										<div class="col-md-4">
+              										<div class="col-md-3">
               											<input type="text" id="rolUsuario3" name="rol3" value="Designer" disabled></input>
                                                         <input list="estado" name="estado3"id="estadoUsuario3" value="ACTIVO" disabled>
                                                         <datalist id="estado">
@@ -503,10 +503,10 @@
                                                           <option value="INACTIVO">
                                                         </datalist>
               										</div>
-              										<div>
+              										<div class="col-md-4">
               											<ul class="text-muted">
               						  						<p ><i class="fa fa-cog"></i> <a href="javascript:editarRol($('#rolUsuario3'))">Editar Rol</a></p>
-										        			<p style="margin-left:7px"><i class="fa fa-cog"></i> <a href="javascript:editarEstado($('#estadoUsuario3'))">  Editar Estado</a><p>
+										        			<p ><i class="fa fa-cog"></i> <a href="javascript:editarEstado($('#estadoUsuario3'))">  Editar Estado</a><p>
                           								</ul>
 								        			</div>
             									</div>
@@ -571,7 +571,7 @@
 											
 								</div>
                                 <div id="agregarMiembro" class="modal fade" role="dialog" tabindex="-1">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog" >
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -629,31 +629,35 @@
                                     
                                 </div>
 								<div id="solicitudesEquipo" class="modal fade" role="dialog">
-  									<div class="modal-dialog">
-  										<div class="modal-content">
+  									<div class="modal-dialog" style="width:800px">
+  										<div class="modal-content" >
 								      		<div class="modal-header">
 								        		<button type="button" class="close" data-dismiss="modal">&times;</button>
 								        		<h4 class="modal-title">Solicitudes</h4>
 								      		</div>
-								      		<div class="modal-body"style="font-size:12px;height:200px;overflow-y:auto">
+								      		<div class="modal-body"style="font-size:12px;overflow-y:auto;margin-left:100px">
 								      			<div class="comment">
 										            <div class="media">
 										              <a class="pull-left" href="#">
 										                <img class="media-object" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
 										              </a>
 										              <div class="media-body">
-										                <p><a href="profile.html">Henry Lasso</a></p>
-										                <span>Rol:sdasasa</span>
-										                <button type="button"class="btn btn-green"  style="margin-left:200px">
-				                                        	<span class="glyphicon glyphicon-plus-sign"></span> Aceptar
-				                                        </button>
-				                                        <button type="button" class="btn btn-default btn-md">
-				                                        	<span class="glyphicon glyphicon-minus-sign"></span> Rechazar
-				                                        </button>
-				                                        
-                                    	                <ul class="text-muted list-inline">
-										                  <li><i class="fa fa-clock-o"></i> 1 hour ago</li>
-										                </ul>
+                                                        <div class="col-md-5">
+										                      <p><a href="profile.html">Henry Lasso</a></p>
+										                      <span>Rol:sdvccxvcvxggf</span>
+                                                            <ul class="text-muted list-inline">
+                                                                <li><i class="fa fa-clock-o"></i> 1 hour ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-7" style="margin-top:10px">
+										                  <button type="button"class="btn btn-green">
+				                                        	   <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
+				                                          </button>
+				                                          <button type="button" class="btn btn-default btn-md">
+				                                        	   <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
+				                                          </button>
+				                                        </div>
+                                    	                
 										              </div>
 										            </div>
 										        </div>
@@ -663,18 +667,22 @@
 										                <img class="media-object" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
 										              </a>
 										              <div class="media-body">
-										                <p><a href="profile.html">Henry Lasso</a></p>
-										                <span>Rol:sasasas</span>
-										                <button type="button"class="btn btn-green"  style="margin-left:200px">
-				                                        	<span class="glyphicon glyphicon-plus-sign"></span> Aceptar
-				                                        </button>
-				                                        <button type="button" class="btn btn-default btn-md">
-				                                        	<span class="glyphicon glyphicon-minus-sign"></span> Rechazar
-				                                        </button>
-				                                        
-                                    	                <ul class="text-muted list-inline">
-										                  <li><i class="fa fa-clock-o"></i> 1 hour ago</li>
-										                </ul>
+										                <div class="col-md-5">
+                                                              <p><a href="profile.html">Henry Lasso</a></p>
+                                                              <span>Rol:sdvccxvcvxggf</span>
+                                                            <ul class="text-muted list-inline">
+                                                                <li><i class="fa fa-clock-o"></i> 1 hour ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-7" style="margin-top:10px">
+                                                          <button type="button"class="btn btn-green">
+                                                               <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
+                                                          </button>
+                                                          <button type="button" class="btn btn-default btn-md">
+                                                               <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
+                                                          </button>
+                                                        </div>
+                                                        
 										              </div>
 										            </div>
 										        </div>
@@ -703,7 +711,7 @@
 								  </div>
 								</div>
 								<div id="solicitudesComentarios" class="modal fade" role="dialog">
-  									<div class="modal-dialog">
+  									<div class="modal-dialog" style="width:800px">
   										<div class="modal-content">
   										<div class="modal-header">
   											<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -790,10 +798,9 @@
 						</div>
 					</div>          
 			</div>
-
-		</div>
-        <script>
+        </div>
         
+        <script>
         function editarRol($inputEditable){
             $inputEditable.prop('disabled', false);
         }
@@ -815,8 +822,6 @@
         $('#btnGuardarEditarEquipo').click(function(){
             $('input[name^=estado]').prop('disabled', true);
         });
-
-
         </script>
 
 </div>
