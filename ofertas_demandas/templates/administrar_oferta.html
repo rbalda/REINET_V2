@@ -120,7 +120,7 @@
                             <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
                             <p>Arte, Alimentos y Bebidas, Automotriz</p>
                             <!--Perfil Beneficiario-->
-                            <p style="color: darkgray" for="Descripcion" class="col-md-">Perfil del Beneficiario</p>
+                            <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
                             <p>Arte, Alimentos y Bebidas, Automotriz</p>
                         </div>  
                     </div>
@@ -661,6 +661,29 @@
 
 
 <script>
+     function editarRol($inputEditable){
+        $inputEditable.prop('disabled', false);
+    }
+
+    $('#btnCancelarEditarEquipo').click(function(){
+        $('input[name^=rol]').prop('disabled', true);
+    });
+    $('#btnGuardarEditarEquipo').click(function(){
+        $('input[name^=rol]').prop('disabled', true);
+    });
+
+    function editarEstado($estadoEditable){
+        $estadoEditable.prop('disabled', false);
+    }
+
+   $('#btnCancelarEditarEquipo').click(function(){
+       $('input[name^=estado]').prop('disabled', true);
+    });
+    $('#btnGuardarEditarEquipo').click(function(){
+        $('input[name^=estado]').prop('disabled', true);
+    });
+
+
     
     $("#rechazarSolicitudEquipo01").click(function(){
         $("#Solicitud01").hide();
