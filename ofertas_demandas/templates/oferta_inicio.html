@@ -493,26 +493,26 @@
             <h4 class="modal-title">Crear Oferta</h4>
           </div>
           <div class="modal-body">
-            <div class="radio">
-                <label><input type="radio" id="Nueva" ALIGN=center name="optradio">Nueva</label>
-             </div>
+            <div class="col-md-offset-1">
+                <form id="formCrearOferta">
+                  <input  type="radio" name="radioName" value="1" checked/>&nbsp;&nbsp;Nueva oferta<br />
+                  <input  type="radio" name="radioName" value="2" />&nbsp;&nbsp;De oferta existente<br />
+                  <div class="" id="listaOfertas" style="display:none;">
+                    <select class="form-control"  style="margin-left: 3px;margin-top: 5px;">
+                      <option value="Mustard">Mustard</option>
+                      <option value="Ketchup">Ketchup</option>
+                      <option value="Relish">Relish</option>
+                    </select>
+                  </div>
+                </form>
 
-             <div class="radio">
-                <label><input type="radio" id="Existente" name="optradio">De Existente</label><BR>
-                 <select name="OS">
-                     <option value="1">Oferta1</option>
-                     <option value="2">Oferta2</option>
-                     <option value="3">Oferta3</option>
-                     <option value="4">Oferta4</option>
-
-                  </select>
-             </div>
+              </div>
           </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-red" data-dismiss="modal">Cancelar</button>
+          <div class="modal-footer">              
               <a id="ref" href="">
                   <button id="bt1" type="button" class="btn btn-green" onclick="myFunction()"> Aceptar </button>
               </a>
+              <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
           </div>
         </div>
 
@@ -521,28 +521,16 @@
 
 
 
-
   <script>
-    function myFunction() {
-        elem=document.getElementsByName("optradio")
-         for(i=0;i<elem.length;i++){
+    $('#formCrearOferta input').on('change', function() {
+      var valor=$('input[name=radioName]:checked', '#formCrearOferta').val();
+       if(valor=="1"){
+          $("#listaOfertas").hide();
+       }else if(valor=="2"){
+          $("#listaOfertas").show();
+       } 
+    });
 
-             if (elem[i].checked) {
-                if(elem[i].id=="Nueva"){
-
-                  document.getElementById("ref").onclick(location.href="/CrearOferta/");
-                  return;
-
-                }
-                if(elem[i].id=="Existente"){
-                    document.getElementById("ref").onclick(location.href="/CrearOferta/");
-                    return;
-                }
-
-             }
-
-         }
-    }
   </script>
 
 </div>
