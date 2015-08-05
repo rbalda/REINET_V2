@@ -220,9 +220,9 @@
 
 
             <!-- New comment form -->
-            <div class="new-comment">
-              <form class="form-horizontal ng-pristine ng-valid" role="form">
-                <div class="form-group" style="margin-bottom: 0px;">
+           <div class="new-comment">
+              <form class="form-horizontal ng-pristine ng-valid ng-submitted" role="form">
+                <div class="form-group" style="margin-bottom: 15px;">
                   <div class="col-sm-2 hidden-xs">
                     <img src="/../../media/ofertas-demandas/face1.jpg" alt="..." class="img-responsive">
                   </div>
@@ -245,11 +245,7 @@
                             <label for="rating-input-1-1" class="rating-star"></label>
                         </span>
                     </div>
-
-                    <textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba su comentario acerca de la oferta"></textarea>                    
-                    <div align="center">
-                            <p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser aprobados por el dueño de la oferta para ser mostrados</p>
-                    </div>
+                    <textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba su comentario acerca de la oferta"></textarea> 
                   </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 0px;">
@@ -259,7 +255,6 @@
                 </div>
               </form>
             </div>
-
 
 
 
@@ -424,9 +419,7 @@
                     <form role="form" action="" method=''>
                         <!--{% csrf_token %}-->
                         <div class="form-group">
-                            <label for="Comentario">Añadir Comentario:</label>
-                            <input type="text" class="form-control" id="comentario" name="comentario"
-                            placeholder="Comentario.." maxlength="150">
+                            <textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
                         </div>
                         <a href="" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
                             <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
@@ -450,10 +443,12 @@
                         <!--{% csrf_token %}-->
                         <div class="form-group">
                             <label for="Confirmacion">Se ha enviado su solicitud con &eacute;xito</label>
+                        </div>     
+                        <div align="right">
+                            <a href="" class="button">
+                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                            </a> 
                         </div>
-                        <a href="" class="button">
-                            <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                        </a> 
                     </form>
                 </div>
                 
@@ -478,10 +473,13 @@
                         <!--{% csrf_token %}-->
                         <div class="form-group">
                             <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
+                            <p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser aprobados por el dueño de la oferta para ser mostrados</p>
                         </div>
-                        <a href="" class="button">
-                            <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                        </a> 
+                        <div align="right">
+                            <a href="" class="button">
+                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                            </a> 
+                        </div>
                     </form>
                 </div>
                 

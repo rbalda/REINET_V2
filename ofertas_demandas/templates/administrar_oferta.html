@@ -32,7 +32,7 @@
             
         </div>
         <div class="col-md-5" align=right>
-            <a href="/OfertaEditable/" class="btn btn-green"><i class="fa fa-files-o"></i>&nbsp;&nbsp;Duplicar&nbsp;&nbsp;</a>
+            <a href="/CrearOferta/" class="btn btn-green"><i class="fa fa-files-o"></i>&nbsp;&nbsp;Duplicar&nbsp;&nbsp;</a>
             <a href="#" class="btn btn-dark" style="color:white;margin-top: 0px;margin-left: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-ban"></i>&nbsp;&nbsp;Inactivar</a>
         </div> 
 
@@ -411,8 +411,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button id="btnCancelarEditarEquipo" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Guardar</button>
+            <button id="btnCancelarEditarEquipo" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Guardar</button>
         </div>
     </div>
   </div>
@@ -444,8 +444,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#guardarAgregarIntegrante">Agregar</button>
+                <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarAgregarIntegrante">Agregar</button>
             </div>
         </div>
     </div>
@@ -490,11 +490,11 @@
                                 <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
                             </div>
                         </div>
-                        <div align=right id="botonesSolicitud01">
-                            <button type="button"class="btn btn-green btn-sm" id="aceptarSolicitudEquipo01">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
-                            <button type="button" class="btn btn-default btn-md btn-sm" id="rechazarSolicitudEquipo01">
+                        <div align=right id="botonesSolicitud01">                            
+                            <button type="button" class="btn btn-dark btn-xs " id="rechazarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                            <button type="button"class="btn btn-green btn-xs" id="aceptarSolicitudEquipo01">
+                                <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
                         </div>                    
                     </div>
                     <br>
@@ -529,10 +529,11 @@
                             </div>
                         </div>
                         <div align=right id="botonesSolicitud01">
-                            <button type="button"class="btn btn-green btn-sm" id="aceptarSolicitudEquipo01">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
-                            <button type="button" class="btn btn-default btn-md btn-sm" id="rechazarSolicitudEquipo01">
+                            <button type="button" class="btn btn-dark btn-xs " id="rechazarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                            <button type="button"class="btn btn-green btn-xs" id="aceptarSolicitudEquipo01">
+                                <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
+                            
                         </div>                    
                     </div>
                     <br>
@@ -581,11 +582,11 @@
                                 <li><i class="fa fa-calendar"></i> 11/10/2013</li>
                             </ul>         
                         </div>
-                        <div align=right id="">
-                            <button type="button"class="btn btn-green btn-sm" id="">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                            <button type="button" class="btn btn-default btn-md btn-sm" id="">
+                        <div align=right id="">                            
+                            <button type="button" class="btn btn-dark btn-md btn-xs" id="">
                                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                            <button type="button"class="btn btn-green btn-xs" id="">
+                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
                         </div>                    
                     </div>
                     <br>
@@ -619,10 +620,10 @@
                             </ul>         
                         </div>
                         <div align=right id="">
-                            <button type="button"class="btn btn-green btn-sm" id="">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                            <button type="button" class="btn btn-default btn-md btn-sm" id="">
+                            <button type="button" class="btn btn-dark btn-md btn-xs" id="">
                                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                            <button type="button"class="btn btn-green btn-xs" id="">
+                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
                         </div>                    
                     </div>
                     <br>
@@ -640,15 +641,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Comentarios</h4>
+                <h4 class="modal-title">Inactivar oferta</h4>
             </div>
             <div class="modal-body" style="overflow-y:auto">  
                 <p>Está seguro que desea desactivar la oferta. Recuerde que este cambio no es reversible</p>
 
             </div>
             <div class="modal-footer">
-                <button id="btnCancelarEditarEquipo" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Aceptar</button>
+                <button id="btnCancelarEditarEquipo" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Aceptar</button>
             </div>
         </div>
     </div>
