@@ -45,6 +45,7 @@
         </div>
     </div>
 
+
     <div class="container">
           <div class="row" style="margin-bottom: 25px;">
             <div align=left class="col-md-3">
@@ -67,7 +68,7 @@
                   </ul>
 
                   <!-- Tab panes -->
-                    <div class="tab-content col-sm-12">
+                  <div class="tab-content col-sm-12">
 
                         <!-- COMIENZA TAB DE OFERTAS PUBLICADAS-->
                         <div role="tabpanel" class="tab-pane active" id="ofertasPublicadas">
@@ -99,15 +100,14 @@
                                               <li><i class="fa fa-comments-o"></i> 21 comments</li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">                                                  
+                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;"> 
+
                                               <a href="/administrarOferta/" class="btn btn-green btn-sm">
                                               <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
                                         </div>
                                       </div>
-                                      <div style="clear:both;">
-                                      </div>
+                                      <div style="clear:both;"></div>
                                       <hr style="margin-top: 10px;">
-
                                       <p class="blog-text">
                                         <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
@@ -164,32 +164,25 @@
                                         <a>jQuery</a>
                                       </p>
                                     </div>
+                                  </div>
+                                </div>
+                                <div class="pagination">
+                                    <span class="step-links">
+                                    {% if msjs.has_previous %}
+                                        <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                    {% endif %}
 
+                                    <span class="current">
+                                        Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                    </span>
 
-
-
-                              </div>
-                            </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <div class="pagination">
-                                <span class="step-links">
-                                {% if msjs.has_previous %}
-                                    <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
-                                {% endif %}
-
-                                <span class="current">
-                                    Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
-                                </span>
-
-                                {% if msjs.has_next %}
-                                    <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
-                                {% endif %}
-                                </span>
-                            </div>
+                                    {% if msjs.has_next %}
+                                        <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                    {% endif %}
+                                    </span>
+                                </div>
                         </div>
                         <!-- TERMINA TAB DE OFERTAS PUBLICADAS-->
-
-
 
                         <!-- COMIENZA TAB DE BORRADORES-->
                         <div role="tabpanel" class="tab-pane" id="borradorOferta">
@@ -211,7 +204,7 @@
                                               <li><i class="fa fa-calendar"></i> November 10, 2013</li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">                                                  
+                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
                                               <a href="/administrarBorrador/" class="btn btn-green btn-sm">
                                               <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
                                         </div>
@@ -230,6 +223,7 @@
                                         <a>jQuery</a>
                                       </p>
                                     </div>
+
                                     <!-- Second blog post -->
                                     <div class="blog-summary">
                                       <h4 style="padding-left: 0px;padding-right: 0px;">
@@ -243,7 +237,7 @@
                                               <li><i class="fa fa-calendar"></i> November 10, 2013</li>
                                             </ul>
                                         </div>
-                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">                                                  
+                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
                                               <a href="/administrarBorrador/" class="btn btn-green btn-sm">
                                               <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
                                         </div>
@@ -264,30 +258,29 @@
                                     </div>
 
 
-
+                                  </div>
+                                </div>
                               </div>
-                            </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <div class="pagination">
-                                <span class="step-links">
-                                {% if msjs.has_previous %}
-                                    <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
-                                {% endif %}
+                          </div>
+
+                          <div class="pagination">
+                              <span class="step-links">
+                                  {% if msjs.has_previous %}
+                                      <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                  {% endif %}
 
                                 <span class="current">
-                                    Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                  Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
                                 </span>
 
-                                {% if msjs.has_next %}
-                                    <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
-                                {% endif %}
-                                </span>
-                            </div>
-                            
+                                  {% if msjs.has_next %}
+                                      <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                  {% endif %}
+                              </span>
+                          </div>
+
                         </div>
                         <!-- TERMINA TAB DE BORRADORES-->
-
-
 
                         <!-- COMIENZA OFERTAS DE LA RED-->
                         <div role="tabpanel" class="tab-pane" id="ofertasdelaREd">
@@ -363,38 +356,37 @@
                                         </p>
                                     </div>
                                   </div>  
-                            </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <div class="pagination">
-                                <span class="step-links">
-                                {% if msjs.has_previous %}
-                                    <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
-                                {% endif %}
+                                </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
+                                <!-- PAGINACION DE OFERTA PUBLICADAS-->
+                                <div class="pagination">
+                                    <span class="step-links">
+                                    {% if msjs.has_previous %}
+                                        <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                    {% endif %}
 
-                                <span class="current">
-                                    Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
-                                </span>
+                                    <span class="current">
+                                        Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                    </span>
 
-                                {% if msjs.has_next %}
-                                    <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
-                                {% endif %}
-                                </span>
-                            </div>
-
+                                    {% if msjs.has_next %}
+                                        <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                    {% endif %}
+                                    </span>
+                                </div>
                         </div>
                         <!-- TERMINA OFERTAS DE LA RED-->
 
                         <!-- COMIENZA EQUIPO -->
                         <div role="tabpanel" class="tab-pane" id="ofertasparticipantes">
-                                <div class="col-sm-12">
+                              <div class="col-sm-12">
                                   <div class="timeline-block">
                                   <!-- First blog post -->
                                     <div class="blog-summary">
                                         <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
                                           <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
                                              <a href="/administrarOferta/">HighLand - a new responsive Bootstrap 3 template</a>
-                                           </div>
-                                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                          </div>
+                                          <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
                                                 <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
                                                     <div class="rating">
                                                         <i class="fa fa-star"></i> 
@@ -403,26 +395,25 @@
                                                     </div>
                                                 </div>
                                           </div>
-                                      </h4>
-                                      <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
-                                      <ul class="text-muted list-inline">
-                                        <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
-                                        <li><i class="fa fa-calendar"></i> November 10, 2013</li>
-                                        <li><i class="fa fa-comments-o"></i> 21 comments</li>
-                                      </ul>
-                                      <hr>
-                                      <p class="blog-text">
-                                        <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
-                                      </p>
-                                      <p class="tags">
-                                        <a >Bootstrap</a>
-                                        <a >HTML5</a>
-                                        <a >CSS</a>
-                                        <a >jQuery</a>
-                                      </p>
+                                        </h4>
+                                        <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                        <ul class="text-muted list-inline">
+                                          <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                          <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                          <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                        </ul>
+                                        <hr>
+                                        <p class="blog-text">
+                                          <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
+                                        </p>
+                                        <p class="tags">
+                                          <a >Bootstrap</a>
+                                          <a >HTML5</a>
+                                          <a >CSS</a>
+                                          <a >jQuery</a>
+                                        </p>
                                     </div>
-
                                     <!-- Second blog post -->
                                     <div class="blog-summary">
                                         <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
@@ -457,37 +448,36 @@
                                           <a >jQuery</a>
                                         </p>
                                     </div>
+                                  </div>
+                              </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
+                              <!-- PAGINACION DE OFERTA PUBLICADAS-->
+                              <div class="pagination">
+                                  <span class="step-links">
+                                  {% if msjs.has_previous %}
+                                      <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                  {% endif %}
+
+                                  <span class="current">
+                                      Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                  </span>
+
+                                  {% if msjs.has_next %}
+                                      <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                  {% endif %}
+                                  </span>
                               </div>
-                            </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <!-- PAGINACION DE OFERTA PUBLICADAS-->
-                            <div class="pagination">
-                                <span class="step-links">
-                                {% if msjs.has_previous %}
-                                    <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
-                                {% endif %}
-
-                                <span class="current">
-                                    Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
-                                </span>
-
-                                {% if msjs.has_next %}
-                                    <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
-                                {% endif %}
-                                </span>
-                            </div>
 
                         </div>
                         <!-- TERMINA EQUIPO-->
+                  </div>
 
-
-                    </div>
                 </div>
 
           </div>
           
     
-    </div>
-   
+    
+   </div>
   
 <!--MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL CREAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEERTA-->
 
@@ -553,7 +543,10 @@
 
          }
     }
-    </script>
+  </script>
+
+</div>
+
 {% endblock %}
 
 
