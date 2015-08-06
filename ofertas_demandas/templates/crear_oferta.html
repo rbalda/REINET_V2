@@ -15,7 +15,7 @@ textarea { resize: none; }
             </div>
         </div>
 </div>
-<div class="container">
+<div class="container" ng-controller="formController">
     <div class="row col-md-12">
             <div align=right>
                 <a href="/administrarOferta/" class="btn btn-green"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
@@ -29,32 +29,30 @@ textarea { resize: none; }
 
 
     <div class="row">
-        <form  class="form-horizontal">
+        <p ng-show="error">Ocurrio un error</p>
+        <p ng-show="success">Guardado Exitosamente</p>
+        <form  class="form-horizontal"  name="formOferta" novalidate>
             <div class=" col-md-12">        
-
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
+                    <li role="presentation" class="active" id="InfoGenerallLink">
                         <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
-                    <li role="presentation" id="prueba">
+                    <li role="presentation" id="ClienteUsuariolLink">
                         <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
-                    <li role="presentation">
+                    <li role="presentation" id="ModeloNegocioLink">
                         <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
-                    <li role="presentation">
+                    <li role="presentation" id="IndustCompetLink">
                         <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
-                    <li role="presentation">
+                    <li role="presentation" id="EstadLogrLink">
                         <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
                   </ul>
-
                   <!-- Tab panes -->
-                  
-                  <div class="tab-content">
-
+                  <div class="tab-content" id="tabsCrearOferta">
                         <div role="tabpanel" class="tab-pane active" id="informacion">       
                                 <div class="col-md-12">          
                                      <!--NOMBRES-->
                                      <div class="form-group">
-                                         <label for="Nombres" class="col-md-2">Nombres</label>
+                                         <label for="Nombres" class="col-md-2">Nombre</label>
                                          <div class="col-md-6">
                                              <input required autofocus type="text" class="form-control" 
                                                  id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
@@ -66,16 +64,16 @@ textarea { resize: none; }
                                      <div class="form-group">
                                          <label for="Tipo" class="col-md-2">Tipo</label>
                                          <div class="col-md-8">
-                                            <input type="checkbox" name="tecnologia" value="tecnologia">Tecnolog&iacute;a<br>
-                                            <input type="checkbox" name="prototipo" value="prototipo">Prototipo<br> 
-                                            <input type="checkbox" name="emprendimiento" value="emprendimiento">Emprendimiento
+                                            <input type="checkbox" name="tecnologia" value="tecnologia">&nbsp;&nbsp;Tecnolog&iacute;a<br>
+                                            <input type="checkbox" name="prototipo" value="prototipo">&nbsp;&nbsp;Prototipo<br> 
+                                            <input type="checkbox" name="emprendimiento" value="emprendimiento">&nbsp;&nbsp;Emprendimiento
                                          </div>
                                      </div>                
                                      <!--Descripicion-->
                                      <div class="form-group">
                                          <label for="Descripcion" class="col-md-2">Descripci&oacute;n</label>
                                          <div class="col-md-6">
-                                             <textarea required autofocus name="Descripcion" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
+                                             <textarea required autofocus name="Descripcion" rows="3" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
                                          </div>
                                      </div>
                                     <!--Fotos-->
@@ -125,19 +123,19 @@ textarea { resize: none; }
                                     <div class="form-group col-md-8">
                                         <label class="col-md-3"></label>  
                                           <p class="tags col-md-9">
-                                            <a href="#">Arte</a>
-                                            <a href="#">Educaci&oacute;n</a>
-                                            <a href="#">Alimentos y Bebidas</a>
-                                            <a href="#">Turismo</a>
-                                            <a href="#">Salud</a>
-                                            <a href="#">Automotriz</a>
-                                            <a href="#">Tecnolog&iacute;a</a>
-                                            <a href="#">Ciencias Biol&oacute;gicas</a>
-                                            <a href="#">Electr&oacute;nica</a>
+                                            <a>Arte</a>
+                                            <a>Educaci&oacute;n</a>
+                                            <a>Alimentos y Bebidas</a>
+                                            <a>Turismo</a>
+                                            <a>Salud</a>
+                                            <a>Automotriz</a>
+                                            <a>Tecnolog&iacute;a</a>
+                                            <a>Ciencias Biol&oacute;gicas</a>
+                                            <a>Electr&oacute;nica</a>
                                           </p>
                                     </div>
                                     <div class="col-md-8">
-                                        <a href="#cliente_usuario"  aria-controls="messages" role="tab" data-toggle="tab">
+                                        <a href="#cliente_usuario" id="Siguiente01" role="tab" data-toggle="tab">
                                            <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
                                         </a>
                                     </div>
@@ -163,13 +161,12 @@ textarea { resize: none; }
                                   </div>  
                                   
                                   <div class="col-md-8">
-                                      <a href="#modelo"  aria-controls="messages" role="tab" data-toggle="tab">
+                                      <a href="#modelo" id="Siguiente02" role="tab" data-toggle="tab">
                                            <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
                                         </a>
                                   </div>       
                              </div>
                         </div>
-
 
                         <div role="tabpanel" class="tab-pane" id="modelo">
 
@@ -226,7 +223,7 @@ textarea { resize: none; }
                             
                             <div class="col-md-12">
                                 <br>
-                                <a href="#industria"  aria-controls="messages" role="tab" data-toggle="tab">
+                                <a href="#industria" id="Siguiente03" role="tab" data-toggle="tab">
                                     <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
                                 </a>
                             </div>
@@ -292,7 +289,7 @@ textarea { resize: none; }
                                          </div>
                                   </div>  
                              <div class="col-md-9">
-                                 <br> <a href="#esta_logro"  aria-controls="messages" role="tab" data-toggle="tab">
+                                 <br> <a id="Siguiente04" href="#esta_logro" role="tab" data-toggle="tab">
                                        <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
                                     </a>
                               </div>
@@ -375,6 +372,38 @@ textarea { resize: none; }
                 return false;
             }
         }
+
+        /*
+         Autor: Estefania Lozano Jara
+         Nombre de función: 
+         Parámetros: evento
+         Salida: permite el ingreso de solo letras
+         Descripción: Para los botones de Siguiente, para que al hacer click en ellos se cambie al siguiente tab
+         */
+        $('#Siguiente01').click(function (e) {
+            e.preventDefault();
+            $('#InfoGenerallLink').removeClass("active");   
+            $('#ClienteUsuariolLink').addClass("active");
+        })
+
+        $('#Siguiente02').click(function (e) {
+            e.preventDefault();
+            $('#ClienteUsuariolLink').removeClass("active");   
+            $('#ModeloNegocioLink').addClass("active");
+        })
+
+        $('#Siguiente03').click(function (e) {
+            e.preventDefault();
+            $('#ModeloNegocioLink').removeClass("active");   
+            $('#IndustCompetLink').addClass("active");
+        })
+
+        $('#Siguiente04').click(function (e) {
+            e.preventDefault();
+            $('#IndustCompetLink').removeClass("active");   
+            $('#EstadLogrLink').addClass("active");
+        })
+
     </script>
 </div>
 {% endblock%}

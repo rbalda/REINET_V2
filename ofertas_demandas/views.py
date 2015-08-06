@@ -22,8 +22,10 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 
-from usuarios.models import *
+from ofertas_demandas.models import *
+from ofertas_demandas.serializers import *
 
+from usuarios.models import *
 
 """
 Autor: Leonel Ramirez
