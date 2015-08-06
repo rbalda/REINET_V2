@@ -104,7 +104,6 @@ class ComentarioCalificacion(models.Model):
     fk_oferta = models.ForeignKey(Oferta)
     fk_usuario = models.ForeignKey(Perfil)
 
-
     class Meta:
         db_table= 'ComentarioCalificacion'
 
