@@ -7,31 +7,28 @@
 
 
 
-    <div class="pm-list">
-        <ul>
+        <div class="list-group">
             {% for msj in msjs %}
-            <li id="mensaje{{ msj.id_mensaje }}">
+            <a id="mensaje_{{msj.id_mensaje}}" class="list-group-item col-md-11 mensaje_mensaje" style="cursor:pointer;">
                 <p class="text-muted">
                     {% if msj.tipo_mensaje == 'institucion-usuario' or msj.tipo_mensaje == 'institucion-institucion'%}
-                        <a data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
-                        <i class="fa fa-bookmark" style="color:blue;"></i></a>
+                        <span data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
+                        <i class="fa fa-bookmark" style="color:blue;"></i></span>
                     {% endif %}
-
-                        <img src="{{ msj.imgEm.url }}" alt="...">
-                        Para: <a href="/usuario/{{ msj.fk_receptor }}">{{ msj.fk_receptor.first_name }}</a><br/>
+                </p>
+                <p class="text-muted col-md-6">
+                        <img width="50" height="50" src="{{ msj.imgRc.url }}" alt="...">
+                        Para: <i>{{ msj.fk_receptor.first_name }}</i><br/>
                         <small>{{ msj.fecha_de_envio }}</small>
                 </p>
-                <p id="mensaje_{{ msj.id_mensaje }}" class="text-muted mensaje_mensaje" style="cursor:pointer;">
-                        <a class="inbox-dialog">{{ msj.asunto }}</a>
-                </p>
-                <p class="text-muted">
-                    <a class="button" data-toggle="modal" data-type="zoomin" data-target="eliminar_mensaje_modal{{ msj.id_mensaje }}" href="#">
-                        <i class="pull-right fa fa-trash"></i>
-                    </a>
+
+                <p class="text-muted col-md-6">
+                    <i>{{ msj.asunto }}</i>
                 </p>
 
                 <div class="clearfix"></div>
-            </li>
+            </a>
+            <button class="btn pull-left fa fa-trash" data-toggle="modal" data-type="zoomin" data-target="#eliminar_mensaje_modal{{ msj.id_mensaje }}"></button>
 
                 <!-- Modal window: Send an email -->
                 <div class="modal fade" id="eliminar_mensaje_modal{{ msj.id_mensaje }}" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle"aria-hidden="true">
@@ -59,8 +56,6 @@
 
 
             {% endfor %}
-
-        </ul>
     </div>
 
 
