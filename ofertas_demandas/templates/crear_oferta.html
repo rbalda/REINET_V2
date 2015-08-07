@@ -29,8 +29,6 @@ textarea { resize: none; }
 
 
     <div class="row">
-        <p ng-show="error">Ocurrio un error</p>
-        <p ng-show="success">Guardado Exitosamente</p>
         <form  class="form-horizontal"  name="formOferta" novalidate>
             <div class=" col-md-12">        
                   <!-- Nav tabs -->
@@ -148,7 +146,7 @@ textarea { resize: none; }
                                   <div class="form-group">
                                          <label for="Descripcion" class="col-md-2">Perfil Cliente</label>
                                          <div class="col-md-6">
-                                             <textarea autofocus name="Descripcion" rows="6"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"></textarea>
+                                             <textarea autofocus name="Descripcion" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"></textarea>
                                          </div>
                                      </div>
 
@@ -156,7 +154,7 @@ textarea { resize: none; }
                                   <div class="form-group">
                                          <label for="Descripcion" class="col-md-2">Perfil del Beneficiario</label>
                                          <div class="col-md-6">
-                                             <textarea autofocus name="Descripcion" rows="6"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"></textarea>
+                                             <textarea autofocus name="Descripcion" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"></textarea>
                                          </div>
                                   </div>  
                                   
@@ -178,46 +176,46 @@ textarea { resize: none; }
 
                             <div class="col-md-12">
                                     <div class="col-md-2 col-sm-6">                    
-                                        <label class="col-md-12" style="text-align:center">Socio Clave</label>
+                                        <label class="col-md-12" style="text-align:center">Socios Clave</label>
                                         <div class="col-md-12">
-                                            <textarea autofocus name="Descripcion" style="resize:none" rows="10" class="col-md-12"></textarea>
+                                            <textarea autofocus name="SociosClaves" style="resize:none" rows="10" class="col-md-12" placeholder="En este bloque se recogerán las alianzas que permitirán que el negocio funcione. Cualquier alianza clave deberá aportar valor a la propuesta de negocio."></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-6">     
                                         <div class="col-md-12">  
                                             <label style="text-align:center" class="col-md-12">Actividades Clave</label>
-                                            <textarea required autofocus name="Descripcion" style="resize:none" rows="4" class="col-md-12"></textarea>
+                                            <textarea required autofocus name="actividClaves" style="resize:none" rows="4" class="col-md-12" placeholder="Cuáles son las acciones que va a llevar a cabo para que su modelo de negocio funcione. Normalmente, serán de tres tipos: de producción, de solución de problemas y de red o plataforma"></textarea>
                                         </div>  
                                         <div class="col-md-12">                                              
                                             <label class="col-md-12" style="text-align:center">Recursos Clave</label>
-                                            <textarea autofocus name="Descripcion" style="resize:none" rows="4" class="col-md-12"></textarea>
+                                            <textarea autofocus name="recurClaves" style="resize:none" rows="4" class="col-md-12" placeholder="En este bloque deben definirse los recursos fundamentales para que el negocio genere el valor previsto y pueda sobrevivir en el mercado. Estos recursos pueden ser: físicos, intelectuales (patentes, conocimientos específicos, etc.), humanos y financieros."></textarea>
                                         </div>    
                                     </div>
                                     <div class="col-md-2 col-sm-6" style="text-align:center">                    
                                         <label class="col-md-12"> Propuesta por Valor</label>
-                                        <textarea autofocus name="Descripcion" style="resize:none" rows="10" class="col-md-12"></textarea>
+                                        <textarea autofocus name="propValor" style="resize:none" rows="10" class="col-md-12" placeholder="Aspectos de un producto o servicio que pueden generar valor pueden ser el diseño, el precio, la accesibilidad, la rapidez de servicio, la marca, las funcionalidades, la posibilidad de personalización, etc."></textarea>
                                     </div>
                                     <div class="col-md-3 col-sm-6">    
                                         <div class="col-md-12">                  
                                             <label class="col-md-12">Relaciones con Clientes</label>
-                                            <textarea required autofocus name="Descripcion" style="resize:none" rows="4" class="col-md-12"></textarea>
+                                            <textarea required autofocus name="relClientes" style="resize:none" rows="4" class="col-md-12" placeholder="Describe los tipos de relaciones que la compañía establecerá con los diferentes segmentos, que pueden variar desde nivel personal hasta automatizado."></textarea>
                                         </div>  
                                         <div class="col-md-12">   
                                             <label class="col-md-12" style="text-align:center">Canales</label>
-                                            <textarea autofocus name="Descripcion" rows="4" style="resize:none" class="col-md-12"></textarea>
+                                            <textarea autofocus name="Canales" rows="4" style="resize:none" class="col-md-12" placeholder="En este bloque se debe reflejar la manera en que se piensa dar a conocer el producto o servicio, distribuirlo o venderlo."></textarea>
                                         </div>   
                                     </div>
                                     <div class="col-md-2 col-sm-6">                    
-                                        <label style="text-align:center" class="col-md-12">Segmentos  del  cliente</label>
-                                        <textarea autofocus name="Descripcion" style="resize:none" rows="10" class="col-md-12"></textarea>
+                                        <label style="text-align:center" class="col-md-12">Segmentos  de  clientes</label>
+                                        <textarea autofocus name="SegClientes" style="resize:none" rows="10" class="col-md-12" placeholder="En este bloque se definen los diferentes grupos de personas o empresas a las que se va a dirigir la actividad de la empresa, el segmento o segmentos de mercado a los que se ofrecerán los productos o servicios de la empresa."></textarea>
                                     </div>
                                     <div class="col-md-6" style="padding-left: 30px;">                    
                                         <label class="col-md-12" style="text-align:center">Estructura de Costos</label>
-                                        <textarea autofocus="" name="Descripcion" rows="5" style="resize:none" class="col-md-12"></textarea>
+                                        <textarea autofocus="" name="EstrucCostos" rows="5" style="resize:none" class="col-md-12" placeholder="Se deben reflejar aquí los costes necesarios para poner en marcha la idea. Sólo se deberán recoger los más importantes."></textarea>
                                     </div>
                                     <div class="col-md-6">                    
                                         <label class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
-                                        <textarea autofocus="" name="Descripcion" rows="5" style="resize:none" class="col-md-12"></textarea>
+                                        <textarea autofocus="" name="FuentIngresos" rows="5" style="resize:none" class="col-md-12" placeholder="Se debe describir cómo se piensa conseguir los ingresos que justifican la existencia de la empresa."></textarea>
                                     </div>  
                             </div>
                             
@@ -274,15 +272,22 @@ textarea { resize: none; }
                                                     <table class="table table-bordered" style="margin-bottom: 0px;">
                                                           <tr >
                                                              <th style="text-align: center;">Competidores</th>
-                                                             <th style="text-align: center;">Consumidores</th>
+                                                             <th style="text-align: center;">Poder de los consumidores</th>
                                                              <th style="text-align: center;">Sustitutos</th>
-                                                             <th style="text-align: center;">Proveedores</th>
+                                                             <th style="text-align: center;">Poder de los proveedores</th>
+                                                             <th style="text-align: center;">Nuevos entrantes</th>
                                                           </tr>
                                                           <tr>
-                                                             <td><textarea autofocus name="Descripcion" style="resize:none "rows="6"></textarea></td>
-                                                             <td><textarea autofocus name="Descripcion"style="resize:none "rows="6"></textarea></td>
-                                                             <td><textarea autofocus name="Descripcion" style="resize:none "rows="6"></textarea></td>
-                                                             <td><textarea autofocus name="Descripcion"style="resize:none "rows="6"></textarea></td>
+                                                             <td><textarea autofocus name="Competidores" style="resize:none "rows="6"  placeholder="Indique las empresas con las que puede competir directamente que ofrecen el mismo producto."></textarea></td>
+
+
+                                                             <td><textarea autofocus name="Consumidores"style="resize:none "rows="6" placeholder="Es si su empresa esta llegando a los clientes y cuál es el grado de dependencia o lealtad de ellos con sus productos."></textarea></td>
+
+                                                             <td><textarea autofocus name="Sustitutos" style="resize:none "rows="6" placeholder="Es la existencia de los productos que pueden sustituir su producto en precios, características,etc."></textarea></td>
+
+                                                             <td><textarea autofocus name="Proveedores"style="resize:none "rows="6" placeholder="Es la forma de la negociación con los proveedores, ya que ellos son los que realmente saben dónde está la rentabilidad en el sector."></textarea></td>
+
+                                                             <td><textarea autofocus name="Nuevosentrantes"style="resize:none " placeholder="Aquí es donde realmente se mide con otras empresas para poder ver si su producto realmente es rentable o no." rows="6"></textarea></td>
                                                           </tr>
                                                     </table>
                                                 </div>
@@ -299,47 +304,48 @@ textarea { resize: none; }
                         <div role="tabpanel" class="tab-pane" id="esta_logro">
                              <div class="col-md-12">   
                                  <div class="form-group">
-                                    <div class="col-md-8">
-                                        <label>Tiempo de disponilidad del producto o servicio</label>
-                                        <input autofocus type="text" 
+                                        <label class="col-md-3">Tiempo de disponilidad del producto o servicio</label>
+                                        <div class="col-md-6">
+                                            <input autofocus type="text" 
                                                  id="dominio" name="dominio" data-toggle="popover" data-placement="left" size="4" data-trigger="focus" data-original-title="dominio"
                                                  >
-                                        <label>Años</label>
-                                    </div> 
-                                 </div> 
+                                            <label>Años</label>
+                                        </div>
+                                </div> 
+                                 
 
-                                 <!--Estrategia de crecimiento-->
-                                 <div class="form-group">
-                                     <label for="Nombres" class="col-md-2">Estrategia de crecimiento</label>
-                                     <div class="col-md-6">
-                                         <input autofocus type="text" class="form-control"
-                                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                                             >
-                                     </div>
-                                 </div>
+                                  <!--Estado del producto o del servicio-->
+                                   <div class="form-group">
+                                         <label for="Logros_EstadProd" class="col-md-3">Estado del producto o servicio</label>
+                                         <div class="col-md-6">
+                                             <textarea autofocus name="Logros_EstadProd" rows="4"  class="form-control" placeholder="Describa el estado actual del producto o del servicio."></textarea>
+                                         </div>
+                                  </div>  
 
-                                 <!--Estado de propiedad Intelectual-->
-                                 <div class="form-group">
-                                     <label for="Nombres" class="col-md-2">Estado de propiedad Intelectual</label>
-                                     <div class="col-md-6">
-                                         <input autofocus type="text" class="form-control"
-                                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                                             >
-                                     </div>
-                                 </div>
+                                  <!--Estrategia de crecimiento-->
+                                   <div class="form-group">
+                                         <label for="Logros_EstratCrecim" class="col-md-3">Estrategia de crecimiento</label>
+                                         <div class="col-md-6">
+                                             <textarea autofocus name="Logros_EstratCrecim" rows="4"  class="form-control" placeholder="Describa la estrategia de crecimiento empleada o que empleará en su empresa."></textarea>
+                                         </div>
+                                  </div>  
 
-                                 <!--Evidencia de Traccion-->
-                                 <div class="form-group">
-                                     <label for="Nombres" class="col-md-2">Evidencia de Tracci&oacute;n</label>
-                                     <div class="col-md-6">
-                                         <input autofocus type="text" class="form-control" 
-                                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                                             >
-                                     </div>
-                                 </div>
+                                  <!--Estado de propiedad intelectual-->
+                                   <div class="form-group">
+                                         <label for="Logros_EstadoPropInt" class="col-md-3">Estado de propiedad Intelectual</label>
+                                         <div class="col-md-6">
+                                             <textarea autofocus name="Logros_EstadoPropInt" rows="4"  class="form-control" placeholder="Describa el estado de propiedad Intelectual"></textarea>
+                                         </div>
+                                  </div>  
+
+                                  <!--Estado del producto o del servicio-->
+                                   <div class="form-group">
+                                         <label for="Logros_EvidencTrac" class="col-md-3">Evidencia de Tracci&oacute;n</label>
+                                         <div class="col-md-6">
+                                             <textarea autofocus name="Logros_EvidencTrac" rows="4"  class="form-control" placeholder="criba la evidencia de Tracción."></textarea>
+                                         </div>
+                                  </div>  
+
                              </div>
                         </div>
                    </div>
