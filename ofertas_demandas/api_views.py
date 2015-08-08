@@ -11,4 +11,4 @@ __author__ = 'rbalda'
 class OfertaViewSet(ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializador
-    permission_classes = (IsAuthenticated,SiEsPropietarioOEstaEnAlcance)
+    permission_classes = (IsAuthenticated,)
