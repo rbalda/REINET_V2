@@ -1,11 +1,11 @@
 
 var appoferta = angular.module('redInn');
 
-appoferta.controller('crearOfertaFormController',['$scope' ,function($scope,oferta){
+appoferta.controller('crearOfertaFormController',['$scope','$window' ,'Oferta',function($scope,$window,Oferta){
     // dentro del scope van modelos
     console.log('dentro del crearOfertaAngular');
 
-    $scope.oferta = oferta;
+    $scope.oferta = new Oferta();
 
     $scope.tabs = ['/static/templates-ofertas-demandas/crear_oferta_form1.html',
                     '/static/templates-ofertas-demandas/crear_oferta_form2.html',
@@ -14,16 +14,16 @@ appoferta.controller('crearOfertaFormController',['$scope' ,function($scope,ofer
                     '/static/templates-ofertas-demandas/crear_oferta_form5.html'];
 
     $scope.actualtab = 0;
+    $scope.tiempo_disponible = 1;
+    $scope.hide1 = true;
+    $scope.hide2 = true;
     $scope.formActual = $scope.tabs[$scope.actualtab];
 
     $scope.items_tipo = [{tipo: 'Emprendimiento', valor: 0 },{tipo: 'Tecnolog\u00EDa', valor: 1 },{tipo: 'Prototipo', valor: 2 }];
-    $scope.items_date = [{tipo: 'A\u00F1o', valor: 0 },{tipo: 'Mes', valor: 1 },{tipo: 'D\u00EDa', valor: 2 }];
-
-    $scope.oferta={
-        tipo_oferta : $scope.items_tipo[0],
-        tiempo_oferta : $scope.items_date[0]
-        }
-
+    $scope.items_date = [{tipo: 'A\u00F1o', valor: 0 },{tipo: 'Mes', valor: 1 }];
+    $scope.tipo_oferta = $scope.items_tipo[0];
+    $scope.tiempo_oferta = $scope.items_date[0];
+  
 
     $scope.seleccionartab=function(indice){
         $scope.formActual = $scope.tabs[indice];
@@ -45,31 +45,30 @@ appoferta.controller('crearOfertaFormController',['$scope' ,function($scope,ofer
          $scope.formActual = $scope.tabs[$scope.actualtab];
     }
 
-    //$scope.oferta = new oferta();
-
-
+    $scope.oferta.tipo =$scope.tipo_oferta.valor;
+    $scope.oferta.tiempo_para_estar_disponible = $scope.tiempo_disponible + ' ' + $scope.tiempo_oferta.tipo;
 
     $scope.guardar = function(){
-        $scope.oferta.$create();
+
+        $scope.oferta.$save(function(response){
+            console.log('Se ha creado con exito la Oferta');
+            $window.location.href = '/administrarOferta/';
+            $scope.info_crear_oferta_success = "Oferta creada exitosamente";
+            $scope.hide1=false;
+        },
+        function(response){
+            console.log('Ha ocurrido un error');
+            $scope.info_crear_oferta_error = "Hubo un error al crear oferta";
+            $scope.hide2=false;
+
+        });
     }
 
 //fin de controller
 }]);
 
-appoferta.factory('oferta',['$resource',function($resource){
-
-    var oferta ={
-
-        create:function(url,obj,errors){
-            return $http.post(url,obj)
-            success(function(response,status,headers,config){
-                angular.extend(obj,response);
-            });
-
-        }
-    }
-
-    return $resource("http://localhost:8000/api/Ofertas/:id/",{id:'@id'},{
+appoferta.factory('Oferta',['$resource',function($resource){
+    return $resource("http://localhost:8000/api/ofertas/:id/",{id:'@id'},{
         update:{
             method:'PUT'
         }
@@ -89,41 +88,4 @@ appoferta.factory('oferta',['$resource',function($resource){
 
 
 
-/*
-    $scope.oferta={
-        nombre:'',
-        descripcion:'',
-        dominio:'',
-        subdominio:'',
-        cliente_perfil:'',
-        beneficiario_perfil:'',
-        tendencias_relevantes:'',
-        alternativas_existentes:'',
-        tiempo_disponibilidad:'',
-        tiempo_disponibilidad_tipo:'',
-        estrategia_crecimiento:'',
-        propiedad_intelectual:'',
-        evidencia_traccion:''
 
-    }
-
-    $scope.canvas={
-        socio_clave:'',
-        activiades_clave:'',
-        recursos_clave:'',
-        propuesta_valor:'',
-        relaciones_clientes:'',
-        canales_distribucion:'',
-        segmentos_mercado:'',
-        estructura_costos:'',
-        fuente_ingresos:''
-    }
-
-    $scope.diagramapoter={
-        competidores:'',
-        consumidores:'',
-        sustitutos:'',
-        proveedores:'',
-        nuevos_entrantes:''
-    }
-    */

@@ -2,7 +2,7 @@
                                 <form  class="form-horizontal"  name="crear_oferta_form1" novalidate> 
                                      <!--NOMBRES-->
                                     <p class="text-info">[[ oferta.descripcion ]]</p> 
-                                    <p class="text-danger">[[ oferta.tipo_oferta ]]</p> 
+                                    <p class="text-danger">[[ tipo_oferta ]]</p> 
 
                                      <div class="form-group">
                                          <label for="Nombres" class="col-md-2">Nombre</label>
@@ -10,7 +10,7 @@
 
 <input required autofocus type="text" class="form-control" placeholder="Nombre de la Oferta"
 id="nombre" name="nombre_oferta"  data-trigger="focus"
-ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z]{10,300}$/"  ng-required="true">
+ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true">
 <span ng-show="crear_oferta_form1.nombre_oferta.$error.pattern"><p class="bg-danger text-danger">Nombre de la Oferta debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
 <span ng-show="crear_oferta_form1.nombre_oferta.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
@@ -21,7 +21,7 @@ ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z]{10,300}$/"  ng-required="true">
                                          <label for="Tipo" class="col-md-2">Tipo</label>
 
         <div class="col-xs-2">
-        <select class="form-control" ng-model="oferta.tipo_oferta">
+        <select class="form-control" ng-model="tipo_oferta">
             <option ng-repeat="item in items_tipo" value="[[item.valor]]">[[item.tipo]]</option>
         </select>
         </div>

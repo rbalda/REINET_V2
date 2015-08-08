@@ -8,7 +8,7 @@
                                          <div class="col-md-6">
 
 <textarea autofocus id="oferta_descripcion_perfil" name="oferta_descripcion_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"
-ng-model="oferta.cliente_perfil" ng-required="true"
+ng-model="oferta.perfil_cliente" ng-required="true"
 ></textarea>
 <span ng-show="crear_oferta_form2.oferta_descripcion_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span> 
 
@@ -21,7 +21,7 @@ ng-model="oferta.cliente_perfil" ng-required="true"
                                          <div class="col-md-6">
 
 <textarea autofocus id="oferta_beneficiario_perfil" name="oferta_beneficiario_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"
-ng-model="oferta.beneficiario_perfil" ng-required="true"
+ng-model="oferta.perfil_beneficiario" ng-required="true"
 ></textarea>
 <span ng-show="crear_oferta_form2.oferta_beneficiario_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
@@ -36,7 +36,7 @@ ng-model="oferta.beneficiario_perfil" ng-required="true"
                                         </a>
 
                                       <a id="btn_crear_oferta_ant2" ng-click="atras()" style="margin-right:15px;margin-left:15px;">
-                                          <input type="button" class="btn btn-info pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;"> 
+                                          <input type="button" class="btn btn-default pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;"> 
                                         </a>
                                   </div>  
                             </form>     

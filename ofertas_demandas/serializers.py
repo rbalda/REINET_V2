@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta
 
 __author__ = 'rbalda'
@@ -22,8 +23,9 @@ class DiagramaBusinessCanvasSerializador(ModelSerializer):
 
 
 class OfertaSerializador(ModelSerializer):
-    fk_diagrama_competidores = DiagramaPorterSerializador()
-    fk_diagrama_canvas = DiagramaBusinessCanvasSerializador()
+    fk_diagrama_competidores = DiagramaPorterSerializador(required=False,allow_null=True)
+    fk_diagrama_canvas = DiagramaBusinessCanvasSerializador(required=False,allow_null=True)
+
     class Meta:
         model = Oferta
         fields = (
@@ -32,11 +34,32 @@ class OfertaSerializador(ModelSerializer):
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','palabras_clave','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas')
 
-        read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion')
+        read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
+                            'calificacion_total','palabras_clave','comentarios','alcance')
 
-        def create(self, validated_data):
-            return Oferta.objects.create(**validated_data)
+    def create(self,validated_data):
+        diagrama_competidores = validated_data.pop('fk_diagrama_competidores')
+        diagrama_canvas = validated_data.pop('fk_diagrama_canvas')
+        diagrama_canvas_exist = False
+        competidores_canvas_exist = False
 
+        canvas=None
+        porter = None
 
+        for d in diagrama_canvas:
+            if not diagrama_canvas[d]==u'':
+                diagrama_canvas_exist = True
 
+        for d in diagrama_competidores:
+            if not diagrama_competidores[d]=='':
+                competidores_canvas_exist = True
+
+        if(competidores_canvas_exist):
+           canvas = DiagramaBusinessCanvas.objects.create(**diagrama_canvas)
+        if(diagrama_canvas_exist):
+            porter = DiagramaPorter.objects.create(**diagrama_competidores)
+
+        oferta = Oferta.objects.create(fk_diagrama_competidores=porter,fk_diagrama_canvas=canvas,codigo=datetime.now().strftime("%I:%M%p on %B %d, %Y"),**validated_data)
+
+        return oferta
 
