@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta
 
 __author__ = 'rbalda'
@@ -58,7 +59,7 @@ class OfertaSerializador(ModelSerializer):
         if(diagrama_canvas_exist):
             porter = DiagramaPorter.objects.create(**diagrama_competidores)
 
-        oferta = Oferta.objects.create(fk_diagrama_competidores=porter,fk_diagrama_canvas=canvas,codigo='hello1',**validated_data)
+        oferta = Oferta.objects.create(fk_diagrama_competidores=porter,fk_diagrama_canvas=canvas,codigo=datetime.now().strftime("%I:%M%p on %B %d, %Y"),**validated_data)
 
         return oferta
 
