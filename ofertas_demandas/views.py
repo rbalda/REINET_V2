@@ -22,8 +22,10 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 
-from usuarios.models import *
+from ofertas_demandas.models import *
+from ofertas_demandas.serializers import *
 
+from usuarios.models import *
 
 """
 Autor: Leonel Ramirez
@@ -51,30 +53,6 @@ def crear_ofertas(request):
 	args = {}
 	return render_to_response('crear_oferta.html',args)
 
-"""
-Autor: Sixto Castro
-Nombre de funcion: crear_oferta_publicable
-Parametros: request
-Salida:
-Descripcion: para llamar la pagina oferta inicio
-"""
-@login_required
-def crear_oferta_publicable(request):
-	args = {}
-	return render_to_response('oferta_publicable.html',args)
-
-"""
-
-Autor: Sixto Castro
-Nombre de funcion: crear_oferta_editable
-Parametros: request
-Salida:
-Descripcion: para llamar la pagina oferta inicio
-"""
-@login_required
-def crear_oferta_editable(request):
-	args = {}
-	return render_to_response('oferta_editable.html',args)
 
 """
 Autor: Roberto Yoncon

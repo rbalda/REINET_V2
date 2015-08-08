@@ -1,601 +1,505 @@
+
 {% extends "oferta_inicio.html" %}
 
 
 {% block contenido %}
 <link rel="stylesheet" href='/static/css/demo.css'>
 
-    {% block registrarinstitucion %}
-        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
-    {% endblock %}
-<style>
- .section-header h1 span {
-    border-bottom: 5px solid green;
-    padding-bottom: 10px;
- }
- .rating {
-    unicode-bidi: bidi-override;
-    text-align: center;
-    font-size: 20px;
-    color: gold;
- }
 
- .rating > span {
-    display: inline-block;
-    position: relative;
-    width: 1.1em;
- }
-</style>
-
-
+        {% block registrarinstitucion %}
+                {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+        {% endblock %}
     <div class="section-header">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="animated slideInLeft"><span>OFERTA</span></h1>
+                    <h1 class="animated slideInLeft" ><span style="border-bottom: 5px solid #72A53B;">OFERTA DE LA RED</span></h1>
                 </div>
             </div>
         </div>
     </div>
-
 <!-- Main body
 ================== -->
 <div class="container">
-        <div class="row">
-            <div class="col-sm-8">
-                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                <div class="col-md-8 col-xs-7" align="left" style="padding-left: 0px;">
-                      <h4>Nombre de la oferta</h4>
-                      <ul class="text-muted list-inline">
-                        <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
-                        <li><i class="fa fa-calendar"></i> November 10, 2013</li>
-                        <li><i class="fa fa-comments-o"></i> 21 comments</li>
-                      </ul>
-                 </div>
-          </div>
+    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;"align="left">
+        <div class="col-md-7">
+            <h4>Nombre de la oferta</h4>
+            <ul class="text-muted list-inline">
+                <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                <li><i class="fa fa-comments-o"></i> 21 comments</li>
+            </ul>
+            
+        </div>
+    </div>
 
-                    <div class="blog-text">
-
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
-                            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a>
-                        </li>
-                    </ul>
-
-                    <!-- Tab panes -->
-                    <div class="tab-content row">
-                                <div role="tabpanel" class="tab-pane active" id="informacion">
-                                        <div class="col-md-4 col-sm-4 col-xs-4">
-                                                <div class="block-inverse">
-                                                    <div class="head-inverse">
-                                                            <img class=" img-responsive" src="/../../media/ofertas-demandas/integrante1.jpg" alt="...">
-                                                    </div>
-                                                    <div class="body-inverse">
-                                                        <p class="text-center">
-                                                            <strong class="text-muted">Fotos</strong>
-                                                        </p>
-                                                        <div class="user-gallery text-center">
-                                                            <a href="#"><img src="/../../media/ofertas-demandas/face1.jpg" alt="..."></a>
-                                                            <a href="#"><img src="/../../media/ofertas-demandas/face2.jpg" alt="..."></a>
-                                                            <a href="#"><img src="/../../media/ofertas-demandas/face3.jpg" alt="..."></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <div class="col-md-8 col-sm-8 col-xs-8">
-
-                                                                    <!--NOMBRES-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Nombres</label>
-
-                                                 <label>Oferta 1</label>
-
-
-                                             </div>
-                                            <!--Tipo-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Tipo" class="col-md-3">Tipo</label>
-
-                                                 <label>Tecnolog&iacute;a</label>
-
-                                             </div>
-
-                                            <!--Descripción-->
-                                            <div class="form-group">
-                                                 <label  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</label>
-                                                 <label>Las pruebas inicales</label>
-
-
-                                             </div>
-
-                                            <!--Dominio-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Dominio</label>
-
-                                                 <label>Dominio</label>
-
-                                             </div>
-
-                                            <!--Subdominio-->
-                                             <div class="form-group">
-                                                 <label style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</label>
-
-                                                  <label>Sub-dominio</label>
-
-                                             </div>
-
-                                            <!--Palabras Clave-->
-                                             <div class="form-group">
-                                                 <label  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</label>
-                                                 <label>Arte, Alimentos y Bebidas, Automotriz</label>
-                                             </div>
-                                        </div>
+    <div class="col-md-12">
+        <div class="col-md-8" style="padding-left: 0px;">
+            <div class="blog-text">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs " role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content row">
+                    <div role="tabpanel" class="tab-pane active" id="informacion">
+                        <div class="col-md-12">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="block-inverse">
+                                    <div class="head-inverse">
+                                        <p class="text-center"><strong class="text-muted">Galeria</strong></p>
+                                        <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
+                                    </div>
+                                    <div class="body-inverse">                                      
+                                        <ul class="row list-inline gallery-list-small" style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+                                            <li class="col-xs-6">
+                                              <a href="#">
+                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
+                                              </a>
+                                            </li>
+                                            <li class="col-xs-6">
+                                              <a href="#">
+                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg" alt="...">
+                                              </a>
+                                            </li>
+                                            <li class="col-xs-6">
+                                              <a href="#">
+                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg" alt="...">
+                                              </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-
-                                <div role="tabpanel" class="tab-pane" id="cliente_usuario">
-                                    <!--Perfil Cliente-->
-                                      <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-2">Perfil Cliente</label>
-                                              <label>Arte, Alimentos y Bebidas, Automotriz</label>
-
-                                         </div>
-
-                                      <!--Perfil Beneficiario-->
-                                      <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-2">Perfil del Beneficiario</label>
-                                            <label>Arte, Alimentos y Bebidas, Automotriz</label>
-
-                                      </div>
-                                </div>
-
-
-                                <div role="tabpanel" class="tab-pane" id="modelo">
-                                    <!--Canvas del modelo de negocio-->
-                                 <h3 style="text-align:center" class="hl">  Canvas del Modelo de negocios</h3>
-                                 <hr>
-                                  <div class="col-md-12">
-                                     <div class="col-md-2">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Socio Clave</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                      </div>
-
-                                     <div class="col-md-2">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Actividades Clave</label>
-                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Recursos Clave</label>
-                                        <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-
-                                     <div class="col-md-2" style="text-align:center">
-                                         <label style="color: darkgray"> Propuesta por Valor</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-
-                                     <div class="col-md-2" style="text-align:center">
-                                         <label style="color: darkgray">Relaciones con Clientes</label>
-                                         <label style="text-align:center" >Pruebas inicales</label><br><br><br>
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Canales</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-
-                                     <div class="col-md-2" style="text-align:center">
-                                         <label style="color: darkgray" style="text-align:center">Segmentos  del  cliente</label>
-                                         <label style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-                                </div>
-
-                              <div class="col-md-12">
-                                  <br><br>
-                                    <div class="col-md-6">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Estructura de Costos</label>
-                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
-                                     </div>
-                                     <div class="col-md-6">
-                                         <label style="color: darkgray" class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
-                                         <label class="col-md-6" style="text-align:center" >Pruebas inicales</label>
-                                   </div>
-                              </div>
-
-                                </div>
-
-
-                                <div role="tabpanel" class="tab-pane" id="industria">
-                                         <!--Industria Competidores-->
-
-                                    <!--Tendencias-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</label>
-                                              <label>Tendencias Relevantes</label>
-
-                                     </div>
-
-
-                                     <!--Alternativas de solucion-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</label>
-                                              <label>Alternativas de Soluci&oacute;n Existentes</label>
-
-                                     </div>
-
-
-                                     <!--Competidores-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Competidores</label>
-                                              <label>ESPOL</label>
-
-                                     </div>
-
-
-                                     <!--Diagrama de Porter-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</label>
-                                              <br><br><br><br><br><br>
-                                     </div>
-                                     <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-5">Rivalidad en la Industria</label>
-                                              <label>Rivalidad en la Industria</label>
-
-                                     </div>
-
-
-
-                                </div>
-
-                                <div role="tabpanel" class="tab-pane" id="esta_logro">
-
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
-                                              <label>6 años</label>
-
-                                     </div>
-
-
-                                     <!--Estrategia de crecimiento-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</label>
-                                              <label>Pruebas iniciales</label>
-
-                                     </div>
-
-
-                                     <!--Estado de propiedad Intelectual-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</label>
-                                              <label>Pruebas iniciales</label>
-
-                                     </div>
-
-
-                                     <!--Evidencia de Traccion-->
-                                    <div class="form-group">
-                                             <label style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</label>
-                                              <label>Pruebas iniciales</label>
-
-                                     </div>
-
-                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-8">
+                                <!--Tipo-->
+                                <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
+                                <p>Tecnolog&iacute;a</label>
+                                <!--Descripcion-->
+                                <p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
+                                <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                                <!--Dominio-->
+                                <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
+                                <p>Dominio</label>
+                                <!--Subdominio-->
+                                <p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
+                                <p>Sub-dominio</label>
+                                <!--Palabras Clave-->
+                                <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
+                                <p class="tags">
+                                    <a >Industria</a>
+                                    <a >Autos</a>
+                                    <a >Startup</a>
+                                    <a>Espol</a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                        <div class="col-md-12">
+                            <!--Perfil Cliente-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
+                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <!--Perfil Beneficiario-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
+                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                        </div>  
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="modelo">
+                        <div class="col-md-12">
+                            <!--Canvas del modelo de negocio-->
+                            <h3 style="text-align:center" class="h4">  Canvas del Modelo de negocios</h3>
+                            <hr>
 
-                </div>
+                            <div class="col-md-12 table-responsive" style="font-size: 12px;">
+                                <table class="table table-bordered" >
+                                      <tr>
+                                         <th>Socios clave</th>
+                                         <th>Actividades clave</th>
+                                         <th>Propuestas de valor</th>
+                                         <th>Relaciones con los clientes</th>
+                                         <th>Segementos de clientes</th>
+                                      </tr>
+                                      <tr>
+                                         <td rowspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td rowspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td rowspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                      </tr>
+                                      <tr>
+                                        <th>Recursos Claves</th>
+                                        <th>Canales</th>
+                                      </tr>
+                                      <tr>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                      </tr>
+                                      <tr>
+                                        <th colspan=3>Estructura de Costos</th>
+                                        <th colspan=2>Fuentes de Ingresos</th>
+                                      </tr>
+                                      <tr>
+                                         <td colspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td colspan=2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                      </tr>
+                                </table>
 
-                <br><br><br><br>
-                    <!--
-                        <img class="pull-right img-responsive blog-img" alt="..." src="img/works1.jpg">
-
-                    <!-- Comments list -->
-                    <h4>
-                        COMENTARIOS
-                    </h4>
-                    <hr>
-                    <div class="panel panel-blue">
-
-                            <div class="panel-heading">
-                                <h3 id="titulo_comentar" class="panel-title">Calificar Y Comentar La Oferta</h3>
                             </div>
-                            <div class="panel-body">
-                                <div>
-                                    <span class="rating">
-                                            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
-                                            <label for="rating-input-1-5" class="rating-star"></label>
+                        </div>
 
-                                            <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1"/>
-                                            <label for="rating-input-1-4" class="rating-star"></label>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="industria">
+                        <div class="col-md-12">
+                            <!--Tendencias-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
+                            <br>
+                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                             <!--Alternativas de solucion-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</p>
+                            <br>
+                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <!--Competidores-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Competidores</p>
+                            <br>
+                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <!--Diagrama de Porter-->
 
-                                            <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1"/>
-                                            <label for="rating-input-1-3" class="rating-star"></label>
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
 
-                                            <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1"/>
-                                            <label for="rating-input-1-2" class="rating-star"></label>
-
-                                            <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1"/>
-                                            <label for="rating-input-1-1" class="rating-star"></label>
-                                    </span>
-                                </div>
-                                <form role="form" action="" method=''>
-                                    <!--{% csrf_token %}-->
-                                    <div class="form-group">
-                                        <label for="Comentario">Añadir Comentario:</label>
-                                        <input type="text" class="form-control" id="comentario" name="comentario"
-                                        placeholder="Comentario.." maxlength="150">
-                                    </div>
-                                    <a href="" class="button" data-toggle="modal" data-target="#confirmarcionCC">
-                                        <button type="button" class="btn btn-green" style="float:right" data-dismiss="modal">Enviar</button>
-                                    </a> 
-                                </form>
-                                <div class="modal modal-vcenter fade" id="confirmarcionCC" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form role="form" action="" method=''>
-                                                    <!--{% csrf_token %}-->
-                                                    <div class="form-group">
-                                                        <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
-                                                    </div>
-                                                    <a href="" class="button">
-                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                                                    </a> 
-                                                </form>
-                                            </div>
-                                            
-                                        </div>
-                                        
-                                    </div>
-                                    
-                                </div>
-                                
+                            <div class="col-md-12 table-responsive" style="font-size: 12px;">
+                                <table class="table table-bordered" >
+                                       <tr>
+                                         <th>Competidores</th>
+                                         <th>Poder de consumidores</th>
+                                         <th>Sustitutos</th>
+                                         <th>Poder de proveedores</th>
+                                         <th>Nuevos entrantes</th>
+                                      </tr>
+                                      <tr>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                      </tr>
+                                </table>
                             </div>
+
+                            <br><br>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="esta_logro">
+                        <div class="col-md-12">
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del producto o servicio</p>
+                            <p>Enero/2015</p>
                             
-                        </div>
-                        <div align=center>
-                        <p class="text-muted" style="font-size:11px;">*Los comentarios de otros usuarios deben ser aprobados para ser mostrados</p>
-                        </div>
-                    <div class="comment">
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
-                            </a>
-                            <div class="media-body">
-                                <p><a href="profile.html">Username</a></p>
-                                <div class="thumbnail" style="margin-bottom:0px">
-                                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                    </div>
-                                            </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                                </p>
-                                <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                                </ul>
-                            </div>
+                            <br>
+                            <!--Estado del producto o servicio-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
+                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <!--Estrategia de crecimiento-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
+                            <br>
+                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <!--Estado de propiedad Intelectual-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
+                            <br>
+                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <!--Evidencia de Traccion-->
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
+                            <br>
+                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
                         </div>
                     </div>
-                    <div class="comment">
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face1.jpg" alt="...">
-                            </a>
-                            <div class="media-body">
-                                <p><a href="profile.html">Username 2</a></p>
-                                <div class="thumbnail" style="margin-bottom:0px">
-                                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                    </div>
-                                            </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                                </p>
-                                <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                                </ul>
-                            </div>
-                        </div>
+                </div>
+            </div>
+            <br>
+
+
+
+            <!-- New comment form -->
+           <div class="new-comment">
+              <form class="form-horizontal ng-pristine ng-valid ng-submitted" role="form">
+                <div class="form-group" style="margin-bottom: 15px;">
+                  <div class="col-sm-2 hidden-xs">
+                    <img src="/../../media/ofertas-demandas/face1.jpg" alt="..." class="img-responsive">
+                  </div>
+                  <div class="col-sm-10">    
+                    <div>
+                        <span class="rating">
+                            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+                            <label for="rating-input-1-5" class="rating-star"></label>
+
+                            <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+                            <label for="rating-input-1-4" class="rating-star"></label>
+
+                            <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+                            <label for="rating-input-1-3" class="rating-star"></label>
+
+                            <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+                            <label for="rating-input-1-2" class="rating-star"></label>
+
+                            <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+                            <label for="rating-input-1-1" class="rating-star"></label>
+                        </span>
                     </div>
-                    <div class="comment">
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                            </a>
-                            <div class="media-body">
-                                <p><a href="profile.html">Username 3</a></p>
-                                <div class="thumbnail" style="margin-bottom:0px">
-                                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                    </div>
-                                            </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                                </p>
-                                <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba su comentario acerca de la oferta"></textarea> 
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0px;">
+                  <div class="col-sm-offset-2 col-sm-10" align="right">
+                    <button type="submit" class="btn btn-green btn-sm" data-toggle="modal" data-target="#confirmarcionCC">Publicar</button>
+                  </div>
+                </div>
+              </form>
             </div>
 
 
-            <div class="col-sm-4">
-                    <!-- Social Links -->
-                     <h4>
-                        CALIFICACI&Oacute;N GENERAL
-                    </h4>         
-                    <hr>
-                    <div class="thumbnail" align=center style="margin-bottom:0px">
-                        <div class="caption" style="padding-top:0px; padding-bottom:0px">
+
+            <!-- Comments list -->
+            <h4>2 comments</h4>
+            <hr>
+            
+
+
+
+
+
+
+
+
+
+            <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
+            <div class="comment">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+                    </a>
+                    <div class="media-body">
+                        <p><a href="profile.html">Username 3</a></p>
+                        <div class="thumbnail" style="margin-bottom:0px">
+                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
                                 <div class="rating">
                                     <i class="fa fa-star"></i> 
                                     <i class="fa fa-star"></i> 
                                     <i class="fa fa-star"></i> 
                                     <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i>
-                                </div>
-                        </div>
-                    </div>
-                    <!-- Tags -->
-                    <h4>
-                        PALABRAS CLAVES
-                    </h4>  
-                    <hr>
-                    <p class="tags">
-                        <a href="#">Industria</a>
-                        <a href="#">Autos</a>
-                        <a href="#">Startup</a>
-                        <a href="#">Espol</a>
-                    </p>
-                    <br />
-                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                                <div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
-                                            <h4>ESTADO DE LA OFERTA</h4> 
-                                 </div>
-                    </div>
-                    
-                    <hr>
-                    <div class="info-board info-board-green">
-                            <p align=center>
-                                <b>ACTIVO</b>
-                            </p>
-                    </div>
-
-                    <br />
-                    
-                    <!-- Recently Added -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
-                            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                                <div class="col-md-9 col-xs-8" align="left" style="padding-left: 0px;">
-                                            <h4>EQUIPO</h4> 
-                                 </div>
-                            </div>
-                        </div>
-                        <div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
-                            <div class="recent-blogs">
-                                <div class="team">
-                                            <div align=center style="margin-top: 20px">
-                                <a href="#" class="btn btn-green btn-sm" data-toggle="modal" data-target="#solicitarEquipo">
-                                    Solicitar Pertenecer al Equipo de la Oferta
-                                </a>
-
-
-                                <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-                                <div class="modal modal-vcenter fade" id="solicitarEquipo" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                
-                                                <h4 class="modal-title" id="sendemailtitle">Solicitar pertenecer al equipo de trabajo de la oferta</h4>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="modal-body" style="margin-bottom:30px">
-                                                <form role="form" action="" method=''>
-                                                    <!--{% csrf_token %}-->
-                                                    <div class="form-group">
-                                                        <label for="Comentario">Añadir Comentario:</label>
-                                                        <input type="text" class="form-control" id="comentario" name="comentario"
-                                                        placeholder="Comentario.." maxlength="150">
-                                                    </div>
-                                                    <a href="" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
-                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                                                    </a> 
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal modal-vcenter fade" id="confirmarcionSolicitud" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form role="form" action="" method=''>
-                                                    <!--{% csrf_token %}-->
-                                                    <div class="form-group">
-                                                        <label for="Confirmacion">Se ha enviado su solicitud con &eacute;xito</label>
-                                                    </div>
-                                                    <a href="" class="button">
-                                                        <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                                                    </a> 
-                                                </form>
-                                            </div>
-                                            
-                                        </div>
-                                        
-                                    </div>
-                                    
-                                </div>
-                                            <hr>
-                                            <div class="member-left" style="margin-bottom: 0px;">
-                                                <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
-                                                margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                                <a href="#"> 
-                                                    <h4>Alex Smith</h4>
-                                                </a>
-                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
-                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">CEO</b></p>
-                                                                                     
-                                            </div>
-                                            <div class="member-left" style="margin-bottom: 0px;">
-                                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
-                                                margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                                <a href="#"> 
-                                                    <h4>Fernando Rodriguez</h4>
-                                                </a>
-                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
-                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">Designer</b></p>                     
-                                            </div>
-                                            <div class="member-left" style="margin-bottom: 0px;">
-                                                <img src="/../../media/ofertas-demandas/face3.jpg" alt="Team Member" class="left" style="
-                                                margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                                <a href="#"> 
-                                                    <h4>Margarita Altamirano</h4>
-                                                </a>
-                                                <p class="position">Estado&nbsp;:&nbsp;&nbsp;<b style="color:black">ACTIVO</b></p>
-                                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<b style="color:black">Programmer</b></p>                 
-                                            </div>
-                                            
+                                    <i class="fa fa-star"></i> 
                                 </div>
                             </div>
                         </div>
-                    </div>          
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                        </p>
+                        <ul class="text-muted list-inline">
+                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="comment">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
+                    </a>
+                    <div class="media-body">
+                        <p><a href="profile.html">Username 3</a></p>
+                        <div class="thumbnail" style="margin-bottom:0px">
+                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
+                                <div class="rating">
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i> 
+                                    <i class="fa fa-star"></i> 
+                                </div>
+                            </div>
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                        </p>
+                        <ul class="text-muted list-inline">
+                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+        </div>      
+        <div class="col-md-4">
+            <!-- Social Links -->
+            <h4>Calificaci&oacute;n general</h4>         
+            <div class="thumbnail" align=center style="margin-bottom:0px">
+                <div class="caption" style="padding-top:0px; padding-bottom:0px">
+                        <div class="rating">
+                            <i class="fa fa-star"></i> 
+                            <i class="fa fa-star"></i> 
+                            <i class="fa fa-star"></i> 
+                            <i class="fa fa-star"></i> 
+                            <i class="fa fa-star"></i>
+                        </div>
+                </div>
+            </div>
+            <!-- COMIENZA  Panel del equipo -->
+            <div class="panel panel-default">
+                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                        <div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
+                            <h4 style="margin-top: 6px;">Equipo</h4>
+                         </div>
+                    </div>
+                </div>
+            
+                <div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+                    <div class="recent-blogs">
+                        <div class="team">
 
+                            <div align=center>
+                                <p>
+                                    <a href="#" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+                                    <i class="fa fa-sign-in"></i>
+                                    &nbsp;&nbsp;Participar en este equipo</a>
+                                </p>
+                            </div>                                          
+                            <hr style="margin-top: 15px;">
+
+                            <!-- PRIMER MIEMBRO DEL EQUIPO -->
+                            <div class="member-left" style="margin-bottom: 0px;">
+                                <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
+                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
+                                <p class="position" style="margin-bottom: 4px;">
+                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">ACTIVO</span>
+                                </p>
+                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Dueño</span></p>
+                            </div>
+
+                            <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
+                            <div class="member-left" style="margin-bottom: 0px;">
+                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
+                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
+                                <p class="position" style="margin-bottom: 4px;">Estado&nbsp;:&nbsp;&nbsp;
+                                    <span style="color:black;font-size: 12px;">ACTIVO</span>
+                                </p>
+                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Diseñador</span></p>
+                            </div>      
+
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <!-- TERMINA Panel del equipo -->
+
+            
         </div>
     </div>
 </div>
+
+
+
+
+
+<!-- COMIENZAN Los modals que se usan en toda la pagina -->
+
+
+<!-- //// VENTANA EMERGENTE EMAIL ///// -->
+    <div class="modal modal-vcenter fade" id="solicitarEquipo" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    
+                    <h4 class="modal-title" id="sendemailtitle">Solicitar pertenecer al equipo de trabajo de la oferta</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body" style="margin-bottom:30px">
+                    <form role="form" action="" method=''>
+                        <!--{% csrf_token %}-->
+                        <div class="form-group">
+                            <textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
+                        </div>
+                        <a href="" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
+                            <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                        </a> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-vcenter fade" id="confirmarcionSolicitud" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method=''>
+                        <!--{% csrf_token %}-->
+                        <div class="form-group">
+                            <label for="Confirmacion">Se ha enviado su solicitud con &eacute;xito</label>
+                        </div>     
+                        <div align="right">
+                            <a href="" class="button">
+                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                            </a> 
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+
+
+
+
+     <div class="modal modal-vcenter fade" id="confirmarcionCC" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method=''>
+                        <!--{% csrf_token %}-->
+                        <div class="form-group">
+                            <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
+                            <p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser aprobados por el dueño de la oferta para ser mostrados</p>
+                        </div>
+                        <div align="right">
+                            <a href="" class="button">
+                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                            </a> 
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
 {% endblock %}      
