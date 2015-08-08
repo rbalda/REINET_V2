@@ -34,6 +34,9 @@ class OfertaSerializador(ModelSerializer):
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion')
 
+        def create(self, validated_data):
+            return Oferta.objects.create(**validated_data)
+
 
 
 

@@ -49,7 +49,7 @@ Salida:
 Descripcion: para llamar la pagina oferta inicio
 """
 @login_required
-def crear_ofertas(request):
+def CrearOferta(request):
 	args = {}
 	return render_to_response('crear_oferta.html',args)
 

@@ -1,0 +1,71 @@
+                             <div class="col-md-12">
+
+                            <p class="text-info">[[ oferta.tiempo_oferta ]]</p> 
+
+                            <form  class="form-horizontal"  name="crear_oferta_form5" novalidate>
+
+                                 <div class="form-group">
+                                    <div class="col-md-8">
+                                        <label class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
+
+<input autofocus type="number" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;"
+ng-model="oferta.tiempo_disponibilidad" ng-required="true" 
+>
+<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>   
+</div> 
+        <div class="col-xs-2" style="right:25%;">
+        <select class="form-control" ng-model="oferta.tiempo_oferta">
+            <option ng-repeat="item in items_date" value="[[item.valor]]">[[item.tipo]]</option>
+        </select>
+        </div>
+
+                                    
+                                 </div> 
+
+                                 <!--Estrategia de crecimiento-->
+                                 <div class="form-group">
+                                     <label for="Nombres" class="col-md-2">Estrategia de crecimiento</label>
+                                     <div class="col-md-6">
+                                         
+<textarea autofocus type="text" class="form-control" id="oferta_estrategia_crecimiento" name="oferta_estrategia_crecimiento" rows="5" placeholder="Describa su estrategia de crecimiento"
+ng-model="oferta.estrategia_crecimiento"
+></textarea>
+
+                                     </div>
+                                 </div>
+
+                                 <!--Estado de propiedad Intelectual-->
+                                 <div class="form-group">
+                                     <label for="Nombres" class="col-md-2">Estado de propiedad Intelectual</label>
+                                     <div class="col-md-6">
+
+<textarea autofocus type="text" class="form-control" id="oferta_propiedad_intelectual" name="oferta_propiedad_intelectual" rows="4" placeholder="Describa el estado de propiedad intelectual de la oferta"
+ng-model="oferta.propiedad_intelectual"
+></textarea>
+
+                                     </div>
+                                 </div>
+
+                                 <!--Evidencia de Traccion-->
+                                 <div class="form-group">
+                                     <label for="Nombres" class="col-md-2">Evidencia de Tracci&oacute;n</label>
+                                     <div class="col-md-6">
+
+<textarea autofocus type="text" class="form-control" id="oferta_evidencia_traccion" name="oferta_evidencia_traccion" rows="4" placeholder="Describa la evidencia de tracci&oacute;n de la oferta"
+ng-model="oferta.evidencia_traccion"
+></textarea>
+
+                                     </div>
+                                 </div>
+
+                                <div class="col-md-9">
+                                 <br> 
+                                 <button href="#" class="btn btn-green pull-right" id="btn_crear_oferta" ng-disabled="!crear_oferta_form5.$valid" ng-click="guardar()"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+
+                                    <a id="btn_crear_oferta_ant5" ng-click="atras()">
+                                       <input type="button" class="btn btn-info pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;"> 
+                                    </a>
+                              </div>
+
+                            </form>
+                             </div>
