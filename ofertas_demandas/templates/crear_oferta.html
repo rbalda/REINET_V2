@@ -19,7 +19,7 @@ textarea { resize: none; }
     <div class="row col-md-12">
             <div align=right>
                 <!--<a href="/administrarOferta/" class="btn btn-green"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>-->
-                <a href="/inicioOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                <a href="/InicioOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
             </div>
     </div>
 
@@ -29,9 +29,9 @@ textarea { resize: none; }
  
     <div class="row">
 
-              <div class="col-md-4 col-md-offset-4 alert alert-danger alert-dismissible" style="text-align:center; margin-top:10px;" role="alert" id="info_suscripcion" ng-hide="hide">
-              <button id="info_crear_close" type="button" class="close" ng-click="hide=true1" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p>[[ info_crear_oferta_error ]]</p></strong>
+              <div class="col-md-4 col-md-offset-4 alert alert-dismissible" ng-class="textType" style="text-align:center; margin-top:10px;" role="alert" ng-hide="hide" ng-cloak>
+              <button id="info_crear_close" type="button" class="close" ng-click="hide=true" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>[[ info_crear_oferta]]</strong></p>
               </div> 
 
             <div class=" col-md-12">

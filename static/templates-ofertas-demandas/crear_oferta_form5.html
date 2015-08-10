@@ -1,25 +1,30 @@
                              <div class="col-md-12">
 
-                            <p class="text-info">[[ oferta.tiempo_para_estar_disponible ]]</p>
-                            <p class="text-info">[[ tiempo_disponible ]]</p> 
-
                             <form  class="form-horizontal"  name="crear_oferta_form5" novalidate>
 
                                  <div class="form-group">
                                     <div class="col-md-8">
                                         <label class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
 
-<input autofocus type="number" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;"
+<input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;"
 ng-model="tiempo_disponible" ng-required="true"  ng-pattern="/^([1-9][0-9]*)$/" 
 >
-<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">No puede contener n&uacute;meros negativos, ni ser cero</p></span>
-<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>   
+<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
+<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 </div> 
-        <div class="col-xs-2" style="right:25%;">
-        <select class="form-control" ng-model="tiempo_oferta">
-            <option ng-repeat="item in items_date" value="[[item.valor]]">[[item.tipo]]</option>
+
+        <!--<div class="col-xs-2" style="right:25%;">
+        <select class="form-control" ng-model="tiempo_oferta" ng-options="item.tipo for item in items_date" ng-change="seleccionTiempoDisponible(item)">
+            <option></option>
         </select>
+        </div>-->
+        <div class="col-xs-2" style="right:25%;">
+        <select name="select_oferta_tiempo" id="select_oferta_tiempo" class="form-control" ng-options="i.tipo as i.tipo for i in items_date" ng-model="tiempo_tipo" ng-required="true">
+            <option value="">Seleccione duraci&oacute;n</option>
+        </select>
+        <span ng-show="crear_oferta_form5.tiempo_tipo.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
         </div>
+
 
                                     
                                  </div> 
