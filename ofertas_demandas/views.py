@@ -27,9 +27,6 @@ from ofertas_demandas.serializers import *
 
 from usuarios.models import *
 
-from usuarios.serializers import UsuarioSerializador
-from rest_framework.renderers import JSONRenderer
-from django.core import serializers
 """
 Autor: Leonel Ramirez
 Nombre de funcion: InicioOferta

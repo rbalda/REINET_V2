@@ -1,6 +1,5 @@
 from datetime import date, datetime
 from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta
-from usuarios.serializers import UsuarioSerializador
 
 __author__ = 'rbalda'
 

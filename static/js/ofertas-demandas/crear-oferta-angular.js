@@ -6,7 +6,6 @@ appoferta.controller('crearOfertaFormController',['$scope','$window','Oferta',fu
     console.log('dentro del crearOfertaAngular');
 
     $scope.oferta = new Oferta();
-    //$scope.oferta.fk_usuario_dueno = JSON.stringify(usuario);
 
     $scope.tabs = ['/static/templates-ofertas-demandas/crear_oferta_form1.html',
                     '/static/templates-ofertas-demandas/crear_oferta_form2.html',
@@ -17,7 +16,6 @@ appoferta.controller('crearOfertaFormController',['$scope','$window','Oferta',fu
     $scope.actualtab = 0;
     $scope.tipo = 0;
     $scope.hide = true;
-    $scope.hide2 = true;
     $scope.formActual = $scope.tabs[$scope.actualtab];
 
 
@@ -88,7 +86,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$window','Oferta',fu
 
     
     var aux;
-    aux = angular.copy($scope.tiempo_disponible) + " " + angular.copy($scope.tiempo_tipo);
+    aux = $scope.tiempo_disponible + " " + $scope.tiempo_tipo;
     console.log('aux'+aux);
     $scope.guardar = function(){
         console.log('aux'+aux);
