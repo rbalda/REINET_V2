@@ -1,0 +1,111 @@
+                            <div class="col-md-12">
+                                <!--Canvas del modelo ne negocio-->
+                                
+                                <h3 class="h4">Canvas del Modelo de negocios</h3>
+                                <hr>
+                            </div>
+
+                            <div class="col-md-12">
+                            <form  class="form-horizontal"  name="crear_oferta_form3" novalidate> 
+                                    <div class="col-md-2 col-sm-6">                    
+                                        <label class="col-md-12" style="text-align:center">Socios Clave</label>
+                                        <div class="col-md-12">
+                                            
+<textarea autofocus name="canvas_socio_clave" id="canvas_socio_clave" style="resize:none" rows="10" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.asociaciones_clave" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_socio_clave.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">     
+                                        <div class="col-md-12">  
+                                            <label style="text-align:center" class="col-md-12">Actividades Clave</label>
+
+<textarea autofocus name="canvas_actividades_clave" id="canvas_actividades_clave" style="resize:none" rows="4" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.actividades_clave" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_actividades_clave.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                        </div>  
+                                        <div class="col-md-12">                                              
+                                            <label class="col-md-12" style="text-align:center">Recursos Clave</label>
+
+<textarea autofocus name="canvas_recrusos_clave" id="canvas_recrusos_clave" style="resize:none" rows="4" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.recursos_clave" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_recrusos_clave.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                        </div>    
+                                    </div>
+                                    <div class="col-md-2 col-sm-6" style="text-align:center">                    
+                                        <label class="col-md-12"> Propuesta de Valor</label>
+
+<textarea autofocus name="canvas_propuesta_valor" id="canvas_propuesta_valor" style="resize:none" rows="10" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.propuesta_valor" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_propuesta_valor.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">    
+                                        <div class="col-md-12">                  
+                                            <label class="col-md-12">Relaciones con Clientes</label>
+
+<textarea autofocus name="canvas_ralaciones_clientes" id="canvas_ralaciones_clientes" style="resize:none" rows="4" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.relacion_clientes" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_ralaciones_clientes.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                        </div>  
+                                        <div class="col-md-12">   
+                                            <label class="col-md-12" style="text-align:center">Canales de Distribuci&oacute;n</label>
+
+<textarea autofocus name="canvas_canales_distribucion" id="canvas_canales_distribucion" rows="4" style="resize:none" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.canales_distribucion" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_canales_distribucion.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                        </div>   
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">                    
+                                        <label style="text-align:center" class="col-md-12">Segmentos  del  Mercado</label>
+                                        
+<textarea autofocus name="canvas_segmentos_clientes" id="canvas_segmentos_clientes" style="resize:none" rows="10" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.segmento_mercado" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_segmentos_clientes.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                    </div>
+                                    <div class="col-md-6" style="padding-left: 30px;">                    
+                                        <label class="col-md-12" style="text-align:center">Estructura de Costos</label>
+                                        
+<textarea autofocus name="canvas_estructura_costos" id="canvas_estructura_costos" rows="5" style="resize:none" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.estructura_costos" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_estructura_costos.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                    </div>
+                                    <div class="col-md-6">                    
+                                        <label class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
+
+<textarea autofocus name="canvas_fuente_ingresos" id="canvas_fuente_ingresos" rows="5" style="resize:none" class="col-md-12"
+ng-model="oferta.fk_diagrama_canvas.fuente_ingresos" ng-required="true"
+></textarea>
+<span ng-show="crear_oferta_form3.canvas_fuente_ingresos.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                    </div>
+
+                            
+                            <div class="col-md-12">
+                                <br>
+
+                                <a id="btn_crear_oferta_sgt3" ng-click="siguiente()">
+                                    <input type="button" class="btn btn-info pull-right" value="Siguiente" ng-disabled="!crear_oferta_form3.$valid"> 
+                                </a>
+                                <a id="btn_crear_oferta_ant3" ng-click="atras()">
+                                       <input type="button" class="btn btn-default pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;"> 
+                                </a>
+                            </div>
+
+                            </form>  
+                            </div>

@@ -1,0 +1,541 @@
+
+{% extends "base.tpl.html" %}
+
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
+
+    {% block raiz %}
+        <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
+    {% endblock %}
+
+    {% block inicio %}
+        <a href="/inicioUsuario/">Inicio </a>
+    {% endblock %}
+
+    {% block ofertas %}
+        <a href="/InicioOferta/">OFERTA </a>
+    {% endblock %}
+{% endif %}
+
+
+
+{% block contenido %}
+<link rel="stylesheet" href='/static/css/demo.css'>
+{% load staticfiles %}
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+
+
+
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span style="border-bottom: 5px solid #72A53B;">OFERTAS</span></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+          <div class="row" style="margin-bottom: 25px;">
+            <div align=left class="col-md-3 col-sm-3 col-xs-4">
+                <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Crear oferta </button>     
+            </div>
+            <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
+                <input type="text" class="form-control" placeholder="Buscar ofertas,  por fechas, por palabras claves"/>
+            </div>
+          </div>
+
+
+          <div class="row">
+                <div class=" col-sm-12">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#ofertasPublicadas" aria-controls="home" role="tab" data-toggle="tab">Mis ofertas</a></li>
+                    <li role="presentation"><a href="#borradorOferta" aria-controls="borradorOferta" role="tab" data-toggle="tab">Borradores</a></li>
+                    <li role="presentation"><a href="#ofertasdelaREd" aria-controls="ofertasdelaREd" role="tab" data-toggle="tab">Ofertas en las que participo</a></li>
+                    <li role="presentation"><a href="#ofertasparticipantes" aria-controls="ofertasparticipantes" role="tab" data-toggle="tab">Ofertas de la Red</a></li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content col-sm-12">
+
+                        <!-- COMIENZA TAB DE OFERTAS PUBLICADAS-->
+                        <div role="tabpanel" class="tab-pane active" id="ofertasPublicadas">
+                            
+                                <div class="col-sm-12">
+                                  <div class="timeline-block">
+                                  <!-- First blog post -->
+                                    <div class="blog-summary">
+                                      <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                             <a href="/administrarOferta/">HighLand - a new responsive Bootstrap 3 template</a>
+                                           </div>
+                                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                    </div>
+                                                </div>
+                                          </div>
+                                      </h4>
+                                      <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                      <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                            <ul class="text-muted list-inline">
+                                              <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                              <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                              <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;"> 
+
+                                              <a href="/administrarOferta/" class="btn btn-green btn-sm">
+                                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
+                                        </div>
+                                      </div>
+                                      <div style="clear:both;"></div>
+                                      <hr style="margin-top: 10px;">
+                                      <p class="blog-text">
+                                        <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
+                                      </p>
+                                      <p class="tags">
+                                        <a>Bootstrap</a>
+                                        <a>HTML5</a>
+                                        <a>CSS</a>
+                                        <a>jQuery</a>
+                                      </p>
+                                    </div>
+                                    <!-- Second blog post -->
+                                    <div class="blog-summary">
+                                      <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                             <a href="/administrarOferta/">HighLand - a new responsive Bootstrap 3 template</a>
+                                           </div>
+                                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                    </div>
+                                                </div>
+                                          </div>
+                                      </h4>
+                                      <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                      <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                            <ul class="text-muted list-inline">
+                                              <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                              <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                              <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">                                                  
+                                              <a href="/administrarOferta/" class="btn btn-green btn-sm">
+                                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
+                                        </div>
+                                      </div>
+                                      <div style="clear:both;">
+                                      </div>
+                                      <hr style="margin-top: 10px;">
+
+                                      <p class="blog-text">
+                                        <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
+                                      </p>
+                                      <p class="tags">
+                                        <a>Bootstrap</a>
+                                        <a>HTML5</a>
+                                        <a>CSS</a>
+                                        <a>jQuery</a>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="pagination">
+                                    <span class="step-links">
+                                    {% if msjs.has_previous %}
+                                        <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                    {% endif %}
+
+                                    <span class="current">
+                                        Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                    </span>
+
+                                    {% if msjs.has_next %}
+                                        <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                    {% endif %}
+                                    </span>
+                                </div>
+                        </div>
+                        <!-- TERMINA TAB DE OFERTAS PUBLICADAS-->
+
+                        <!-- COMIENZA TAB DE BORRADORES-->
+                        <div role="tabpanel" class="tab-pane" id="borradorOferta">
+
+                          <div class="container">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="timeline-block">
+                                  <!-- First blog post -->
+                                    <div class="blog-summary">
+                                      <h4 style="padding-left: 0px;padding-right: 0px;">
+                                        <a href="/administrarBorrador/">HighLand - a new responsive Bootstrap 3 template</a>
+                                      </h4>
+                                      <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                      <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                            <ul class="text-muted list-inline">
+                                              <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                              <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+                                              <a href="/EditarBorrador/" class="btn btn-green btn-sm">
+                                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
+                                        </div>
+                                      </div>
+                                      <div style="clear:both;">
+                                      </div>
+                                      <hr style="margin-top: 10px;">
+
+                                      <p class="blog-text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at.
+                                      </p>
+                                      <p class="tags">
+                                        <a>Bootstrap</a>
+                                        <a>HTML5</a>
+                                        <a>CSS</a>
+                                        <a>jQuery</a>
+                                      </p>
+                                    </div>
+
+                                    <!-- Second blog post -->
+                                    <div class="blog-summary">
+                                      <h4 style="padding-left: 0px;padding-right: 0px;">
+                                        <a href="/administrarBorrador/">HighLand - a new responsive Bootstrap 3 template</a>
+                                      </h4>
+                                      <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                      <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                            <ul class="text-muted list-inline">
+                                              <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                              <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+                                              <a href="/EditarBorrador/" class="btn btn-green btn-sm">
+                                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
+                                        </div>
+                                      </div>
+                                      <div style="clear:both;">
+                                      </div>
+                                      <hr style="margin-top: 10px;">
+
+                                      <p class="blog-text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at.
+                                      </p>
+                                      <p class="tags">
+                                        <a>Bootstrap</a>
+                                        <a>HTML5</a>
+                                        <a>CSS</a>
+                                        <a>jQuery</a>
+                                      </p>
+                                    </div>
+
+
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+
+                          <div class="pagination">
+                              <span class="step-links">
+                                  {% if msjs.has_previous %}
+                                      <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                  {% endif %}
+
+                                <span class="current">
+                                  Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                </span>
+
+                                  {% if msjs.has_next %}
+                                      <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                  {% endif %}
+                              </span>
+                          </div>
+
+                        </div>
+                        <!-- TERMINA TAB DE BORRADORES-->
+
+                        <!-- COMIENZA OFERTAS DE LA RED-->
+                        <div role="tabpanel" class="tab-pane" id="ofertasdelaREd">
+                                <div class="col-sm-12">
+                                  <div class="timeline-block">
+                                  <!-- First blog post -->
+                                    <div class="blog-summary">
+                                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                             <a href="/oferta/">HighLand - a new responsive Bootstrap 3 template</a>
+                                          </div>
+                                          <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                              <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                                  <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                  </div>
+                                              </div>
+                                          </div>
+                                        </h4>
+                                        <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                        <ul class="text-muted list-inline">
+                                          <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                          <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                          <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                        </ul>
+                                        <hr>
+                                        <p class="blog-text">
+                                          <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
+                                        </p>
+                                        <p class="tags">
+                                          <a >Bootstrap</a>
+                                          <a >HTML5</a>
+                                          <a >CSS</a>
+                                          <a >jQuery</a>
+                                        </p>
+                                    </div>
+
+                                    <!-- Second blog post -->
+                                    <div class="blog-summary">
+                                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                             <a href="/oferta/">HighLand - a new responsive Bootstrap 3 template</a>
+                                          </div>
+                                          <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                              <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                                  <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                  </div>
+                                              </div>
+                                          </div>
+                                        </h4>
+                                        <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                        <ul class="text-muted list-inline">
+                                          <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                          <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                          <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                        </ul>
+                                        <hr>
+                                        <p class="blog-text">
+                                          <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
+                                        </p>
+                                        <p class="tags">
+                                          <a >Bootstrap</a>
+                                          <a >HTML5</a>
+                                          <a >CSS</a>
+                                          <a >jQuery</a>
+                                        </p>
+                                    </div>
+                                  </div>  
+                                </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
+                                <!-- PAGINACION DE OFERTA PUBLICADAS-->
+                                <div class="pagination">
+                                    <span class="step-links">
+                                    {% if msjs.has_previous %}
+                                        <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                    {% endif %}
+
+                                    <span class="current">
+                                        Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                    </span>
+
+                                    {% if msjs.has_next %}
+                                        <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                    {% endif %}
+                                    </span>
+                                </div>
+                        </div>
+                        <!-- TERMINA OFERTAS DE LA RED-->
+
+                        <!-- COMIENZA EQUIPO -->
+                        <div role="tabpanel" class="tab-pane" id="ofertasparticipantes">
+                              <div class="col-sm-12">
+                                  <div class="timeline-block">
+                                  <!-- First blog post -->
+                                    <div class="blog-summary">
+                                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                             <a href="/oferta/">HighLand - a new responsive Bootstrap 3 template</a>
+                                          </div>
+                                          <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                                    <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                    </div>
+                                                </div>
+                                          </div>
+                                        </h4>
+                                        <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                        <ul class="text-muted list-inline">
+                                          <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                          <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                          <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                        </ul>
+                                        <hr>
+                                        <p class="blog-text">
+                                          <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
+                                        </p>
+                                        <p class="tags">
+                                          <a >Bootstrap</a>
+                                          <a >HTML5</a>
+                                          <a >CSS</a>
+                                          <a >jQuery</a>
+                                        </p>
+                                    </div>
+                                    <!-- Second blog post -->
+                                    <div class="blog-summary">
+                                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                             <a href="/oferta/">HighLand - a new responsive Bootstrap 3 template</a>
+                                          </div>
+                                          <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                              <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                                  <div class="rating">
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i> 
+                                                  </div>
+                                              </div>
+                                          </div>
+                                        </h4>
+                                        <time datetime="2013-11-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                                        <ul class="text-muted list-inline">
+                                          <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                          <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                                          <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                        </ul>
+                                        <hr>
+                                        <p class="blog-text">
+                                          <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam varius justo sed velit dictum feugiat. Sed tempus eros quis eleifend posuere. Fusce tempus euismod sem vitae porta. Vestibulum eget mi suscipit, ultrices turpis quis, ultricies ipsum. Pellentesque et facilisis odio. Vivamus et mauris consequat, rhoncus risus vitae, porttitor dui.
+                                        </p>
+                                        <p class="tags">
+                                          <a >Bootstrap</a>
+                                          <a >HTML5</a>
+                                          <a >CSS</a>
+                                          <a >jQuery</a>
+                                        </p>
+                                    </div>
+                                  </div>
+                              </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
+                              <!-- PAGINACION DE OFERTA PUBLICADAS-->
+                              <div class="pagination">
+                                  <span class="step-links">
+                                  {% if msjs.has_previous %}
+                                      <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                                  {% endif %}
+
+                                  <span class="current">
+                                      Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                                  </span>
+
+                                  {% if msjs.has_next %}
+                                      <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                                  {% endif %}
+                                  </span>
+                              </div>
+
+                        </div>
+                        <!-- TERMINA EQUIPO-->
+                  </div>
+
+                </div>
+
+          </div>
+          
+    
+    
+   </div>
+  
+<!--MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL CREAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEERTA-->
+
+
+<!-- Modal -->
+    <div class="modal fade" id="modalCrearOferta" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Crear Oferta</h4>
+          </div>
+          <div class="modal-body">
+            <div class="col-md-offset-1">
+                <form id="formCrearOferta">
+                  <input  type="radio" name="radioName" value="1" checked/>&nbsp;&nbsp;Nueva oferta<br />
+                  <input  type="radio" name="radioName" value="2" />&nbsp;&nbsp;De oferta existente<br />
+                  <div class="" id="listaOfertas" style="display:none;">
+                    <select class="form-control"  style="margin-left: 3px;margin-top: 5px;">
+                      <option value="Mustard">Mustard</option>
+                      <option value="Ketchup">Ketchup</option>
+                      <option value="Relish">Relish</option>
+                    </select>
+                  </div>
+                </form>
+
+              </div>
+          </div>
+          <div class="modal-footer">              
+              <a id="ref" href="/CrearOferta/">
+                  <button id="bt1" type="button" class="btn btn-green" onclick="myFunction()"> Aceptar </button>
+              </a>
+              <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  <script>
+    $('#formCrearOferta input').on('change', function() {
+      var valor=$('input[name=radioName]:checked', '#formCrearOferta').val();
+       if(valor=="1"){
+          $("#listaOfertas").hide();
+       }else if(valor=="2"){
+          $("#listaOfertas").show();
+       } 
+    });
+
+  </script>
+
+</div>
+
+{% endblock %}
+
+
+

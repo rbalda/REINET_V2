@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'cities_light',
     'ipware',
     'usuarios',
-
+    'ofertas_demandas',
 )
 
 MIDDLEWARE_CLASSES = (

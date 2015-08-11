@@ -1,0 +1,63 @@
+{% extends "oferta_inicio.html" %}
+
+{% block contenido %}
+<style>
+textarea { resize: none; }
+</style>
+
+<div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span style="border-bottom: 5px solid #72A53B;">CREAR OFERTA</span></h1>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="container" ng-controller="crearOfertaFormController">
+
+    <div class="row col-md-12">
+            <div align=right>
+                <!--<a href="/administrarOferta/" class="btn btn-green"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>-->
+                <a href="/InicioOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+            </div>
+    </div>
+
+    <div align=right>
+              
+    </div>
+ 
+    <div class="row">
+
+              <div class="col-md-4 col-md-offset-4 alert alert-dismissible" ng-class="textType" style="text-align:center; margin-top:10px;" role="alert" ng-hide="hide" ng-cloak>
+              <button id="info_crear_close" type="button" class="close" ng-click="hide=true" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>[[ info_crear_oferta]]</strong></p>
+              </div> 
+
+            <div class=" col-md-12">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li ng-click="seleccionartab(0)" ng-class="{active:siTabEsSeleccionado(0)}"><a href="#">Informaci&oacute;n General</a></li>
+
+                    <li ng-click="seleccionartab(1)" ng-class="{active:siTabEsSeleccionado(1)}"><a href="#" >Cliente/Usuario</a></li>
+
+                    <li ng-click="seleccionartab(2)" ng-class="{active:siTabEsSeleccionado(2)}"> <a href="#">Modelo de Negocio</a></li>
+
+                    <li ng-click="seleccionartab(3)" ng-class="{active:siTabEsSeleccionado(3)}"> <a href="#">Industria/Competidores</a></li>
+
+                    <li ng-click="seleccionartab(4)" ng-class="{active:siTabEsSeleccionado(4)}"><a href="#">Estado/Logros</a></li>
+
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content" id="tabsCrearOferta">
+                        <ng-include src="formActual"></ng-include>
+
+                   </div>
+
+             </div>
+
+    </div>
+
+</div>
+{% endblock%}
