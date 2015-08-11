@@ -1265,12 +1265,12 @@ def modificarPerfilInstitucion(request): #Error 10, nombre inadecuado de la func
 
         idLogo = 1 # Id del logo
         if request.method=='POST':
-            nombre=request.POST.get("nombre")
-            siglas=request.POST.get("siglas")
-            descripcion=request.POST.get("descripcion")
-            mision=request.POST.get("mision")
+            nombre=request.POST.get("nombreInstitucion")
+            siglas=request.POST.get("siglaInstitucion")
+            descripcion=request.POST.get("descInstitucion")
+            mision=request.POST.get("misionInstitucion")
             web=request.POST.get("webInstitucion")
-            recursos=request.POST.get("recursosofrecidos")
+            recursos=request.POST.get("recursosInstitucion")
             mail=request.POST.get("emailInstitucion")
             telefono = request.POST.get("telefonoInstitucion")
             try:
