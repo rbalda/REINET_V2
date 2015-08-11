@@ -1,10 +1,17 @@
+# -*- encoding: utf-8 -*-
+
 from datetime import date, datetime
-from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta
+from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo
+from usuarios.models import Perfil
 
 __author__ = 'rbalda'
 
 
 from rest_framework.serializers import ModelSerializer
+
+def crear_codigo(nombre_oferta):
+    nombre_oferta.replace(' ','-')
+    return '%s-%s'%(nombre_oferta,datetime.now().strftime("%Y-%m-%d-%H-%M"))
 
 
 class DiagramaPorterSerializador(ModelSerializer):
@@ -29,7 +36,7 @@ class OfertaSerializador(ModelSerializer):
     class Meta:
         model = Oferta
         fields = (
-            'id_oferta','codigo','tipo','nombre','publicada','calificacion_total','descripcion','dominio','subdominio',
+            'codigo','tipo','nombre','publicada','calificacion_total','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','palabras_clave','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas')
@@ -59,7 +66,10 @@ class OfertaSerializador(ModelSerializer):
         if(diagrama_canvas_exist):
             porter = DiagramaPorter.objects.create(**diagrama_competidores)
 
-        oferta = Oferta.objects.create(fk_diagrama_competidores=porter,fk_diagrama_canvas=canvas,codigo=datetime.now().strftime("%I:%M%p on %B %d, %Y"),**validated_data)
+        nombre = validated_data['nombre']
+        oferta = Oferta.objects.create(fk_diagrama_competidores=porter,fk_diagrama_canvas=canvas,codigo=crear_codigo(nombre),**validated_data)
+        MiembroEquipo.objects.create(fk_participante=Perfil.objects.get(id=self.context['request'].user.id),fk_oferta_en_que_participa=oferta,
+                                     es_propietario=True,rol_participante='dueño de la oferta',estado_membresia=1,activo = True)
 
         return oferta
 
