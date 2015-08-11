@@ -551,7 +551,7 @@ def editarContrasena(request):
                 args.update(csrf(request))
                 mensaje = "La contraseña se cambio exitosamente"
                 args['mensaje'] = mensaje
-                return render_to_response('Usuario_Edit_Password.html', args)
+                return render_to_response('editar_contrasena_usuario.html', args)
             else:
                 print "Contraseña diferente: "
                 return HttpResponseRedirect('/editarContrasena/')
@@ -564,7 +564,7 @@ def editarContrasena(request):
         args['es_admin']=request.session['es_admin']
         args.update(csrf(request))
         print args
-        return render_to_response('Usuario_Edit_Password.html', args)
+        return render_to_response('editar_contrasena_usuario.html', args)
 
 
 
@@ -687,7 +687,7 @@ def editar_usuario(request):
         args['es_admin']=request.session['es_admin']
         args.update(csrf(request))
         print args
-        return render_to_response('Usuario_Edit-Profile.html', args)
+        return render_to_response('editar_perfil_usuario.html', args)
 
 
 """
