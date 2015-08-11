@@ -4,7 +4,6 @@
 <style>
 textarea { resize: none; }
 </style>
-<link rel="stylesheet" href='/static/css/demo.css'>
 
 <div class="section-header">
         <div class="container">
@@ -15,401 +14,50 @@ textarea { resize: none; }
             </div>
         </div>
 </div>
-<div class="container" ng-controller="formController">
+<div class="container" ng-controller="crearOfertaFormController">
+
     <div class="row col-md-12">
             <div align=right>
-                <a href="/administrarOferta/" class="btn btn-green"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
-                <a href="/administrarOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                <!--<a href="/administrarOferta/" class="btn btn-green"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>-->
+                <a href="/InicioOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
             </div>
     </div>
 
     <div align=right>
               
     </div>
-
-
+ 
     <div class="row">
-        <form  class="form-horizontal"  name="formOferta" novalidate>
-            <div class=" col-md-12">        
+
+              <div class="col-md-4 col-md-offset-4 alert alert-dismissible" ng-class="textType" style="text-align:center; margin-top:10px;" role="alert" ng-hide="hide" ng-cloak>
+              <button id="info_crear_close" type="button" class="close" ng-click="hide=true" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>[[ info_crear_oferta]]</strong></p>
+              </div> 
+
+            <div class=" col-md-12">
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active" id="InfoGenerallLink">
-                        <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
-                    <li role="presentation" id="ClienteUsuariolLink">
-                        <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
-                    <li role="presentation" id="ModeloNegocioLink">
-                        <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
-                    <li role="presentation" id="IndustCompetLink">
-                        <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
-                    <li role="presentation" id="EstadLogrLink">
-                        <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
+                    <li ng-click="seleccionartab(0)" ng-class="{active:siTabEsSeleccionado(0)}"><a href="#">Informaci&oacute;n General</a></li>
+
+                    <li ng-click="seleccionartab(1)" ng-class="{active:siTabEsSeleccionado(1)}"><a href="#" >Cliente/Usuario</a></li>
+
+                    <li ng-click="seleccionartab(2)" ng-class="{active:siTabEsSeleccionado(2)}"> <a href="#">Modelo de Negocio</a></li>
+
+                    <li ng-click="seleccionartab(3)" ng-class="{active:siTabEsSeleccionado(3)}"> <a href="#">Industria/Competidores</a></li>
+
+                    <li ng-click="seleccionartab(4)" ng-class="{active:siTabEsSeleccionado(4)}"><a href="#">Estado/Logros</a></li>
+
                   </ul>
+
                   <!-- Tab panes -->
                   <div class="tab-content" id="tabsCrearOferta">
-                        <div role="tabpanel" class="tab-pane active" id="informacion">       
-                                <div class="col-md-12">          
-                                     <!--NOMBRES-->
-                                     <div class="form-group">
-                                         <label for="Nombres" class="col-md-2">Nombre</label>
-                                         <div class="col-md-6">
-                                             <input required autofocus type="text" class="form-control" 
-                                                 id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                                 data-content="Ingresa tu nombre aquí." data-original-title="Nombre" onkeypress="return validarLetras(event);"
-                                                 >
-                                         </div>
-                                     </div>                 
-                                     <!--Tipo-->
-                                     <div class="form-group">
-                                         <label for="Tipo" class="col-md-2">Tipo</label>
-                                         <div class="col-md-8">
-                                            <input type="checkbox" name="tecnologia" value="tecnologia">&nbsp;&nbsp;Tecnolog&iacute;a<br>
-                                            <input type="checkbox" name="prototipo" value="prototipo">&nbsp;&nbsp;Prototipo<br> 
-                                            <input type="checkbox" name="emprendimiento" value="emprendimiento">&nbsp;&nbsp;Emprendimiento
-                                         </div>
-                                     </div>                
-                                     <!--Descripicion-->
-                                     <div class="form-group">
-                                         <label for="Descripcion" class="col-md-2">Descripci&oacute;n</label>
-                                         <div class="col-md-6">
-                                             <textarea required autofocus name="Descripcion" rows="3" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"></textarea>
-                                         </div>
-                                     </div>
-                                    <!--Fotos-->
-                                    <div class="form-group">
-                                        <label class="col-md-2">Fotos</label>
-                                        <div class="col-md-6">
-                                            <input name="imagen" type="file" id="files">
-                                            <div id="id1" style="float:left" class="thumbnail">
-                                                <div id="list" class="avatar">
-                                                    <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="#" alt="..."></a>
-                                                </div>
-                                            </div>
-                                         </div>
-                                    </div>
-                                     <!--Dominio-->
-                                     <div class="form-group">
-                                         <label for="Nombres" class="col-md-2">Dominio</label>
-                                         <div class="col-md-6">
-                                             <input required autofocus type="text" class="form-control"
-                                                 id="dominio" name="dominio" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                                 data-content="Ingresa tu descripcion aquí." data-original-title="dominio"
-                                                 >
-                                         </div>
-                                     </div>  
-                                     <!--Sub dominio-->
-                                     <div class="form-group">
-                                         <label for="Nombres" class="col-md-2">Sub Dominio</label>
-                                         <div class="col-md-6">
-                                             <input required autofocus type="text" class="form-control"
-                                                 id="sub_dominio" name="sub_dominio" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                                 data-content="Ingresa tu descripcion aquí." data-original-title="subdominio"
-                                                 >
-                                         </div>
-                                     </div>
-                                     <!--Palabras Clave-->
-                                     <div class="form-group">
-                                         <label for="Nombres" class="col-md-2">Palabras Claves</label>
-                                         <div class="col-md-6">
-                                             <input autofocus type="text" class="form-control"
-                                                 id="sub_dominio" name="palabras_clave" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                                 data-content="Ingresa tu descripcion aquí." data-original-title="palabraclaveS"
-                                                 >
-                                         </div>
-                                     </div>
-                                      <!-- Tags -->
-                                    <div class="form-group col-md-8">
-                                        <label class="col-md-3"></label>  
-                                          <p class="tags col-md-9">
-                                            <a>Arte</a>
-                                            <a>Educaci&oacute;n</a>
-                                            <a>Alimentos y Bebidas</a>
-                                            <a>Turismo</a>
-                                            <a>Salud</a>
-                                            <a>Automotriz</a>
-                                            <a>Tecnolog&iacute;a</a>
-                                            <a>Ciencias Biol&oacute;gicas</a>
-                                            <a>Electr&oacute;nica</a>
-                                          </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <a href="#cliente_usuario" id="Siguiente01" role="tab" data-toggle="tab">
-                                           <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
-                                        </a>
-                                    </div>
-                                </div>
-                        </div>
+                        <ng-include src="formActual"></ng-include>
 
-                        <div role="tabpanel" class="tab-pane" id="cliente_usuario">
-                             <div class="col-md-12">   
-                                  <!--Perfil Cliente-->
-                                  <div class="form-group">
-                                         <label for="Descripcion" class="col-md-2">Perfil Cliente</label>
-                                         <div class="col-md-6">
-                                             <textarea autofocus name="Descripcion" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"></textarea>
-                                         </div>
-                                     </div>
-
-                                  <!--Perfil Cliente-->
-                                  <div class="form-group">
-                                         <label for="Descripcion" class="col-md-2">Perfil del Beneficiario</label>
-                                         <div class="col-md-6">
-                                             <textarea autofocus name="Descripcion" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"></textarea>
-                                         </div>
-                                  </div>  
-                                  
-                                  <div class="col-md-8">
-                                      <a href="#modelo" id="Siguiente02" role="tab" data-toggle="tab">
-                                           <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
-                                        </a>
-                                  </div>       
-                             </div>
-                        </div>
-
-                        <div role="tabpanel" class="tab-pane" id="modelo">
-
-                            <div class="col-md-12">
-                                <!--Canvas del modelo ne negocio-->
-                                <h3 class="h4">Canvas del Modelo de negocios</h3>
-                                <hr>
-                            </div>
-
-                            <div class="col-md-12">
-                                    <div class="col-md-2 col-sm-6">                    
-                                        <label class="col-md-12" style="text-align:center">Socios Clave</label>
-                                        <div class="col-md-12">
-                                            <textarea autofocus name="SociosClaves" style="resize:none" rows="10" class="col-md-12" placeholder="En este bloque se recogerán las alianzas que permitirán que el negocio funcione. Cualquier alianza clave deberá aportar valor a la propuesta de negocio."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6">     
-                                        <div class="col-md-12">  
-                                            <label style="text-align:center" class="col-md-12">Actividades Clave</label>
-                                            <textarea required autofocus name="actividClaves" style="resize:none" rows="4" class="col-md-12" placeholder="Cuáles son las acciones que va a llevar a cabo para que su modelo de negocio funcione. Normalmente, serán de tres tipos: de producción, de solución de problemas y de red o plataforma"></textarea>
-                                        </div>  
-                                        <div class="col-md-12">                                              
-                                            <label class="col-md-12" style="text-align:center">Recursos Clave</label>
-                                            <textarea autofocus name="recurClaves" style="resize:none" rows="4" class="col-md-12" placeholder="En este bloque deben definirse los recursos fundamentales para que el negocio genere el valor previsto y pueda sobrevivir en el mercado. Estos recursos pueden ser: físicos, intelectuales (patentes, conocimientos específicos, etc.), humanos y financieros."></textarea>
-                                        </div>    
-                                    </div>
-                                    <div class="col-md-2 col-sm-6" style="text-align:center">                    
-                                        <label class="col-md-12"> Propuesta por Valor</label>
-                                        <textarea autofocus name="propValor" style="resize:none" rows="10" class="col-md-12" placeholder="Aspectos de un producto o servicio que pueden generar valor pueden ser el diseño, el precio, la accesibilidad, la rapidez de servicio, la marca, las funcionalidades, la posibilidad de personalización, etc."></textarea>
-                                    </div>
-                                    <div class="col-md-3 col-sm-6">    
-                                        <div class="col-md-12">                  
-                                            <label class="col-md-12">Relaciones con Clientes</label>
-                                            <textarea required autofocus name="relClientes" style="resize:none" rows="4" class="col-md-12" placeholder="Describe los tipos de relaciones que la compañía establecerá con los diferentes segmentos, que pueden variar desde nivel personal hasta automatizado."></textarea>
-                                        </div>  
-                                        <div class="col-md-12">   
-                                            <label class="col-md-12" style="text-align:center">Canales</label>
-                                            <textarea autofocus name="Canales" rows="4" style="resize:none" class="col-md-12" placeholder="En este bloque se debe reflejar la manera en que se piensa dar a conocer el producto o servicio, distribuirlo o venderlo."></textarea>
-                                        </div>   
-                                    </div>
-                                    <div class="col-md-2 col-sm-6">                    
-                                        <label style="text-align:center" class="col-md-12">Segmentos  de  clientes</label>
-                                        <textarea autofocus name="SegClientes" style="resize:none" rows="10" class="col-md-12" placeholder="En este bloque se definen los diferentes grupos de personas o empresas a las que se va a dirigir la actividad de la empresa, el segmento o segmentos de mercado a los que se ofrecerán los productos o servicios de la empresa."></textarea>
-                                    </div>
-                                    <div class="col-md-6" style="padding-left: 30px;">                    
-                                        <label class="col-md-12" style="text-align:center">Estructura de Costos</label>
-                                        <textarea autofocus="" name="EstrucCostos" rows="5" style="resize:none" class="col-md-12" placeholder="Se deben reflejar aquí los costes necesarios para poner en marcha la idea. Sólo se deberán recoger los más importantes."></textarea>
-                                    </div>
-                                    <div class="col-md-6">                    
-                                        <label class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
-                                        <textarea autofocus="" name="FuentIngresos" rows="5" style="resize:none" class="col-md-12" placeholder="Se debe describir cómo se piensa conseguir los ingresos que justifican la existencia de la empresa."></textarea>
-                                    </div>  
-                            </div>
-                            
-                            <div class="col-md-12">
-                                <br>
-                                <a href="#industria" id="Siguiente03" role="tab" data-toggle="tab">
-                                    <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
-                                </a>
-                            </div>
-                        </div>
-
-                        <div role="tabpanel" class="tab-pane" id="industria">
-                             <div class="col-md-12">   
-                              <!--Industria Competidores-->
-
-                              <!--Tendencias-->
-                                 <div class="form-group">
-                                     <label for="Nombres" class="col-md-2">Tendencias Relevantes</label>
-                                     <div class="col-md-6">
-                                         <input autofocus type="text" class="form-control" 
-                                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                                             >
-                                     </div>
-                                 </div>
-
-                                 <!--Alternativas de solucion-->
-                                 <div class="form-group">
-                                     <label for="Nombres" class="col-md-2">Alternativas de Soluci&oacute;n Existentes</label>
-                                     <div class="col-md-6">
-                                         <input autofocus type="text" class="form-control" 
-                                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                                             >
-                                     </div>
-                                 </div>
-
-                                 <!--Competidores-->
-                                 <div class="form-group">
-                                     <label for="Nombres" class="col-md-2">Competidores</label>
-                                     <div class="col-md-6">
-                                         <input autofocus type="text" class="form-control" 
-                                             id="nombre" name="nombres" data-toggle="popover" data-placement="left" data-trigger="focus"
-                                             data-content="Ingresa tu nombre aquí." data-original-title="Nombre"
-                                             >
-                                     </div>
-                                 </div>
-
-                                 <!--Diagrama de Porter-->
-                                 <div class="form-group" style="margin-bottom: 0px;">
-                                         <label for="Descripcion" class="col-md-2">Diagrama de Porter</label>
-                                         <div class="col-md-6">
-                                             <div class=" table-responsive" style="font-size: 12px;">
-                                                    <table class="table table-bordered" style="margin-bottom: 0px;">
-                                                          <tr >
-                                                             <th style="text-align: center;">Competidores</th>
-                                                             <th style="text-align: center;">Poder de los consumidores</th>
-                                                             <th style="text-align: center;">Sustitutos</th>
-                                                             <th style="text-align: center;">Poder de los proveedores</th>
-                                                             <th style="text-align: center;">Nuevos entrantes</th>
-                                                          </tr>
-                                                          <tr>
-                                                             <td><textarea autofocus name="Competidores" style="resize:none "rows="6"  placeholder="Indique las empresas con las que puede competir directamente que ofrecen el mismo producto."></textarea></td>
-
-
-                                                             <td><textarea autofocus name="Consumidores"style="resize:none "rows="6" placeholder="Es si su empresa esta llegando a los clientes y cuál es el grado de dependencia o lealtad de ellos con sus productos."></textarea></td>
-
-                                                             <td><textarea autofocus name="Sustitutos" style="resize:none "rows="6" placeholder="Es la existencia de los productos que pueden sustituir su producto en precios, características,etc."></textarea></td>
-
-                                                             <td><textarea autofocus name="Proveedores"style="resize:none "rows="6" placeholder="Es la forma de la negociación con los proveedores, ya que ellos son los que realmente saben dónde está la rentabilidad en el sector."></textarea></td>
-
-                                                             <td><textarea autofocus name="Nuevosentrantes"style="resize:none " placeholder="Aquí es donde realmente se mide con otras empresas para poder ver si su producto realmente es rentable o no." rows="6"></textarea></td>
-                                                          </tr>
-                                                    </table>
-                                                </div>
-                                         </div>
-                                  </div>  
-                             <div class="col-md-9">
-                                 <br> <a id="Siguiente04" href="#esta_logro" role="tab" data-toggle="tab">
-                                       <input type="button" class="btn btn-green pull-right" value="Siguiente"> 
-                                    </a>
-                              </div>
-                             </div> 
-                        </div>
-
-                        <div role="tabpanel" class="tab-pane" id="esta_logro">
-                             <div class="col-md-12">   
-                                 <div class="form-group">
-                                        <label class="col-md-3">Tiempo de disponilidad del producto o servicio</label>
-                                        <div class="col-md-6">
-                                            <input autofocus type="text" 
-                                                 id="dominio" name="dominio" data-toggle="popover" data-placement="left" size="4" data-trigger="focus" data-original-title="dominio"
-                                                 >
-                                            <label>Años</label>
-                                        </div>
-                                </div> 
-                                 
-
-                                  <!--Estado del producto o del servicio-->
-                                   <div class="form-group">
-                                         <label for="Logros_EstadProd" class="col-md-3">Estado del producto o servicio</label>
-                                         <div class="col-md-6">
-                                             <textarea autofocus name="Logros_EstadProd" rows="4"  class="form-control" placeholder="Describa el estado actual del producto o del servicio."></textarea>
-                                         </div>
-                                  </div>  
-
-                                  <!--Estrategia de crecimiento-->
-                                   <div class="form-group">
-                                         <label for="Logros_EstratCrecim" class="col-md-3">Estrategia de crecimiento</label>
-                                         <div class="col-md-6">
-                                             <textarea autofocus name="Logros_EstratCrecim" rows="4"  class="form-control" placeholder="Describa la estrategia de crecimiento empleada o que empleará en su empresa."></textarea>
-                                         </div>
-                                  </div>  
-
-                                  <!--Estado de propiedad intelectual-->
-                                   <div class="form-group">
-                                         <label for="Logros_EstadoPropInt" class="col-md-3">Estado de propiedad Intelectual</label>
-                                         <div class="col-md-6">
-                                             <textarea autofocus name="Logros_EstadoPropInt" rows="4"  class="form-control" placeholder="Describa el estado de propiedad Intelectual"></textarea>
-                                         </div>
-                                  </div>  
-
-                                  <!--Estado del producto o del servicio-->
-                                   <div class="form-group">
-                                         <label for="Logros_EvidencTrac" class="col-md-3">Evidencia de Tracci&oacute;n</label>
-                                         <div class="col-md-6">
-                                             <textarea autofocus name="Logros_EvidencTrac" rows="4"  class="form-control" placeholder="criba la evidencia de Tracción."></textarea>
-                                         </div>
-                                  </div>  
-
-                             </div>
-                        </div>
                    </div>
 
              </div>
 
-       </form>
     </div>
-    <script type="text/javascript">
-        /*
-         Autor: Leonel Ramirez
-         Nombre de función: validarLetra
-         Parámetros: evento
-         Salida: permite el ingreso de solo letras
-         Descripción: no permite la entrada de numeros
-         */
-        function validarLetras(e) {
-            key = e.keyCode || e.which;
-            tecla = String.fromCharCode(key).toLowerCase();
-            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
-            especiales = "8-37-39-46";
-            tecla_especial = false
-            for (var i in especiales) {
-                if (key == especiales[i]) {
-                    tecla_especial = true;
-                    break;
-                }
-            }
-            if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                return false;
-            }
-        }
 
-        /*
-         Autor: Estefania Lozano Jara
-         Nombre de función: 
-         Parámetros: evento
-         Salida: permite el ingreso de solo letras
-         Descripción: Para los botones de Siguiente, para que al hacer click en ellos se cambie al siguiente tab
-         */
-        $('#Siguiente01').click(function (e) {
-            e.preventDefault();
-            $('#InfoGenerallLink').removeClass("active");   
-            $('#ClienteUsuariolLink').addClass("active");
-        })
-
-        $('#Siguiente02').click(function (e) {
-            e.preventDefault();
-            $('#ClienteUsuariolLink').removeClass("active");   
-            $('#ModeloNegocioLink').addClass("active");
-        })
-
-        $('#Siguiente03').click(function (e) {
-            e.preventDefault();
-            $('#ModeloNegocioLink').removeClass("active");   
-            $('#IndustCompetLink').addClass("active");
-        })
-
-        $('#Siguiente04').click(function (e) {
-            e.preventDefault();
-            $('#IndustCompetLink').removeClass("active");   
-            $('#EstadLogrLink').addClass("active");
-        })
-
-    </script>
 </div>
 {% endblock%}

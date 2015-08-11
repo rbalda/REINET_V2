@@ -44,7 +44,7 @@ class Oferta(models.Model):
     subdominio = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_publicacion = models.DateTimeField('Publicada',null=True,blank=True)
-    tiempo_para_estar_disponible = models.DurationField()
+    tiempo_para_estar_disponible = models.CharField(max_length=25);
     perfil_beneficiario = models.TextField()
     perfil_cliente = models.TextField()
     descripcion_soluciones_existentes = models.TextField(null=True)

@@ -1,0 +1,101 @@
+                                <div class="col-md-12">
+                                <form  class="form-horizontal"  name="crear_oferta_form1" novalidate> 
+                                     <!--NOMBRES-->
+
+                                     <div class="form-group">
+                                         <label for="Nombres" class="col-md-2">Nombre</label>
+                                         <div class="col-md-6">
+
+<input required autofocus type="text" class="form-control" placeholder="Nombre de la Oferta"
+id="nombre" name="nombre_oferta"  data-trigger="focus"
+ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true">
+<span ng-show="crear_oferta_form1.nombre_oferta.$error.pattern"><p class="bg-danger text-danger">Nombre de la Oferta debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
+<span ng-show="crear_oferta_form1.nombre_oferta.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                         </div>
+                                     </div>                 
+                                     <!--Tipo-->
+                                     <div class="form-group">
+                                         <label for="Tipo" class="col-md-2">Tipo</label>
+
+        <div class="col-xs-3">
+        <select class="form-control" ng-options="i.valor as i.tipo for i in items_tipo" ng-model="oferta.tipo" ng-required="true">
+            <option value="">Seleccione tipo de oferta</option>
+        </select>
+        </div>
+                                     </div>                
+                                     <!--Descripicion-->
+                                     <div class="form-group">
+                                         <label for="descripcion-oferta" class="col-md-2">Descripci&oacute;n</label>
+                                         <div class="col-md-6">
+
+<textarea autofocus id="descripcion_oferta" name="descripcion_oferta" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"
+ng-model="oferta.descripcion" ng-required="true"></textarea>
+<span ng-show="crear_oferta_form1.descripcion_oferta.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+
+                                         </div>
+                                     </div>
+                                    <!--Fotos-->
+                                    <div class="form-group">
+                                        <label class="col-md-2">Fotos</label>
+                                        <div class="col-md-6">
+                                            <input name="imagen" type="file" id="files">
+                                            <div id="id1" style="float:left" class="thumbnail">
+                                                <div id="list" class="avatar">
+                                                    <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
+                                                    <img src="#" alt="..."></a>
+                                                </div>
+                                            </div>
+                                         </div>
+                                    </div>
+                                     <!--Dominio-->
+                                     <div class="form-group">
+                                         <label for="oferta-dominio" class="col-md-2">Dominio</label>
+                                         <div class="col-md-6">
+
+<textarea autofocus type="text" class="form-control" id="oferta_dominio" name="oferta_dominio"
+placeholder="Ingresa el dominio de la oferta" rows="5" 
+ng-model="oferta.dominio" ng-required="true"></textarea>
+<span ng-show="crear_oferta_form1.oferta_dominio.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+
+                                         </div>
+                                     </div>  
+                                     <!--Sub dominio-->
+                                     <div class="form-group">
+                                         <label for="oferta_sub_dominio" class="col-md-2">Sub Dominio</label>
+                                         <div class="col-md-6">
+
+<textarea autofocus type="text" class="form-control" id="oferta_sub_dominio" name="oferta_sub_dominio" placeholder="Ingresa el subdominio de la oferta" rows="5" 
+ng-model="oferta.subdominio" ng-required="true"></textarea>
+<span ng-show="crear_oferta_form1.oferta_sub_dominio.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                         </div>
+                                     </div>
+                                     <!--Palabras Clave-->
+                                     <div class="form-group">
+                                         <label for="oferta_palabras_clave" class="col-md-2">Palabras Claves</label>
+                                         <div class="col-md-6">
+
+<textarea autofocus type="text" class="form-control" id="oferta_palabras_clave" name="oferta_palabras_clave" placeholder="Tags" rows="5" 
+ng-model="oferta.palabras_claves" ng-required="true"></textarea>
+<span ng-show="crear_oferta_form1.oferta_palabras_clave.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                                         </div>
+                                     </div>
+                                      <!-- Tags -->
+                                    <div class="form-group col-md-8">
+                                        <label class="col-md-3"></label>  
+                                          <p class="tags col-md-9">
+
+                                          </p>
+                                    </div>
+                                    <div class="col-md-8">
+
+                                        <a id="btn_crear_oferta_sgt1" ng-click="siguiente()">
+                                           <input  type="button" class="btn btn-info pull-right" ng-disabled="!crear_oferta_form1.$valid" value="Siguiente"> 
+                                        </a>
+                                    </div>
+                                </form>
+                                </div>

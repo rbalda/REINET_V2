@@ -29,14 +29,14 @@ from usuarios.models import *
 
 """
 Autor: Leonel Ramirez
-Nombre de funcion: ofertas
+Nombre de funcion: InicioOferta
 Parametros: request
 Salida: 
 Descripcion: para llamar la pagina oferta inicio
 """
 
 @login_required
-def ofertas(request):
+def InicioOferta(request):
 	args = {}
 	return render_to_response('oferta_inicio.html',args)
 
@@ -49,7 +49,7 @@ Salida:
 Descripcion: para llamar la pagina oferta inicio
 """
 @login_required
-def crear_ofertas(request):
+def CrearOferta(request):
 	args = {}
 	return render_to_response('crear_oferta.html',args)
 
