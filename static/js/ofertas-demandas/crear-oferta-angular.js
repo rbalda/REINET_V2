@@ -137,7 +137,15 @@ appoferta.factory('Oferta',['$resource',function($resource){
 }]);
 
 
-
+appoferta.controller('OfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    $http.get(urls.BASE_API+'/ofertas',{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.listaOfertas = response.results;
+        console.log($scope.listaOfertas);
+    }).error(function(){
+        console.log('hubo un error');
+    });
+}]);
 
 
 

@@ -16,3 +16,4 @@ class OfertaViewSet(ModelViewSet):
     lookup_field = 'codigo'
     pagination_class = PaginacionPorDefecto
 
+#aqui faltan unas cosas porque te mostrara todo pero vamos a hacer un ejemplo de como hacer una paginacion
