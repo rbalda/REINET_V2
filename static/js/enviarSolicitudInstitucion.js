@@ -1,11 +1,11 @@
 $("#enviarSolicitud").click(function () {
-	console.log($("#nombre_institucion").val());
+	console.log($("#siglas_institucion").val());
 	$.ajax({
 		  type: "POST",
 		  url: "/envioSolicitud",
 		  data: {
 				'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
-				'nombre_institucion' : $("#nombre_institucion").val()
+				'siglas_institucion' : $("#siglas_institucion").val()
 		  },
 		  success: solicitudSuccess,
 		  dataType: 'html'
@@ -15,4 +15,5 @@ $("#enviarSolicitud").click(function () {
 
 function solicitudSuccess(data, textStatus, jqXHR){
 	$("#formPeticion").html(data);
+	$("#siglas_institucion").val("");
 }

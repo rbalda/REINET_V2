@@ -57,7 +57,10 @@
           </div>
 
 
-          <div class="row">
+          <div class="row" ng-controller="OfertasControlador">
+            <div ng-repeat="o in listaOfertas">
+              <p>[[o.nombre]]</p>
+            </div>
                 <div class=" col-sm-12">
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">

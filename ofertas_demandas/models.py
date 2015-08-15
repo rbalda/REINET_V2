@@ -45,12 +45,12 @@ class Oferta(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_publicacion = models.DateTimeField('Publicada',null=True,blank=True)
     tiempo_para_estar_disponible = models.CharField(max_length=25)
-    perfil_beneficiario = models.TextField(blank=True,null=True)
-    perfil_cliente = models.TextField(blank=True,null=True)
+    perfil_beneficiario = models.TextField(null=True,blank=True)
+    perfil_cliente = models.TextField(null=True,blank=True)
     descripcion_soluciones_existentes = models.TextField(null=True)
     estado_propieada_intelectual = models.TextField(null=True)
     evidencia_traccion = models.TextField(null=True)
-    cuadro_tendencias_relevantes = models.TextField(blank=True,null=True)
+    cuadro_tendencias_relevantes = models.TextField(null=True,blank=True)
     fk_diagrama_competidores = models.OneToOneField(DiagramaPorter,related_name='oferta_con_este_diagrama_porter',null=True)
     fk_diagrama_canvas = models.OneToOneField(DiagramaBusinessCanvas,related_name='oferta_con_este_digrama_canvas',null=True)
     equipo = models.ManyToManyField(Perfil,through='MiembroEquipo',through_fields=('fk_oferta_en_que_participa','fk_participante'),related_name='participa_en')
@@ -71,7 +71,7 @@ class MiembroEquipo(models.Model):
     es_propietario = models.BooleanField(default=False)
     rol_participante = models.TextField(default="Miembro del Equipo de la Oferta")
     activo = models.BooleanField(default=True)
-    estado_membresia = models.PositiveSmallIntegerField()
+    estado_membresia = models.SmallIntegerField(default=0) #si la membresia esta aceptada rechazada o pendiente
 
     class Meta:
         db_table='EquipoDeOferta'

@@ -20,15 +20,16 @@ class PerfilSerializador(serializers.ModelSerializer):
         fields = ('id_perfil','first_name','last_name','foto','fk_ciudad','username')
         read_only_fields = ('id_perfil','first_name','last_name','foto','fk_ciudad','username')
 
+
 class UsuarioSerializador(serializers.ModelSerializer):
     label = serializers.SerializerMethodField('getuser',read_only=True)
 
     class Meta:
         model = User
-        fields = ('label','username')
-        read_only_fields = ('label','username')
+        fields = ('label','first_name','last_name','username')
+        read_only_fields = ('label','first_name','last_name','username')
 
     def getuser(self,obj):
-        return obj.username
+        return obj.first_name + ' ' + obj.last_name + '-' + obj.username
 
 

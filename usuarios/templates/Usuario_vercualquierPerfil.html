@@ -137,7 +137,9 @@
 
                                     <tr>
                                         <td class="text-muted">Instituci&oacute;n</td>
-                                        <td style="text-align:right">{{ institucion.nombre }}</td>
+                                        <td style="text-align:right">
+                                            <a href="/institucion/{{institucion.id_institucion}}">{{ institucion.nombre }}</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">Fecha de Registro</td>
@@ -193,13 +195,7 @@
                                         <td style="text-align:right">{% if usuario_otro.estado == 1 %} Activo {% else %}
                                             Inactivo{% endif %}</td>
                                     </tr>
-                                    {% if usuario_otro.privacidad|get_digit:2 == 1 %}
-                                    <tr>
-                                        <td class="text-muted">Website</td>
-                                        <td style="text-align:right;word-break: break-all;">{{ usuario_otro.web }}</td>
-                                    </tr>
-                                    {% endif %}
-
+                                    
 
                                     </tbody>
                                 </table>
@@ -239,6 +235,13 @@
                                 <td style="text-align:right">{{ usuario_otro.email }}</td>
                             </tr>
                         {% endif %}
+                        {% if usuario_otro.privacidad|get_digit:2 == 1 %}
+                                    <tr>
+                                        <td class="text-muted">Website</td>
+                                        <td style="text-align:right;">{{ usuario_otro.web }}</td>
+                                    </tr>
+                                    {% endif %}
+
                         
                         </tbody>
                     </table>
