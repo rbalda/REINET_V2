@@ -19,8 +19,6 @@ textarea { resize: none; }
     <div class="row col-md-12">
             <div align=right>
 
-                <p>[[ validarForm ]]</p>
-
                 <button href="#" class="btn btn-green" id="btn_crear_oferta" ng-disabled="validar_form" ng-click="guardar()"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
 
                 <a href="/InicioOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
@@ -54,26 +52,6 @@ textarea { resize: none; }
                     <li ng-click="seleccionartab(4)" ng-class="{active:siTabEsSeleccionado(4)}"><a href="#">Estado/Logros</a></li>
 
                   </ul>
-
-                  <!--                   <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#informacion_general" aria-controls="informacion_general" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
-
-                    <li role="presentation"><a href="#cliente_usuario" aria-controls="cliente_usuario" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
-
-                    <li ng-click="seleccionartab(2)" ng-class="{active:siTabEsSeleccionado(2)}"> <a href="#">Modelo de Negocio</a></li>
-
-                    <li ng-click="seleccionartab(3)" ng-class="{active:siTabEsSeleccionado(3)}"> <a href="#">Industria/Competidores</a></li>
-
-                    <li ng-click="seleccionartab(4)" ng-class="{active:siTabEsSeleccionado(4)}"><a href="#">Estado/Logros</a></li>
-
-                  </ul>
-
-                  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-  </ul>-->
 
                   <!-- Tab panes -->
                   <div class="tab-content" id="tabsCrearOferta">

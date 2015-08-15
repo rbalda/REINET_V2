@@ -123,7 +123,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
 
 
 appoferta.factory('Oferta',['$resource',function($resource){
-    return $resource("http://localhost:8000/api/ofertas/:id/",{id:'@id'},{
+    return $resource("/api/ofertas/:id/",{id:'@id'},{
         update:{
             method:'PUT'
         }
