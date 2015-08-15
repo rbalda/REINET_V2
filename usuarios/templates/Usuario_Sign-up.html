@@ -255,13 +255,14 @@
                     </div>
 
                     <div class="form-group">
-                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" onchange="validarNumeroDigitosId()" ng-required="true" ng-pattern="/([0-9]{10})$/">
+                        <input required type="text" pattern="([0-9]{3,15})" class="form-control" id="cedula" minlength="10"maxlength="10" name="cedula" placeholder="Identificación" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cédula o pasaporte aquí." data-original-title="Identificación" onkeypress="return validarNumero(event)" ng-required="true" ng-pattern="/([0-9]{10})$/" ng-model="perfil.cedula">
                      <div ng-messages='registro_usuario_form.cedula.$error' >
                           <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.cedula.$dirty && registro_usuario_form.cedula.$invalid">
                             La cedula debe tener 10 d&iacute;gitos.
                           </label>
                       </div>
                     </div>
+
 
                     <div class="form-group">
                         <select class="form-control" id="pais" name="pais" ng-required="true">
@@ -284,30 +285,49 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="telefono" minlength="10" maxlength="10" pattern="([0-9]{1,15})" name="telefono" placeholder="Telefono" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Ingresa tu cargo aquí." data-original-title="Telefono" onkeypress="return validarNumero(event);" ng-required="true" ng-pattern="/([0-9]{8,10})$/">
-                         <div ng-messages='registro_usuario_form.cedula.$error' >
-                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.cedula.$dirty && registro_usuario_form.cedula.$invalid">
-                            El telefono debe tener 10 numeros.
-                          </label>
-                      </div>
-                    
-                    </div>
-
-
-                    <div class="form-group">
                         <label class="info-board-red" id="email_usado" style="display: none; color: red"></label>
                     </div>
+
 
                     <div class="form-group">
                         <input required type="email" class="form-control" maxlength="50" id="email" name="email"
                                placeholder="Email" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingresa un email valido." data-original-title="Email" ng-model="perfil.email" ng-required="true" unique-email>
+                               data-content="Ingresa un email valido." data-original-title="Email" ng-model="perfil.email" ng-required="true" unique-email ng-pattern="/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/">
+                                   <div ng-messages='registro_usuario_form.email.$error' >
+                              <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.email.$dirty && registro_usuario_form.email.$invalid">
+                               El email no es válido
+                              </label>
+                           </div>
+
                     </div>
                     <div class="form-group">
-                        <input type="url" class="form-control" id="website" name="website" placeholder="Sitio Web"
-                               onblur="validarURL(this)" data-toggle="popover" data-placement="left"
-                               data-trigger="focus" data-content="Ingresa tu sitio web aquí."
-                               data-original-title="Sitio Web" ng-required="true">
+                        
+                        <input required type="text"  class="form-control" id="telefono" name="telefono" placeholder="Teléfono"
+                               data-toggle="popover" data-placement="left" data-trigger="focus"
+                               data-content="Ingresa tu telefono aquí." data-original-title="telefono"
+                               onkeypress="return validarNumero(event)" ng-pattern="/^([0-9]{7,10})$/"
+                               ng-required="true" ng-model="perfil.telefono" maxlength="10"
+                               >
+                               <div ng-messages='registro_usuario_form.telefono.$error' >
+                          <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.telefono.$dirty && registro_usuario_form.telefono.$invalid">
+                            El teléfono debe tener entre 7 y 10 números.
+                          </label>
+
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="website" name="website" placeholder="Sitio Web"
+                               data-toggle="popover" data-placement="left"
+                               data-trigger="focus" data-content="Ingresa tu sitio web aquí." onblur="validarURL(this)"
+                               data-original-title="Sitio Web" ng-pattern="/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/" ng-model="perfil.website" ng-required="true">
+                                      <div ng-messages='registro_usuario_form.website.$error' >
+                                 <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registro_usuario_form.website.$dirty && registro_usuario_form.website.$invalid">
+                                   Ingrese una url válida.
+                                 </label>
+
+                               </div>
                     </div>
 
                     <label id="listarInst">

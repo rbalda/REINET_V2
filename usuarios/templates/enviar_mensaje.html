@@ -5,11 +5,6 @@
     <div class="col-sm-4 col-md-3">
         <div class="user-menu bottom-15">
             <ul>
-                <!--  <li>
-                   <a href="#"  class="link" class="active" >
-                     <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
-                   </a>
-                 </li> -->
                 <li>
                     <a href="/enviarMensaje/" class="active">
                         <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i
@@ -28,28 +23,33 @@
                             class="fa fa-chevron-right pull-right"></i>
                     </a>
                 </li>
-                <!--  <li>
-                   <a href="#">
-                     <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
-				</a>
-			  </li> -->
             </ul>
         </div>
     </div>
 {% endblock %}
+
 {% block contenidousuario %}
-<link rel="stylesheet" href='/static/css/demo.css'>
     <div class="col-sm-8 col-md-7">
         <div class="modal-body">
             <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
-
-            <form role="form" action="/enviarMensaje/" method='POST'>
+            <form  role="form" action="/enviarMensaje/" method='POST'>
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="Destinatario">Para:</label>
-                    <input type="text" class="form-control" id="destinatario" name="destinatario"
+                    <input type="text" class="form-control" id="destinatario_txt" name="destinatario_txt"
                            placeholder="Destinatario" maxlength="50" required>
+
+                    <input type="text" id="nombres" name="nombres">
+
+                    <input type="text" id="destinatario" name="destinatario">
+
                 </div>
+
+
+                <div class="alert alert-danger" role="alert" hidden="True" id="divAlertaUsuario">
+                  <strong class="mensaje_error"></strong>
+                </div>
+
                 <div class="form-group">
                     <label for="Asunto">Asunto:</label>
                     <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
@@ -60,13 +60,32 @@
                     <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
                               required></textarea>
                 </div>
-                <a href="/enviarMensaje/" data-type="zoomin" class="button" id="enviar">
-                    <button type="submit" class="btn btn-green" data-dismiss="modal">Enviar</button>
-                </a>
+                <button type="submit" id="btn_enviar_mensaje_nuevo" class="btn btn-green">Enviar</button>
                 <div class="clearfix"></div>
+                </br>
+                {% if mensajeAlerta %}
+                    {% if tipoAlerta == 'completado' %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong><p><span class="glyphicon glyphicon-ok-sign"></span> {{ mensajeAlerta }}</p></strong>
+                    </div>
+                    {% elif tipoAlerta == 'error' %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeAlerta }}</p></strong>
+                    </div>
+                    {% endif %}
+                {% endif %}
             </form>
         </div>
     </div>
-<script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
-    <script type="text/javascript" src="/static/js/demo.js"></script>
+
+
+{% load staticfiles %}
+<script src="{% static 'js/usuarios/enviar_mensajes.js' %}"></script>
+<script src="{% static 'js/autocompletar.js' %}"></script>
 {% endblock %}
+
+
+
+

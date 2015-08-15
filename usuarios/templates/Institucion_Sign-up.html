@@ -18,25 +18,25 @@
                 <hr>
                 <form role="form" action="/registro_institucion/registering" method="post"
                       enctype="multipart/form-data" name="registrar_institucion" novalidate>{% csrf_token %}
-                    <!--NOMBRE-->
+                    <!--SIGLAS-->
                     <div class="form-group">
-                        <label for="nombreInstitucion">Nombre de la instituci&oacute;n</label>
-                        <label class="form-control" id="nombreInstitucion" placeholder="Nombre de la Institución"
+                        <label for="nombreInstitucion">Siglas de la instituci&oacute;n</label>
+                        <label class="form-control" placeholder="Nombre de la Institución"
                                maxlength="50" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese el nombre de la Institución."
                                data-original-title="Nombre Institucion">
                             {{ insti }}
                         </label>
                     </div>
-                    <!--SIGLA-->
+                    <!--NOMBRES-->
                     <div class="form-group">
-                        <label for="siglaInstitucion">Siglas</label>
+                        <label >Nombre de la instituci&oacute;n</label>
                         <label class="info-board-red" id="sigla_usada" style="display: none; color: red"></label>
-                        <input type="text" class="form-control" maxlength="25" id="siglaInstitucion"
-                               name="siglaInstitucion" placeholder="Siglas/Nombre abreviado"
-                               maxlength="25" data-toggle="popover" data-placement="left" data-trigger="focus"
+                        <input type="text" class="form-control" maxlength="65" id="nombreInstitucion"
+                               name="nombreInstitucion" placeholder="Nombre de la Institucion"
+                               maxlength="65" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese las siglas de la Institucion"
-                               data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" ng-model="institucion.siglaInstitucion" required unique-siglas>
+                               data-original-title="Nombre abreviado" onkeypress="return validarLetras(event)" ng-model="institucion.nombreInstitucion" required unique-nombre>
                     </div>
                     <!--DESCRIPCION-->
                     <div class="form-group">
@@ -46,11 +46,12 @@
                             La descripci&oacute;n debe tener entre 3 y 240 caracteres no especiales.
                           </label>
                         </div>
-                        <input type="text" class="form-control" id="descInstitucion" name="descInstitucion"
+                        <textarea class="form-control" id="descInstitucion" name="descInstitucion"
                                placeholder="Descripcion de la Institucion"
                                maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese las descripcion de la Institucion"
-                               data-original-title="Descripcion" ng-model="institucion.descInstitucion" ng-pattern="/^[a-zA-Z0-9 ]{3,240}$/" ng-required="true">
+                               data-original-title="Descripcion" ng-model="institucion.descInstitucion" ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_0-9 ]{3,240}$/" ng-required="true"> 
+                        </textarea>
                         
                     </div>
                     <!--MISION-->
@@ -61,10 +62,11 @@
                             La misi&oacute;n debe tener entre 3 y 240 caracteres no especiales.
                           </label>
                         </div>
-                        <input type="text" class="form-control" id="misionInstitucion" name="misionInstitucion"
+                        <textarea type="text" class="form-control" id="misionInstitucion" name="misionInstitucion"
                                placeholder="Misión"
                                maxlength="300" data-toggle="popover" data-placement="left" data-trigger="focus"
-                               data-content="Ingrese la misión de la Institución" data-original-title="Misión" ng-model="institucion.misionInstitucion" ng-pattern="/^[a-zA-Z0-9 ]{3,240}$/" ng-required="true">
+                               data-content="Ingrese la misión de la Institución" data-original-title="Misión" ng-model="institucion.misionInstitucion" ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_0-9 ]{3,240}$/" ng-required="true">
+                        </textarea>
                     </div>
                     <!--PAIS-->
                     <div class="form-group">
@@ -93,8 +95,8 @@
                             </optgroup>
                         </select>
                     </div>
-                    <!--RECURSOS-->
 
+                    <!--RECURSOS-->
                     <div class="form-group">
                         <label for="recursosInstitucion">Recursos ofrecidos</label>
                         <div ng-messages='registrar_institucion.recursosInstitucion.$error' >
@@ -102,11 +104,12 @@
                             La misi&oacute;n debe tener entre 3 y 240 caracteres no especiales.
                           </label>
                         </div>
-                        <input type="text" class="form-control" id="recursosInstitucion" name="recursosInstitucion"
+                        <textarea type="text" class="form-control" id="recursosInstitucion" name="recursosInstitucion"
                                placeholder="Recursos Ofrecidos"
                                maxlength="200" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese los recursos que ofrece la Institución"
-                               data-original-title="Recursos Ofrecidos" ng-model="institucion.recursosInstitucion" ng-pattern="/^[a-zA-Z0-9 ]{3,240}$/" ng-required="true">
+                               data-original-title="Recursos Ofrecidos" ng-model="institucion.recursosInstitucion" ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_0-9 ]{3,240}$/" ng-required="true">
+                        </textarea>
                     </div>
                     <!--CARGO-->
                     <div class="form-group">
@@ -120,7 +123,7 @@
                                placeholder="Indique su cargo en la Institucion"
                                maxlength="45" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese su cargo en la Institución" data-original-title="Cargo"
-                               onkeypress="return validarLetras(event)" ng-model="institucion.cargoInstitucion" ng-pattern="/^[a-zA-Z0-9]{3,35}$/" ng-required="true">
+                               onkeypress="return validarLetras(event)" ng-model="institucion.cargoInstitucion" ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_0-9 ]{3,35}$/" ng-required="true">
                     </div>
                     <!--DESCRIPCION DE CARGO-->
                     <div class="form-group">
@@ -134,7 +137,7 @@
                                placeholder="Indique de que se trata su cargo"
                                maxlength="100" data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese de que se trata su cargo" data-original-title="Desc Cargo"
-                               ng-model="institucion.cargoDescInstitucion" ng-pattern="/^[a-zA-Z0-9 ]{3,240}$/" ng-required="true">
+                               ng-model="institucion.cargoDescInstitucion" ng-pattern="/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_0-9 ]{3,240}$/" ng-required="true">
                     </div>
                     <!--TELEFONO-->
                     <div class="form-group">
@@ -171,15 +174,15 @@
                         <label for="webInstitucion">Sitio web</label>
                         <div ng-messages='registrar_institucion.webInstitucion.$error' >
                           <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="registrar_institucion.webInstitucion.$dirty && registrar_institucion.webInstitucion.$invalid">
-                            El sitio web debe tener entre 3 y 240 caracteres y usar http://. 
-                            Ejemplo: http://www.reinet.org
+                            El sitio web debe tener entre 3 y 240 caracteres. 
+                            Ejemplo: www.reinet.org
                           </label>
                         </div>
-                        <input type="url" class="form-control" maxlength="45" id="webInstitucion"
+                        <input type="text" class="form-control" maxlength="45" id="webInstitucion"
                                name="webInstitucion" placeholder="Dirección web"
                                data-toggle="popover" data-placement="left" data-trigger="focus"
                                data-content="Ingrese la dirección web de la Institución"
-                               data-original-title="Dirección Web" ng-model="institucion.webInstitucion" ng-required="true">
+                               data-original-title="Dirección Web" ng-model="institucion.webInstitucion" ng-pattern="/^www\.[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/" ng-required="true">
                     </div>
                     <label for="logo">Logo</label>
                     <input type="file" name="logo" id="logo" data-toggle="popover" data-placement="left"

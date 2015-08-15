@@ -38,6 +38,7 @@ Descripcion: para llamar la pagina oferta inicio
 @login_required
 def InicioOferta(request):
 	args = {}
+	
 	return render_to_response('oferta_inicio.html',args)
 
 
