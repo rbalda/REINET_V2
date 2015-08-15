@@ -1,4 +1,4 @@
-var redInn = angular.module('redInn',['ngResource','ngAnimate','ngRoute','ngCookies','SwampDragonServices','ngMessages']);
+var redInn = angular.module('redInn',['ngResource','ngAnimate','ngRoute','ngCookies','SwampDragonServices','ngMessages','ngTagsInput']);
 
 //Configuracion de angular para que no se confunda con sintaxis django
 redInn.config(['$interpolateProvider','$resourceProvider',function( $interpolateProvider,$resourceProvider){

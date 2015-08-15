@@ -1,5 +1,5 @@
                              <div class="col-md-12">   
-                             <form  class="form-horizontal"  name="crear_oferta_form2" novalidate> 
+                             <form  class="form-horizontal"  name="forms.crear_oferta_form2" novalidate> 
                                   <!--Perfil Cliente-->
                                   
                                   <div class="form-group">
@@ -7,9 +7,9 @@
                                          <div class="col-md-6">
 
 <textarea autofocus id="oferta_descripcion_perfil" name="oferta_descripcion_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"
-ng-model="oferta.perfil_cliente" ng-required="true"
+ng-model="oferta.perfil_cliente"  ng-required="false" 
 ></textarea>
-<span ng-show="crear_oferta_form2.oferta_descripcion_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span> 
+<!--<span ng-show="crear_oferta_form2.oferta_descripcion_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>--> 
 
                                          </div>
                                      </div>
@@ -20,9 +20,9 @@ ng-model="oferta.perfil_cliente" ng-required="true"
                                          <div class="col-md-6">
 
 <textarea autofocus id="oferta_beneficiario_perfil" name="oferta_beneficiario_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"
-ng-model="oferta.perfil_beneficiario" ng-required="true"
+ng-model="oferta.perfil_beneficiario"  ng-required="false" 
 ></textarea>
-<span ng-show="crear_oferta_form2.oferta_beneficiario_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+<!--<span ng-show="crear_oferta_form2.oferta_beneficiario_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                          </div>
                                   </div>  
@@ -31,7 +31,7 @@ ng-model="oferta.perfil_beneficiario" ng-required="true"
                                   <br>
 
                                       <a id="btn_crear_oferta_sgt2" ng-click="siguiente()">
-                                           <input type="button" class="btn btn-info pull-right" value="Siguiente" ng-disabled="!crear_oferta_form2.$valid"> 
+                                           <input type="button" class="btn btn-info pull-right" value="Siguiente"> 
                                         </a>
 
                                       <a id="btn_crear_oferta_ant2" ng-click="atras()" style="margin-right:15px;margin-left:15px;">

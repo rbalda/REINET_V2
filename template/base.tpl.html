@@ -13,6 +13,8 @@
     <meta name="author" content="ESPOL">
 
     <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ng-tags-input.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ng-tags-input.bootstrap.css' %}">   
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
     <script src="{% static 'js/angular.js' %}"></script>
@@ -98,8 +100,9 @@
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     {% include 'contenedorarchivosestaticos/contenedorjs.tpl.html' %}
     <script src="{% static 'js/app.js' %}"></script>
-    <script src="/static/js/ofertas-demandas/crear-oferta-angular.js"></script>
+    <script src="{% static 'js/ofertas-demandas/crear-oferta-angular.js' %}"></script>
     <script src="{% static 'js/perfil_usuario.js' %}"></script>
+    <script src="{% static 'js/ng-tags-input.js' %}"></script>
 {%endblock%}
 </body>
 </html>
