@@ -30,7 +30,36 @@ class MisOfertaViewSet(ModelViewSet):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
         #queryset = self.get_queryset().filter(miembroequipo__fk_participante=request.user.id, miembroequipo__es_propietario=1)
+        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1, publicada=1)
+        return queryset
+
+
+class MisOfertaBorradoresViewSet(ModelViewSet):
+    queryset = Oferta.objects.all()
+    serializer_class = OfertaSerializador
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'codigo'
+    pagination_class = PaginacionCinco
+
+    def get_queryset(self):
+        queryset = []
+        usuario = Perfil.objects.get(id=self.request.user.id)
+        #queryset = self.get_queryset().filter(miembroequipo__fk_participante=request.user.id, miembroequipo__es_propietario=1)
         queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1, publicada=0)
+        return queryset
+
+class MiembroOfertaViewSet(ModelViewSet):
+    queryset = Oferta.objects.all()
+    serializer_class = OfertaSerializador
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'codigo'
+    pagination_class = PaginacionCinco
+
+    def get_queryset(self):
+        queryset = []
+        usuario = Perfil.objects.get(id=self.request.user.id)
+        #queryset = self.get_queryset().filter(miembroequipo__fk_participante=request.user.id, miembroequipo__es_propietario=1)
+        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=0)
         return queryset
 
 #aqui faltan unas cosas porque te mostrara todo pero vamos a hacer un ejemplo de como hacer una paginacion

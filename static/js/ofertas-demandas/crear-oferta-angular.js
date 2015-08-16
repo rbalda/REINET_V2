@@ -139,7 +139,7 @@ function getQueryVariable(variable, url) {
             return pair[1];
         }
     } 
-    return "";
+    return "1";
 }
 
 //appoferta.directive('ngUpdateHidden',function() {
@@ -152,6 +152,7 @@ function getQueryVariable(variable, url) {
 //    };
 //});
 
+//CONTROLADOR LISTA OFERTAS DE LA RED
 appoferta.controller('OfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
     $http.get(urls.BASE_API+'/ofertas/',{},{headers:{"Content-Type":"application/json"}})
     .success(function(response){
@@ -213,7 +214,7 @@ appoferta.controller('OfertasControlador',['$scope','$http','urls',function($sco
     };
 }]);
 
-
+//CONTROLADOR LISTA OFERTAS PUBLICADAS
 appoferta.controller('MisOfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
     console.log("Mis Ofertas!");
     $http.get(urls.BASE_API+'/misOfertas/',{},{headers:{"Content-Type":"application/json"}})
@@ -222,40 +223,34 @@ appoferta.controller('MisOfertasControlador',['$scope','$http','urls',function($
         $scope.MOlistaOfertas = response.results;
         $scope.MOcontador = Math.ceil(response.count/5);
         if(response.next == null){
-            $scope.MOsiguiente = urls.BASE_API+'/ofertas/?page=1';
+            $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?page=1';
         }else{
             $scope.MOsiguiente=response.next;
         }
         if(response.previous == null){
-            $scope.MOanterior = urls.BASE_API+'/ofertas/?page=' + $scope.MOcontador;
+            $scope.MOanterior = urls.BASE_API+'/misOfertas/?page=' + $scope.MOcontador;
         }else{
             $scope.MOanterior=response.next;
         }
-        console.log($scope.MOlistaOfertas);
-        console.log($scope.MOsiguiente);
-        console.log($scope.MOanterior);
     }).error(function(){
         console.log('hubo un error');
     });
     $scope.irAlsiguientePublicada = function(){
         $http.get($scope.MOsiguiente,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
-            $scope.MOpagina = getQueryVariable('page', $scope.siguiente);
+            $scope.MOpagina = getQueryVariable('page', $scope.MOsiguiente);
             $scope.MOlistaOfertas = response.results;
             $scope.MOcontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.MOsiguiente = urls.BASE_API+'/ofertas/?page=1';
+                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?page=1';
             }else{
                 $scope.MOsiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.MOanterior = urls.BASE_API+'/ofertas/?page=' + $scope.MOcontador;
+                $scope.MOanterior = urls.BASE_API+'/misOfertas/?page=' + $scope.MOcontador;
             }else{
                 $scope.MOanterior=response.previous;
             }
-            console.log($scope.MOlistaOfertas);
-            console.log($scope.MOsiguiente);
-            console.log($scope.MOanterior);
         }).error(function(){
             console.log('hubo un error');
         });
@@ -263,29 +258,150 @@ appoferta.controller('MisOfertasControlador',['$scope','$http','urls',function($
     $scope.irAlanteriorPublicada = function(){
         $http.get($scope.MOanterior,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
-            $scope.MOpagina = getQueryVariable('page', $scope.anterior);
+            $scope.MOpagina = getQueryVariable('page', $scope.MOanterior);
             $scope.MOlistaOfertas = response.results;
             $scope.MOcontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.MOsiguiente = urls.BASE_API+'/ofertas/?page=1';
+                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?page=1';
             }else{
                 $scope.MOsiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.MOanterior = urls.BASE_API+'/ofertas/?page=' + $scope.MOcontador;
+                $scope.MOanterior = urls.BASE_API+'/misOfertas/?page=' + $scope.MOcontador;
             }else{
                 $scope.MOanterior=response.previous;
             }
-            console.log($scope.MOlistaOfertas);
-            console.log($scope.MOsiguiente);
-            console.log($scope.MOanterior);
         }).error(function(){
             console.log('hubo un error');
         });
     };
 }]);
 
+//CONTROLADOR LISTA OFERTAS BORRADOR
+appoferta.controller('MisOfertasBorradoresControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Mis Ofertas Borradores!");
+    $http.get(urls.BASE_API+'/misOfertasBorradores/',{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.Borradorespagina = 1;
+        $scope.BorradoreslistaOfertas = response.results;
+        $scope.Borradorescontador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?page=1';
+        }else{
+            $scope.Borradoressiguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?page=' + $scope.Borradorescontador;
+        }else{
+            $scope.Borradoresanterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguienteBorrador = function(){
+        $http.get($scope.Borradoressiguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoressiguiente);
+            $scope.BorradoreslistaOfertas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?page=1';
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.previous;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.irAlanteriorBorrador = function(){
+        $http.get($scope.Borradoresanterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoresanterior);
+            $scope.BorradoreslistaOfertas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?page=1';
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.previous;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+}]);
 
+//CONTROLADOR LISTA OFERTAS EN LAS QUE PARTICIPO
+appoferta.controller('MiembroOfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Mis Ofertas Borradores!");
+    $http.get(urls.BASE_API+'/miembroOfertas/',{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.miembropagina = 1;
+        $scope.miembrolistaOfertas = response.results;
+        $scope.miembrocontador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.miembrosiguiente = urls.BASE_API+'/miembroOfertas/?page=1';
+        }else{
+            $scope.miembrosiguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.miembroanterior = urls.BASE_API+'/miembroOfertas/?page=' + $scope.miembrocontador;
+        }else{
+            $scope.miembroanterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguienteMiembro = function(){
+        $http.get($scope.miembrosiguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.miembropagina = getQueryVariable('page', $scope.miembrosiguiente);
+            $scope.miembrolistaOfertas = response.results;
+            $scope.miembrocontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.miembrosiguiente = urls.BASE_API+'/miembroOfertas/?page=1';
+            }else{
+                $scope.miembrosiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.miembroanterior = urls.BASE_API+'/miembroOfertas/?page=' + $scope.miembrocontador;
+            }else{
+                $scope.miembroanterior=response.previous;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.irAlanteriorMiembro = function(){
+        $http.get($scope.miembroanterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.miembropagina = getQueryVariable('page', $scope.miembroanterior);
+            $scope.miembrolistaOfertas = response.results;
+            $scope.miembrocontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.miembrosiguiente = urls.BASE_API+'/miembroOfertas/?page=1';
+            }else{
+                $scope.miembrosiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.miembroanterior = urls.BASE_API+'/miembroOfertas/?page=' + $scope.miembrocontador;
+            }else{
+                $scope.miembroanterior=response.previous;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+}]);
 
 
 
