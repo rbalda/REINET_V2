@@ -1,6 +1,7 @@
 
 var appoferta = angular.module('redInn');
 
+
 appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout',function($scope,$rootScope,Oferta,$timeout){
     // dentro del scope van modelos
 
@@ -24,6 +25,32 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.validar_form=true;
     $scope.formActual = $scope.tabs[$scope.actualtab];
     $scope.forms = {};
+
+
+
+
+    function isEmpty(myObject) {
+        for(var key in myObject) {
+            if (myObject.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    var tags={};
+    $scope.$watch('palabras_clave',function(palabra){
+        console.log('dentro de watch palabras_clave');
+        console.log(palabra);
+        tags = palabra;
+
+        if(!isEmpty(tags)){
+            console.log('tags'+tags);
+            console.log(tags);
+            $scope.palabras_clave = tags;
+        }
+    });
+
 
     var tiempo='1';
     var duracion='A\u00F1o';
@@ -81,18 +108,18 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.siguiente = function(){
         $scope.actualtab = $scope.actualtab+1;
         $scope.formActual = $scope.tabs[$scope.actualtab];
-    }
+    };
 
     $scope.atras = function(){
         if($scope.actualtab>0)
             $scope.actualtab=$scope.actualtab-1;
             $scope.formActual = $scope.tabs[$scope.actualtab];
-    }
+    };
 
     $scope.guardar = function(){
         $scope.oferta.tiempo_para_estar_disponible=tiempo + " " + duracion;
 
-        $scope.oferta.$save(function(response){
+        $scope.oferta.$save($scope.palabras_clave,function(response){
             console.log('Se ha creado con exito la Oferta');
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";

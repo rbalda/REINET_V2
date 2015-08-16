@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from datetime import date, datetime
-from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo
+from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo, PalabraClave
 from usuarios.models import Perfil
 
 __author__ = 'rbalda'
@@ -29,6 +29,13 @@ class DiagramaBusinessCanvasSerializador(ModelSerializer):
         read_only_fields = ('id_diagrama_canvas',)
 
 
+class PalabrasClaveSerializador(ModelSerializer):
+    class Meta:
+        model = PalabraClave
+        fields = ('palabra')
+        read_only_fields = ('id_palabras_clave')
+
+
 class OfertaSerializador(ModelSerializer):
     fk_diagrama_competidores = DiagramaPorterSerializador(required=False,allow_null=True)
     fk_diagrama_canvas = DiagramaBusinessCanvasSerializador(required=False,allow_null=True)
@@ -42,13 +49,15 @@ class OfertaSerializador(ModelSerializer):
             'equipo','palabras_clave','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
-                            'calificacion_total','palabras_clave','comentarios','alcance')
+                            'calificacion_total','comentarios','palabras_clave','alcance')
 
     def create(self,validated_data):
         diagrama_competidores = validated_data.pop('fk_diagrama_competidores',None)
         diagrama_canvas = validated_data.pop('fk_diagrama_canvas',None)
+        palabras_clave = validated_data.pop('palabras_clave',None)
         diagrama_canvas_exist = False
         competidores_canvas_exist = False
+        palabras_clave_exist = False
 
         canvas=None
         porter = None
@@ -62,6 +71,11 @@ class OfertaSerializador(ModelSerializer):
             for d in diagrama_competidores:
                 if not diagrama_competidores[d]=='':
                     competidores_canvas_exist = True
+
+        if palabras_clave:
+            for d in palabras_clave:
+                print 'palabra clave'
+                print d
 
         if(competidores_canvas_exist):
            canvas = DiagramaBusinessCanvas.objects.create(**diagrama_canvas)
