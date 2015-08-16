@@ -43,7 +43,7 @@ class OfertaSerializador(ModelSerializer):
     class Meta:
         model = Oferta
         fields = (
-            'codigo','tipo','nombre','publicada','calificacion_total','descripcion','dominio','subdominio',
+            'id_oferta','codigo','tipo','nombre','publicada','calificacion_total','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','palabras_clave','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas')
