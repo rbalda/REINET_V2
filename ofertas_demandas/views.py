@@ -63,7 +63,7 @@ Salida: http
 Descripcion: funcion para ver una oferta publicada
 """
 @login_required
-def verCualquierOferta(request):
+def verCualquierOferta(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
@@ -76,12 +76,23 @@ def verCualquierOferta(request):
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+
+	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+
+	if membresiaOferta is not None:
+		return HttpResponseRedirect('/NotFound/')
+
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['oferta'] = oferta
 	return render_to_response('oferta_ver_otra.html',args)
 """
-Autor: Henry Lasso
+Autor: Pedro Iniguez
 Nombre de funcion: administrarOferta
 Parametros: request
 Salida: 
@@ -89,12 +100,37 @@ Descripcion: funcion para administrar mi oferta publicada.
 """
 
 @login_required
-def administrar_Oferta(request):
+def administrar_Oferta(request, id_oferta):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
 	args = {}
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	if (oferta.publicada == 0):
+		return HttpResponseRedirect('/NotFound/')
+	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+
+	if membresiaOferta is None:
+		return HttpResponseRedirect('/NotFound/')
+	args.update(csrf(request))
+	args['es_admin']=request.session['es_admin']
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['oferta'] = oferta
 	return render_to_response('administrar_oferta.html',args)
 
 """
-Autor: Estefania Lozano
+Autor: Pedro Iniguez
 Nombre de funcion: administarBorrador
 Parametros: request
 Salida: 
@@ -102,8 +138,34 @@ Descripcion: funcion para administrar mi oferta publicada.
 """
 
 @login_required
-def administrar_Borrador(request):
+def administrar_Borrador(request, id_oferta):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
 	args = {}
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	if (oferta.publicada == 1):
+		return HttpResponseRedirect('/NotFound/')
+	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+
+	if membresiaOferta is None:
+		return HttpResponseRedirect('/NotFound/')
+
+	args.update(csrf(request))
+	args['es_admin']=request.session['es_admin']
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['oferta'] = oferta
 	return render_to_response('administrar_borrador.html',args)
 
 """
