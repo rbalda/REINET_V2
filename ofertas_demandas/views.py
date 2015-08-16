@@ -91,6 +91,7 @@ def verCualquierOferta(request, id_oferta):
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	return render_to_response('oferta_ver_otra.html',args)
+
 """
 Autor: Pedro Iniguez
 Nombre de funcion: administrarOferta
