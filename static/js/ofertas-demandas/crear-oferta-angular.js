@@ -39,7 +39,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         return true;
     }
     var tags={};
-    $scope.$watch('palabras_clave',function(palabra){
+    $scope.$watch('oferta.tags',function(palabra){
         console.log('dentro de watch palabras_clave');
         console.log(palabra);
         tags = palabra;
@@ -47,7 +47,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         if(!isEmpty(tags)){
             console.log('tags'+tags);
             console.log(tags);
-            $scope.palabras_clave = tags;
+            $scope.oferta.tags = tags;
         }
     });
 
