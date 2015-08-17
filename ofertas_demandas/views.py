@@ -188,7 +188,7 @@ def administrar_Borrador(request, id_oferta):
 """
 Autor: Roberto Yoncon
 Nombre de funcion: editar_borrador
-Parametros: request
+Parametros: request, id de una oferta
 Salida: 
 Descripcion: funcion para editar un borrador
 """
@@ -417,3 +417,72 @@ def verificaParticipacion(request):
             print 'Oferta no existe'
     else:
         return redirect('/')
+
+
+"""
+Autor: Roberto Yoncon
+Nombre de funcion: publicar_borrador
+Parametros: request, id de una oferta
+Salida: 
+Descripcion: cambia el estado de una oferta de 
+"""
+@login_required
+def publicar_borrador(request, id_oferta):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	if (oferta.publicada == 1):
+		return HttpResponseRedirect('/NotFound/')
+
+	oferta.publicada = 1
+	oferta.save()
+
+	args['es_admin']=request.session['es_admin']
+	args['oferta'] = oferta
+	return render_to_response('oferta_inicio.html',args)
+
+
+
+"""
+Autor: Roberto Yoncon
+Nombre de funcion: publicar_borrador
+Parametros: request, id de una oferta
+Salida: 
+Descripcion: cambia el estado de una oferta de 
+"""
+@login_required
+def eliminar_borrador(request, id_oferta):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+
+	oferta.delete()
+	
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('oferta_inicio.html',args)
