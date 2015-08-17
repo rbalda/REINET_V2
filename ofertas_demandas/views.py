@@ -1,4 +1,4 @@
-# Create your views here.
+# -*- encoding: utf-8 -*-
 import random
 import string
 
@@ -88,7 +88,7 @@ def verCualquierOferta(request, id_oferta):
 
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
-	args['institucion_nombre'] = request.session['institucion_nombre']
+	#args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	return render_to_response('oferta_ver_otra.html',args)
 
@@ -181,3 +181,34 @@ def editar_borrador(request):
 	args = {}
 	return render_to_response('editar_borrador.html',args)
 
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: equipo_oferta
+Entrada:
+Salida: Muestra el equipo de una oferta
+Descripción:Esta función permite mostrar el equipo de una oferta
+"""
+@login_required
+def equipo_oferta(request):
+	print 'entrare al ajax con id '+ request.GET['oferta']
+	if request.is_ajax():
+		print 'estoy en el ajax'
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta)
+			print 'lo logreee'
+			args['listaEquipo'] = listaEquipo
+			args['oferta']=oferta
+			args.update(csrf(request))
+			return render(request,'equipo_oferta.html',args)
+
+		except Oferta.DoesNotExist:
+			print 'esa oferta no existe BRONZA'
+		except MiembroEquipo.DoesNotExist:
+			print 'Este pana no tiene amigos :/'
+		except:
+			print 'ya me jodi =('
+	else:
+		return redirect('/NotFound')
