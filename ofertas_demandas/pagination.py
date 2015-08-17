@@ -10,3 +10,8 @@ class PaginacionCinco(PageNumberPagination):
     page_size = 5
     page_size_query_param = 'pagina_tamanio'
     max_page_size = 100
+
+class NoPaginacion(PageNumberPagination):
+	page_size = 99
+	page_size_query_param = 'pagina_tamanio'
+	max_page_size = 100

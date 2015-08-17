@@ -9,7 +9,7 @@
 
 <input autofocus type="text" class="form-control" placeholder="Nombre de la Oferta"
 id="nombre" name="nombre_oferta"  data-trigger="focus"
-ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)" ng-focus="">
+ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)">
 <span ng-show="forms.crear_oferta_form1.nombre_oferta.$error.pattern"><p class="bg-danger text-danger">Nombre de la Oferta debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
 <span ng-show="crear_oferta_form1.nombre_oferta.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
                                          </div>
@@ -33,7 +33,7 @@ ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true" 
                                          <div class="col-md-6">
 
 <textarea id="descripcion_oferta" name="descripcion_oferta" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta"
-ng-model="oferta.descripcion" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)"></textarea>
+ng-model="oferta.descripcion" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)" value="{% if oferta %}{{oferta.descripcion}}{% endif %}"></textarea>
 <span ng-show="forms.crear_oferta_form1.descripcion_oferta.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
 
@@ -59,7 +59,7 @@ ng-model="oferta.descripcion" ng-required="true" ng-blur="validarSubmit(forms.cr
 
 <textarea type="text" class="form-control" id="oferta_dominio" name="oferta_dominio"
 placeholder="Ingresa el dominio de la oferta" rows="5" 
-ng-model="oferta.dominio" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)"></textarea>
+ng-model="oferta.dominio" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)" value="{% if oferta %}{{oferta.dominio}}{% endif %}"></textarea>
 <span ng-show="forms.crear_oferta_form1.oferta_dominio.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
 
@@ -71,7 +71,7 @@ ng-model="oferta.dominio" ng-required="true" ng-blur="validarSubmit(forms.crear_
                                          <div class="col-md-6">
 
 <textarea type="text" class="form-control" id="oferta_sub_dominio" name="oferta_sub_dominio" placeholder="Ingresa el subdominio de la oferta" rows="5" 
-ng-model="oferta.subdominio" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)"></textarea>
+ng-model="oferta.subdominio" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)" value="{% if oferta %}{{oferta.subdominio}}{% endif %}"></textarea>
 <span ng-show="forms.crear_oferta_form1.oferta_sub_dominio.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
                                          </div>
