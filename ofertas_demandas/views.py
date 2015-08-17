@@ -103,12 +103,28 @@ def verCualquierOferta(request, id_oferta):
 	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
 	if membresiaOferta is not None:
-		return HttpResponseRedirect('/NotFound/')
+		print ''
+	try:
+		solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = usuario.id_perfil)
+	except:
+		solicitudMembresia = None
+
+	if solicitudMembresia is not None:
+		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
+		existeMembresia = True
+		estadoMembresia = solicitudMembresia.estado_membresia
+	else:
+		participantes = 0
+		existeMembresia = False
+		estadoMembresia = None
 
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
 	#args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	args['participantes'] = participantes
+	args['existeMembresia'] = existeMembresia
+	args['estadoMembresia'] = estadoMembresia
 	return render_to_response('oferta_ver_otra.html',args)
 
 """
@@ -346,37 +362,37 @@ Descripción:Envia una solicitud para participar en una Oferta
 """
 @login_required
 def solicitarMembresiaOferta(request):
-    if request.is_ajax():
-        try:
-            oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
-            print request.POST['oferta']
-            print request.user
+	if request.is_ajax():
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
+			print request.POST['oferta']
+			print request.user
 
-            solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
+			solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
 
-            if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
-                solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
-                solicitudMembresia.estado_membresia = 0
-                solicitudMembresia.save()
-                print 'se actualizo parece'
-                response = JsonResponse({'save_estado':True})
-                return HttpResponse(response.content)
+			if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
+				solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
+				solicitudMembresia.estado_membresia = 0
+				solicitudMembresia.save()
+				print 'se actualizo parece'
+				response = JsonResponse({'save_estado':True})
+				return HttpResponse(response.content)
 
-        except Oferta.DoesNotExist:
-            print 'Oferta no existe'
-        except MiembroEquipo.DoesNotExist:
-                solicitudMembresia = MiembroEquipo()
-                solicitudMembresia.es_propietario = False
-                solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
-                solicitudMembresia.estado_membresia = 0
-                solicitudMembresia.fk_participante = request.user.perfil
-                solicitudMembresia.fk_oferta_en_que_participa = oferta
-                solicitudMembresia.save()
-                print 'se guardo parece'
-                response = JsonResponse({'save_estado':True})
-                return HttpResponse(response.content)
-    else:
-        return redirect('/')
+		except Oferta.DoesNotExist:
+			print 'Oferta no existe'
+		except MiembroEquipo.DoesNotExist:
+				solicitudMembresia = MiembroEquipo()
+				solicitudMembresia.es_propietario = False
+				solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
+				solicitudMembresia.estado_membresia = 0
+				solicitudMembresia.fk_participante = request.user.perfil
+				solicitudMembresia.fk_oferta_en_que_participa = oferta
+				solicitudMembresia.save()
+				print 'se guardo parece'
+				response = JsonResponse({'save_estado':True})
+				return HttpResponse(response.content)
+	else:
+		return redirect('/')
 
 
 
@@ -386,41 +402,41 @@ Nombre de la funcion: verificaParticipacion
 Entrada:
 Salida:Habilita o inhabilita el boton de membresia
 Descripción:Verifica que la solicitud para participar en una Oferta sea valida
-"""
+
 
 def verificaParticipacion(request):
-    if request.is_ajax():
-        try:
-            oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
-            print oferta.id_oferta
-            solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
-            print solicitudMembresia + 'lol que bronza'
+	if request.is_ajax():
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			print oferta.id_oferta
+			solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
+			print solicitudMembresia + 'lol que bronza'
 
-            if solicitudMembresia is not None:
-                print 'si existe membresia'
-                participantes = oferta.equipo.count
-                existeMembresia = True
-                estadoMembresia = solicitudMembresia.estado_membresia
+			if solicitudMembresia is not None:
+				print 'si existe membresia'
+				participantes = oferta.equipo.count
+				existeMembresia = True
+				estadoMembresia = solicitudMembresia.estado_membresia
 
-            response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia,'participantes':participantes})
-            return HttpResponse(response.content)
+			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia,'participantes':participantes})
+			return HttpResponse(response.content)
 
-        except MiembroEquipo.DoesNotExist:
-            print 'no existe membresia'
-            participantes = oferta.equipo.count
-            existeMembresia = False
-            estadoMembresia = None
+		except MiembroEquipo.DoesNotExist:
+			print 'no existe membresia'
+			participantes = oferta.equipo.count
+			existeMembresia = False
+			estadoMembresia = None
 
-            response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia,'participantes':participantes})
-            return HttpResponse(response.content)
+			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia,'participantes':participantes})
+			return HttpResponse(response.content)
 
-        except MiembroEquipo.MultipleObjectsReturned:
-            print 'mas de uno... error, no deberia pasar'
-        except Oferta.DoesNotExist:
-            print 'Oferta no existe'
-    else:
-        return redirect('/')
-
+		except MiembroEquipo.MultipleObjectsReturned:
+			print 'mas de uno... error, no deberia pasar'
+		except Oferta.DoesNotExist:
+			print 'Oferta no existe'
+	else:
+		return redirect('/')
+"""
 
 """
 Autor: Roberto Yoncon
