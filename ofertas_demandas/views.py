@@ -97,6 +97,9 @@ def verCualquierOferta(request, id_oferta):
 	except:
 		return HttpResponseRedirect('/NotFound/')
 
+	if oferta.publicada == 0 :
+		return HttpResponseRedirect('/NotFound/')
+
 	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
 	if membresiaOferta is not None:
