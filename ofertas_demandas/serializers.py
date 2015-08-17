@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 from datetime import date, datetime
-from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo
+from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo, PalabraClave
 from usuarios.models import Perfil
+from rest_framework import serializers
+import json
 
 __author__ = 'rbalda'
 
@@ -29,9 +31,21 @@ class DiagramaBusinessCanvasSerializador(ModelSerializer):
         read_only_fields = ('id_diagrama_canvas',)
 
 
+class PalabrasClaveSerializador(ModelSerializer):
+    class Meta:
+        model = PalabraClave
+        fields = ('palabra')
+        read_only_fields = ('id_palabras_clave')
+
+
 class OfertaSerializador(ModelSerializer):
     fk_diagrama_competidores = DiagramaPorterSerializador(required=False,allow_null=True)
     fk_diagrama_canvas = DiagramaBusinessCanvasSerializador(required=False,allow_null=True)
+
+    tags = serializers.ListField(
+            child=serializers.CharField(),
+            required=False,allow_null=True
+    )
 
     class Meta:
         model = Oferta
@@ -39,14 +53,19 @@ class OfertaSerializador(ModelSerializer):
             'id_oferta','codigo','tipo','nombre','publicada','calificacion_total','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
-            'equipo','palabras_clave','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas')
+            'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
-                            'calificacion_total','palabras_clave','comentarios','alcance')
+                            'calificacion_total','comentarios','palabras_clave','alcance')
+
+    #def get_validation_exclusions(self):
+    #    exclusions = super(OfertaSerializador, self).get_validation_exclusions()
+    #    return exclusions + ['tags']
 
     def create(self,validated_data):
         diagrama_competidores = validated_data.pop('fk_diagrama_competidores',None)
         diagrama_canvas = validated_data.pop('fk_diagrama_canvas',None)
+        tags = validated_data.pop('tags',None)
         diagrama_canvas_exist = False
         competidores_canvas_exist = False
 
@@ -63,6 +82,7 @@ class OfertaSerializador(ModelSerializer):
                 if not diagrama_competidores[d]=='':
                     competidores_canvas_exist = True
 
+
         if(competidores_canvas_exist):
            canvas = DiagramaBusinessCanvas.objects.create(**diagrama_canvas)
         if(diagrama_canvas_exist):
@@ -72,6 +92,23 @@ class OfertaSerializador(ModelSerializer):
         oferta = Oferta.objects.create(fk_diagrama_competidores=porter,fk_diagrama_canvas=canvas,codigo=crear_codigo(nombre),**validated_data)
         MiembroEquipo.objects.create(fk_participante=Perfil.objects.get(id=self.context['request'].user.id),fk_oferta_en_que_participa=oferta,
                                      es_propietario=True,rol_participante='dueño de la oferta',estado_membresia=1,activo = True)
+
+        if tags:
+            for d in tags:
+                aux = d.encode('utf-8','ignore')
+                palabra = aux.replace("{u'text': u'", "")
+                palabra = palabra.replace("'}","")
+
+                try:
+                    tag = PalabraClave.objects.get(palabra=palabra)
+                    oferta.palabras_clave.add(tag)
+                except PalabraClave.DoesNotExist:
+                    palabra_clave = PalabraClave.objects.create(palabra=palabra)
+                    oferta.palabras_clave.add(palabra_clave)
+                except Exception as e:
+                    print type(e)
+                    print e
+
 
         return oferta
 

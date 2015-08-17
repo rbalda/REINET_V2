@@ -753,8 +753,10 @@ def inicio(request):
                 request.session['institucion_nombre']=institucion.nombre
             else:
                 request.session['es_admin'] = False
+                request.session['institucion_nombre']=None
         else:
             request.session['es_admin'] = False
+            request.session['institucion_nombre']=None
 
         if(usuario.privacidad>=10000):
             usuario.privacidad = abs(usuario.privacidad-10000)
