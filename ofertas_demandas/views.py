@@ -212,3 +212,4 @@ def equipo_oferta(request):
 			print 'ya me jodi =('
 	else:
 		return redirect('/NotFound')
+
