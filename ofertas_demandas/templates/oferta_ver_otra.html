@@ -367,9 +367,9 @@
 
                             <div align=center>
                                 <p>
-                                    <a href="#" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+                                    <button id="btn_participar" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
                                     <i class="fa fa-sign-in"></i>
-                                    &nbsp;&nbsp;Participar en este equipo</a>
+                                    &nbsp;&nbsp;Participar en este equipo</button>
                                 </p>
                             </div>                                          
                             <hr style="margin-top: 15px;">
@@ -377,43 +377,18 @@
                                 <ul id="lista_equipo">
 
                                 </ul>
-
-                                <!-- PRIMER MIEMBRO DEL EQUIPO
-                                <div class="member-left" style="margin-bottom: 0px;">
-                                    <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
-                                        margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                    <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                    <p class="position" style="margin-bottom: 4px;">
-                                        Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">ACTIVO</span>
-                                    </p>
-                                    <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Dueño</span></p>
-                                </div>
-
-                                <!-- SEGUNDO MIEMBRO DEL EQUIPO
-                                <div class="member-left" style="margin-bottom: 0px;">
-                                    <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
-                                        margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                    <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                    <p class="position" style="margin-bottom: 4px;">Estado&nbsp;:&nbsp;&nbsp;
-                                        <span style="color:black;font-size: 12px;">ACTIVO</span>
-                                    </p>
-                                    <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Diseñador</span></p>
-                                </div>
-                                -->
+                                <!--Script para mostrar el equipo de oferta-->
                                 <script>
                                     $(document).ready(function(){
-                                        console.log("Aquiii estoy hdps");
                                         $(function(){
                                           $('#lista_equipo').ready(mostrarEquipoOferta);
-
                                             function mostrarEquipoOferta(){
-                                                console.log("cargando el ajax");
                                             $.ajax({
                                               data:{
                                                 'oferta':{{oferta.id_oferta}}
                                               },
                                               type:'get',
-                                              url: '/equipo_oferta/',
+                                              url: '/equipoOferta/',
                                               success: function(data){
                                                   console.log("salio el ajax y entrareee");
                                                 $('#lista_equipo').html(data)
@@ -430,8 +405,6 @@
                 </div>  
             </div>
             <!-- TERMINA Panel del equipo -->
-
-            
         </div>
     </div>
 </div>
@@ -443,7 +416,7 @@
 <!-- COMIENZAN Los modals que se usan en toda la pagina -->
 
 
-<!-- //// VENTANA EMERGENTE EMAIL ///// -->
+<!-- //// VENTANA EMERGENTE SOLICITAR MEMBRESIA A OFERTA ///// -->
     <div class="modal modal-vcenter fade" id="solicitarEquipo" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -454,46 +427,97 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-body" style="margin-bottom:30px">
-                    <form role="form" action="" method=''>
+                    <form role="form" action="" method='POST'>
                         <!--{% csrf_token %}-->
                         <div class="form-group">
                             <textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
                         </div>
-                        <a href="" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
-                            <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                        <a href="/solicitarMembresiaOferta/" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
+                            <button id="enviarSolicitud" type="button" class="btn btn-green">Enviar</button>
                         </a> 
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <!--Script para enviar solicitud de membresia a la oferta-->
+    <script>
+    $(document).ready(function(){
+        $(function(){
+            $('#btn_participar').ready(verificaParticipacion);
+            function verificaParticipacion(){
+                $.ajax({
+                    data:{
+                        'oferta':{{oferta.id_oferta}}
 
-    <div class="modal modal-vcenter fade" id="confirmarcionSolicitud" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-body">
-                    <form role="form" action="" method=''>
-                        <!--{% csrf_token %}-->
-                        <div class="form-group">
-                            <label for="Confirmacion">Se ha enviado su solicitud con &eacute;xito</label>
-                        </div>     
-                        <div align="right">
-                            <a href="" class="button">
-                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                            </a> 
-                        </div>
-                    </form>
-                </div>
-                
-            </div>
-            
-        </div>
-    </div>
+                    },
+                    type:'get',
+                    url: '/verificaParticipacion/',
+                    success: function(data){
+                        var objeto = JSON.parse(data);
+                        console.log(objeto);
+                        if (objeto.existeMembresia) {
+                            switch(objeto.estadoMembresia){
+                              case -1:
+                              //si existe membresia pero fue rechazado
+                                $('#btn_participar').attr('disabled', false);
+                              break;
+                              case 0:
+                                var html = "Usted ya ha enviado una solicitud"
+                                $('#btn_participar').text(html);
+                              break;
+                              case 1:
+                              //si existe membresia aceptada
+                                var html = "Usted ya pertenece a esta Institución"
+                                $('#btn_participar').text(html);
+                              break;
+                            }
+                        }else{
+                          //no existe membresia
+                          $('#btn_participar').attr('disabled', false);
+                        }
+
+                        if(objeto.participantes >= 5){
+                            var html = "El equipo esta completo"
+                            $('#btn_participar').attr('disabled', true);
+                        }else{
+
+                        }
+                    }
+                });
+
+            }
+        });
+    });
+    $(document).on('click','#enviarSolicitud',function(){
+    console.log('dentro de enviarSolicitud');
+      $.ajax({
+          data: {
+            'oferta' : {{ oferta.id_oferta }},
+            'csrfmiddlewaretoken' :'{{ csrf_token }}'
+          },
+          type: 'post',
+          url: '/solicitarMembresiaOferta/',
+          success: function(data){
+                  var objeto = JSON.parse(data);
+                  console.log('aqui se imprime el objeto')
+                  console.log(objeto);
+                  if (objeto.save_estado){
+                  	$('#btn_participar').attr('disabled', true);
+                  	$('#btn_participar').popover('hide');
+                  	$('#btn_participar').text("Solicitud Enviada");
+                  	$('#btn_participar').css('color', 'blue');
+
+                  }else{
+                    console.log('algo paso')
+                  }
+          }
+      });
+
+  });
+    </script>
+
+<!---->
 
 
 
