@@ -34,7 +34,6 @@
     {% endblock %}
 
 
-
     <div class="section-header">
         <div class="container">
             <div class="row">
@@ -161,7 +160,7 @@
                                             </ul>
                                         </div>
                                         <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-                                              <a href="/EditarBorrador/" class="btn btn-green btn-sm">
+                                              <a href="/EditarBorrador/[[ borrador.id_oferta ]]" class="btn btn-green btn-sm">
                                               <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
                                         </div>
                                       </div>
@@ -348,32 +347,30 @@
 
         <!-- Modal content-->
         <div class="modal-content">
+        <form id="formCrearOferta" ng-controller="CargarOfertasSelectController" action="/CrearOfertaCopia/" method="GET">
+        {% csrf_token %}
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <button type="button" class="close cancelar" data-dismiss="modal">&times;</button>
             <h4 class="modal-title">Crear Oferta</h4>
           </div>
           <div class="modal-body">
             <div class="col-md-offset-1">
-                <form id="formCrearOferta">
-                  <input  type="radio" name="radioName" value="1" checked/>&nbsp;&nbsp;Nueva oferta<br />
-                  <input  type="radio" name="radioName" value="2" />&nbsp;&nbsp;De oferta existente<br />
-                  <div class="" id="listaOfertas" style="display:none;">
-                    <select class="form-control"  style="margin-left: 3px;margin-top: 5px;">
-                      <option value="Mustard">Mustard</option>
-                      <option value="Ketchup">Ketchup</option>
-                      <option value="Relish">Relish</option>
+                  <input  type="radio" name="radioName" id="radio1" value="1" checked class="'disabled':'disabled';" />&nbsp;&nbsp;Nueva oferta<br />
+                  <input  type="radio" name="radioName" id="radio2" value="2" />&nbsp;&nbsp;De oferta existente<br />
+                  <div class="" id="lista_de_ofertas" style="display:none;">
+
+                    <select class="form-control select-box" id="lista_oferta" name="lista_oferta" ng-model="lista_oferta" ng-options="i.id_oferta as i.nombre for i in listaOfertas" style="margin-left: 3px;margin-top: 5px;overflow-x: hidden;overflow-y: scroll;" ng-change="selectOferta(i.id_oferta)">
                     </select>
                   </div>
-                </form>
+                  <input type="hidden" id="select_oferta" name="select_oferta" value="[[ lista_oferta ]]">
 
               </div>
           </div>
           <div class="modal-footer">              
-              <a id="ref" href="/CrearOferta/">
-                  <button id="bt1" type="button" class="btn btn-green" onclick="myFunction()"> Aceptar </button>
-              </a>
-              <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+              <button id="bt1" type="submit" class="btn btn-green"> Aceptar </button>
+              <button type="button" class="btn btn-dark cancelar" data-dismiss="modal">Cancelar</button>
           </div>
+          </form>
         </div>
 
       </div>
@@ -385,10 +382,17 @@
     $('#formCrearOferta input').on('change', function() {
       var valor=$('input[name=radioName]:checked', '#formCrearOferta').val();
        if(valor=="1"){
-          $("#listaOfertas").hide();
+          $("#lista_de_ofertas").hide();
        }else if(valor=="2"){
-          $("#listaOfertas").show();
+          $("#lista_de_ofertas").show();
        } 
+    });
+
+    $('.cancelar').on('click',function(){
+      $('#lista_de_ofertas').fadeIn();
+      $('#lista_de_ofertas').hide();
+      $('#radio1').prop("checked", true);
+      $('#select_oferta').val("");
     });
 
   </script>
