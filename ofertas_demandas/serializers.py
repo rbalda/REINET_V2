@@ -58,9 +58,6 @@ class OfertaSerializador(ModelSerializer):
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
                             'calificacion_total','comentarios','palabras_clave','alcance')
 
-    #def get_validation_exclusions(self):
-    #    exclusions = super(OfertaSerializador, self).get_validation_exclusions()
-    #    return exclusions + ['tags']
 
     def create(self,validated_data):
         diagrama_competidores = validated_data.pop('fk_diagrama_competidores',None)
@@ -72,12 +69,12 @@ class OfertaSerializador(ModelSerializer):
         canvas=None
         porter = None
 
-        if diagrama_competidores:
+        if diagrama_canvas:
             for d in diagrama_canvas:
                 if not diagrama_canvas[d]==u'':
                     diagrama_canvas_exist = True
 
-        if diagrama_canvas:       
+        if diagrama_competidores:       
             for d in diagrama_competidores:
                 if not diagrama_competidores[d]=='':
                     competidores_canvas_exist = True
@@ -108,7 +105,6 @@ class OfertaSerializador(ModelSerializer):
                 except Exception as e:
                     print type(e)
                     print e
-
 
         return oferta
 

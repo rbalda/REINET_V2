@@ -38,21 +38,37 @@ Descripcion: para llamar la pagina oferta inicio
 @login_required
 def InicioOferta(request):
 	args = {}
-	
+	args['usuario']=request.user
 	return render_to_response('oferta_inicio.html',args)
 
 
 """
-Autor: Leonel Ramirez
+Autor: FaustoMora
 Nombre de funcion: crear_ofertas
 Parametros: request
 Salida: 
 Descripcion: para llamar la pagina oferta inicio
 """
 @login_required
+def CrearOfertaCopia(request):
+	if request.GET.get('select_oferta',False):
+		args = {}
+		args['usuario']=request.user
+		oferta = None
+		oferta_id = request.GET['select_oferta']
+		oferta = Oferta.objects.get(id_oferta=oferta_id)
+		args['oferta']=oferta
+		args.update(csrf(request))
+		return render(request,'crear_oferta.html',args)
+	else:
+		return redirect('/CrearOferta/')
+
+@login_required
 def CrearOferta(request):
 	args = {}
-	return render_to_response('crear_oferta.html',args)
+	args['usuario']=request.user
+	args.update(csrf(request))
+	return render(request,'crear_oferta.html',args)
 
 
 """

@@ -1,7 +1,6 @@
 
 var appoferta = angular.module('redInn');
 
-
 appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout',function($scope,$rootScope,Oferta,$timeout){
     // dentro del scope van modelos
 
@@ -168,6 +167,20 @@ function getQueryVariable(variable, url) {
     } 
     return "1";
 }
+
+appoferta.controller('CargarOfertasSelectController',['$scope','$http','urls',function($scope,$http,urls){
+    $http.get(urls.BASE_API+'/misOfertasAll/',{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.listaOfertas = response.results;
+    }).error(function(){
+        console.log('hubo un error en select Ofertas');
+    });
+
+    $scope.selectOfertas = function(item){
+        console.log(item);
+    }
+    
+}]);
 
 //appoferta.directive('ngUpdateHidden',function() {
 //    return function(scope, el, attr) {
