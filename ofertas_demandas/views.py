@@ -334,6 +334,36 @@ def editar_borrador(request, id_oferta):
 		return render_to_response('editar_borrador.html',args)
 
 
+
+"""
+Autor: David Vinces
+Nombre de la funcion: listaComentariosAceptados
+Entrada:
+Salida: Muestra la lista de Comentarios Aceptados de una oferta
+Descripción:Esta función permite mostrar el listado de comentarios aceptados de una oferta
+"""
+@login_required
+def listaComentariosAceptados(request):
+	print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']
+	if request.is_ajax():
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaComentarios= ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta)
+			args['listaComentarios'] = listaComentarios
+			args['oferta']=oferta
+			args.update(csrf(request))
+			return render(request,'comentario_oferta.html',args)
+		except Oferta.DoesNotExist:
+			print '>> Oferta no existe'
+		except ComentarioCalificacion.DoesNotExist:
+			print '>> Comentario no existe'
+		except:
+			print '>> Excepcion no controlada'
+	else:
+		return redirect('/NotFound')
+
+
 """
 Autor: Ray Montiel
 Nombre de la funcion: equipoOferta
