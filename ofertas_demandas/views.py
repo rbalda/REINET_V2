@@ -269,32 +269,32 @@ def editar_borrador(request, id_oferta):
 		subdominio = request.POST['oferta_sub_dominio']
 		#tags = request.POST['oferta_tags'] #Aun no usado
 		#seccion de perfiles
-		perfilCliente = request.POST['oferta_descripcion_perfil']
-		perfilBeneficiario = request.POST['oferta_beneficiario_perfil']
+		perfilCliente = request.POST.get('oferta_descripcion_perfil', None)
+		perfilBeneficiario = request.POST.get('oferta_beneficiario_perfil', None)
 		#seccion de business canvas
-		canvasSocioClave = request.POST['canvas_socio_clave']
-		canvasActividadesClave = request.POST['canvas_actividades_clave']
-		canvasRecursos = request.POST['canvas_recrusos_clave']
-		canvasPropuesta = request.POST['canvas_propuesta_valor']
-		canvasRelaciones = request.POST['canvas_ralaciones_clientes']
-		canvasCanales = request.POST['canvas_canales_distribucion']
-		canvasSegmentos = request.POST['canvas_segmentos_clientes']
-		canvasEstructura = request.POST['canvas_estructura_costos']
-		canvasFuentes = request.POST['canvas_fuente_ingresos']
+		canvasSocioClave = request.POST.get('canvas_socio_clave', None)
+		canvasActividadesClave = request.POST.get('canvas_actividades_clave', None)
+		canvasRecursos = request.POST.get('canvas_recrusos_clave', None)
+		canvasPropuesta = request.POST.get('canvas_propuesta_valor', None)
+		canvasRelaciones = request.POST.get('canvas_ralaciones_clientes', None)
+		canvasCanales = request.POST.get('canvas_canales_distribucion', None)
+		canvasSegmentos = request.POST.get('canvas_segmentos_clientes', None)
+		canvasEstructura = request.POST.get('canvas_estructura_costos', None)
+		canvasFuentes = request.POST.get('canvas_fuente_ingresos', None)
 		#seccion de industria
-		tendencias = request.POST['oferta_tendencias']
-		solucionesAlternativas = request.POST['ofertas_alternativas_soluciones']
+		tendencias = request.POST.get('oferta_tendencias', None)
+		solucionesAlternativas = request.POST.get('ofertas_alternativas_soluciones', None)
 		#para Diagrama de Porter
-		porterCompetidores = request.POST['diagramapoter_competidores']
-		porterConsumidores = request.POST['diagramapoter_consumidores']
-		porterSustitutos = request.POST['diagramapoter_sustitutos']
-		porterProveedores = request.POST['diagramapoter_proveedores']
-		porterNuevos = request.POST['diagramapoter_nuevos_entrantes']
+		porterCompetidores = request.POST.get('diagramapoter_competidores', None)
+		porterConsumidores = request.POST.get('diagramapoter_consumidores', None)
+		porterSustitutos = request.POST.get('diagramapoter_sustitutos', None)
+		porterProveedores = request.POST.get('diagramapoter_proveedores', None)
+		porterNuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
 		#seccion de estado/Logros
-		tiempoDisponible = request.POST['oferta_tiempo_disponibilidad']
-		tiempoUnidad = request.POST['select_oferta_tiempo']
-		propiedadIntelectual = request.POST['oferta_propiedad_intelectual']
-		evidenciaTraccion = request.POST['oferta_evidencia_traccion']
+		tiempoDisponible = request.POST.get('oferta_tiempo_disponibilidad', None)
+		tiempoUnidad = request.POST.get('select_oferta_tiempo', None)
+		propiedadIntelectual = request.POST.get('oferta_propiedad_intelectual', None)
+		evidenciaTraccion = request.POST.get('oferta_evidencia_traccion', None)
 
 		ofertaEditada = oferta
 		ofertaEditada.nombre = nombre
