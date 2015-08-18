@@ -2,240 +2,264 @@
 
 
 {% block contenido %}
-<link rel="stylesheet" href='/static/css/demo.css'>
+    <link rel="stylesheet" href='/static/css/demo.css'>
 
 
-		{% block registrarinstitucion %}
-				{% include 'menusuperior/registrarinstitucion.tpl.html' %}
-		{% endblock %}
-	<div class="section-header">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<h1 class="animated slideInLeft" ><span style="border-bottom: 5px solid #72A53B;">OFERTA DE LA RED</span></h1>
-				</div>
-			</div>
-		</div>
-	</div>
-<!-- Main body
-================== -->
-<div class="container">
-	<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;"align="left">
-		<div class="col-md-7">
-			<h4>{{ oferta.nombre | upper }}</h4>
-			<ul class="text-muted list-inline">
-				<li><i class="fa fa-user"></i> <a href="/usuario/{{ duenoUsername }}">{{ dueno }}</a></li>
-				<li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
-				<li><i class="fa fa-comments-o"></i> {{ comentariosOferta | length }}</li>
-			</ul>
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft"><span
+                            style="border-bottom: 5px solid #72A53B;">OFERTA DE LA RED</span></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main body
+    ================== -->
+    <div class="container">
+    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+        <div class="col-md-7">
+            <h4>{{ oferta.nombre | upper }}</h4>
+            <ul class="text-muted list-inline">
+                <li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
+                <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
+                <li><i class="fa fa-comments-o"></i> {{ comentariosOferta | length }}</li>
+            </ul>
 
-		</div>
-	</div>
+        </div>
+    </div>
 
-	<div class="col-md-12">
-		<div class="col-md-8" style="padding-left: 0px;">
-			<div class="blog-text">
-				<!-- Nav tabs -->
-				<ul class="nav nav-tabs " role="tablist">
-					<li role="presentation" class="active">
-						<a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
-					</li>
-					<li role="presentation">
-						<a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
-					</li>
-					<li role="presentation">
-						<a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
-					</li>
-					<li role="presentation">
-						<a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
-					</li>
-					<li role="presentation">
-						<a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
-					</li>
-				</ul>
-				<!-- Tab panes -->
-				<div class="tab-content row">
-					<div role="tabpanel" class="tab-pane active" id="informacion">
-						<div class="col-md-12">
-							<div class="col-md-4 col-sm-4 col-xs-4">
-								<div class="block-inverse">
-									<div class="head-inverse">
-										<p class="text-center"><strong class="text-muted">Galeria</strong></p>
-										<img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
-									</div>
-									<div class="body-inverse">
-										<ul class="row list-inline gallery-list-small" style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-											<li class="col-xs-6">
-											  <a href="#">
-												<img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
-											  </a>
-											</li>
-											<li class="col-xs-6">
-											  <a href="#">
-												<img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg" alt="...">
-											  </a>
-											</li>
-											<li class="col-xs-6">
-											  <a href="#">
-												<img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg" alt="...">
-											  </a>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8 col-xs-8">
-								<!--Tipo-->
-								<p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
-								<p>{{ oferta.tipo }}</p>
-								<!--Descripcion-->
-								<p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
-								<p>{{ oferta.descripcion }} </p>
-								<!--Dominio-->
-								<p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
-								<p>{{ oferta.dominio }}Dominio</p>
-								<!--Subdominio-->
-								<p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
-								<p>{{ oferta.subdominio }}</p>
-								<!--Palabras Clave-->
-								<p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
-								<p class="tags">
-									<a >Industria</a>
-									<a >Autos</a>
-									<a >Startup</a>
-									<a>Espol</a>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="cliente_usuario">
-						<div class="col-md-12">
-							<!--Perfil Cliente-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
-							<p class="col-md-9">{{ oferta.perfil_cliente }} </p>
-							<!--Perfil Beneficiario-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
-							<p class="col-md-9">{{ oferta.perfil_beneficiario }} </p>
-						</div>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="modelo">
-						<div class="col-md-12">
-							<!--Canvas del modelo de negocio-->
-							<h3 style="text-align:center" class="h4">  Canvas del Modelo de negocios</h3>
-							<hr>
+    <div class="col-md-12">
+    <div class="col-md-8" style="padding-left: 0px;">
+    <div class="blog-text">
+        <!-- Pestañas de Navegacion de la oferta-->
+        <ul class="nav nav-tabs " role="tablist">
+            <li role="presentation" class="active">
+                <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+            </li>
+            <li role="presentation">
+                <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+            </li>
+            <li role="presentation">
+                <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+            </li>
+            <li role="presentation">
+                <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
+            </li>
+            <li role="presentation">
+                <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content row">
+            <!-- Tab INFORMACION -->
+            <div role="tabpanel" class="tab-pane active" id="informacion">
+                <div class="col-md-12">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="block-inverse">
+                            <div class="head-inverse">
+                                <p class="text-center"><strong class="text-muted">Galeria</strong></p>
+                                <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
+                            </div>
+                            <div class="body-inverse">
+                                <ul class="row list-inline gallery-list-small"
+                                    style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+                                    <li class="col-xs-6">
+                                        <a href="#">
+                                            <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg"
+                                                 alt="...">
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <a href="#">
+                                            <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg"
+                                                 alt="...">
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <a href="#">
+                                            <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg"
+                                                 alt="...">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <!--Tipo-->
+                        <p style="color: darkgray" class="col-md-3">Tipo</p>
+                        {% if oferta.tipo == 0 %}
+                            <p>Emprendimiento</p>
+                        {% elif oferta.tipo == 1 %}
+                            <p>Tecnologia</p>
+                        {% elif oferta.tipo == 2 %}
+                            <p>Prototipo</p>
+                        {% endif %}
+                        <!--Descripcion-->
+                        <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
+                        <p>{{ oferta.descripcion  | title}} </p>
 
-							<div class="col-md-12 table-responsive" style="font-size: 12px;">
-								<table class="table table-bordered" >
-									  <tr>
-										 <th>Socios clave</th>
-										 <th>Actividades clave</th>
-										 <th>Propuestas de valor</th>
-										 <th>Relaciones con los clientes</th>
-										 <th>Segementos de clientes</th>
-									  </tr>
-									  <tr>
-										 <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
-										 <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
-										 <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
-										 <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
-										 <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
-									  </tr>
-									  <tr>
-										<th>Recursos Claves</th>
-										<th>Canales</th>
-									  </tr>
-									  <tr>
-										 <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
-										 <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
-									  </tr>
-									  <tr>
-										<th colspan=3>Estructura de Costos</th>
-										<th colspan=2>Fuentes de Ingresos</th>
-									  </tr>
-									  <tr>
-										 <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
-										 <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
-									  </tr>
-								</table>
+                        <!--Dominio-->
+                        <p style="color: darkgray" class="col-md-3">Dominio</p>
+                        <p>{{ oferta.dominio }}</p>
 
-							</div>
-						</div>
+                        <!--Subdominio-->
+                        <p style="color: darkgray" class="col-md-3">Sub-dominio</p>
+                        <p>{{ oferta.subdominio }}</p>
 
-					</div>
-					<div role="tabpanel" class="tab-pane" id="industria">
-						<div class="col-md-12">
-							<!--Tendencias-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
-							<br>
-							<p class="col-md-12">{{ oferta.cuadro_tendencias_relevantes }} </p>
-							 <!--Alternativas de solucion-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</p>
-							<br>
-							<p class="col-md-12">{{ oferta.descripcion_soluciones_existentes }} </p>
-							<!--Diagrama de Porter-->
+                        <!--Palabras Clave-->
+                        <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
 
-							<p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
+                        <p class="tags">
+                            <a>Industria</a>
+                            <a>Autos</a>
+                            <a>Startup</a>
+                            <a>Espol</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-							<div class="col-md-12 table-responsive" style="font-size: 12px;">
-								<table class="table table-bordered" >
-									   <tr>
-										 <th>Competidores</th>
-										 <th>Poder de consumidores</th>
-										 <th>Sustitutos</th>
-										 <th>Poder de proveedores</th>
-										 <th>Nuevos entrantes</th>
-									  </tr>
-									  <tr>
-										 <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
-										 <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
-										 <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
-										 <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
-										 <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
-									  </tr>
-								</table>
-							</div>
+            <!-- Tab CLIENTE USUARIO -->
+            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                <div class="col-md-12">
+                    <!--Perfil Cliente-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
 
-							<br><br>
-						</div>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="esta_logro">
-						<div class="col-md-12">
-							<p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del producto o servicio</p>
-							<p>{{ oferta.tiempo_para_estar_disponible }}</p>
+                    <p class="col-md-9">{{ oferta.perfil_cliente }} </p>
+                    <!--Perfil Beneficiario-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
 
-							<br>
-							<!--Estado del producto o servicio-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
-							<p class="col-md-12">No Hay </p>
-							<!--Estrategia de crecimiento-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
-							<br>
-							<p class="col-md-12">No Hay </p>
-							<!--Estado de propiedad Intelectual-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
-							<br>
-							<p class="col-md-12">{{ oferta.estado_propieada_intelectual }} </p>
-							<!--Evidencia de Traccion-->
-							<p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
-							<br>
-							<p class="col-md-12">{{ oferta.evidencia_traccion }} </p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<br>
+                    <p class="col-md-9">{{ oferta.perfil_beneficiario }} </p>
+                </div>
+            </div>
 
 
+            <div role="tabpanel" class="tab-pane" id="modelo">
+                <div class="col-md-12">
+                    <!--Canvas del modelo de negocio-->
+                    <h3 style="text-align:center" class="h4"> Canvas del Modelo de negocios</h3>
+                    <div class="col-md-12 table-responsive" style="font-size: 12px;">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Socios clave</th>
+                                <th>Actividades clave</th>
+                                <th>Propuestas de valor</th>
+                                <th>Relaciones con los clientes</th>
+                                <th>Segementos de clientes</th>
+                            </tr>
+                            <tr>
+                                <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
+                                <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
+                                <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
+                                <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
+                                <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
+                            </tr>
+                            <tr>
+                                <th>Recursos Claves</th>
+                                <th>Canales</th>
+                            </tr>
+                            <tr>
+                                <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
+                                <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
+                            </tr>
+                            <tr>
+                                <th colspan=3>Estructura de Costos</th>
+                                <th colspan=2>Fuentes de Ingresos</th>
+                            </tr>
+                            <tr>
+                                <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
+                                <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
+                            </tr>
+                        </table>
 
-			<!-- New comment form -->
-		   <div class="new-comment">
-			  <form class="form-horizontal ng-pristine ng-valid ng-submitted" role="form">
-				<div class="form-group" style="margin-bottom: 15px;">
-				  <div class="col-sm-2 hidden-xs">
-					<img src="/../../media/ofertas-demandas/face1.jpg" alt="..." class="img-responsive">
-				  </div>
-				  <div class="col-sm-10">
-					<div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab COMPETIDORES -->
+            <div role="tabpanel" class="tab-pane" id="industria">
+                <div class="col-md-12">
+                    <!--Tendencias-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
+
+                    <p>{{ oferta.cuadro_tendencias_relevantes }} </p>
+                    <!--Alternativas de solucion-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n
+                        Existentes</p>
+                    <p>{{ oferta.descripcion_soluciones_existentes }} </p>
+                    <!--Diagrama de Porter-->
+
+                    <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
+
+                    <div class="col-md-12 table-responsive" style="font-size: 12px;">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Competidores</th>
+                                <th>Poder de consumidores</th>
+                                <th>Sustitutos</th>
+                                <th>Poder de proveedores</th>
+                                <th>Nuevos entrantes</th>
+                            </tr>
+                            <tr>
+                                <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
+                                <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
+                                <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
+                                <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
+                                <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <br><br>
+                </div>
+            </div>
+
+            <!-- Tab LOGROS -->
+            <div role="tabpanel" class="tab-pane" id="esta_logro">
+                <div class="col-md-12">
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del
+                        producto o servicio</p>
+                    <p>{{ oferta.tiempo_para_estar_disponible }}</p>
+                    </br>
+                    <!--Estado del producto o servicio-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
+                    <p>NO EXISTE EN LA BASE  </p>
+                    </br>
+                    <!--Estrategia de crecimiento-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
+                    <p>NO EXISTE EN LA BASE </p>
+                    </br>
+                    <!--Estado de propiedad Intelectual-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
+                    <p >{{ oferta.estado_propieada_intelectual }} </p>
+                    </br>
+                    <!--Evidencia de Traccion-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
+                    <p>{{ oferta.evidencia_traccion }} </p>
+                    </br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+    <!-- New comment form -->
+    <div class="new-comment">
+        <form class="form-horizontal ng-pristine ng-valid ng-submitted" role="form">
+            <div class="form-group" style="margin-bottom: 15px;">
+                <div class="col-sm-2 hidden-xs">
+                    <img src="/../../media/ofertas-demandas/face1.jpg" alt="..." class="img-responsive">
+                </div>
+                <div class="col-sm-10">
+                    <div>
 						<span class="rating">
 							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
 							<label for="rating-input-1-5" class="rating-star"></label>
@@ -268,7 +292,7 @@
     </div>
 
     <!-- Comments list -->
-    <h4> {{ comentariosOferta | length }} Comentarios</h4>
+    <h4>{{ comentariosOferta | length }} comentarios</h4>
     <hr>
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
@@ -454,14 +478,12 @@
                 success: function (data) {
                     var objeto = JSON.parse(data);
                     if (objeto.save_estado) {
-                      alert("La joda 2");
                         $('#btn_participar').attr('disabled', true);
                         $('#btn_participar').popover('hide');
                         $('#btn_participar').text("Solicitud Enviada");
                         $('#btn_participar').css('color', 'green');
 
                     } else {
-                      alert("Hubo un error en la solicitud");
                         console.log('algo paso')
                     }
                 }

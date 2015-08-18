@@ -118,9 +118,7 @@ def verCualquierOferta(request, id_oferta):
 
 		else:
 			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
-			for indice in participantes:
-				if indice.es_propietario==1:
-					propietario = indice.fk_participante
+			propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=id_oferta,estado_membresia=1,es_propietario=1).fk_participante
 			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
 			calificacionOferta = oferta.calificacion_total
 
@@ -136,25 +134,6 @@ def verCualquierOferta(request, id_oferta):
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
-	try:
-		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
-	except:
-		participantes = 0
-
-	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
-
-	args.update(csrf(request))
-	args['comentariosOferta'] = comentariosOferta
-	args['calificacionOferta'] = range(int(calificacionOferta))
-	args['es_admin']=request.session['es_admin']
-	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-	args['duenoUsername'] = equipoDueno.fk_participante.username
-	#args['institucion_nombre'] = request.session['institucion_nombre']
-	args['oferta'] = oferta
-	args['participantes'] = participantes
-	#args['existeMembresia'] = existeMembresia
-	#args['estadoMembresia'] = estadoMembresia
-	return render_to_response('oferta_ver_otra.html',args)
 
 """
 Autor: Pedro Iniguez
