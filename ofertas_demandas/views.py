@@ -60,7 +60,8 @@ def CrearOfertaCopia(request):
 		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
 		tags = []
 		for t in palabra_clave:
-			tags.append(t.palabra)
+			aux_tag ={'text':t.palabra}
+			tags.append(aux_tag)
 
 		args['oferta']=oferta
 		args['tags']=tags
@@ -610,3 +611,8 @@ def eliminar_borrador(request, id_oferta):
 	
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('oferta_inicio.html',args)
+
+
+@login_required
+def aceptar_peticion(request):
+	pass
