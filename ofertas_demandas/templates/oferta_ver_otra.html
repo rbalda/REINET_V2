@@ -426,7 +426,7 @@
                     <form role="form" action="" method='POST'>
                         <!--{% csrf_token %}-->
                         <div class="form-group">
-                            <textarea style="resize:none" class="form-control" rows="3"
+                            <textarea style="resize:none" class="form-control" rows="3" name="comentario_peticion"
                                       placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
                         </div>
                         <a href="/solicitarMembresiaOferta/" class="button" data-toggle="modal"
@@ -443,15 +443,17 @@
     <!--Script para enviar solicitud de membresia a la oferta-->
     <script>
         $(document).on('click', '#enviarSolicitud', function () {
-            console.log('dentro de enviarSolicitud');
+           alert("enviareee"+"{{ oferta.id_oferta }}");
             $.ajax({
                 data: {
-                    'oferta': {{ oferta.id_oferta }},
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    'oferta': "{{ oferta.id_oferta }}",
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'comentario_peticion': $("[name='comentario_peticion']").val(),
                 },
                 type: 'post',
                 url: '/solicitarMembresiaOferta/',
                 success: function (data) {
+                  alert("._.");
                     var objeto = JSON.parse(data);
                     if (objeto.save_estado) {
                       alert("La joda 2");
@@ -464,6 +466,10 @@
                       alert("Hubo un error en la solicitud");
                         console.log('algo paso')
                     }
+                },
+                error: function(xhr, status, error) {
+                  alert("error");
+               alert(xhr.responseText);
                 }
             });
 

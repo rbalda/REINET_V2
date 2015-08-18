@@ -513,7 +513,7 @@ Descripción:Envia una solicitud para participar en una Oferta
 """
 @login_required
 def solicitarMembresiaOferta(request):
-	if request.is_ajax():
+	if request.method=="POST":
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
 			print request.POST['oferta']
@@ -547,6 +547,9 @@ def solicitarMembresiaOferta(request):
 				print 'se guardo parece'
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
+		except e:
+			print "error"
+			return "error"
 	else:
 		return redirect('/')
 
