@@ -124,8 +124,12 @@ def verCualquierOferta(request, id_oferta):
 	except:
 		participantes = 0
 
+	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
+
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
+	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
+	args['duenoUsername'] = equipoDueno.fk_participante.username
 	#args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	args['participantes'] = participantes
@@ -177,8 +181,10 @@ def administrar_Oferta(request, id_oferta):
 	except:
 		participantes = 0
 
+	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
 
 	args.update(csrf(request))
+	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
@@ -220,7 +226,10 @@ def administrar_Borrador(request, id_oferta):
 	if membresiaOferta is None:
 		return HttpResponseRedirect('/NotFound/')
 
+	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
+
 	args.update(csrf(request))
+	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta

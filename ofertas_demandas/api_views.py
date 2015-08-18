@@ -23,7 +23,7 @@ class OfertaViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
-        queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil)
+        queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset
 
 class MisOfertasAllViewSet(ModelViewSet):
@@ -50,7 +50,7 @@ class MisOfertaViewSet(ModelViewSet):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
         #queryset = self.get_queryset().filter(miembroequipo__fk_participante=request.user.id, miembroequipo__es_propietario=1)
-        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1, publicada=1)
+        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1, publicada=1).order_by('-fecha_publicacion')
         return queryset
 
 
@@ -65,7 +65,7 @@ class MisOfertaBorradoresViewSet(ModelViewSet):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
         #queryset = self.get_queryset().filter(miembroequipo__fk_participante=request.user.id, miembroequipo__es_propietario=1)
-        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1, publicada=0)
+        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1, publicada=0).order_by('-fecha_creacion')
         return queryset
 
 class MiembroOfertaViewSet(ModelViewSet):
@@ -79,7 +79,7 @@ class MiembroOfertaViewSet(ModelViewSet):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
         #queryset = self.get_queryset().filter(miembroequipo__fk_participante=request.user.id, miembroequipo__es_propietario=1)
-        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=0)
+        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=0).order_by('-fecha_publicacion')
         return queryset
 
 #aqui faltan unas cosas porque te mostrara todo pero vamos a hacer un ejemplo de como hacer una paginacion
