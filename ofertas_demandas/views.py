@@ -640,7 +640,7 @@ Autor: Roberto Yoncon
 Nombre de funcion: publicar_borrador
 Parametros: request, id de una oferta
 Salida: 
-Descripcion: cambia el estado de una oferta de 
+Descripcion: cambia el estado de una oferta de 0 a 1, mostrandola como publicada
 """
 @login_required
 def publicar_borrador(request, id_oferta):
@@ -674,10 +674,10 @@ def publicar_borrador(request, id_oferta):
 
 """
 Autor: Roberto Yoncon
-Nombre de funcion: publicar_borrador
+Nombre de funcion: eliminar_borrador
 Parametros: request, id de una oferta
 Salida: 
-Descripcion: cambia el estado de una oferta de 
+Descripcion: elimina un borrador de oferta de la base de datos
 """
 @login_required
 def eliminar_borrador(request, id_oferta):
