@@ -356,7 +356,8 @@
 											function mostrarEquipoOferta(){
 											$.ajax({
 											  data:{
-												'oferta':{{oferta.id_oferta}}
+												'oferta':{{oferta.id_oferta}},
+                                                'csrfmiddlewaretoken' :'{{ csrf_token }}'
 											  },
 											  type:'get',
 											  url: '/equipoOferta/',
@@ -397,10 +398,35 @@
             <h4 class="modal-title">Editar Equipo</h4>
         </div>
         <div class="modal-body">
-            <div class="team" style="font-size:12px;height:200px;overflow-y:scroll">
+            <div id="equipo" class="team" style="font-size:12px;height:200px;overflow-y:scroll" >
+                <!--{% csrf_token %}-->
                 <form>
+                    <ul id="lista_editar_equipo">
 
-                    <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
+                    </ul>
+                    <!--Script para mostrar el equipo de oferta-->
+                    <script>
+                        $(document).ready(function(){
+                            $(function(){
+                              $('#lista_editar_equipo').ready(editarEquipoOferta);
+                                function editarEquipoOferta(){
+                                $.ajax({
+                                  data:{
+                                    'ofertaEditar':{{oferta1.id_oferta}},
+                                    'csrfmiddlewaretoken' :'{{ csrf_token }}'
+                                  },
+                                  type:'get',
+                                  url: '/editarEquipoOferta/',
+                                  success: function(data){
+                                    $('#lista_editar_equipo').html(data)
+                                  }
+                                });
+
+                                }
+                            });
+                          });
+                    </script>
+                    <!-- SEGUNDO MIEMBRO DEL EQUIPO
                     <div class="member-left" style="margin-bottom: 0px;">
 
                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
@@ -430,7 +456,7 @@
                         </div>
 
                     </div>      
-
+                    -->
                 </form>
             </div>
         </div>

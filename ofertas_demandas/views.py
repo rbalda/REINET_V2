@@ -158,6 +158,7 @@ def administrar_Oferta(request, id_oferta):
 
 	try:
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
+		oferta1 = Oferta.objects.get(id_oferta = id_oferta)
 	except:
 		print 'no existe oferta'
 		#return HttpResponseRedirect('/NotFound/')
@@ -181,6 +182,7 @@ def administrar_Oferta(request, id_oferta):
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	args['oferta1'] = oferta1
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
@@ -350,9 +352,7 @@ Descripción:Esta función permite mostrar el equipo de una oferta
 """
 @login_required
 def equipoOferta(request):
-
 	if request.is_ajax():
-
 		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
@@ -361,6 +361,37 @@ def equipoOferta(request):
 			args['oferta']=oferta
 			args.update(csrf(request))
 			return render(request,'equipo_oferta.html',args)
+
+		except Oferta.DoesNotExist:
+			print 'esa oferta no existe '
+			return redirect('/')
+		except MiembroEquipo.DoesNotExist:
+			print 'Este pana no tiene amigos :/'
+			return redirect('/')
+		except:
+			print 'ya me jodi =('
+			return redirect('/')
+	else:
+		return redirect('/NotFound')
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: editarEquipoOferta
+Entrada:
+Salida: Muestra el equipo de una oferta para poderlo editar desde Administrar oferta
+Descripción:Esta función permite mostrar el equipo de una oferta para poderlo editar desde Administrar oferta
+"""
+@login_required
+def editarEquipoOferta(request):
+	if request.is_ajax():
+		args={}
+		try:
+			ofertaEditar = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaEditarEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = ofertaEditar.id_oferta,estado_membresia=1)
+			args['listaEditarEquipo'] = listaEditarEquipo
+			args['oferta']=ofertaEditar
+			args.update(csrf(request))
+			return render(request,'equipo_editar_oferta.html',args)
 
 		except Oferta.DoesNotExist:
 			print 'esa oferta no existe '
