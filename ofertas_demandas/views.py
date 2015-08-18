@@ -170,10 +170,18 @@ def administrar_Oferta(request, id_oferta):
 	if membresiaOferta is None:
 		return HttpResponseRedirect('/NotFound/')
 	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
+
+	try:
+		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
+	except:
+		participantes = 0
+
+
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
 
@@ -386,6 +394,8 @@ def solicitarMembresiaOferta(request):
 			if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
 				solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
 				solicitudMembresia.estado_membresia = 0
+				solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
+				solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
 				solicitudMembresia.save()
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
@@ -400,6 +410,8 @@ def solicitarMembresiaOferta(request):
 				solicitudMembresia.estado_membresia = 0
 				solicitudMembresia.fk_participante = request.user.perfil
 				solicitudMembresia.fk_oferta_en_que_participa = oferta
+				solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
+				solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
 				solicitudMembresia.save()
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)

@@ -323,8 +323,12 @@
                             <h4 style="margin-top: 6px;">Equipo</h4>
                          </div>
                         <div class="col-md-7 col-sm-6 col-xs-6" align="right" style="padding-right: 0px;">
-                                <a href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
-                                <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
+                            {%if participantes|length >= 5 %}
+                                <a disabled="true" id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
+                            {% else %}
+                                <a id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
+                            {% endif %}
+                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
                         </div>
                     </div>
                 </div>

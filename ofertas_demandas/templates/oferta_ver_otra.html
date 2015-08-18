@@ -450,7 +450,7 @@
 					<form role="form" action="" method='POST'>
 						<!--{% csrf_token %}-->
 						<div class="form-group">
-							<textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
+							<textarea id="comentario_peticion" name="comentario_peticion" style="resize:none" class="form-control" rows="3" placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
 						</div>
 						<a href="/solicitarMembresiaOferta/" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
 							<button id="enviarSolicitud" type="button" class="btn btn-green" data-dismiss="modal">Enviar</button>
