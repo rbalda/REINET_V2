@@ -472,7 +472,7 @@
                 data: {
                     'oferta': "{{ oferta.id_oferta }}",
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'comentario_peticion': $("[name='comentario_peticion']").val(),
+                    'comentario_peticion': $("[name='comentario_peticion']").val()
                 },
                 type: 'post',
                 url: '/solicitarMembresiaOferta/',

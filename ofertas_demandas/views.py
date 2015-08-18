@@ -412,7 +412,6 @@ def equipoOferta(request):
 def equipoEditableOferta(request):
 
 	if request.is_ajax():
-
 		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
@@ -429,8 +428,7 @@ def equipoEditableOferta(request):
 			print 'Este pana no tiene amigos :/'
 			return redirect('/')
 		except:
-			print 'ya me jodi =('
-			return redirect('/')
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/NotFound')
 
@@ -454,36 +452,7 @@ class AutocompletarParticipante(APIView):
 		return response
 
 
-"""
-Autor: Ray Montiel
-Nombre de la funcion: editarEquipoOferta
-Entrada:
-Salida: Muestra el equipo de una oferta para poderlo editar desde Administrar oferta
-Descripción:Esta función permite mostrar el equipo de una oferta para poderlo editar desde Administrar oferta
 
-@login_required
-def editarEquipoOferta(request):
-	if request.is_ajax():
-		args={}
-		try:
-			ofertaEditar = Oferta.objects.get(id_oferta=request.GET['oferta'])
-			listaEditarEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = ofertaEditar.id_oferta,estado_membresia=1)
-			args['listaEditarEquipo'] = listaEditarEquipo
-			args['oferta']=ofertaEditar
-			args.update(csrf(request))
-			return render(request,'equipo_editar_oferta.html',args)
-		except Oferta.DoesNotExist:
-			print 'esa oferta no existe '
-			return redirect('/')
-		except MiembroEquipo.DoesNotExist:
-			print 'Este pana no tiene amigos :/'
-			return redirect('/')
-		except:
-			print 'ya me jodi =('
-			return redirect('/')
-	else:
-		return redirect('/NotFound')
-"""
 """
 Autor: Ray Montiel
 Nombre de la funcion: solicitarMembresiaOferta
@@ -494,6 +463,7 @@ Descripción:Envia una solicitud para participar en una Oferta
 @login_required
 def solicitarMembresiaOferta(request):
 	if request.method=="POST":
+		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
 			print request.POST['oferta']
@@ -512,8 +482,8 @@ def solicitarMembresiaOferta(request):
 				return HttpResponse(response.content)
 
 		except Oferta.DoesNotExist:
-			print 'Oferta no existe'
-			return redirect('/')
+			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
 		except MiembroEquipo.DoesNotExist:
 				solicitudMembresia = MiembroEquipo()
 				solicitudMembresia.es_propietario = False
@@ -528,8 +498,7 @@ def solicitarMembresiaOferta(request):
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
 		except:
-			print "error"
-			return "error"
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/')
 
@@ -545,11 +514,8 @@ def agregarParticipante(request):
 		session = request.session['id_usuario']
 		usuario = Perfil.objects.get(id=session)
 		args = {}
-
 		participante = Perfil.objects.get(username = request.POST['particOferta'])
-		print participante.username
 		rol = request.POST['rolNuevoIntegrante']
-		print rol
 		ofertaAdmin = request.POST['ofertaAdmin']
 		if usuario is not None:
 			#Guardo en la variable de sesion a usuario.
@@ -564,12 +530,11 @@ def agregarParticipante(request):
 			membresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = participante)
 
 			if membresia is not None:
-				print 'ya es miembro ese bronza'
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 		except Oferta.DoesNotExist:
-			print 'Oferta no existe'
-			oferta = None
+			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
 		except MiembroEquipo.DoesNotExist:
 			print 'Membresia no existe'
 			membresia = MiembroEquipo()
