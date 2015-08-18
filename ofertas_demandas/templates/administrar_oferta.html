@@ -324,7 +324,7 @@
                          </div>
                         <div class="col-md-7 col-sm-6 col-xs-6" align="right" style="padding-right: 0px;">
                                 <a href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
-                                <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" id="botonEditarEquipo"style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
                         </div>
                     </div>
                 </div>
@@ -393,11 +393,9 @@
             <h4 class="modal-title">Editar Equipo</h4>
         </div>
         <div class="modal-body">
-            <div class="team" style="font-size:12px;height:200px;overflow-y:scroll">
-                <form>
-
-                    <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
-                    <div class="member-left" style="margin-bottom: 0px;">
+            <div class="team" id="teamEditable"style="font-size:12px;height:200px;overflow-y:scroll">
+                <!-- <form>
+                     <div class="member-left" style="margin-bottom: 0px;">
 
                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
                             margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
@@ -428,10 +426,11 @@
                     </div>      
 
                 </form>
-            </div>
+ -->      <a>Cargando..</a>
+             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Guardar</button>
+            <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal"  id="guardarEditarEquipo">Guardar</button>
             <button id="btnCancelarEditarEquipo" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
             
         </div>
@@ -795,8 +794,68 @@
         $("#confirmarAgregarMiembroContent").hide();
     });
 
+$("#botonEditarEquipo").on('click', function (){
+                     $.ajax({
+                        data:{
+                        'oferta':{{oferta.id_oferta}}
+                        },
+                        type:'get',
+                        url: '/equipoEditableOferta/',
+                        success: function(data){
+                        $('#teamEditable').html(data)
+                        }
+                      });
+});
+
+        $("#guardarEditarEquipo").on('click', function(){
+          alert("aqui vamos");
+          $.each($("#teamEditable :input[name='rolEditable']"), function(){
+
+            id_perfil=$(this).attr('id');
+            rol=$(this).val();
+            alert(id_perfil+" "+rol);
+            $.ajax({
+          url: '/editarRolMembresia',
+          type: 'POST',
+          async: true,
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'rol':rol},
+          dataType : 'text',
+          success: function(data){
+             alert("todo Bien");
+                  },
+                  
+          error: function(e){
+                    
+                  },
+                });
+
+          });
 
 
+
+          $.each($("#teamEditable :input[name='estadoEditable']"), function(){
+
+            id_perfil=$(this).attr('id');
+            estado=$(this).val();
+            alert(id_perfil+" "+rol);
+            $.ajax({
+          url: '/editarEstadoMembresia',
+          type: 'POST',
+          async: true,
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'estado':estado},
+          dataType : 'text',
+          success: function(data){
+             alert("todo Bien2");
+                  },
+                  
+          error: function(e){
+                    
+                  },
+                });
+
+          });
+
+        });
  </script>
 </div>
 
