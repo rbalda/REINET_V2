@@ -118,32 +118,24 @@ def verCualquierOferta(request, id_oferta):
 
 		else:
 			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
+			for indice in participantes:
+				if indice.es_propietario==1:
+					propietario = indice.fk_participante
 			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
 			calificacionOferta = oferta.calificacion_total
+
+		args.update(csrf(request))
+		args['es_admin']=request.session['es_admin']
+		args['participantes'] = participantes
+		args['comentariosOferta'] = comentariosOferta
+		args['calificacionOferta'] = range(int(calificacionOferta))
+		args['propietario'] = propietario
+		return render_to_response('oferta_ver_otra.html',args)
 
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
-	try:
-		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
-	except:
-		participantes = 0
-
-	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
-
-	args.update(csrf(request))
-	args['comentariosOferta'] = comentariosOferta
-	args['calificacionOferta'] = range(int(calificacionOferta))
-	args['es_admin']=request.session['es_admin']
-	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-	args['duenoUsername'] = equipoDueno.fk_participante.username
-	#args['institucion_nombre'] = request.session['institucion_nombre']
-	args['oferta'] = oferta
-	args['participantes'] = participantes
-	#args['existeMembresia'] = existeMembresia
-	#args['estadoMembresia'] = estadoMembresia
-	return render_to_response('oferta_ver_otra.html',args)
 
 """
 Autor: Pedro Iniguez
@@ -168,6 +160,7 @@ def administrar_Oferta(request, id_oferta):
 
 	try:
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
+		calificacionOferta = oferta.calificacion_total
 		print 'oferta'+ oferta.id_oferta
 	except:
 		print 'no existe oferta'
@@ -201,6 +194,7 @@ def administrar_Oferta(request, id_oferta):
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	args['calificacionOferta'] = range(int(calificacionOferta))
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
@@ -366,7 +360,7 @@ def editar_borrador(request, id_oferta):
 
 
 """
-Autor: David Vinces
+Autor: David Vinces, Rolando Sornoza
 Nombre de la funcion: listaComentariosAceptados
 Entrada:
 Salida: Muestra la lista de Comentarios Aceptados de una oferta
@@ -374,7 +368,7 @@ Descripción:Esta función permite mostrar el listado de comentarios aceptados d
 """
 @login_required
 def listaComentariosAceptados(request):
-	print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']
+	#print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']
 	if request.is_ajax():
 		args={}
 		try:
