@@ -94,17 +94,19 @@ def verCualquierOferta(request, id_oferta):
 			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_oferta.html',args)
 
-	else:
-		args['error'] = "Error al cargar los datos"
-		return HttpResponseRedirect('/NotFound/')
+		try:
+			membresiaOferta = MiembroEquipo.objects.get(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = oferta.id_oferta)
+			estadoMembresia = membresiaOferta.estado_membresia
+			args['estadoMembresia'] = estadoMembresia
+		except Exception as e:
+			args['estadoMembresia'] = 2
 
-	try:
-		oferta = Oferta.objects.get(id_oferta = id_oferta)
-	except:
-		return HttpResponseRedirect('/NotFound/')
 
-	if oferta.publicada == 0 :
-		return HttpResponseRedirect('/NotFound/')
+		if oferta.publicada == 0 :
+			args.update(csrf(request))
+			args['es_admin']=request.session['es_admin']
+			args['mensaje_error'] = "La oferta "+oferta.nombre+", no esta actualmente publicada."
+			return render_to_response('problema_oferta.html',args)
 
 		else:
 			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
@@ -117,27 +119,11 @@ def verCualquierOferta(request, id_oferta):
 		args['comentariosOferta'] = comentariosOferta
 		args['calificacionOferta'] = range(int(calificacionOferta))
 		return render_to_response('oferta_ver_otra.html',args)
-	#	except:
-	#		args['mensaje_error'] = "Hubo un problema con la carga de datos, por favor reintenta."
-	#		return render_to_response('problema_oferta.html',args)
 
-	if solicitudMembresia is not None:
-		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
-		existeMembresia = True
-		estadoMembresia = solicitudMembresia.estado_membresia
 	else:
-		participantes = 0
-		existeMembresia = False
-		estadoMembresia = None
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-	args.update(csrf(request))
-	args['es_admin']=request.session['es_admin']
-	#args['institucion_nombre'] = request.session['institucion_nombre']
-	args['oferta'] = oferta
-	args['participantes'] = participantes
-	args['existeMembresia'] = existeMembresia
-	args['estadoMembresia'] = estadoMembresia
-	return render_to_response('oferta_ver_otra.html',args)
 
 """
 Autor: Pedro Iniguez
