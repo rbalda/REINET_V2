@@ -830,3 +830,46 @@ def rechazarComentario(request, id_comentario):
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
 
+"""
+Autor: David Vinces
+Nombre de funcion: crearComentario
+Parametros: request
+Salida: 
+Descripcion: crea un comentario de una oferta con estado_comentario=0, es decir pendiente
+"""
+@login_required
+def creaComentario(request):
+	try:
+		print "..se instancio"
+		oferta = Oferta.objects.get(id_oferta = 111)
+		usuario = Perfil.objects.get(id_perfil = 52)
+
+		comentario = ComentarioCalificacion()
+		comentario.comentario = "nuevo comentario test"
+		comentario.calificacion = 4
+		comentario.estado_comentario = 0
+		comentario.fecha_comentario = datetime.datetime.now()
+		comentario.fk_oferta = oferta 
+		comentario.fk_usuario = usuario
+		comentario.save()
+		print "..se grabo"
+	except Exception, e:
+		print e
+	
+
+	"""
+	try:
+		
+		comentario = ComentarioCalificacion(comentario="nuevo comentario", calificacion=4, estado_comentario=0, fecha_comentario=datetime.datetime.now(),fk_oferta=111,fk_usuario=52)
+		comentario.save()
+		
+
+		id_oferta=request.POST["oferta_id"]
+
+		print "oferta -->>> " + str(id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	
+	return HttpRedirect('/oferta/68')
+
+"""

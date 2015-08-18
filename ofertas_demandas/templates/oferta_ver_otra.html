@@ -253,7 +253,7 @@
 
     <!-- New comment form -->
     <div class="new-comment">
-        <form class="form-horizontal ng-pristine ng-valid ng-submitted" role="form">
+        <form class="form-horizontal" role="form" id="nuevoComentForm" >
             <div class="form-group" style="margin-bottom: 15px;">
                 <div class="col-sm-2 hidden-xs">
                     <img src="/../../media/ofertas-demandas/face1.jpg" alt="..." class="img-responsive">
@@ -277,6 +277,7 @@
 							<label for="rating-input-1-1" class="rating-star"></label>
 						</span>
                     </div>
+                    <input type="hidden" value="{{oferta.id_oferta}}" id="oferta_id" />
                     <textarea style="resize:none" class="form-control" rows="3"
                               placeholder="Escriba su comentario acerca de la oferta"></textarea>
                 </div>
@@ -289,6 +290,19 @@
                 </div>
             </div>
         </form>
+        <!--Script para enviar los datos para crear el comentario-->
+        <script>
+            $(document).ready(function() {
+                $('#nuevoComentForm').submit(function() { 
+                    $.ajax({ 
+                        data: $(this).serialize(), 
+                        type: 'post',
+                        url: '/crearComentario/',
+                    });
+                    return false;
+                });
+            });
+        </script>
     </div>
 
     <!-- Comments list -->
