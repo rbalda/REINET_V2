@@ -1117,7 +1117,7 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
                 args.update(csrf(request))
                 args['es_admin']=request.session['es_admin']
                 return render(request,"Usuario_vercualquierPerfil.html", args)
-        except:
+        except Exception as e:
             return HttpResponseRedirect('/NotFound')
     else:
         return HttpResponseRedirect('/NotFound')
