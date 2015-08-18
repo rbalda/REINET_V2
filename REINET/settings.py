@@ -95,29 +95,29 @@ WSGI_APPLICATION = 'REINET.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Reinet',
-        'HOST': '201.183.227.87',
-        'PORT':'13306',
-        'USER':'reinet',
-        'PASSWORD':'ReInEt2015'
-    }
-}
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.mysql',
+#          'NAME': 'Reinet',
+#          'HOST': '201.183.227.87',
+#          'PORT':'13306',
+#          'USER':'reinet',
+#          'PASSWORD':'ReInEt2015'
+#      }
+# }
 
 
 #esto para probar localmente mientras el servidor murio
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'Reinet',
-#         'HOST': '192.168.1.39',
-#         'PORT':'3306',
-#         'USER':'reinet',
-#         'PASSWORD':'ReInEt2015'
-#     }
-# }
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'Reinet',
+       'HOST': '192.168.1.39',
+       'PORT':'3306',
+       'USER':'reinet',
+       'PASSWORD':'ReInEt2015'
+   }
+}
 
 
 # Internationalization
