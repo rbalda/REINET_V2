@@ -17,8 +17,7 @@ urlpatterns = patterns('',
 
         url(r'^equipoOferta[/]?$', 'ofertas_demandas.views.equipoOferta', name='equipoOferta'),
         url(r'^equipoEditableOferta[/]?$', 'ofertas_demandas.views.equipoEditableOferta', name='equipoOferta'),
-     url(r'^listaComentariosAceptados[/]?$', 'ofertas_demandas.views.listaComentariosAceptados', name='listaComentariosAceptados'),
-        url(r'^editarEquipoOferta[/]?$', 'ofertas_demandas.views.editarEquipoOferta', name='editarEquipoOferta'),
+        url(r'^listaComentariosAceptados[/]?$', 'ofertas_demandas.views.listaComentariosAceptados', name='listaComentariosAceptados'),
         url(r'^agregarParticipante[/]?$', 'ofertas_demandas.views.agregarParticipante', name='agregarParticipante'),
         url(r'^AutocompletarParticipante[/]?$', AutocompletarParticipante.as_view() , name='AutocompletarParticipante'),
 
