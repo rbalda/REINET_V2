@@ -159,9 +159,12 @@ def administrar_Oferta(request, id_oferta):
 	try:
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
 	except:
-		return HttpResponseRedirect('/NotFound/')
+		print 'no existe oferta'
+		#return HttpResponseRedirect('/NotFound/')
+
 	if (oferta.publicada == 0):
-		return HttpResponseRedirect('/NotFound/')
+		print 'No publicada'
+		#return HttpResponseRedirect('/NotFound/')
 	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
 	if membresiaOferta is None:
@@ -339,25 +342,27 @@ Descripción:Esta función permite mostrar el equipo de una oferta
 """
 @login_required
 def equipoOferta(request):
-	print 'entrare al ajax con id '+ request.GET['oferta']
+
 	if request.is_ajax():
-		print 'estoy en el ajax'
+
 		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
 			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta)
-			print 'lo logreee'
 			args['listaEquipo'] = listaEquipo
 			args['oferta']=oferta
 			args.update(csrf(request))
 			return render(request,'equipo_oferta.html',args)
 
 		except Oferta.DoesNotExist:
-			print 'esa oferta no existe BRONZA'
+			print 'esa oferta no existe '
+			return redirect('/')
 		except MiembroEquipo.DoesNotExist:
 			print 'Este pana no tiene amigos :/'
+			return redirect('/')
 		except:
 			print 'ya me jodi =('
+			return redirect('/')
 	else:
 		return redirect('/NotFound')
 
@@ -382,12 +387,12 @@ def solicitarMembresiaOferta(request):
 				solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
 				solicitudMembresia.estado_membresia = 0
 				solicitudMembresia.save()
-				print 'se actualizo parece'
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
 
 		except Oferta.DoesNotExist:
 			print 'Oferta no existe'
+			return redirect('/')
 		except MiembroEquipo.DoesNotExist:
 				solicitudMembresia = MiembroEquipo()
 				solicitudMembresia.es_propietario = False
@@ -396,7 +401,6 @@ def solicitarMembresiaOferta(request):
 				solicitudMembresia.fk_participante = request.user.perfil
 				solicitudMembresia.fk_oferta_en_que_participa = oferta
 				solicitudMembresia.save()
-				print 'se guardo parece'
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
 	else:

@@ -463,7 +463,6 @@
 	<!--Script para enviar solicitud de membresia a la oferta-->
 	<script>
 	$(document).on('click','#enviarSolicitud',function(){
-	console.log('dentro de enviarSolicitud');
 	  $.ajax({
 		  data: {
 			'oferta' : {{ oferta.id_oferta }},
@@ -480,7 +479,7 @@
 					$('#btn_participar').css('color', 'green');
 
 				  }else{
-					console.log('algo paso')
+
 				  }
 		  }
 	  });
