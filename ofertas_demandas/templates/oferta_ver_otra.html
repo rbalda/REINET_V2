@@ -289,72 +289,34 @@
 
 
     <!-- Comments list -->
-    <h4>2 comments</h4>
+    <h4>2 comentarios</h4>
     <hr>
-
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
     <div class="comment">
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-            </a>
+        <ul id="lista_comentarios">
 
-            <div class="media-body">
-                <p><a href="profile.html">Username 3</a></p>
-
-                <div class="thumbnail" style="margin-bottom:0px">
-                    <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis
-                    sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius
-                    felis a, congue metus.
-                </p>
-                <ul class="text-muted list-inline">
-                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="comment">
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
-            </a>
-
-            <div class="media-body">
-                <p><a href="profile.html">Username 3</a></p>
-
-                <div class="thumbnail" style="margin-bottom:0px">
-                    <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis
-                    sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius
-                    felis a, congue metus.
-                </p>
-                <ul class="text-muted list-inline">
-                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                </ul>
-            </div>
-        </div>
+        </ul>
+        <!--Script para mostrar la lista de comentarios aceptados-->
+        <script>
+            $(document).ready(function () {
+                $(function () {
+                    $('#lista_comentarios').ready(listaComentarios);
+                    function listaComentarios() {
+                        $.ajax({
+                            data: {
+                                'oferta':{{oferta.id_oferta}}
+                            },
+                            type: 'get',
+                            url: '/listaComentariosAceptados/',
+                            success: function (data) {
+                                $('#lista_comentarios').html(data)
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
     </div>
     <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
     </div>
@@ -564,5 +526,238 @@
         </div>
 
     </div>
+=======
+					</div>
+					<textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba su comentario acerca de la oferta"></textarea>
+				  </div>
+				</div>
+				<div class="form-group" style="margin-bottom: 0px;">
+				  <div class="col-sm-offset-2 col-sm-10" align="right">
+					<button type="submit" class="btn btn-green btn-sm" data-toggle="modal" data-target="#confirmarcionCC">Publicar</button>
+				  </div>
+				</div>
+			  </form>
+			</div>
+
+
+
+			<!-- Comments list -->
+			<h4>2 comentarios</h4>
+			<hr>
+
+			<!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
+			<div class="comment">
+				<ul id="lista_comentarios">
+
+				</ul>
+				<!--Script para mostrar la lista de comentarios aceptados-->
+				<script>
+					$(document).ready(function(){
+						$(function(){
+						  $('#lista_comentarios').ready(listaComentarios);
+							function listaComentarios(){
+							$.ajax({
+							  data:{
+								'oferta':{{oferta.id_oferta}}
+							  },
+							  type:'get',
+							  url: '/listaComentariosAceptados/',
+							  success: function(data){
+								$('#lista_comentarios').html(data)
+							  }
+							});
+
+						  }
+						});
+					  });
+				</script>
+			</div>
+			<!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+		</div>
+		<div class="col-md-4">
+			<!-- Social Links -->
+			<h4>Calificaci&oacute;n general</h4>
+			<div class="thumbnail" align=center style="margin-bottom:0px">
+				<div class="caption" style="padding-top:0px; padding-bottom:0px">
+						<div class="rating">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+						</div>
+				</div>
+			</div>
+			<!-- COMIENZA  Panel del equipo -->
+			<div class="panel panel-default">
+				<div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+					<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+						<div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
+							<h4 style="margin-top: 6px;">Equipo</h4>
+						 </div>
+					</div>
+				</div>
+
+				<div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+					<div class="recent-blogs">
+						<div class="team">
+
+							<div align=center>
+								<p>
+									{%if participantes|length >= 5 %}
+										<button disabled="true" id="btn_participar" class="btn btn-green btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Equipo Lleno</button>
+
+									{% elif existeMembresia == True or estadoMembresia == 0 %}
+										<button disabled="true" id="btn_participar" class="btn btn-green btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Ya envió una solicitud</button>
+
+									{% elif existeMembresia == False or estadoMembresia == -1 %}
+										<button id="btn_participar" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Participar en este equipo</button>
+
+									{% elif estadoMembresia == 1 %}
+										<button disabled="true" id="btn_participar" class="btn btn-green btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Usted ya pertenece a este equipo</button>
+
+									{% else %}
+										<button id="btn_participar" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Participar en este equipo</button>
+									{% endif %}
+								</p>
+							</div>
+							<hr style="margin-top: 15px;">
+							<div id="equipo">
+								<ul id="lista_equipo">
+
+								</ul>
+								<!--Script para mostrar el equipo de oferta-->
+								<script>
+									$(document).ready(function(){
+										$(function(){
+										  $('#lista_equipo').ready(mostrarEquipoOferta);
+											function mostrarEquipoOferta(){
+											$.ajax({
+											  data:{
+												'oferta':{{oferta.id_oferta}}
+											  },
+											  type:'get',
+											  url: '/equipoOferta/',
+											  success: function(data){
+												$('#lista_equipo').html(data)
+											  }
+											});
+
+										  }
+										});
+									  });
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- TERMINA Panel del equipo -->
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- COMIENZAN Los modals que se usan en toda la pagina -->
+
+
+<!-- //// VENTANA EMERGENTE SOLICITAR MEMBRESIA A OFERTA ///// -->
+	<div class="modal modal-vcenter fade" id="solicitarEquipo" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+					<h4 class="modal-title" id="sendemailtitle">Solicitar pertenecer al equipo de trabajo de la oferta</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body" style="margin-bottom:30px">
+					<form role="form" action="" method='POST'>
+						<!--{% csrf_token %}-->
+						<div class="form-group">
+							<textarea id="comentario_peticion" name="comentario_peticion" style="resize:none" class="form-control" rows="3" placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
+						</div>
+						<a href="/solicitarMembresiaOferta/" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
+							<button id="enviarSolicitud" type="button" class="btn btn-green" data-dismiss="modal">Enviar</button>
+						</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Script para enviar solicitud de membresia a la oferta-->
+	<script>
+	$(document).on('click','#enviarSolicitud',function(){
+	  $.ajax({
+		  data: {
+			'oferta' : {{ oferta.id_oferta }},
+			'csrfmiddlewaretoken' :'{{ csrf_token }}'
+		  },
+		  type: 'post',
+		  url: '/solicitarMembresiaOferta/',
+		  success: function(data){
+				  var objeto = JSON.parse(data);
+				  if (objeto.save_estado){
+					$('#btn_participar').attr('disabled', true);
+					$('#btn_participar').popover('hide');
+					$('#btn_participar').text("Solicitud Enviada");
+					$('#btn_participar').css('color', 'green');
+
+				  }else{
+					console.log('algo paso')
+				  }
+		  }
+	  });
+
+  });
+	</script>
+
+<!---->
+
+
+
+
+	 <div class="modal modal-vcenter fade" id="confirmarcionCC" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body">
+					<form role="form" action="" method=''>
+						<!--{% csrf_token %}-->
+						<div class="form-group">
+							<label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
+							<p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser aprobados por el dueño de la oferta para ser mostrados</p>
+						</div>
+						<div align="right">
+							<a href="" class="button">
+								<button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+							</a>
+						</div>
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+>>>>>>> origin/sprint3-ofertas-demandas
 
 {% endblock %}
