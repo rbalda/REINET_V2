@@ -454,12 +454,14 @@
                 success: function (data) {
                     var objeto = JSON.parse(data);
                     if (objeto.save_estado) {
+                      alert("La joda 2");
                         $('#btn_participar').attr('disabled', true);
                         $('#btn_participar').popover('hide');
                         $('#btn_participar').text("Solicitud Enviada");
                         $('#btn_participar').css('color', 'green');
 
                     } else {
+                      alert("Hubo un error en la solicitud");
                         console.log('algo paso')
                     }
                 }
