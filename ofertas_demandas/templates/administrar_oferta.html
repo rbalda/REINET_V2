@@ -241,61 +241,32 @@
                 <p class="text-muted" style="font-size:11px">*Los comentarios de otros usuarios deben ser aprobados para estar visibles<p>
             </div>
             <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
-            <div class="comment">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <p><a href="profile.html">Username 3</a></p>
-                        <div class="thumbnail" style="margin-bottom:0px">
-                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                        </p>
-                        <ul class="text-muted list-inline">
-                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="comment">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <p><a href="profile.html">Username 3</a></p>
-                        <div class="thumbnail" style="margin-bottom:0px">
-                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                        </p>
-                        <ul class="text-muted list-inline">
-                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+	    <div class="comment">
+	        <ul id="lista_comentarios">
+	
+	        </ul>
+	        <!--Script para mostrar la lista de comentarios aceptados-->
+	        <script>
+	            $(document).ready(function () {
+	                $(function () {
+	                    $('#lista_comentarios').ready(listaComentarios);
+	                    function listaComentarios() {
+	                        $.ajax({
+	                            data: {
+	                                'oferta':{{oferta.id_oferta}}
+	                            },
+	                            type: 'get',
+	                            url: '/listaComentariosAceptados/',
+	                            success: function (data) {
+	                                $('#lista_comentarios').html(data)
+	                            }
+	                        });
+	                    }
+	                });
+	            });
+	        </script>
+	    </div>
+	    <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
         </div>      
         <div class="col-md-4">
             <!-- Social Links -->
@@ -319,12 +290,13 @@
                             <h4 style="margin-top: 6px;">Equipo</h4>
                          </div>
                         <div class="col-md-7 col-sm-6 col-xs-6" align="right" style="padding-right: 0px;">
+
                             {%if participantes|length >= 5 %}
                                 <a disabled="true" id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
                             {% else %}
                                 <a id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
                             {% endif %}
-                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
+                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" id="botonEditarEquipo" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
                         </div>
                     </div>
                 </div>
@@ -335,7 +307,7 @@
                             <div align=center>
                                 <p>
                                     <a href="#" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitudesEquipo">
-                                    <span class="badge" style="background-color:white; color:#5D8731">2</span>
+                                    <span class="badge" style="background-color:white; color:#5D8731">{{solicitudes|length}}</span>
                                     &nbsp;&nbsp;Solicitudes de participación</a>
                                 </p>
                             </div>                                          
@@ -394,36 +366,9 @@
             <h4 class="modal-title">Editar Equipo</h4>
         </div>
         <div class="modal-body">
-            <div id="equipo" class="team" style="font-size:12px;height:200px;overflow-y:scroll" >
-                <!--{% csrf_token %}-->
-                <form>
-                    <ul id="lista_editar_equipo">
-
-                    </ul>
-                    <!--Script para mostrar el equipo de oferta-->
-                    <script>
-                        $(document).ready(function(){
-                            $(function(){
-                              $('#lista_editar_equipo').ready(editarEquipoOferta);
-                                function editarEquipoOferta(){
-                                $.ajax({
-                                  data:{
-                                    'ofertaEditar':{{oferta1.id_oferta}},
-                                    'csrfmiddlewaretoken' :'{{ csrf_token }}'
-                                  },
-                                  type:'get',
-                                  url: '/editarEquipoOferta/',
-                                  success: function(data){
-                                    $('#lista_editar_equipo').html(data)
-                                  }
-                                });
-
-                                }
-                            });
-                          });
-                    </script>
-                    <!-- SEGUNDO MIEMBRO DEL EQUIPO
-                    <div class="member-left" style="margin-bottom: 0px;">
+            <div class="team" id="teamEditable"style="font-size:12px;height:200px;overflow-y:scroll">
+                <!-- <form>
+                     <div class="member-left" style="margin-bottom: 0px;">
 
                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
                             margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
@@ -452,12 +397,12 @@
                         </div>
 
                     </div>      
-                    -->
                 </form>
-            </div>
+ -->      <a>Cargando..</a>
+             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Guardar</button>
+            <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal"  id="guardarEditarEquipo">Guardar</button>
             <button id="btnCancelarEditarEquipo" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
             
         </div>
@@ -475,25 +420,26 @@
                 <h4 class="modal-title">Agregar nuevo integrante al equipo</h4>
             </div>
             <div class="modal-body"style="font-size:12px;overflow-y:auto;">
-                <form>
-                <input required autofocus type="text" class="form-control" 
-                                         id="buscar" name="buscar"  data-placement="left" data-trigger="focus"
-                                         data-original-title="Rol" placeholder="Buscar">
-                </input>
-                <br/>
-                <label>
-                    Ingrese el rol del nuevo integrante:
-                </label>
-                <input required type="text" class="form-control" 
-                                         id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
-                                         data-original-title="Rol" placeholder="Ingrese un rol">
-                </input>
+                <form id="formulario" role="form" action="/agregarParticipante/" method='POST'>
+                    {% csrf_token %}
+                    <input required autofocus type="text" class="form-control"
+                         id="nuevoIntegrante" name="nuevoIntegrante"  data-placement="left" data-trigger="focus"
+                         data-original-title="nuevoIntegrante" placeholder="Buscar">
+
+                    <input type="text" id="particOferta" name="particOferta" hidden>
+                    <input type="text" id="ofertaAdmin" name="ofertaAdmin" value="{{ oferta.id_oferta }}" hidden>
+                    <br/>
+                    <label>
+                        Ingrese el rol del nuevo integrante:
+                    </label>
+                    <input required type="text" class="form-control"
+                         id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
+                         data-original-title="rolNuevoIntegrante" placeholder="Ingrese un rol">
+                    <br/>
+                    <br/>
+                    <button type="submit" class="btn btn-green" href="/agregarParticipante/">Agregar</button>
+                    <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarAgregarIntegrante">Agregar</button>
-                <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-                
             </div>
         </div>
     </div>
@@ -515,6 +461,7 @@
                 {% if solicitudes|length == 0 %}
                 <a >No hay solicitudes </a>
                 {% endif %}
+                
                 {%for solicitud in solicitudes%}
                 <div class="comment" id="{{solicitud.fk_participante.id_perfil}}" name="Solicitud01">
                     <div class="media">
@@ -609,86 +556,46 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Comentarios</h4>
+                <h4 class="modal-title">Comentarios Nuevos</h4>
             </div>
             <div class="modal-body" style="font-size:12px;overflow-y:auto">  
-                
-                <!-- PRIMEEEEEEEEEEEEER COMENTAAAAAAAAAAARIOOOOOOOOOOOOO -->
-
-                <div class="comment" id="Solicitud01">
+                {% if comentarios|length == 0 %}
+                <a >No hay comentarios nuevos </a>
+                {% endif %}
+                {%for comentario in comentariosPendientes%}
+                <div class="comment" id="Comentario">
                     <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
+                        <a class="pull-left" href="/usuario/{{ comentario.fk_usuario }}">
+                            <img class="media-object img-circle" src="{{ comentario.fk_usuario.foto.url }}" alt="...">
                         </a>
                         <div class=" media-body">
-                            <p><a href="profile.html">Username 3</a></p>
+                             <p><a href="/usuario/{{ comentario.fk_usuario }}">{{ comentario.fk_usuario.first_name }} {{ comentario.fk_usuario.last_name }}</a></p>
                             <div class="thumbnail" style="margin-bottom:0px">
                                 <div class="caption" style="padding-top:0px; padding-bottom:0px">
                                     <div class="rating">
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
+                                      {% if comentario.calificacion >= 1 %}<i class="fa fa-star"></i>{% endif %}  
+                                      {% if comentario.calificacion >= 2 %}<i class="fa fa-star"></i>{% endif %}
+                                      {% if comentario.calificacion >= 3 %}<i class="fa fa-star"></i>{% endif %}
+                                      {% if comentario.calificacion >= 4 %}<i class="fa fa-star"></i>{% endif %}
+                                      {% if comentario.calificacion >= 5 %}<i class="fa fa-star"></i>{% endif %}
                                     </div>
                                 </div>
                             </div>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+                                {{ comentario.comentario }}
                             </p>
                             <ul class="text-muted list-inline">
-                                <li><i class="fa fa-calendar"></i> 11/10/2013</li>
+                                <li><i class="fa fa-calendar"></i> {{ comentario.fecha_comentario }} </li>
                             </ul>         
                         </div>
                         <div align=right id="">                 
-                            <button type="button"class="btn btn-green btn-xs" id="">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>           
-                            <button type="button" class="btn btn-dark btn-md btn-xs" id="">
-                                <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                            
+                            <a href="/aceptarComentario/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-green btn-xs"><span class="glyphicon glyphicon-plus-sign"></span> Aceptar</a> 
+                            <a href="/rechazarComentario/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-dark btn-md btn-xs"><span class="glyphicon glyphicon-minus-sign"></span> Rechazar</a>
                         </div>                    
                     </div>
                     <br>
                 </div>
-
-                <!-- seeeeeeeeeeeeeeeegundoooo COMENTAAAAAAAAAAARIOOOOOOOOOOOOO -->
-
-                <div class="comment" id="Solicitud01">
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
-                        </a>
-                        <div class=" media-body">
-                            <p><a href="profile.html">Username 3</a></p>
-                            <div class="thumbnail" style="margin-bottom:0px">
-                                <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
-                                        <i class="fa fa-star"></i> 
-                                    </div>
-                                </div>
-                            </div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                            </p>
-                            <ul class="text-muted list-inline">
-                                <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                            </ul>         
-                        </div>
-                        <div align=right id="">
-                            <button type="button"class="btn btn-green btn-xs" id="">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                            <button type="button" class="btn btn-dark btn-md btn-xs" id="">
-                                <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                            
-                        </div>                    
-                    </div>
-                    <br>
-                </div>
-
+                {%endfor%}
             </div>
         </div>
     </div>
@@ -765,6 +672,7 @@
         var idObtenido = $(e2.target).attr('id');
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        
         id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
         rol=$("[id='"+idObtenido+"'][name='rol']").val();
         console.log(id_oferta);
@@ -784,21 +692,26 @@
           data: datos,
           dataType : 'text',
           success: function(data){
-
-           // var objeto = JSON.parse(data);
-             // var objeto=data;
-             // console.log(objeto.aceptado);
               if(data=="ok"){
-                alert('la joda');
+                $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Solicitud aprobada con éxito</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+        
 
               }else{
-
-                alert(data);
+                  $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+             //   alert(data);
               }
           },
           error: function(e){
             console.log(e);
             alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+                      $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+      
           },
         });
 
@@ -814,8 +727,69 @@
         $("#confirmarAgregarMiembroContent").hide();
     });
 
+$("#botonEditarEquipo").on('click', function (){
+  //alert("btnediteq");
+                     $.ajax({
+                        data:{
+                        'oferta':{{oferta.id_oferta}}
+                        },
+                        type:'get',
+                        url: '/equipoEditableOferta/',
+                        success: function(data){
+                        $('#teamEditable').html(data)
+                        }
+                      });
+});
+
+        $("#guardarEditarEquipo").on('click', function(){
+          alert("aqui vamos");
+          $.each($("#teamEditable :input[name='rolEditable']"), function(){
+
+            id_perfil=$(this).attr('id');
+            rol=$(this).val();
+            alert(id_perfil+" "+rol);
+            $.ajax({
+          url: '/editarRolMembresia',
+          type: 'POST',
+          async: true,
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'rol':rol},
+          dataType : 'text',
+          success: function(data){
+             alert("todo Bien");
+                  },
+                  
+          error: function(e){
+                    
+                  },
+                });
+
+          });
 
 
+
+          $.each($("#teamEditable :input[name='estadoEditable']"), function(){
+
+            id_perfil=$(this).attr('id');
+            estado=$(this).val();
+            alert(id_perfil+" "+rol);
+            $.ajax({
+          url: '/editarEstadoMembresia',
+          type: 'POST',
+          async: true,
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'estado':estado},
+          dataType : 'text',
+          success: function(data){
+             alert("todo Bien2");
+                  },
+                  
+          error: function(e){
+                    
+                  },
+                });
+
+          });
+
+        });
  </script>
 </div>
 

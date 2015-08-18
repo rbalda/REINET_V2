@@ -26,6 +26,7 @@ from ofertas_demandas.models import *
 from ofertas_demandas.serializers import *
 
 from usuarios.models import *
+from usuarios.serializers import UsuarioSerializador
 
 """
 Autor: Leonel Ramirez
@@ -118,32 +119,22 @@ def verCualquierOferta(request, id_oferta):
 
 		else:
 			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
+			propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=id_oferta,estado_membresia=1,es_propietario=1).fk_participante
 			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
 			calificacionOferta = oferta.calificacion_total
+
+		args.update(csrf(request))
+		args['es_admin']=request.session['es_admin']
+		args['participantes'] = participantes
+		args['comentariosOferta'] = comentariosOferta
+		args['calificacionOferta'] = range(int(calificacionOferta))
+		args['propietario'] = propietario
+		return render_to_response('oferta_ver_otra.html',args)
 
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
-	try:
-		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
-	except:
-		participantes = 0
-
-	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
-
-	args.update(csrf(request))
-	args['comentariosOferta'] = comentariosOferta
-	args['calificacionOferta'] = range(int(calificacionOferta))
-	args['es_admin']=request.session['es_admin']
-	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-	args['duenoUsername'] = equipoDueno.fk_participante.username
-	#args['institucion_nombre'] = request.session['institucion_nombre']
-	args['oferta'] = oferta
-	args['participantes'] = participantes
-	#args['existeMembresia'] = existeMembresia
-	#args['estadoMembresia'] = estadoMembresia
-	return render_to_response('oferta_ver_otra.html',args)
 
 """
 Autor: Pedro Iniguez
@@ -158,21 +149,17 @@ def administrar_Oferta(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
-
+	print 'mi id antes'+id_oferta
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
-
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
-	try:
-		oferta = Oferta.objects.get(id_oferta = id_oferta)
-		oferta1 = Oferta.objects.get(id_oferta = id_oferta)
-	except:
-		print 'no existe oferta'
-		#return HttpResponseRedirect('/NotFound/')
+	oferta = Oferta.objects.get(id_oferta = id_oferta)
+	print oferta.id_oferta
+
 
 	if (oferta.publicada == 0):
 		print 'No publicada'
@@ -181,12 +168,11 @@ def administrar_Oferta(request, id_oferta):
 
 	if membresiaOferta is None:
 		return HttpResponseRedirect('/NotFound/')
+
+
 	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
 
-	try:
-		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
-	except:
-		participantes = 0
+	participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
 
@@ -195,7 +181,6 @@ def administrar_Oferta(request, id_oferta):
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
-	args['oferta1'] = oferta1
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
@@ -405,7 +390,6 @@ def equipoOferta(request):
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
 			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta)
-			print 'lo logreee'
 			args['listaEquipo'] = listaEquipo
 			args['oferta']=oferta
 			args.update(csrf(request))
@@ -423,24 +407,19 @@ def equipoOferta(request):
 	else:
 		return redirect('/NotFound')
 
-"""
-Autor: Ray Montiel
-Nombre de la funcion: editarEquipoOferta
-Entrada:
-Salida: Muestra el equipo de una oferta para poderlo editar desde Administrar oferta
-Descripción:Esta función permite mostrar el equipo de una oferta para poderlo editar desde Administrar oferta
-"""
 @login_required
-def editarEquipoOferta(request):
+def equipoEditableOferta(request):
+
 	if request.is_ajax():
+
 		args={}
 		try:
-			ofertaEditar = Oferta.objects.get(id_oferta=request.GET['oferta'])
-			listaEditarEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = ofertaEditar.id_oferta,estado_membresia=1)
-			args['listaEditarEquipo'] = listaEditarEquipo
-			args['oferta']=ofertaEditar
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta, estado_membresia=1)
+			args['listaEquipo'] = listaEquipo
+			args['oferta']=oferta
 			args.update(csrf(request))
-			return render(request,'equipo_editar_oferta.html',args)
+			return render(request,'equipo_editable.html',args)
 
 		except Oferta.DoesNotExist:
 			print 'esa oferta no existe '
@@ -454,6 +433,56 @@ def editarEquipoOferta(request):
 	else:
 		return redirect('/NotFound')
 
+
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: AutocompletarParticipante
+Entrada:
+Salida: Muestra los usuarios disponibles para agregarlos a la oferta
+Descripción:Esta función permite mostrar los participantes autocompletando sus nombres y usernames
+"""
+class AutocompletarParticipante(APIView):
+	permission_classes = (IsAuthenticated,)
+
+	def get(self,request,*args,**kwargs):
+		user = request.query_params.get('term',None)
+		usuarios = User.objects.filter(username__icontains=user)[:5]
+		serializador = UsuarioSerializador(usuarios,many=True)
+		response = Response(serializador.data)
+		return response
+
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: editarEquipoOferta
+Entrada:
+Salida: Muestra el equipo de una oferta para poderlo editar desde Administrar oferta
+Descripción:Esta función permite mostrar el equipo de una oferta para poderlo editar desde Administrar oferta
+
+@login_required
+def editarEquipoOferta(request):
+	if request.is_ajax():
+		args={}
+		try:
+			ofertaEditar = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaEditarEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = ofertaEditar.id_oferta,estado_membresia=1)
+			args['listaEditarEquipo'] = listaEditarEquipo
+			args['oferta']=ofertaEditar
+			args.update(csrf(request))
+			return render(request,'equipo_editar_oferta.html',args)
+		except Oferta.DoesNotExist:
+			print 'esa oferta no existe '
+			return redirect('/')
+		except MiembroEquipo.DoesNotExist:
+			print 'Este pana no tiene amigos :/'
+			return redirect('/')
+		except:
+			print 'ya me jodi =('
+			return redirect('/')
+	else:
+		return redirect('/NotFound')
+"""
 """
 Autor: Ray Montiel
 Nombre de la funcion: solicitarMembresiaOferta
@@ -463,7 +492,7 @@ Descripción:Envia una solicitud para participar en una Oferta
 """
 @login_required
 def solicitarMembresiaOferta(request):
-	if request.is_ajax():
+	if request.method=="POST":
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
 			print request.POST['oferta']
@@ -497,8 +526,70 @@ def solicitarMembresiaOferta(request):
 				print 'se guardo parece'
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
+		except:
+			print "error"
+			return "error"
 	else:
 		return redirect('/')
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: agregarParticipante
+Entrada: nombre de usuario y rol
+Salida:
+Descripción:Agrega a un participante a una oferta
+"""
+def agregarParticipante(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		args = {}
+
+		participante = Perfil.objects.get(username = request.POST['particOferta'])
+		print participante.username
+		rol = request.POST['rolNuevoIntegrante']
+		print rol
+		ofertaAdmin = request.POST['ofertaAdmin']
+		if usuario is not None:
+			#Guardo en la variable de sesion a usuario.
+			args['usuario'] = usuario
+			print usuario.username
+		else:
+			args['error'] = "Error al cargar los datos"
+			return HttpResponseRedirect('/NotFound/')
+
+		try:
+			oferta = Oferta.objects.get(id_oferta=ofertaAdmin)
+			membresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = participante)
+
+			if membresia is not None:
+				print 'ya es miembro ese bronza'
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+		except Oferta.DoesNotExist:
+			print 'Oferta no existe'
+			oferta = None
+		except MiembroEquipo.DoesNotExist:
+			print 'Membresia no existe'
+			membresia = MiembroEquipo()
+			membresia.es_propietario = False
+			membresia.rol_participante = rol
+			membresia.estado_membresia = 1
+			membresia.fk_participante = participante.perfil
+			membresia.fk_oferta_en_que_participa = oferta
+			membresia.fecha_aceptacion = datetime.datetime.now()
+			membresia.save()
+
+	else:
+		return HttpResponseRedirect('/Not Found')
+
+
+
+
+
+
+
+
 
 
 
@@ -613,6 +704,127 @@ def eliminar_borrador(request, id_oferta):
 	return render_to_response('oferta_inicio.html',args)
 
 
-@login_required
+"""Autor: Angel Guale
+
+"""
 def aceptar_peticion(request):
-	pass
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_peticion"]
+		id_oferta=request.POST["id_oferta"]
+		rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.estado_membresia=1
+			solicitudMembresia.rol_participante=rol_participante
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+
+def editar_rol_membresia(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_editable"]
+		id_oferta=request.POST["id_oferta"]
+		rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.rol_participante=rol_participante
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+
+def editar_estado_membresia(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_editable"]
+		id_oferta=request.POST["id_oferta"]
+		estado_str=request.POST["estado"]
+		activo=1
+		if estado_str=="ACTIVO":
+			activo=1
+		else:
+			activo=0
+
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.activo=activo
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+
+
+
+
+"""
+Autor: David Vinces
+Nombre de funcion: aceptarComentario
+Parametros: request, id de un comentario
+Salida: 
+Descripcion: cambia el estado de un comentario de una oferta para que sea visible
+"""
+@login_required
+def aceptarComentario(request, id_comentario):
+	try:
+		comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario = 1
+		oferta_id = comentario.fk_oferta.id_oferta
+		comentario.save()
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	
+	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
+
+"""
+Autor: David Vinces
+Nombre de funcion: rechazarComentario
+Parametros: request, id de un comentario
+Salida: 
+Descripcion: cambia el estado de un comentario de una oferta para eliminarlo
+"""
+@login_required
+def rechazarComentario(request, id_comentario):
+	try:
+		comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario=-1
+		oferta_id = comentario.fk_oferta.id_oferta
+		comentario.save()
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	
+	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
+
+
