@@ -765,10 +765,11 @@ $("#botonEditarEquipo").on('click', function (){
           url: '/editarRolMembresia',
           type: 'POST',
           async: true,
-          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'rol':rol},
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'rol':rol,'csrfmiddlewaretoken' :'{{ csrf_token }}'},
           dataType : 'text',
           success: function(data){
             // alert("todo Bien");
+                      actualizarListaMiembros();
                   },
                   
           error: function(e){
@@ -789,10 +790,11 @@ $("#botonEditarEquipo").on('click', function (){
           url: '/editarEstadoMembresia',
           type: 'POST',
           async: true,
-          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'estado':estado},
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'estado':estado,'csrfmiddlewaretoken' :'{{ csrf_token }}'},
           dataType : 'text',
           success: function(data){
             // alert("todo Bien2");
+                      actualizarListaMiembros();
                   },
                   
           error: function(e){
@@ -802,7 +804,23 @@ $("#botonEditarEquipo").on('click', function (){
 
           });
 
+
         });
+  
+  function actualizarListaMiembros(){
+  $.ajax({
+                        data:{
+                        'oferta':{{oferta.id_oferta}},
+                                                'csrfmiddlewaretoken' :'{{ csrf_token }}'
+                        },
+                        type:'get',
+                        url: '/equipoOferta/',
+                        success: function(data){
+                        $('#lista_equipo').html(data)
+                        }
+                      });
+
+}
  </script>
 </div>
 

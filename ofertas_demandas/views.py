@@ -763,6 +763,7 @@ def editar_estado_membresia(request):
 		id_user_peticion=request.POST["id_user_editable"]
 		id_oferta=request.POST["id_oferta"]
 		estado_str=request.POST["estado"]
+		print "estadooo"+ estado_str
 		activo=1
 		if estado_str=="ACTIVO":
 			activo=1
