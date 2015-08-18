@@ -26,6 +26,7 @@ from ofertas_demandas.models import *
 from ofertas_demandas.serializers import *
 
 from usuarios.models import *
+from usuarios.serializers import UsuarioSerializador
 
 """
 Autor: Leonel Ramirez
@@ -147,20 +148,20 @@ def administrar_Oferta(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
-
+	print 'mi id antes'+id_oferta
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
-
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
 	try:
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
-		oferta1 = Oferta.objects.get(id_oferta = id_oferta)
+		print 'oferta'+ oferta.id_oferta
 	except:
 		print 'no existe oferta'
+		print 'mi id despues'+id_oferta
 		#return HttpResponseRedirect('/NotFound/')
 
 	if (oferta.publicada == 0):
@@ -170,19 +171,23 @@ def administrar_Oferta(request, id_oferta):
 
 	if membresiaOferta is None:
 		return HttpResponseRedirect('/NotFound/')
+
+
 	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
 
 	try:
 		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
+		print 'tengo'+ participantes.count + 'participantes'
 	except:
 		participantes = 0
+		print 'esta vacio'
+
 
 
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
-	args['oferta1'] = oferta1
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
@@ -374,6 +379,26 @@ def equipoOferta(request):
 	else:
 		return redirect('/NotFound')
 
+
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: AutocompletarParticipante
+Entrada:
+Salida: Muestra los usuarios disponibles para agregarlos a la oferta
+Descripción:Esta función permite mostrar los participantes autocompletando sus nombres y usernames
+"""
+class AutocompletarParticipante(APIView):
+	permission_classes = (IsAuthenticated,)
+
+	def get(self,request,*args,**kwargs):
+		user = request.query_params.get('term',None)
+		usuarios = User.objects.filter(username__icontains=user)[:5]
+		serializador = UsuarioSerializador(usuarios,many=True)
+		response = Response(serializador.data)
+		return response
+
+
 """
 Autor: Ray Montiel
 Nombre de la funcion: editarEquipoOferta
@@ -448,6 +473,66 @@ def solicitarMembresiaOferta(request):
 				return HttpResponse(response.content)
 	else:
 		return redirect('/')
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: agregarParticipante
+Entrada: nombre de usuario y rol
+Salida:
+Descripción:Agrega a un participante a una oferta
+"""
+def agregarParticipante(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		args = {}
+
+		participante = Perfil.objects.get(username = request.POST['particOferta'])
+		print participante.username
+		rol = request.POST['rolNuevoIntegrante']
+		print rol
+		ofertaAdmin = request.POST['ofertaAdmin']
+		if usuario is not None:
+			#Guardo en la variable de sesion a usuario.
+			args['usuario'] = usuario
+			print usuario.username
+		else:
+			args['error'] = "Error al cargar los datos"
+			return HttpResponseRedirect('/NotFound/')
+
+		try:
+			oferta = Oferta.objects.get(id_oferta=ofertaAdmin)
+			membresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = participante)
+			print request.POST['oferta']
+
+			if membresia is not None:
+				print 'ya es miembro ese bronza'
+				return HttpResponseRedirect('/')
+
+		except Oferta.DoesNotExist:
+			print 'Oferta no existe'
+			oferta = None
+		except MiembroEquipo.DoesNotExist:
+			print 'Membresia no existe'
+			membresia = MiembroEquipo()
+			membresia.es_propietario = False
+			membresia.rol_participante = rol
+			membresia.estado_membresia = 1
+			membresia.fk_participante = participante.perfil
+			membresia.fk_oferta_en_que_participa = oferta
+			membresia.fecha_aceptacion = datetime.datetime.now()
+			membresia.save()
+
+	else:
+		return HttpResponseRedirect('/Not Found')
+
+
+
+
+
+
+
+
 
 
 

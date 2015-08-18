@@ -412,7 +412,7 @@
                                 function editarEquipoOferta(){
                                 $.ajax({
                                   data:{
-                                    'ofertaEditar':{{oferta1.id_oferta}},
+                                    'ofertaEditar':{{oferta.id_oferta}},
                                     'csrfmiddlewaretoken' :'{{ csrf_token }}'
                                   },
                                   type:'get',
@@ -479,25 +479,26 @@
                 <h4 class="modal-title">Agregar nuevo integrante al equipo</h4>
             </div>
             <div class="modal-body"style="font-size:12px;overflow-y:auto;">
-                <form>
-                <input required autofocus type="text" class="form-control" 
-                                         id="buscar" name="buscar"  data-placement="left" data-trigger="focus"
-                                         data-original-title="Rol" placeholder="Buscar">
-                </input>
-                <br/>
-                <label>
-                    Ingrese el rol del nuevo integrante:
-                </label>
-                <input required type="text" class="form-control" 
-                                         id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
-                                         data-original-title="Rol" placeholder="Ingrese un rol">
-                </input>
+                <form id="formulario" role="form" action="/agregarParticipante/" method='POST'>
+                    {% csrf_token %}
+                    <input required autofocus type="text" class="form-control"
+                         id="nuevoIntegrante" name="nuevoIntegrante"  data-placement="left" data-trigger="focus"
+                         data-original-title="nuevoIntegrante" placeholder="Buscar">
+
+                    <input type="text" id="particOferta" name="particOferta" hidden>
+                    <input type="text" id="ofertaAdmin" name="ofertaAdmin" value="{{ oferta.id_oferta }}" hidden>
+                    <br/>
+                    <label>
+                        Ingrese el rol del nuevo integrante:
+                    </label>
+                    <input required type="text" class="form-control"
+                         id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
+                         data-original-title="rolNuevoIntegrante" placeholder="Ingrese un rol">
+                    <br/>
+                    <br/>
+                    <button type="submit" class="btn btn-green" href="/agregarParticipante/">Agregar</button>
+                    <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarAgregarIntegrante">Agregar</button>
-                <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-                
             </div>
         </div>
     </div>
