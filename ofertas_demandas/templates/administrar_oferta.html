@@ -630,9 +630,22 @@
 
 
 <script>
+    
+    $("[name='btnEditarRol']").click(function(){
+
+      id_perfil=$(this).attr("id");
+       alert(id_perfil);
+        $("[id='"+id_perfil+"'][name='rolEditable']").prop('disabled', false);
+    });
+
+     $("[name='btnEditarEstado']").click(function(){
+      id_perfil=$(this).attr("id");
+        $("[id='"+id_perfil+"'][name='estadoEditable']").prop('disabled', false);
+    });
+    /*
      function editarRol($inputEditable){
         $inputEditable.prop('disabled', false);
-    }
+    }*/
 
     $('#btnCancelarEditarEquipo').click(function(){
         $('input[name^=rol]').prop('disabled', true);
@@ -640,11 +653,11 @@
     $('#btnGuardarEditarEquipo').click(function(){
         $('input[name^=rol]').prop('disabled', true);
     });
-
+    /*
     function editarEstado($estadoEditable){
         $estadoEditable.prop('disabled', false);
     }
-
+  */
    $('#btnCancelarEditarEquipo').click(function(){
        $('input[name^=estado]').prop('disabled', true);
     });
@@ -755,7 +768,7 @@ $("#botonEditarEquipo").on('click', function (){
           data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'rol':rol},
           dataType : 'text',
           success: function(data){
-             alert("todo Bien");
+            // alert("todo Bien");
                   },
                   
           error: function(e){
@@ -779,7 +792,7 @@ $("#botonEditarEquipo").on('click', function (){
           data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'estado':estado},
           dataType : 'text',
           success: function(data){
-             alert("todo Bien2");
+            // alert("todo Bien2");
                   },
                   
           error: function(e){
