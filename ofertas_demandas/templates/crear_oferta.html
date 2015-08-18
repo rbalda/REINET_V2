@@ -59,9 +59,52 @@ textarea { resize: none; }
 
                    </div>
 
+                   <!--<div id="copia_oferta" ng-model="copia_oferta" 
+                   ng-init="descripcion"
+                   >-->
+
+                   </div>
+
              </div>
 
     </div>
+    <script>
+    var oferta_copia = undefined;
+    var tags = undefined;
+
+    {% if oferta %}
+      oferta_copia = {
+          descripcion:'{{ oferta.descripcion }}',
+          dominio:'{{ oferta.dominio }}',
+          subdominio: '{{ oferta.subdominio }}',
+          perfil_cliente : '{{ oferta.perfil_cliente }}',
+          perfil_beneficiario : '{{ oferta.perfil_beneficiario }}',
+          descripcion_soluciones_existentes : '{{ oferta.descripcion_soluciones_existentes }}',
+          estado_propieada_intelectual : '{{ oferta.estado_propieada_intelectual }}',
+          evidencia_traccion : '{{ oferta.evidencia_traccion }}',
+          cuadro_tendencias_relevantes : '{{ oferta.cuadro_tendencias_relevantes }}',
+          poter_competidores : '{{ oferta.fk_diagrama_competidores.competidores }}',
+          poter_sustitutos : '{{ oferta.fk_diagrama_competidores.sustitutos }}',
+          poter_consumidores : '{{ oferta.fk_diagrama_competidores.consumidores }}',
+          poter_proveedores : '{{ oferta.fk_diagrama_competidores.proveedores }}',
+          poter_nuevosMiembros : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_asociaciones_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_actividades_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_recursos_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_propuesta_valor : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_relacion_clientes : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_canales_distribucion : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_segmento_mercado : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_estructura_costos : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}'
+      };
+
+      tags_copia = '{{tags}}';
+    {% endif %}
+
+    </script>
 
 </div>
+
+
 {% endblock%}

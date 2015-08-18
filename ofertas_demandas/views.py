@@ -57,7 +57,13 @@ def CrearOfertaCopia(request):
 		oferta = None
 		oferta_id = request.GET['select_oferta']
 		oferta = Oferta.objects.get(id_oferta=oferta_id)
+		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
+		tags = []
+		for t in palabra_clave:
+			tags.append(t.palabra)
+
 		args['oferta']=oferta
+		args['tags']=tags
 		args.update(csrf(request))
 		return render(request,'crear_oferta.html',args)
 	else:
@@ -67,6 +73,7 @@ def CrearOfertaCopia(request):
 def CrearOferta(request):
 	args = {}
 	args['usuario']=request.user
+	args['oferta'] = None
 	args.update(csrf(request))
 	return render(request,'crear_oferta.html',args)
 
