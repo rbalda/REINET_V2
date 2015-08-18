@@ -20,6 +20,12 @@ class OfertaViewSet(ModelViewSet):
     lookup_field = 'codigo'
     pagination_class = PaginacionCinco
 
+    def get_queryset(self):
+        queryset = []
+        usuario = Perfil.objects.get(id=self.request.user.id)
+        queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil)
+        return queryset
+
 class MisOfertasAllViewSet(ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializador
