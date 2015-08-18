@@ -156,13 +156,9 @@ def administrar_Oferta(request, id_oferta):
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
-	try:
-		oferta = Oferta.objects.get(id_oferta = id_oferta)
-		print 'oferta'+ oferta.id_oferta
-	except:
-		print 'no existe oferta'
-		print 'mi id despues'+id_oferta
-		#return HttpResponseRedirect('/NotFound/')
+	oferta = Oferta.objects.get(id_oferta = id_oferta)
+	print oferta.id_oferta
+
 
 	if (oferta.publicada == 0):
 		print 'No publicada'
@@ -174,15 +170,8 @@ def administrar_Oferta(request, id_oferta):
 
 
 	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
-	equipo=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
 
-	try:
-		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
-		print 'tengo'+ participantes.count + 'participantes'
-	except:
-		participantes = 0
-		print 'esta vacio'
-
+	participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
 
@@ -400,7 +389,6 @@ def equipoOferta(request):
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
 			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta)
-			print 'lo logreee'
 			args['listaEquipo'] = listaEquipo
 			args['oferta']=oferta
 			args.update(csrf(request))
@@ -470,7 +458,7 @@ Nombre de la funcion: editarEquipoOferta
 Entrada:
 Salida: Muestra el equipo de una oferta para poderlo editar desde Administrar oferta
 Descripción:Esta función permite mostrar el equipo de una oferta para poderlo editar desde Administrar oferta
-"""
+
 @login_required
 def editarEquipoOferta(request):
 	if request.is_ajax():
@@ -493,7 +481,7 @@ def editarEquipoOferta(request):
 			return redirect('/')
 	else:
 		return redirect('/NotFound')
-
+"""
 """
 Autor: Ray Montiel
 Nombre de la funcion: solicitarMembresiaOferta
@@ -537,7 +525,7 @@ def solicitarMembresiaOferta(request):
 				print 'se guardo parece'
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
-		except e:
+		except:
 			print "error"
 			return "error"
 	else:
@@ -572,11 +560,10 @@ def agregarParticipante(request):
 		try:
 			oferta = Oferta.objects.get(id_oferta=ofertaAdmin)
 			membresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = participante)
-			print request.POST['oferta']
 
 			if membresia is not None:
 				print 'ya es miembro ese bronza'
-				return HttpResponseRedirect('/')
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 		except Oferta.DoesNotExist:
 			print 'Oferta no existe'
