@@ -22,19 +22,19 @@
 ================== -->
 <div class="container">
     <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;"align="left">
-
+              <!--
               <div class="col-md-4 col-md-offset-4 alert alert-success alert-dismissible" style="text-align:center; margin-top:10px;" role="alert" id="info_suscripcion" 
               ng-controller="mensajeExitoCrearOferta" ng-hide="hide2" ng-cloak>
               <button id="info_crear_close" type="button" class="close" ng-click="hide2=true" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><strong>[[ info_crear_oferta_success ]]</strong></p>
-              </div> 
+              </div> -->
 
 
         <div class="col-md-7">
-            <h4>Nombre de la oferta</h4>
+            <h4>{{ oferta.nombre }}</h4>
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
-                <li><i class="fa fa-calendar"></i> November 10, 2013</li>
+                <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
                 <li><i class="fa fa-comments-o"></i> 21 comments</li>
             </ul>
             
@@ -101,16 +101,16 @@
                             <div class="col-md-8 col-sm-8 col-xs-8">
                                 <!--Tipo-->
                                 <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
-                                <p>Tecnolog&iacute;a</label>
+                                <p>{{ oferta.tipo }}</p>
                                 <!--Descripcion-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
-                                <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </label>
+                                <p>{{ oferta.descripcion }} </p>
                                 <!--Dominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
-                                <p>Dominio</label>
+                                <p>{{ oferta.dominio }}</p>
                                 <!--Subdominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
-                                <p>Sub-dominio</label>
+                                <p>{{ oferta.subdominio }}</p>
                                 <!--Palabras Clave-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
                                 <p class="tags">
@@ -126,10 +126,10 @@
                         <div class="col-md-12">
                             <!--Perfil Cliente-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
-                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </label>
+                            <p class="col-md-9">{{ oferta.perfil_cliente }} </p>
                             <!--Perfil Beneficiario-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
-                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </label>
+                            <p class="col-md-9">{{ oferta.perfil_beneficiario }} </p>
                         </div>  
                     </div>
                     <div role="tabpanel" class="tab-pane" id="modelo">
@@ -148,27 +148,27 @@
                                          <th>Segementos de clientes</th>
                                       </tr>
                                       <tr>
-                                         <td rowspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td rowspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td rowspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
+                                         <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
+                                         <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
+                                         <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
+                                         <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
                                       </tr>
                                       <tr>
                                         <th>Recursos Claves</th>
                                         <th>Canales</th>
                                       </tr>
                                       <tr>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
+                                         <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
                                       </tr>
                                       <tr>
                                         <th colspan=3>Estructura de Costos</th>
                                         <th colspan=2>Fuentes de Ingresos</th>
                                       </tr>
                                       <tr>
-                                         <td colspan=3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td colspan=2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
+                                         <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
                                       </tr>
                                 </table>
 
@@ -181,15 +181,11 @@
                             <!--Tendencias-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
                             <br>
-                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <p class="col-md-12">{{ oferta.cuadro_tendencias_relevantes }} </p>
                              <!--Alternativas de solucion-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</p>
                             <br>
-                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
-                            <!--Competidores-->
-                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Competidores</p>
-                            <br>
-                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <p class="col-md-12">{{ oferta.descripcion_soluciones_existentes }} </p>
                             <!--Diagrama de Porter-->
 
                             <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
@@ -204,11 +200,11 @@
                                          <th>Nuevos entrantes</th>
                                       </tr>
                                       <tr>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+                                         <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
+                                         <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
+                                         <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
+                                         <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
+                                         <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
                                       </tr>
                                 </table>
                             </div>
@@ -219,23 +215,24 @@
                     <div role="tabpanel" class="tab-pane" id="esta_logro">
                         <div class="col-md-12">
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del producto o servicio</p>
-                            <p>Enero/2015</p>
+                            <p>{{ oferta.tiempo_para_estar_disponible }}</p>
+                            
+                            <br>
                             <!--Estado del producto o servicio-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
-                            <br>
-                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <p class="col-md-12">No Hay </p>
                             <!--Estrategia de crecimiento-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
                             <br>
-                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <p class="col-md-12">No Hay </p>
                             <!--Estado de propiedad Intelectual-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
                             <br>
-                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <p class="col-md-12">{{ oferta.estado_propieada_intelectual }} </p>
                             <!--Evidencia de Traccion-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
                             <br>
-                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+                            <p class="col-md-12">{{ oferta.evidencia_traccion }} </p>
                         </div>
                     </div>
                 </div>
@@ -343,29 +340,32 @@
                                 </p>
                             </div>                                          
                             <hr style="margin-top: 15px;">
+                            <div id="equipo">
+								<ul id="lista_equipo">
 
-                            <!-- PRIMER MIEMBRO DEL EQUIPO -->
-                            <div class="member-left" style="margin-bottom: 0px;">
-                                <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
-                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                <p class="position" style="margin-bottom: 4px;">
-                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">ACTIVO</span>
-                                </p>
-                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Dueño</span></p>
-                            </div>
+								</ul>
+								<!--Script para mostrar el equipo de oferta-->
+								<script>
+									$(document).ready(function(){
+										$(function(){
+										  $('#lista_equipo').ready(mostrarEquipoOferta);
+											function mostrarEquipoOferta(){
+											$.ajax({
+											  data:{
+												'oferta':{{oferta.id_oferta}}
+											  },
+											  type:'get',
+											  url: '/equipoOferta/',
+											  success: function(data){
+												$('#lista_equipo').html(data)
+											  }
+											});
 
-                            <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
-                            <div class="member-left" style="margin-bottom: 0px;">
-                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
-                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                <p class="position" style="margin-bottom: 4px;">Estado&nbsp;:&nbsp;&nbsp;
-                                    <span style="color:black;font-size: 12px;">ACTIVO</span>
-                                </p>
-                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Diseñador</span></p>
-                            </div>      
-
+										  }
+										});
+									  });
+								</script>
+							</div>
                         </div>
                     </div>
                 </div>  
@@ -486,46 +486,54 @@
 
 
                 <!-- PRIMERA SOLICITUUUUUUUUUUUUUUUUUUUUUUUUUUUUUD -->
-
-                <div class="comment" id="Solicitud01">
+                {% if solicitudes|length == 0 %}
+                <a >No hay solicitudes </a>
+                {% endif %}
+                {%for solicitud in solicitudes%}
+                <div class="comment" id="{{solicitud.fk_participante.id_perfil}}" name="Solicitud01">
                     <div class="media">
                         <a class="pull-left" href="#">
                             <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
                         </a>
                         <div class=" media-body">
-                            <p><a href="profile.html">Username 3</a></p>
-                            <div id="datosSolicitud01">
+                            <p><a href="profile.html">{{solicitud.fk_participante.username}}</a></p>
+                            <div id="{{solicitud.fk_participante.id_perfil}}" name="datosSolicitud01">
                                 <p>Hola que tal te recuerdo que ser&eacute; el diseñador de la oferta </p>
                                 <ul class="text-muted list-inline">
                                     <li><i class="fa fa-calendar"></i> 11/10/2013</li>
                                 </ul>
                             </div>
-                            <div class="form-group" id="rolSolicitud01" style="display: none;">
+                             <form role="form" action="/aceptarPeticionMiembro/" method="post" name="miembro_form"
+                      enctype="multipart/form-data" > {% csrf_token %}
+               <div class="form-group" id="{{solicitud.fk_participante.id_perfil}}"  name="rolSolicitud01"  style="display: none;">
                                 <p>Para agregar a un usuario al equipo debe definirle un rol de trabajo</p>
                                 <label for="Nombres" class="col-md-2">Rol:</label>
                                 <div class="col-md-6">
                                     <input required autofocus type="text" class="form-control" 
-                                         id="nombre" name="nombres"  data-placement="left" data-trigger="focus"
+                                         id="{{solicitud.fk_participante.id_perfil}}"  name="rol"  data-placement="left" data-trigger="focus"
                                          data-content="Ingresa tu nombre aquí." data-original-title="Rol">
+                                    <input hidden value="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" id="{{solicitud.fk_participante.id_perfil}}" name="id_oferta">
+                                    <input hidden id="{{solicitud.fk_participante.id_perfil}}"  value="{{solicitud.fk_participante.id_perfil}}" name="id_user_peticion"> 
                                 </div>
-                                <button type="button"class="btn btn-green btn-sm" id="aceptarRolEquipo01">
+                                <button type="button" class="btn btn-green btn-sm" id="{{solicitud.fk_participante.id_perfil}}" name="aceptarRolEquipo01">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
                             </div>
+                            </form>
                         </div>
-                        <div align=right id="botonesSolicitud01">                            
+                        <div align=right id="{{solicitud.fk_participante.id_perfil}}" name="botonesSolicitud01">                            
                             
-                            <button type="button"class="btn btn-green btn-xs" id="aceptarSolicitudEquipo01">
+                            <button type="button"class="btn btn-green btn-xs" id="{{solicitud.fk_participante.id_perfil}}" name="aceptarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
-                            <button type="button" class="btn btn-dark btn-xs " id="rechazarSolicitudEquipo01">
+                            <button type="button" class="btn btn-dark btn-xs " id="{{solicitud.fk_participante.id_perfil}}" name="rechazarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
                         </div>                    
                     </div>
                     <br>
                 </div>
 
-
+                {%endfor%}
                 <!-- SEGUNDA SOLICITUUUUUUUUUUUUUUUUUUUUUUUUUUUUUD -->
-
+<!-- 
                 <div class="comment" id="Solicitud01">
                     <div class="media">
                         <a class="pull-left" href="#">
@@ -562,7 +570,7 @@
                     </div>
                     <br>
                 </div>
-
+ -->
             </div>
         </div>
     </div>
@@ -713,17 +721,61 @@
 
 
     
-    $("#rechazarSolicitudEquipo01").click(function(){
-        $("#Solicitud01").hide();
+    $("[name='rechazarSolicitudEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
     });
-    $("#aceptarSolicitudEquipo01").click(function(){
-        $("#botonesSolicitud01").hide();
-        $("#datosSolicitud01").hide();
-        $("#rolSolicitud01").show();
+    $("[name='aceptarSolicitudEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        $("[id='"+idObtenido+"'][name='botonesSolicitud01']").hide();
+        $("[id='"+idObtenido+"'][name='datosSolicitud01']").hide();
+        $("[id='"+idObtenido+"'][name='rolSolicitud01']").show();
     });
 
-    $("#aceptarRolEquipo01").click(function(){
-        $("#Solicitud01").hide();
+    $("[name='aceptarRolEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
+        rol=$("[id='"+idObtenido+"'][name='rol']").val();
+        console.log(id_oferta);
+        console.log(idObtenido);
+        console.log(rol);
+        alert(id_oferta+" "+idObtenido+" "+rol);
+        datos={
+         'id_oferta': id_oferta,
+         'id_user_peticion':idObtenido,
+         'rol':rol,
+         'csrfmiddlewaretoken' :'{{ csrf_token }}'
+        };
+        $.ajax({
+          url: '/aceptarPeticionMiembro',
+          type: 'POST',
+          async: true,
+          data: datos,
+          dataType : 'text',
+          success: function(data){
+
+           // var objeto = JSON.parse(data);
+             // var objeto=data;
+             // console.log(objeto.aceptado);
+              if(data=="ok"){
+                alert('la joda');
+
+              }else{
+
+                alert(data);
+              }
+          },
+          error: function(e){
+            console.log(e);
+            alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+          },
+        });
+
     });
 
 
@@ -735,6 +787,8 @@
         $("#agregarMiembroContent").show();
         $("#confirmarAgregarMiembroContent").hide();
     });
+
+
 
  </script>
 </div>

@@ -74,6 +74,7 @@ class MiembroEquipo(models.Model):
     estado_membresia = models.SmallIntegerField(default=0) #si la membresia esta aceptada rechazada o pendiente
     fecha_aceptacion = models.DateTimeField(null=True,blank=True)
     comentario_peticion = models.TextField(null=True,blank=True)
+    #0 = pendiente    1 = aceptada  -1 = rechazada
 
     class Meta:
         db_table='EquipoDeOferta'
@@ -91,7 +92,7 @@ class ImagenOferta(models.Model):
 
 class PalabraClave(models.Model):
     id_palabras_clave = models.AutoField(primary_key=True)
-    palabra = models.CharField(max_length=50,unique=True)
+    palabra = models.CharField(max_length=20,unique=True)
 
     class Meta:
         db_table = 'PalabraClave'

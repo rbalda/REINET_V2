@@ -377,7 +377,7 @@
 										&nbsp;&nbsp;Ya envió una solicitud</button>
 
 									{% elif existeMembresia == False or estadoMembresia == -1 %}
-										<button id="btn_participar" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<button id="btn_participar" class="btn btn-white btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
 										<i class="fa fa-sign-in"></i>
 										&nbsp;&nbsp;Participar en este equipo</button>
 
@@ -387,7 +387,7 @@
 										&nbsp;&nbsp;Usted ya pertenece a este equipo</button>
 
 									{% else %}
-										<button id="btn_participar" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<button id="btn_participar" class="btn btn-white btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
 										<i class="fa fa-sign-in"></i>
 										&nbsp;&nbsp;Participar en este equipo</button>
 									{% endif %}
@@ -463,6 +463,7 @@
 	<!--Script para enviar solicitud de membresia a la oferta-->
 	<script>
 	$(document).on('click','#enviarSolicitud',function(){
+	console.log('dentro de enviarSolicitud');
 	  $.ajax({
 		  data: {
 			'oferta' : {{ oferta.id_oferta }},
@@ -479,7 +480,7 @@
 					$('#btn_participar').css('color', 'green');
 
 				  }else{
-
+					console.log('algo paso')
 				  }
 		  }
 	  });

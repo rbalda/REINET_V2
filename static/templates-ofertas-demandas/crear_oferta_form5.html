@@ -1,16 +1,16 @@
                              <div class="col-md-12">
 
-                            <form  class="form-horizontal"  name="crear_oferta_form5" novalidate>
+                            <form  class="form-horizontal"  name="forms.crear_oferta_form5" novalidate>
 
                                  <div class="form-group">
                                     <div class="col-md-8">
                                         <label class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
 
 <input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;"
-ng-model="tiempo_disponible" ng-required="true"  ng-pattern="/^([1-9][0-9]*)$/" 
+ng-model="tiempo_disponible" ng-pattern="/^([1-9][0-9]*)$/" ng-change="tiempoDisponibleInput(tiempo_disponible)" ng-required="false" 
 >
 <span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
-<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+<!--<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 </div> 
 
         <!--<div class="col-xs-2" style="right:25%;">
@@ -19,11 +19,13 @@ ng-model="tiempo_disponible" ng-required="true"  ng-pattern="/^([1-9][0-9]*)$/"
         </select>
         </div>-->
         <div class="col-xs-2" style="right:25%;">
-        <select name="select_oferta_tiempo" id="select_oferta_tiempo" class="form-control" ng-options="i.tipo as i.tipo for i in items_date" ng-model="tiempo_tipo" ng-required="true">
+        <select name="select_oferta_tiempo" id="select_oferta_tiempo" class="form-control" ng-options="i.tipo as i.tipo for i in items_date" ng-model="tiempo_tipo"  ng-change="tiempoDisponibleSelect(tiempo_tipo)" ng-required="false" >
             <option value="">Seleccione duraci&oacute;n</option>
         </select>
-        <span ng-show="crear_oferta_form5.tiempo_tipo.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+        <!--<span ng-show="crear_oferta_form5.tiempo_tipo.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
         </div>
+
+<!--<input id="oferta.tiempo_para_estar_disponible" type="hidden" ng-model="oferta.tiempo_para_estar_disponible" value="[[tiempo_disponible]][[tiempo_tipo]]" ng-update-hidden-->
 
 
                                     
@@ -35,7 +37,7 @@ ng-model="tiempo_disponible" ng-required="true"  ng-pattern="/^([1-9][0-9]*)$/"
                                      <div class="col-md-6">
 
 <textarea autofocus type="text" class="form-control" id="oferta_propiedad_intelectual" name="oferta_propiedad_intelectual" rows="4" placeholder="Describa el estado de propiedad intelectual de la oferta"
-ng-model="oferta.estado_propieada_intelectual"
+ng-model="oferta.estado_propieada_intelectual" ng-required="false" 
 ></textarea>
 
                                      </div>
@@ -47,7 +49,7 @@ ng-model="oferta.estado_propieada_intelectual"
                                      <div class="col-md-6">
 
 <textarea autofocus type="text" class="form-control" id="oferta_evidencia_traccion" name="oferta_evidencia_traccion" rows="4" placeholder="Describa la evidencia de tracci&oacute;n de la oferta"
-ng-model="oferta.evidencia_traccion"
+ng-model="oferta.evidencia_traccion" ng-required="false" 
 ></textarea>
 
                                      </div>
@@ -55,7 +57,6 @@ ng-model="oferta.evidencia_traccion"
 
                                 <div class="col-md-9">
                                  <br> 
-                                 <button href="#" class="btn btn-green pull-right" id="btn_crear_oferta" ng-disabled="!crear_oferta_form5.$valid" ng-click="guardar()"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
 
                                     <a id="btn_crear_oferta_ant5" ng-click="atras()">
                                        <input type="button" class="btn btn-default pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;"> 
