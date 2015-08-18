@@ -15,12 +15,12 @@ textarea { resize: none; }
         </div>
 </div>
 
-<div class="container" ng-controller="crearOfertaFormController">
-  <form role="form" action="/EditarBorrador/{{oferta.id_oferta}}" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12">{% csrf_token %}
+<div class="container" ng-controller="editar_oferta_form">
+  <form role="form" action="/EditarBorrador/{{oferta.id_oferta}}" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"name="form_editar" novalidate>{% csrf_token %}
     <div class="row col-md-12">
 
             <div align=right> 
-                <button class="btn btn-green"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                <button class="btn btn-green"><i class="fa fa-floppy-o" ng-disabled="!form_editar.$valid" ></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
                 <a href="/administrarOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
             </div>
     </div>
@@ -53,7 +53,7 @@ textarea { resize: none; }
 
                         <div role="tabpanel" class="tab-pane active" id="informacion">
                         <div class="col-md-12">
-                                <!--<form  class="form-horizontal"  name="forms.crear_oferta_form1" id="crear_oferta_form1" novalidate>-->
+                                <!--<form  class="form-horizontal"  name="form_editar" id="crear_oferta_form1" novalidate>-->
                                      <!--NOMBRES-->
 
                                      <div class="form-group">
@@ -62,9 +62,9 @@ textarea { resize: none; }
                                          <div class="col-md-6">
 
 <input autofocus type="text" class="form-control" placeholder="Nombre de la Oferta"
-id="nombre" name="nombre_oferta"  data-trigger="focus" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)" ng-focus="" value="{{ oferta.nombre }}">
-<span ng-show="forms.crear_oferta_form1.nombre_oferta.$error.pattern"><p class="bg-danger text-danger">Nombre de la Oferta debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
-<span ng-show="crear_oferta_form1.nombre_oferta.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+id="nombre" name="nombre_oferta"  data-trigger="focus" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true"  ng-focus="" value="{{ oferta.nombre }}" ng-model="oferta.nombre">
+<span ng-show="form_editar.nombre_oferta.$error.pattern"><p class="bg-danger text-danger">Nombre de la Oferta debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
+<span ng-show="form_editar.nombre_oferta.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
                                          </div>
                                      </div>                 
                                      <!--Tipo-->
@@ -72,10 +72,10 @@ id="nombre" name="nombre_oferta"  data-trigger="focus" ng-pattern="/^[a-zA-Z ]{1
                                          <label for="Tipo" class="col-md-2">Tipo</label>
 
         <div class="col-xs-3">
-        <select class="form-control" ng-options="i.valor as i.tipo for i in items_tipo" ng-model="oferta.tipo" ng-required="true" name="select_tipo_oferta" ng-blur="validarSubmit(forms.crear_oferta_form1)">
+        <select class="form-control" ng-required="true" name="select_tipo_oferta" ng-model="oferta.tipo" ng-options="i.valor as i.tipo for i in items_tipo" >
             <option value="">Seleccione tipo de oferta</option>
         </select>
-        <span ng-show="crear_oferta_form1.select_tipo_oferta.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio
+        <span ng-show="form_editar.select_tipo_oferta.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio
         </p></span>
         </div>
         
@@ -85,8 +85,8 @@ id="nombre" name="nombre_oferta"  data-trigger="focus" ng-pattern="/^[a-zA-Z ]{1
                                          <label for="descripcion-oferta" class="col-md-2">Descripci&oacute;n</label>
                                          <div class="col-md-6">
 
-<textarea id="descripcion_oferta" name="descripcion_oferta" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)">{{ oferta.descripcion }}</textarea>
-<span ng-show="forms.crear_oferta_form1.descripcion_oferta.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+<textarea id="descripcion_oferta" name="descripcion_oferta" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la oferta" ng-required="true"  ng-model="oferta.descripcion">{{ oferta.descripcion }}</textarea>
+<span ng-show="form_editar.descripcion_oferta.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
 
                                          </div>
@@ -95,7 +95,7 @@ id="nombre" name="nombre_oferta"  data-trigger="focus" ng-pattern="/^[a-zA-Z ]{1
                                     <div class="form-group">
                                         <label class="col-md-2">Fotos</label>
                                         <div class="col-md-6">
-                                            <input name="imagen" type="file" id="files" ng-model="imagen">
+                                            <input name="imagen" type="file" id="files">
                                             <div id="id1" style="float:left" class="thumbnail">
                                                 <div id="list" class="avatar">
                                                     <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
@@ -110,8 +110,8 @@ id="nombre" name="nombre_oferta"  data-trigger="focus" ng-pattern="/^[a-zA-Z ]{1
                                          <div class="col-md-6">
 
 <textarea type="text" class="form-control" id="oferta_dominio" name="oferta_dominio"
-placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)">{{ oferta.dominio }}</textarea>
-<span ng-show="forms.crear_oferta_form1.oferta_dominio.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true"  ng-model="oferta.dominio">{{ oferta.dominio }}</textarea>
+<span ng-show="form_editar.oferta_dominio.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
 
                                          </div>
@@ -121,8 +121,8 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                          <label for="oferta_sub_dominio" class="col-md-2">Sub Dominio</label>
                                          <div class="col-md-6">
 
-<textarea type="text" class="form-control" id="oferta_sub_dominio" name="oferta_sub_dominio" placeholder="Ingresa el subdominio de la oferta" rows="5" ng-required="true" ng-blur="validarSubmit(forms.crear_oferta_form1)">{{ oferta.subdominio }}</textarea>
-<span ng-show="forms.crear_oferta_form1.oferta_sub_dominio.$error.required" ng-if="!forms.crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+<textarea type="text" class="form-control" id="oferta_sub_dominio" name="oferta_sub_dominio" placeholder="Ingresa el subdominio de la oferta" rows="5" ng-required="true" ng-model="oferta.subdominio" >{{ oferta.subdominio }}</textarea>
+<span ng-show="form_editar.oferta_sub_dominio.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
                                          </div>
                                      </div>
@@ -131,7 +131,7 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                          <label for="oferta_palabras_clave" class="col-md-2">Palabras Claves</label>
                                          <div class="col-md-6">
 
-<tags-input class="tags" name="oferta_tags" ng-model="oferta.tags"></tags-input>
+
 <span><p class="text-muted">Agrege palabras claves</p></span>
 <!--<span ng-show="crear_oferta_form1.oferta_palabras_clave.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
@@ -155,16 +155,16 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
 
                         <div role="tabpanel" class="tab-pane" id="cliente_usuario">
                              <div class="col-md-12">   
-                             <!--<form  class="form-horizontal"  name="forms.crear_oferta_form2" novalidate>-->
+                             <!--<form  class="form-horizontal"  name="forms.form_editar" novalidate>-->
                                   <!--Perfil Cliente-->
                                   
                                   <div class="form-group">
                                          <label for="oferta_descripcion_perfil" class="col-md-2">Perfil Cliente</label>
                                          <div class="col-md-6">
 
-<textarea autofocus id="oferta_descripcion_perfil" name="oferta_descripcion_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil" ng-required="false" 
+<textarea autofocus id="oferta_descripcion_perfil" name="oferta_descripcion_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil" ng-required="false" ng-model="oferta.perfil_cliente"
 >{{ oferta.perfil_cliente }}</textarea>
-<!--<span ng-show="crear_oferta_form2.oferta_descripcion_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>--> 
+<!--<span ng-show="form_editar.oferta_descripcion_perfil.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>--> 
 
                                          </div>
                                      </div>
@@ -174,9 +174,9 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                          <label for="oferta_beneficiario_perfil" class="col-md-2">Perfil del Beneficiario</label>
                                          <div class="col-md-6">
 
-<textarea autofocus id="oferta_beneficiario_perfil" name="oferta_beneficiario_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario" ng-required="false" 
+<textarea autofocus id="oferta_beneficiario_perfil" name="oferta_beneficiario_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario" ng-required="false" ng-model="oferta.perfil_beneficiario"
 >{{ oferta.perfil_beneficiario }}</textarea>
-<!--<span ng-show="crear_oferta_form2.oferta_beneficiario_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.oferta_beneficiario_perfil.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                          </div>
                                   </div>  
@@ -207,82 +207,82 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                             </div>
 
                             <div class="col-md-12">
-                            <!--<form  class="form-horizontal"  name="forms.crear_oferta_form3" novalidate> -->
+                            <!--<form  class="form-horizontal"  name="forms.form_editar" novalidate> -->
                                     <div class="col-md-2 col-sm-6">                    
                                         <label class="col-md-12" style="text-align:center">Socios Clave</label>
                                         <div class="col-md-12">
                                             
-<textarea autofocus name="canvas_socio_clave" id="canvas_socio_clave" style="resize:none" rows="10" class="col-md-12" ng-required="false" 
+<textarea autofocus name="canvas_socio_clave" id="canvas_socio_clave" style="resize:none" rows="10" class="col-md-12" ng-required="false" ng-model="oferta.fk_diagrama_canvas.asociaciones_clave"
 >{{ oferta.fk_diagrama_canvas.asociaciones_clave }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_socio_clave.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_socio_clave.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-6">     
                                         <div class="col-md-12">  
                                             <label style="text-align:center" class="col-md-12">Actividades Clave</label>
 
-<textarea autofocus name="canvas_actividades_clave" id="canvas_actividades_clave" style="resize:none" rows="4" class="col-md-12" ng-required="false" 
+<textarea autofocus name="canvas_actividades_clave" id="canvas_actividades_clave" style="resize:none" rows="4" class="col-md-12" ng-required="false" ng-model="oferta.fk_diagrama_canvas.actividades_clave"
 >{{ oferta.fk_diagrama_canvas.actividades_clave }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_actividades_clave.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_actividades_clave.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                         </div>  
                                         <div class="col-md-12">                                              
                                             <label class="col-md-12" style="text-align:center">Recursos Clave</label>
 
 <textarea autofocus name="canvas_recrusos_clave" id="canvas_recrusos_clave" style="resize:none" rows="4" class="col-md-12" ng-required="false" 
->{{ oferta.fk_diagrama_canvas.recursos_clave }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_recrusos_clave.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+ng-model="oferta.fk_diagrama_canvas.recursos_clave">{{ oferta.fk_diagrama_canvas.recursos_clave }}</textarea>
+<!--<span ng-show="form_editar.canvas_recrusos_clave.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                         </div>    
                                     </div>
                                     <div class="col-md-2 col-sm-6" style="text-align:center">                    
                                         <label class="col-md-12"> Propuesta de Valor</label>
 
-<textarea autofocus name="canvas_propuesta_valor" id="canvas_propuesta_valor" style="resize:none" rows="10" class="col-md-12" ng-required="false" 
+<textarea autofocus name="canvas_propuesta_valor" id="canvas_propuesta_valor" style="resize:none" rows="10" class="col-md-12" ng-required="false" ng-model="oferta.fk_diagrama_canvas.propuesta_valor"
 >{{ oferta.fk_diagrama_canvas.propuesta_valor }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_propuesta_valor.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_propuesta_valor.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                     </div>
                                     <div class="col-md-3 col-sm-6">    
                                         <div class="col-md-12">                  
                                             <label class="col-md-12">Relaciones con Clientes</label>
 
-<textarea autofocus name="canvas_ralaciones_clientes" id="canvas_ralaciones_clientes" style="resize:none" rows="4" class="col-md-12"  ng-required="false" 
+<textarea autofocus name="canvas_ralaciones_clientes" id="canvas_ralaciones_clientes" style="resize:none" rows="4" class="col-md-12"  ng-required="false" ng-model="oferta.fk_diagrama_canvas.relacion_clientes"
 >{{ oferta.fk_diagrama_canvas.relacion_clientes }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_ralaciones_clientes.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_ralaciones_clientes.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                         </div>  
                                         <div class="col-md-12">   
                                             <label class="col-md-12" style="text-align:center">Canales de Distribuci&oacute;n</label>
 
-<textarea autofocus name="canvas_canales_distribucion" id="canvas_canales_distribucion" rows="4" style="resize:none" class="col-md-12"  ng-required="false" 
+<textarea autofocus name="canvas_canales_distribucion" id="canvas_canales_distribucion" rows="4" style="resize:none" class="col-md-12"  ng-required="false" ng-model="oferta.fk_diagrama_canvas.canales_distribucion"
 >{{oferta.fk_diagrama_canvas.canales_distribucion}}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_canales_distribucion.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_canales_distribucion.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                         </div>   
                                     </div>
                                     <div class="col-md-2 col-sm-6">                    
                                         <label style="text-align:center" class="col-md-12">Segmentos  del  Mercado</label>
                                         
-<textarea autofocus name="canvas_segmentos_clientes" id="canvas_segmentos_clientes" style="resize:none" rows="10" class="col-md-12"  ng-required="false" 
+<textarea autofocus name="canvas_segmentos_clientes" id="canvas_segmentos_clientes" style="resize:none" rows="10" class="col-md-12"  ng-required="false" ng-model="oferta.fk_diagrama_canvas.segmento_mercado"
 >{{ oferta.fk_diagrama_canvas.segmento_mercado }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_segmentos_clientes.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_segmentos_clientes.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                     </div>
                                     <div class="col-md-6" style="padding-left: 30px;">                    
                                         <label class="col-md-12" style="text-align:center">Estructura de Costos</label>
                                         
-<textarea autofocus name="canvas_estructura_costos" id="canvas_estructura_costos" rows="5" style="resize:none" class="col-md-12"  ng-required="false" 
+<textarea autofocus name="canvas_estructura_costos" id="canvas_estructura_costos" rows="5" style="resize:none" class="col-md-12"  ng-required="false" ng-model="oferta.fk_diagrama_canvas.estructura_costos"
 >{{ oferta.fk_diagrama_canvas.estructura_costos }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_estructura_costos.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_estructura_costos.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                     </div>
                                     <div class="col-md-6">                    
                                         <label class="col-md-12" style="text-align:center">Fuentes de Ingresos</label>
 
-<textarea autofocus name="canvas_fuente_ingresos" id="canvas_fuente_ingresos" rows="5" style="resize:none" class="col-md-12" ng-required="false" 
+<textarea autofocus name="canvas_fuente_ingresos" id="canvas_fuente_ingresos" rows="5" style="resize:none" class="col-md-12" ng-required="false" ng-model="oferta.fk_diagrama_canvas.fuente_ingresos"
 >{{ oferta.fk_diagrama_canvas.fuente_ingresos }}</textarea>
-<!--<span ng-show="crear_oferta_form3.canvas_fuente_ingresos.$error.required" ng-if="!crear_oferta_form3.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.canvas_fuente_ingresos.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                     </div>
 
@@ -304,7 +304,7 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
 
                         <div role="tabpanel" class="tab-pane" id="industria">
                              <div class="col-md-12">
-                             <!--<form  class="form-horizontal"  name="forms.crear_oferta_form4" novalidate>  -->
+                             <!--<form  class="form-horizontal"  name="forms.form_editar" novalidate>  -->
                               <!--Industria Competidores-->
 
                               <!--Tendencias-->
@@ -312,9 +312,9 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                      <label for="Nombres" class="col-md-2">Tendencias Relevantes</label>
                                      <div class="col-md-6">
                                          
-<textarea autofocus type="text" class="form-control" id="oferta_tendencias" name="oferta_tendencias" rows="4" placeholder="Describa tendencias relevantes a la oferta" ng-required="false"  
+<textarea autofocus type="text" class="form-control" id="oferta_tendencias" name="oferta_tendencias" rows="4" placeholder="Describa tendencias relevantes a la oferta" ng-required="false"  ng-model="oferta.cuadro_tendencias_relevantes"
 >{{ oferta.cuadro_tendencias_relevantes }}</textarea>
-<!--<span ng-show="crear_oferta_form4.oferta_tendencias.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<!--<span ng-show="form_editar.oferta_tendencias.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                                      </div>
                                  </div>
@@ -325,7 +325,7 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                      <div class="col-md-6">
 
 
-<textarea autofocus type="text" class="form-control" id="ofertas_alternativas_soluciones" name="ofertas_alternativas_soluciones" rows="4" placeholder="Describa otras alternativas existentes a su oferta" ng-required="false"                            
+<textarea autofocus type="text" class="form-control" id="ofertas_alternativas_soluciones" name="ofertas_alternativas_soluciones" rows="4" placeholder="Describa otras alternativas existentes a su oferta" ng-required="false"   ng-model="oferta.descripcion_soluciones_existentes"                         
 >{{ oferta.descripcion_soluciones_existentes }}</textarea>
                                      </div>
                                  </div>
@@ -346,29 +346,29 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                       </tr>
                                       <tr>
                                          <td><textarea autofocus name="diagramapoter_competidores" id="diagramapoter_competidores" style="resize:none "rows="6"
-                                         placeholder="Indique las empresas con las que puede competir directamente que ofrecen el mismo producto." ng-required="false"   
+                                         placeholder="Indique las empresas con las que puede competir directamente que ofrecen el mismo producto." ng-required="false"   ng-model="oferta.fk_diagrama_competidores.competidores"
                                          >{{ oferta.fk_diagrama_competidores.competidores }}</textarea>
-                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_competidores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         <!--<span ng-show="form_editar.diagramapoter_competidores.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                                          </td>
                                          <td><textarea autofocus name="diagramapoter_consumidores" id="diagramapoter_consumidores" style="resize:none "rows="6"
-                                         placeholder="Es si su empresa esta llegando a los clientes y cuál es el grado de dependencia o lealtad de ellos con sus productos." ng-required="false" 
+                                         placeholder="Es si su empresa esta llegando a los clientes y cuál es el grado de dependencia o lealtad de ellos con sus productos." ng-required="false" ng-model="oferta.fk_diagrama_competidores.consumidores"
                                          >{{ oferta.fk_diagrama_competidores.consumidores }}</textarea>
-                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_consumidores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         <!--<span ng-show="form_editar.diagramapoter_consumidores.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                                          </td>
                                          <td><textarea autofocus name="diagramapoter_sustitutos" id="diagramapoter_sustitutos" style="resize:none "rows="6"
-                                         placeholder="Es la existencia de los productos que pueden sustituir su producto en precios, características,etc." ng-required="false" 
+                                         placeholder="Es la existencia de los productos que pueden sustituir su producto en precios, características,etc." ng-required="false" ng-model="oferta.fk_diagrama_competidores.sustitutos"
                                          >{{ oferta.fk_diagrama_competidores.sustitutos }}</textarea>
-                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_sustitutos.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         <!--<span ng-show="form_editar.diagramapoter_sustitutos.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                                          </td>
                                          <td><textarea autofocus name="diagramapoter_proveedores" id="diagramapoter_proveedores" style="resize:none "rows="6"
-                                         placeholder="Es la forma de la negociación con los proveedores, ya que ellos son los que realmente saben dónde está la rentabilidad en el sector." ng-required="false" 
+                                         placeholder="Es la forma de la negociación con los proveedores, ya que ellos son los que realmente saben dónde está la rentabilidad en el sector." ng-required="false" ng-model="oferta.fk_diagrama_competidores.proveedores"
                                          >{{ oferta.fk_diagrama_competidores.proveedores }}</textarea>
-                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_proveedores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         <!--<span ng-show="form_editar.diagramapoter_proveedores.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                                          </td>
                                         <td><textarea autofocus name="diagramapoter_nuevos_entrantes" id="diagramapoter_nuevos_entrantes" style="resize:none "rows="6"
-                                        placeholder="Aquí es donde realmente se mide con otras empresas para poder ver si su producto realmente es rentable o no." ng-required="false" 
+                                        placeholder="Aquí es donde realmente se mide con otras empresas para poder ver si su producto realmente es rentable o no." ng-required="false" ng-model="oferta.fk_diagrama_competidores.nuevosMiembros"
                                          >{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</textarea>
-                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_nuevos_entrantes.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         <!--<span ng-show="form_editar.diagramapoter_nuevos_entrantes.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                                          </td>
                                       </tr>
                                 </table>
@@ -395,31 +395,31 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                         <div role="tabpanel" class="tab-pane" id="esta_logro">
                              <div class="col-md-12">
 
-                            <!--<form  class="form-horizontal"  name="forms.crear_oferta_form5" novalidate>-->
+                            <!--<form  class="form-horizontal"  name="forms.form_editar" novalidate>-->
 
                                  <div class="form-group">
                                     <div class="col-md-8">
                                         <label class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
 
-<input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-change="tiempoDisponibleInput(tiempo_disponible)" ng-required="false" 
+<input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" 
 >
-<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
-<!--<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+<span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
+<!--<span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 </div> 
 
         <!--<div class="col-xs-2" style="right:25%;">
-        <select class="form-control" ng-model="tiempo_oferta" ng-options="item.tipo for item in items_date" ng-change="seleccionTiempoDisponible(item)">
+        <select class="form-control"  ng-change="seleccionTiempoDisponible(item)">
             <option></option>
         </select>
         </div>-->
         <div class="col-xs-2" style="right:25%;">
-        <select name="select_oferta_tiempo" id="select_oferta_tiempo" class="form-control" ng-options="i.tipo as i.tipo for i in items_date" ng-model="tiempo_tipo"  ng-change="tiempoDisponibleSelect(tiempo_tipo)" ng-required="false" >
+        <select name="select_oferta_tiempo" id="select_oferta_tiempo" class="form-control" ng-required="false" >
             <option value="">Seleccione duraci&oacute;n</option>
         </select>
-        <!--<span ng-show="crear_oferta_form5.tiempo_tipo.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+        <!--<span ng-show="form_editar.tiempo_tipo.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
         </div>
 
-<!--<input id="oferta.tiempo_para_estar_disponible" type="hidden" ng-model="oferta.tiempo_para_estar_disponible" value="[[tiempo_disponible]][[tiempo_tipo]]" ng-update-hidden-->
+<!--<input id="oferta.tiempo_para_estar_disponible" type="hidden"  value="[[tiempo_disponible]][[tiempo_tipo]]" ng-update-hidden-->
 
 
                                     
@@ -430,7 +430,7 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                      <label for="Nombres" class="col-md-2">Estado de propiedad Intelectual</label>
                                      <div class="col-md-6">
 
-<textarea autofocus type="text" class="form-control" id="oferta_propiedad_intelectual" name="oferta_propiedad_intelectual" rows="4" placeholder="Describa el estado de propiedad intelectual de la oferta" ng-required="false" 
+<textarea autofocus type="text" class="form-control" id="oferta_propiedad_intelectual" name="oferta_propiedad_intelectual" rows="4" placeholder="Describa el estado de propiedad intelectual de la oferta" ng-required="false" ng-model="oferta.estado_propieada_intelectual"
 >{{ oferta.estado_propieada_intelectual }}</textarea>
 
                                      </div>
@@ -441,7 +441,7 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
                                      <label for="Nombres" class="col-md-2">Evidencia de Tracci&oacute;n</label>
                                      <div class="col-md-6">
 
-<textarea autofocus type="text" class="form-control" id="oferta_evidencia_traccion" name="oferta_evidencia_traccion" rows="4" placeholder="Describa la evidencia de tracci&oacute;n de la oferta" ng-required="false" 
+<textarea autofocus type="text" class="form-control" id="oferta_evidencia_traccion" name="oferta_evidencia_traccion" rows="4" placeholder="Describa la evidencia de tracci&oacute;n de la oferta" ng-required="false" ng-model="oferta.evidencia_traccion"
 >{{ oferta.evidencia_traccion }}</textarea>
 
                                      </div>
@@ -463,32 +463,42 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true" ng-blu
 
              </div>
         </form>
+        <script>
+    var oferta_editar = undefined;
+
+    {% if oferta %}
+      oferta_editar = {
+          //tipo:'{{oferta.tipo}}',
+          nombre: '{{ oferta.nombre }}',
+          descripcion:'{{ oferta.descripcion }}',
+          dominio:'{{ oferta.dominio }}',
+          subdominio: '{{ oferta.subdominio }}',
+          perfil_cliente : '{{ oferta.perfil_cliente }}',
+          perfil_beneficiario : '{{ oferta.perfil_beneficiario }}',
+          descripcion_soluciones_existentes : '{{ oferta.descripcion_soluciones_existentes }}',
+          estado_propieada_intelectual : '{{ oferta.estado_propieada_intelectual }}',
+          evidencia_traccion : '{{ oferta.evidencia_traccion }}',
+          cuadro_tendencias_relevantes : '{{ oferta.cuadro_tendencias_relevantes }}',
+          poter_competidores : '{{ oferta.fk_diagrama_competidores.competidores }}',
+          poter_sustitutos : '{{ oferta.fk_diagrama_competidores.sustitutos }}',
+          poter_consumidores : '{{ oferta.fk_diagrama_competidores.consumidores }}',
+          poter_proveedores : '{{ oferta.fk_diagrama_competidores.proveedores }}',
+          poter_nuevosMiembros : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_asociaciones_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_actividades_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_recursos_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_propuesta_valor : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_relacion_clientes : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_canales_distribucion : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_segmento_mercado : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_estructura_costos : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
+          canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}'
+      };
+    {% endif %}
+
+    </script>
        
     </div>
-    <script type="text/javascript">
-        /*
-         Autor: Leonel Ramirez
-         Nombre de función: validarLetra
-         Parámetros: evento
-         Salida: permite el ingreso de solo letras
-         Descripción: no permite la entrada de numeros
-         */
-        function validarLetras(e) {
-            key = e.keyCode || e.which;
-            tecla = String.fromCharCode(key).toLowerCase();
-            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
-            especiales = "8-37-39-46";
-            tecla_especial = false
-            for (var i in especiales) {
-                if (key == especiales[i]) {
-                    tecla_especial = true;
-                    break;
-                }
-            }
-            if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                return false;
-            }
-        }
-    </script>
+
 </div>
 {% endblock%}

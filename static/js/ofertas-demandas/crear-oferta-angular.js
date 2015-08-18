@@ -492,6 +492,68 @@ appoferta.controller('MiembroOfertasControlador',['$scope','$http','urls',functi
 
 
 
+appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', function( $scope, $window, Oferta){
+    console.log("dentro de editar oferta form jiggly");
+
+    $scope.editar_oferta=$window.oferta_editar;
+
+    $scope.oferta = new Oferta(); 
+
+    $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
+    $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
+
+    $scope.tipo = 0;
+    $scope.hide = true; 
+
+    if($scope.editar_oferta !== undefined){
+        $scope.editar_oferta2 = {
+            //tipo : $scope.copia_oferta.tipo,
+            nombre : $scope.editar_oferta.nombre,
+            descripcion : $scope.editar_oferta.descripcion,
+            dominio : $scope.editar_oferta.descripcion,
+            subdominio : $scope.editar_oferta.descripcion,
+            perfil_beneficiario : $scope.editar_oferta.perfil_beneficiario,
+            perfil_cliente : $scope.editar_oferta.perfil_cliente,
+            descripcion_soluciones_existentes : $scope.editar_oferta.descripcion_soluciones_existentes,
+            estado_propieada_intelectual : $scope.editar_oferta.estado_propieada_intelectual,
+            evidencia_traccion : $scope.editar_oferta.evidencia_traccion,
+            cuadro_tendencias_relevantes : $scope.editar_oferta.cuadro_tendencias_relevantes,
+
+            fk_diagrama_competidores : {
+                competidores : $scope.editar_oferta.poter_competidores,
+                sustitutos : $scope.editar_oferta.poter_sustitutos,
+                consumidores : $scope.editar_oferta.poter_consumidores,
+                proveedores : $scope.editar_oferta.poter_proveedores,
+                nuevosMiembros : $scope.editar_oferta.poter_nuevosMiembros
+            },
+
+            fk_diagrama_canvas : {
+                asociaciones_clave : $scope.editar_oferta.canvas_asociaciones_clave,
+                actividades_clave : $scope.editar_oferta.canvas_actividades_clave,
+                recursos_clave : $scope.editar_oferta.canvas_recursos_clave,
+                propuesta_valor : $scope.editar_oferta.canvas_propuesta_valor,
+                relacion_clientes : $scope.editar_oferta.canvas_relacion_clientes,
+                canales_distribucion : $scope.editar_oferta.canvas_canales_distribucion,
+                segmento_mercado : $scope.editar_oferta.canvas_segmento_mercado,
+                estructura_costos : $scope.editar_oferta.canvas_estructura_costos,
+                fuente_ingresos : $scope.editar_oferta.canvas_fuente_ingresos
+            }
+        };
+        if($scope.editar_oferta2!== undefined){
+            $scope.oferta = new Oferta($scope.editar_oferta2);    
+        }
+
+    }else{
+        console.log('copia oferta no existe');
+    }
+    
+
+
+}]);
+
+
+
+
 
 
 
