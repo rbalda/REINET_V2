@@ -118,7 +118,7 @@ def verCualquierOferta(request, id_oferta):
 
 		else:
 			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
-			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
+			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta,estado_comentario=1)
 			calificacionOferta = oferta.calificacion_total
 
 	else:
