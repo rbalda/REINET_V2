@@ -184,6 +184,7 @@ def administrar_Oferta(request, id_oferta):
 
 
 	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
+	equipo=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
 
 	try:
 		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
@@ -427,6 +428,32 @@ def equipoOferta(request):
 	else:
 		return redirect('/NotFound')
 
+@login_required
+def equipoEditableOferta(request):
+
+	if request.is_ajax():
+
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta, estado_membresia=1)
+			args['listaEquipo'] = listaEquipo
+			args['oferta']=oferta
+			args.update(csrf(request))
+			return render(request,'equipo_editable.html',args)
+
+		except Oferta.DoesNotExist:
+			print 'esa oferta no existe '
+			return redirect('/')
+		except MiembroEquipo.DoesNotExist:
+			print 'Este pana no tiene amigos :/'
+			return redirect('/')
+		except:
+			print 'ya me jodi =('
+			return redirect('/')
+	else:
+		return redirect('/NotFound')
+
 
 
 """
@@ -465,7 +492,6 @@ def editarEquipoOferta(request):
 			args['oferta']=ofertaEditar
 			args.update(csrf(request))
 			return render(request,'equipo_editar_oferta.html',args)
-
 		except Oferta.DoesNotExist:
 			print 'esa oferta no existe '
 			return redirect('/')
@@ -695,3 +721,88 @@ def eliminar_borrador(request, id_oferta):
 	
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('oferta_inicio.html',args)
+
+
+
+"""Autor: Angel Guale
+
+"""
+def aceptar_peticion(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_peticion"]
+		id_oferta=request.POST["id_oferta"]
+		rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.estado_membresia=1
+			solicitudMembresia.rol_participante=rol_participante
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+
+def editar_rol_membresia(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_editable"]
+		id_oferta=request.POST["id_oferta"]
+		rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.rol_participante=rol_participante
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+
+def editar_estado_membresia(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_editable"]
+		id_oferta=request.POST["id_oferta"]
+		estado_str=request.POST["estado"]
+		activo=1
+		if estado_str=="ACTIVO":
+			activo=1
+		else:
+			activo=0
+
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.activo=activo
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+

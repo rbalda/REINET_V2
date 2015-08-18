@@ -294,12 +294,13 @@
                             <h4 style="margin-top: 6px;">Equipo</h4>
                          </div>
                         <div class="col-md-7 col-sm-6 col-xs-6" align="right" style="padding-right: 0px;">
+
                             {%if participantes|length >= 5 %}
                                 <a disabled="true" id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
                             {% else %}
                                 <a id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
                             {% endif %}
-                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
+                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" id="botonEditarEquipo" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
                         </div>
                     </div>
                 </div>
@@ -310,7 +311,7 @@
                             <div align=center>
                                 <p>
                                     <a href="#" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitudesEquipo">
-                                    <span class="badge" style="background-color:white; color:#5D8731">2</span>
+                                    <span class="badge" style="background-color:white; color:#5D8731">{{solicitudes|length}}</span>
                                     &nbsp;&nbsp;Solicitudes de participación</a>
                                 </p>
                             </div>                                          
@@ -369,36 +370,9 @@
             <h4 class="modal-title">Editar Equipo</h4>
         </div>
         <div class="modal-body">
-            <div id="equipo" class="team" style="font-size:12px;height:200px;overflow-y:scroll" >
-                <!--{% csrf_token %}-->
-                <form>
-                    <ul id="lista_editar_equipo">
-
-                    </ul>
-                    <!--Script para mostrar el equipo de oferta-->
-                    <script>
-                        $(document).ready(function(){
-                            $(function(){
-                              $('#lista_editar_equipo').ready(editarEquipoOferta);
-                                function editarEquipoOferta(){
-                                $.ajax({
-                                  data:{
-                                    'ofertaEditar':{{oferta.id_oferta}},
-                                    'csrfmiddlewaretoken' :'{{ csrf_token }}'
-                                  },
-                                  type:'get',
-                                  url: '/editarEquipoOferta/',
-                                  success: function(data){
-                                    $('#lista_editar_equipo').html(data)
-                                  }
-                                });
-
-                                }
-                            });
-                          });
-                    </script>
-                    <!-- SEGUNDO MIEMBRO DEL EQUIPO
-                    <div class="member-left" style="margin-bottom: 0px;">
+            <div class="team" id="teamEditable"style="font-size:12px;height:200px;overflow-y:scroll">
+                <!-- <form>
+                     <div class="member-left" style="margin-bottom: 0px;">
 
                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
                             margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
@@ -427,12 +401,12 @@
                         </div>
 
                     </div>      
-                    -->
                 </form>
-            </div>
+ -->      <a>Cargando..</a>
+             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Guardar</button>
+            <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal"  id="guardarEditarEquipo">Guardar</button>
             <button id="btnCancelarEditarEquipo" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
             
         </div>
@@ -491,6 +465,7 @@
                 {% if solicitudes|length == 0 %}
                 <a >No hay solicitudes </a>
                 {% endif %}
+                
                 {%for solicitud in solicitudes%}
                 <div class="comment" id="{{solicitud.fk_participante.id_perfil}}" name="Solicitud01">
                     <div class="media">
@@ -741,6 +716,7 @@
         var idObtenido = $(e2.target).attr('id');
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        
         id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
         rol=$("[id='"+idObtenido+"'][name='rol']").val();
         console.log(id_oferta);
@@ -760,21 +736,26 @@
           data: datos,
           dataType : 'text',
           success: function(data){
-
-           // var objeto = JSON.parse(data);
-             // var objeto=data;
-             // console.log(objeto.aceptado);
               if(data=="ok"){
-                alert('la joda');
+                $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Solicitud aprobada con éxito</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+        
 
               }else{
-
-                alert(data);
+                  $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+             //   alert(data);
               }
           },
           error: function(e){
             console.log(e);
             alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+                      $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+      
           },
         });
 
@@ -790,8 +771,69 @@
         $("#confirmarAgregarMiembroContent").hide();
     });
 
+$("#botonEditarEquipo").on('click', function (){
+  //alert("btnediteq");
+                     $.ajax({
+                        data:{
+                        'oferta':{{oferta.id_oferta}}
+                        },
+                        type:'get',
+                        url: '/equipoEditableOferta/',
+                        success: function(data){
+                        $('#teamEditable').html(data)
+                        }
+                      });
+});
+
+        $("#guardarEditarEquipo").on('click', function(){
+          alert("aqui vamos");
+          $.each($("#teamEditable :input[name='rolEditable']"), function(){
+
+            id_perfil=$(this).attr('id');
+            rol=$(this).val();
+            alert(id_perfil+" "+rol);
+            $.ajax({
+          url: '/editarRolMembresia',
+          type: 'POST',
+          async: true,
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'rol':rol},
+          dataType : 'text',
+          success: function(data){
+             alert("todo Bien");
+                  },
+                  
+          error: function(e){
+                    
+                  },
+                });
+
+          });
 
 
+
+          $.each($("#teamEditable :input[name='estadoEditable']"), function(){
+
+            id_perfil=$(this).attr('id');
+            estado=$(this).val();
+            alert(id_perfil+" "+rol);
+            $.ajax({
+          url: '/editarEstadoMembresia',
+          type: 'POST',
+          async: true,
+          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'estado':estado},
+          dataType : 'text',
+          success: function(data){
+             alert("todo Bien2");
+                  },
+                  
+          error: function(e){
+                    
+                  },
+                });
+
+          });
+
+        });
  </script>
 </div>
 
