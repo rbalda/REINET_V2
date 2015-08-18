@@ -45,8 +45,8 @@ class OfertaSerializador(ModelSerializer):
                             'calificacion_total','palabras_clave','comentarios','alcance')
 
     def create(self,validated_data):
-        diagrama_competidores = validated_data.pop('fk_diagrama_competidores')
-        diagrama_canvas = validated_data.pop('fk_diagrama_canvas')
+        diagrama_competidores = validated_data.pop('fk_diagrama_competidores',None)
+        diagrama_canvas = validated_data.pop('fk_diagrama_canvas',None)
         diagrama_canvas_exist = False
         competidores_canvas_exist = False
 
