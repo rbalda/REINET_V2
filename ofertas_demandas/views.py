@@ -732,6 +732,34 @@ def aceptar_peticion(request):
 	else:
 		return HttpResponseRedirect('NotFound');
 
+"""Autor: Angel Guale
+
+"""
+def rechazar_peticion(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_peticion"]
+		id_oferta=request.POST["id_oferta"]
+		#rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.estado_membresia=-1
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+
+
 def editar_rol_membresia(request):
 	if request.method=="POST":
 		session = request.session['id_usuario']

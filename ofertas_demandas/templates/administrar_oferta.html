@@ -671,6 +671,49 @@
         e2.preventDefault();
         var idObtenido = $(e2.target).attr('id');
         $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        
+        id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
+        console.log(id_oferta);
+        console.log(idObtenido);
+        alert(id_oferta+" "+idObtenido);
+        datos={
+         'id_oferta': id_oferta,
+         'id_user_peticion':idObtenido,
+         'csrfmiddlewaretoken' :'{{ csrf_token }}'
+        };
+        $.ajax({
+          url: '/rechazarPeticionMiembro',
+          type: 'POST',
+          async: true,
+          data: datos,
+          dataType : 'text',
+          success: function(data){
+              if(data=="ok"){
+                $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Solicitud RECHAZADA con éxito</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+        
+
+              }else{
+                  $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+             //   alert(data);
+              }
+          },
+          error: function(e){
+            console.log(e);
+            alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+                      $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+      
+          },
+        });
     });
     $("[name='aceptarSolicitudEquipo01']").on('click', function (e2){
         e2.preventDefault();
