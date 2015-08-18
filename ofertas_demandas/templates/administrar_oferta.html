@@ -486,46 +486,54 @@
 
 
                 <!-- PRIMERA SOLICITUUUUUUUUUUUUUUUUUUUUUUUUUUUUUD -->
-
-                <div class="comment" id="Solicitud01">
+                {% if solicitudes|length == 0 %}
+                <a >No hay solicitudes </a>
+                {% endif %}
+                {%for solicitud in solicitudes%}
+                <div class="comment" id="{{solicitud.fk_participante.id_perfil}}" name="Solicitud01">
                     <div class="media">
                         <a class="pull-left" href="#">
                             <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
                         </a>
                         <div class=" media-body">
-                            <p><a href="profile.html">Username 3</a></p>
-                            <div id="datosSolicitud01">
+                            <p><a href="profile.html">{{solicitud.fk_participante.username}}</a></p>
+                            <div id="{{solicitud.fk_participante.id_perfil}}" name="datosSolicitud01">
                                 <p>Hola que tal te recuerdo que ser&eacute; el diseñador de la oferta </p>
                                 <ul class="text-muted list-inline">
                                     <li><i class="fa fa-calendar"></i> 11/10/2013</li>
                                 </ul>
                             </div>
-                            <div class="form-group" id="rolSolicitud01" style="display: none;">
+                             <form role="form" action="/aceptarPeticionMiembro/" method="post" name="miembro_form"
+                      enctype="multipart/form-data" > {% csrf_token %}
+               <div class="form-group" id="{{solicitud.fk_participante.id_perfil}}"  name="rolSolicitud01"  style="display: none;">
                                 <p>Para agregar a un usuario al equipo debe definirle un rol de trabajo</p>
                                 <label for="Nombres" class="col-md-2">Rol:</label>
                                 <div class="col-md-6">
                                     <input required autofocus type="text" class="form-control" 
-                                         id="nombre" name="nombres"  data-placement="left" data-trigger="focus"
+                                         id="{{solicitud.fk_participante.id_perfil}}"  name="rol"  data-placement="left" data-trigger="focus"
                                          data-content="Ingresa tu nombre aquí." data-original-title="Rol">
+                                    <input hidden value="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" id="{{solicitud.fk_participante.id_perfil}}" name="id_oferta">
+                                    <input hidden id="{{solicitud.fk_participante.id_perfil}}"  value="{{solicitud.fk_participante.id_perfil}}" name="id_user_peticion"> 
                                 </div>
-                                <button type="button"class="btn btn-green btn-sm" id="aceptarRolEquipo01">
+                                <button type="button" class="btn btn-green btn-sm" id="{{solicitud.fk_participante.id_perfil}}" name="aceptarRolEquipo01">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
                             </div>
+                            </form>
                         </div>
-                        <div align=right id="botonesSolicitud01">                            
+                        <div align=right id="{{solicitud.fk_participante.id_perfil}}" name="botonesSolicitud01">                            
                             
-                            <button type="button"class="btn btn-green btn-xs" id="aceptarSolicitudEquipo01">
+                            <button type="button"class="btn btn-green btn-xs" id="{{solicitud.fk_participante.id_perfil}}" name="aceptarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
-                            <button type="button" class="btn btn-dark btn-xs " id="rechazarSolicitudEquipo01">
+                            <button type="button" class="btn btn-dark btn-xs " id="{{solicitud.fk_participante.id_perfil}}" name="rechazarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
                         </div>                    
                     </div>
                     <br>
                 </div>
 
-
+                {%endfor%}
                 <!-- SEGUNDA SOLICITUUUUUUUUUUUUUUUUUUUUUUUUUUUUUD -->
-
+<!-- 
                 <div class="comment" id="Solicitud01">
                     <div class="media">
                         <a class="pull-left" href="#">
@@ -562,7 +570,7 @@
                     </div>
                     <br>
                 </div>
-
+ -->
             </div>
         </div>
     </div>
@@ -713,17 +721,61 @@
 
 
     
-    $("#rechazarSolicitudEquipo01").click(function(){
-        $("#Solicitud01").hide();
+    $("[name='rechazarSolicitudEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
     });
-    $("#aceptarSolicitudEquipo01").click(function(){
-        $("#botonesSolicitud01").hide();
-        $("#datosSolicitud01").hide();
-        $("#rolSolicitud01").show();
+    $("[name='aceptarSolicitudEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        $("[id='"+idObtenido+"'][name='botonesSolicitud01']").hide();
+        $("[id='"+idObtenido+"'][name='datosSolicitud01']").hide();
+        $("[id='"+idObtenido+"'][name='rolSolicitud01']").show();
     });
 
-    $("#aceptarRolEquipo01").click(function(){
-        $("#Solicitud01").hide();
+    $("[name='aceptarRolEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
+        rol=$("[id='"+idObtenido+"'][name='rol']").val();
+        console.log(id_oferta);
+        console.log(idObtenido);
+        console.log(rol);
+        alert(id_oferta+" "+idObtenido+" "+rol);
+        datos={
+         'id_oferta': id_oferta,
+         'id_user_peticion':idObtenido,
+         'rol':rol,
+         'csrfmiddlewaretoken' :'{{ csrf_token }}'
+        };
+        $.ajax({
+          url: '/aceptarPeticionMiembro',
+          type: 'POST',
+          async: true,
+          data: datos,
+          dataType : 'text',
+          success: function(data){
+
+           // var objeto = JSON.parse(data);
+             // var objeto=data;
+             // console.log(objeto.aceptado);
+              if(data=="ok"){
+                alert('la joda');
+
+              }else{
+
+                alert(data);
+              }
+          },
+          error: function(e){
+            console.log(e);
+            alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+          },
+        });
+
     });
 
 
@@ -735,6 +787,8 @@
         $("#agregarMiembroContent").show();
         $("#confirmarAgregarMiembroContent").hide();
     });
+
+
 
  </script>
 </div>

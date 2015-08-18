@@ -134,11 +134,12 @@ def verCualquierOferta(request, id_oferta):
 	return render_to_response('oferta_ver_otra.html',args)
 
 """
-Autor: Pedro Iniguez
+Autor: Pedro Iniguez y Angel Guale
 Nombre de funcion: administrarOferta
 Parametros: request
 Salida: 
 Descripcion: funcion para administrar mi oferta publicada.
+update: agregar las solicitudes de oferta (Angel Guale)
 """
 
 @login_required
@@ -168,10 +169,12 @@ def administrar_Oferta(request, id_oferta):
 
 	if membresiaOferta is None:
 		return HttpResponseRedirect('/NotFound/')
+	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
 
 """
@@ -363,7 +366,6 @@ def equipoOferta(request):
 	else:
 		return redirect('/NotFound')
 
-
 """
 Autor: Ray Montiel
 Nombre de la funcion: solicitarMembresiaOferta
@@ -515,3 +517,30 @@ def eliminar_borrador(request, id_oferta):
 	
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('oferta_inicio.html',args)
+
+
+
+def aceptar_peticion(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_peticion"]
+		id_oferta=request.POST["id_oferta"]
+		rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.estado_membresia=1
+			solicitudMembresia.rol_participante=rol_participante
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
