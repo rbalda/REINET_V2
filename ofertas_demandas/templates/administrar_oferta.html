@@ -101,16 +101,16 @@
                             <div class="col-md-8 col-sm-8 col-xs-8">
                                 <!--Tipo-->
                                 <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
-                                <p>{{ oferta.tipo }}</label>
+                                <p>{{ oferta.tipo }}</p>
                                 <!--Descripcion-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
                                 <p>{{ oferta.descripcion }} </p>
                                 <!--Dominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
-                                <p>{{ oferta.dominio }}</label>
+                                <p>{{ oferta.dominio }}</p>
                                 <!--Subdominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
-                                <p>{{ oferta.subdominio }}</label>
+                                <p>{{ oferta.subdominio }}</p>
                                 <!--Palabras Clave-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
                                 <p class="tags">
@@ -340,29 +340,32 @@
                                 </p>
                             </div>                                          
                             <hr style="margin-top: 15px;">
+                            <div id="equipo">
+								<ul id="lista_equipo">
 
-                            <!-- PRIMER MIEMBRO DEL EQUIPO -->
-                            <div class="member-left" style="margin-bottom: 0px;">
-                                <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
-                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                <p class="position" style="margin-bottom: 4px;">
-                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">ACTIVO</span>
-                                </p>
-                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Dueño</span></p>
-                            </div>
+								</ul>
+								<!--Script para mostrar el equipo de oferta-->
+								<script>
+									$(document).ready(function(){
+										$(function(){
+										  $('#lista_equipo').ready(mostrarEquipoOferta);
+											function mostrarEquipoOferta(){
+											$.ajax({
+											  data:{
+												'oferta':{{oferta.id_oferta}}
+											  },
+											  type:'get',
+											  url: '/equipoOferta/',
+											  success: function(data){
+												$('#lista_equipo').html(data)
+											  }
+											});
 
-                            <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
-                            <div class="member-left" style="margin-bottom: 0px;">
-                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
-                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                <p class="position" style="margin-bottom: 4px;">Estado&nbsp;:&nbsp;&nbsp;
-                                    <span style="color:black;font-size: 12px;">ACTIVO</span>
-                                </p>
-                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Diseñador</span></p>
-                            </div>      
-
+										  }
+										});
+									  });
+								</script>
+							</div>
                         </div>
                     </div>
                 </div>  
