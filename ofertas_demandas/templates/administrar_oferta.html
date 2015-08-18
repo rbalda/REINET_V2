@@ -33,7 +33,7 @@
         <div class="col-md-7">
             <h4>{{ oferta.nombre }}</h4>
             <ul class="text-muted list-inline">
-                <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ dueno }}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
                 <li><i class="fa fa-comments-o"></i> 21 comments</li>
             </ul>
@@ -245,61 +245,32 @@
                 <p class="text-muted" style="font-size:11px">*Los comentarios de otros usuarios deben ser aprobados para estar visibles<p>
             </div>
             <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
-            <div class="comment">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <p><a href="profile.html">Username 3</a></p>
-                        <div class="thumbnail" style="margin-bottom:0px">
-                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                        </p>
-                        <ul class="text-muted list-inline">
-                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="comment">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <p><a href="profile.html">Username 3</a></p>
-                        <div class="thumbnail" style="margin-bottom:0px">
-                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                        </p>
-                        <ul class="text-muted list-inline">
-                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+	    <div class="comment">
+	        <ul id="lista_comentarios">
+	
+	        </ul>
+	        <!--Script para mostrar la lista de comentarios aceptados-->
+	        <script>
+	            $(document).ready(function () {
+	                $(function () {
+	                    $('#lista_comentarios').ready(listaComentarios);
+	                    function listaComentarios() {
+	                        $.ajax({
+	                            data: {
+	                                'oferta':{{oferta.id_oferta}}
+	                            },
+	                            type: 'get',
+	                            url: '/listaComentariosAceptados/',
+	                            success: function (data) {
+	                                $('#lista_comentarios').html(data)
+	                            }
+	                        });
+	                    }
+	                });
+	            });
+	        </script>
+	    </div>
+	    <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
         </div>      
         <div class="col-md-4">
             <!-- Social Links -->

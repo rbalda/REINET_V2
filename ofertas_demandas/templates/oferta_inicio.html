@@ -95,14 +95,14 @@
                                       <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
                                         <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
                                             <ul class="text-muted list-inline">
-                                              <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                              <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ publicada.dueno ]]</a></li>
                                               <li><i class="fa fa-calendar"></i> [[ publicada.fecha_creacion.substring(0,10) ]]</li>
                                               <li><i class="fa fa-comments-o"></i> 21 comments</li>
                                             </ul>
                                         </div>
                                         <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;"> 
 
-                                              <a href="/administrarOferta/" class="btn btn-green btn-sm">
+                                              <a href="/administrarOferta/[[ publicada.id_oferta ]]" class="btn btn-green btn-sm">
                                               <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
                                         </div>
                                       </div>
@@ -155,7 +155,7 @@
                                       <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
                                         <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
                                             <ul class="text-muted list-inline">
-                                              <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                              <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ borrador.dueno ]]</a></li>
                                               <li><i class="fa fa-calendar"></i> [[ borrador.fecha_creacion.substring(0,10) ]]</li>
                                             </ul>
                                         </div>
@@ -226,7 +226,7 @@
                                         <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
                                           <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
                                               <ul class="text-muted list-inline">
-                                                <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                                <li><i class="fa fa-user"></i> <a href="/usuario/[[ o.duenoUsername ]]">[[ o.dueno ]]</a></li>
                                                 <li><i class="fa fa-calendar"></i> [[ o.fecha_creacion.substring(0,10) ]] </li>
                                                 <li><i class="fa fa-comments-o"></i> 21 comments</li>
                                               </ul>
@@ -292,7 +292,7 @@
                                         </h4>
                                         <time datetime="2013-11-10" class="timestamp hidden-xs">[[ miembro.fecha_creacion.substring(0,4) ]]/ [[ miembro.fecha_creacion.substring(5,7) ]]/ [[ miembro.fecha_creacion.substring(8,10) ]]</time>
                                         <ul class="text-muted list-inline">
-                                          <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                                          <li><i class="fa fa-user"></i> <a href="/usuario/[[ miembro.duenoUsername ]]">[[ miembro.dueno ]]</a></li>
                                           <li><i class="fa fa-calendar"></i> [[ miembro.fecha_creacion.substring(0,10) ]]</li>
                                           <li><i class="fa fa-comments-o"></i> 21 comments</li>
                                         </ul>
