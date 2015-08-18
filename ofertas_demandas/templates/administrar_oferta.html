@@ -335,7 +335,7 @@
                             <div align=center>
                                 <p>
                                     <a href="#" class="btn btn-green btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitudesEquipo">
-                                    <span class="badge" style="background-color:white; color:#5D8731">2</span>
+                                    <span class="badge" style="background-color:white; color:#5D8731">{{solicitudes|length}}</span>
                                     &nbsp;&nbsp;Solicitudes de participación</a>
                                 </p>
                             </div>                                          
@@ -486,6 +486,7 @@
                 {% if solicitudes|length == 0 %}
                 <a >No hay solicitudes </a>
                 {% endif %}
+                
                 {%for solicitud in solicitudes%}
                 <div class="comment" id="{{solicitud.fk_participante.id_perfil}}" name="Solicitud01">
                     <div class="media">
@@ -736,6 +737,7 @@
         var idObtenido = $(e2.target).attr('id');
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        
         id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
         rol=$("[id='"+idObtenido+"'][name='rol']").val();
         console.log(id_oferta);
@@ -755,21 +757,26 @@
           data: datos,
           dataType : 'text',
           success: function(data){
-
-           // var objeto = JSON.parse(data);
-             // var objeto=data;
-             // console.log(objeto.aceptado);
               if(data=="ok"){
-                alert('la joda');
+                $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Solicitud aprobada con éxito</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+        
 
               }else{
-
-                alert(data);
+                  $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+             //   alert(data);
               }
           },
           error: function(e){
             console.log(e);
             alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+                      $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+      
           },
         });
 
