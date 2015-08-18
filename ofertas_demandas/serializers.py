@@ -41,6 +41,8 @@ class PalabrasClaveSerializador(ModelSerializer):
 class OfertaSerializador(ModelSerializer):
     fk_diagrama_competidores = DiagramaPorterSerializador(required=False,allow_null=True)
     fk_diagrama_canvas = DiagramaBusinessCanvasSerializador(required=False,allow_null=True)
+    dueno = serializers.SerializerMethodField('getdueno',read_only=True)
+    duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
 
     tags = serializers.ListField(
             child=serializers.CharField(),
@@ -53,11 +55,19 @@ class OfertaSerializador(ModelSerializer):
             'id_oferta','codigo','tipo','nombre','publicada','calificacion_total','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
-            'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave')
+            'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno', 'duenoUsername')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
                             'calificacion_total','comentarios','palabras_clave','alcance')
 
+
+    def getdueno(self,obj):
+        equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=obj.id_oferta).first()
+        return equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
+
+    def getDuenoUsername(self,obj):
+        equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=obj.id_oferta).first()
+        return equipoDueno.fk_participante.username
 
     def create(self,validated_data):
         diagrama_competidores = validated_data.pop('fk_diagrama_competidores',None)

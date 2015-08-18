@@ -33,7 +33,7 @@
         <div class="col-md-7">
             <h4>{{ oferta.nombre }}</h4>
             <ul class="text-muted list-inline">
-                <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ dueno }}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
                 <li><i class="fa fa-comments-o"></i> 21 comments</li>
             </ul>
@@ -101,16 +101,16 @@
                             <div class="col-md-8 col-sm-8 col-xs-8">
                                 <!--Tipo-->
                                 <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
-                                <p>{{ oferta.tipo }}</label>
+                                <p>{{ oferta.tipo }}</p>
                                 <!--Descripcion-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
                                 <p>{{ oferta.descripcion }} </p>
                                 <!--Dominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
-                                <p>{{ oferta.dominio }}</label>
+                                <p>{{ oferta.dominio }}</p>
                                 <!--Subdominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
-                                <p>{{ oferta.subdominio }}</label>
+                                <p>{{ oferta.subdominio }}</p>
                                 <!--Palabras Clave-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
                                 <p class="tags">
@@ -323,8 +323,12 @@
                             <h4 style="margin-top: 6px;">Equipo</h4>
                          </div>
                         <div class="col-md-7 col-sm-6 col-xs-6" align="right" style="padding-right: 0px;">
-                                <a href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
-                                <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
+                            {%if participantes|length >= 5 %}
+                                <a disabled="true" id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
+                            {% else %}
+                                <a id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
+                            {% endif %}
+                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
                         </div>
                     </div>
                 </div>
@@ -340,29 +344,33 @@
                                 </p>
                             </div>                                          
                             <hr style="margin-top: 15px;">
+                            <div id="equipo">
+								<ul id="lista_equipo">
 
-                            <!-- PRIMER MIEMBRO DEL EQUIPO -->
-                            <div class="member-left" style="margin-bottom: 0px;">
-                                <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
-                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                <p class="position" style="margin-bottom: 4px;">
-                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">ACTIVO</span>
-                                </p>
-                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Dueño</span></p>
-                            </div>
+								</ul>
+								<!--Script para mostrar el equipo de oferta-->
+								<script>
+									$(document).ready(function(){
+										$(function(){
+										  $('#lista_equipo').ready(mostrarEquipoOferta);
+											function mostrarEquipoOferta(){
+											$.ajax({
+											  data:{
+												'oferta':{{oferta.id_oferta}},
+                                                'csrfmiddlewaretoken' :'{{ csrf_token }}'
+											  },
+											  type:'get',
+											  url: '/equipoOferta/',
+											  success: function(data){
+												$('#lista_equipo').html(data)
+											  }
+											});
 
-                            <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
-                            <div class="member-left" style="margin-bottom: 0px;">
-                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
-                                    margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
-                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-                                <p class="position" style="margin-bottom: 4px;">Estado&nbsp;:&nbsp;&nbsp;
-                                    <span style="color:black;font-size: 12px;">ACTIVO</span>
-                                </p>
-                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Diseñador</span></p>
-                            </div>      
-
+										  }
+										});
+									  });
+								</script>
+							</div>
                         </div>
                     </div>
                 </div>  
@@ -390,10 +398,35 @@
             <h4 class="modal-title">Editar Equipo</h4>
         </div>
         <div class="modal-body">
-            <div class="team" style="font-size:12px;height:200px;overflow-y:scroll">
+            <div id="equipo" class="team" style="font-size:12px;height:200px;overflow-y:scroll" >
+                <!--{% csrf_token %}-->
                 <form>
+                    <ul id="lista_editar_equipo">
 
-                    <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
+                    </ul>
+                    <!--Script para mostrar el equipo de oferta-->
+                    <script>
+                        $(document).ready(function(){
+                            $(function(){
+                              $('#lista_editar_equipo').ready(editarEquipoOferta);
+                                function editarEquipoOferta(){
+                                $.ajax({
+                                  data:{
+                                    'ofertaEditar':{{oferta1.id_oferta}},
+                                    'csrfmiddlewaretoken' :'{{ csrf_token }}'
+                                  },
+                                  type:'get',
+                                  url: '/editarEquipoOferta/',
+                                  success: function(data){
+                                    $('#lista_editar_equipo').html(data)
+                                  }
+                                });
+
+                                }
+                            });
+                          });
+                    </script>
+                    <!-- SEGUNDO MIEMBRO DEL EQUIPO
                     <div class="member-left" style="margin-bottom: 0px;">
 
                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
@@ -423,7 +456,7 @@
                         </div>
 
                     </div>      
-
+                    -->
                 </form>
             </div>
         </div>
@@ -483,46 +516,54 @@
 
 
                 <!-- PRIMERA SOLICITUUUUUUUUUUUUUUUUUUUUUUUUUUUUUD -->
-
-                <div class="comment" id="Solicitud01">
+                {% if solicitudes|length == 0 %}
+                <a >No hay solicitudes </a>
+                {% endif %}
+                {%for solicitud in solicitudes%}
+                <div class="comment" id="{{solicitud.fk_participante.id_perfil}}" name="Solicitud01">
                     <div class="media">
                         <a class="pull-left" href="#">
                             <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
                         </a>
                         <div class=" media-body">
-                            <p><a href="profile.html">Username 3</a></p>
-                            <div id="datosSolicitud01">
+                            <p><a href="profile.html">{{solicitud.fk_participante.username}}</a></p>
+                            <div id="{{solicitud.fk_participante.id_perfil}}" name="datosSolicitud01">
                                 <p>Hola que tal te recuerdo que ser&eacute; el diseñador de la oferta </p>
                                 <ul class="text-muted list-inline">
                                     <li><i class="fa fa-calendar"></i> 11/10/2013</li>
                                 </ul>
                             </div>
-                            <div class="form-group" id="rolSolicitud01" style="display: none;">
+                             <form role="form" action="/aceptarPeticionMiembro/" method="post" name="miembro_form"
+                      enctype="multipart/form-data" > {% csrf_token %}
+               <div class="form-group" id="{{solicitud.fk_participante.id_perfil}}"  name="rolSolicitud01"  style="display: none;">
                                 <p>Para agregar a un usuario al equipo debe definirle un rol de trabajo</p>
                                 <label for="Nombres" class="col-md-2">Rol:</label>
                                 <div class="col-md-6">
                                     <input required autofocus type="text" class="form-control" 
-                                         id="nombre" name="nombres"  data-placement="left" data-trigger="focus"
+                                         id="{{solicitud.fk_participante.id_perfil}}"  name="rol"  data-placement="left" data-trigger="focus"
                                          data-content="Ingresa tu nombre aquí." data-original-title="Rol">
+                                    <input hidden value="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" id="{{solicitud.fk_participante.id_perfil}}" name="id_oferta">
+                                    <input hidden id="{{solicitud.fk_participante.id_perfil}}"  value="{{solicitud.fk_participante.id_perfil}}" name="id_user_peticion"> 
                                 </div>
-                                <button type="button"class="btn btn-green btn-sm" id="aceptarRolEquipo01">
+                                <button type="button" class="btn btn-green btn-sm" id="{{solicitud.fk_participante.id_perfil}}" name="aceptarRolEquipo01">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
                             </div>
+                            </form>
                         </div>
-                        <div align=right id="botonesSolicitud01">                            
+                        <div align=right id="{{solicitud.fk_participante.id_perfil}}" name="botonesSolicitud01">                            
                             
-                            <button type="button"class="btn btn-green btn-xs" id="aceptarSolicitudEquipo01">
+                            <button type="button"class="btn btn-green btn-xs" id="{{solicitud.fk_participante.id_perfil}}" name="aceptarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
-                            <button type="button" class="btn btn-dark btn-xs " id="rechazarSolicitudEquipo01">
+                            <button type="button" class="btn btn-dark btn-xs " id="{{solicitud.fk_participante.id_perfil}}" name="rechazarSolicitudEquipo01">
                                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
                         </div>                    
                     </div>
                     <br>
                 </div>
 
-
+                {%endfor%}
                 <!-- SEGUNDA SOLICITUUUUUUUUUUUUUUUUUUUUUUUUUUUUUD -->
-
+<!-- 
                 <div class="comment" id="Solicitud01">
                     <div class="media">
                         <a class="pull-left" href="#">
@@ -559,7 +600,7 @@
                     </div>
                     <br>
                 </div>
-
+ -->
             </div>
         </div>
     </div>
@@ -710,17 +751,61 @@
 
 
     
-    $("#rechazarSolicitudEquipo01").click(function(){
-        $("#Solicitud01").hide();
+    $("[name='rechazarSolicitudEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
     });
-    $("#aceptarSolicitudEquipo01").click(function(){
-        $("#botonesSolicitud01").hide();
-        $("#datosSolicitud01").hide();
-        $("#rolSolicitud01").show();
+    $("[name='aceptarSolicitudEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        $("[id='"+idObtenido+"'][name='botonesSolicitud01']").hide();
+        $("[id='"+idObtenido+"'][name='datosSolicitud01']").hide();
+        $("[id='"+idObtenido+"'][name='rolSolicitud01']").show();
     });
 
-    $("#aceptarRolEquipo01").click(function(){
-        $("#Solicitud01").hide();
+    $("[name='aceptarRolEquipo01']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        
+        $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
+        id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
+        rol=$("[id='"+idObtenido+"'][name='rol']").val();
+        console.log(id_oferta);
+        console.log(idObtenido);
+        console.log(rol);
+        alert(id_oferta+" "+idObtenido+" "+rol);
+        datos={
+         'id_oferta': id_oferta,
+         'id_user_peticion':idObtenido,
+         'rol':rol,
+         'csrfmiddlewaretoken' :'{{ csrf_token }}'
+        };
+        $.ajax({
+          url: '/aceptarPeticionMiembro',
+          type: 'POST',
+          async: true,
+          data: datos,
+          dataType : 'text',
+          success: function(data){
+
+           // var objeto = JSON.parse(data);
+             // var objeto=data;
+             // console.log(objeto.aceptado);
+              if(data=="ok"){
+                alert('la joda');
+
+              }else{
+
+                alert(data);
+              }
+          },
+          error: function(e){
+            console.log(e);
+            alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+          },
+        });
+
     });
 
 
@@ -732,6 +817,8 @@
         $("#agregarMiembroContent").show();
         $("#confirmarAgregarMiembroContent").hide();
     });
+
+
 
  </script>
 </div>
