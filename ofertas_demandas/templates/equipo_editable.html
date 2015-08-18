@@ -3,7 +3,7 @@
 
 
                     <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
-                     <div class="member-left" style="margin-bottom: 0px;">
+                     <div class="member-left" style="margin-bottom: 0px;" id="{{ equipo.fk_participante.id_perfil }}" name="divMiembroEditar">
 
                         <img src="{{ equipo.fk_participante.foto.url }}" alt="Team Member" class="left" style="
                             margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
@@ -15,15 +15,15 @@
 
                         <div class="col-md-6">
                               {% if equipo.activo == 1 %}
-                            <input list="estado" name="estadoEditable" id="estadoUsuario2" value="ACTIVO" disabled></input>
+                            <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="ACTIVO" ></input>
                             {% else %}
-                            <input list="estado" name="estadoEditable" id="estadoUsuario2" value="INACTIVO" disabled></input>
+                            <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="INACTIVO" ></input>
                              {% endif %}
                             <datalist id="estado">
                                 <option value="ACTIVO">
                                 <option value="INACTIVO">
                             </datalist>  
-                            <a href="javascript:editarEstado($('#estadoUsuario2'))"><i class="fa fa-cog"></i>Editar Estado</a>
+                            <a  id="{{ equipo.fk_participante.id_perfil }}"name="btnEditarEstado"><i class="fa fa-cog"></i>Editar</a>
                         </div>
                         <div class="col-md-2">
                             <p class="position" style="margin-bottom: 4px;">Rol&nbsp;:&nbsp;&nbsp;</p>
@@ -31,8 +31,8 @@
 
                         <div class="col-md-6">
 
-                            <input type="text" id="rolUsuario2" name="rolEditable" value="{{equipo.rol_participante}}" disabled></input>
-                            <a href="javascript:editarRol($('#rolUsuario2'))"><i class="fa fa-cog"></i>Editar Rol</a>
+                            <input type="text" id="{{ equipo.fk_participante.id_perfil }}" name="rolEditable" value="{{equipo.rol_participante}}" ></input>
+                            <a  id="{{ equipo.fk_participante.id_perfil }}" name="btnEditarRol"><i class="fa fa-cog"></i>Editar</a>
                         </div>
 
                     </div>      
