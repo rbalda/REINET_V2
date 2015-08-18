@@ -90,15 +90,18 @@ def verCualquierOferta(request, id_oferta):
 
 	else:
 		args['error'] = "Error al cargar los datos"
+		print 'el usuario se daño D:'
 		return HttpResponseRedirect('/NotFound/')
 
 	try:
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
 	except:
+		print 'holaa la fucking oferta no existe'
 		return HttpResponseRedirect('/NotFound/')
 
 	if oferta.publicada == 0 :
-		return HttpResponseRedirect('/NotFound/')
+		print 'No está publicada'
+		#return HttpResponseRedirect('/NotFound/')
 
 	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
@@ -110,13 +113,16 @@ def verCualquierOferta(request, id_oferta):
 		solicitudMembresia = None
 
 	if solicitudMembresia is not None:
-		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
 		existeMembresia = True
 		estadoMembresia = solicitudMembresia.estado_membresia
 	else:
-		participantes = 0
 		existeMembresia = False
 		estadoMembresia = None
+
+	try:
+		participantes = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
+	except:
+		participantes = 0
 
 	args.update(csrf(request))
 	args['es_admin']=request.session['es_admin']
