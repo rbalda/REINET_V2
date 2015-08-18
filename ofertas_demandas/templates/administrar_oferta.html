@@ -33,7 +33,7 @@
         <div class="col-md-7">
             <h4>{{ oferta.nombre }}</h4>
             <ul class="text-muted list-inline">
-                <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
+                <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ dueno }}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
                 <li><i class="fa fa-comments-o"></i> 21 comments</li>
             </ul>
@@ -245,61 +245,32 @@
                 <p class="text-muted" style="font-size:11px">*Los comentarios de otros usuarios deben ser aprobados para estar visibles<p>
             </div>
             <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
-            <div class="comment">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <p><a href="profile.html">Username 3</a></p>
-                        <div class="thumbnail" style="margin-bottom:0px">
-                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                        </p>
-                        <ul class="text-muted list-inline">
-                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="comment">
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <p><a href="profile.html">Username 3</a></p>
-                        <div class="thumbnail" style="margin-bottom:0px">
-                            <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                                <div class="rating">
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                    <i class="fa fa-star"></i> 
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
-                        </p>
-                        <ul class="text-muted list-inline">
-                            <li><i class="fa fa-calendar"></i> 11/10/2013</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+	    <div class="comment">
+	        <ul id="lista_comentarios">
+	
+	        </ul>
+	        <!--Script para mostrar la lista de comentarios aceptados-->
+	        <script>
+	            $(document).ready(function () {
+	                $(function () {
+	                    $('#lista_comentarios').ready(listaComentarios);
+	                    function listaComentarios() {
+	                        $.ajax({
+	                            data: {
+	                                'oferta':{{oferta.id_oferta}}
+	                            },
+	                            type: 'get',
+	                            url: '/listaComentariosAceptados/',
+	                            success: function (data) {
+	                                $('#lista_comentarios').html(data)
+	                            }
+	                        });
+	                    }
+	                });
+	            });
+	        </script>
+	    </div>
+	    <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
         </div>      
         <div class="col-md-4">
             <!-- Social Links -->
@@ -323,8 +294,13 @@
                             <h4 style="margin-top: 6px;">Equipo</h4>
                          </div>
                         <div class="col-md-7 col-sm-6 col-xs-6" align="right" style="padding-right: 0px;">
-                                <a href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
-                                <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalEditarEquipo" id="botonEditarEquipo"style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
+
+                            {%if participantes|length >= 5 %}
+                                <a disabled="true" id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
+                            {% else %}
+                                <a id="btn_agregarMiembro" href="#" class="btn btn-dark btn-sm" style="color:white;" data-toggle="modal" data-target="#agregarMiembro"><i class="fa fa-plus"></i></a>
+                            {% endif %}
+                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" id="botonEditarEquipo" data-target="#modalEditarEquipo" style="margin-left: 2px;margin-right: 3px;"><i class="fa fa-pencil"></i></a>
                         </div>
                     </div>
                 </div>
@@ -352,7 +328,8 @@
 											function mostrarEquipoOferta(){
 											$.ajax({
 											  data:{
-												'oferta':{{oferta.id_oferta}}
+												'oferta':{{oferta.id_oferta}},
+                                                'csrfmiddlewaretoken' :'{{ csrf_token }}'
 											  },
 											  type:'get',
 											  url: '/equipoOferta/',
@@ -424,7 +401,6 @@
                         </div>
 
                     </div>      
-
                 </form>
  -->      <a>Cargando..</a>
              </div>
@@ -448,25 +424,26 @@
                 <h4 class="modal-title">Agregar nuevo integrante al equipo</h4>
             </div>
             <div class="modal-body"style="font-size:12px;overflow-y:auto;">
-                <form>
-                <input required autofocus type="text" class="form-control" 
-                                         id="buscar" name="buscar"  data-placement="left" data-trigger="focus"
-                                         data-original-title="Rol" placeholder="Buscar">
-                </input>
-                <br/>
-                <label>
-                    Ingrese el rol del nuevo integrante:
-                </label>
-                <input required type="text" class="form-control" 
-                                         id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
-                                         data-original-title="Rol" placeholder="Ingrese un rol">
-                </input>
+                <form id="formulario" role="form" action="/agregarParticipante/" method='POST'>
+                    {% csrf_token %}
+                    <input required autofocus type="text" class="form-control"
+                         id="nuevoIntegrante" name="nuevoIntegrante"  data-placement="left" data-trigger="focus"
+                         data-original-title="nuevoIntegrante" placeholder="Buscar">
+
+                    <input type="text" id="particOferta" name="particOferta" hidden>
+                    <input type="text" id="ofertaAdmin" name="ofertaAdmin" value="{{ oferta.id_oferta }}" hidden>
+                    <br/>
+                    <label>
+                        Ingrese el rol del nuevo integrante:
+                    </label>
+                    <input required type="text" class="form-control"
+                         id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
+                         data-original-title="rolNuevoIntegrante" placeholder="Ingrese un rol">
+                    <br/>
+                    <br/>
+                    <button type="submit" class="btn btn-green" href="/agregarParticipante/">Agregar</button>
+                    <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarAgregarIntegrante">Agregar</button>
-                <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-                
             </div>
         </div>
     </div>
@@ -795,6 +772,7 @@
     });
 
 $("#botonEditarEquipo").on('click', function (){
+  //alert("btnediteq");
                      $.ajax({
                         data:{
                         'oferta':{{oferta.id_oferta}}

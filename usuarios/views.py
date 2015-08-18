@@ -736,13 +736,8 @@ def inicio(request):
 
         #Valida si el usuario tiene una institucion a su cargo o es administrador.
         membresia = Membresia.objects.filter(es_administrator=1,fk_usuario=user).exclude(fk_institucion=1).first()
-        print 'usuario'
-        print user.id
-        print 'la membresia'
-        print membresia
         #Intenta obtener si tiene alguna peticion pendiente.
         peticion_pendiente = Peticion.objects.filter(fk_usuario=user).count()
-        print 'peticion_pendiente'
         print peticion_pendiente
         #Si tiene alguna membresia.
         if membresia is not None :

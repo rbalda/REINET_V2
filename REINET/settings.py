@@ -33,59 +33,59 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'swampdragon',
-    'swampdragon_auth',
-    'cities_light',
-    'ipware',
-    'usuarios',
-    'ofertas_demandas',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'rest_framework',
+	'swampdragon',
+	'swampdragon_auth',
+	'cities_light',
+	'ipware',
+	'usuarios',
+	'ofertas_demandas',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.security.SecurityMiddleware',
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.IsAuthenticated',
+	),
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework.authentication.SessionAuthentication',
+		'rest_framework.authentication.BasicAuthentication',
+	),
 }
 
 ROOT_URLCONF = 'REINET.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['template/'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.request',
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': ['template/'],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+				'django.core.context_processors.request',
+			],
+		},
+	},
 ]
 
 
@@ -96,14 +96,14 @@ WSGI_APPLICATION = 'REINET.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'Reinet',
-         'HOST': '201.183.227.87',
-         'PORT':'13306',
-         'USER':'reinet',
-         'PASSWORD':'ReInEt2015'
-     }
+	  'default': {
+		  'ENGINE': 'django.db.backends.mysql',
+		  'NAME': 'Reinet',
+		  'HOST': '201.183.227.87',
+		  'PORT':'13306',
+		  'USER':'reinet',
+		  'PASSWORD':'ReInEt2015'
+	  }
 }
 
 
@@ -135,7 +135,7 @@ USE_TZ = True
 
 
 SOUTH_MIGRATION_MODULES = {
-    'cities_light': 'cities_light.south_migrations',
+	'cities_light': 'cities_light.south_migrations',
 }
 
 # Static files (CSS, JavaScript, Images)
@@ -144,16 +144,16 @@ SOUTH_MIGRATION_MODULES = {
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'template'),
+	os.path.join(BASE_DIR,  'template'),
 )
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+	os.path.join(BASE_DIR, 'static'),
 )
 
 
 MEDIA_ROOT = (
-    os.path.join(BASE_DIR, 'media')
+	os.path.join(BASE_DIR, 'media')
 )
 
 MEDIA_URL = '/media/'

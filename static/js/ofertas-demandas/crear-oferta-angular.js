@@ -1,13 +1,17 @@
 
 var appoferta = angular.module('redInn');
 
-appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout',function($scope,$rootScope,Oferta,$timeout){
+appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout','$window',function($scope,$rootScope,Oferta,$timeout,$window){
     // dentro del scope van modelos
 
 
     console.log('dentro del crearOfertaAngular');
 
     $scope.oferta = new Oferta();
+    $scope.copia_oferta = $window.oferta_copia;
+    $scope.copia_tags = $window.tags_copia;
+    console.log('copia oferta');
+    console.log($scope.copia_oferta);
 
     $scope.tabs = ['/static/templates-ofertas-demandas/crear_oferta_form1.html',
                     '/static/templates-ofertas-demandas/crear_oferta_form2.html',
@@ -25,7 +29,45 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.formActual = $scope.tabs[$scope.actualtab];
     $scope.forms = {};
 
+    if($scope.copia_oferta){
+        console.log('copia oferta existe');
+        $scope.oferta2 = {
+            descripcion : $scope.copia_oferta.descripcion,
+            dominio : $scope.copia_oferta.descripcion,
+            subdominio : $scope.copia_oferta.descripcion,
+            perfil_beneficiario : $scope.copia_oferta.perfil_beneficiario,
+            perfil_cliente : $scope.copia_oferta.perfil_cliente,
+            descripcion_soluciones_existentes : $scope.copia_oferta.descripcion_soluciones_existentes,
+            estado_propieada_intelectual : $scope.copia_oferta.estado_propieada_intelectual,
+            evidencia_traccion : $scope.copia_oferta.evidencia_traccion,
+            cuadro_tendencias_relevantes : $scope.copia_oferta.cuadro_tendencias_relevantes,
 
+            fk_diagrama_competidores : {
+                competidores : $scope.copia_oferta.poter_competidores,
+                sustitutos : $scope.copia_oferta.poter_sustitutos,
+                consumidores : $scope.copia_oferta.poter_consumidores,
+                proveedores : $scope.copia_oferta.poter_proveedores,
+                nuevosMiembros : $scope.copia_oferta.poter_nuevosMiembros
+            },
+
+            fk_diagrama_canvas : {
+                asociaciones_clave : $scope.copia_oferta.canvas_asociaciones_clave,
+                actividades_clave : $scope.copia_oferta.canvas_actividades_clave,
+                recursos_clave : $scope.copia_oferta.canvas_recursos_clave,
+                propuesta_valor : $scope.copia_oferta.canvas_propuesta_valor,
+                relacion_clientes : $scope.copia_oferta.canvas_relacion_clientes,
+                canales_distribucion : $scope.copia_oferta.canvas_canales_distribucion,
+                segmento_mercado : $scope.copia_oferta.canvas_segmento_mercado,
+                estructura_costos : $scope.copia_oferta.canvas_estructura_costos,
+                fuente_ingresos : $scope.copia_oferta.canvas_fuente_ingresos
+            }
+        };
+        if($scope.oferta2!== undefined){
+            $scope.oferta = new Oferta($scope.oferta2);
+        }
+    }else{
+        console.log('copia oferta no existe');
+    }
 
 
     function isEmpty(myObject) {
@@ -116,9 +158,10 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     };
 
     $scope.guardar = function(){
+
         $scope.oferta.tiempo_para_estar_disponible=tiempo + " " + duracion;
 
-        $scope.oferta.$save($scope.palabras_clave,function(response){
+        $scope.oferta.$save(function(response){
             console.log('Se ha creado con exito la Oferta');
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
