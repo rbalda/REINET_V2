@@ -820,3 +820,23 @@ def aceptarComentario(request, id_comentario):
 		return HttpResponseRedirect('/NotFound/')
 	
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
+
+"""
+Autor: David Vinces
+Nombre de funcion: rechazarComentario
+Parametros: request, id de un comentario
+Salida: 
+Descripcion: cambia el estado de un comentario de una oferta para eliminarlo
+"""
+@login_required
+def rechazarComentario(request, id_comentario):
+	try:
+		comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario=-1
+		oferta_id = comentario.fk_oferta.id_oferta
+		comentario.save()
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	
+	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
+
