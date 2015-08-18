@@ -269,32 +269,32 @@ def editar_borrador(request, id_oferta):
 		subdominio = request.POST['oferta_sub_dominio']
 		#tags = request.POST['oferta_tags'] #Aun no usado
 		#seccion de perfiles
-		perfilCliente = request.POST['oferta_descripcion_perfil']
-		perfilBeneficiario = request.POST['oferta_beneficiario_perfil']
+		perfilCliente = request.POST.get('oferta_descripcion_perfil', None)
+		perfilBeneficiario = request.POST.get('oferta_beneficiario_perfil', None)
 		#seccion de business canvas
-		canvasSocioClave = request.POST['canvas_socio_clave']
-		canvasActividadesClave = request.POST['canvas_actividades_clave']
-		canvasRecursos = request.POST['canvas_recrusos_clave']
-		canvasPropuesta = request.POST['canvas_propuesta_valor']
-		canvasRelaciones = request.POST['canvas_ralaciones_clientes']
-		canvasCanales = request.POST['canvas_canales_distribucion']
-		canvasSegmentos = request.POST['canvas_segmentos_clientes']
-		canvasEstructura = request.POST['canvas_estructura_costos']
-		canvasFuentes = request.POST['canvas_fuente_ingresos']
+		canvasSocioClave = request.POST.get('canvas_socio_clave', None)
+		canvasActividadesClave = request.POST.get('canvas_actividades_clave', None)
+		canvasRecursos = request.POST.get('canvas_recrusos_clave', None)
+		canvasPropuesta = request.POST.get('canvas_propuesta_valor', None)
+		canvasRelaciones = request.POST.get('canvas_ralaciones_clientes', None)
+		canvasCanales = request.POST.get('canvas_canales_distribucion', None)
+		canvasSegmentos = request.POST.get('canvas_segmentos_clientes', None)
+		canvasEstructura = request.POST.get('canvas_estructura_costos', None)
+		canvasFuentes = request.POST.get('canvas_fuente_ingresos', None)
 		#seccion de industria
-		tendencias = request.POST['oferta_tendencias']
-		solucionesAlternativas = request.POST['ofertas_alternativas_soluciones']
+		tendencias = request.POST.get('oferta_tendencias', None)
+		solucionesAlternativas = request.POST.get('ofertas_alternativas_soluciones', None)
 		#para Diagrama de Porter
-		porterCompetidores = request.POST['diagramapoter_competidores']
-		porterConsumidores = request.POST['diagramapoter_consumidores']
-		porterSustitutos = request.POST['diagramapoter_sustitutos']
-		porterProveedores = request.POST['diagramapoter_proveedores']
-		porterNuevos = request.POST['diagramapoter_nuevos_entrantes']
+		porterCompetidores = request.POST.get('diagramapoter_competidores', None)
+		porterConsumidores = request.POST.get('diagramapoter_consumidores', None)
+		porterSustitutos = request.POST.get('diagramapoter_sustitutos', None)
+		porterProveedores = request.POST.get('diagramapoter_proveedores', None)
+		porterNuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
 		#seccion de estado/Logros
-		tiempoDisponible = request.POST['oferta_tiempo_disponibilidad']
-		tiempoUnidad = request.POST['select_oferta_tiempo']
-		propiedadIntelectual = request.POST['oferta_propiedad_intelectual']
-		evidenciaTraccion = request.POST['oferta_evidencia_traccion']
+		tiempoDisponible = request.POST.get('oferta_tiempo_disponibilidad', None)
+		tiempoUnidad = request.POST.get('select_oferta_tiempo', None)
+		propiedadIntelectual = request.POST.get('oferta_propiedad_intelectual', None)
+		evidenciaTraccion = request.POST.get('oferta_evidencia_traccion', None)
 
 		ofertaEditada = oferta
 		ofertaEditada.nombre = nombre
@@ -412,7 +412,6 @@ def equipoOferta(request):
 def equipoEditableOferta(request):
 
 	if request.is_ajax():
-
 		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
@@ -429,8 +428,7 @@ def equipoEditableOferta(request):
 			print 'Este pana no tiene amigos :/'
 			return redirect('/')
 		except:
-			print 'ya me jodi =('
-			return redirect('/')
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/NotFound')
 
@@ -454,36 +452,7 @@ class AutocompletarParticipante(APIView):
 		return response
 
 
-"""
-Autor: Ray Montiel
-Nombre de la funcion: editarEquipoOferta
-Entrada:
-Salida: Muestra el equipo de una oferta para poderlo editar desde Administrar oferta
-Descripción:Esta función permite mostrar el equipo de una oferta para poderlo editar desde Administrar oferta
 
-@login_required
-def editarEquipoOferta(request):
-	if request.is_ajax():
-		args={}
-		try:
-			ofertaEditar = Oferta.objects.get(id_oferta=request.GET['oferta'])
-			listaEditarEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = ofertaEditar.id_oferta,estado_membresia=1)
-			args['listaEditarEquipo'] = listaEditarEquipo
-			args['oferta']=ofertaEditar
-			args.update(csrf(request))
-			return render(request,'equipo_editar_oferta.html',args)
-		except Oferta.DoesNotExist:
-			print 'esa oferta no existe '
-			return redirect('/')
-		except MiembroEquipo.DoesNotExist:
-			print 'Este pana no tiene amigos :/'
-			return redirect('/')
-		except:
-			print 'ya me jodi =('
-			return redirect('/')
-	else:
-		return redirect('/NotFound')
-"""
 """
 Autor: Ray Montiel
 Nombre de la funcion: solicitarMembresiaOferta
@@ -494,6 +463,7 @@ Descripción:Envia una solicitud para participar en una Oferta
 @login_required
 def solicitarMembresiaOferta(request):
 	if request.method=="POST":
+		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
 			print request.POST['oferta']
@@ -512,8 +482,8 @@ def solicitarMembresiaOferta(request):
 				return HttpResponse(response.content)
 
 		except Oferta.DoesNotExist:
-			print 'Oferta no existe'
-			return redirect('/')
+			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
 		except MiembroEquipo.DoesNotExist:
 				solicitudMembresia = MiembroEquipo()
 				solicitudMembresia.es_propietario = False
@@ -528,8 +498,7 @@ def solicitarMembresiaOferta(request):
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
 		except:
-			print "error"
-			return "error"
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/')
 
@@ -545,11 +514,8 @@ def agregarParticipante(request):
 		session = request.session['id_usuario']
 		usuario = Perfil.objects.get(id=session)
 		args = {}
-
 		participante = Perfil.objects.get(username = request.POST['particOferta'])
-		print participante.username
 		rol = request.POST['rolNuevoIntegrante']
-		print rol
 		ofertaAdmin = request.POST['ofertaAdmin']
 		if usuario is not None:
 			#Guardo en la variable de sesion a usuario.
@@ -564,12 +530,11 @@ def agregarParticipante(request):
 			membresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = participante)
 
 			if membresia is not None:
-				print 'ya es miembro ese bronza'
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 		except Oferta.DoesNotExist:
-			print 'Oferta no existe'
-			oferta = None
+			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
 		except MiembroEquipo.DoesNotExist:
 			print 'Membresia no existe'
 			membresia = MiembroEquipo()
@@ -580,6 +545,7 @@ def agregarParticipante(request):
 			membresia.fk_oferta_en_que_participa = oferta
 			membresia.fecha_aceptacion = datetime.datetime.now()
 			membresia.save()
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 	else:
 		return HttpResponseRedirect('/Not Found')
@@ -732,6 +698,34 @@ def aceptar_peticion(request):
 			return HttpResponse("No existe una peticion")
 	else:
 		return HttpResponseRedirect('NotFound');
+
+"""Autor: Angel Guale
+
+"""
+def rechazar_peticion(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_peticion"]
+		id_oferta=request.POST["id_oferta"]
+		#rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.estado_membresia=-1
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			print "No existe una peticion"
+			#response = JsonResponse({'aceptado':"False"})
+			#return HttpResponse(response.content)
+			return HttpResponse("No existe una peticion")
+	else:
+		return HttpResponseRedirect('NotFound');
+
 
 def editar_rol_membresia(request):
 	if request.method=="POST":
