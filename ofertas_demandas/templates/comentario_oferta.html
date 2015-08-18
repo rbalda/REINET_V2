@@ -1,7 +1,7 @@
 {% for comentario in listaComentarios %}
     {% if comentario.estado_comentario == 1 %}
         <div class="media">
-            <a class="pull-left" href="#">
+            <a class="pull-left" href="/usuario/{{ comentario.fk_usuario }}">
                 <img class="media-object img-circle" src="{{ comentario.fk_usuario.foto.url }}" alt="...">
             </a>
             <div class="media-body">
