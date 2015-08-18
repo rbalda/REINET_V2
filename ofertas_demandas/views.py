@@ -580,6 +580,7 @@ def agregarParticipante(request):
 			membresia.fk_oferta_en_que_participa = oferta
 			membresia.fecha_aceptacion = datetime.datetime.now()
 			membresia.save()
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 	else:
 		return HttpResponseRedirect('/Not Found')
