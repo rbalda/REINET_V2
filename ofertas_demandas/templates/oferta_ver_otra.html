@@ -388,6 +388,13 @@
                                     &nbsp;&nbsp;Enviar Peticion de Nuevo
                                 </button>
                                 <hr style="margin-top: 15px;">
+                              {% elif estadoMembresia == 1 %}
+                                <label disabled="true" class="btn btn-green btn-sm"
+                                        style="color:green;margin-top: 15px;">
+                                    <i class="fa fa-sign-in"></i>
+                                    &nbsp;&nbsp;Ud ya es Miembro
+                                </label>
+                                <hr style="margin-top: 15px;">
                             {% endif %}
                             </p>
                         </div>
