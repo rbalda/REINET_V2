@@ -72,6 +72,8 @@ class MiembroEquipo(models.Model):
     rol_participante = models.TextField(default="Miembro del Equipo de la Oferta")
     activo = models.BooleanField(default=True)
     estado_membresia = models.SmallIntegerField(default=0) #si la membresia esta aceptada rechazada o pendiente
+    fecha_aceptacion = models.DateTimeField(null=True,blank=True)
+    comentario_peticion = models.TextField(null=True,blank=True)
 
     class Meta:
         db_table='EquipoDeOferta'
