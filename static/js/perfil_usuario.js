@@ -1,5 +1,6 @@
 
 function fijarReputacion() {
+    try{
     var a = document.getElementsByClassName("rating")[0];
     var reputacion = parseInt(document.getElementById("reputacion-calificacion").innerHTML);
     if (reputacion <= 0) {
@@ -14,6 +15,9 @@ function fijarReputacion() {
 
     }
     convertirFecha();
+        }catch(e){
+
+        }
 }
 function convertirFecha(){
     var td_fecha=document.getElementsByClassName("fecha_registro")[0];
