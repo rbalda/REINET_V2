@@ -306,7 +306,10 @@ def editar_borrador(request, id_oferta):
 
 		ofertaEditada.perfil_cliente = perfilCliente
 		ofertaEditada.perfil_beneficiario = perfilBeneficiario
-		try:
+
+		if ofertaEditada.fk_diagrama_canvas is None:
+			ofertaEditada.fk_diagrama_canvas = None
+		else:
 			ofertaEditada.fk_diagrama_canvas.asociaciones_clave = canvasSocioClave
 			ofertaEditada.fk_diagrama_canvas.actividades_clave = canvasActividadesClave
 			ofertaEditada.fk_diagrama_canvas.recursos_clave = canvasRecursos
@@ -316,25 +319,28 @@ def editar_borrador(request, id_oferta):
 			ofertaEditada.fk_diagrama_canvas.segmento_mercado = canvasSegmentos
 			ofertaEditada.fk_diagrama_canvas.estructura_costos = canvasEstructura
 			ofertaEditada.fk_diagrama_canvas.fuente_ingresos = canvasFuentes
-		except:
-			ofertaEditada.fk_diagrama_canvas = None
+			ofertaEditada.fk_diagrama_canvas.save()
+			
 		#seccion de industria
 		ofertaEditada.cuadro_tendencias_relevantes = tendencias
 		ofertaEditada.descripcion_soluciones_existentes = solucionesAlternativas
 		#para Diagrama de Porter
-		try:
+		if ofertaEditada.fk_diagrama_competidores is None:
+			ofertaEditada.fk_diagrama_competidores = None
+		else:
 			ofertaEditada.fk_diagrama_competidores.competidores = porterCompetidores
 			ofertaEditada.fk_diagrama_competidores.consumidores = porterConsumidores
 			ofertaEditada.fk_diagrama_competidores.sustitutos = porterSustitutos
 			ofertaEditada.fk_diagrama_competidores.proveedores = porterProveedores
 			ofertaEditada.fk_diagrama_competidores.nuevosMiembros = porterNuevos
-		except:
-			ofertaEditada.fk_diagrama_competidores = None
+			ofertaEditada.fk_diagrama_competidores.save()
+			
 		#seccion de estado/Logros
 		#ofertaEditada = tiempoDisponible
 		#ofertaEditada = tiempoUnidad
 		ofertaEditada.estado_propieada_intelectual = propiedadIntelectual
 		ofertaEditada.evidencia_traccion = evidenciaTraccion
+
 		ofertaEditada.save()
 
 		args.update(csrf(request))
