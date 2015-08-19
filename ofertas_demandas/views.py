@@ -306,24 +306,30 @@ def editar_borrador(request, id_oferta):
 
 		ofertaEditada.perfil_cliente = perfilCliente
 		ofertaEditada.perfil_beneficiario = perfilBeneficiario
-		ofertaEditada.fk_diagrama_canvas.asociaciones_clave = canvasSocioClave
-		ofertaEditada.fk_diagrama_canvas.actividades_clave = canvasActividadesClave
-		ofertaEditada.fk_diagrama_canvas.recursos_clave = canvasRecursos
-		ofertaEditada.fk_diagrama_canvas.propuesta_valor = canvasPropuesta
-		ofertaEditada.fk_diagrama_canvas.relacion_clientes = canvasRelaciones
-		ofertaEditada.fk_diagrama_canvas.canales_distribucion = canvasCanales
-		ofertaEditada.fk_diagrama_canvas.segmento_mercado = canvasSegmentos
-		ofertaEditada.fk_diagrama_canvas.estructura_costos = canvasEstructura
-		ofertaEditada.fk_diagrama_canvas.fuente_ingresos = canvasFuentes
+		try:
+			ofertaEditada.fk_diagrama_canvas.asociaciones_clave = canvasSocioClave
+			ofertaEditada.fk_diagrama_canvas.actividades_clave = canvasActividadesClave
+			ofertaEditada.fk_diagrama_canvas.recursos_clave = canvasRecursos
+			ofertaEditada.fk_diagrama_canvas.propuesta_valor = canvasPropuesta
+			ofertaEditada.fk_diagrama_canvas.relacion_clientes = canvasRelaciones
+			ofertaEditada.fk_diagrama_canvas.canales_distribucion = canvasCanales
+			ofertaEditada.fk_diagrama_canvas.segmento_mercado = canvasSegmentos
+			ofertaEditada.fk_diagrama_canvas.estructura_costos = canvasEstructura
+			ofertaEditada.fk_diagrama_canvas.fuente_ingresos = canvasFuentes
+		except:
+			ofertaEditada.fk_diagrama_canvas = None
 		#seccion de industria
 		ofertaEditada.cuadro_tendencias_relevantes = tendencias
 		ofertaEditada.descripcion_soluciones_existentes = solucionesAlternativas
 		#para Diagrama de Porter
-		ofertaEditada.fk_diagrama_competidores.competidores = porterCompetidores
-		ofertaEditada.fk_diagrama_competidores.consumidores = porterConsumidores
-		ofertaEditada.fk_diagrama_competidores.sustitutos = porterSustitutos
-		ofertaEditada.fk_diagrama_competidores.proveedores = porterProveedores
-		ofertaEditada.fk_diagrama_competidores.nuevosMiembros = porterNuevos
+		try:
+			ofertaEditada.fk_diagrama_competidores.competidores = porterCompetidores
+			ofertaEditada.fk_diagrama_competidores.consumidores = porterConsumidores
+			ofertaEditada.fk_diagrama_competidores.sustitutos = porterSustitutos
+			ofertaEditada.fk_diagrama_competidores.proveedores = porterProveedores
+			ofertaEditada.fk_diagrama_competidores.nuevosMiembros = porterNuevos
+		except:
+			ofertaEditada.fk_diagrama_competidores = None
 		#seccion de estado/Logros
 		#ofertaEditada = tiempoDisponible
 		#ofertaEditada = tiempoUnidad
