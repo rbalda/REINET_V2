@@ -800,7 +800,9 @@ $("#botonEditarEquipo").on('click', function (){
 });
 
         $("#guardarEditarEquipo").on('click', function(){
-          alert("aqui vamos");
+         // alert("aqui vamos");
+           $('#teamEditable').prepend("<a id='cargando_msj'>Se están guardando sus cambios..</a>");
+                   $(this).prop('disabled', true);
           $.each($("#teamEditable :input[name='rolEditable']"), function(){
 
             id_perfil=$(this).attr('id');
@@ -848,7 +850,9 @@ $("#botonEditarEquipo").on('click', function (){
                 });
 
           });
-
+           $('#teamEditable #cargando_msj').remove();
+           $(this).prop('disabled', false);
+          
 
         });
   

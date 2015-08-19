@@ -15,7 +15,11 @@
 
                         <div class="col-md-6">
                               {% if equipo.activo == 1 %}
-                            <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="ACTIVO" ></input>
+                                  {% if equipo.es_propietario == 1 %}
+                                <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="ACTIVO" disabled ></input>
+                                    {% else %}
+                                 <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="ACTIVO" ></input>
+                                 {% endif %}
                             {% else %}
                             <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="INACTIVO" ></input>
                              {% endif %}
