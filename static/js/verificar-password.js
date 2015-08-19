@@ -12,6 +12,10 @@
 $(document).ready(function () {
 	console.log('dentro de verificar-password')
 
+	$.getScript("/static/js/jquery.cookie.js", function(){
+
+		});
+
 	activarBoton();
 
 	var error_iguales = 'Las contraseñas no coinciden';
@@ -61,6 +65,33 @@ $(document).ready(function () {
 		}
 	}
 
+
+// parte especifica para cambiar contraseña por el usuario
+
+	$("#passwordActual").change(function () {
+        console.log($("#passwordActual").val());
+        $.ajax({
+            type: "POST",
+            url: "/verificar_contrasena/",
+            data: {
+                'passwordActual': $("#passwordActual").val(),
+                'csrfmiddlewaretoken' : $.cookie('csrftoken')
+            },
+            success: function(data){
+                var objeto = JSON.parse(data);
+                console.log(objeto);
+                if (objeto.estado_password){
+                	$('#error_password_incorrecta').fadeOut();
+                	$('.passwordSet1').attr('disabled',false);
+                }else{
+                	$('#error_password_incorrecta').addClass('alert alert-danger');
+                	$('#error_password_incorrecta').fadeIn();
+                	$('#error_password_incorrecta').text('Contraseña incorrecta');
+                	$('.passwordSet1').attr('disabled',true);
+                }
+            }
+        });
+    });
 
 // parte especifica de suspender cuenta por el usuario
 
