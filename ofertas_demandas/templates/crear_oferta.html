@@ -89,15 +89,15 @@ textarea { resize: none; }
           poter_consumidores : '{{ oferta.fk_diagrama_competidores.consumidores }}',
           poter_proveedores : '{{ oferta.fk_diagrama_competidores.proveedores }}',
           poter_nuevosMiembros : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_asociaciones_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_actividades_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_recursos_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_propuesta_valor : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_relacion_clientes : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_canales_distribucion : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_segmento_mercado : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_estructura_costos : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}'
+          canvas_asociaciones_clave : '{{ oferta.fk_diagrama_canvas.asociaciones_clave }}',
+          canvas_actividades_clave : '{{ oferta.fk_diagrama_canvas.actividades_clave }}',
+          canvas_recursos_clave : '{{ oferta.fk_diagrama_canvas.recursos_clave }}',
+          canvas_propuesta_valor : '{{ oferta.fk_diagrama_canvas.propuesta_valor }}',
+          canvas_relacion_clientes : '{{ oferta.fk_diagrama_canvas.relacion_clientes }}',
+          canvas_canales_distribucion : '{{ oferta.fk_diagrama_canvas.canales_distribucion }}',
+          canvas_segmento_mercado : '{{ oferta.fk_diagrama_canvas.segmento_mercado }}',
+          canvas_estructura_costos : '{{ oferta.fk_diagrama_canvas.estructura_costos }}',
+          canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_canvas.fuente_ingresos }}'
       };
 
       tags_copia = '{{tags}}';
@@ -106,6 +106,5 @@ textarea { resize: none; }
     </script>
 
 </div>
-
 
 {% endblock%}

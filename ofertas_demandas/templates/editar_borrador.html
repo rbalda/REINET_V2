@@ -19,9 +19,9 @@ textarea { resize: none; }
   <form role="form" action="/EditarBorrador/{{oferta.id_oferta}}" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"name="form_editar" novalidate>{% csrf_token %}
     <div class="row col-md-12">
 
-            <div align=right> 
-                <button class="btn btn-green"><i class="fa fa-floppy-o" ng-disabled="!form_editar.$valid" ></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
-                <a href="/administrarOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+            <div align=right>
+                <button class="btn btn-green" ng-disabled="form_editar.$invalid" ><i class="fa fa-floppy-o" ></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                <a href="/administrarBorrador/{{ oferta.id_oferta }}" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
             </div>
     </div>
 
@@ -121,7 +121,7 @@ placeholder="Ingresa el dominio de la oferta" rows="5" ng-required="true"  ng-mo
                                          <label for="oferta_sub_dominio" class="col-md-2">Sub Dominio</label>
                                          <div class="col-md-6">
 
-<textarea type="text" class="form-control" id="oferta_sub_dominio" name="oferta_sub_dominio" placeholder="Ingresa el subdominio de la oferta" rows="5" ng-required="true" ng-model="oferta.subdominio" >{{ oferta.subdominio }}</textarea>
+<textarea type="text" class="form-control" id="oferta_sub_dominio" name="oferta_sub_dominio" placeholder="Ingresa el subdominio de la oferta" rows="5" ng-required="true" ng-model="oferta.subdominio">{{ oferta.subdominio }}</textarea>
 <span ng-show="form_editar.oferta_sub_dominio.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
 
                                          </div>
@@ -484,15 +484,15 @@ ng-model="oferta.fk_diagrama_canvas.recursos_clave">{{ oferta.fk_diagrama_canvas
           poter_consumidores : '{{ oferta.fk_diagrama_competidores.consumidores }}',
           poter_proveedores : '{{ oferta.fk_diagrama_competidores.proveedores }}',
           poter_nuevosMiembros : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_asociaciones_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_actividades_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_recursos_clave : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_propuesta_valor : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_relacion_clientes : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_canales_distribucion : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_segmento_mercado : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_estructura_costos : '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}',
-          canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_competidores.nuevosMiembros }}'
+          canvas_asociaciones_clave : '{{ oferta.fk_diagrama_canvas.asociaciones_clave }}',
+          canvas_actividades_clave : '{{ oferta.fk_diagrama_canvas.actividades_clave }}',
+          canvas_recursos_clave : '{{ oferta.fk_diagrama_canvas.recursos_clave }}',
+          canvas_propuesta_valor : '{{ oferta.fk_diagrama_canvas.propuesta_valor }}',
+          canvas_relacion_clientes : '{{ oferta.fk_diagrama_canvas.relacion_clientes }}',
+          canvas_canales_distribucion : '{{ oferta.fk_diagrama_canvas.canales_distribucion }}',
+          canvas_segmento_mercado : '{{ oferta.fk_diagrama_canvas.segmento_mercado }}',
+          canvas_estructura_costos : '{{ oferta.fk_diagrama_canvas.estructura_costos }}',
+          canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_canvas.fuente_ingresos }}'
       };
     {% endif %}
 

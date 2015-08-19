@@ -34,8 +34,8 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         $scope.oferta2 = {
             //tipo : $scope.copia_oferta.tipo,
             descripcion : $scope.copia_oferta.descripcion,
-            dominio : $scope.copia_oferta.descripcion,
-            subdominio : $scope.copia_oferta.descripcion,
+            dominio : $scope.copia_oferta.dominio,
+            subdominio : $scope.copia_oferta.subdominio,
             perfil_beneficiario : $scope.copia_oferta.perfil_beneficiario,
             perfil_cliente : $scope.copia_oferta.perfil_cliente,
             descripcion_soluciones_existentes : $scope.copia_oferta.descripcion_soluciones_existentes,
@@ -589,7 +589,6 @@ appoferta.controller('busquedaControlador',['$rootScope', '$scope','$http','urls
 }]);
 
 appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', function( $scope, $window, Oferta){
-    console.log("dentro de editar oferta form jiggly");
 
     $scope.editar_oferta=$window.oferta_editar;
 
@@ -599,15 +598,15 @@ appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', functi
     $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
 
     $scope.tipo = 0;
-    $scope.hide = true; 
+    $scope.hide = true;
 
     if($scope.editar_oferta !== undefined){
         $scope.editar_oferta2 = {
             //tipo : $scope.copia_oferta.tipo,
             nombre : $scope.editar_oferta.nombre,
             descripcion : $scope.editar_oferta.descripcion,
-            dominio : $scope.editar_oferta.descripcion,
-            subdominio : $scope.editar_oferta.descripcion,
+            dominio : $scope.editar_oferta.dominio,
+            subdominio : $scope.editar_oferta.subdominio,
             perfil_beneficiario : $scope.editar_oferta.perfil_beneficiario,
             perfil_cliente : $scope.editar_oferta.perfil_cliente,
             descripcion_soluciones_existentes : $scope.editar_oferta.descripcion_soluciones_existentes,

@@ -523,8 +523,8 @@ def editarContrasena(request):
 
     if request.method == 'POST':
         contrasenaActual = request.POST['passwordActual']
-        contrasenaNueva = request.POST['password1']
-        contrasenaRepetida = request.POST['password2']
+        contrasenaNueva = request.POST['passwordSet1']
+        contrasenaRepetida = request.POST['passwordSet2']
 
         print "usuario: ",usuarioSession
         print "contrasenaNueva: ",contrasenaNueva
@@ -575,27 +575,28 @@ Autor: Leonel Ramirez - jose Velez
 Nombre de funcion: verificar_contrasena
 Entrada: request GET o POST
 Salida: Formulario de generarCodigo
-Descripción: Genera un codigo para  verificar que la contraseña 
+Descripción: Genera un codigo para  verificar que la contraseña
+Modificado : Fausto Mora - refactor taller - 18/08/2015 
 """
-
+@login_required
 def verificar_contrasena(request):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    print "Usuario-contrasena: ",usuario
+    if request.is_ajax():
+        try:
+            usuario = Perfil.objects.get(id=request.user.id)
+            contrasena = request.POST['passwordActual']
+            autentificacion = auth.authenticate(username=usuario, password=contrasena)
 
-
-    if request.method == "POST":
-        contrasena = request.POST['passwordActual']
-        print "contrasena: ",contrasena
-        autentificacion = auth.authenticate(username=usuario, password=contrasena)
-
-        if autentificacion is not None:
-            print "Valido"
-            return HttpResponse("valido")
-        else:
-            return HttpResponse("invalido")
-            print "inValido"
-    return HttpResponse("no es post")
+            if autentificacion is not None:
+                response = JsonResponse({'estado_password':True})
+                return HttpResponse(response.content)
+            else:
+                response = JsonResponse({'estado_password':False})
+                return HttpResponse(response.content)
+        except Perfil.DoesNotExist:
+            response = JsonResponse({'estado_password':False})
+            return HttpResponse(response.content)
+    else:
+        return redirect('/')
 
 
 
