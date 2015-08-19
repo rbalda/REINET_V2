@@ -471,9 +471,13 @@
                         <div class=" media-body">
                             <p><a href="profile.html">{{solicitud.fk_participante.username}}</a></p>
                             <div id="{{solicitud.fk_participante.id_perfil}}" name="datosSolicitud01">
-                                <p>Hola que tal te recuerdo que ser&eacute; el diseñador de la oferta </p>
+                                {% if solicitud.comentario_peticion %}
+                                <p>{{solicitud.comentario_peticion}}</p>
+                                {%  else %}
+                                <p>Hola que tal, agrégame a tu oferta </p>
+                                {% endif %}
                                 <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> 11/10/2013</li>
+                                    <li><i class="fa fa-calendar"></i> {{solicitud.fecha_aceptacion}}</li>
                                 </ul>
                             </div>
                              <form role="form" action="/aceptarPeticionMiembro/" method="post" name="miembro_form"
@@ -754,12 +758,13 @@
                 $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Solicitud aprobada con éxito</a>");
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").show();
-        
+                              actualizarListaMiembros();
 
               }else{
                   $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+        
              //   alert(data);
               }
           },
