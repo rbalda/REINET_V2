@@ -21,6 +21,7 @@ from rest_framework.views import APIView
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
+from datetime import *
 
 from ofertas_demandas.models import *
 from ofertas_demandas.serializers import *
@@ -240,7 +241,6 @@ def editar_borrador(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
-
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
@@ -630,6 +630,7 @@ def publicar_borrador(request, id_oferta):
 	if (oferta.publicada == 1):
 		return HttpResponseRedirect('/NotFound/')
 
+	oferta.fecha_publicacion = datetime.datetime.now()
 	oferta.publicada = 1
 	oferta.save()
 
