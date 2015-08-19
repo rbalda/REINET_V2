@@ -51,7 +51,12 @@
                 <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Crear oferta </button>     
             </div>
             <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
-                <input type="text" class="form-control" placeholder="Buscar ofertas,  por fechas, por palabras claves"/>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="busqueda_ofertas" placeholder="Buscar Oferta por Nombre"/>
+              </div>
+              <div class="col-sm-3" ng-controller="busquedaControlador">
+                <button class="btn btn-blue" ng-click='buscarOfertas()'>Buscar</button>
+              </div>
             </div>
           </div>
 
