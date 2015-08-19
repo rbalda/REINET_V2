@@ -833,7 +833,7 @@ Salida:
 Descripcion: crea un comentario de una oferta con estado_comentario=0, es decir pendiente
 """
 @login_required
-def creaComentario(request):
+def crearComentario(request):
 	try:
 		print "..se instancio"
 		oferta = Oferta.objects.get(id_oferta = 111)
