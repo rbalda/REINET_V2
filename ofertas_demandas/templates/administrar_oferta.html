@@ -639,7 +639,6 @@
     $("[name='btnEditarRol']").click(function(){
 
       id_perfil=$(this).attr("id");
-      // alert(id_perfil);
         $("[id='"+id_perfil+"'][name='rolEditable']").prop('disabled', false);
     });
 
@@ -683,9 +682,6 @@
         $("[id='"+idObtenido+"'][name='Solicitud01']").hide();
         
         id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
-        console.log(id_oferta);
-        console.log(idObtenido);
-      //  alert(id_oferta+" "+idObtenido);
         datos={
          'id_oferta': id_oferta,
          'id_user_peticion':idObtenido,
@@ -708,17 +704,15 @@
                   $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").show();
-             //   alert(data);
               }
           },
           error: function(e){
-            console.log(e);
-            alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
+
                       $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").show();
       
-          },
+          }
         });
     });
     $("[name='aceptarSolicitudEquipo01']").on('click', function (e2){
@@ -737,10 +731,7 @@
         
         id_oferta=$("[id='"+idObtenido+"'][name='id_oferta']").val();
         rol=$("[id='"+idObtenido+"'][name='rol']").val();
-        console.log(id_oferta);
-        console.log(idObtenido);
-        console.log(rol);
-        //alert(id_oferta+" "+idObtenido+" "+rol);
+
         datos={
          'id_oferta': id_oferta,
          'id_user_peticion':idObtenido,
@@ -764,18 +755,15 @@
                   $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").show();
-        
-             //   alert(data);
+
               }
           },
           error: function(e){
-            console.log(e);
-            alert("Ha ocurrido un error. Lo sentimos. Nuestros técnicos se encuentran trabajando en aquello");
-                      $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+
         
         $("[id='"+idObtenido+"'][name='Solicitud01']").show();
       
-          },
+          }
         });
 
     });
@@ -791,7 +779,7 @@
     });
 
 $("#botonEditarEquipo").on('click', function (){
-  //alert("btnediteq");
+
                      $.ajax({
                         data:{
                         'oferta':{{oferta.id_oferta}}
@@ -805,14 +793,14 @@ $("#botonEditarEquipo").on('click', function (){
 });
 
         $("#guardarEditarEquipo").on('click', function(){
-         // alert("aqui vamos");
+         
            $('#teamEditable').prepend("<a id='cargando_msj'>Se están guardando sus cambios..</a>");
                    $(this).prop('disabled', true);
           $.each($("#teamEditable :input[name='rolEditable']"), function(){
 
             id_perfil=$(this).attr('id');
             rol=$(this).val();
-            //alert(id_perfil+" "+rol);
+
             $.ajax({
           url: '/editarRolMembresia',
           type: 'POST',
@@ -820,44 +808,45 @@ $("#botonEditarEquipo").on('click', function (){
           data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'rol':rol,'csrfmiddlewaretoken' :'{{ csrf_token }}'},
           dataType : 'text',
           success: function(data){
-            // alert("todo Bien");
+
                       actualizarListaMiembros();
                   },
                   
           error: function(e){
                     
-                  },
+                  }
                 });
 
           });
 
 
 
-          $.each($("#teamEditable :input[name='estadoEditable']"), function(){
+        $.each($("#teamEditable :input[name='estadoEditable']"), function(){
 
             id_perfil=$(this).attr('id');
             estado=$(this).val();
-            //alert(id_perfil+" "+rol);
-            $.ajax({
-          url: '/editarEstadoMembresia',
-          type: 'POST',
-          async: false,
-          data: {'id_oferta':'{{oferta.id_oferta}}','id_user_editable':id_perfil,'estado':estado,'csrfmiddlewaretoken' :'{{ csrf_token }}'},
-          dataType : 'text',
-          success: function(data){
-            // alert("todo Bien2");
-                      actualizarListaMiembros();
-                  },
-                  
-          error: function(e){
-                    
-                  },
-                });
 
-          });
+            $.ajax({
+                url: '/editarEstadoMembresia',
+                type: 'POST',
+                async: false,
+                data: {
+                    'id_oferta':'{{oferta.id_oferta}}',
+                    'id_user_editable':id_perfil,'estado':estado,
+                    'csrfmiddlewaretoken' :'{{ csrf_token }}'
+                },
+                dataType : 'text',
+                success: function(data){
+                    actualizarListaMiembros();
+                },
+
+            error: function(e){
+            }
+            });
+
+        });
            $('#teamEditable #cargando_msj').remove();
            $(this).prop('disabled', false);
-          
 
         });
   
@@ -865,7 +854,7 @@ $("#botonEditarEquipo").on('click', function (){
   $.ajax({
                         data:{
                         'oferta':{{oferta.id_oferta}},
-                                                'csrfmiddlewaretoken' :'{{ csrf_token }}'
+                        'csrfmiddlewaretoken' :'{{ csrf_token }}'
                         },
                         type:'get',
                         url: '/equipoOferta/',

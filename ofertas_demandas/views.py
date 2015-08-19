@@ -173,7 +173,7 @@ def administrar_Oferta(request, id_oferta):
 
 	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
 
-	participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1)
+	participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1,activo =1)
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
 	args['comentariosPendientes'] = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=0)
@@ -384,10 +384,17 @@ Descripción:Esta función permite mostrar el equipo de una oferta
 """
 @login_required
 def equipoOferta(request):
-	print 'entrare al ajax con id '+ request.GET['oferta']
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	if usuario is not None:
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 	if request.is_ajax():
 		print 'estoy en el ajax'
-		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
 			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta)
@@ -561,48 +568,6 @@ def agregarParticipante(request):
 
 
 """
-Autor: Ray Montiel
-Nombre de la funcion: verificaParticipacion
-Entrada:
-Salida:Habilita o inhabilita el boton de membresia
-Descripción:Verifica que la solicitud para participar en una Oferta sea valida
-
-
-def verificaParticipacion(request):
-	if request.is_ajax():
-		try:
-			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
-			print oferta.id_oferta
-			solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
-			print solicitudMembresia + 'lol que bronza'
-
-			if solicitudMembresia is not None:
-				print 'si existe membresia'
-				participantes = oferta.equipo.count
-				existeMembresia = True
-				estadoMembresia = solicitudMembresia.estado_membresia
-
-			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia,'participantes':participantes})
-			return HttpResponse(response.content)
-
-		except MiembroEquipo.DoesNotExist:
-			print 'no existe membresia'
-			participantes = oferta.equipo.count
-			existeMembresia = False
-			estadoMembresia = None
-
-			response = JsonResponse({'existeMembresia':existeMembresia,'estadoMembresia':estadoMembresia,'participantes':participantes})
-			return HttpResponse(response.content)
-
-		except MiembroEquipo.MultipleObjectsReturned:
-			print 'mas de uno... error, no deberia pasar'
-		except Oferta.DoesNotExist:
-			print 'Oferta no existe'
-	else:
-		return redirect('/')
-"""
-
-"""
 Autor: Roberto Yoncon
 Nombre de funcion: publicar_borrador
 Parametros: request, id de una oferta
@@ -689,14 +654,10 @@ def aceptar_peticion(request):
 			solicitudMembresia.estado_membresia=1
 			solicitudMembresia.rol_participante=rol_participante
 			solicitudMembresia.save()
-			#response = JsonResponse({'aceptado':"True"})
-			#return HttpResponse(response.content)
+
 			return HttpResponse("ok")
 		else:
-			print "No existe una peticion"
-			#response = JsonResponse({'aceptado':"False"})
-			#return HttpResponse(response.content)
-			return HttpResponse("No existe una peticion")
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return HttpResponseRedirect('NotFound');
 
@@ -720,10 +681,7 @@ def rechazar_peticion(request):
 			#return HttpResponse(response.content)
 			return HttpResponse("ok")
 		else:
-			print "No existe una peticion"
-			#response = JsonResponse({'aceptado':"False"})
-			#return HttpResponse(response.content)
-			return HttpResponse("No existe una peticion")
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return HttpResponseRedirect('NotFound');
 
@@ -745,10 +703,7 @@ def editar_rol_membresia(request):
 			#return HttpResponse(response.content)
 			return HttpResponse("ok")
 		else:
-			print "No existe una peticion"
-			#response = JsonResponse({'aceptado':"False"})
-			#return HttpResponse(response.content)
-			return HttpResponse("No existe una peticion")
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return HttpResponseRedirect('NotFound');
 
@@ -759,13 +714,11 @@ def editar_estado_membresia(request):
 		id_user_peticion=request.POST["id_user_editable"]
 		id_oferta=request.POST["id_oferta"]
 		estado_str=request.POST["estado"]
-		print "estadooo"+ estado_str
 		activo=1
 		if estado_str=="ACTIVO":
 			activo=1
 		else:
 			activo=0
-
 		args = {}
 		oferta=Oferta.objects.get(id_oferta=id_oferta);
 		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
@@ -776,10 +729,7 @@ def editar_estado_membresia(request):
 			#return HttpResponse(response.content)
 			return HttpResponse("ok")
 		else:
-			print "No existe una peticion"
-			#response = JsonResponse({'aceptado':"False"})
-			#return HttpResponse(response.content)
-			return HttpResponse("No existe una peticion")
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return HttpResponseRedirect('NotFound');
 
@@ -801,7 +751,7 @@ def aceptarComentario(request, id_comentario):
 		oferta_id = comentario.fk_oferta.id_oferta
 		comentario.save()
 	except:
-		return HttpResponseRedirect('/NotFound/')
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 

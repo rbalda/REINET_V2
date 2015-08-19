@@ -297,7 +297,7 @@
                     $.ajax({ 
                         data: $(this).serialize(), 
                         type: 'post',
-                        url: '/crearComentario/',
+                        url: '/crearComentario/'
                     });
                     return false;
                 });
@@ -488,7 +488,6 @@
     <!--Script para enviar solicitud de membresia a la oferta-->
     <script>
         $(document).on('click', '#enviarSolicitud', function () {
-           alert("enviareee"+"{{ oferta.id_oferta }}");
             $.ajax({
                 data: {
                     'oferta': "{{ oferta.id_oferta }}",
@@ -498,7 +497,6 @@
                 type: 'post',
                 url: '/solicitarMembresiaOferta/',
                 success: function (data) {
-                  alert("._.");
                     var objeto = JSON.parse(data);
                     if (objeto.save_estado) {
                         $('#btn_participar').attr('disabled', true);
@@ -511,11 +509,38 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                  alert("error");
-               alert(xhr.responseText);
+
                 }
             });
 
+        });
+
+
+        $("#guardarEditarEquipo").on('click', function(){
+            $.each($("#teamEditable :input[name='estadoEditable']"), function(){
+
+            id_perfil=$(this).attr('id');
+            estado=$(this).val();
+
+            $.ajax({
+                url: '/editarEstadoMembresia',
+                type: 'POST',
+                async: false,
+                data: {
+                    'id_oferta':'{{oferta.id_oferta}}',
+                    'id_user_editable':id_perfil,'estado':estado,
+                    'csrfmiddlewaretoken' :'{{ csrf_token }}'
+                },
+                dataType : 'text',
+                success: function(data){
+                    actualizarListaMiembros();
+                },
+
+            error: function(e){
+            }
+            });
+
+            });
         });
     </script>
 
