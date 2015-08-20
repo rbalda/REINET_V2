@@ -30,7 +30,8 @@ urlpatterns = patterns('',
 		url(r'^editarRolMembresia[/]?$','ofertas_demandas.views.editar_rol_membresia', name='editarRolMembresia'),
 
          url(r'^enviarComentario[/]?$', 'ofertas_demandas.views.enviarComentario', name='enviarComentario'),
-		
+         url(r'^aceptarComentario/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.aceptarComentario', name='aceptarComentario'),
+-        url(r'^rechazarComentario/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.rechazarComentario', name='rechazarComentario'),	
 		)
 
 urlpatterns += routers.ofertas_routers
