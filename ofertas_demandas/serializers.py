@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 from datetime import date, datetime
-from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo, PalabraClave
+from django.contrib.admin.utils import model_format_dict
+from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo, PalabraClave, \
+    ImagenOferta
 from usuarios.models import Perfil
 from rest_framework import serializers
 import json
@@ -12,9 +14,16 @@ __author__ = 'rbalda'
 from rest_framework.serializers import ModelSerializer
 
 def crear_codigo(nombre_oferta):
-    nombre_oferta.replace(' ','-')
-    return '%s-%s'%(nombre_oferta,datetime.now().strftime("%Y-%m-%d-%H-%M"))
+    nombre_oferta = " ".join(nombre_oferta.split())
+    nombre = nombre_oferta.replace(" ","-")
+    return '%s-%s'%(nombre,datetime.now().strftime("%Y-%m-%d-%H-%M"))
 
+
+class ImagenOfertaSerializer(ModelSerializer):
+    imagen = serializers.ImageField()
+    class Meta:
+        model=ImagenOferta
+        fields=('imagen','descripcion')
 
 class DiagramaPorterSerializador(ModelSerializer):
     class Meta:
@@ -31,11 +40,10 @@ class DiagramaBusinessCanvasSerializador(ModelSerializer):
         read_only_fields = ('id_diagrama_canvas',)
 
 
-class PalabrasClaveSerializador(ModelSerializer):
+class PalabraClaveSerializador(ModelSerializer):
     class Meta:
         model = PalabraClave
-        fields = ('palabra')
-        read_only_fields = ('id_palabras_clave')
+        fields = ('palabra',)
 
 
 class OfertaSerializador(ModelSerializer):
@@ -43,11 +51,13 @@ class OfertaSerializador(ModelSerializer):
     fk_diagrama_canvas = DiagramaBusinessCanvasSerializador(required=False,allow_null=True)
     dueno = serializers.SerializerMethodField('getdueno',read_only=True)
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
-
+    palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
+    galeria = ImagenOfertaSerializer(many=True,required=False)
     tags = serializers.ListField(
             child=serializers.CharField(),
             required=False,allow_null=True
     )
+
 
     class Meta:
         model = Oferta
@@ -55,7 +65,8 @@ class OfertaSerializador(ModelSerializer):
             'id_oferta','codigo','tipo','nombre','publicada','calificacion_total','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
-            'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno', 'duenoUsername')
+            'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno',
+            'duenoUsername')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
                             'calificacion_total','comentarios','palabras_clave','alcance')
@@ -105,6 +116,8 @@ class OfertaSerializador(ModelSerializer):
                 aux = d.encode('utf-8','ignore')
                 palabra = aux.replace("{u'text': u'", "")
                 palabra = palabra.replace("'}","")
+                palabra = palabra.replace(" ",'')
+                palabra = palabra.lower()
 
                 try:
                     tag = PalabraClave.objects.get(palabra=palabra)

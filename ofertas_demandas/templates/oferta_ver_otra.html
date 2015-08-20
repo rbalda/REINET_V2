@@ -237,7 +237,8 @@
 
 
     <!-- New comment form -->
-    <div class="NuevoComentario">
+    {% if miComentario == 0 %}
+    <div class="NuevoComentario" id="divNuevoComentario">
         <form class="form-horizontal" role="form" id="ComentarioForm" >
             <div class="form-group" style="margin-bottom: 15px;">
                 <div class="col-sm-2 hidden-xs">
@@ -288,8 +289,7 @@
             function limpiarComentarios(envio) {
                 if(envio){
                     $("#confirmarcionComentario").modal('show');
-                    $("[name='comentario_oferta']").val('');
-                    $("#calificacionComentario").rating("update", 3);
+                    $("#divNuevoComentario").hide();
                 }
                 else{
                      $("#rechazoComentario").modal('show');
@@ -300,6 +300,7 @@
         });
         </script>
     </div>
+    {% endif %}
 
     <!-- Comments list -->
     <h4>{{ comentariosOferta | length }} comentarios</h4>

@@ -125,7 +125,8 @@ def verCualquierOferta(request, id_oferta):
 		else:
 			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
 			propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=id_oferta,estado_membresia=1,es_propietario=1).fk_participante
-			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
+			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, estado_comentario=1)
+			args['miComentario'] = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, fk_usuario_id=usuario).count
 			calificacionOferta = oferta.calificacion_total
 
 		args.update(csrf(request))
@@ -186,6 +187,8 @@ def administrar_Oferta(request, id_oferta):
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	calificacionOferta = oferta.calificacion_total
+	args['calificacionOferta'] = range(int(calificacionOferta))
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
@@ -801,7 +804,7 @@ def enviarComentario(request):
 			comentario.fecha_comentario = datetime.datetime.now()
 			comentario.fk_oferta = oferta
 			comentario.fk_usuario = usuario
-			#comentario.save()
+			comentario.save()
 			promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
 			oferta.calificacion_total = promedio_calificacion["average_cal"]
 			oferta.save()
