@@ -1,8 +1,14 @@
+import datetime
 from django.db import models
 
 # Create your models here.
 from usuarios.models import Perfil, Institucion
 
+
+def definir_ruta_imagen(self, filename):
+    hoy = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    nombre_archivo_hoy = "%s_%s" % (hoy, filename)
+    return "ofertas/%s/galeria/%s" % (self.fk_oferta.codigo, nombre_archivo_hoy)
 
 class DiagramaPorter(models.Model):
     id_diagrama_porter = models.AutoField(primary_key=True)
@@ -47,9 +53,9 @@ class Oferta(models.Model):
     tiempo_para_estar_disponible = models.CharField(max_length=25)
     perfil_beneficiario = models.TextField(null=True,blank=True)
     perfil_cliente = models.TextField(null=True,blank=True)
-    descripcion_soluciones_existentes = models.TextField(null=True)
-    estado_propieada_intelectual = models.TextField(null=True)
-    evidencia_traccion = models.TextField(null=True)
+    descripcion_soluciones_existentes = models.TextField(null=True,blank=True)
+    estado_propieada_intelectual = models.TextField(null=True,blank=True)
+    evidencia_traccion = models.TextField(null=True,blank=True)
     cuadro_tendencias_relevantes = models.TextField(null=True,blank=True)
     fk_diagrama_competidores = models.OneToOneField(DiagramaPorter,related_name='oferta_con_este_diagrama_porter',null=True)
     fk_diagrama_canvas = models.OneToOneField(DiagramaBusinessCanvas,related_name='oferta_con_este_digrama_canvas',null=True)
@@ -82,9 +88,9 @@ class MiembroEquipo(models.Model):
 
 class ImagenOferta(models.Model):
     id_imagen = models.AutoField(primary_key=True)
-    imagen = models.ImageField()
+    imagen = models.ImageField(upload_to=definir_ruta_imagen)
     descripcion = models.TextField()
-    fk_oferta = models.ForeignKey(Oferta,related_name='imagenes_oferta')
+    fk_oferta = models.ForeignKey(Oferta,related_name='galeria')
 
     class Meta:
         db_table='ImagenOferta'

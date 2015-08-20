@@ -1,4 +1,4 @@
-
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from ofertas_demandas.models import Oferta
@@ -19,6 +19,7 @@ class OfertaViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'codigo'
     pagination_class = PaginacionCinco
+    parser_classes = (MultiPartParser,)
 
     def get_queryset(self):
         busqueda = self.request.query_params.get('busqueda',None)
@@ -30,6 +31,7 @@ class OfertaViewSet(ModelViewSet):
         else:
             queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset
+
 
 class MisOfertasAllViewSet(ModelViewSet):
     queryset = Oferta.objects.all()
