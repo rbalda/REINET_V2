@@ -274,11 +274,9 @@
             <div class="thumbnail" align=center style="margin-bottom:0px">
                 <div class="caption" style="padding-top:0px; padding-bottom:0px">
                         <div class="rating">
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i> 
-                            <i class="fa fa-star"></i>
+                            {% for estrella in calificacionOferta %}
+	                        <i class="fa fa-star"></i>
+	                    {% endfor %}
                         </div>
                 </div>
             </div>
