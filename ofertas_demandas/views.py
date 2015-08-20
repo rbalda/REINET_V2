@@ -123,14 +123,13 @@ def verCualquierOferta(request, id_oferta):
 			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
 			propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=id_oferta,estado_membresia=1,es_propietario=1).fk_participante
 			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, estado_comentario=1)
-			miComentario = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, fk_usuario_id=usuario)
+			args['miComentario'] = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, fk_usuario_id=usuario).count
 			calificacionOferta = oferta.calificacion_total
 
 		args.update(csrf(request))
 		args['es_admin']=request.session['es_admin']
 		args['participantes'] = participantes
 		args['comentariosOferta'] = comentariosOferta
-		args['miComentario'] = miComentario
 		args['calificacionOferta'] = range(int(calificacionOferta))
 		args['propietario'] = propietario
 		return render_to_response('oferta_ver_otra.html',args)
