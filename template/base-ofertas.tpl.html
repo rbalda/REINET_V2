@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="redInn">
+{% load staticfiles %}
+<head>
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="REINET APP">
+    <meta name="author" content="ESPOL">
+
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+    {% block contenedorcss %}
+        <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/css/animate.css" type="text/css" rel="stylesheet"/>
+        <link href="/static/css/hideandshow.css" rel="stylesheet" type="text/css" />
+        <link href="/static/css/elements.css" type="text/css" rel="stylesheet"/>
+        <link href="/static/css/custom.css" type="text/css" rel="stylesheet"/>
+        <link href="/static/css/styles.css" rel="stylesheet">
+        <link rel="stylesheet" href='/static/css/demo.css'>
+        <link href="/static/fonts/font-awesome-4.0.3/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
+        <link href="/static/isotope/css/style.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" >
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+        <link rel="stylesheet" type="text/css" href="/static/css/ng-tags-input.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/ng-tags-input.bootstrap.css">
+    {% endblock %}
+
+    <title>REI-NET
+        {% block complementotitulo %}
+        {% endblock %}
+    </title>
+</head>
+
+<body ng-cloak>
+
+<!-- Barra de Navegacion -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand link" href="../ofertas_demandas">REI-NET</a>
+        </div>
+        {% block barranavegacion %}
+
+            <div class="collapse navbar-collapse">
+                {% include 'menusuperior/opcionesreinet.tpl.html' %}
+                <ul class="nav navbar-nav navbar-right hidden-xs">
+                    {% block barraizquierda %}
+                    {% endblock %}
+                    {% block barraderecha %}
+                    {% endblock %}
+                    {% block busqueda %}
+                    {% endblock %}
+                </ul>
+            </div>
+        {% endblock %}
+    </div>
+</div>
+{% block registrarinstitucion %}
+    {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+{% endblock %}
+
+<!-- Contenido de la Pagina-->
+<div class="wrapper">
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft">
+                        <span style="border-bottom: 5px solid #72A53B;">
+                            {% block sliderPagina %}
+
+                            {% endblock %}
+                        </span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block contenido %}
+
+    {% endblock %}
+</div>
+
+{% block notificaciones %}
+    <div ng-controller="MensajesControllers"
+         ng-show="mostrarNotificacion"
+         class="info-board info-board-green notificacion">
+        hello
+    </div>
+    <div ng-controller="NotificacionControllers"
+         ng-show="mostrarNotificacion"
+         class="info-board info-board-red notificacion">
+        Im a notify
+    </div>
+{% endblock %}
+
+<!-- Pie de Pagina-->
+{% block piedepagina %}
+    {% include 'piedepagina/piedepagina.tpl.html' %}
+{% endblock %}
+
+<!-- Contenedor Javascript -->
+{% block contenedorjs %}
+
+    {% load static swampdragon_tags %}
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/scrolltopcontrol.js"></script>
+    <script src="/static/js/angular.js"></script>
+    <script src="/static/js/angular-cookies.js"></script>
+    <script src="/static/js/angular-route.js"></script>
+    <script src="/static/js/angular-resource.js"></script>
+    <script src="/static/js/angular-animate.js"></script>
+    <script src="/static/js/angular-route.js"></script>
+    <script src="/static/js/angular-messages.js"></script>
+    <script src="/static/js/autocompletar.js"></script>
+    <script src="/static/js/ofertas-demandas/autocompletar_nuevo_integrante.js"></script>
+    <script src="/static/js/enviarSolicitudInstitucion.js"></script>
+    <script src="/static/js/registrarInstitucion.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/angular-messages.js"></script>
+    <script src="/static/js/angular-resource.js"></script>
+    <script src="/static/js/swampdragon/js/dist/swampdragon.min.js"></script>
+    <script src="/static/js/swampdragon/js/dist/datamapper.js"></script>
+    <script src="/static/js/swampdragon/js/angular/services.js"></script>
+    <script src="/static/js/angular-route.js"></script>
+    <script src="/static/js/institucion-verifCrea.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/ofertas-demandas/crear-oferta-angular.js"></script>
+    <script src="/static/js/perfil_usuario.js"></script>
+    <script src="/static/js/ng-tags-input.js"></script>
+
+{% endblock %}
+
+</body>
+</html>
