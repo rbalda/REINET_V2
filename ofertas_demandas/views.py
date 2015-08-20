@@ -27,6 +27,7 @@ from ofertas_demandas.models import *
 from ofertas_demandas.serializers import *
 
 from usuarios.models import *
+from django.db.models import Avg
 from usuarios.serializers import UsuarioSerializador
 
 """
@@ -810,10 +811,13 @@ def enviarComentario(request):
 			comentario.fecha_comentario = datetime.datetime.now()
 			comentario.fk_oferta = oferta
 			comentario.fk_usuario = usuario
-			comentario.save()
+			#comentario.save()
+			promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
+			oferta.calificacion_total = promedio_calificacion["average_cal"]
+			oferta.save()
 			response = JsonResponse({})
 			return HttpResponse(response.content)
-		except:
+		except Exception as e:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/')
