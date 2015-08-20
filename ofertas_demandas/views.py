@@ -185,6 +185,8 @@ def administrar_Oferta(request, id_oferta):
 	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	calificacionOferta = oferta.calificacion_total
+	args['calificacionOferta'] = range(int(calificacionOferta))
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
