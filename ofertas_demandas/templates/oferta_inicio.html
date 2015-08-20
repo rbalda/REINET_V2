@@ -1,5 +1,4 @@
-
-{% extends "base.tpl.html" %}
+{% extends "base-ofertas.tpl.html" %}
 
 
 {% if user.is_authenticated %}
@@ -8,401 +7,381 @@
     {% endblock %}
 
     {% block busqueda %}
-        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+        {% include 'menusuperior/barrabusqueda.tpl.html' %}
     {% endblock %}
 
-    {% block raiz %}
-        <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
-    {% endblock %}
-
-    {% block inicio %}
-        <a href="/inicioUsuario/">Inicio </a>
-    {% endblock %}
-
-    {% block ofertas %}
-        <a href="/InicioOferta/">OFERTA </a>
-    {% endblock %}
 {% endif %}
 
+{% block sliderPagina %}OFERTAS{% endblock %}
 
 
 {% block contenido %}
-<link rel="stylesheet" href='/static/css/demo.css'>
-{% load staticfiles %}
-    {% block registrarinstitucion %}
-        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
-    {% endblock %}
+    <div class="container">
+    <div class="row" style="margin-bottom: 25px;">
+        <div align=left class="col-md-3 col-sm-3 col-xs-4">
+            <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Crear
+                Oferta
+            </button>
+        </div>
+        <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="busqueda_ofertas"
+                       placeholder="Buscar Oferta por Nombre"/>
+            </div>
+            <div class="col-sm-3" ng-controller="busquedaControlador">
+                <button class="btn btn-blue" ng-click='buscarOfertas()'>Buscar</button>
+            </div>
+        </div>
+    </div>
 
 
-    <div class="section-header">
+    <div class="row">
+    <div class=" col-sm-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#ofertasPublicadas" aria-controls="home" role="tab" data-toggle="tab">Mis ofertas</a>
+        </li>
+        <li role="presentation">
+            <a href="#borradorOferta" aria-controls="borradorOferta" role="tab" data-toggle="tab">Borradores</a>
+        </li>
+        <li role="presentation">
+            <a href="#ofertasdelaREd" aria-controls="ofertasdelaREd" role="tab" data-toggle="tab">Ofertas de la Red</a>
+        </li>
+        <li role="presentation">
+            <a href="#ofertasparticipantes" aria-controls="ofertasparticipantes" role="tab"
+                                   data-toggle="tab">Ofertas en las que participo</a>
+        </li>
+    </ul>
+
+
+    <div class="tab-content col-sm-12">
+    <!-- COMIENZA TAB DE OFERTAS PUBLICADAS-->
+    <div role="tabpanel" class="tab-pane active" id="ofertasPublicadas" ng-controller="MisOfertasControlador">
+
+        <div class="col-sm-12">
+            <div class="timeline-block">
+                <!-- First blog post -->
+                <div ng-repeat="publicada in MOlistaOfertas">
+                    <div class="blog-summary">
+                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                            <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                <a href="/administrarOferta/[[ publicada.id_oferta ]]">[[publicada.nombre]]</a>
+                            </div>
+                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </h4>
+                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[
+                            publicada.fecha_creacion.substring(0,4) ]]/ [[ publicada.fecha_creacion.substring(5,7) ]]/
+                            [[ publicada.fecha_creacion.substring(8,10) ]]
+                        </time>
+                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ publicada.dueno ]]</a>
+                                    </li>
+                                    <li><i class="fa fa-calendar"></i> [[ publicada.fecha_creacion.substring(0,10) ]]
+                                    </li>
+                                    <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+                                <a href="/administrarOferta/[[ publicada.id_oferta ]]" class="btn btn-green btn-sm">
+                                    <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <hr style="margin-top: 10px;">
+                        <p class="blog-text">
+                            <img class="pull-left img-responsive blog-img" alt="Blog Image"
+                                 src="/../../media/ofertas-demandas/works1.jpg">
+                            [[publicada.descripcion]]
+                        </p>
+                        <p class="tags">
+                            <a>Bootstrap</a>
+                            <a>HTML5</a>
+                            <a>CSS</a>
+                            <a>jQuery</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pagination">
+            <button class="btn btn-green" ng-click='irAlanteriorPublicada()'>Anterior</button>
+            <span class="current">
+              Página [[ MOpagina ]] de [[ MOcontador ]].
+            </span>
+            <button class="btn btn-green" ng-click='irAlsiguientePublicada()'>Siguiente</button>
+        </div>
+    </div>
+    <!-- TERMINA TAB DE OFERTAS PUBLICADAS-->
+
+    <!-- COMIENZA TAB DE BORRADORES-->
+    <div role="tabpanel" class="tab-pane" id="borradorOferta" ng-controller="MisOfertasBorradoresControlador">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="animated slideInLeft"><span style="border-bottom: 5px solid #72A53B;">OFERTAS</span></h1>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container">
-          <div class="row" style="margin-bottom: 25px;">
-            <div align=left class="col-md-3 col-sm-3 col-xs-4">
-                <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Crear oferta </button>     
-            </div>
-            <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
-              <div class="col-sm-9">
-                <input type="text" class="form-control" ng-model="busqueda_ofertas" placeholder="Buscar Oferta por Nombre"/>
-              </div>
-              <div class="col-sm-3" ng-controller="busquedaControlador">
-                <button class="btn btn-blue" ng-click='buscarOfertas()'>Buscar</button>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row" >
-                <div class=" col-sm-12">
-                  <!-- Nav tabs -->
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#ofertasPublicadas" aria-controls="home" role="tab" data-toggle="tab">Mis ofertas</a></li>
-                    <li role="presentation"><a href="#borradorOferta" aria-controls="borradorOferta" role="tab" data-toggle="tab">Borradores</a></li>
-                    <li role="presentation"><a href="#ofertasdelaREd" aria-controls="ofertasdelaREd" role="tab" data-toggle="tab">Ofertas de la Red</a></li>
-                    <li role="presentation"><a href="#ofertasparticipantes" aria-controls="ofertasparticipantes" role="tab" data-toggle="tab">Ofertas en las que participo</a></li>
-                  </ul>
-
-                  <!-- Tab panes -->
-                  <div class="tab-content col-sm-12">
-
-                        <!-- COMIENZA TAB DE OFERTAS PUBLICADAS-->
-                        <div role="tabpanel" class="tab-pane active" id="ofertasPublicadas" ng-controller="MisOfertasControlador">
-                            
-                                <div class="col-sm-12">
-                                  <div class="timeline-block">
-                                  <!-- First blog post -->
-                                  <div ng-repeat="publicada in MOlistaOfertas"> 
-                                    <div class="blog-summary">
-                                      <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
-                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                             <a href="/administrarOferta/[[ publicada.id_oferta ]]">[[publicada.nombre]]</a>
-                                           </div>
-                                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
-                                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                    </div>
-                                                </div>
-                                          </div>
-                                      </h4>
-                                      <time datetime="2013-11-10" class="timestamp hidden-xs">[[ publicada.fecha_creacion.substring(0,4) ]]/ [[ publicada.fecha_creacion.substring(5,7) ]]/ [[ publicada.fecha_creacion.substring(8,10) ]]</time>
-                                      <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                                        <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
-                                            <ul class="text-muted list-inline">
-                                              <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ publicada.dueno ]]</a></li>
-                                              <li><i class="fa fa-calendar"></i> [[ publicada.fecha_creacion.substring(0,10) ]]</li>
-                                              <li><i class="fa fa-comments-o"></i> 21 comments</li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;"> 
-
-                                              <a href="/administrarOferta/[[ publicada.id_oferta ]]" class="btn btn-green btn-sm">
-                                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
-                                        </div>
-                                      </div>
-                                      <div style="clear:both;"></div>
-                                      <hr style="margin-top: 10px;">
-                                      <p class="blog-text">
-                                        <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
-                                        [[publicada.descripcion]]
-                                      </p>
-                                      <p class="tags">
-                                        <a>Bootstrap</a>
-                                        <a>HTML5</a>
-                                        <a>CSS</a>
-                                        <a>jQuery</a>
-                                      </p>
-                                    </div>
-                                  </div>
-                                  </div>
-                                </div>
-                                <div class="pagination">
-                                  </span>
-                                    <button class="btn btn-green" ng-click='irAlanteriorPublicada()'>Anterior</button>
-                                  </span>
-
-                                  <span class="current">
-                                      Página [[ MOpagina ]] de [[ MOcontador ]].
-                                  </span>
-
-                                  </span>
-                                    <button class="btn btn-green" ng-click='irAlsiguientePublicada()'>Siguiente</button>
-                                  </span>
-                                </div>
-                        </div>
-                        <!-- TERMINA TAB DE OFERTAS PUBLICADAS-->
-
-                        <!-- COMIENZA TAB DE BORRADORES-->
-                        <div role="tabpanel" class="tab-pane" id="borradorOferta" ng-controller="MisOfertasBorradoresControlador">
-
-                          <div class="container">
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <div class="timeline-block">
-                                  <!-- First blog post -->
-                                  <div ng-repeat="borrador in BorradoreslistaOfertas">
-                                    <div class="blog-summary">
-                                      <h4 style="padding-left: 0px;padding-right: 0px;">
-                                        <a href="/administrarBorrador/[[ borrador.id_oferta ]]">[[borrador.nombre]]</a>
-                                      </h4>
-                                      <time datetime="2013-11-10" class="timestamp hidden-xs">[[ borrador.fecha_creacion.substring(0,4) ]]/ [[ borrador.fecha_creacion.substring(5,7) ]]/ [[ borrador.fecha_creacion.substring(8,10) ]]</time>
-                                      <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                                        <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
-                                            <ul class="text-muted list-inline">
-                                              <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ borrador.dueno ]]</a></li>
-                                              <li><i class="fa fa-calendar"></i> [[ borrador.fecha_creacion.substring(0,10) ]]</li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-                                              <a href="/EditarBorrador/[[ borrador.id_oferta ]]" class="btn btn-green btn-sm">
-                                              <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
-                                        </div>
-                                      </div>
-                                      <div style="clear:both;">
-                                      </div>
-                                      <hr style="margin-top: 10px;">
-
-                                      <p class="blog-text">
-                                        [[borrador.descripcion]]
-                                      </p>
-                                      <p class="tags">
-                                        <a>Bootstrap</a>
-                                        <a>HTML5</a>
-                                        <a>CSS</a>
-                                        <a>jQuery</a>
-                                      </p>
-                                    </div>
-                                  </div>
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
-
-                          <div class="pagination">
-                            </span>
-                              <button class="btn btn-green" ng-click='irAlanteriorBorrador()'>Anterior</button>
-                            </span>
-
-                            <span class="current">
-                                Página [[ Borradorespagina ]] de [[ Borradorescontador ]].
-                            </span>
-
-                            </span>
-                              <button class="btn btn-green" ng-click='irAlsiguienteBorrador()'>Siguiente</button>
-                            </span>
-                          </div>
-
-                        </div>
-                        <!-- TERMINA TAB DE BORRADORES-->
-
-                        <!-- COMIENZA OFERTAS DE LA RED-->
-                        <div role="tabpanel" class="tab-pane" id="ofertasdelaREd" ng-controller="OfertasControlador">
-                                <div class="col-sm-12" >
-                                  <div class="timeline-block">
-                                  <!-- First blog post -->
-                                  <div ng-repeat="o in listaOfertas">
-                                    <div class="blog-summary">
-                                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
-                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                             <a href="/oferta/[[ o.id_oferta ]]">[[o.nombre]]</a>
-                                          </div>
-                                          <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
-                                              <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                                  <div class="rating">
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                  </div>
-                                              </div>
-                                          </div>
-                                        </h4>
-                                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[ o.fecha_creacion.substring(0,4) ]]/ [[ o.fecha_creacion.substring(5,7) ]]/ [[ o.fecha_creacion.substring(8,10) ]]</time>
-                                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                                          <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
-                                              <ul class="text-muted list-inline">
-                                                <li><i class="fa fa-user"></i> <a href="/usuario/[[ o.duenoUsername ]]">[[ o.dueno ]]</a></li>
-                                                <li><i class="fa fa-calendar"></i> [[ o.fecha_creacion.substring(0,10) ]] </li>
-                                                <li><i class="fa fa-comments-o"></i> 21 comments</li>
-                                              </ul>
-                                          </div>
-                                          <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">                                                  
-                                                
-                                          </div>
-                                        </div>
-                                        <div style="clear:both;">
-                                        </div>
-                                        <hr style="margin-top: 10px;">
-                                        <p class="blog-text">
-                                          <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
-                                          [[o.descripcion]]
-                                        </p>
-                                        <p class="tags">
-                                          <a >Bootstrap</a>
-                                          <a >HTML5</a>
-                                          <a >CSS</a>
-                                          <a >jQuery</a>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>  
-                                </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
-                                <!-- PAGINACION DE OFERTA PUBLICADAS-->
-                                <div class="pagination">
-                                  </span>
-                                    <button class="btn btn-green" ng-click='irAlanterior()'>Anterior</button>
-                                  </span>
-
-                                  <span class="current">
-                                      Página [[ pagina ]] de [[ contador ]].
-                                  </span>
-
-                                  </span>
-                                    <button class="btn btn-green" ng-click='irAlsiguiente()'>Siguiente</button>
-                                  </span>
-                                </div>
-                        </div>
-                        <!-- TERMINA OFERTAS DE LA RED-->
-
-                        <!-- COMIENZA OFERTAS EN LAS QUE PARTICIPO -->
-                        <div role="tabpanel" class="tab-pane" id="ofertasparticipantes" ng-controller="MiembroOfertasControlador">
-                              <div class="col-sm-12">
-                                  <div class="timeline-block">
-                                  <!-- First blog post -->
-                                  <div ng-repeat="miembro in miembrolistaOfertas">
-                                    <div class="blog-summary">
-                                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
-                                          <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                             <a href="/oferta/[[ miembro.id_oferta ]]">[[miembro.nombre]]</a>
-                                          </div>
-                                          <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
-                                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                    </div>
-                                                </div>
-                                          </div>
-                                        </h4>
-                                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[ miembro.fecha_creacion.substring(0,4) ]]/ [[ miembro.fecha_creacion.substring(5,7) ]]/ [[ miembro.fecha_creacion.substring(8,10) ]]</time>
+                    <div class="timeline-block">
+                        <!-- First blog post -->
+                        <div ng-repeat="borrador in BorradoreslistaOfertas">
+                            <div class="blog-summary">
+                                <h4 style="padding-left: 0px;padding-right: 0px;">
+                                    <a href="/administrarBorrador/[[ borrador.id_oferta ]]">[[borrador.nombre]]</a>
+                                </h4>
+                                <time datetime="2013-11-10" class="timestamp hidden-xs">[[
+                                    borrador.fecha_creacion.substring(0,4) ]]/ [[ borrador.fecha_creacion.substring(5,7)
+                                    ]]/ [[ borrador.fecha_creacion.substring(8,10) ]]
+                                </time>
+                                <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
                                         <ul class="text-muted list-inline">
-                                          <li><i class="fa fa-user"></i> <a href="/usuario/[[ miembro.duenoUsername ]]">[[ miembro.dueno ]]</a></li>
-                                          <li><i class="fa fa-calendar"></i> [[ miembro.fecha_creacion.substring(0,10) ]]</li>
-                                          <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                            <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ borrador.dueno
+                                                ]]</a></li>
+                                            <li><i class="fa fa-calendar"></i> [[
+                                                borrador.fecha_creacion.substring(0,10) ]]
+                                            </li>
                                         </ul>
-                                        <hr>
-                                        <p class="blog-text">
-                                          <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
-                                          [[miembro.descripcion]]
-                                        </p>
-                                        <p class="tags">
-                                          <a >Bootstrap</a>
-                                          <a >HTML5</a>
-                                          <a >CSS</a>
-                                          <a >jQuery</a>
-                                        </p>
                                     </div>
-                                  </div>
-                                  </div>
-                              </div><!-- PAGINACION DE OFERTA PUBLICADAS-->
-                              <!-- PAGINACION DE OFERTA PUBLICADAS-->
-                              <div class="pagination">
-                                </span>
-                                  <button class="btn btn-green" ng-click='irAlanteriorMiembro()'>Anterior</button>
-                                </span>
-
-                                <span class="current">
-                                    Página [[ miembropagina ]] de [[ miembrocontador ]].
-                                </span>
-
-                                </span>
-                                  <button class="btn btn-green" ng-click='irAlsiguienteMiembro()'>Siguiente</button>
-                                </span>
-                              </div>
-
+                                    <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+                                        <a href="/EditarBorrador/[[ borrador.id_oferta ]]" class="btn btn-green btn-sm">
+                                            <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
+                                    </div>
+                                </div>
+                                <div style="clear:both;">
+                                </div>
+                                <hr style="margin-top: 10px;">
+                                <p class="blog-text">
+                                    [[borrador.descripcion]]
+                                </p>
+                                <p class="tags">
+                                    <a>Bootstrap</a>
+                                    <a>HTML5</a>
+                                    <a>CSS</a>
+                                    <a>jQuery</a>
+                                </p>
+                            </div>
                         </div>
-                        <!-- TERMINA EQUIPO-->
-                  </div>
-
+                    </div>
                 </div>
-
-          </div>
-          
-    
-    
-   </div>
-  
-<!--MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL CREAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEERTA-->
-
-
-<!-- Modal -->
-    <div class="modal fade" id="modalCrearOferta" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-        <form id="formCrearOferta" ng-controller="CargarOfertasSelectController" action="/CrearOfertaCopia/" method="GET">
-        {% csrf_token %}
-          <div class="modal-header">
-            <button type="button" class="close cancelar" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Crear Oferta</h4>
-          </div>
-          <div class="modal-body">
-            <div class="col-md-offset-1">
-                  <input  type="radio" name="radioName" id="radio1" value="1" checked class="'disabled':'disabled';" />&nbsp;&nbsp;Nueva oferta<br />
-                  <input  type="radio" name="radioName" id="radio2" value="2" />&nbsp;&nbsp;De oferta existente<br />
-                  <div class="" id="lista_de_ofertas" style="display:none;">
-
-                    <select class="form-control select-box" id="lista_oferta" name="lista_oferta" ng-model="lista_oferta" ng-options="i.id_oferta as i.nombre for i in listaOfertas" style="margin-left: 3px;margin-top: 5px;overflow-x: hidden;overflow-y: scroll;" ng-change="selectOferta(i.id_oferta)">
-                    </select>
-                  </div>
-                  <input type="hidden" id="select_oferta" name="select_oferta" value="[[ lista_oferta ]]">
-
-              </div>
-          </div>
-          <div class="modal-footer">              
-              <button id="bt1" type="submit" class="btn btn-green"> Aceptar </button>
-              <button type="button" class="btn btn-dark cancelar" data-dismiss="modal">Cancelar</button>
-          </div>
-          </form>
+            </div>
         </div>
 
-      </div>
+        <div class="pagination">
+            <button class="btn btn-green" ng-click='irAlanteriorBorrador()'>Anterior</button>
+            <span class="current">
+                Página [[ Borradorespagina ]] de [[ Borradorescontador ]].
+            </span>
+            <button class="btn btn-green" ng-click='irAlsiguienteBorrador()'>Siguiente</button>
+        </div>
+
+    </div>
+    <!-- TERMINA TAB DE BORRADORES-->
+
+    <!-- COMIENZA OFERTAS DE LA RED-->
+    <div role="tabpanel" class="tab-pane" id="ofertasdelaREd" ng-controller="OfertasControlador">
+        <div class="col-sm-12">
+            <div class="timeline-block">
+                <!-- First blog post -->
+                <div ng-repeat="o in listaOfertas">
+                    <div class="blog-summary">
+                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                            <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                <a href="/oferta/[[ o.id_oferta ]]">[[o.nombre]]</a>
+                            </div>
+                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </h4>
+                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[ o.fecha_creacion.substring(0,4) ]]/
+                            [[ o.fecha_creacion.substring(5,7) ]]/ [[ o.fecha_creacion.substring(8,10) ]]
+                        </time>
+                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-user"></i> <a href="/usuario/[[ o.duenoUsername ]]">[[ o.dueno
+                                        ]]</a></li>
+                                    <li><i class="fa fa-calendar"></i> [[ o.fecha_creacion.substring(0,10) ]]</li>
+                                    <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+
+                            </div>
+                        </div>
+                        <div style="clear:both;">
+                        </div>
+                        <hr style="margin-top: 10px;">
+                        <p class="blog-text">
+                            <img class="pull-left img-responsive blog-img" alt="Blog Image"
+                                 src="/../../media/ofertas-demandas/works1.jpg">
+                            [[o.descripcion]]
+                        </p>
+
+                        <p class="tags">
+                            <a>Bootstrap</a>
+                            <a>HTML5</a>
+                            <a>CSS</a>
+                            <a>jQuery</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PAGINACION DE OFERTA PUBLICADAS-->
+        <!-- PAGINACION DE OFERTA PUBLICADAS-->
+        <div class="pagination">
+            <button class="btn btn-green" ng-click='irAlanterior()'>Anterior</button>
+            <span class="current">
+              Página [[ pagina ]] de [[ contador ]].
+            </span>
+            <button class="btn btn-green" ng-click='irAlsiguiente()'>Siguiente</button>
+        </div>
+    </div>
+    <!-- TERMINA OFERTAS DE LA RED-->
+
+    <!-- COMIENZA OFERTAS EN LAS QUE PARTICIPO -->
+    <div role="tabpanel" class="tab-pane" id="ofertasparticipantes" ng-controller="MiembroOfertasControlador">
+        <div class="col-sm-12">
+            <div class="timeline-block">
+                <!-- First blog post -->
+                <div ng-repeat="miembro in miembrolistaOfertas">
+                    <div class="blog-summary">
+                        <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
+                            <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                <a href="/oferta/[[ miembro.id_oferta ]]">[[miembro.nombre]]</a>
+                            </div>
+                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
+                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </h4>
+                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[ miembro.fecha_creacion.substring(0,4)
+                            ]]/ [[ miembro.fecha_creacion.substring(5,7) ]]/ [[ miembro.fecha_creacion.substring(8,10)
+                            ]]
+                        </time>
+                        <ul class="text-muted list-inline">
+                            <li><i class="fa fa-user"></i> <a href="/usuario/[[ miembro.duenoUsername ]]">[[
+                                miembro.dueno ]]</a></li>
+                            <li><i class="fa fa-calendar"></i> [[ miembro.fecha_creacion.substring(0,10) ]]</li>
+                            <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                        </ul>
+                        <hr>
+                        <p class="blog-text">
+                            <img class="pull-left img-responsive blog-img" alt="Blog Image"
+                                 src="/../../media/ofertas-demandas/works1.jpg">
+                            [[miembro.descripcion]]
+                        </p>
+
+                        <p class="tags">
+                            <a>Bootstrap</a>
+                            <a>HTML5</a>
+                            <a>CSS</a>
+                            <a>jQuery</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PAGINACION DE OFERTA PUBLICADAS-->
+        <!-- PAGINACION DE OFERTA PUBLICADAS-->
+        <div class="pagination">
+            <button class="btn btn-green" ng-click='irAlanteriorMiembro()'>Anterior</button>
+            <span class="current">
+                Página [[ miembropagina ]] de [[ miembrocontador ]].
+            </span>
+            <button class="btn btn-green" ng-click='irAlsiguienteMiembro()'>Siguiente</button>
+        </div>
+
+    </div>
+    <!-- TERMINA EQUIPO-->
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!--MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL CREAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEERTA-->
+
+    <div class="modal fade" id="modalCrearOferta" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form id="formCrearOferta" ng-controller="CargarOfertasSelectController" action="/CrearOfertaCopia/"
+                      method="GET">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close cancelar" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Crear Oferta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-offset-1">
+                            <input type="radio" name="radioName" id="radio1" value="1" checked
+                                   class="'disabled':'disabled';"/>&nbsp;&nbsp;Nueva oferta<br/>
+                            <input type="radio" name="radioName" id="radio2" value="2"/>&nbsp;&nbsp;De oferta
+                            existente<br/>
+
+                            <div class="" id="lista_de_ofertas" style="display:none;">
+
+                                <select class="form-control select-box" id="lista_oferta" name="lista_oferta"
+                                        ng-model="lista_oferta"
+                                        ng-options="i.id_oferta as i.nombre for i in listaOfertas"
+                                        style="margin-left: 3px;margin-top: 5px;overflow-x: hidden;overflow-y: scroll;"
+                                        ng-change="selectOferta(i.id_oferta)">
+                                </select>
+                            </div>
+                            <input type="hidden" id="select_oferta" name="select_oferta" value="[[ lista_oferta ]]">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="bt1" type="submit" class="btn btn-green"> Aceptar</button>
+                        <button type="button" class="btn btn-dark cancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
 
 
 
-  <script>
-    $('#formCrearOferta input').on('change', function() {
-      var valor=$('input[name=radioName]:checked', '#formCrearOferta').val();
-       if(valor=="1"){
-          $("#lista_de_ofertas").hide();
-       }else if(valor=="2"){
-          $("#lista_de_ofertas").show();
-       } 
-    });
+    <script>
+        $('#formCrearOferta input').on('change', function () {
+            var valor = $('input[name=radioName]:checked', '#formCrearOferta').val();
+            if (valor == "1") {
+                $("#lista_de_ofertas").hide();
+            } else if (valor == "2") {
+                $("#lista_de_ofertas").show();
+            }
+        });
+        $('.cancelar').on('click', function () {
+            $('#lista_de_ofertas').fadeIn();
+            $('#lista_de_ofertas').hide();
+            $('#radio1').prop("checked", true);
+            $('#select_oferta').val("");
+        });
+    </script>
 
-    $('.cancelar').on('click',function(){
-      $('#lista_de_ofertas').fadeIn();
-      $('#lista_de_ofertas').hide();
-      $('#radio1').prop("checked", true);
-      $('#select_oferta').val("");
-    });
-
-  </script>
-
-</div>
+    </div>
 
 {% endblock %}
 

@@ -1,20 +1,11 @@
 {% extends "oferta_inicio.html" %}
 
+{% block sliderPagina %}EDITAR BORRADOR DE OFERTA{% endblock %}
+
 {% block contenido %}
 <style>
 textarea { resize: none; }
 </style>
-
-<div class="section-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h1 class="animated slideInLeft"><span style="border-bottom: 5px solid #72A53B;">EDITAR BORRADOR DE OFERTA</span></h1>
-                </div>
-            </div>
-        </div>
-</div>
-
 <div class="container" ng-controller="editar_oferta_form">
   <form role="form" action="/EditarBorrador/{{oferta.id_oferta}}" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"name="form_editar" novalidate>{% csrf_token %}
     <div class="row col-md-12">

@@ -42,6 +42,7 @@ Descripcion: para llamar la pagina oferta inicio
 def InicioOferta(request):
 	args = {}
 	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
 	return render_to_response('oferta_inicio.html',args)
 
 
@@ -56,6 +57,7 @@ Descripcion: para llamar la pagina oferta inicio
 def CrearOfertaCopia(request):
 	if request.GET.get('select_oferta',False):
 		args = {}
+		args['es_admin']=request.session['es_admin']
 		args['usuario']=request.user
 		oferta = None
 		oferta_id = request.GET['select_oferta']
@@ -77,6 +79,7 @@ def CrearOfertaCopia(request):
 def CrearOferta(request):
 	args = {}
 	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
 	args['oferta'] = None
 	args.update(csrf(request))
 	return render(request,'crear_oferta.html',args)
@@ -94,6 +97,7 @@ def verCualquierOferta(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
+	args['es_admin']=request.session['es_admin']
 
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
@@ -115,7 +119,6 @@ def verCualquierOferta(request, id_oferta):
 
 		if oferta.publicada == 0 :
 			args.update(csrf(request))
-			args['es_admin']=request.session['es_admin']
 			args['mensaje_error'] = "La oferta "+oferta.nombre+", no esta actualmente publicada."
 			return render_to_response('problema_oferta.html',args)
 
@@ -126,7 +129,6 @@ def verCualquierOferta(request, id_oferta):
 			calificacionOferta = oferta.calificacion_total
 
 		args.update(csrf(request))
-		args['es_admin']=request.session['es_admin']
 		args['participantes'] = participantes
 		args['comentariosOferta'] = comentariosOferta
 		args['calificacionOferta'] = range(int(calificacionOferta))
@@ -151,6 +153,7 @@ def administrar_Oferta(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
+	args['es_admin']=request.session['es_admin']
 	print 'mi id antes'+id_oferta
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
@@ -181,7 +184,6 @@ def administrar_Oferta(request, id_oferta):
 	args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
 	args.update(csrf(request))
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	args['participantes'] = participantes
@@ -201,6 +203,7 @@ def administrar_Borrador(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
+	args['es_admin']=request.session['es_admin']
 
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
@@ -225,7 +228,6 @@ def administrar_Borrador(request, id_oferta):
 
 	args.update(csrf(request))
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-	args['es_admin']=request.session['es_admin']
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	return render_to_response('administrar_borrador.html',args)
@@ -242,6 +244,7 @@ def editar_borrador(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
+	args['es_admin']=request.session['es_admin']
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
@@ -345,14 +348,12 @@ def editar_borrador(request, id_oferta):
 		ofertaEditada.save()
 
 		args.update(csrf(request))
-		args['es_admin']=request.session['es_admin']
 		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = ofertaEditada
 		return render_to_response('administrar_borrador.html',args)
 
 	else:
 		args.update(csrf(request))
-		args['es_admin']=request.session['es_admin']
 		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = oferta
 		return render_to_response('editar_borrador.html',args)
@@ -400,6 +401,7 @@ def equipoOferta(request):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
+	args['es_admin']=request.session['es_admin']
 	if usuario is not None:
 		args['usuario'] = usuario
 	else:
@@ -570,16 +572,6 @@ def agregarParticipante(request):
 	else:
 		return HttpResponseRedirect('/Not Found')
 
-
-
-
-
-
-
-
-
-
-
 """
 Autor: Roberto Yoncon
 Nombre de funcion: publicar_borrador
@@ -592,6 +584,7 @@ def publicar_borrador(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
+	args['es_admin']=request.session['es_admin']
 
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
@@ -611,8 +604,6 @@ def publicar_borrador(request, id_oferta):
 	oferta.fecha_publicacion = datetime.datetime.now()
 	oferta.publicada = 1
 	oferta.save()
-
-	args['es_admin']=request.session['es_admin']
 	args['oferta'] = oferta
 	return render_to_response('oferta_inicio.html',args)
 
@@ -630,6 +621,7 @@ def eliminar_borrador(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
+	args['es_admin']=request.session['es_admin']
 
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
@@ -645,8 +637,6 @@ def eliminar_borrador(request, id_oferta):
 		return HttpResponseRedirect('/NotFound/')
 
 	oferta.delete()
-	
-	args['es_admin']=request.session['es_admin']
 	return render_to_response('oferta_inicio.html',args)
 
 

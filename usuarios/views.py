@@ -499,7 +499,7 @@ Descripción: hace el logout del usuario y redirecciona a index
 #usar palabras en español
 def cerrarSesion(request):
     logout(request)
-    return redirect('/')
+    return redirect('../')
 
 
 """
