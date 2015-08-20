@@ -66,10 +66,10 @@ class OfertaSerializador(ModelSerializer):
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno',
-            'duenoUsername')
+            'duenoUsername','galeria')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
-                            'calificacion_total','comentarios','palabras_clave','alcance')
+                            'calificacion_total','comentarios','palabras_clave','alcance','galeria')
 
 
     def getdueno(self,obj):
