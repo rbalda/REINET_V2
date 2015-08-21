@@ -65,8 +65,7 @@ def CrearOfertaCopia(request):
 		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
 		tags = []
 		for t in palabra_clave:
-			aux_tag ={'text':t.palabra}
-			tags.append(aux_tag)
+			tags.append(t.palabra)
 
 		args['oferta']=oferta
 		args['tags']=tags
