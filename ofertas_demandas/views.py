@@ -86,7 +86,7 @@ def CrearOferta(request):
 
 
 """
-Autor: Roberto Yoncon
+Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
 Nombre de funcion: verCualquierOferta
 Parametros: request
 Salida: http
@@ -187,6 +187,8 @@ def administrar_Oferta(request, id_oferta):
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	calificacionOferta = oferta.calificacion_total
+	args['calificacionOferta'] = range(int(calificacionOferta))
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
