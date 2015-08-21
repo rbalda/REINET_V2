@@ -68,8 +68,8 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         }
         var tags=[];
         if($scope.copia_tags){
-            for (i=0;i<$scope.copia_tags.length;i++){
-                tags.push({ text: $scope.copia_tags[i] });
+            for ( t in $scope.copia_tags){
+                tags.push({ text: $scope.copia_tags[t] });
             }
             $scope.oferta.tags=tags;
         }

@@ -65,10 +65,11 @@ def CrearOfertaCopia(request):
 		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
 		tags = []
 		for t in palabra_clave:
-			tags.append(t.palabra)
+			tags.append(t.palabra.encode('utf-8','ignore'))
 
+		tags_json= json.dumps(tags)
 		args['oferta']=oferta
-		args['tags']=tags
+		args['tags']=tags_json
 		args.update(csrf(request))
 		return render(request,'crear_oferta.html',args)
 	else:

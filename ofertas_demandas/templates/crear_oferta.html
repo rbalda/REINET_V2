@@ -61,11 +61,10 @@ textarea { resize: none; }
     </div>
     <script>
     var oferta_copia = undefined;
-    var tags_copia = undefined;
 
     {% if oferta %}
       oferta_copia = {
-          //tipo:'{{oferta.tipo}}',
+          tipo:'{{oferta.tipo}}',
           descripcion:'{{ oferta.descripcion }}',
           dominio:'{{ oferta.dominio }}',
           subdominio: '{{ oferta.subdominio }}',
@@ -91,7 +90,8 @@ textarea { resize: none; }
           canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_canvas.fuente_ingresos }}'
       };
 
-      tags_copia = '{{tags}}';
+      var tags_copia = {{ tags|safe }};
+
     {% endif %}
 
     </script>
