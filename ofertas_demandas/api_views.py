@@ -1,4 +1,5 @@
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import detail_route
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from ofertas_demandas.models import Oferta
@@ -19,7 +20,7 @@ class OfertaViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'codigo'
     pagination_class = PaginacionCinco
-    parser_classes = (MultiPartParser,)
+    #parser_classes = (MultiPartParser,JSONParser)
 
     def get_queryset(self):
         busqueda = self.request.query_params.get('busqueda',None)
@@ -31,6 +32,11 @@ class OfertaViewSet(ModelViewSet):
         else:
             queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset
+
+    @detail_route(methods=['post'])
+    def subir_imagenes(self,request,codigo=None):
+        data = self.request.DATA['name']
+        return Response({'status': data})
 
 
 class MisOfertasAllViewSet(ModelViewSet):
