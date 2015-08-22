@@ -5,6 +5,11 @@
     <div class="col-sm-4 col-md-3">
         <div class="user-menu bottom-15">
             <ul>
+                <!--  <li>
+                   <a href="#"  class="link" class="active" >
+                     <i class="sign fa fa-user bg-green"></i> Mi Perfil <i class="fa fa-chevron-right pull-right"></i>
+                   </a>
+                 </li> -->
                 <li>
                     <a href="/enviarMensaje/">
                         <i class="sign fa fa-edit bg-blue"></i> Nuevo Mensaje<i
@@ -23,40 +28,63 @@
                             class="fa fa-chevron-right pull-right"></i>
                     </a>
                 </li>
+                <!--  <li>
+                   <a href="#">
+                     <i class="sign fa fa-sign-out bg-amethyst"></i> Cerrar sesi&oacute;n <i class="fa fa-chevron-right pull-right"></i>
+				</a>
+			  </li> -->
             </ul>
         </div>
     </div>
 {% endblock %}
 
 {% block contenidousuario %}
+<link rel="stylesheet" href='/static/css/demo.css'>
     <div class="col-sm-8 col-md-7">
-        <h1>Mensajes Recibidos</h1>
+        <h1>Bandeja de Entrada</h1>
         <ul class="text-muted list-inline">
-            <li><i class="fa fa-envelope-o"></i> {{mensajes|length}} mensajes</li>
+            <li><i class="fa fa-envelope-o"></i> {{ mensajes|length }} mensajes</li>
         </ul>
-        <div class="list-group">
-            {%for msj in msjs%}
-            <a href="/verMensaje/?q={{ msj.id_mensaje }}"  class="list-group-item col-md-11">
-                <p class="text-muted">
+        <div class="pm-list">
+            <ul>
+                {% for msj in msjs %}
+                <li>
+                <div class="col-md-12">
+                    <p class="text-muted">
                     {% if msj.tipo_mensaje == 'institucion-usuario' or msj.tipo_mensaje == 'institucion-institucion'%}
-                    <span data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
-                    <i class="fa fa-bookmark" style="color:blue;"></i></span>
+                        <a data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
+                        <i class="fa fa-bookmark" style="color:blue;"></i></a>
                     {% endif %}
-
+                        <a id="{{ msj.id_mensaje }}" href="" class="col-md-offset-8 button aceptar" data-type="zoomin"><i class="pull-right fa fa-trash"></i></a>
+                    </p>
+                </div>
+                <p class="text-muted">
+                        <img src="{{ msj.imgEm.url }}" alt="...">
+                        De: <a href="/usuario/{{ msj.fk_emisor }}">{{ msj.fk_emisor.first_name }}</a><br/>
+                        <small>{{ msj.fecha_de_envio }}</small>
                 </p>
-                <p class="text-muted col-md-4">
-                    <img width="50" height="50" src="{{ msj.imgEm.url }}" alt="...">
-                    De: <i>{{ msj.fk_emisor.first_name }}</i><br/>
-                    <small>{{ msj.fecha_de_envio }}</small>
-                </p>
-                <p class="text-muted col-md-7">
-                    <i>{{ msj.mensaje }}</i>
+                <p class="text-muted">
+                    <a href="/verMensaje/?q={{ msj.id_mensaje }}" class="inbox-dialog">{{ msj.mensaje }}</a>
                 </p>
                 <div class="clearfix"></div>
-            </a>
-            <button class="btn pull-left fa fa-trash boton_eliminar" data-toggle="modal" data-type="zoomin" data-target="#eliminar_mensaje_modal" id="{{ msj.id_mensaje }}"></button>
-            {%endfor%}
+                </li>
+
+                {% endfor %}
+                    <div class="overlay-container">
+                        <div class="window-container zoomin">
+                            <h3>Est&aacute; seguro de eliminar el mensaje!</h3><br>
+                            <a id="eliminarRecibido" href="" class="inbox-dialog col-md-6 col-md-offset-2">
+                                <button class="btn btn-success float-left submit-button">Eliminar</button>
+                            </a>
+                            <a href="">
+                            <button class="btn btn-danger" name="close">No</button></a>
+                        </div>
+                    </div>
+            </ul>
         </div>
+        
+       
+        
         <div class="pagination">
             <span class="step-links">
             {% if msjs.has_previous %}
@@ -74,31 +102,8 @@
         </div>
     </div>
 
-
-    <div class="modal fade" id="eliminar_mensaje_modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header" >
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <br/>
-                    <p class="text-danger"> Est&aacute; seguro que desea eliminar este mensaje?</p>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="modal-body">
-                    <!--<button class="btn btn-default" data-dismiss="modal">Cancelar</button>-->
-                    <a class="btn btn-danger" id="eliminar_mensaje" href="" style="left:15px;position:relative;">Confirmar</a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" style="left:40px;position:relative;">Cancelar</button>
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-<script type="text/javascript">
-      $('.boton_eliminar').click(function(){
-            var id=$(this).attr('id');
-            $('#eliminar_mensaje').attr('href',"/eliminarMensajeRecibido/?q=".concat(id));
-      });
-</script>
+<script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
+    <script type="text/javascript" src="/static/js/demo.js"></script>
+    <script type="text/javascript" src="/static/js/data-toggle-admin-institucion.js"></script>
 
 {% endblock %}

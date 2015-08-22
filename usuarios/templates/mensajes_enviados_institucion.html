@@ -10,8 +10,8 @@
             <div class="col-md-offset-6">
             <ul class="list-inline" style="margin-bottom: 0px;"align="right">
                 <li>
-                    <a href="/mensajesEnviadosInstitucion/" class="btn btn-default btn-sm">
-                        <i class="sign fa fa-mail-reply-all"></i> Mensajes Enviados
+                    <a href="/BandejaDeEntradaInstitucion/" class="btn btn-default btn-sm">
+                        <i class="sign fa fa-mail-reply-all"></i> Mensajes Recibidos
                     </a>
                 </li>
                 <li>
@@ -23,8 +23,7 @@
 
             </ul>
             </div>
-
-            <h3 class="hl text-left zero-top" style="margin-top: 5px;font-weight:400">Mensajes Recibidos</h3>
+            <h3 class="hl text-left zero-top" style="margin-top: 5px;font-weight:400">Mensajes Enviados</h3>
             <ul class="text-muted list-inline" align="left">
                 <li><i class="fa fa-envelope-o"></i> {{ mensajes|length }} mensajes</li>
                 
@@ -48,7 +47,7 @@
                     </div>
                     <p class="text-muted">
                             <img src="{{ msj.imgEm.url }}" alt="...">
-                            De: <a href="/usuario/{{ msj.fk_emisor }}">{{ msj.fk_emisor.first_name }}</a><br/>
+                            Para: <a href="/usuario/{{ msj.fk_receptor }}">{{ msj.fk_receptor.first_name }}</a><br/>
                             <small>{{ msj.fecha_de_envio }}</small>
                     </p>
                     <p class="text-muted">
@@ -61,7 +60,7 @@
                 <div class="overlay-container">
                         <div class="window-container zoomin">
                             <h3>Est&aacute; seguro de eliminar el mensaje!</h3><br>
-                            <a id="eliminarRecibidoInstitucion" href="" class="inbox-dialog col-md-6 col-md-offset-2">
+                            <a id="eliminarEnviadoInstitucion" href="" class="inbox-dialog col-md-6 col-md-offset-2">
                                 <button class="btn btn-danger float-left submit-button">Confirmar</button>
                             </a>
                             <a href="">

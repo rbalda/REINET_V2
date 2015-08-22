@@ -19,8 +19,6 @@ urlpatterns = patterns('',
         url(r'^accionMembresia/$','usuarios.views.accionMembresia', name='accionMembresia'),
         url(r'^removerMembresia/$','usuarios.views.removerMembresia', name='removerMembresia'),
 
-        url(r'^enviarMensajePerfilInstitucion/$','usuarios.views.enviarMensajePerfilInstitucion', name='enviarMensajePerfilInstitucion'),
-
 
         url(r'^perfilInstitucion[/]?$', 'usuarios.views.perfilInstitucion', name='perfilInstitucion'),
         url(r'^envioSolicitud[/]?$','usuarios.views.registrarSolicitud', name="envio_solicitud"),
@@ -62,24 +60,20 @@ urlpatterns = patterns('',
         url(r'^api/notificaciones_no_leidas[/]?',NumeroNotificacionesNoLeidos.as_view(),name='notificar_no_leidos'),
 
 
-        url(r'^BuzonMensajesInstitucion[/]?$','usuarios.views.BuzonMensajesInstitucion',name='BuzonMensajesInstitucion'),
-        url(r'^BandejaDeEntradaInstitucion/$', 'usuarios.views.BandejaDeEntradaInstitucion', name='BandejaDeEntradaInstitucion'),
-        url(r'^BandejaDeSalidaInstitucion/$', 'usuarios.views.BandejaSalidaInstitucion', name='BandejaDeSalidaInstitucion'),
-        url(r'^enviarMensajeInstitucion/$', 'usuarios.views.enviarMensajeInstitucion', name='enviarMensajeInstitucion'),
-        url(r'^nuevoMensajeInstitucion/$','usuarios.views.nuevoMensajeInstitucion', name='nuevoMensajeInstitucion'),
-        url(r'^verMensajeInstitucion/$', 'usuarios.views.verMensajeInstitucion', name='verMensajeRecibidoInstitucion'),
-        url(r'^eliminarMensajeInstitucion/$', 'usuarios.views.eliminarMensajeInstitucion', name='eliminarMensajeInstitucion'),
-
-
-
-
         url(r'^BandejaDeEntrada[/]?$', ver_bandeja_entrada, name='BandejaDeEntrada'),
+        url(r'^BandejaDeEntradaInstitucion[/]?$', ver_bandeja_entrada_institucion, name='BandejaDeEntradaInstitucion'),
         url(r'^enviarMensaje[/]?$', 'usuarios.views.enviarMensaje', name='enviarMensaje'),
+        url(r'^enviarMensajeInstitucion[/]?$', enviarMensajeInstitucion, name='enviarMensajeInstitucion'),
         url(r'^verMensaje[/]?$', verMensaje, name='verMensaje'),
         url(r'^verMensajeEnviado[/]?$', verMensajeEnviado, name='verMensajeEnviado'),
+        url(r'^verMensajeInstitucion[/]?$', verMensajeInstitucion, name='verMensajeInstitucion'),
+        url(r'^verMensajeEnviadoInstitucion[/]?$', verMensajeEnviadoInstitucion, name='verMensajeEnviadoInstitucion'),
         url(r'^mensajesEnviados[/]?$', mensajesEnviados, name='mensajesEnviados'),
+        url(r'^mensajesEnviadosInstitucion[/]?$', mensajesEnviadosInstitucion, name='mensajesEnviadosInstitucion'),
         url(r'^eliminarMensajeRecibido[/]?$', eliminarMensajeRecibido, name='eliminarMensajeRecibido'),
         url(r'^eliminarMensajeEnviado[/]?$', eliminarMensajeEnviado, name='eliminarMensajeEnviado'),
+        url(r'^eliminarMensajeRecibidoInstitucion[/]?$', eliminarMensajeRecibidoInstitucion, name='eliminarMensajeRecibidoInstitucion'),
+        url(r'^eliminarMensajeEnviadoInstitucion[/]?$', eliminarMensajeEnviadoInstitucion, name='eliminarMensajeEnviadoInstitucion'),
         url(r'^AutocompletarUsuario[/]?$', AutocompletarUsuario.as_view() , name='AutocompletarUsuario'),
 
         url(r'^NotFound[/]?$', vista_404, name='NotFound'),
