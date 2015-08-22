@@ -1,5 +1,4 @@
                                 <div class="col-md-12">
-                                <form  class="form-horizontal"  name="forms.crear_oferta_form1" id="crear_oferta_form1" novalidate> 
                                      <!--NOMBRES-->
 
                                      <div class="form-group">
@@ -45,11 +44,11 @@ ng-model="oferta.descripcion" ng-required="true" ng-blur="validarSubmit(forms.cr
     <label class="col-md-2">Imagenes</label>
     <div class="col-md-6">
 
-<div flow-init='uploadImagen($flow)' flow-name="imagen.flow">
+<div flow-init flow-name="imagen.flow">
   <span class="btn btn-default btn-file" flow-btn>Cargar Archivo</span>
 
   <table>
-    <tr ng-repeat="file in $flow.files" ng-model="tabla_imagenes" name="tabla_imagenes" id="tabla_imagenes">
+    <tr ng-repeat="file in $flow.files">
         <td>
             <div class="thumbnail"><img flow-img="file"/>[[file.name]]</div>
             [[$index+1]]</div>
@@ -96,7 +95,7 @@ ng-model="oferta.subdominio" ng-required="true" ng-blur="validarSubmit(forms.cre
 
                                          </div>
                                      </div>
-                        </form>
+
                                       <!-- Tags -->
                                     <div class="form-group col-md-8">
                                         <label class="col-md-3"></label>  
@@ -104,10 +103,10 @@ ng-model="oferta.subdominio" ng-required="true" ng-blur="validarSubmit(forms.cre
 
                                           </p>
                                     </div>
+                                    
                                     <div class="col-md-8">
-
-                                        <a id="btn_crear_oferta_sgt1" ng-click="siguiente()">
-                                           <input  type="button" class="btn btn-info pull-right" value="Siguiente"> 
+                                        <a href="#cliente_usuario"  aria-controls="messages" role="tab" data-toggle="tab">
+                                           <input type="button" class="btn btn-info pull-right" value="Siguiente"> 
                                         </a>
                                     </div>
                                 

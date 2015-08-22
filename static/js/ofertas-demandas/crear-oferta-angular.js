@@ -14,9 +14,9 @@ appoferta.config(['flowFactoryProvider', function (flowFactoryProvider) {
         console.log('dentro de fileAdded');
     });
 
-    /*flowFactoryProvider.on('filesSubmitted',function(file,event,flow){
+    flowFactoryProvider.on('filesSubmitted',function(file,event,flow){
         console.log('dentro de filesSubmitted');
-    });*/
+    });
 
 }]);
 
@@ -48,6 +48,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.formActual = $scope.tabs[$scope.actualtab];
     $scope.forms = {};
     $scope.imagen = {};
+    $scope.lst_imagenes={};
 
     if($scope.copia_oferta){
         var tipo = parseInt($scope.copia_oferta.tipo);
@@ -163,8 +164,6 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         }
     };
     
-  
-    
     $scope.seleccionartab=function(indice){
         console.log('dentro de seleccionartab')
         $scope.formActual = $scope.tabs[indice];
@@ -190,7 +189,9 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         console.log('dentro de loadImagen')
         $scope.imagen.flow.opts.query = {'id_oferta': id};
         $scope.imagen.flow.upload();
+        $scope.imagen.flow.cancel();  
     }
+
 
 
     $scope.guardar = function(){

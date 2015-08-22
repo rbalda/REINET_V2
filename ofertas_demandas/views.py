@@ -89,7 +89,7 @@ def CrearOferta(request):
 def CargarImagenOferta(request):
 	try:
 		imagen = ImagenOferta()
-		imagen.descripcion='cualquier nota'
+		imagen.descripcion=request.GET['flowFilename']
 		oferta_id=request.GET['id_oferta']
 		imagen.fk_oferta = Oferta.objects.get(id_oferta=oferta_id)
 		imagen.imagen = request.GET['flowRelativePath']

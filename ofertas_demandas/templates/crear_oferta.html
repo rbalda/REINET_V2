@@ -6,6 +6,7 @@
 textarea { resize: none; }
 </style>
 <div class="container" ng-controller="crearOfertaFormController">
+<form  class="form-horizontal"  name="forms.crear_oferta_form1" id="crear_oferta_form1" novalidate> 
 
     <div class="row col-md-12">
             <div align=right>
@@ -32,31 +33,46 @@ textarea { resize: none; }
             <div class=" col-md-12">
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
-                    <li ng-click="seleccionartab(0)" ng-class="{active:siTabEsSeleccionado(0)}"><a href="#">Informaci&oacute;n General</a></li>
-
-                    <li ng-click="seleccionartab(1)" ng-class="{active:siTabEsSeleccionado(1)}"><a href="#" >Cliente/Usuario</a></li>
-
-                    <li ng-click="seleccionartab(2)" ng-class="{active:siTabEsSeleccionado(2)}"> <a href="#">Modelo de Negocio</a></li>
-
-                    <li ng-click="seleccionartab(3)" ng-class="{active:siTabEsSeleccionado(3)}"> <a href="#">Industria/Competidores</a></li>
-
-                    <li ng-click="seleccionartab(4)" ng-class="{active:siTabEsSeleccionado(4)}"><a href="#">Estado/Logros</a></li>
-
+                    <li role="presentation" class="active">
+                        <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
+                    <li role="presentation" id="prueba">
+                        <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
+                    <li role="presentation">
+                        <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
+                    <li role="presentation">
+                        <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
+                    <li role="presentation">
+                        <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
                   </ul>
 
                   <!-- Tab panes -->
-                  <div class="tab-content" id="tabsCrearOferta">
-                        <ng-include src="formActual"></ng-include>
+                  
+                  <div class="tab-content">
+
+                        <div role="tabpanel" class="tab-pane active" id="informacion">
+                            {% include "crear_oferta_form1.html" %}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                            {% include "crear_oferta_form2.html" %}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="modelo">
+                            {% include "crear_oferta_form3.html" %}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="industria">
+                            {% include "crear_oferta_form4.html" %}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="esta_logro">
+                            {% include "crear_oferta_form5.html" %}
+                        </div>
+
 
                    </div>
 
-                   <!--<div id="copia_oferta" ng-model="copia_oferta" 
-                   ng-init="descripcion"
-                   >-->
-
-                   </div>
-
-             </div>
+            </div>
 
     </div>
     <script>
