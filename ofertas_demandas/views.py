@@ -65,11 +65,11 @@ def CrearOfertaCopia(request):
 		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
 		tags = []
 		for t in palabra_clave:
-			aux_tag ={'text':t.palabra}
-			tags.append(aux_tag)
+			tags.append(t.palabra.encode('utf-8','ignore'))
 
+		tags_json= json.dumps(tags)
 		args['oferta']=oferta
-		args['tags']=tags
+		args['tags']=tags_json
 		args.update(csrf(request))
 		return render(request,'crear_oferta.html',args)
 	else:
@@ -86,7 +86,7 @@ def CrearOferta(request):
 
 
 """
-Autor: Roberto Yoncon
+Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
 Nombre de funcion: verCualquierOferta
 Parametros: request
 Salida: http
@@ -187,6 +187,8 @@ def administrar_Oferta(request, id_oferta):
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	calificacionOferta = oferta.calificacion_total
+	args['calificacionOferta'] = range(int(calificacionOferta))
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)

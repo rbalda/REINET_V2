@@ -30,9 +30,9 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.forms = {};
 
     if($scope.copia_oferta){
-        console.log('copia oferta existe');
+        var tipo = parseInt($scope.copia_oferta.tipo);
         $scope.oferta2 = {
-            //tipo : $scope.copia_oferta.tipo,
+            tipo : tipo,
             descripcion : $scope.copia_oferta.descripcion,
             dominio : $scope.copia_oferta.dominio,
             subdominio : $scope.copia_oferta.subdominio,
@@ -66,9 +66,14 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         if($scope.oferta2!== undefined){
             $scope.oferta = new Oferta($scope.oferta2);    
         }
-        //if($scope.copia_tags){
-        //    $scope.oferta.tags=$scope.copia_tags;
-        //}
+        var tags=[];
+        if($scope.copia_tags){
+            for ( t in $scope.copia_tags){
+                tags.push({ text: $scope.copia_tags[t] });
+            }
+            $scope.oferta.tags=tags;
+        }
+
     }else{
         console.log('copia oferta no existe');
     }
