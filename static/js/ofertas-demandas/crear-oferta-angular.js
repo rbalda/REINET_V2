@@ -1,6 +1,25 @@
 
 var appoferta = angular.module('redInn');
 
+appoferta.config(['flowFactoryProvider', function (flowFactoryProvider) {
+    flowFactoryProvider.defaults = {
+        target : '/CargarImagenOferta/',
+        permanentErrors: [404, 500, 501],
+        maxChunkRetries: 1,
+        chunkRetryInterval: 5000,
+        simultaneousUploads: 4
+    };
+
+    flowFactoryProvider.on('fileAdded',function(file,event,flow){
+        console.log('dentro de fileAdded');
+    });
+
+    /*flowFactoryProvider.on('filesSubmitted',function(file,event,flow){
+        console.log('dentro de filesSubmitted');
+    });*/
+
+}]);
+
 appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout','$window',function($scope,$rootScope,Oferta,$timeout,$window){
     // dentro del scope van modelos
 
@@ -28,6 +47,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.validar_form=true;
     $scope.formActual = $scope.tabs[$scope.actualtab];
     $scope.forms = {};
+    $scope.imagen = {};
 
     if($scope.copia_oferta){
         var tipo = parseInt($scope.copia_oferta.tipo);
@@ -166,12 +186,23 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
             $scope.formActual = $scope.tabs[$scope.actualtab];
     };
 
+    function loadImagen(id){
+        console.log('dentro de loadImagen')
+        $scope.imagen.flow.opts.query = {'id_oferta': id};
+        $scope.imagen.flow.upload();
+    }
+
+
     $scope.guardar = function(){
 
         $scope.oferta.tiempo_para_estar_disponible=tiempo + " " + duracion;
 
         $scope.oferta.$save(function(response){
             console.log('Se ha creado con exito la Oferta');
+
+            var id = $scope.oferta.id_oferta;
+            loadImagen(id);
+
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
             $scope.oferta = "";
@@ -181,8 +212,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
             $scope.info_crear_oferta = "Oferta creada exitosamente";
             $scope.hide=false;
             $scope.actualtab = 0;
-            $scope.formActual = $scope.tabs[0];
-            
+            $scope.formActual = $scope.tabs[0];            
         },
         function(response){
             console.log('Ha ocurrido un error');

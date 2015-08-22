@@ -38,6 +38,12 @@ class OfertaViewSet(ModelViewSet):
         data = self.request.DATA['name']
         return Response({'status': data})
 
+    @detail_route(methods=['post'])
+    def subir_imagenes(self,request,codigo=None):
+        data = request.data['name']
+        file = request.FILES['file']
+        return Response({'status': data})
+
 
 class MisOfertasAllViewSet(ModelViewSet):
     queryset = Oferta.objects.all()

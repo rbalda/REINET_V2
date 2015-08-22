@@ -39,19 +39,29 @@ ng-model="oferta.descripcion" ng-required="true" ng-blur="validarSubmit(forms.cr
 
                                          </div>
                                      </div>
-                                    <!--Fotos-->
-                                    <div class="form-group">
-                                        <label class="col-md-2">Fotos</label>
-                                        <div class="col-md-6">
-                                            <input name="imagen" type="file" id="files" ng-model="imagen">
-                                            <div id="id1" style="float:left" class="thumbnail">
-                                                <div id="list" class="avatar">
-                                                    <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="#" alt="..."></a>
-                                                </div>
-                                            </div>
-                                         </div>
-                                    </div>
+                                    <!--Imagenes-->
+
+<div class="form-group">
+    <label class="col-md-2">Imagenes</label>
+    <div class="col-md-6">
+
+<div flow-init='uploadImagen($flow)' flow-name="imagen.flow">
+  <span class="btn btn-default btn-file" flow-btn>Cargar Archivo</span>
+
+  <table>
+    <tr ng-repeat="file in $flow.files" ng-model="tabla_imagenes" name="tabla_imagenes" id="tabla_imagenes">
+        <td>
+            <div class="thumbnail"><img flow-img="file"/>[[file.name]]</div>
+            [[$index+1]]</div>
+        </td>
+    </tr>
+  </table>
+</div>
+
+     </div>
+</div>
+
+
                                      <!--Dominio-->
                                      <div class="form-group">
                                          <label for="oferta-dominio" class="col-md-2">Dominio</label>
