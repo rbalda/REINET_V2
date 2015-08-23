@@ -46,11 +46,7 @@ INSTALLED_APPS = (
 	'ipware',
 	'usuarios',
 	'ofertas_demandas',
-<<<<<<< HEAD
 	'incubacion',
-=======
-    'incubacion'
->>>>>>> 31cf350c0d42cc4aeb27c5410896184729def6e5
 )
 
 MIDDLEWARE_CLASSES = (
