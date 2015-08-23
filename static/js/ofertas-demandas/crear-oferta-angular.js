@@ -180,14 +180,11 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
 
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
-            $scope.oferta = "";
             $scope.oferta = new Oferta();
             $scope.tiempo_tipo="";
             $scope.tiempo_disponible=1;
             $scope.info_crear_oferta = "Oferta creada exitosamente";
-            $scope.hide=false;
-            $scope.actualtab = 0;
-            $scope.formActual = $scope.tabs[0];            
+            $scope.hide=false;          
         },
         function(response){
             console.log('Ha ocurrido un error');
