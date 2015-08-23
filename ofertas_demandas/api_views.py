@@ -33,11 +33,6 @@ class OfertaViewSet(ModelViewSet):
             queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset
 
-    @detail_route(methods=['post'])
-    def subir_imagenes(self,request,codigo=None):
-        data = self.request.DATA['name']
-        return Response({'status': data})
-
 
 class MisOfertasAllViewSet(ModelViewSet):
     queryset = Oferta.objects.all()
