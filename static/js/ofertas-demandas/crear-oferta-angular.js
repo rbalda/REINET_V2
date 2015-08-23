@@ -29,26 +29,15 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.oferta = new Oferta();
     $scope.copia_oferta = $window.oferta_copia;
     $scope.copia_tags = $window.tags_copia;
-    console.log('copia oferta');
-    console.log($scope.copia_oferta);
-
-    $scope.tabs = ['/static/templates-ofertas-demandas/crear_oferta_form1.html',
-                    '/static/templates-ofertas-demandas/crear_oferta_form2.html',
-                    '/static/templates-ofertas-demandas/crear_oferta_form3.html',
-                    '/static/templates-ofertas-demandas/crear_oferta_form4.html',
-                    '/static/templates-ofertas-demandas/crear_oferta_form5.html'];
 
     $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
     $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
 
-    $scope.actualtab = 0;
     $scope.tipo = 0;
     $scope.hide = true;
     $scope.validar_form=true;
-    $scope.formActual = $scope.tabs[$scope.actualtab];
     $scope.forms = {};
     $scope.imagen = {};
-    $scope.lst_imagenes={};
 
     if($scope.copia_oferta){
         var tipo = parseInt($scope.copia_oferta.tipo);
@@ -164,32 +153,17 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         }
     };
     
-    $scope.seleccionartab=function(indice){
-        console.log('dentro de seleccionartab')
-        $scope.formActual = $scope.tabs[indice];
-        $scope.actualtab = indice;
-    };
-
-    $scope.siTabEsSeleccionado=function(indice){
-        return indice == $scope.actualtab;
-    };
-
-    $scope.siguiente = function(){
-        $scope.actualtab = $scope.actualtab+1;
-        $scope.formActual = $scope.tabs[$scope.actualtab];
-    };
-
-    $scope.atras = function(){
-        if($scope.actualtab>0)
-            $scope.actualtab=$scope.actualtab-1;
-            $scope.formActual = $scope.tabs[$scope.actualtab];
-    };
 
     function loadImagen(id){
         console.log('dentro de loadImagen')
         $scope.imagen.flow.opts.query = {'id_oferta': id};
-        $scope.imagen.flow.upload();
-        $scope.imagen.flow.cancel();  
+        $scope.imagen.flow.upload(); 
+    }
+
+    $scope.removerImagen = function(item){
+        if(item!==undefined){
+            item.cancel();
+        }
     }
 
 
