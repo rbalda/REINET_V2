@@ -38,9 +38,16 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.validar_form=true;
     $scope.forms = {};
     $scope.imagen = {};
+    var tiempo='1';
+    var duracion='A\u00F1o';
 
     if($scope.copia_oferta){
         var tipo = parseInt($scope.copia_oferta.tipo);
+        tiempo = $window.oferta_tiempo;
+        duracion = $window.oferta_duracion;
+
+        $scope.tiempo_disponible = tiempo; 
+
         $scope.oferta2 = {
             tipo : tipo,
             descripcion : $scope.copia_oferta.descripcion,
@@ -111,9 +118,6 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         }
     });
 
-
-    var tiempo='1';
-    var duracion='A\u00F1o';
 
     $scope.validarSubmit = function(form1){
         console.log('dentro validarSubmit');
