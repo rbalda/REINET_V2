@@ -264,7 +264,7 @@
                 calificacion=0;
                 $("#calificacionComentario").rating({
                     starCaptions: {1: "Mala Idea", 2: "Por Mejorar", 3: "Genial", 4: "Prometedora", 5: "BOOM!"},
-                    starCaptionClasses: {1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success"},
+                    starCaptionClasses: {1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success"}
                 });
                 $("#calificacionComentario").on("rating.change", function(event, value, caption) {
                     calificacion=value;
@@ -325,11 +325,13 @@
                             url: '/listaComentariosAceptados/',
                             success: function (data) {
                                 $('#lista_comentarios').html(data)
+                                $(".calificacionesComentarios").rating({disabled: true, showCaption:false, showClear: false});
                             }
                         });
                     }
                 });
             });
+
         </script>
     </div>
     <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
@@ -340,11 +342,7 @@
 
         <div class="thumbnail" align=center style="margin-bottom:0px">
             <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                <div class="rating">
-                    {% for estrella in calificacionOferta %}
-                        <i class="fa fa-star"></i>
-                    {% endfor %}
-                </div>
+               <input id="calificacionOferta" value="{{ calificacionOferta }}" class="rating" data-size="xs"/>
             </div>
         </div>
 
@@ -415,6 +413,7 @@
                             </ul>
                             <!--Script para mostrar el equipo de oferta-->
                             <script>
+                                $("#calificacionOferta").rating({disabled: true, showCaption:false, showClear: false});
                                 $(document).ready(function () {
                                     $(function () {
                                         $('#lista_equipo').ready(mostrarEquipoOferta);

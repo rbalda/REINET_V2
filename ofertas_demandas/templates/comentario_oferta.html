@@ -8,13 +8,7 @@
                 <p><a href="/usuario/{{ comentario.fk_usuario }}">{{ comentario.fk_usuario.first_name }} {{ comentario.fk_usuario.last_name }}</a></p>
                 <div class="thumbnail" style="margin-bottom:0px">
                     <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                        <div class="rating">
-                            {% if comentario.calificacion >= 1 %}<i class="fa fa-star"></i>{% endif %}
-                            {% if comentario.calificacion >= 2 %}<i class="fa fa-star"></i>{% endif %}
-                            {% if comentario.calificacion >= 3 %}<i class="fa fa-star"></i>{% endif %}
-                            {% if comentario.calificacion >= 4 %}<i class="fa fa-star"></i>{% endif %}
-                            {% if comentario.calificacion >= 5 %}<i class="fa fa-star"></i>{% endif %}
-                        </div>
+                        <input id="calificacionesComentarios" value="{{ comentario.calificacion }}" class="rating calificacionesComentarios" data-size="xs"/>
                     </div>
                 </div>
                 <p>

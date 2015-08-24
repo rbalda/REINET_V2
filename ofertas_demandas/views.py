@@ -149,7 +149,7 @@ def verCualquierOferta(request, id_oferta):
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['comentariosOferta'] = comentariosOferta
-		args['calificacionOferta'] = range(int(calificacionOferta))
+		args['calificacionOferta'] = calificacionOferta
 		args['propietario'] = propietario
 		return render_to_response('oferta_ver_otra.html',args)
 
