@@ -1,6 +1,5 @@
 
-{% extends "base.tpl.html" %}
-
+{% extends "base-incubaciones.tpl.html" %}
 
 {% if user.is_authenticated %}
     {% block barraderecha %}
@@ -11,67 +10,38 @@
         {% include 'menusuperior/barrabusqueda.tpl.html'%}
     {% endblock %}
 
-    {% block raiz %}
-        <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
-    {% endblock %}
-
-    {% block inicio %}
-        <a href="/inicioUsuario/">Inicio </a>
-    {% endblock %}
-
-    {% block ofertas %}
-        <a href="/InicioOferta/">OFERTA </a>
-    {% endblock %}
 {% endif %}
 
 
+{% block sliderPagina %}INCUBACIONES{% endblock %}
 
 {% block contenido %}
-<link rel="stylesheet" href='/static/css/demo.css'>
 
     {% block registrarinstitucion %}
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
-
-
-    <div class="section-header">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h1 class="animated slideInLeft"><span>INCUBACI&Oacute;N</span></h1>
+
+        <div class="row" style="margin-bottom: 25px;">
+            <div align=left class="col-md-3 col-sm-3 col-xs-4">
+                <form id="formCrearIncubacion" action="/CrearIncubacion/" method="GET"> 
+                      <button type="button" class="btn" style="background-color:#ED9C28; color: white;" name="btnIncubacion">Crear Incubaci&oacute;n
+                </button>
+                    
+                </form>
+                
+            </div>
+            <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="busqueda_ofertas"
+                           placeholder="Buscar Incubaciones por Nombre"/>
+                </div>
+                <div class="col-sm-3" ng-controller="busquedaControlador">
+                    <button class="btn btn-blue" ng-click='buscarOfertas()'>Buscar</button>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="container">
-    <div class="row">
-
-
-    <!-- Editar Perfil Usuario-->
-    <div class=" col-xs-6 col-sm-8 col-md-12">
-    <div class="row">
-    <div class="signup col-md-12">
-
-        <div class="col-md-9">
-            <br>
-        </div>
-
-        <!--DIV DE BUSCAR OFERTA Y CREAR OFERTA-->
-        <div class="row">
-        
-            <div class="col-md-3">
-                <button type="button" class="btn btn-green pull-right"> Crear Incubaci&oacute;n </button>
-            </div>
-        </div>
-    </div>
-
-        <div class="col-md-9">
-                <br>
-        </div>
-
-        <div class="container">
 
             <div class="row">
                 <div class=" col-md-12" >
@@ -79,7 +49,7 @@
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#verIncubaciones" aria-controls="home" role="tab" data-toggle="tab">INCUBACIONES PUBLICADAS</a></li>
-                    <li role="presentation"><a href="#aa"  role="tab" data-toggle="tab">XD</a></li>
+                    <li role="presentation"><a href="#aa"  role="tab" data-toggle="tab">INCUBACIONES EN LA RED</a></li>
                     <li role="presentation"><a href="#bb" role="tab" data-toggle="tab">GG</a></li>
                   </ul>
 
@@ -473,10 +443,6 @@
                     <div role="tabpanel" class="tab-pane" id="aa">
                     
                     </div>
-
-                   
-                    
-
                     <div role="tabpanel" class="tab-pane" id="bb">
                     
                     </div>

@@ -32,18 +32,18 @@ from django.db.models import Avg
 
 """
 Autor: Leonel Ramirez
-Nombre de funcion: InicioOferta
+Nombre de funcion: InicioIncubacion
 Parametros: request
 Salida: 
 Descripcion: para llamar la pagina oferta inicio
 """
 
 @login_required
-def VerIncubaciones(request):
+def ver_incubaciones(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	return render_to_response('AdminIncVerIncubaciones.html',args)
+	return render_to_response('incubacion_inicio.html',args)
 
 
 """
@@ -56,8 +56,9 @@ Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofer
 
 @login_required
 def crear_incubacion(request):
-	args = {}
-	args['usuario']=request.user
-	args['es_admin']=request.session['es_admin']
-	args['incubacion'] = None
-	return render_to_response('crear_incubacion.html',args)
+	if request.GET.get('btnIncubacion'):
+		args = {}
+		args['usuario']=request.user
+		args['es_admin']=request.session['es_admin']
+		args['incubacion'] = None
+		return render_to_response('crear_incubacion.html',args)
