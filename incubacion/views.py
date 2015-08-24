@@ -44,3 +44,20 @@ def VerIncubaciones(request):
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('AdminIncVerIncubaciones.html',args)
+
+
+"""
+Autor: Jose Velez
+Nombre de funcion: crear_incubacion
+Parametros: request
+Salida: Muetra el formulario de crear una incubacion
+Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofertas
+"""
+
+@login_required
+def crear_incubacion(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	args['incubacion'] = None
+	return render_to_response('crear_incubacion.html',args)
