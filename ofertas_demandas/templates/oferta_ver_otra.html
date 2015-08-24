@@ -21,285 +21,285 @@
     <div class="col-md-12">
     <div class="col-md-8" style="padding-left: 0px;">
     <div class="blog-text">
-        <!-- Pestañas de Navegacion de la oferta-->
-        <ul class="nav nav-tabs " role="tablist">
-            <li role="presentation" class="active">
-                <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
-            </li>
-            <li role="presentation">
-                <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
-            </li>
-            <li role="presentation">
-                <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
-            </li>
-            <li role="presentation">
-                <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
-            </li>
-            <li role="presentation">
-                <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
-            </li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content row">
-            <!-- Tab INFORMACION -->
-            <div role="tabpanel" class="tab-pane active" id="informacion">
-                <div class="col-md-12">
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        <div class="block-inverse">
-                            <div class="head-inverse">
-                                <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                                <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
-                            </div>
-                            <div class="body-inverse">
-                                <ul class="row list-inline gallery-list-small"
-                                    style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-                                    <li class="col-xs-6">
-                                        <a href="#">
-                                            <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg"
-                                                 alt="...">
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-6">
-                                        <a href="#">
-                                            <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg"
-                                                 alt="...">
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-6">
-                                        <a href="#">
-                                            <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg"
-                                                 alt="...">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+    <!-- Pestañas de Navegacion de la oferta-->
+    <ul class="nav nav-tabs " role="tablist">
+        <li role="presentation" class="active">
+            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+        </li>
+        <li role="presentation">
+            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+        </li>
+        <li role="presentation">
+            <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+        </li>
+        <li role="presentation">
+            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
+        </li>
+        <li role="presentation">
+            <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content row">
+        <!-- Tab INFORMACION -->
+        <div role="tabpanel" class="tab-pane active" id="informacion">
+            <div class="col-md-12">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="block-inverse">
+                        <div class="head-inverse">
+                            <p class="text-center"><strong class="text-muted">Galeria</strong></p>
+                            <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
+                        </div>
+                        <div class="body-inverse">
+                            <ul class="row list-inline gallery-list-small"
+                                style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+                                <li class="col-xs-6">
+                                    <a href="#">
+                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg"
+                                             alt="...">
+                                    </a>
+                                </li>
+                                <li class="col-xs-6">
+                                    <a href="#">
+                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg"
+                                             alt="...">
+                                    </a>
+                                </li>
+                                <li class="col-xs-6">
+                                    <a href="#">
+                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg"
+                                             alt="...">
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8">
-                        <!--Tipo-->
-                        <p style="color: darkgray" class="col-md-3">Tipo</p>
-                        {% if oferta.tipo == 0 %}
-                            <p>Emprendimiento</p>
-                        {% elif oferta.tipo == 1 %}
-                            <p>Tecnologia</p>
-                        {% elif oferta.tipo == 2 %}
-                            <p>Prototipo</p>
-                        {% endif %}
-                        <!--Descripcion-->
-                        <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
-                        <p>{{ oferta.descripcion  | title}} </p>
-
-                        <!--Dominio-->
-                        <p style="color: darkgray" class="col-md-3">Dominio</p>
-                        <p>{{ oferta.dominio }}</p>
-
-                        <!--Subdominio-->
-                        <p style="color: darkgray" class="col-md-3">Sub-dominio</p>
-                        <p>{{ oferta.subdominio }}</p>
-
-                        <!--Palabras Clave-->
-                        <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
-
-                        <p class="tags">
-                            <a>Industria</a>
-                            <a>Autos</a>
-                            <a>Startup</a>
-                            <a>Espol</a>
-                        </p>
-                    </div>
                 </div>
-            </div>
+                <div class="col-md-8 col-sm-8 col-xs-8">
+                    <!--Tipo-->
+                    <p style="color: darkgray" class="col-md-3">Tipo</p>
+                    {% if oferta.tipo == 0 %}
+                        <p>Emprendimiento</p>
+                    {% elif oferta.tipo == 1 %}
+                        <p>Tecnologia</p>
+                    {% elif oferta.tipo == 2 %}
+                        <p>Prototipo</p>
+                    {% endif %}
+                    <!--Descripcion-->
+                    <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
+                    <p>{{ oferta.descripcion  | title}} </p>
 
-            <!-- Tab CLIENTE USUARIO -->
-            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
-                <div class="col-md-12">
-                    <!--Perfil Cliente-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
+                    <!--Dominio-->
+                    <p style="color: darkgray" class="col-md-3">Dominio</p>
+                    <p>{{ oferta.dominio }}</p>
 
-                    <p class="col-md-9">{{ oferta.perfil_cliente }} </p>
-                    <!--Perfil Beneficiario-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
+                    <!--Subdominio-->
+                    <p style="color: darkgray" class="col-md-3">Sub-dominio</p>
+                    <p>{{ oferta.subdominio }}</p>
 
-                    <p class="col-md-9">{{ oferta.perfil_beneficiario }} </p>
-                </div>
-            </div>
+                    <!--Palabras Clave-->
+                    <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
 
-
-            <div role="tabpanel" class="tab-pane" id="modelo">
-                <div class="col-md-12">
-                    <!--Canvas del modelo de negocio-->
-                    <h3 style="text-align:center" class="h4"> Canvas del Modelo de negocios</h3>
-                    <div class="col-md-12 table-responsive" style="font-size: 12px;">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>Socios clave</th>
-                                <th>Actividades clave</th>
-                                <th>Propuestas de valor</th>
-                                <th>Relaciones con los clientes</th>
-                                <th>Segementos de clientes</th>
-                            </tr>
-                            <tr>
-                                <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
-                                <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
-                                <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
-                                <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
-                                <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
-                            </tr>
-                            <tr>
-                                <th>Recursos Claves</th>
-                                <th>Canales</th>
-                            </tr>
-                            <tr>
-                                <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
-                                <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
-                            </tr>
-                            <tr>
-                                <th colspan=3>Estructura de Costos</th>
-                                <th colspan=2>Fuentes de Ingresos</th>
-                            </tr>
-                            <tr>
-                                <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
-                                <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
-                            </tr>
-                        </table>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Tab COMPETIDORES -->
-            <div role="tabpanel" class="tab-pane" id="industria">
-                <div class="col-md-12">
-                    <!--Tendencias-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
-
-                    <p>{{ oferta.cuadro_tendencias_relevantes }} </p>
-                    <!--Alternativas de solucion-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n
-                        Existentes</p>
-                    <p>{{ oferta.descripcion_soluciones_existentes }} </p>
-                    <!--Diagrama de Porter-->
-
-                    <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
-
-                    <div class="col-md-12 table-responsive" style="font-size: 12px;">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>Competidores</th>
-                                <th>Poder de consumidores</th>
-                                <th>Sustitutos</th>
-                                <th>Poder de proveedores</th>
-                                <th>Nuevos entrantes</th>
-                            </tr>
-                            <tr>
-                                <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
-                                <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
-                                <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
-                                <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
-                                <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <br><br>
-                </div>
-            </div>
-
-            <!-- Tab LOGROS -->
-            <div role="tabpanel" class="tab-pane" id="esta_logro">
-                <div class="col-md-12">
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del
-                        producto o servicio</p>
-                    <p>{{ oferta.tiempo_para_estar_disponible }}</p>
-                    </br>
-                    <!--Estado del producto o servicio-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
-                    <p>NO EXISTE EN LA BASE  </p>
-                    </br>
-                    <!--Estrategia de crecimiento-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
-                    <p>NO EXISTE EN LA BASE </p>
-                    </br>
-                    <!--Estado de propiedad Intelectual-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
-                    <p >{{ oferta.estado_propieada_intelectual }} </p>
-                    </br>
-                    <!--Evidencia de Traccion-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
-                    <p>{{ oferta.evidencia_traccion }} </p>
-                    </br>
+                    <p class="tags">
+                        <a>Industria</a>
+                        <a>Autos</a>
+                        <a>Startup</a>
+                        <a>Espol</a>
+                    </p>
                 </div>
             </div>
         </div>
+
+        <!-- Tab CLIENTE USUARIO -->
+        <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+            <div class="col-md-12">
+                <!--Perfil Cliente-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
+
+                <p class="col-md-9">{{ oferta.perfil_cliente }} </p>
+                <!--Perfil Beneficiario-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
+
+                <p class="col-md-9">{{ oferta.perfil_beneficiario }} </p>
+            </div>
+        </div>
+
+
+        <div role="tabpanel" class="tab-pane" id="modelo">
+            <div class="col-md-12">
+                <!--Canvas del modelo de negocio-->
+                <h3 style="text-align:center" class="h4"> Canvas del Modelo de negocios</h3>
+                <div class="col-md-12 table-responsive" style="font-size: 12px;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Socios clave</th>
+                            <th>Actividades clave</th>
+                            <th>Propuestas de valor</th>
+                            <th>Relaciones con los clientes</th>
+                            <th>Segementos de clientes</th>
+                        </tr>
+                        <tr>
+                            <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
+                            <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
+                            <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
+                            <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
+                            <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
+                        </tr>
+                        <tr>
+                            <th>Recursos Claves</th>
+                            <th>Canales</th>
+                        </tr>
+                        <tr>
+                            <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
+                            <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
+                        </tr>
+                        <tr>
+                            <th colspan=3>Estructura de Costos</th>
+                            <th colspan=2>Fuentes de Ingresos</th>
+                        </tr>
+                        <tr>
+                            <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
+                            <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Tab COMPETIDORES -->
+        <div role="tabpanel" class="tab-pane" id="industria">
+            <div class="col-md-12">
+                <!--Tendencias-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
+
+                <p>{{ oferta.cuadro_tendencias_relevantes }} </p>
+                <!--Alternativas de solucion-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n
+                    Existentes</p>
+                <p>{{ oferta.descripcion_soluciones_existentes }} </p>
+                <!--Diagrama de Porter-->
+
+                <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
+
+                <div class="col-md-12 table-responsive" style="font-size: 12px;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Competidores</th>
+                            <th>Poder de consumidores</th>
+                            <th>Sustitutos</th>
+                            <th>Poder de proveedores</th>
+                            <th>Nuevos entrantes</th>
+                        </tr>
+                        <tr>
+                            <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
+                            <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
+                            <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
+                            <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
+                            <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <br><br>
+            </div>
+        </div>
+
+        <!-- Tab LOGROS -->
+        <div role="tabpanel" class="tab-pane" id="esta_logro">
+            <div class="col-md-12">
+                <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del
+                    producto o servicio</p>
+                <p>{{ oferta.tiempo_para_estar_disponible }}</p>
+                </br>
+                <!--Estado del producto o servicio-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
+                <p>NO EXISTE EN LA BASE  </p>
+                </br>
+                <!--Estrategia de crecimiento-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
+                <p>NO EXISTE EN LA BASE </p>
+                </br>
+                <!--Estado de propiedad Intelectual-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
+                <p >{{ oferta.estado_propieada_intelectual }} </p>
+                </br>
+                <!--Evidencia de Traccion-->
+                <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
+                <p>{{ oferta.evidencia_traccion }} </p>
+                </br>
+            </div>
+        </div>
+    </div>
     </div>
     <br>
 
 
     <!-- New comment form -->
     {% if miComentario == 0 %}
-    <div class="NuevoComentario" id="divNuevoComentario">
-        <form class="form-horizontal" role="form" id="ComentarioForm" >
-            <div class="form-group" style="margin-bottom: 15px;">
-                <div class="col-sm-2 hidden-xs">
-                    <img src="{{ usuario.foto.url }}" alt="..." class="img-responsive">
-                </div>
-                <div class="col-sm-10">
-                    <div>
-					    <input id="calificacionComentario" data-min="0" data-max="5" data-step="1" data-size="xs">
+        <div class="NuevoComentario" id="divNuevoComentario">
+            <form class="form-horizontal" role="form" id="ComentarioForm" >
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <div class="col-sm-2 hidden-xs">
+                        <img src="{{ usuario.foto.url }}" alt="..." class="img-responsive">
                     </div>
-                    <textarea style="resize:none" class="form-control" rows="3" name="comentario_oferta"
-                              placeholder="Escriba su comentario acerca de la oferta"></textarea>
+                    <div class="col-sm-10">
+                        <div>
+                            <input id="calificacionComentario" data-min="0" data-max="5" data-step="1" data-size="xs">
+                        </div>
+                        <textarea style="resize:none" class="form-control" rows="3" name="comentario_oferta"
+                                  placeholder="Escriba su comentario acerca de la oferta"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group" style="margin-bottom: 0px;">
-                <div class="col-sm-offset-2 col-sm-10" align="right">
-                    <button id="enviarMensaje"  type="submit" class="btn btn-green btn-sm">Publicar
-                    </button>
+                <div class="form-group" style="margin-bottom: 0px;">
+                    <div class="col-sm-offset-2 col-sm-10" align="right">
+                        <button id="enviarMensaje"  type="submit" class="btn btn-green btn-sm">Publicar
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
-        <!--Script para enviar los datos para crear el comentario-->
-        <script>
-            calificacion=0;
-            $("#calificacionComentario").rating({
-                starCaptions: {1: "Mala Idea", 2: "Por Mejorar", 3: "Genial", 4: "Prometedora", 5: "BOOM!"},
-                starCaptionClasses: {1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success"},
-            });
-            $("#calificacionComentario").on("rating.change", function(event, value, caption) {
-                calificacion=value;
-            });
-            $(document).on('click', '#enviarMensaje', function () {
-            $.ajax({
-                data: {
-                    'oferta': "{{ oferta.id_oferta }}",
-                    'calificacion': calificacion,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'comentario_peticion': $("[name='comentario_oferta']").val()
-                },
-                type: 'post',
-                url: '/enviarComentario/',
-                success: function (data) {
-                    limpiarComentarios(1)
-                },
-                error: function(xhr, status, error) {
-                    limpiarComentarios(0)
-                }
-            });
-            function limpiarComentarios(envio) {
-                if(envio){
-                    $("#confirmarcionComentario").modal('show');
-                    $("#divNuevoComentario").hide();
-                }
-                else{
-                     $("#rechazoComentario").modal('show');
-                }
-            }
+            </form>
+            <!--Script para enviar los datos para crear el comentario-->
+            <script>
+                calificacion=0;
+                $("#calificacionComentario").rating({
+                    starCaptions: {1: "Mala Idea", 2: "Por Mejorar", 3: "Genial", 4: "Prometedora", 5: "BOOM!"},
+                    starCaptionClasses: {1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success"},
+                });
+                $("#calificacionComentario").on("rating.change", function(event, value, caption) {
+                    calificacion=value;
+                });
+                $(document).on('click', '#enviarMensaje', function () {
+                    $.ajax({
+                        data: {
+                            'oferta': "{{ oferta.id_oferta }}",
+                            'calificacion': calificacion,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'comentario_peticion': $("[name='comentario_oferta']").val()
+                        },
+                        type: 'post',
+                        url: '/enviarComentario/',
+                        success: function (data) {
+                            limpiarComentarios(1)
+                        },
+                        error: function(xhr, status, error) {
+                            limpiarComentarios(0)
+                        }
+                    });
+                    function limpiarComentarios(envio) {
+                        if(envio){
+                            $("#confirmarcionComentario").modal('show');
+                            $("#divNuevoComentario").hide();
+                        }
+                        else{
+                            $("#rechazoComentario").modal('show');
+                        }
+                    }
 
 
-        });
-        </script>
-    </div>
+                });
+            </script>
+        </div>
     {% endif %}
 
     <!-- Comments list -->
@@ -365,48 +365,48 @@
 
                         <div align=center>
                             <p>
-                            {% if estadoMembresia == 2 %}
-                                {% if participantes|length >= 5%}
+                                {% if estadoMembresia == 2 %}
+                                    {% if participantes|length >= 5%}
+                                        <button disabled="true" id="btn_participar" class="btn btn-green btn-sm"
+                                                style="color:green;margin-top: 15px;" data-toggle="modal"
+                                                data-target="#solicitarEquipo">
+                                            <i class="fa fa-sign-in"></i>
+                                            &nbsp;&nbsp;Equipo Lleno
+                                        </button>
+                                        <hr style="margin-top: 15px;">
+                                    {% else %}
+                                        <button id="btn_participar" class="btn btn-green btn-sm"
+                                                style="color:white;margin-top: 15px;" data-toggle="modal"
+                                                data-target="#solicitarEquipo">
+                                            <i class="fa fa-sign-in"></i>
+                                            &nbsp;&nbsp;Participar en este equipo
+                                        </button>
+                                        <hr style="margin-top: 15px;">
+                                    {% endif %}
+                                {% elif estadoMembresia == 0 %}
                                     <button disabled="true" id="btn_participar" class="btn btn-green btn-sm"
                                             style="color:green;margin-top: 15px;" data-toggle="modal"
                                             data-target="#solicitarEquipo">
                                         <i class="fa fa-sign-in"></i>
-                                        &nbsp;&nbsp;Equipo Lleno
+                                        &nbsp;&nbsp;Solicitud Pendiente
                                     </button>
                                     <hr style="margin-top: 15px;">
-                                {% else %}
+                                {% elif estadoMembresia == -1 %}
                                     <button id="btn_participar" class="btn btn-green btn-sm"
                                             style="color:white;margin-top: 15px;" data-toggle="modal"
                                             data-target="#solicitarEquipo">
                                         <i class="fa fa-sign-in"></i>
-                                        &nbsp;&nbsp;Participar en este equipo
+                                        &nbsp;&nbsp;Enviar Peticion de Nuevo
                                     </button>
                                     <hr style="margin-top: 15px;">
+                                {% elif estadoMembresia == 1 %}
+                                    <label disabled="true" class="btn btn-green btn-sm"
+                                           style="color:green;margin-top: 15px;">
+                                        <i class="fa fa-sign-in"></i>
+                                        &nbsp;&nbsp;Ud ya es Miembro
+                                    </label>
+                                    <hr style="margin-top: 15px;">
                                 {% endif %}
-                            {% elif estadoMembresia == 0 %}
-                                <button disabled="true" id="btn_participar" class="btn btn-green btn-sm"
-                                        style="color:green;margin-top: 15px;" data-toggle="modal"
-                                        data-target="#solicitarEquipo">
-                                    <i class="fa fa-sign-in"></i>
-                                    &nbsp;&nbsp;Solicitud Pendiente
-                                </button>
-                                <hr style="margin-top: 15px;">
-                            {% elif estadoMembresia == -1 %}
-                                <button id="btn_participar" class="btn btn-green btn-sm"
-                                        style="color:white;margin-top: 15px;" data-toggle="modal"
-                                        data-target="#solicitarEquipo">
-                                    <i class="fa fa-sign-in"></i>
-                                    &nbsp;&nbsp;Enviar Peticion de Nuevo
-                                </button>
-                                <hr style="margin-top: 15px;">
-                              {% elif estadoMembresia == 1 %}
-                                <label disabled="true" class="btn btn-green btn-sm"
-                                        style="color:green;margin-top: 15px;">
-                                    <i class="fa fa-sign-in"></i>
-                                    &nbsp;&nbsp;Ud ya es Miembro
-                                </label>
-                                <hr style="margin-top: 15px;">
-                            {% endif %}
                             </p>
                         </div>
                         <div id="equipo">
@@ -516,26 +516,26 @@
         $("#guardarEditarEquipo").on('click', function(){
             $.each($("#teamEditable :input[name='estadoEditable']"), function(){
 
-            id_perfil=$(this).attr('id');
-            estado=$(this).val();
+                id_perfil=$(this).attr('id');
+                estado=$(this).val();
 
-            $.ajax({
-                url: '/editarEstadoMembresia',
-                type: 'POST',
-                async: false,
-                data: {
-                    'id_oferta':'{{oferta.id_oferta}}',
-                    'id_user_editable':id_perfil,'estado':estado,
-                    'csrfmiddlewaretoken' :'{{ csrf_token }}'
-                },
-                dataType : 'text',
-                success: function(data){
-                    actualizarListaMiembros();
-                },
+                $.ajax({
+                    url: '/editarEstadoMembresia',
+                    type: 'POST',
+                    async: false,
+                    data: {
+                        'id_oferta':'{{oferta.id_oferta}}',
+                        'id_user_editable':id_perfil,'estado':estado,
+                        'csrfmiddlewaretoken' :'{{ csrf_token }}'
+                    },
+                    dataType : 'text',
+                    success: function(data){
+                        actualizarListaMiembros();
+                    },
 
-            error: function(e){
-            }
-            });
+                    error: function(e){
+                    }
+                });
 
             });
         });
