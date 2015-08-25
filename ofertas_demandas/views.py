@@ -66,10 +66,21 @@ def CrearOfertaCopia(request):
 		tags = []
 		for t in palabra_clave:
 			aux_tag ={'text':t.palabra}
-			tags.append(aux_tag)
+			tags.append(t.palabra.encode('utf-8','ignore'))
 
+		tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
+		oferta_tiempo = int(tiempo_disponilbe[0])
+
+		if tiempo_disponilbe[1] == 'Mes':
+			oferta_duracion = 0
+		else:
+			oferta_duracion = 1
+
+		tags_json= json.dumps(tags)
+		args['oferta_tiempo']=oferta_tiempo
+		args['oferta_duracion']=oferta_duracion
 		args['oferta']=oferta
-		args['tags']=tags
+		args['tags']=tags_json
 		args.update(csrf(request))
 		return render(request,'crear_oferta.html',args)
 	else:

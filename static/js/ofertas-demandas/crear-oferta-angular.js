@@ -46,6 +46,12 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         tiempo = $window.oferta_tiempo;
         duracion = $window.oferta_duracion;
 
+        if(duracion===1){
+            $scope.tiempo_tipo = 'A\u00F1o';
+        }else{
+            $scope.tiempo_tipo = 'Mes';
+        }
+
         $scope.tiempo_disponible = tiempo; 
 
         $scope.oferta2 = {
