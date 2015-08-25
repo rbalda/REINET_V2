@@ -65,20 +65,11 @@ def CrearOfertaCopia(request):
 		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
 		tags = []
 		for t in palabra_clave:
-			tags.append(t.palabra.encode('utf-8','ignore'))
+			aux_tag ={'text':t.palabra}
+			tags.append(aux_tag)
 
-		tags_json= json.dumps(tags)
-		tiempo_disponible = oferta.tiempo_para_estar_disponible.split(' ',1)
-		tiempo = int(tiempo_disponible[0])
-		if tiempo_disponible[1] == 'Mes':
-			duracion = 0
-		else:
-			duracion = 1
-
-		args['oferta_duracion']=duracion
-		args['oferta_tiempo']=tiempo
 		args['oferta']=oferta
-		args['tags']=tags_json
+		args['tags']=tags
 		args.update(csrf(request))
 		return render(request,'crear_oferta.html',args)
 	else:
@@ -92,23 +83,6 @@ def CrearOferta(request):
 	args['oferta'] = None
 	args.update(csrf(request))
 	return render(request,'crear_oferta.html',args)
-
-
-@login_required
-def CargarImagenOferta(request):
-	try:
-		imagen = ImagenOferta()
-		imagen.descripcion=request.GET['flowFilename']
-		oferta_id=request.GET['id_oferta']
-		imagen.fk_oferta = Oferta.objects.get(id_oferta=oferta_id)
-		imagen.imagen = request.GET['flowRelativePath']
-		imagen.save()
-		response = JsonResponse({'save_estado':True})
-		return HttpResponse(response.content)
-	except:
-		response = JsonResponse({'save_estado':False})
-		print 'fallo'
-		return HttpResponse(response.content)
 
 
 """
@@ -154,11 +128,11 @@ def verCualquierOferta(request, id_oferta):
 			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
 			args['miComentario'] = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, fk_usuario_id=usuario).count
 			calificacionOferta = oferta.calificacion_total
-
+			#prueba = PalabraClave.objects.filter(id_oferta=58)
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['comentariosOferta'] = comentariosOferta
-		args['calificacionOferta'] = calificacionOferta
+		args['calificacionOferta'] = str(calificacionOferta)
 		args['propietario'] = propietario
 		return render_to_response('oferta_ver_otra.html',args)
 
@@ -214,7 +188,7 @@ def administrar_Oferta(request, id_oferta):
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	calificacionOferta = oferta.calificacion_total
-	args['calificacionOferta'] = range(int(calificacionOferta))
+	args['calificacionOferta'] = str(calificacionOferta)
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)

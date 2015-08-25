@@ -101,10 +101,9 @@
                     <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
 
                     <p class="tags">
-                        <a>Industria</a>
-                        <a>Autos</a>
-                        <a>Startup</a>
-                        <a>Espol</a>
+                        {% for tag in ofertas.palabras_clave %}
+                            <a>{{ tag }}</a>
+                        {% endfor %}
                     </p>
                 </div>
             </div>
