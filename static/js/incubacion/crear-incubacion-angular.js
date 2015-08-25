@@ -1,24 +1,25 @@
 
-var appoferta = angular.module('redInn');
+var appincubacion = angular.module('redInn');
 
-appoferta.controller('crearIncubacionFormController',['$scope','$rootScope','Oferta','$timeout','$window',function($scope,$rootScope,Incubacion,$timeout,$window){
+
+
+appincubacion.controller('crearIncubacionFormController',['$scope','$rootScope','Oferta','$timeout','$window',function($scope,$rootScope,Oferta,$timeout,$window){
     // dentro del scope van modelos
 
 
     console.log('dentro del crearIncubacionAngular');
 
-    $scope.oferta = new Incubacion();
-    $scope.copia_oferta = $window.oferta_copia;
-    $scope.copia_tags = $window.tags_copia;
+    $scope.incubacion = new Oferta();
 
     $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
-    $scope.items_alcance = [{tipo: "Propia institucion", valor: 0 },{tipo: "Grupo", valor: 1 },{tipo: "Todos", valor: 2 }];
-    $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
+    $scope.items_alcance = [{tipo: "Todos", valor: 0 },{tipo: "Grupo", valor: 1 }];
 
     $scope.tipo = 0;
     $scope.hide = true;
     $scope.validar_form=true;
     $scope.forms = {};
+    $scope.imagen = {};
+
 
     function isEmpty(myObject) {
         for(var key in myObject) {
@@ -26,20 +27,9 @@ appoferta.controller('crearIncubacionFormController',['$scope','$rootScope','Ofe
                 return false;
             }
         }
+
         return true;
     }
-    var tags={};
-    $scope.$watch('incubacion.tags',function(palabra){
-        console.log('dentro de watch palabras_clave');
-        console.log(palabra);
-        tags = palabra;
-
-        if(!isEmpty(tags)){
-            console.log('tags'+tags);
-            console.log(tags);
-            $scope.oferta.tags = tags;
-        }
-    });
 
 
     var tiempo='1';
@@ -82,31 +72,27 @@ appoferta.controller('crearIncubacionFormController',['$scope','$rootScope','Ofe
             tiempo=val;
         }
     };
-
-
+    
     $scope.guardar = function(){
 
         $scope.incubacion.tiempo_para_estar_disponible=tiempo + " " + duracion;
 
-        $scope.oferta.$save(function(response){
+        $scope.incubacion.$save(function(response){
             console.log('Se ha creado con exito la Incubacion');
-
-            var id = $scope.oferta.id_oferta;
-            loadImagen(id);
 
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
-            $scope.oferta = new Oferta();
+            $scope.incubacion = new Oferta();
             $scope.tiempo_tipo="";
             $scope.tiempo_disponible=1;
-            $scope.info_crear_incubacion = "Incubaci&oacute;n creada exitosamente";
+            $scope.info_crear_incubacion = "Incubacion creada exitosamente";
             $scope.hide=false;          
         },
         function(response){
             console.log('Ha ocurrido un error');
             $scope.textType="alert-danger";
             $scope.iconoClass="glyphicon-exclamation-sign";
-            $scope.info_crear_incubacion = "Hubo un error al crear oferta";
+            $scope.info_crear_incubacion = "Hubo un error al crear incubacion";
             $scope.hide=false;
 
         });
@@ -118,25 +104,14 @@ appoferta.controller('crearIncubacionFormController',['$scope','$rootScope','Ofe
 }]);
 
 
-appoferta.factory('Incubacion',['$resource',function($resource){
-    return $resource("/api/incubaciones/:id/",{id:'@id'},{
+appincubacion.factory('Oferta',['$resource',function($resource){
+    return $resource("/api/ofertas/:id/",{id:'@id'},{
         update:{
             method:'PUT'
         }
     })
 }]);
 
-/*function getQueryVariable(variable, url) {
-    var query = url;
-    var vars = query.split("?");
-    for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if (pair[0] == variable) {
-            return pair[1];
-        }
-    } 
-    return "1";
-}*/
 
 function getQueryVariable(variable, url) {
     var query = url;
@@ -148,26 +123,13 @@ function getQueryVariable(variable, url) {
     return "1";
 }
 
-appoferta.controller('CargarOfertasSelectController',['$scope','$http','urls',function($scope,$http,urls){
-    $http.get(urls.BASE_API+'/misOfertasAll/',{},{headers:{"Content-Type":"application/json"}})
-    .success(function(response){
-        $scope.listaOfertas = response.results;
-    }).error(function(){
-        console.log('hubo un error en select Ofertas');
-    });
 
-    $scope.selectOfertas = function(item){
-        console.log(item);
-    }
-    
-}]);
 
-//appoferta.directive('ngUpdateHidden',function() {
-//    return function(scope, el, attr) {
-//        var model = attr['ngModel'];
-//        scope.$watch(model, function(nv) {
-//            console.log(el.val(nv));
-//        });
-//
-//    };
-//});
+
+
+
+
+
+
+
+
