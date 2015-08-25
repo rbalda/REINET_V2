@@ -6,55 +6,6 @@
     {%endblock%}
     {%block contenidousuario%}
 
-    </script>
-        <script type="text/javascript">
-        /*
-         * Autor: Marlon Espinoza
-         Nombre de función: validarPassword2
-         Salida: Muestra advertencia si son distintos
-         Descripción: Compara que password 1 y 2 sean iguales
-         * */
-        function validarPassword2() {
-            password1 = document.getElementById('password1')
-            pass2 = document.getElementById('password2')
-            if (password1.value == pass2.value) {
-                document.getElementById('noIgual').style.display = 'none';
-            }
-            else {
-                document.getElementById('noIgual').style.display = 'block';
-            }
-        }
-        
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#blah')
-                            .attr('src', e.target.result)
-                            .width(200)
-                            .height(200);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        /*
-         * Autor: Leonel Ramirez - Jose Velez
-         Nombre de función: validarRangoContrasena
-         Salida: Muestra advertencia si son distintos
-         Descripción: Compara que password 1 y 2 sean iguales
-         * */
-        function validarRangoContrasena() {
-            contrasena = document.getElementById("password1")
-            if (contrasena.value.length >= 4 && contrasena.value.length <= 15 ) {
-                document.getElementById('errorContrasena').style.display = 'none';
-            }
-            else {
-                document.getElementById('errorContrasena').style.display = 'block';
-            }
-        }
-    </script>
-
     <!-- Editar Perfil Usuario-->
     <div class=" col-xs-6 col-sm-8 col-md-9">
     <div class="row">
@@ -65,67 +16,84 @@
         <div class="col-md-9">
                 <br>
         </div>
-        <form role="form" action="/EditarContrasena/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12">{% csrf_token %}
+        <form role="form" action="/editarContrasena/" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12">{% csrf_token %}
             
             <!--CONTRASEÑA ACTUAL-->
-               <div class="form-group">
-                            <label class="info-board-red" id="contrasenaValidar" style="display: none; color: red"></label>
-                </div>
+
             <div class="form-group">
                         {% if mensaje %}
-                            <div class="form-group">
-                                <label class="info-board-red" id="noIgual" style=" color: green">{{ mensaje }}</label>
+                            <div class="alert alert-success alert-dismissible col-md-offset-3 col-md-8" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <strong><p><span class="glyphicon glyphicon-ok-sign"></span> {{ mensaje }}</p></strong>
                             </div>
                         {% endif %}
                
-                <label for="contrasenaActual" class="col-md-3">Contrase&ntilde;a Actual</label>
+                <label for="contrasenaActual" class="col-md-8">Contrase&ntilde;a Actual</label>
 
                 <div class="col-md-8">
-                    <input required autofocus type="text" class="form-control" id="passwordActual" name="passwordActual"placeholder="Contraseña Actual" data-toggle="popover" data-trigger="focus" data-content="Asegurate de recordarla" data-original-title="Contraseña Actual" onchange="validarPassword2()">
+                    <input required autofocus type="password" class="form-control" id="passwordActual" name="passwordActual" placeholder="Contraseña Actual" data-toggle="popover" data-trigger="focus" data-content="Asegurate de recordarla" data-original-title="Contraseña Actual">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="info-board-red" id="noIgual" style="display: none; color: red">*Contrase&ntilde;as no coinciden</label>
-                <label class="info-board-red" id="errorContrasena" style="display: none; color: red">Contrase&ntilde;a debe almenos 4 caracteres y m&aacute;ximo 15 caracteres</label>
-            </div>
-            <!--CONTRASEÑA NUEVA-->
-            <div class="form-group">
-                <label for="contrasenaActual" class="col-md-3">Contrase&ntilde;a Nueva</label>
 
-                <div class="col-md-8">
-                    <input required type="password" class="form-control margin-bottom-xs" id="password1" name="password1" placeholder="Contraseña" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="Three symbols minimum." data-original-title="Password" onchange="validarRangoContrasena()" maxlength="15" minlength="4">
-                </div>
+            <div class="form-group col-md-8">
+                <p id="error_password_incorrecta"></p>
             </div>
-            <!--REPETIR CONTRASEÑA-->
+
             <div class="form-group">
-                <label for="repetitContrasena" class="col-md-3">Repetir Contrase&ntilde;a</label>
+                        <label for="passwordSet1" class="col-md-8">Escriba su nueva contrase&ntilde;a</label>
 
-                <div class="col-md-8">
-                    <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Contraseña" data-toggle="popover" data-trigger="focus" data-content="Asegurate de recordarla" data-original-title="Repeat Password" onchange="validarPassword2()">
-                </div>
-            </div>
-            <!--BUTTON GUARDAR CONTRASEÑA
-            <button style="float:right" class="btn btn-green" >Guardar Contrase&ntilde;a</button>-->
+                        <div class="col-md-8">
+                            <input type="password" class="form-control passwordSet1" id="passwordSet1" placeholder="Nueva Contraseña"
+                                   name="passwordSet1" required>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label for="passwordSet2" class="col-md-8">Repita su nueva contrase&ntilde;a</label>
 
-            <a href="" data-type="zoomin" class="button" id="enviar">
-                    <button type="submit" style="float:right" class="btn btn-green" id="enviar" data-dismiss="modal">Guardar Contrase&ntilde;a</button>
-                </a>
-                <div class="overlay-container"> 
-                    <div class="window-container zoomin">
-                        <h3>¿Est&aacute; seguro de cambiar su contrase&ntilde;a?</h3><br> 
-                        <div>
-                            <div class="col-md-6 col-md-offset-2">
-                                <button type="submit" class="btn btn-green"> Si</button>
-                            </div>
-                           
-                            <a href="">
-                            <button type="button" class="button btn btn-danger" name="close"> No </button> 
-                            </a>
+                        <div class="col-md-8">
+                            <input type="password" class="form-control passwordSet2" id="passwordSet2" placeholder="Repita nueva Contraseña"
+                                   name="passwordSet2" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-8">
+                        <p class="mensaje_error"></p>
+                    </div>
+
+                    <div class="form-group">
+
+                    <button type="button" style="float:right" class="btn btn-green btn_confirmar_password" data-toggle="modal" data-placement="bottom" data-target="#confirmar_cambio_pass">Guardar Contrase&ntilde;a</button>
 
                     </div>
-                </div>
+
+
+<!-- Modal window: Cambiar Contraseña -->
+<div class="modal fade" id="confirmar_cambio_pass" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content col-md-12">
+            <div class="modal-header" >
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <br/>
+                <br/>
+
+                <p> <strong><h5 class="text-info">Est&aacute; seguro de cambiar la contrase&ntilde;a de su cuenta en Reinet?</h5></strong></p>
+                
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="modal-body col-md-11">
+                    <button type="submit" class="btn btn-green pull-right" style="margin:2px;">Confirmar</button>
+
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin:2px;">Cancelar</button>
 
                 </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End of modal window -->
 
         </form>
 
@@ -135,42 +103,12 @@
     </div>
     </div>
     </div>
-<script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))</script>
-    <script type="text/javascript" src="/static/js/demo.js"></script>
-
+    <script type="text/javascript" src="/static/js/verificar-password.js"></script>
     <script type="text/javascript">
-
-    $("#passwordActual").change(function () {
-        console.log($("#passwordActual").val());
-        $.ajax({
-            type: "POST",
-            url: "/verificar_contrasena",
-            data: {
-                'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
-                'passwordActual': $("#passwordActual").val()
-            },
-            success: verificarContrasena,
-            dataType: 'text'
-        });
+    $(document).ready(function () { 
+        $('.passwordSet1').attr('disabled',true);
+        $('.passwordSet2').attr('disabled',true);
     });
-
-    function verificarContrasena(data, textStatus, jqXHR) {
-        
-        if (data == "invalido") {
-            $("#contrasenaValidar").html("Contraseña no pertenece al usuario");
-            $("#contrasenaValidar").attr("style", "display: block; color: red; text-align:center");
-            $("#contrasenaValidar").attr("class", "info-board-red");
-            //habilitarDeshabilitarSubmit(1);
-        }
-        else if(data == "valido") {
-            $("#contrasenaValidar").html("Contraseña correcta");
-            $("#contrasenaValidar").attr("style", "display: block; color: green; text-align:center");
-            $("#contrasenaValidar").attr("class", "info-board-green");
-            //habilitarDeshabilitarSubmit(0);
-        }
-    }
-
-
-
+    </script>
 
 {% endblock %}

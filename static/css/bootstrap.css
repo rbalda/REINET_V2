@@ -5096,6 +5096,7 @@ button.close {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   outline: 0;
+  text-align: center;
 }
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform .3s ease-out;
@@ -5115,6 +5116,9 @@ button.close {
   position: relative;
   width: auto;
   margin: 10px;
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
 }
 .modal-content {
   position: relative;
@@ -5588,6 +5592,12 @@ button.close {
   .carousel-indicators {
     bottom: 20px;
   }
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
 }
 .clearfix:before,
 .clearfix:after,
@@ -5789,3 +5799,34 @@ button.close {
 .oculto{
     visibility:hidden;
 }
+
+/*Calificacion por estrellas*/
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
+}
+

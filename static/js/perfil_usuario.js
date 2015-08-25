@@ -15,8 +15,7 @@ function fijarReputacion() {
 
     }
     convertirFecha();
-        }catch(err){
-            console.log(err);
+        }catch(e){
 
         }
 }
@@ -70,9 +69,5 @@ function convertirFecha(){
     td_fecha.innerHTML=dia+'/'+mes+'/'+año;
 
 }                                           
-try{
 window.onload = fijarReputacion;                                            
-}catch(err){
-    console.log("fallo reputacion");
-}
                                                 

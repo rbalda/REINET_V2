@@ -1,0 +1,91 @@
+                             <div class="col-md-12">
+                              <!--Industria Competidores-->
+
+                              <!--Tendencias-->
+                                 <div class="form-group">
+                                     <label for="Nombres" class="col-md-2">Tendencias Relevantes</label>
+                                     <div class="col-md-6">
+                                         
+<textarea autofocus type="text" class="form-control" id="oferta_tendencias" name="oferta_tendencias" rows="4" placeholder="Describa tendencias relevantes a la oferta"
+ng-model="oferta.cuadro_tendencias_relevantes" ng-required="false"  
+></textarea>
+<!--<span ng-show="crear_oferta_form4.oferta_tendencias.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+
+                                     </div>
+                                 </div>
+
+                                 <!--Alternativas de solucion-->
+                                 <div class="form-group">
+                                     <label for="Nombres" class="col-md-2">Alternativas de Soluci&oacute;n Existentes</label>
+                                     <div class="col-md-6">
+
+
+<textarea autofocus type="text" class="form-control" id="ofertas_alternativas_soluciones" name="ofertas_alternativas_soluciones" rows="4" placeholder="Describa otras alternativas existentes a su oferta"
+ng-model="oferta.descripcion_soluciones_existentes" ng-required="false"                            
+></textarea>
+                                     </div>
+                                 </div>
+
+
+             <!--Diagrama de Porter-->
+             <div class="form-group" style="margin-bottom: 0px;">
+                     <label for="Descripcion" class="col-md-2">Diagrama de Porter</label>
+                     <div class="col-md-6">
+                         <div class=" table-responsive" style="font-size: 12px;">
+                                <table class="table table-bordered" style="margin-bottom: 0px;">
+                                      <tr >
+                                         <th style="text-align: center;">Competidores</th>
+                                         <th style="text-align: center;">Poder de los Consumidores</th>
+                                         <th style="text-align: center;">Sustitutos</th>
+                                         <th style="text-align: center;">Poder de los proveedores</th>
+                                         <th style="text-align: center;">Nuevos entrantes</th>
+                                      </tr>
+                                      <tr>
+                                         <td><textarea autofocus name="diagramapoter_competidores" id="diagramapoter_competidores" style="resize:none "rows="6"
+                                         placeholder="Indique las empresas con las que puede competir directamente que ofrecen el mismo producto." 
+                                        ng-model="oferta.fk_diagrama_competidores.competidores" ng-required="false"   
+                                         ></textarea>
+                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_competidores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         </td>
+                                         <td><textarea autofocus name="diagramapoter_consumidores" id="diagramapoter_consumidores" style="resize:none "rows="6"
+                                         placeholder="Es si su empresa esta llegando a los clientes y cuál es el grado de dependencia o lealtad de ellos con sus productos."
+                                        ng-model="oferta.fk_diagrama_competidores.consumidores" ng-required="false" 
+                                         ></textarea>
+                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_consumidores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         </td>
+                                         <td><textarea autofocus name="diagramapoter_sustitutos" id="diagramapoter_sustitutos" style="resize:none "rows="6"
+                                         placeholder="Es la existencia de los productos que pueden sustituir su producto en precios, características,etc."
+                                        ng-model="oferta.fk_diagrama_competidores.sustitutos" ng-required="false" 
+                                         ></textarea>
+                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_sustitutos.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         </td>
+                                         <td><textarea autofocus name="diagramapoter_proveedores" id="diagramapoter_proveedores" style="resize:none "rows="6"
+                                         placeholder="Es la forma de la negociación con los proveedores, ya que ellos son los que realmente saben dónde está la rentabilidad en el sector."
+                                        ng-model="oferta.fk_diagrama_competidores.proveedores" ng-required="false" 
+                                         ></textarea>
+                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_proveedores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         </td>
+                                        <td><textarea autofocus name="diagramapoter_nuevos_entrantes" id="diagramapoter_nuevos_entrantes" style="resize:none "rows="6"
+                                        placeholder="Aquí es donde realmente se mide con otras empresas para poder ver si su producto realmente es rentable o no."
+                                        ng-model="oferta.fk_diagrama_competidores.nuevosMiembros" ng-required="false" 
+                                         ></textarea>
+                                         <!--<span ng-show="crear_oferta_form4.diagramapoter_nuevos_entrantes.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                                         </td>
+                                      </tr>
+                                </table>
+                            </div>
+                     </div>
+              </div>  
+
+                             <div class="col-md-9">
+                                 <br> 
+
+                                 <a href="#esta_logro"  aria-controls="messages" role="tab" data-toggle="tab">
+                                       <input type="button" class="btn btn-info pull-right" value="Siguiente"> 
+                                    </a>
+
+                                <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">
+                                       <input type="button" class="btn btn-default pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;"> 
+                                </a>
+                              </div>
+                             </div> 
