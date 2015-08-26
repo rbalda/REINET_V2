@@ -239,11 +239,13 @@ def administrar_Borrador(request, id_oferta):
 		return HttpResponseRedirect('/NotFound/')
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
+	palabras_clave = oferta.palabras_clave.all()
 
 	args.update(csrf(request))
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	args['palabras'] = palabras_clave
 	return render_to_response('administrar_borrador.html',args)
 
 """
