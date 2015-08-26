@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from ofertas_demandas.models import Oferta
 from ofertas_demandas.models import Perfil
+from ofertas_demandas.models import PalabraClave
 from ofertas_demandas.pagination import PaginacionPorDefecto
 from ofertas_demandas.pagination import PaginacionCinco
 from ofertas_demandas.pagination import NoPaginacion
@@ -28,7 +29,11 @@ class OfertaViewSet(ModelViewSet):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
         if (busqueda != 'undefined') and (busqueda is not None):
-            queryset = Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+            try: 
+                queryset = PalabraClave.objects.all().filter(palabra = busqueda).first().ofertas_con_esta_palabra.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+                queryset = queryset | Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+            except:
+                queryset = Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         else:
             queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset

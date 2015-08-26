@@ -663,6 +663,15 @@ appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', functi
 
 }]);
 
+appoferta.filter('range', function() {
+  return function(input, total) {
+    total = parseInt(total);
+    for (var i=0; i<total; i++)
+      input.push(i);
+    return input;
+  };
+});
+
 
 
 

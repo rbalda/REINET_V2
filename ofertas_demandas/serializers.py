@@ -2,7 +2,7 @@
 
 from datetime import date, datetime
 from django.contrib.admin.utils import model_format_dict
-from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo, PalabraClave, \
+from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, ComentarioCalificacion, MiembroEquipo, PalabraClave, \
     ImagenOferta
 from usuarios.models import Perfil
 from rest_framework import serializers
@@ -51,6 +51,7 @@ class OfertaSerializador(ModelSerializer):
     fk_diagrama_canvas = DiagramaBusinessCanvasSerializador(required=False,allow_null=True)
     dueno = serializers.SerializerMethodField('getdueno',read_only=True)
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
+    numComentarios = serializers.SerializerMethodField('getNumeroComentarios',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
     galeria = ImagenOfertaSerializer(many=True,required=False)
     tags = serializers.ListField(
@@ -66,7 +67,7 @@ class OfertaSerializador(ModelSerializer):
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno',
-            'duenoUsername','galeria')
+            'duenoUsername','galeria', 'numComentarios')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
                             'calificacion_total','comentarios','palabras_clave','alcance','galeria')
@@ -79,6 +80,10 @@ class OfertaSerializador(ModelSerializer):
     def getDuenoUsername(self,obj):
         equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=obj.id_oferta).first()
         return equipoDueno.fk_participante.username
+
+    def getNumeroComentarios(self,obj):
+        numComentarios = len(ComentarioCalificacion.objects.all().filter(fk_oferta_id = obj.id_oferta, estado_comentario = 1))
+        return numComentarios
 
     def create(self,validated_data):
         diagrama_competidores = validated_data.pop('fk_diagrama_competidores',None)

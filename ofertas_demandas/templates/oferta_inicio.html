@@ -70,9 +70,7 @@
                             </div>
                             <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
                                 <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                                    <div class="rating" ng-repeat="n in [] | range:[[publicada.calificacion_total]]">
                                         <i class="fa fa-star"></i>
                                     </div>
                                 </div>
@@ -89,7 +87,7 @@
                                     </li>
                                     <li><i class="fa fa-calendar"></i> [[ publicada.fecha_creacion.substring(0,10) ]]
                                     </li>
-                                    <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                    <li><i class="fa fa-comments-o"></i> [[publicada.numComentarios]] comentarios</li>
                                 </ul>
                             </div>
                             <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
@@ -105,10 +103,7 @@
                             [[publicada.descripcion]]
                         </p>
                         <p class="tags">
-                            <a>Bootstrap</a>
-                            <a>HTML5</a>
-                            <a>CSS</a>
-                            <a>jQuery</a>
+                            <a ng-repeat="tag in publicada.palabras_clave">[[tag.palabra]]</a>
                         </p>
                     </div>
                 </div>
@@ -162,10 +157,7 @@
                                     [[borrador.descripcion]]
                                 </p>
                                 <p class="tags">
-                                    <a>Bootstrap</a>
-                                    <a>HTML5</a>
-                                    <a>CSS</a>
-                                    <a>jQuery</a>
+                                    <a ng-repeat="tag in borrador.palabras_clave">[[tag.palabra]]</a>
                                 </p>
                             </div>
                         </div>
@@ -198,9 +190,7 @@
                             </div>
                             <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
                                 <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                                    <div class="rating" ng-repeat="n in [] | range:[[o.calificacion_total]]">
                                         <i class="fa fa-star"></i>
                                     </div>
                                 </div>
@@ -215,7 +205,7 @@
                                     <li><i class="fa fa-user"></i> <a href="/usuario/[[ o.duenoUsername ]]">[[ o.dueno
                                         ]]</a></li>
                                     <li><i class="fa fa-calendar"></i> [[ o.fecha_creacion.substring(0,10) ]]</li>
-                                    <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                                    <li><i class="fa fa-comments-o"></i> [[o.numComentarios]] comentarios</li>
                                 </ul>
                             </div>
                             <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
@@ -231,12 +221,9 @@
                             [[o.descripcion]]
                         </p>
 
-                        <p class="tags">
-                            <a>Bootstrap</a>
-                            <a>HTML5</a>
-                            <a>CSS</a>
-                            <a>jQuery</a>
-                        </p>
+                        <div class="tags">
+                            <a ng-repeat="tag in o.palabras_clave">[[tag.palabra]]</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -266,9 +253,7 @@
                             </div>
                             <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
                                 <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                    <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                                    <div class="rating" ng-repeat="n in [] | range:[[miembro.calificacion_total]]">
                                         <i class="fa fa-star"></i>
                                     </div>
                                 </div>
@@ -282,7 +267,7 @@
                             <li><i class="fa fa-user"></i> <a href="/usuario/[[ miembro.duenoUsername ]]">[[
                                 miembro.dueno ]]</a></li>
                             <li><i class="fa fa-calendar"></i> [[ miembro.fecha_creacion.substring(0,10) ]]</li>
-                            <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                            <li><i class="fa fa-comments-o"></i> [[miembro.numComentarios]] comentarios </li>
                         </ul>
                         <hr>
                         <p class="blog-text">
@@ -292,10 +277,7 @@
                         </p>
 
                         <p class="tags">
-                            <a>Bootstrap</a>
-                            <a>HTML5</a>
-                            <a>CSS</a>
-                            <a>jQuery</a>
+                            <a ng-repeat="tag in miembro.palabras_clave">[[tag.palabra]]</a>
                         </p>
                     </div>
                 </div>
