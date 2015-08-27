@@ -21,7 +21,7 @@
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
-        <div class="container">
+    <div class="container">
 
         <div class="row" style="margin-bottom: 25px;">
             <div align=left class="col-md-3 col-sm-3 col-xs-4">
@@ -43,8 +43,8 @@
             </div>
         </div>
 
-            <div class="row">
-                <div class=" col-md-12" >
+        <div>
+            <div class="col-md-12">
 
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
@@ -54,376 +54,120 @@
                   </ul>
 
                   <!-- Tab panes -->
-                  <div class="tab-content col-md-12">
+                  <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="verIncubaciones">
-                        <div class="col-md-12 col-sm-4 col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <figure>
-                                        <div class="col-xs-6 col-sm-4 col-md-2">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-calendar bg-green"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail col-md-1">
-                                            <div class="avatar">
-                                                <a href="#" class="thumbnail bottom-12" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="/../../media/hoteshi.jpg" alt="...">
-                                                </a>
-                                            </div>
-                                        </div>
+                        <div class="timeline-block col-md-10">
+                          <!-- First blog post -->
+                            <div class="blog-summary col-md-12">
+                              <h4><a href="#">Nombre de la incubaci&oacute;n</a></h4>
+                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-user"></i> <a href="#">Administrator</a></li>
+                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
+                                <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                              </ul>
+                              <hr>
+                              <p class="blog-text">
+                                <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                <ul class="list-inline" align="center">
+                                <br>
+                                    <label>N&uacute;mero de ofertas:  </label>
+                                    <li>
+                                    <i class="fa fa fa-eye"></i> 85
+                                    </li><br>
+                                    <label>N&uacute;mero de consultores:  </label>
+                                    <li title="Bookmarks">
+                                    <i class="fa fa-thumb-tack"></i> 12
+                                    </li><br>
+                                    <label>Alcance:</label>
+                                     <li>
+                                    <i class="fa fa-road"></i> Todas
+                                    </li>
+                                </ul>
+                              </p>
+                              <p class="tags col-md-12">
+                                <a href="#">Bootstrap</a>
+                                <a href="#">HTML5</a>
+                                <a href="#">CSS</a>
+                                <a href="#">jQuery</a>
+                              </p>
+                            </div>
+                            <!-- Second blog post -->
+                            <div class="blog-summary col-md-12">
+                              <h4><a href="blog-post.html">Nombre de la incubaci&oacute;n</a></h4>
+                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 09, 2013</time>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-user"></i> <a href="#">Administrator</a></li>
+                                <li><i class="fa fa-calendar"></i> November 9, 2013</li>
+                                <li><i class="fa fa-comments-o"></i> 10 comments</li>
+                              </ul>
+                              <hr>
+                              <p class="blog-text">
+                                <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                <ul class="list-inline " align="center"><br>
+                                    <label>N&uacute;mero de ofertas</label>
+                                    <li title="Views">
+                                    <i class="fa fa-eye"></i> 85
+                                    </li><br>
+                                    <label>N&uacute;mero de consultores</label>
+                                    <li title="Bookmarks">
+                                    <i class="fa fa-thumb-tack"></i> 12
+                                    </li><br>
+                                    <label>Alcance:</label>
+                                    <li>
+                                    <i class="fa fa-road"></i> Todas
+                                    </li>
+                                </ul>
 
-                                        <div class="container col-md-3">
-                                            <a href="/administrarOferta/"><h4 align="center" style="font-size: 16px color:#141998">Zapatos Reproductores</h4></a>
-                                            <p align="center" style="font-size: 14px"><br>Alcance - Incubaci&oacute;n<br>
-                                             <ul class="list-inline" align="center">
-                                                <li><i class="fa fa-calendar"></i> Agostp 10, 2015</li>
-                                            </ul>
-                                        </div>
-                        
-                                         <div class="container col-md-5">
-                                            <br>
-                                            <ul class="list-inline " align="center">
-                                                <label>N&uacute;mero de ofertas</label>
-                                                <li title="Views">
-                                                  <i class="fa fa-eye"></i> 85
-                                                </li><br>
-                                                <label>N&uacute;mero de consultores</label>
-                                                <li title="Bookmarks">
-                                                  <i class="fa fa-thumb-tack"></i> 12
-                                                </li>
-                                              </ul>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-4 col-md-1">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-edit bg-blue"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </figure>
-                                </div>
+                              </p>
+                              <p class="tags col-md-12">
+                                <a href="#">Bootstrap</a>
+                                <a href="#">HTML5</a>
+                                <a href="#">CSS</a>
+                                <a href="#">jQuery</a>
+                              </p>
+                            </div>
+                            <!-- Third blog post -->
+                            <div class="blog-summary col-md-12">
+                              <h4><a href="#">Nombre de la incubaci&oacute;n</a></h4>
+                              <time datetime="2013-08-10" class="timestamp hidden-xs">Nov 08, 2013</time>
+                              <ul class="text-muted list-inline"><br>
+                                <li><i class="fa fa-user"></i> <a href="#">Administrator</a></li>
+                                <li><i class="fa fa-calendar"></i> November 8, 2013</li>
+                                <li><i class="fa fa-comments-o"></i> 6 comments</li>
+                              </ul>
+                              <hr>
+                              <p class="blog-text">
+                                <img class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                 <ul class="list-inline " align="center"><br>
+                                    <label>N&uacute;mero de ofertas:</label>
+                                    <li title="Views">
+                                    <i class="fa fa-eye"></i> 85
+                                    </li><br>
+                                    <label>N&uacute;mero de consultores:</label>
+                                    <li title="Bookmarks">
+                                    <i class="fa fa-thumb-tack"></i> 12
+                                    </li><br>
+                                    <label>Alcance:</label>
+                                    <li>
+                                    <i class="fa fa-road"></i> Todas
+                                    </li>
+                                </ul>
+                              </P>
+                              <p class="tags col-md-12">
+                                <a href="#">Bootstrap</a>
+                                <a href="#">HTML5</a>
+                                <a href="#">CSS</a>
+                                <a href="#">jQuery</a>
+                              </p>
                             </div>
                         </div>
-                        <!--#############-->
-                        <div class="col-md-12 col-sm-4 col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <figure>
-                                        <div class="col-xs-6 col-sm-4 col-md-2">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-calendar bg-green"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail col-md-1">
-                                            <div class="avatar">
-                                                <a href="#" class="thumbnail bottom-12" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="/../../media/hoteshi.jpg" alt="...">
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="container col-md-3">
-                                            <a href="/administrarOferta/"><h4 align="center" style="font-size: 16px color:#141998">Zapatos Reproductores</h4></a>
-                                            <p align="center" style="font-size: 14px"><br>Alcance - Incubaci&oacute;n<br>
-                                             <ul class="list-inline" align="center">
-                                                <li><i class="fa fa-calendar"></i> Agostp 10, 2015</li>
-                                            </ul>
-                                        </div>
                         
-                                         <div class="container col-md-5">
-                                            <br>
-                                            <ul class="list-inline " align="center">
-                                                <label>N&uacute;mero de ofertas</label>
-                                                <li title="Views">
-                                                  <i class="fa fa-eye"></i> 85
-                                                </li><br>
-                                                <label>N&uacute;mero de consultores</label>
-                                                <li title="Bookmarks">
-                                                  <i class="fa fa-thumb-tack"></i> 12
-                                                </li>
-                                              </ul>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-4 col-md-1">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-edit bg-blue"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-sm-4 col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <figure>
-                                        <div class="col-xs-6 col-sm-4 col-md-2">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-calendar bg-green"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail col-md-1">
-                                            <div class="avatar">
-                                                <a href="#" class="thumbnail bottom-12" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="/../../media/hoteshi.jpg" alt="...">
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="container col-md-3">
-                                            <a href="/administrarOferta/"><h4 align="center" style="font-size: 16px color:#141998">Zapatos Reproductores</h4></a>
-                                            <p align="center" style="font-size: 14px"><br>Alcance - Incubaci&oacute;n<br>
-                                             <ul class="list-inline" align="center">
-                                                <li><i class="fa fa-calendar"></i> Agostp 10, 2015</li>
-                                            </ul>
-                                        </div>
-                        
-                                         <div class="container col-md-5">
-                                            <br>
-                                            <ul class="list-inline " align="center">
-                                                <label>N&uacute;mero de ofertas</label>
-                                                <li title="Views">
-                                                  <i class="fa fa-eye"></i> 85
-                                                </li><br>
-                                                <label>N&uacute;mero de consultores</label>
-                                                <li title="Bookmarks">
-                                                  <i class="fa fa-thumb-tack"></i> 12
-                                                </li>
-                                              </ul>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-4 col-md-1">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-edit bg-blue"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-sm-4 col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <figure>
-                                        <div class="col-xs-6 col-sm-4 col-md-2">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-calendar bg-green"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail col-md-1">
-                                            <div class="avatar">
-                                                <a href="#" class="thumbnail bottom-12" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="/../../media/hoteshi.jpg" alt="...">
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="container col-md-3">
-                                            <a href="/administrarOferta/"><h4 align="center" style="font-size: 16px color:#141998">Zapatos Reproductores</h4></a>
-                                            <p align="center" style="font-size: 14px"><br>Alcance - Incubaci&oacute;n<br>
-                                             <ul class="list-inline" align="center">
-                                                <li><i class="fa fa-calendar"></i> Agostp 10, 2015</li>
-                                            </ul>
-                                        </div>
-                        
-                                         <div class="container col-md-5">
-                                            <br>
-                                            <ul class="list-inline " align="center">
-                                                <label>N&uacute;mero de ofertas</label>
-                                                <li title="Views">
-                                                  <i class="fa fa-eye"></i> 85
-                                                </li><br>
-                                                <label>N&uacute;mero de consultores</label>
-                                                <li title="Bookmarks">
-                                                  <i class="fa fa-thumb-tack"></i> 12
-                                                </li>
-                                              </ul>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-4 col-md-1">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-edit bg-blue"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-sm-4 col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <figure>
-                                        <div class="col-xs-6 col-sm-4 col-md-2">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-calendar bg-green"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail col-md-1">
-                                            <div class="avatar">
-                                                <a href="#" class="thumbnail bottom-12" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="/../../media/hoteshi.jpg" alt="...">
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="container col-md-3">
-                                            <a href="/administrarOferta/"><h4 align="center" style="font-size: 16px color:#141998">Zapatos Reproductores</h4></a>
-                                            <p align="center" style="font-size: 14px"><br>Alcance - Incubaci&oacute;n<br>
-                                             <ul class="list-inline" align="center">
-                                                <li><i class="fa fa-calendar"></i> Agostp 10, 2015</li>
-                                            </ul>
-                                        </div>
-                        
-                                         <div class="container col-md-5">
-                                            <br>
-                                            <ul class="list-inline " align="center">
-                                                <label>N&uacute;mero de ofertas</label>
-                                                <li title="Views">
-                                                  <i class="fa fa-eye"></i> 85
-                                                </li><br>
-                                                <label>N&uacute;mero de consultores</label>
-                                                <li title="Bookmarks">
-                                                  <i class="fa fa-thumb-tack"></i> 12
-                                                </li>
-                                              </ul>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-4 col-md-1">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-edit bg-blue"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-sm-4 col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <figure>
-                                        <div class="col-xs-6 col-sm-4 col-md-2">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-calendar bg-green"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail col-md-1">
-                                            <div class="avatar">
-                                                <a href="#" class="thumbnail bottom-12" data-toggle="modal" data-target="#upload-avatar">
-                                                    <img src="/../../media/hoteshi.jpg" alt="...">
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="container col-md-3">
-                                            <a href="/administrarOferta/"><h4 align="center" style="font-size: 16px color:#141998">Zapatos Reproductores</h4></a>
-                                            <p align="center" style="font-size: 14px"><br>Alcance - Incubaci&oacute;n<br>
-                                             <ul class="list-inline" align="center">
-                                                <li><i class="fa fa-calendar"></i> Agostp 10, 2015</li>
-                                            </ul>
-                                        </div>
-                        
-                                         <div class="container col-md-5">
-                                            <br>
-                                            <ul class="list-inline " align="center">
-                                                <label>N&uacute;mero de ofertas</label>
-                                                <li title="Views">
-                                                  <i class="fa fa-eye"></i> 85
-                                                </li><br>
-                                                <label>N&uacute;mero de consultores</label>
-                                                <li title="Bookmarks">
-                                                  <i class="fa fa-thumb-tack"></i> 12
-                                                </li>
-                                              </ul>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-4 col-md-1">
-                                            <div class="user-menu bottom-15">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="sign fa fa-edit bg-blue"></i> 
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
+                
+                              
                         <!-- PAGINACION DE VER INCUBACIONES
                         -->
-                        <div class="pagination">
+                        <div class="pagination col-md-10">
                             <span class="step-links">
                             {% if msjs.has_previous %}
                                 <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
@@ -440,6 +184,7 @@
                         </div>
 
                     </div>
+
                     <div role="tabpanel" class="tab-pane" id="aa">
                     
                     </div>
@@ -447,17 +192,12 @@
                     
                     </div>
 
-                  </div>
-
                 </div>
+
             </div>
         </div>
-
     </div>
-    </div>
-    </div>
-   
-</div>  
+ 
 {% endblock %}
 
 
