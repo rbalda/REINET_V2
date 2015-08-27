@@ -96,10 +96,9 @@
                         <!--Palabras Clave-->
                         <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
                         <p class="tags">
-                            <a >Industria</a>
-                            <a >Autos</a>
-                            <a >Startup</a>
-                            <a>Espol</a>
+                            {% for tag in palabras_claves %}
+                            <a>{{ tag.palabra }}</a>
+                            {% endfor %}
                         </p>
                     </div>
                 </div>

@@ -101,8 +101,8 @@
                     <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
 
                     <p class="tags">
-                        {% for tag in ofertas.palabras_clave %}
-                            <a>{{ tag }}</a>
+                        {% for tag in palabras_claves %}
+                            <a>{{ tag.palabra }}</a>
                         {% endfor %}
                     </p>
                 </div>

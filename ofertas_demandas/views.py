@@ -95,21 +95,6 @@ def CrearOferta(request):
 	args.update(csrf(request))
 	return render(request,'crear_oferta.html',args)
 
-@login_required
-def CargarImagenOferta(request):
-	try:
-		imagen = ImagenOferta()
-		imagen.descripcion=request.GET['flowFilename']
-		oferta_id=request.GET['id_oferta']
-		imagen.fk_oferta = Oferta.objects.get(id_oferta=oferta_id)
-		imagen.imagen = request.GET['flowRelativePath']
-		imagen.save()
-		response = JsonResponse({'save_estado':True})
-		return HttpResponse(response.content)
-	except:
-		response = JsonResponse({'save_estado':False})
-		print 'fallo'
-		return HttpResponse(response.content)
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
@@ -154,9 +139,15 @@ def verCualquierOferta(request, id_oferta):
 			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
 			args['miComentario'] = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, fk_usuario_id=usuario).count
 			calificacionOferta = oferta.calificacion_total
-			#prueba = PalabraClave.objects.filter(id_oferta=58)
+			try:
+				palabras_claves = oferta.palabras_clave.all()
+			except Exception as e:
+				palabras_claves =  ["Null", "Null", "Null", "Null"]
+
+
 		args.update(csrf(request))
 		args['participantes'] = participantes
+		args['palabras_claves'] = palabras_claves
 		args['comentariosOferta'] = comentariosOferta
 		args['calificacionOferta'] = str(calificacionOferta)
 		args['propietario'] = propietario
@@ -171,7 +162,7 @@ def verCualquierOferta(request, id_oferta):
 Autor: Pedro Iniguez
 Nombre de funcion: administrarOferta
 Parametros: request
-Salida: 
+Salida:
 Descripcion: funcion para administrar mi oferta publicada.
 """
 
@@ -207,6 +198,12 @@ def administrar_Oferta(request, id_oferta):
 	participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1,activo =1)
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
+	try:
+		palabras_claves = oferta.palabras_clave.all()
+	except Exception as e:
+		palabras_claves =  ["Null", "Null", "Null", "Null"]
+
+	args['palabras_claves'] = palabras_claves
 	args['comentariosPendientes'] = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=0)
 	args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
 	args.update(csrf(request))
@@ -223,7 +220,7 @@ def administrar_Oferta(request, id_oferta):
 Autor: Pedro Iniguez
 Nombre de funcion: administarBorrador
 Parametros: request
-Salida: 
+Salida:
 Descripcion: funcion para administrar mi oferta publicada.
 """
 
@@ -254,13 +251,11 @@ def administrar_Borrador(request, id_oferta):
 		return HttpResponseRedirect('/NotFound/')
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
-	palabras_clave = oferta.palabras_clave.all()
 
 	args.update(csrf(request))
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
-	args['palabras'] = palabras_clave
 	return render_to_response('administrar_borrador.html',args)
 
 """
