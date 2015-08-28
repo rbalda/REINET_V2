@@ -95,21 +95,6 @@ def CrearOferta(request):
 	args.update(csrf(request))
 	return render(request,'crear_oferta.html',args)
 
-@login_required
-def CargarImagenOferta(request):
-	try:
-		imagen = ImagenOferta()
-		imagen.descripcion=request.GET['flowFilename']
-		oferta_id=request.GET['id_oferta']
-		imagen.fk_oferta = Oferta.objects.get(id_oferta=oferta_id)
-		imagen.imagen = request.GET['flowRelativePath']
-		imagen.save()
-		response = JsonResponse({'save_estado':True})
-		return HttpResponse(response.content)
-	except:
-		response = JsonResponse({'save_estado':False})
-		print 'fallo'
-		return HttpResponse(response.content)
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
