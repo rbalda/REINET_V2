@@ -46,6 +46,15 @@ def ver_incubaciones(request):
 	return render_to_response('admin_incubacion_inicio.html',args)
 
 
+@login_required
+def ver_incubadas(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('ver_incubadas.html',args)
+
+
+
 """
 Autor: Jose Velez
 Nombre de funcion: crear_incubacion
