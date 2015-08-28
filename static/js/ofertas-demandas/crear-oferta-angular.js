@@ -44,7 +44,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
     $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
 
-    $scope.oferta_id = 100;
+    $scope.oferta_id = 0;
     $scope.tipo = 0;
     $scope.hide = true;
     $scope.validar_form=true;

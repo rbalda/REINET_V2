@@ -45,7 +45,10 @@
         <div class="col-md-8">
 
 <div flow-init="{target:'/api/ofertas/'+oferta_id+'/subir_imagen/',testChunks:false,headers:setHead }" 
-                flow-name="imagen.flow">
+                flow-name="imagen.flow"
+                flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
+                flow-file-success="$file.cancel()"
+                >
                 <div class="col-md-12 col-sm-12" style="left:-18px;">
                     <span class="btn btn-default btn-file" flow-btn style="margin:2px;">Cargar Im&aacute;genes</span>
                 </div>
