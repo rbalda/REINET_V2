@@ -1,8 +1,10 @@
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import detail_route
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from ofertas_demandas.models import Oferta
+from rest_framework import status
+from ofertas_demandas.models import Oferta, ImagenOferta
 from ofertas_demandas.models import Perfil
 from ofertas_demandas.models import PalabraClave
 from ofertas_demandas.pagination import PaginacionPorDefecto
@@ -12,6 +14,7 @@ from ofertas_demandas.permissions import SiEsPropietarioOEstaEnAlcance
 from ofertas_demandas.serializers import OfertaSerializador
 from rest_framework.response import Response
 
+
 __author__ = 'rbalda'
 
 
@@ -19,7 +22,7 @@ class OfertaViewSet(ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializador
     permission_classes = (IsAuthenticated,)
-    lookup_field = 'codigo'
+    #lookup_field = 'codigo'
     pagination_class = PaginacionCinco
     #parser_classes = (MultiPartParser,JSONParser)
 
@@ -37,6 +40,20 @@ class OfertaViewSet(ModelViewSet):
         else:
             queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset
+
+    @detail_route(methods=['post'])
+    def subir_imagen(self,request,pk=None):
+        try:
+            imagen = ImagenOferta()
+            imagen.descripcion=self.request.DATA['flowFilename']
+            id = self.request.DATA['id_oferta']
+            imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
+            img = self.request.FILES['file']
+            imagen.imagen = img
+            imagen.save()
+            return Response({'save_estado':True},status=status.HTTP_201_CREATED)
+        except:
+            return Response({'save_estado':False},status=status.HTTP_404_NOT_FOUND)
 
 
 class MisOfertasAllViewSet(ModelViewSet):

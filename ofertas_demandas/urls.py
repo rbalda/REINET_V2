@@ -8,7 +8,6 @@ urlpatterns = patterns('',
 		url(r'^InicioOferta[/]?$','ofertas_demandas.views.InicioOferta', name='InicioOferta'),
 		url(r'^CrearOferta[/]?$','ofertas_demandas.views.CrearOferta', name='CrearOferta'),
 		url(r'^CrearOfertaCopia[/]?$','ofertas_demandas.views.CrearOfertaCopia', name='CrearOfertaCopia'),
-		url(r'^CargarImagenOferta/$','ofertas_demandas.views.CargarImagenOferta', name='CargarImagenOferta'),
 	
 
 		url(r'^oferta/(?P<id_oferta>\w{0,250})[/]?$','ofertas_demandas.views.verCualquierOferta', name='verOferta'),

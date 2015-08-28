@@ -2,13 +2,19 @@
 var appoferta = angular.module('redInn');
 
 appoferta.config(['flowFactoryProvider', function (flowFactoryProvider) {
-    flowFactoryProvider.defaults = {
-        target : '/CargarImagenOferta/',
-        permanentErrors: [404, 500, 501],
-        maxChunkRetries: 1,
-        chunkRetryInterval: 5000,
-        simultaneousUploads: 4
-    };
+    /*flowFactoryProvider.defaults = {
+        headers: function (file, chunk, isTest) {
+                    return {
+                        'X-CSRFToken': $cookies.get("csrftoken")
+                    }
+                }
+        //target : '',
+        //testChunks:false,
+        //permanentErrors: [500, 501],
+        //maxChunkRetries: 1,
+        //chunkRetryInterval: 5000,
+        //simultaneousUploads: 4
+    };*/
 
     flowFactoryProvider.on('fileAdded',function(file,event,flow){
         console.log('dentro de fileAdded');
@@ -20,9 +26,14 @@ appoferta.config(['flowFactoryProvider', function (flowFactoryProvider) {
 
 }]);
 
-appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout','$window',function($scope,$rootScope,Oferta,$timeout,$window){
+appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout','$window','$cookies',function($scope,$rootScope,Oferta,$timeout,$window,$cookies){
     // dentro del scope van modelos
 
+    $scope.setHead = function (file, chunk, isTest) {
+            return {
+                'X-CSRFToken': $cookies["csrftoken"]
+            };      
+    };
 
     console.log('dentro del crearOfertaAngular');
 
@@ -33,6 +44,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
     $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
 
+    $scope.oferta_id = 100;
     $scope.tipo = 0;
     $scope.hide = true;
     $scope.validar_form=true;
@@ -165,7 +177,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     
 
     function loadImagen(id){
-        console.log('dentro de loadImagen')
+        console.log('dentro de loadImagen');
         $scope.imagen.flow.opts.query = {'id_oferta': id};
         $scope.imagen.flow.upload(); 
     }
@@ -185,8 +197,8 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         $scope.oferta.$save(function(response){
             console.log('Se ha creado con exito la Oferta');
 
-            var id = $scope.oferta.id_oferta;
-            loadImagen(id);
+            $scope.oferta_id = $scope.oferta.id_oferta;
+            loadImagen($scope.oferta.id_oferta);
 
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
