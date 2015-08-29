@@ -22,7 +22,6 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from datetime import *
-
 from ofertas_demandas.models import *
 from ofertas_demandas.serializers import *
 
@@ -94,6 +93,33 @@ def CrearOferta(request):
 	args['oferta'] = None
 	args.update(csrf(request))
 	return render(request,'crear_oferta.html',args)
+
+@login_required
+def CargarImagenOferta(request):
+	try:
+		print 'cargar oferta imagen'
+		imagen = ImagenOferta()
+		descripcion = request.POST.get('descripcion',None)
+		descripcion = json.loads(descripcion)
+		if descripcion:
+			aux = request.POST['flowIdentifier']
+
+			for x in descripcion:
+				if x['value'] == aux:
+					imagen.descripcion=x['descripcion']
+		else:
+			imagen.descripcion=" "
+
+		id = request.POST['id_oferta']
+		imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
+		img = request.FILES['file']
+		imagen.imagen = img
+		imagen.save()
+		response = JsonResponse({'save_estado':True})
+		return HttpResponse(response.content)
+	except:
+		response = JsonResponse({'save_estado':False})
+		return HttpResponse(response.content)
 
 
 """

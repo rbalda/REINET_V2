@@ -45,7 +45,14 @@ class OfertaViewSet(ModelViewSet):
     def subir_imagen(self,request,pk=None):
         try:
             imagen = ImagenOferta()
-            imagen.descripcion=self.request.DATA['flowFilename']
+            descripcion = self.request.DATA.get('descripcion',None)
+            descripcion = descripcion.split(',')
+            if descripcion:
+                index = int(self.request.DATA['flowChunkNumber'])
+                imagen.descripcion=descripcion[index-1]
+            else:
+                imagen.descripcion=" "
+
             id = self.request.DATA['id_oferta']
             imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
             img = self.request.FILES['file']
