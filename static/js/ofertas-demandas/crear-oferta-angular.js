@@ -208,12 +208,6 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         };
     };
 
-    function reemplazarComas(list){
-        for (l in list){
-            list[l] = list[l].replace(',','');
-        };
-    };
-
     function crearJSON(list){
         var json_array = [];
         var i=0;
@@ -234,7 +228,6 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         $scope.oferta.$save(function(response){
             console.log('Se ha creado con exito la Oferta');
 
-            reemplazarComas($scope.txt_imagen_lst);
             $scope.oferta_id = $scope.oferta.id_oferta;
             loadImagen($scope.oferta.id_oferta);
 
