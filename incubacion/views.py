@@ -51,7 +51,7 @@ Autor: Sixto Castro
 Nombre de funcion: ver_lista_incubadas
 Parametros: request
 Salida:
-Descripcion: Función que llama la pagina ver_lista_incubadas.html
+Descripcion: Llama al template ver_lista_incubadas.html
 """
 @login_required
 def ver_lista_incubadas(request):
