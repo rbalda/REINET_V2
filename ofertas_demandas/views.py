@@ -78,7 +78,7 @@ def CrearOfertaCopia(request):
 		tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
 		oferta_tiempo = int(tiempo_disponilbe[0])
 
-		if tiempo_disponilbe[1] == 'Mes':
+		if tiempo_disponilbe[1] == 'Mes/es':
 			oferta_duracion = 0
 		else:
 			oferta_duracion = 1
@@ -195,7 +195,7 @@ def CrearDemandaCopia(request):
 		tags_json= json.dumps(tags)
 		args['demanda_tiempo']=demanda_tiempo
 		args['demanda_duracion']=demanda_duracion
-		args['demanda']=oferta
+		args['demanda']=demanda
 		args['tags']=tags_json
 		args.update(csrf(request))
 		return render(request,'crear_demanda.html',args)
