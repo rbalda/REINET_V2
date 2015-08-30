@@ -1,1 +1,105 @@
-crear_demanda_form1.html
+<div class="col-md-12">
+    <!--NOMBRES-->
+
+    <div class="form-group">
+        <label for="Nombres" class="col-md-2">Nombre</label>
+
+        <div class="col-md-6">
+
+            <input autofocus type="text" class="form-control" placeholder="Nombre de la Demanda"
+                   id="nombre" name="nombre_demanda"  data-trigger="focus"
+                   ng-model="demanda.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true" ng-blur="validarSubmit(forms.crear_demanda_form1)">
+            <span ng-show="forms.crear_demanda_form1.nombre_demanda.$error.pattern"><p class="bg-danger text-danger">Nombre de la demanda debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
+            <span ng-show="forms.crear_demanda_form1.nombre_demanda.$error.required" ng-if="!forms.crear_demanda_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+        </div>
+    </div>
+
+    <!--Descripicion-->
+    <div class="form-group">
+        <label for="descripcion-demanda" class="col-md-2">Descripci&oacute;n</label>
+        <div class="col-md-6">
+
+            <textarea id="descripcion_demanda" name="descripcion_demanda" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la demanda"
+                      ng-model="demanda.descripcion" ng-required="true" ng-blur="validarSubmit(forms.crear_demanda_form1)" ng-init="value='Probando'"></textarea>
+            <span ng-show="forms.crear_demanda_form1.descripcion_demanda.$error.required" ng-if="!forms.crear_demanda_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+        </div>
+    </div>
+    <!--Imagenes-->
+
+    <div class="form-group">
+        <label class="col-md-2">Im&aacute;genes</label>
+        <div class="col-md-8">
+
+<div flow-init="{target:'/CargarImagenDemanda/',testChunks:false,headers:setHead }"
+                flow-name="imagen.flow"
+                flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
+                flow-file-success="exitoSubida($file)"
+                >
+                
+                <div class="col-md-12 col-sm-12" style="left:-18px;">
+                    <span id="btn_cargar_imagen" class="btn btn-default btn-file" flow-btn style="margin:2px;">Cargar Im&aacute;genes</span>
+                </div>
+
+                <div class="alert col-md-9 col-sm-9 panel-footer" flow-drop flow-drag-enter="style={border:'4px dashed blue'}" flow-drag-leave="style={border:'3px dashed #C0C0C0'}" ng-style="style" style="border:3px dashed #C0C0C0;">
+                    <p class="text-muted"><b>O</b> arrastra tus im&aacute;genes aqu&iacute;</p>
+                </div>
+                <div class="row list-inline gallery-list col-md-10 col-sm-10" id="isotope-container">
+
+                    <div class="col-sm-4 col-md-4 isotope-item" ng-repeat="file in $flow.files" style="margin:5px;">
+                        <div class="gallery__item">
+                            <div class="gallery-thumbnail thumbnail">
+                                <button id="info_crear_close" type="button" class="close pull-right" ng-click="removerImagen(file,$index)" aria-label="Close" style="position:relative;right:-35px;"><span aria-hidden="true">&times;</span></button>
+                                <img flow-img="file" style="max-height: 140px; max-width: 150px;">
+                                <input class="form-control" type="text" ng-model="txt_imagen_lst[$index]" placeholder="Descripc&iacute;on" maxlength="35">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Dominio-->
+    <div class="form-group">
+        <label for="demanda-dominio" class="col-md-2">Dominio</label>
+        <div class="col-md-6">
+
+            <textarea type="text" class="form-control" id="demanda_dominio" name="demanda_dominio"
+                      placeholder="Ingresa el dominio de la demanda" rows="5"
+                      ng-model="demanda.dominio" ng-required="true" ng-blur="validarSubmit(forms.crear_demanda_form1)"></textarea>
+            <span ng-show="forms.crear_demanda_form1.demanda_dominio.$error.required" ng-if="!forms.crear_demanda_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+
+        </div>
+    </div>
+    <!--Sub dominio-->
+    <div class="form-group">
+        <label for="demanda_sub_dominio" class="col-md-2">Sub Dominio</label>
+        <div class="col-md-6">
+
+            <textarea type="text" class="form-control" id="demanda_sub_dominio" name="demanda_sub_dominio" placeholder="Ingresa el subdominio de la demanda" rows="5"
+                      ng-model="demanda.subdominio" ng-required="true" ng-blur="validarSubmit(forms.crear_demanda_form1)"></textarea>
+            <span ng-show="forms.crear_demanda_form1.demanda_sub_dominio.$error.required" ng-if="!forms.crear_demanda_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+        </div>
+    </div>
+    <!--Palabras Clave-->
+    <div class="form-group">
+        <label for="demanda_palabras_clave" class="col-md-2">Palabras Claves</label>
+        <div class="col-md-6">
+
+            <tags-input class="tags" name="demanda_tags" ng-model="demanda.tags" placeholder="Agrege palabras claves"></tags-input>
+
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <a href="#cliente_usuario"  aria-controls="messages" role="tab" data-toggle="tab">
+            <input type="button" class="btn btn-info pull-right" value="Siguiente">
+        </a>
+    </div>
+
+</div>

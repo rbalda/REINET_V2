@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from django.contrib.admin.utils import model_format_dict
 from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, ComentarioCalificacion, MiembroEquipo, PalabraClave, \
-    ImagenOferta
+    ImagenOferta, Demanda
 from usuarios.models import Perfil
 from rest_framework import serializers
 import json
@@ -136,3 +136,47 @@ class OfertaSerializador(ModelSerializer):
 
         return oferta
 
+
+
+class DemandaSerializador(ModelSerializer):
+    palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
+    tags = serializers.ListField(
+            child=serializers.CharField(),
+            required=False,allow_null=True
+    )
+
+    class Meta:
+        model = Demanda
+        fields = (
+            'id_demanda','codigo','estado','nombre','publicada','descripcion','dominio','subdominio',
+            'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
+            'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave')
+
+        read_only_fields = ('id_oferta','codigo','estado','fecha_publicacion','fecha_creacion',
+                            'palabras_clave','alcance')
+
+    def create(self,validated_data):
+        tags = validated_data.pop('tags',None)
+
+        nombre = validated_data['nombre']
+        demanda = Demanda.objects.create(codigo=crear_codigo(nombre),estado=1,fk_perfil=Perfil.objects.get(id=self.context['request'].user.id),**validated_data)
+        
+        if tags:
+            for d in tags:
+                aux = d.encode('utf-8','ignore')
+                palabra = aux.replace("{u'text': u'", "")
+                palabra = palabra.replace("'}","")
+                palabra = palabra.replace(" ",'')
+                palabra = palabra.lower()
+
+                try:
+                    tag = PalabraClave.objects.get(palabra=palabra)
+                    demanda.palabras_clave.add(tag)
+                except PalabraClave.DoesNotExist:
+                    palabra_clave = PalabraClave.objects.create(palabra=palabra)
+                    demanda.palabras_clave.add(palabra_clave)
+                except Exception as e:
+                    print type(e)
+                    print e
+
+        return demanda

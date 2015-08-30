@@ -1,1 +1,37 @@
-crear_demanda_form3.html
+<div class="col-md-12">
+    <!--Industria Competidores-->
+
+    <!--Tendencias-->
+    <div class="form-group">
+        <label for="Nombres" class="col-md-2">Importancia de Resolver la Necesidad</label>
+        <div class="col-md-6">
+
+            <textarea autofocus type="text" class="form-control" id="demanda_tendencias" name="demanda_tendencias" rows="4" placeholder="Describa la importancia de resolver la demanda"
+            ng-model="demanda.importancia_resolver_necesidad" ng-required="false"
+                    ></textarea>
+        </div>
+    </div>
+
+    <!--Alternativas de solucion-->
+    <div class="form-group">
+        <label for="Nombres" class="col-md-2">Alternativas de Soluci&oacute;n Existentes</label>
+        <div class="col-md-6">
+
+            <textarea autofocus type="text" class="form-control" id="demandas_alternativas_soluciones" name="demandas_alternativas_soluciones" rows="4" placeholder="Describa otras alternativas existentes a su demanda"
+                      ng-model="demanda.alternativas_soluciones_existentes" ng-required="false"
+                    ></textarea>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <br>
+
+        <a href="#esta_logro"  aria-controls="messages" role="tab" data-toggle="tab">
+            <input type="button" class="btn btn-info pull-right" value="Siguiente">
+        </a>
+
+        <a href="#cliente_usuario" aria-controls="messages" role="tab" data-toggle="tab">
+            <input type="button" class="btn btn-default pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;">
+        </a>
+    </div>
+</div>

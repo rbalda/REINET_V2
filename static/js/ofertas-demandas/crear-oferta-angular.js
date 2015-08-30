@@ -122,11 +122,12 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         for(var key in myObject) {
             if (myObject.hasOwnProperty(key)) {
                 return false;
-            }
-        }
+            };
+        };
 
         return true;
-    }
+    };
+
     var tags={};
     $scope.$watch('oferta.tags',function(palabra){
         console.log('dentro de watch palabras_clave');
@@ -137,7 +138,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
             console.log('tags'+tags);
             console.log(tags);
             $scope.oferta.tags = tags;
-        }
+        };
     });
 
 

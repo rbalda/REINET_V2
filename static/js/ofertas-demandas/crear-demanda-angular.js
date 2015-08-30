@@ -5,7 +5,7 @@ appdemanda.config(['flowFactoryProvider', function (flowFactoryProvider) {
 
 }]);
 
-appdemanda.controller('creardemandaFormController',['$scope','$rootScope','Demanda','$timeout','$window','$cookies','$compile',function($scope,$rootScope,Demanda,$timeout,$window,$cookies,$compile,flowFactoryProvider){
+appdemanda.controller('crearDemandaFormController',['$scope','$rootScope','Demanda','$timeout','$window','$cookies','$compile','Demanda',function($scope,$rootScope,Demanda,$timeout,$window,$cookies,$compile,flowFactoryProvider){
     // dentro del scope van modelos
 
     $scope.setHead = function (file, chunk, isTest) {
@@ -18,8 +18,7 @@ appdemanda.controller('creardemandaFormController',['$scope','$rootScope','Deman
     $scope.copia_demanda = $window.demanda_copia;
     $scope.copia_tags = $window.tags_copia;
 
-    $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
-    $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
+    $scope.items_date = [{tipo: "A\u00F1o/s", valor: 0 },{tipo: "Mes/es", valor: 1 }];
 
     $scope.demanda_id = 0;
     $scope.tipo = 0;
@@ -31,7 +30,7 @@ appdemanda.controller('creardemandaFormController',['$scope','$rootScope','Deman
     $scope.indexImagen = 0;
 
     var tiempo='1';
-    var duracion='A\u00F1o';
+    var duracion='A\u00F1o/s';
 
     if($scope.copia_demanda){
         var tipo = parseInt($scope.copia_demanda.tipo);
@@ -39,59 +38,37 @@ appdemanda.controller('creardemandaFormController',['$scope','$rootScope','Deman
         duracion = $window.demanda_duracion;
 
         if(duracion===1){
-            $scope.tiempo_tipo = 'A\u00F1o';
+            $scope.tiempo_tipo = 'A\u00F1o/s';
         }else{
-            $scope.tiempo_tipo = 'Mes';
+            $scope.tiempo_tipo = 'Mes/es';
         }
 
         $scope.tiempo_disponible = tiempo; 
 
         $scope.demanda2 = {
-            tipo : tipo,
             descripcion : $scope.copia_demanda.descripcion,
             dominio : $scope.copia_demanda.dominio,
             subdominio : $scope.copia_demanda.subdominio,
             perfil_beneficiario : $scope.copia_demanda.perfil_beneficiario,
             perfil_cliente : $scope.copia_demanda.perfil_cliente,
-            descripcion_soluciones_existentes : $scope.copia_demanda.descripcion_soluciones_existentes,
-            estado_propieada_intelectual : $scope.copia_demanda.estado_propieada_intelectual,
-            evidencia_traccion : $scope.copia_demanda.evidencia_traccion,
-            cuadro_tendencias_relevantes : $scope.copia_demanda.cuadro_tendencias_relevantes,
-
-            fk_diagrama_competidores : {
-                competidores : $scope.copia_demanda.poter_competidores,
-                sustitutos : $scope.copia_demanda.poter_sustitutos,
-                consumidores : $scope.copia_demanda.poter_consumidores,
-                proveedores : $scope.copia_demanda.poter_proveedores,
-                nuevosMiembros : $scope.copia_demanda.poter_nuevosMiembros
-            },
-
-            fk_diagrama_canvas : {
-                asociaciones_clave : $scope.copia_demanda.canvas_asociaciones_clave,
-                actividades_clave : $scope.copia_demanda.canvas_actividades_clave,
-                recursos_clave : $scope.copia_demanda.canvas_recursos_clave,
-                propuesta_valor : $scope.copia_demanda.canvas_propuesta_valor,
-                relacion_clientes : $scope.copia_demanda.canvas_relacion_clientes,
-                canales_distribucion : $scope.copia_demanda.canvas_canales_distribucion,
-                segmento_mercado : $scope.copia_demanda.canvas_segmento_mercado,
-                estructura_costos : $scope.copia_demanda.canvas_estructura_costos,
-                fuente_ingresos : $scope.copia_demanda.canvas_fuente_ingresos
-            }
+            alternativas_soluciones_existentes : $scope.copia_demanda.alternativas_soluciones_existentes,
+            importancia_resolver_necesidad : $scope.copia_demanda.importancia_resolver_necesidad,
+            lugar_donde_necesita : $scope.copia_demanda.lugar_donde_necesita
         };
         if($scope.demanda2!== undefined){
             $scope.demanda = new Demanda($scope.demanda2);    
-        }
+        };
         var tags=[];
         if($scope.copia_tags){
             for ( t in $scope.copia_tags){
                 tags.push({ text: $scope.copia_tags[t] });
-            }
+            };
             $scope.demanda.tags=tags;
-        }
+        };
 
     }else{
         console.log('copia demanda no existe');
-    }
+    };
 
 
     function isEmpty(myObject) {
@@ -214,7 +191,7 @@ appdemanda.controller('creardemandaFormController',['$scope','$rootScope','Deman
             $scope.demanda = new Demanda();
             $scope.tiempo_tipo="";
             $scope.tiempo_disponible=1;
-            $scope.info_crear_demanda = "demanda creada exitosamente";
+            $scope.info_crear_demanda = "Demanda creada exitosamente";
             $scope.hide=false;          
         },
         function(response){
@@ -233,7 +210,7 @@ appdemanda.controller('creardemandaFormController',['$scope','$rootScope','Deman
 }]);
 
 
-appdemanda.factory('demanda',['$resource',function($resource){
+appdemanda.factory('Demanda',['$resource',function($resource){
     return $resource("/api/demandas/:id/",{id:'@id'},{
         update:{
             method:'PUT'
@@ -242,15 +219,15 @@ appdemanda.factory('demanda',['$resource',function($resource){
 }]);
 
 
-appdemanda.controller('CargardemandasSelectController',['$scope','$http','urls',function($scope,$http,urls){
-    $http.get(urls.BASE_API+'/misdemandasAll/',{},{headers:{"Content-Type":"application/json"}})
+appdemanda.controller('CargarDemandasSelectController',['$scope','$http','urls',function($scope,$http,urls){
+    $http.get(urls.BASE_API+'/misDemandasAll/',{},{headers:{"Content-Type":"application/json"}})
     .success(function(response){
-        $scope.listademandas = response.results;
+        $scope.listaDemandas = response.results;
     }).error(function(){
         console.log('hubo un error en select demandas');
     });
 
-    $scope.selectdemandas = function(item){
+    $scope.selectDemandas = function(item){
         console.log(item);
     }
     

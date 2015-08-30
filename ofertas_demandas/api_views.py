@@ -7,15 +7,22 @@ from rest_framework import status
 from ofertas_demandas.models import Oferta, ImagenOferta
 from ofertas_demandas.models import Perfil
 from ofertas_demandas.models import PalabraClave
+from ofertas_demandas.models import *
 from ofertas_demandas.pagination import PaginacionPorDefecto
 from ofertas_demandas.pagination import PaginacionCinco
 from ofertas_demandas.pagination import NoPaginacion
 from ofertas_demandas.permissions import SiEsPropietarioOEstaEnAlcance
-from ofertas_demandas.serializers import OfertaSerializador
+from ofertas_demandas.serializers import OfertaSerializador, DemandaSerializador
 from rest_framework.response import Response
 
 
 __author__ = 'rbalda'
+
+class DemandaViewSet(ModelViewSet):
+    queryset = Demanda.objects.all()
+    serializer_class = DemandaSerializador
+    permission_classes = (IsAuthenticated,)
+    pagination_class = PaginacionCinco
 
 
 class OfertaViewSet(ModelViewSet):
