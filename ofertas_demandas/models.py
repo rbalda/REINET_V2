@@ -10,6 +10,11 @@ def definir_ruta_imagen(self, filename):
     nombre_archivo_hoy = "%s_%s" % (hoy, filename)
     return "ofertas/%s/galeria/%s" % (self.fk_oferta.codigo, nombre_archivo_hoy)
 
+def definir_ruta_imagen_demanda(self, filename):
+    hoy = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    nombre_archivo_hoy = "%s_%s" % (hoy, filename)
+    return "demandas/%s/galeria/%s" % (self.fk_demanda.codigo, nombre_archivo_hoy)
+
 class DiagramaPorter(models.Model):
     id_diagrama_porter = models.AutoField(primary_key=True)
     competidores = models.TextField(blank=True)
@@ -70,6 +75,31 @@ class Oferta(models.Model):
        # index_together = ['id_oferta','codigo']
 
 
+class Demanda(models.Model):
+    id_demanda = models.AutoField(primary_key=True)
+    codigo = models.SlugField(unique=True)
+    estado = models.PositiveSmallIntegerField() #Activo(1), Terminada(2), Desactiva(3) y Censurada(4)
+    nombre = models.CharField(max_length=300)
+    publicada = models.BooleanField(default=False)
+    descripcion = models.TextField()
+    dominio = models.TextField()
+    subdominio = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_publicacion = models.DateTimeField('Publicada',null=True,blank=True)
+    tiempo_para_estar_disponible = models.CharField(max_length=25)
+    perfil_beneficiario = models.TextField(null=True,blank=True)
+    perfil_cliente = models.TextField(null=True,blank=True)
+    alternativas_soluciones_existentes = models.TextField(null=True,blank=True)
+    lugar_donde_necesita = models.TextField(null=True,blank=True)
+    importancia_resolver_necesidad = models.TextField(null=True,blank=True)
+    fk_perfil = models.ForeignKey(Perfil)
+    palabras_clave = models.ManyToManyField('PalabraClave',related_name='demandas_con_esta_palabra')
+    alcance = models.ManyToManyField(Institucion,related_name='demandas_por_institucion')
+
+    class Meta:
+        db_table = 'Demanda'
+
+
 class MiembroEquipo(models.Model):
     id_equipo = models.AutoField(primary_key=True)
     fk_participante = models.ForeignKey(Perfil)
@@ -94,6 +124,15 @@ class ImagenOferta(models.Model):
 
     class Meta:
         db_table='ImagenOferta'
+
+class ImagenDemanda(models.Model):
+    id_imagen = models.AutoField(primary_key=True)
+    imagen = models.ImageField(upload_to=definir_ruta_imagen_demanda)
+    descripcion = models.TextField()
+    fk_demanda = models.ForeignKey(Demanda,related_name='galeria')
+
+    class Meta:
+        db_table='ImagenDemanda'
 
 
 class PalabraClave(models.Model):

@@ -2,52 +2,52 @@
 
 {% block sliderPagina %}CREAR OFERTA{% endblock %}
 {% block contenido %}
-<style>
-textarea { resize: none; }
-</style>
-<div class="container" ng-controller="crearOfertaFormController">
-<form  class="form-horizontal"  name="forms.crear_oferta_form1" id="crear_oferta_form1" novalidate> 
+    <style>
+        textarea { resize: none; }
+    </style>
+    <div class="container" ng-controller="crearOfertaFormController">
+        <form  class="form-horizontal"  name="forms.crear_oferta_form1" id="crear_oferta_form1" novalidate>
+        
+            <div class="row col-md-12">
+                <div align=right>
 
-    <div class="row col-md-12">
+                    <button href="#" class="btn btn-green" id="btn_crear_oferta" ng-disabled="validar_form" ng-click="guardar()"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+
+                    <a href="/InicioOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+
+                </div>
+            </div>
+
             <div align=right>
 
-                <button href="#" class="btn btn-green" id="btn_crear_oferta" ng-disabled="validar_form" ng-click="guardar()"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
-
-                <a href="/InicioOferta/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-
             </div>
-    </div>
 
-    <div align=right>
-              
-    </div>
- 
-    <div class="row">
+            <div class="row">
 
-              <div class="col-md-4 col-md-offset-4 alert alert-dismissible" ng-class="textType" style="text-align:center; margin-top:10px;" role="alert" ng-hide="hide" ng-cloak>
-              <button id="info_crear_close" type="button" class="close" ng-click="hide=true" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <p><span class="glyphicon" ng-class="iconoClass" aria-hidden="true"></span><strong>[[ info_crear_oferta]]</strong></p>
-              </div> 
+                <div class="col-md-4 col-md-offset-4 alert alert-dismissible" ng-class="textType" style="text-align:center; margin-top:10px;" role="alert" ng-hide="hide" ng-cloak>
+                    <button id="info_crear_close" type="button" class="close" ng-click="hide=true" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p><span class="glyphicon" ng-class="iconoClass" aria-hidden="true"></span><strong>[[ info_crear_oferta]]</strong></p>
+                </div>
 
 
-            <div class=" col-md-12">
-                  <!-- Nav tabs -->
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
-                    <li role="presentation" id="prueba">
-                        <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
-                    <li role="presentation">
-                        <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
-                    <li role="presentation">
-                        <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
-                    <li role="presentation">
-                        <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
-                  </ul>
+                <div class=" col-md-12">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
+                        <li role="presentation" id="prueba">
+                            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
+                        <li role="presentation">
+                            <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a></li>
+                        <li role="presentation">
+                            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
+                        <li role="presentation">
+                            <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado/Logros</a></li>
+                    </ul>
 
-                  <!-- Tab panes -->
-                  
-                  <div class="tab-content">
+                    <!-- Tab panes -->
+
+                    <div class="tab-content">
 
                         <div role="tabpanel" class="tab-pane active" id="informacion">
                             {% include "crear_oferta_form1.html" %}
@@ -70,11 +70,11 @@ textarea { resize: none; }
                         </div>
 
 
-                   </div>
+                    </div>
+
+                </div>
 
             </div>
-
-    </div>
     <script>
     var oferta_copia = undefined;
 
@@ -108,10 +108,12 @@ textarea { resize: none; }
 
       var tags_copia = {{ tags|safe }};
 
+      var oferta_tiempo = {{oferta_tiempo}};
+      var oferta_duracion = {{oferta_duracion}};
+
     {% endif %}
 
     </script>
-
+    
 </div>
-
-{% endblock%}
+{% endblock %}

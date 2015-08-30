@@ -22,7 +22,6 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from datetime import *
-
 from ofertas_demandas.models import *
 from ofertas_demandas.serializers import *
 
@@ -46,12 +45,20 @@ def InicioOferta(request):
 	return render_to_response('oferta_inicio.html',args)
 
 
+@login_required
+def InicioDemanda(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return HttpResponseRedirect('/NotFound/')
+
+
 """
 Autor: FaustoMora
-Nombre de funcion: crear_ofertas
+Nombre de funcion: CrearOfertaCopia
 Parametros: request
-Salida: 
-Descripcion: para llamar la pagina oferta inicio
+Salida: HttpResponseRedirect
+Descripcion: funcion para redireccion a crear_oferta_copia
 """
 @login_required
 def CrearOfertaCopia(request):
@@ -65,15 +72,34 @@ def CrearOfertaCopia(request):
 		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
 		tags = []
 		for t in palabra_clave:
+			aux_tag ={'text':t.palabra}
 			tags.append(t.palabra.encode('utf-8','ignore'))
 
+		tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
+		oferta_tiempo = int(tiempo_disponilbe[0])
+
+		if tiempo_disponilbe[1] == 'Mes':
+			oferta_duracion = 0
+		else:
+			oferta_duracion = 1
+
 		tags_json= json.dumps(tags)
+		args['oferta_tiempo']=oferta_tiempo
+		args['oferta_duracion']=oferta_duracion
 		args['oferta']=oferta
 		args['tags']=tags_json
 		args.update(csrf(request))
 		return render(request,'crear_oferta.html',args)
 	else:
 		return redirect('/CrearOferta/')
+
+"""
+Autor: FaustoMora
+Nombre de funcion: CrearOferta
+Parametros: request
+Salida: HttpResponseRedirect
+Descripcion: funcion para redireccion a crear_oferta
+"""
 
 @login_required
 def CrearOferta(request):
@@ -85,22 +111,130 @@ def CrearOferta(request):
 	return render(request,'crear_oferta.html',args)
 
 
+"""
+Autor: FaustoMora
+Nombre de funcion: CargarImagenOferta
+Parametros: request
+Salida: HttpResponse status
+Descripcion: funcion para upload de imagnes en crear oferta
+"""
+
 @login_required
 def CargarImagenOferta(request):
 	try:
+		print 'cargar oferta imagen'
 		imagen = ImagenOferta()
-		imagen.descripcion=request.GET['flowFilename']
-		oferta_id=request.GET['id_oferta']
-		imagen.fk_oferta = Oferta.objects.get(id_oferta=oferta_id)
-		imagen.imagen = request.GET['flowRelativePath']
+		descripcion = request.POST.get('descripcion',None)
+		descripcion = json.loads(descripcion)
+		if descripcion:
+			aux = request.POST['flowIdentifier']
+
+			for x in descripcion:
+				if x['value'] == aux:
+					imagen.descripcion=x['descripcion']
+		else:
+			imagen.descripcion=" "
+
+		id = request.POST['id_oferta']
+		imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
+		img = request.FILES['file']
+		imagen.imagen = img
 		imagen.save()
 		response = JsonResponse({'save_estado':True})
 		return HttpResponse(response.content)
 	except:
 		response = JsonResponse({'save_estado':False})
-		print 'fallo'
 		return HttpResponse(response.content)
 
+"""
+Autor: FaustoMora
+Nombre de funcion: crearDemanda
+Parametros: request
+Salida: HttpResponseRedirect
+Descripcion: funcion para redirect a crear demanda
+"""
+@login_required
+def CrearDemanda(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	args['demanda'] = None
+	args.update(csrf(request))
+	return render(request,'crear_demanda.html',args)
+
+
+"""
+Autor: FaustoMora
+Nombre de funcion: CrearDemandaCopia
+Parametros: request
+Salida: HttpResponseRedirect
+Descripcion: funcion para redireccion a crear_demanda_copia
+"""
+@login_required
+def CrearDemandaCopia(request):
+	if request.GET.get('select_demanda',False):
+		args = {}
+		args['es_admin']=request.session['es_admin']
+		args['usuario']=request.user
+		demanda_id = request.GET['select_demanda']
+		demanda = Demanda.objects.get(id_demanda=demanda_id)
+		palabra_clave = PalabraClaveDemanda.objects.filter(demandas_con_esta_palabra=demanda)
+		tags = []
+		for t in palabra_clave:
+			aux_tag ={'text':t.palabra}
+			tags.append(t.palabra.encode('utf-8','ignore'))
+
+		tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
+		demanda_tiempo = int(tiempo_disponilbe[0])
+
+		if tiempo_disponilbe[1] == 'Mes/es':
+			oferta_duracion = 0
+		else:
+			oferta_duracion = 1
+
+		tags_json= json.dumps(tags)
+		args['demanda_tiempo']=oferta_tiempo
+		args['demanda_duracion']=oferta_duracion
+		args['demanda']=oferta
+		args['tags']=tags_json
+		args.update(csrf(request))
+		return render(request,'crear_demanda.html',args)
+	else:
+		return redirect('/CrearOferta/')
+
+"""
+Autor: FaustoMora
+Nombre de funcion: CargarImagenDemanda
+Parametros: request
+Salida: HttpResponse status
+Descripcion: funcion para upload de imagnes en crear demanda
+"""
+
+@login_required
+def CargarImagenDemanda(request):
+	try:
+		imagen = ImagenDemanda()
+		descripcion = request.POST.get('descripcion',None)
+		descripcion = json.loads(descripcion)
+		if descripcion:
+			aux = request.POST['flowIdentifier']
+
+			for x in descripcion:
+				if x['value'] == aux:
+					imagen.descripcion=x['descripcion']
+		else:
+			imagen.descripcion=" "
+
+		id = request.POST['id_demanda']
+		imagen.fk_demanda = Demanda.objects.get(id_demanda=id)
+		img = request.FILES['file']
+		imagen.imagen = img
+		imagen.save()
+		response = JsonResponse({'save_estado':True})
+		return HttpResponse(response.content)
+	except:
+		response = JsonResponse({'save_estado':False})
+		return HttpResponse(response.content)
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
@@ -145,11 +279,17 @@ def verCualquierOferta(request, id_oferta):
 			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
 			args['miComentario'] = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, fk_usuario_id=usuario).count
 			calificacionOferta = oferta.calificacion_total
+			try:
+				palabras_claves = oferta.palabras_clave.all()
+			except Exception as e:
+				palabras_claves =  ["Null", "Null", "Null", "Null"]
+
 
 		args.update(csrf(request))
 		args['participantes'] = participantes
+		args['palabras_claves'] = palabras_claves
 		args['comentariosOferta'] = comentariosOferta
-		args['calificacionOferta'] = range(int(calificacionOferta))
+		args['calificacionOferta'] = str(calificacionOferta)
 		args['propietario'] = propietario
 		return render_to_response('oferta_ver_otra.html',args)
 
@@ -162,7 +302,7 @@ def verCualquierOferta(request, id_oferta):
 Autor: Pedro Iniguez
 Nombre de funcion: administrarOferta
 Parametros: request
-Salida: 
+Salida:
 Descripcion: funcion para administrar mi oferta publicada.
 """
 
@@ -198,6 +338,12 @@ def administrar_Oferta(request, id_oferta):
 	participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1,activo =1)
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
+	try:
+		palabras_claves = oferta.palabras_clave.all()
+	except Exception as e:
+		palabras_claves =  ["Null", "Null", "Null", "Null"]
+
+	args['palabras_claves'] = palabras_claves
 	args['comentariosPendientes'] = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=0)
 	args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
 	args.update(csrf(request))
@@ -205,7 +351,7 @@ def administrar_Oferta(request, id_oferta):
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	calificacionOferta = oferta.calificacion_total
-	args['calificacionOferta'] = range(int(calificacionOferta))
+	args['calificacionOferta'] = str(calificacionOferta)
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
 	return render_to_response('administrar_oferta.html',args)
@@ -214,7 +360,7 @@ def administrar_Oferta(request, id_oferta):
 Autor: Pedro Iniguez
 Nombre de funcion: administarBorrador
 Parametros: request
-Salida: 
+Salida:
 Descripcion: funcion para administrar mi oferta publicada.
 """
 

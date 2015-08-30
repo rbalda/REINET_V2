@@ -3,70 +3,70 @@
 
 {% block sliderPagina %}BORRADOR DE OFERTA {% endblock %}
 {% block contenido %}
-<div class="container">
+    <div class="container">
     <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                <div class="col-md-6 col-xs-6" align="left" style="padding-left: 0px;">
-                      <h4>{{ oferta.nombre }}</h4>
-                      <ul class="text-muted list-inline">
-                          <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ dueno }}</a></li>
-                          <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
-                      </ul>
-                 </div>
-                <div class="col-md-6 col-xs-6" align="right" style="padding-top: 15px;padding-right: 0px;">
-                     <a href="/EditarBorrador/{{oferta.id_oferta}}" class="btn btn-green">
-                        <i class="fa fa-pencil"></i>
-                        Editar
-                      </a>
-                      <a href="#" class="btn btn-green" data-toggle="modal" data-target="#aceptarPublicar">
-                        <i class="fa fa-globe"></i>
-                        Publicar
-                      </a>
-                      <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#aceptarEliminar">
-                        <i class="fa fa-trash-o"></i>
-                        Eliminar
-                      </a>
-                      <p class="text-muted" style="font-size:11px"><br>*Esta oferta no se encuentra publicada en la red</p><p>
-                </p></div>
-          </div>
-          <div id="aceptarPublicar" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-              <div class="modal-content">
+        <div class="col-md-6 col-xs-6" align="left" style="padding-left: 0px;">
+            <h4>{{ oferta.nombre }}</h4>
+            <ul class="text-muted list-inline">
+                <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ dueno }}</a></li>
+                <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
+            </ul>
+        </div>
+        <div class="col-md-6 col-xs-6" align="right" style="padding-top: 15px;padding-right: 0px;">
+            <a href="/EditarBorrador/{{oferta.id_oferta}}" class="btn btn-green">
+                <i class="fa fa-pencil"></i>
+                Editar
+            </a>
+            <a href="#" class="btn btn-green" data-toggle="modal" data-target="#aceptarPublicar">
+                <i class="fa fa-globe"></i>
+                Publicar
+            </a>
+            <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#aceptarEliminar">
+                <i class="fa fa-trash-o"></i>
+                Eliminar
+            </a>
+            <p class="text-muted" style="font-size:11px"><br>*Esta oferta no se encuentra publicada en la red</p><p>
+        </p></div>
+    </div>
+    <div id="aceptarPublicar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Advertencia</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Advertencia</h4>
                 </div>
                 <div class="modal-body">
-                  <p>Una vez publicada una oferta, &eacute;sta no podr&aacute; ser modificada.</p>
-                  <p>¿Desea continuar?</p>
+                    <p>Una vez publicada una oferta, &eacute;sta no podr&aacute; ser modificada.</p>
+                    <p>¿Desea continuar?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                  <a href="/publicarBorrador/{{ oferta.id_oferta }}" type="button" class="btn btn-green">Aceptar</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <a href="/publicarBorrador/{{ oferta.id_oferta }}" type="button" class="btn btn-green">Aceptar</a>
                 </div>
-              </div>
-
             </div>
-          </div>
 
-          <div id="aceptarEliminar" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-              <div class="modal-content">
+        </div>
+    </div>
+
+    <div id="aceptarEliminar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Advertencia</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Advertencia</h4>
                 </div>
                 <div class="modal-body">
-                  <p>Una vez eliminada un borrador de una oferta, &eacute;ste no se podr&aacute; recuperar.</p>
-                  <p>¿Desea eliminarlo?</p>
+                    <p>Una vez eliminada un borrador de una oferta, &eacute;ste no se podr&aacute; recuperar.</p>
+                    <p>¿Desea eliminarlo?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                  <a href="/eliminarBorrador/{{ oferta.id_oferta }}" type="button" class="btn btn-green">Aceptar</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <a href="/eliminarBorrador/{{ oferta.id_oferta }}" type="button" class="btn btn-green">Aceptar</a>
                 </div>
-              </div>
-
             </div>
-          </div>
+
+        </div>
+    </div>
 
     <div class="col-md-12">
         <div class="col-md-8" style="padding-left: 0px;">
@@ -99,22 +99,22 @@
                                         <p class="text-center"><strong class="text-muted">Galeria</strong></p>
                                         <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
                                     </div>
-                                    <div class="body-inverse">                                      
+                                    <div class="body-inverse">
                                         <ul class="row list-inline gallery-list-small" style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
                                             <li class="col-xs-6">
-                                              <a href="#">
-                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
-                                              </a>
+                                                <a href="#">
+                                                    <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
+                                                </a>
                                             </li>
                                             <li class="col-xs-6">
-                                              <a href="#">
-                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg" alt="...">
-                                              </a>
+                                                <a href="#">
+                                                    <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg" alt="...">
+                                                </a>
                                             </li>
                                             <li class="col-xs-6">
-                                              <a href="#">
-                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg" alt="...">
-                                              </a>
+                                                <a href="#">
+                                                    <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg" alt="...">
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -124,22 +124,21 @@
                                 <!--Tipo-->
                                 <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
                                 <p>{{ oferta.tipo }}</label>
-                                <!--Descripcion-->
+                                    <!--Descripcion-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
                                 <p>{{ oferta.descripcion }} </p>
                                 <!--Dominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
                                 <p>{{ oferta.dominio }}</label>
-                                <!--Subdominio-->
+                                    <!--Subdominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
                                 <p>{{ oferta.subdominio }}</label>
-                                <!--Palabras Clave-->
+                                    <!--Palabras Clave-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
                                 <p class="tags">
-                                    <a >Industria</a>
-                                    <a >Autos</a>
-                                    <a >Startup</a>
-                                    <a>Espol</a>
+                                    {% for tag in palabras %}
+                                    <a>{{ tag.palabra }}</a>    
+                                    {% endfor %}
                                 </p>
                             </div>
                         </div>
@@ -152,7 +151,7 @@
                             <!--Perfil Beneficiario-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
                             <p class="col-md-9">{{ oferta.perfil_beneficiario }} </p>
-                        </div>  
+                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="modelo">
                         <div class="col-md-12">
@@ -162,36 +161,36 @@
 
                             <div class="col-md-12 table-responsive" style="font-size: 12px;">
                                 <table class="table table-bordered" >
-                                      <tr>
-                                         <th>Socios clave</th>
-                                         <th>Actividades clave</th>
-                                         <th>Propuestas de valor</th>
-                                         <th>Relaciones con los clientes</th>
-                                         <th>Segementos de clientes</th>
-                                      </tr>
-                                      <tr>
-                                         <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
-                                         <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
-                                         <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
-                                         <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
-                                         <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
-                                      </tr>
-                                      <tr>
+                                    <tr>
+                                        <th>Socios clave</th>
+                                        <th>Actividades clave</th>
+                                        <th>Propuestas de valor</th>
+                                        <th>Relaciones con los clientes</th>
+                                        <th>Segementos de clientes</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
+                                        <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
+                                        <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
+                                        <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
+                                        <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
+                                    </tr>
+                                    <tr>
                                         <th>Recursos Claves</th>
                                         <th>Canales</th>
-                                      </tr>
-                                      <tr>
-                                         <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
-                                         <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
-                                      </tr>
-                                      <tr>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
+                                        <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
+                                    </tr>
+                                    <tr>
                                         <th colspan=3>Estructura de Costos</th>
                                         <th colspan=2>Fuentes de Ingresos</th>
-                                      </tr>
-                                      <tr>
-                                         <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
-                                         <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
-                                      </tr>
+                                    </tr>
+                                    <tr>
+                                        <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
+                                        <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
+                                    </tr>
                                 </table>
 
                             </div>
@@ -204,7 +203,7 @@
                             <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
                             <br>
                             <p class="col-md-12">{{ oferta.cuadro_tendencias_relevantes }} </p>
-                             <!--Alternativas de solucion-->
+                            <!--Alternativas de solucion-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</p>
                             <br>
                             <p class="col-md-12">{{ oferta.descripcion_soluciones_existentes }} </p>
@@ -214,20 +213,20 @@
 
                             <div class="col-md-12 table-responsive" style="font-size: 12px;">
                                 <table class="table table-bordered" >
-                                       <tr>
-                                         <th>Competidores</th>
-                                         <th>Poder de consumidores</th>
-                                         <th>Sustitutos</th>
-                                         <th>Poder de proveedores</th>
-                                         <th>Nuevos entrantes</th>
-                                      </tr>
-                                      <tr>
-                                         <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
-                                         <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
-                                         <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
-                                         <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
-                                         <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
-                                      </tr>
+                                    <tr>
+                                        <th>Competidores</th>
+                                        <th>Poder de consumidores</th>
+                                        <th>Sustitutos</th>
+                                        <th>Poder de proveedores</th>
+                                        <th>Nuevos entrantes</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
+                                        <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
+                                        <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
+                                        <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
+                                        <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
+                                    </tr>
                                 </table>
                             </div>
 
@@ -238,7 +237,7 @@
                         <div class="col-md-12">
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del producto o servicio</p>
                             <p>{{ oferta.tiempo_para_estar_disponible }}</p>
-                            
+
                             <br>
                             <!--Estado del producto o servicio-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
@@ -260,14 +259,14 @@
                 </div>
             </div>
             <br>
-        </div>      
-       
+        </div>
+
     </div>
-</div>
+    </div>
 
 
 
 
-</div>
+    </div>
 
 {% endblock %}      
