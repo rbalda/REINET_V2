@@ -46,12 +46,19 @@ def ver_incubaciones(request):
 	return render_to_response('admin_incubacion_inicio.html',args)
 
 
+"""
+Autor: Sixto Castro
+Nombre de funcion: ver_lista_incubadas
+Parametros: request
+Salida:
+Descripcion: Función que llama la pagina ver_lista_incubadas.html
+"""
 @login_required
-def ver_incubadas(request):
+def ver_lista_incubadas(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	return render_to_response('ver_incubadas.html',args)
+	return render_to_response('ver_lista_incubadas.html',args)
 
 
 
