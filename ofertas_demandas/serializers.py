@@ -150,10 +150,10 @@ class DemandaSerializador(ModelSerializer):
         fields = (
             'id_demanda','codigo','estado','nombre','publicada','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
-            'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave')
+            'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave','comentarios')
 
         read_only_fields = ('id_oferta','codigo','estado','fecha_publicacion','fecha_creacion',
-                            'palabras_clave','alcance')
+                            'palabras_clave','alcance','comentarios')
 
     def create(self,validated_data):
         tags = validated_data.pop('tags',None)

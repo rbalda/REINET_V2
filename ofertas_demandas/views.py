@@ -178,7 +178,7 @@ def CrearDemandaCopia(request):
 		args['usuario']=request.user
 		demanda_id = request.GET['select_demanda']
 		demanda = Demanda.objects.get(id_demanda=demanda_id)
-		palabra_clave = PalabraClaveDemanda.objects.filter(demandas_con_esta_palabra=demanda)
+		palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
 		tags = []
 		for t in palabra_clave:
 			aux_tag ={'text':t.palabra}
@@ -188,13 +188,13 @@ def CrearDemandaCopia(request):
 		demanda_tiempo = int(tiempo_disponilbe[0])
 
 		if tiempo_disponilbe[1] == 'Mes/es':
-			oferta_duracion = 0
+			demanda_duracion = 0
 		else:
-			oferta_duracion = 1
+			demanda_duracion = 1
 
 		tags_json= json.dumps(tags)
-		args['demanda_tiempo']=oferta_tiempo
-		args['demanda_duracion']=oferta_duracion
+		args['demanda_tiempo']=demanda_tiempo
+		args['demanda_duracion']=demanda_duracion
 		args['demanda']=oferta
 		args['tags']=tags_json
 		args.update(csrf(request))
