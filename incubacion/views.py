@@ -81,3 +81,16 @@ def crear_incubacion(request):
 		return render_to_response('admin_crear_incubacion.html',args)
 	else:
 		return redirect('/CrearIncubacion/')
+
+"""
+Autor: Henry Lasso
+Nombre de funcion: Editar_Incubacion
+Parametros: request
+Salida: 
+Descripcion: Mostar template editar mi incubacion
+"""
+
+@login_required
+def editar_mi_incubacion(request):
+	args={}
+	return render_to_response('admin_editar_mi_incubacion.html',args)
