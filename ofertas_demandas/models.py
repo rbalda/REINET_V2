@@ -95,6 +95,8 @@ class Demanda(models.Model):
     fk_perfil = models.ForeignKey(Perfil)
     palabras_clave = models.ManyToManyField('PalabraClave',related_name='demandas_con_esta_palabra')
     alcance = models.ManyToManyField(Institucion,related_name='demandas_por_institucion')
+    comentarios = models.ManyToManyField(Perfil,through='ComentarioDemanda',through_fields=('fk_demanda','fk_usuario'),related_name='usuarios_que_cpmentaron')
+
 
     class Meta:
         db_table = 'Demanda'
@@ -153,6 +155,18 @@ class ComentarioCalificacion(models.Model):
     fk_usuario = models.ForeignKey(Perfil)
 
     class Meta:
-        db_table= 'ComentarioCalificacion'
+        db_table= 'ComentarioCalificacionOferta'
+
+
+class ComentarioDemanda(models.Model):
+    id_comentario_calificacion = models.AutoField(primary_key=True)
+    comentario = models.TextField(null=True)
+    estado_comentario = models.SmallIntegerField(default=0)
+    fecha_comentario = models.DateTimeField()
+    fk_demanda = models.ForeignKey(Demanda)
+    fk_usuario = models.ForeignKey(Perfil)
+
+    class Meta:
+        db_table= 'ComentarioDemanda'
 
 
