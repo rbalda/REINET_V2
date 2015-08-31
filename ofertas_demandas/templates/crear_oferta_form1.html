@@ -44,13 +44,14 @@
         <label class="col-md-2">Im&aacute;genes</label>
         <div class="col-md-8">
 
-<div flow-init="{target:'/api/ofertas/'+oferta_id+'/subir_imagen/',testChunks:false,headers:setHead }" 
+<div flow-init="{target:'/CargarImagenOferta/',testChunks:false,headers:setHead }"
                 flow-name="imagen.flow"
                 flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
-                flow-file-success="$file.cancel()"
+                flow-file-success="exitoSubida($file)"
                 >
+                
                 <div class="col-md-12 col-sm-12" style="left:-18px;">
-                    <span class="btn btn-default btn-file" flow-btn style="margin:2px;">Cargar Im&aacute;genes</span>
+                    <span id="btn_cargar_imagen" class="btn btn-default btn-file" flow-btn style="margin:2px;">Cargar Im&aacute;genes</span>
                 </div>
 
                 <div class="alert col-md-9 col-sm-9 panel-footer" flow-drop flow-drag-enter="style={border:'4px dashed blue'}" flow-drag-leave="style={border:'3px dashed #C0C0C0'}" ng-style="style" style="border:3px dashed #C0C0C0;">
@@ -61,11 +62,9 @@
                     <div class="col-sm-4 col-md-4 isotope-item" ng-repeat="file in $flow.files" style="margin:5px;">
                         <div class="gallery__item">
                             <div class="gallery-thumbnail thumbnail">
-                                <button id="info_crear_close" type="button" class="close pull-right" ng-click="file.cancel();" aria-label="Close" style="position:relative;right:-35px;"><span aria-hidden="true">&times;</span></button>
+                                <button id="info_crear_close" type="button" class="close pull-right" ng-click="removerImagen(file,$index)" aria-label="Close" style="position:relative;right:-35px;"><span aria-hidden="true">&times;</span></button>
                                 <img flow-img="file" style="max-height: 140px; max-width: 150px;">
-                            </div>
-                            <div class="gallery-text" style="word-wrap:break-word;">
-                                [[file.name]]
+                                <input class="form-control" type="text" ng-model="txt_imagen_lst[$index]" placeholder="Descripc&iacute;on" maxlength="35">
                             </div>
                         </div>
                     </div>

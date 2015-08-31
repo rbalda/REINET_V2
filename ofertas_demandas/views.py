@@ -22,7 +22,6 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from datetime import *
-
 from ofertas_demandas.models import *
 from ofertas_demandas.serializers import *
 
@@ -46,12 +45,20 @@ def InicioOferta(request):
 	return render_to_response('oferta_inicio.html',args)
 
 
+@login_required
+def InicioDemanda(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return HttpResponseRedirect('/NotFound/')
+
+
 """
 Autor: FaustoMora
-Nombre de funcion: crear_ofertas
+Nombre de funcion: CrearOfertaCopia
 Parametros: request
-Salida: 
-Descripcion: para llamar la pagina oferta inicio
+Salida: HttpResponseRedirect
+Descripcion: funcion para redireccion a crear_oferta_copia
 """
 @login_required
 def CrearOfertaCopia(request):
@@ -71,7 +78,7 @@ def CrearOfertaCopia(request):
 		tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
 		oferta_tiempo = int(tiempo_disponilbe[0])
 
-		if tiempo_disponilbe[1] == 'Mes':
+		if tiempo_disponilbe[1] == 'Mes/es':
 			oferta_duracion = 0
 		else:
 			oferta_duracion = 1
@@ -86,6 +93,14 @@ def CrearOfertaCopia(request):
 	else:
 		return redirect('/CrearOferta/')
 
+"""
+Autor: FaustoMora
+Nombre de funcion: CrearOferta
+Parametros: request
+Salida: HttpResponseRedirect
+Descripcion: funcion para redireccion a crear_oferta
+"""
+
 @login_required
 def CrearOferta(request):
 	args = {}
@@ -95,6 +110,131 @@ def CrearOferta(request):
 	args.update(csrf(request))
 	return render(request,'crear_oferta.html',args)
 
+
+"""
+Autor: FaustoMora
+Nombre de funcion: CargarImagenOferta
+Parametros: request
+Salida: HttpResponse status
+Descripcion: funcion para upload de imagnes en crear oferta
+"""
+
+@login_required
+def CargarImagenOferta(request):
+	try:
+		print 'cargar oferta imagen'
+		imagen = ImagenOferta()
+		descripcion = request.POST.get('descripcion',None)
+		descripcion = json.loads(descripcion)
+		if descripcion:
+			aux = request.POST['flowIdentifier']
+
+			for x in descripcion:
+				if x['value'] == aux:
+					imagen.descripcion=x['descripcion']
+		else:
+			imagen.descripcion=" "
+
+		id = request.POST['id_oferta']
+		imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
+		img = request.FILES['file']
+		imagen.imagen = img
+		imagen.save()
+		response = JsonResponse({'save_estado':True})
+		return HttpResponse(response.content)
+	except:
+		response = JsonResponse({'save_estado':False})
+		return HttpResponse(response.content)
+
+"""
+Autor: FaustoMora
+Nombre de funcion: crearDemanda
+Parametros: request
+Salida: HttpResponseRedirect
+Descripcion: funcion para redirect a crear demanda
+"""
+@login_required
+def CrearDemanda(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	args['demanda'] = None
+	args.update(csrf(request))
+	return render(request,'crear_demanda.html',args)
+
+
+"""
+Autor: FaustoMora
+Nombre de funcion: CrearDemandaCopia
+Parametros: request
+Salida: HttpResponseRedirect
+Descripcion: funcion para redireccion a crear_demanda_copia
+"""
+@login_required
+def CrearDemandaCopia(request):
+	if request.GET.get('select_demanda',False):
+		args = {}
+		args['es_admin']=request.session['es_admin']
+		args['usuario']=request.user
+		demanda_id = request.GET['select_demanda']
+		demanda = Demanda.objects.get(id_demanda=demanda_id)
+		palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
+		tags = []
+		for t in palabra_clave:
+			aux_tag ={'text':t.palabra}
+			tags.append(t.palabra.encode('utf-8','ignore'))
+
+		tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
+		demanda_tiempo = int(tiempo_disponilbe[0])
+
+		if tiempo_disponilbe[1] == 'Mes/es':
+			demanda_duracion = 0
+		else:
+			demanda_duracion = 1
+
+		tags_json= json.dumps(tags)
+		args['demanda_tiempo']=demanda_tiempo
+		args['demanda_duracion']=demanda_duracion
+		args['demanda']=demanda
+		args['tags']=tags_json
+		args.update(csrf(request))
+		return render(request,'crear_demanda.html',args)
+	else:
+		return redirect('/CrearOferta/')
+
+"""
+Autor: FaustoMora
+Nombre de funcion: CargarImagenDemanda
+Parametros: request
+Salida: HttpResponse status
+Descripcion: funcion para upload de imagnes en crear demanda
+"""
+
+@login_required
+def CargarImagenDemanda(request):
+	try:
+		imagen = ImagenDemanda()
+		descripcion = request.POST.get('descripcion',None)
+		descripcion = json.loads(descripcion)
+		if descripcion:
+			aux = request.POST['flowIdentifier']
+
+			for x in descripcion:
+				if x['value'] == aux:
+					imagen.descripcion=x['descripcion']
+		else:
+			imagen.descripcion=" "
+
+		id = request.POST['id_demanda']
+		imagen.fk_demanda = Demanda.objects.get(id_demanda=id)
+		img = request.FILES['file']
+		imagen.imagen = img
+		imagen.save()
+		response = JsonResponse({'save_estado':True})
+		return HttpResponse(response.content)
+	except:
+		response = JsonResponse({'save_estado':False})
+		return HttpResponse(response.content)
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
