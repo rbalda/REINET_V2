@@ -10,12 +10,6 @@ urlpatterns = patterns('',
 		url(r'^CrearOfertaCopia[/]?$','ofertas_demandas.views.CrearOfertaCopia', name='CrearOfertaCopia'),	
 		url(r'^CargarImagenOferta[/]?$','ofertas_demandas.views.CargarImagenOferta', name='CargarImagenOferta'),
 
-		url(r'^InicioDemanda[/]?$','ofertas_demandas.views.InicioDemanda', name='InicioDemanda'),
-		url(r'^CrearDemanda[/]?$','ofertas_demandas.views.CrearDemanda', name='CrearDemanda'),
-		url(r'^CrearDemandaCopia[/]?$','ofertas_demandas.views.CrearDemandaCopia', name='CrearDemandaCopia'),	
-		url(r'^CargarImagenDemanda[/]?$','ofertas_demandas.views.CargarImagenDemanda', name='CargarImagenDemanda'),	
-
-
 		url(r'^oferta/(?P<id_oferta>\w{0,250})[/]?$','ofertas_demandas.views.verCualquierOferta', name='verOferta'),
 		url(r'^administrarOferta/(?P<id_oferta>\w{0,250})[/]?$','ofertas_demandas.views.administrar_Oferta', name='AdministrarOferta'),
 		url(r'^administrarBorrador/(?P<id_oferta>\w{0,250})[/]?$','ofertas_demandas.views.administrar_Borrador', name='administrarBorrador'),
@@ -39,6 +33,13 @@ urlpatterns = patterns('',
 		url(r'^aceptarComentario/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.aceptarComentario', name='aceptarComentario'),
         url(r'^rechazarComentario/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.rechazarComentario', name='rechazarComentario'),
 
+        url(r'^InicioDemanda[/]?$','ofertas_demandas.views.InicioDemanda', name='InicioDemanda'),
+		url(r'^CrearDemanda[/]?$','ofertas_demandas.views.CrearDemanda', name='CrearDemanda'),
+		url(r'^CrearDemandaCopia[/]?$','ofertas_demandas.views.CrearDemandaCopia', name='CrearDemandaCopia'),
+		url(r'^CargarImagenDemanda[/]?$','ofertas_demandas.views.CargarImagenDemanda', name='CargarImagenDemanda'),
+        url(r'^demanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.verCualquierDemanda', name='verDemanda'),
+        url(r'^listaComentariosAceptadosDemandas[/]?$', 'ofertas_demandas.views.listaComentariosAceptadosDemandas', name='listaComentariosAceptados'),
+         url(r'^enviarComentarioDemanda[/]?$', 'ofertas_demandas.views.enviarComentarioDemanda', name='enviarComentario'),
 		)
 
 urlpatterns += routers.ofertas_routers
