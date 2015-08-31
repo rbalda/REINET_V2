@@ -200,7 +200,7 @@ def CrearDemandaCopia(request):
 		args.update(csrf(request))
 		return render(request,'crear_demanda.html',args)
 	else:
-		return redirect('/CrearOferta/')
+		return redirect('/CrearDemanda/')
 
 """
 Autor: FaustoMora
@@ -981,3 +981,117 @@ def enviarComentario(request):
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/')
+
+
+
+"""
+Autor: Rolando Sornoza
+Nombre de funcion: verCualquierDemaanda
+Parametros: request
+Salida: http
+Descripcion: funcion para ver una demanda publicada
+"""
+@login_required
+def verCualquierDemanda(request, id_demanda):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+		try:
+			demanda = Demanda.objects.get(id_demanda = id_demanda)
+			args['demanda'] = demanda
+		except:
+			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
+
+
+		if demanda.publicada == 1 :
+			args.update(csrf(request))
+			args['mensaje_error'] = "La demanda "+demanda.nombre+", no esta actualmente publicada."
+			return render_to_response('problema_oferta.html',args)
+
+		else:
+			propietario = demanda.fk_perfil
+			comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
+			args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario_id=usuario).count
+			try:
+				palabras_claves = demanda.palabras_clave.all()
+			except Exception as e:
+				palabras_claves =  ["Null", "Null", "Null", "Null"]
+
+
+		args.update(csrf(request))
+		args['palabras_claves'] = palabras_claves
+		args['comentariosDemanda'] = comentariosDemanda
+		args['propietario'] = propietario
+		return render_to_response('demanda_ver_otra.html',args)
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+"""
+Autor: Andres Sornoza
+Nombre de funcion: enviarComentarioDemanda
+Parametros: request
+Salida:
+Descripcion: crea un comentario de una demanda con estado_comentario=0, es decir pendiente
+"""
+@login_required
+def enviarComentarioDemanda(request):"""
+	if request.method=="POST":
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
+			usuario = Perfil.objects.get(id=request.user.id)
+			calificacion = request.POST['calificacion']
+			mensaje = request.POST['comentario_peticion']
+			comentario = ComentarioCalificacion()
+			comentario.calificacion = calificacion
+			comentario.comentario = mensaje
+			comentario.estado_comentario=0
+			comentario.fecha_comentario = datetime.datetime.now()
+			comentario.fk_oferta = oferta
+			comentario.fk_usuario = usuario
+			comentario.save()
+			promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
+			oferta.calificacion_total = promedio_calificacion["average_cal"]
+			oferta.save()
+			response = JsonResponse({})
+			return HttpResponse(response.content)
+		except Exception as e:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return redirect('/')"""
+
+"""
+Autor: Andres Sornoza
+Nombre de la funcion: listaComentariosAceptadosDemandas
+Entrada:
+Salida: Muestra la lista de Comentarios Aceptados de una demanda
+Descripción:Esta función permite mostrar el listado de comentarios aceptados de una oferta
+"""
+@login_required
+def listaComentariosAceptadosDemandas(request):
+	"""print 'listaComentariosAceptadosDemandas :: ajax con id '+ request.GET['oferta']
+	if request.is_ajax():
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaComentarios= ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta)
+			args['listaComentarios'] = listaComentarios
+			args['oferta']=oferta
+			args.update(csrf(request))
+			return render(request,'comentario_oferta.html',args)
+		except Oferta.DoesNotExist:
+			print '>> Oferta no existe'
+		except ComentarioCalificacion.DoesNotExist:
+			print '>> Comentario no existe'
+		except:
+			print '>> Excepcion no controlada'
+	else:
+		return redirect('/NotFound')"""
+
