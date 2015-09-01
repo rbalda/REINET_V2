@@ -94,3 +94,18 @@ Descripcion: Mostar template editar mi incubacion
 def editar_mi_incubacion(request):
 	args={}
 	return render_to_response('admin_editar_mi_incubacion.html',args)
+
+"""
+Autor: Estefania Lozano
+Nombre de funcion: admin_ver_incubada
+Parametros: request
+Salida: 
+Descripcion: Mostar template editar mi incubacion
+"""
+
+@login_required
+def admin_ver_incubada(request):
+	args={}
+	return render_to_response('admin_ver_incubada.html',args)
+
+
