@@ -231,3 +231,283 @@ appdemanda.controller('CargarDemandasSelectController',['$scope','$http','urls',
     
 }]);
 
+
+
+
+//INICIO DEMANDAS
+
+function getQueryVariable(variable, url) {
+    var query = url;
+    var vars = query.split("page=");
+    console.log(query);
+    if (vars[1]!=null){
+        return vars[1];
+    }
+    return "1";
+}
+
+//CONTROLADOR LISTA OFERTAS DE LA RED
+appdemanda.controller('OfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    $http.get(urls.BASE_API+'/ofertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.pagina = 1;
+        $scope.listaOfertas = response.results;
+        $scope.contador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.siguiente = urls.BASE_API+'/ofertas/?page=1';
+        }else{
+            $scope.siguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.anterior = urls.BASE_API+'/ofertas/?page=' + $scope.contador;
+        }else{
+            $scope.anterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguiente = function(){
+        $http.get($scope.siguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.pagina = getQueryVariable('page', $scope.siguiente);
+            $scope.listaOfertas = response.results;
+            $scope.contador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.siguiente = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.siguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.anterior = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.contador;
+            }else{
+                $scope.anterior=response.previous;
+            }
+            console.log('buscando: ' + $scope.busqueda_ofertas);
+            console.log($scope.siguiente);
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.irAlanterior = function(){
+        $http.get($scope.anterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.pagina = getQueryVariable('page', $scope.anterior);
+            $scope.listaOfertas = response.results;
+            $scope.contador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.siguiente = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.siguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.anterior = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.contador;
+            }else{
+                $scope.anterior=response.previous;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.$on('buscando', function(){
+        $http.get(urls.BASE_API+'/ofertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.pagina = 1;
+            $scope.listaOfertas = response.results;
+            $scope.contador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.siguiente = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.siguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.anterior = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.contador;
+            }else{
+                $scope.anterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    });
+}]);
+
+//CONTROLADOR LISTA OFERTAS PUBLICADAS
+appdemanda.controller('MisOfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Mis Ofertas!");
+    $http.get(urls.BASE_API+'/misOfertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.MOpagina = 1;
+        $scope.MOlistaOfertas = response.results;
+        $scope.MOcontador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+        }else{
+            $scope.MOsiguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+        }else{
+            $scope.MOanterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguientePublicada = function(){
+        $http.get($scope.MOsiguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.MOpagina = getQueryVariable('page', $scope.MOsiguiente);
+            $scope.MOlistaOfertas = response.results;
+            $scope.MOcontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.MOsiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+            }else{
+                $scope.MOanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.irAlanteriorPublicada = function(){
+        $http.get($scope.MOanterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.MOpagina = getQueryVariable('page', $scope.MOanterior);
+            $scope.MOlistaOfertas = response.results;
+            $scope.MOcontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.MOsiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+            }else{
+                $scope.MOanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.$on('buscando', function(){
+        $http.get(urls.BASE_API+'/misOfertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.MOpagina = 1;
+            $scope.MOlistaOfertas = response.results;
+            $scope.MOcontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.MOsiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+            }else{
+                $scope.MOanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    });
+}]);
+
+//CONTROLADOR LISTA OFERTAS BORRADOR
+appdemanda.controller('MisOfertasBorradoresControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Mis Ofertas Borradores!");
+    $http.get(urls.BASE_API+'/misOfertasBorradores/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.Borradorespagina = 1;
+        $scope.BorradoreslistaOfertas = response.results;
+        $scope.Borradorescontador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+        }else{
+            $scope.Borradoressiguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+        }else{
+            $scope.Borradoresanterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguienteBorrador = function(){
+        $http.get($scope.Borradoressiguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoressiguiente);
+            $scope.BorradoreslistaOfertas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.irAlanteriorBorrador = function(){
+        $http.get($scope.Borradoresanterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoresanterior);
+            $scope.BorradoreslistaOfertas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.$on('buscando', function(){
+        $http.get(urls.BASE_API+'/misOfertasBorradores/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = 1;
+            $scope.BorradoreslistaOfertas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    });
+}]);
+
+
+appdemanda.controller('busquedaControlador',['$rootScope', '$scope','$http','urls',function($rootScope, $scope,$http,urls){
+    $scope.buscarOfertas = function(){
+        $rootScope.$broadcast('buscando');
+    }
+}]);
+
+appdemanda.filter('range', function() {
+  return function(input, total) {
+    total = parseInt(total);
+    for (var i=0; i<total; i++)
+      input.push(i);
+    return input;
+  };
+});

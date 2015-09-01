@@ -50,7 +50,7 @@ def InicioDemanda(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	return HttpResponseRedirect('/NotFound/')
+	return HttpResponseRedirect('demanda_inicio.html', args)
 
 
 """
@@ -284,13 +284,15 @@ def verCualquierOferta(request, id_oferta):
 			except Exception as e:
 				palabras_claves =  ["Null", "Null", "Null", "Null"]
 
-
+		galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['palabras_claves'] = palabras_claves
 		args['comentariosOferta'] = comentariosOferta
 		args['calificacionOferta'] = str(calificacionOferta)
 		args['propietario'] = propietario
+		args['galeria'] = galeria
+		args['imagen_principal'] = galeria.first()
 		return render_to_response('oferta_ver_otra.html',args)
 
 	else:
@@ -343,6 +345,7 @@ def administrar_Oferta(request, id_oferta):
 	except Exception as e:
 		palabras_claves =  ["Null", "Null", "Null", "Null"]
 
+	galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
 	args['palabras_claves'] = palabras_claves
 	args['comentariosPendientes'] = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=0)
 	args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
@@ -354,6 +357,8 @@ def administrar_Oferta(request, id_oferta):
 	args['calificacionOferta'] = str(calificacionOferta)
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
 	return render_to_response('administrar_oferta.html',args)
 
 """

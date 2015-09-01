@@ -12,7 +12,7 @@
 
 {% endif %}
 
-{% block sliderPagina %}OFERTAS{% endblock %}
+{% block sliderPagina %}DEMANDAS{% endblock %}
 
 
 {% block contenido %}
@@ -20,7 +20,7 @@
     <div class="row" style="margin-bottom: 25px;">
         <div align=left class="col-md-3 col-sm-3 col-xs-4">
             <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Crear
-                Oferta
+                Demanda
             </button>
         </div>
         <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
@@ -310,12 +310,12 @@
     </div>
     </div>
 
-    <!--MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL CREAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEERTA-->
+    <!--MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL CREAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEERTA
 
     <div class="modal fade" id="modalCrearOferta" role="dialog">
         <div class="modal-dialog">
 
-            <!-- Modal content-->
+            <!-- Modal content
             <div class="modal-content">
                 <form id="formCrearOferta" ng-controller="CargarOfertasSelectController" action="/CrearOfertaCopia/"
                       method="GET">
@@ -352,12 +352,12 @@
             </div>
 
         </div>
-    </div>
+    </div>-->
 
 
 
     <script>
-        $('#formCrearOferta input').on('change', function () {
+        /*$('#formCrearOferta input').on('change', function () {
             var valor = $('input[name=radioName]:checked', '#formCrearOferta').val();
             if (valor == "1") {
                 $("#lista_de_ofertas").hide();
@@ -370,12 +370,9 @@
             $('#lista_de_ofertas').hide();
             $('#radio1').prop("checked", true);
             $('#select_oferta').val("");
-        });
+        });*/
     </script>
 
     </div>
 
 {% endblock %}
-
-
-

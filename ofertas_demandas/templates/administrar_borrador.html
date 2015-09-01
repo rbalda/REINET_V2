@@ -97,14 +97,14 @@
                                 <div class="block-inverse">
                                     <div class="head-inverse">
                                         <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                                        <img class=" img-responsive" src="http://127.0.0.1:8000/media/{{ imagen_principal.imagen }}" alt="...">
+                                        <img class=" img-responsive" src="../../media/{{ imagen_principal.imagen }}" alt="Imagen Principal">
                                     </div>
                                     <div class="body-inverse">
                                         <ul class="row list-inline gallery-list-small" style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
                                             {% for imagen in galeria %}
                                             <li class="col-xs-6">                                            
                                                 <a href="#">
-                                                    <img class="img-responsive" src="http://127.0.0.1:8000/media/{{ imagen.imagen }}" alt="...">
+                                                    <img class="img-responsive" src="../../media/{{ imagen.imagen }}" alt="...">
                                                 </a>
                                             </li>
                                             {% endfor %}
