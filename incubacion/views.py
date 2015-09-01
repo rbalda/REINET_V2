@@ -51,14 +51,14 @@ Autor: Sixto Castro
 Nombre de funcion: ver_lista_incubadas
 Parametros: request
 Salida:
-Descripcion: Llama al template ver_lista_incubadas.html
+Descripcion: Llama al template admin_ver_lista_incubadas.html
 """
 @login_required
 def ver_lista_incubadas(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	return render_to_response('ver_lista_incubadas.html',args)
+	return render_to_response('admin_ver_lista_incubadas.html',args)
 
 
 
@@ -94,3 +94,18 @@ Descripcion: Mostar template editar mi incubacion
 def editar_mi_incubacion(request):
 	args={}
 	return render_to_response('admin_editar_mi_incubacion.html',args)
+
+"""
+Autor: Estefania Lozano
+Nombre de funcion: admin_ver_incubada
+Parametros: request
+Salida: 
+Descripcion: Mostar template editar mi incubacion
+"""
+
+@login_required
+def admin_ver_incubada(request):
+	args={}
+	return render_to_response('admin_ver_incubada.html',args)
+
+
