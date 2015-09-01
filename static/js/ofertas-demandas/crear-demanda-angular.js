@@ -246,20 +246,21 @@ function getQueryVariable(variable, url) {
     return "1";
 }
 
-//CONTROLADOR LISTA OFERTAS DE LA RED
-appdemanda.controller('OfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
-    $http.get(urls.BASE_API+'/ofertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+//CONTROLADOR LISTA DEMANDAS DE LA RED
+appdemanda.controller('DemandasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Demandas de la red!");
+    $http.get(urls.BASE_API+'/demandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
     .success(function(response){
         $scope.pagina = 1;
-        $scope.listaOfertas = response.results;
+        $scope.listaDemandas = response.results;
         $scope.contador = Math.ceil(response.count/5);
         if(response.next == null){
-            $scope.siguiente = urls.BASE_API+'/ofertas/?page=1';
+            $scope.siguiente = urls.BASE_API+'/demandas/?page=1';
         }else{
             $scope.siguiente=response.next;
         }
         if(response.previous == null){
-            $scope.anterior = urls.BASE_API+'/ofertas/?page=' + $scope.contador;
+            $scope.anterior = urls.BASE_API+'/demandas/?page=' + $scope.contador;
         }else{
             $scope.anterior=response.next;
         }
@@ -270,19 +271,19 @@ appdemanda.controller('OfertasControlador',['$scope','$http','urls',function($sc
         $http.get($scope.siguiente,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
             $scope.pagina = getQueryVariable('page', $scope.siguiente);
-            $scope.listaOfertas = response.results;
+            $scope.listaDemandas = response.results;
             $scope.contador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.siguiente = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.siguiente = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas;
             }else{
                 $scope.siguiente=response.next;
             }
             if(response.previous == null){
-                $scope.anterior = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.contador;
+                $scope.anterior = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.contador;
             }else{
                 $scope.anterior=response.previous;
             }
-            console.log('buscando: ' + $scope.busqueda_ofertas);
+            console.log('buscando: ' + $scope.busqueda_demandas);
             console.log($scope.siguiente);
         }).error(function(){
             console.log('hubo un error');
@@ -292,15 +293,15 @@ appdemanda.controller('OfertasControlador',['$scope','$http','urls',function($sc
         $http.get($scope.anterior,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
             $scope.pagina = getQueryVariable('page', $scope.anterior);
-            $scope.listaOfertas = response.results;
+            $scope.listaDemandas = response.results;
             $scope.contador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.siguiente = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.siguiente = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas;
             }else{
                 $scope.siguiente=response.next;
             }
             if(response.previous == null){
-                $scope.anterior = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.contador;
+                $scope.anterior = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.contador;
             }else{
                 $scope.anterior=response.previous;
             }
@@ -308,19 +309,19 @@ appdemanda.controller('OfertasControlador',['$scope','$http','urls',function($sc
             console.log('hubo un error');
         });
     };
-    $scope.$on('buscando', function(){
-        $http.get(urls.BASE_API+'/ofertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+    $scope.$on('buscandoDemandas', function(){
+        $http.get(urls.BASE_API+'/demandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
             $scope.pagina = 1;
-            $scope.listaOfertas = response.results;
+            $scope.listaDemandas = response.results;
             $scope.contador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.siguiente = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.siguiente = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas;
             }else{
                 $scope.siguiente=response.next;
             }
             if(response.previous == null){
-                $scope.anterior = urls.BASE_API+'/ofertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.contador;
+                $scope.anterior = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.contador;
             }else{
                 $scope.anterior=response.next;
             }
@@ -330,82 +331,84 @@ appdemanda.controller('OfertasControlador',['$scope','$http','urls',function($sc
     });
 }]);
 
-//CONTROLADOR LISTA OFERTAS PUBLICADAS
-appdemanda.controller('MisOfertasControlador',['$scope','$http','urls',function($scope,$http,urls){
-    console.log("Mis Ofertas!");
-    $http.get(urls.BASE_API+'/misOfertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+
+//CONTROLADOR MIS DEMANDAS
+appdemanda.controller('MisDemandasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Mis Demandas!");
+    $http.get(urls.BASE_API+'/misDemandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
     .success(function(response){
-        $scope.MOpagina = 1;
-        $scope.MOlistaOfertas = response.results;
-        $scope.MOcontador = Math.ceil(response.count/5);
+        $scope.MDpagina = 1;
+        $scope.MDlistaOfertas = response.results;
+        $scope.MDcontador = Math.ceil(response.count/5);
         if(response.next == null){
-            $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+            $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
         }else{
-            $scope.MOsiguiente=response.next;
+            $scope.MDsiguiente=response.next;
         }
         if(response.previous == null){
-            $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+            $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
         }else{
-            $scope.MOanterior=response.next;
+            $scope.MDanterior=response.next;
         }
     }).error(function(){
         console.log('hubo un error');
     });
     $scope.irAlsiguientePublicada = function(){
-        $http.get($scope.MOsiguiente,{},{headers:{"Content-Type":"application/json"}})
+        $http.get($scope.MDsiguiente,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
-            $scope.MOpagina = getQueryVariable('page', $scope.MOsiguiente);
-            $scope.MOlistaOfertas = response.results;
-            $scope.MOcontador = Math.ceil(response.count/5);
+            $scope.MDpagina = getQueryVariable('page', $scope.MDsiguiente);
+            $scope.MDlistaOfertas = response.results;
+            $scope.MDcontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
             }else{
-                $scope.MOsiguiente=response.next;
+                $scope.MDsiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+                $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
             }else{
-                $scope.MOanterior=response.next;
+                $scope.MDanterior=response.next;
             }
         }).error(function(){
-            console.log('hubo un error');
+            console.log('hubo un error ' + $scope.MDsiguiente);
         });
     };
     $scope.irAlanteriorPublicada = function(){
-        $http.get($scope.MOanterior,{},{headers:{"Content-Type":"application/json"}})
+        $http.get($scope.MDanterior,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
-            $scope.MOpagina = getQueryVariable('page', $scope.MOanterior);
-            $scope.MOlistaOfertas = response.results;
-            $scope.MOcontador = Math.ceil(response.count/5);
+            $scope.MDpagina = getQueryVariable('page', $scope.MDanterior);
+            $scope.MDlistaOfertas = response.results;
+            $scope.MDcontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
             }else{
-                $scope.MOsiguiente=response.next;
+                $scope.MDsiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+                $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
             }else{
-                $scope.MOanterior=response.next;
+                $scope.MDanterior=response.next;
             }
+            console.log('NO hubo un error ' + $scope.MDanterior);
         }).error(function(){
             console.log('hubo un error');
         });
     };
-    $scope.$on('buscando', function(){
-        $http.get(urls.BASE_API+'/misOfertas/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+    $scope.$on('buscandoDemandas', function(){
+        $http.get(urls.BASE_API+'/misDemandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
-            $scope.MOpagina = 1;
-            $scope.MOlistaOfertas = response.results;
-            $scope.MOcontador = Math.ceil(response.count/5);
+            $scope.MDpagina = 1;
+            $scope.MDlistaOfertas = response.results;
+            $scope.MDcontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.MOsiguiente = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
             }else{
-                $scope.MOsiguiente=response.next;
+                $scope.MDsiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.MOanterior = urls.BASE_API+'/misOfertas/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.MOcontador;
+                $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
             }else{
-                $scope.MOanterior=response.next;
+                $scope.MDanterior=response.next;
             }
         }).error(function(){
             console.log('hubo un error');
@@ -414,20 +417,20 @@ appdemanda.controller('MisOfertasControlador',['$scope','$http','urls',function(
 }]);
 
 //CONTROLADOR LISTA OFERTAS BORRADOR
-appdemanda.controller('MisOfertasBorradoresControlador',['$scope','$http','urls',function($scope,$http,urls){
+appdemanda.controller('MisDemandasBorradoresControlador',['$scope','$http','urls',function($scope,$http,urls){
     console.log("Mis Ofertas Borradores!");
-    $http.get(urls.BASE_API+'/misOfertasBorradores/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+    $http.get(urls.BASE_API+'/misDemandasBorradores/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
     .success(function(response){
         $scope.Borradorespagina = 1;
-        $scope.BorradoreslistaOfertas = response.results;
+        $scope.BorradoreslistaDemandas = response.results;
         $scope.Borradorescontador = Math.ceil(response.count/5);
         if(response.next == null){
-            $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+            $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
         }else{
             $scope.Borradoressiguiente=response.next;
         }
         if(response.previous == null){
-            $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+            $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
         }else{
             $scope.Borradoresanterior=response.next;
         }
@@ -438,15 +441,15 @@ appdemanda.controller('MisOfertasBorradoresControlador',['$scope','$http','urls'
         $http.get($scope.Borradoressiguiente,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
             $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoressiguiente);
-            $scope.BorradoreslistaOfertas = response.results;
+            $scope.BorradoreslistaDemandas = response.results;
             $scope.Borradorescontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
             }else{
                 $scope.Borradoressiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+                $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
             }else{
                 $scope.Borradoresanterior=response.next;
             }
@@ -458,15 +461,15 @@ appdemanda.controller('MisOfertasBorradoresControlador',['$scope','$http','urls'
         $http.get($scope.Borradoresanterior,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
             $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoresanterior);
-            $scope.BorradoreslistaOfertas = response.results;
+            $scope.BorradoreslistaDemandas = response.results;
             $scope.Borradorescontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
             }else{
                 $scope.Borradoressiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+                $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
             }else{
                 $scope.Borradoresanterior=response.next;
             }
@@ -474,19 +477,19 @@ appdemanda.controller('MisOfertasBorradoresControlador',['$scope','$http','urls'
             console.log('hubo un error');
         });
     };
-    $scope.$on('buscando', function(){
-        $http.get(urls.BASE_API+'/misOfertasBorradores/' + "?busqueda=" + $scope.busqueda_ofertas,{},{headers:{"Content-Type":"application/json"}})
+    $scope.$on('buscandoDemandas', function(){
+        $http.get(urls.BASE_API+'/misDemandasBorradores/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
         .success(function(response){
             $scope.Borradorespagina = 1;
-            $scope.BorradoreslistaOfertas = response.results;
+            $scope.BorradoreslistaDemandas = response.results;
             $scope.Borradorescontador = Math.ceil(response.count/5);
             if(response.next == null){
-                $scope.Borradoressiguiente = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas;
+                $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
             }else{
                 $scope.Borradoressiguiente=response.next;
             }
             if(response.previous == null){
-                $scope.Borradoresanterior = urls.BASE_API+'/misOfertasBorradores/?busqueda=' + $scope.busqueda_ofertas + '&page=' + $scope.Borradorescontador;
+                $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
             }else{
                 $scope.Borradoresanterior=response.next;
             }
@@ -497,17 +500,9 @@ appdemanda.controller('MisOfertasBorradoresControlador',['$scope','$http','urls'
 }]);
 
 
-appdemanda.controller('busquedaControlador',['$rootScope', '$scope','$http','urls',function($rootScope, $scope,$http,urls){
-    $scope.buscarOfertas = function(){
-        $rootScope.$broadcast('buscando');
+appdemanda.controller('busquedaDemandaControlador',['$rootScope', '$scope','$http','urls',function($rootScope, $scope,$http,urls){
+    $scope.buscarDemandas = function(){
+        $rootScope.$broadcast('buscandoDemandas');
+        console.log('Aquiiiii');
     }
 }]);
-
-appdemanda.filter('range', function() {
-  return function(input, total) {
-    total = parseInt(total);
-    for (var i=0; i<total; i++)
-      input.push(i);
-    return input;
-  };
-});

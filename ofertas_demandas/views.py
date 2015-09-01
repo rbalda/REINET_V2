@@ -50,7 +50,7 @@ def InicioDemanda(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	return HttpResponseRedirect('demanda_inicio.html', args)
+	return render_to_response('demanda_inicio.html', args)
 
 
 """
