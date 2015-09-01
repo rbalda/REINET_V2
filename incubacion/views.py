@@ -113,3 +113,33 @@ def admin_ver_incubada(request):
 	return render_to_response('admin_ver_incubada.html',args)
 
 
+
+"""
+Autor: Jose Velez
+Nombre de funcion: buscar_usuario
+Parametros: request
+Salida: Muetra el formulario de crear una incubacion
+Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofertas
+"""
+
+@login_required
+def buscar_usuario(request):
+	sesion=request.session['id_usuario']
+	usuario=User.objects.get(id=sesion)
+	args = {}
+	if request.method=='POST':
+		consultor = request.POST['consultor']
+		emisor=User.objects.get(id=sesion)
+		if consultor == emisor:
+			args['mensaje_alerta']="No te puedes auto-aisgnarte consultor"
+		else:
+			try:
+				receptor_aux = User.objects.get(username=consultor)
+				receptor=receptor_aux
+				tipo_mensaje = 'usuario-usuario'
+			except User.DoesNotExist:
+				print 'No existe usuario'
+	else:
+		args['usuario']=usuario
+		args['es_admin']=request.session['es_admin']
+		args.update(csrf(request))
