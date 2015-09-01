@@ -43,7 +43,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.copia_tags = $window.tags_copia;
 
     $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
-    $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
+    $scope.items_date = [{tipo: "A\u00F1o/s", valor: 0 },{tipo: "Mes/es", valor: 1 }];
 
     $scope.oferta_id = 0;
     $scope.tipo = 0;
@@ -55,7 +55,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.indexImagen = 0;
 
     var tiempo='1';
-    var duracion='A\u00F1o';
+    var duracion='A\u00F1o/s';
 
     if($scope.copia_oferta){
         var tipo = parseInt($scope.copia_oferta.tipo);
@@ -63,9 +63,9 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         duracion = $window.oferta_duracion;
 
         if(duracion===1){
-            $scope.tiempo_tipo = 'A\u00F1o';
+            $scope.tiempo_tipo = 'A\u00F1o/s';
         }else{
-            $scope.tiempo_tipo = 'Mes';
+            $scope.tiempo_tipo = 'Mes/es';
         }
 
         $scope.tiempo_disponible = tiempo; 

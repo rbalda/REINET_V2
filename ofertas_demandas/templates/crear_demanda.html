@@ -77,11 +77,11 @@
           descripcion:'{{ demanda.descripcion }}',
           dominio:'{{ demanda.dominio }}',
           subdominio: '{{ demanda.subdominio }}',
-          perfil_cliente : '{{ demanda.perfil_cliente }}',
-          perfil_beneficiario : '{{ demanda.perfil_beneficiario }}',
-          alternativas_soluciones_existentes : '{{ demanda.alternativas_soluciones_existentes }}',
-          importancia_resolver_necesidad : '{{ demanda.importancia_resolver_necesidad }}',
-          lugar_donde_necesita : '{{ demanda.lugar_donde_necesita }}',
+          perfil_cliente : '{{ demanda.perfil_cliente|default_if_none:"" }}',
+          perfil_beneficiario : '{{ demanda.perfil_beneficiario|default_if_none:"" }}',
+          alternativas_soluciones_existentes : '{{ demanda.alternativas_soluciones_existentes|default_if_none:"" }}',
+          importancia_resolver_necesidad : '{{ demanda.importancia_resolver_necesidad|default_if_none:"" }}',
+          lugar_donde_necesita : '{{ demanda.lugar_donde_necesita|default_if_none:"" }}'
       };
 
       var tags_copia = {{ tags|safe }};

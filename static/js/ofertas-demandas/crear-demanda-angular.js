@@ -21,7 +21,6 @@ appdemanda.controller('crearDemandaFormController',['$scope','$rootScope','Deman
     $scope.items_date = [{tipo: "A\u00F1o/s", valor: 0 },{tipo: "Mes/es", valor: 1 }];
 
     $scope.demanda_id = 0;
-    $scope.tipo = 0;
     $scope.hide = true;
     $scope.validar_form=true;
     $scope.forms = {};
@@ -33,7 +32,6 @@ appdemanda.controller('crearDemandaFormController',['$scope','$rootScope','Deman
     var duracion='A\u00F1o/s';
 
     if($scope.copia_demanda){
-        var tipo = parseInt($scope.copia_demanda.tipo);
         tiempo = $window.demanda_tiempo;
         duracion = $window.demanda_duracion;
 

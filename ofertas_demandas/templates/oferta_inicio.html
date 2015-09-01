@@ -66,7 +66,7 @@
                     <div class="blog-summary">
                         <h4 class="col-md-12" style="padding-left: 0px;margin-bottom: 0px;padding-right: 0px;">
                             <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                <a href="/administrarOferta/[[ publicada.id_oferta ]]">[[publicada.nombre]]</a>
+                                <a class="ng-binding" href="/administrarOferta/[[ publicada.id_oferta ]]">[[publicada.nombre]]</a>
                             </div>
                             <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:0px;" align="right">
                                 <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
@@ -76,7 +76,8 @@
                                 </div>
                             </div>
                         </h4>
-                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[
+                        <div style="clear:both;"></div>
+                        <time datetime="2013-11-10" class="timestamp hidden-xs ng-binding">[[
                             publicada.fecha_creacion.substring(0,4) ]]/ [[ publicada.fecha_creacion.substring(5,7) ]]/
                             [[ publicada.fecha_creacion.substring(8,10) ]]
                         </time>
@@ -97,9 +98,9 @@
                         </div>
                         <div style="clear:both;"></div>
                         <hr style="margin-top: 10px;">
-                        <p class="blog-text">
-                            <img class="pull-left img-responsive blog-img" alt="Blog Image"
-                                 src="/../../media/ofertas-demandas/works1.jpg">
+                        <p class="blog-text ng-binding">
+                            <img class="pull-left img-responsive blog-img" alt="Imagen de mi Oferta"
+                                 src="[[ publicada.galeria[0].imagen ]]" style="height: 115px; width: 115px;">
                             [[publicada.descripcion]]
                         </p>
                         <p class="tags">
@@ -216,8 +217,8 @@
                         </div>
                         <hr style="margin-top: 10px;">
                         <p class="blog-text">
-                            <img class="pull-left img-responsive blog-img" alt="Blog Image"
-                                 src="/../../media/ofertas-demandas/works1.jpg">
+                            <img class="pull-left img-responsive blog-img" alt="Imagen de Oferta"
+                                 src="[[ o.galeria[0].imagen ]]" style="height: 115px; width: 115px;">
                             [[o.descripcion]]
                         </p>
 
@@ -271,8 +272,8 @@
                         </ul>
                         <hr>
                         <p class="blog-text">
-                            <img class="pull-left img-responsive blog-img" alt="Blog Image"
-                                 src="/../../media/ofertas-demandas/works1.jpg">
+                            <img class="pull-left img-responsive blog-img" alt="Imagen de Oferta"
+                                 src="[[ miembro.galeria[0].imagen ]]"style="height: 115px; width: 115px;">
                             [[miembro.descripcion]]
                         </p>
 
