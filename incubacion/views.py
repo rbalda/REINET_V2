@@ -92,7 +92,9 @@ Descripcion: Mostar template editar mi incubacion
 
 @login_required
 def editar_mi_incubacion(request):
-	args={}
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
 	return render_to_response('admin_editar_mi_incubacion.html',args)
 
 """
@@ -105,7 +107,9 @@ Descripcion: Mostar template editar mi incubacion
 
 @login_required
 def admin_ver_incubada(request):
-	args={}
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
 	return render_to_response('admin_ver_incubada.html',args)
 
 

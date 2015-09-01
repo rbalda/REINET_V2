@@ -1,0 +1,20 @@
+{% for comentario in listaComentarios %}
+    {% if comentario.estado_comentario == 1 %}
+        <div class="media">
+            <a class="pull-left" href="/usuario/{{ comentario.fk_usuario }}">
+                <img class="media-object img-circle" src="{{ comentario.fk_usuario.foto.url }}" alt="...">
+            </a>
+            <div class="media-body">
+                <p><a href="/usuario/{{ comentario.fk_usuario }}">{{ comentario.fk_usuario.first_name }} {{ comentario.fk_usuario.last_name }}</a></p>
+                <div class="thumbnail" style="margin-bottom:0px">
+                </div>
+                <p>
+                    {{ comentario.comentario }}
+                </p>
+                <ul class="text-muted list-inline">
+                    <li><i class="fa fa-calendar"></i> {{ comentario.fecha_comentario }} </li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

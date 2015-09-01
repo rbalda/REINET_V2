@@ -1,0 +1,40 @@
+<div class="col-md-12">
+
+    <div class="form-group">
+        <div class="col-md-8" >
+            <label class="col-md-6" style="left:-17px;">Tiempo en que se necesita disponer de soluci&oacute;n</label>
+
+            <input autofocus number type="text" class="form-control" id="demanda_tiempo_disponibilidad" name="demanda_tiempo_disponibilidad" style="width:70px;"
+                   ng-model="tiempo_disponible" ng-pattern="/^([1-9][0-9]*)$/" ng-change="tiempoDisponibleInput(tiempo_disponible)" ng-required="false"
+                    >
+            <span ng-show="forms.crear_demanda_form1.demanda_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
+        </div>
+
+        <div class="col-xs-3" style="right:25%;">
+            <select name="select_demanda_tiempo" id="select_demanda_tiempo" class="form-control" ng-options="i.tipo as i.tipo for i in items_date" ng-model="tiempo_tipo"  ng-change="tiempoDisponibleSelect(tiempo_tipo)" ng-required="false" >
+                <option value="">Seleccione duraci&oacute;n</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!--Estado de propiedad Intelectual-->
+    <div class="form-group">
+        <label for="Nombres" class="col-md-2">Lugar/es donde se necesita</label>
+        <div class="col-md-6">
+
+            <textarea autofocus type="text" class="form-control" id="lugar_donde_necesita" name="lugar_donde_necesita" rows="4" placeholder="Escriba el sitio/s donde se necesita la soluci&oacute;n a la demanda"
+            ng-model="demanda.lugar_donde_necesita" ng-required="false"
+            ></textarea>
+
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <br>
+        <a href="#industria" aria-controls="messages" role="tab" data-toggle="tab">
+            <input type="button" class="btn btn-default pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;">
+        </a>
+    </div>
+
+</div>

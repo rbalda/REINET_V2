@@ -1,24 +1,35 @@
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import detail_route
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from ofertas_demandas.models import Oferta
+from rest_framework import status
+from ofertas_demandas.models import Oferta, ImagenOferta
 from ofertas_demandas.models import Perfil
+from ofertas_demandas.models import PalabraClave
+from ofertas_demandas.models import *
 from ofertas_demandas.pagination import PaginacionPorDefecto
 from ofertas_demandas.pagination import PaginacionCinco
 from ofertas_demandas.pagination import NoPaginacion
 from ofertas_demandas.permissions import SiEsPropietarioOEstaEnAlcance
-from ofertas_demandas.serializers import OfertaSerializador
+from ofertas_demandas.serializers import OfertaSerializador, DemandaSerializador
 from rest_framework.response import Response
 
+
 __author__ = 'rbalda'
+
+class DemandaViewSet(ModelViewSet):
+    queryset = Demanda.objects.all()
+    serializer_class = DemandaSerializador
+    permission_classes = (IsAuthenticated,)
+    pagination_class = PaginacionCinco
 
 
 class OfertaViewSet(ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializador
     permission_classes = (IsAuthenticated,)
-    lookup_field = 'codigo'
+    #lookup_field = 'codigo'
     pagination_class = PaginacionCinco
     #parser_classes = (MultiPartParser,JSONParser)
 
@@ -28,10 +39,35 @@ class OfertaViewSet(ModelViewSet):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
         if (busqueda != 'undefined') and (busqueda is not None):
-            queryset = Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+            try: 
+                queryset = PalabraClave.objects.all().filter(palabra = busqueda).first().ofertas_con_esta_palabra.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+                queryset = queryset | Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+            except:
+                queryset = Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         else:
             queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset
+
+    @detail_route(methods=['post'])
+    def subir_imagen(self,request,pk=None):
+        try:
+            imagen = ImagenOferta()
+            descripcion = self.request.DATA.get('descripcion',None)
+            descripcion = descripcion.split(',')
+            if descripcion:
+                index = int(self.request.DATA['flowChunkNumber'])
+                imagen.descripcion=descripcion[index-1]
+            else:
+                imagen.descripcion=" "
+
+            id = self.request.DATA['id_oferta']
+            imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
+            img = self.request.FILES['file']
+            imagen.imagen = img
+            imagen.save()
+            return Response({'save_estado':True},status=status.HTTP_201_CREATED)
+        except:
+            return Response({'save_estado':False},status=status.HTTP_404_NOT_FOUND)
 
 
 class MisOfertasAllViewSet(ModelViewSet):

@@ -2,8 +2,8 @@
 
 from datetime import date, datetime
 from django.contrib.admin.utils import model_format_dict
-from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, MiembroEquipo, PalabraClave, \
-    ImagenOferta
+from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, ComentarioCalificacion, MiembroEquipo, PalabraClave, \
+    ImagenOferta, Demanda
 from usuarios.models import Perfil
 from rest_framework import serializers
 import json
@@ -51,6 +51,7 @@ class OfertaSerializador(ModelSerializer):
     fk_diagrama_canvas = DiagramaBusinessCanvasSerializador(required=False,allow_null=True)
     dueno = serializers.SerializerMethodField('getdueno',read_only=True)
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
+    numComentarios = serializers.SerializerMethodField('getNumeroComentarios',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
     galeria = ImagenOfertaSerializer(many=True,required=False)
     tags = serializers.ListField(
@@ -66,7 +67,7 @@ class OfertaSerializador(ModelSerializer):
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno',
-            'duenoUsername','galeria')
+            'duenoUsername','galeria', 'numComentarios')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
                             'calificacion_total','comentarios','palabras_clave','alcance','galeria')
@@ -79,6 +80,10 @@ class OfertaSerializador(ModelSerializer):
     def getDuenoUsername(self,obj):
         equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=obj.id_oferta).first()
         return equipoDueno.fk_participante.username
+
+    def getNumeroComentarios(self,obj):
+        numComentarios = len(ComentarioCalificacion.objects.all().filter(fk_oferta_id = obj.id_oferta, estado_comentario = 1))
+        return numComentarios
 
     def create(self,validated_data):
         diagrama_competidores = validated_data.pop('fk_diagrama_competidores',None)
@@ -131,3 +136,47 @@ class OfertaSerializador(ModelSerializer):
 
         return oferta
 
+
+
+class DemandaSerializador(ModelSerializer):
+    palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
+    tags = serializers.ListField(
+            child=serializers.CharField(),
+            required=False,allow_null=True
+    )
+
+    class Meta:
+        model = Demanda
+        fields = (
+            'id_demanda','codigo','estado','nombre','publicada','descripcion','dominio','subdominio',
+            'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
+            'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave','comentarios')
+
+        read_only_fields = ('id_oferta','codigo','estado','fecha_publicacion','fecha_creacion',
+                            'palabras_clave','alcance','comentarios')
+
+    def create(self,validated_data):
+        tags = validated_data.pop('tags',None)
+
+        nombre = validated_data['nombre']
+        demanda = Demanda.objects.create(codigo=crear_codigo(nombre),estado=1,fk_perfil=Perfil.objects.get(id=self.context['request'].user.id),**validated_data)
+        
+        if tags:
+            for d in tags:
+                aux = d.encode('utf-8','ignore')
+                palabra = aux.replace("{u'text': u'", "")
+                palabra = palabra.replace("'}","")
+                palabra = palabra.replace(" ",'')
+                palabra = palabra.lower()
+
+                try:
+                    tag = PalabraClave.objects.get(palabra=palabra)
+                    demanda.palabras_clave.add(tag)
+                except PalabraClave.DoesNotExist:
+                    palabra_clave = PalabraClave.objects.create(palabra=palabra)
+                    demanda.palabras_clave.add(palabra_clave)
+                except Exception as e:
+                    print type(e)
+                    print e
+
+        return demanda

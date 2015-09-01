@@ -2,27 +2,39 @@
 var appoferta = angular.module('redInn');
 
 appoferta.config(['flowFactoryProvider', function (flowFactoryProvider) {
-    flowFactoryProvider.defaults = {
-        target : '/CargarImagenOferta/',
-        permanentErrors: [404, 500, 501],
-        maxChunkRetries: 1,
-        chunkRetryInterval: 5000,
-        simultaneousUploads: 4
+    /*flowFactoryProvider.defaults = {
+        headers: function (file, chunk, isTest) {
+                    return {
+                        'X-CSRFToken': $cookies.get("csrftoken")
+                    }
+                }
+        //target : '',
+        //testChunks:false,
+        //permanentErrors: [500, 501],
+        //maxChunkRetries: 1,
+        //chunkRetryInterval: 5000,
+        //simultaneousUploads: 4
     };
 
     flowFactoryProvider.on('fileAdded',function(file,event,flow){
         console.log('dentro de fileAdded');
+
     });
 
     flowFactoryProvider.on('filesSubmitted',function(file,event,flow){
         console.log('dentro de filesSubmitted');
-    });
+    });*/
 
 }]);
 
-appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout','$window',function($scope,$rootScope,Oferta,$timeout,$window){
+appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta','$timeout','$window','$cookies','$compile',function($scope,$rootScope,Oferta,$timeout,$window,$cookies,$compile,flowFactoryProvider){
     // dentro del scope van modelos
 
+    $scope.setHead = function (file, chunk, isTest) {
+            return {
+                'X-CSRFToken': $cookies["csrftoken"]
+            };      
+    };
 
     console.log('dentro del crearOfertaAngular');
 
@@ -31,16 +43,33 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
     $scope.copia_tags = $window.tags_copia;
 
     $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
-    $scope.items_date = [{tipo: "A\u00F1o", valor: 0 },{tipo: "Mes", valor: 1 }];
+    $scope.items_date = [{tipo: "A\u00F1o/s", valor: 0 },{tipo: "Mes/es", valor: 1 }];
 
+    $scope.oferta_id = 0;
     $scope.tipo = 0;
     $scope.hide = true;
     $scope.validar_form=true;
     $scope.forms = {};
     $scope.imagen = {};
+    $scope.txt_imagen_lst = [];
+    $scope.indexImagen = 0;
+
+    var tiempo='1';
+    var duracion='A\u00F1o/s';
 
     if($scope.copia_oferta){
         var tipo = parseInt($scope.copia_oferta.tipo);
+        tiempo = $window.oferta_tiempo;
+        duracion = $window.oferta_duracion;
+
+        if(duracion===1){
+            $scope.tiempo_tipo = 'A\u00F1o/s';
+        }else{
+            $scope.tiempo_tipo = 'Mes/es';
+        }
+
+        $scope.tiempo_disponible = tiempo; 
+
         $scope.oferta2 = {
             tipo : tipo,
             descripcion : $scope.copia_oferta.descripcion,
@@ -93,11 +122,12 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         for(var key in myObject) {
             if (myObject.hasOwnProperty(key)) {
                 return false;
-            }
-        }
+            };
+        };
 
         return true;
-    }
+    };
+
     var tags={};
     $scope.$watch('oferta.tags',function(palabra){
         console.log('dentro de watch palabras_clave');
@@ -108,12 +138,20 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
             console.log('tags'+tags);
             console.log(tags);
             $scope.oferta.tags = tags;
-        }
+        };
     });
 
 
-    var tiempo='1';
-    var duracion='A\u00F1o';
+    $scope.$watch('txt_imagen_lst', function (value) {
+
+    }, true);
+
+    $scope.exitoSubida = function (file) {
+        file.cancel();
+        if($scope.txt_imagen_lst.length !== 0){
+            $scope.txt_imagen_lst = $scope.txt_imagen_lst.slice(1,$scope.txt_imagen_lst.length-1);
+        };
+    };
 
     $scope.validarSubmit = function(form1){
         console.log('dentro validarSubmit');
@@ -127,8 +165,8 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
             }else{
                 console.log('form invalido');
                 $scope.validar_form=true; 
-            }
-        }
+            };
+        };
     };
 
     $scope.$on('elformesvalido',function(){
@@ -141,7 +179,7 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         }else{
             console.log(val);
             duracion=val;
-        }
+        };
     };
 
     $scope.tiempoDisponibleInput = function(val){
@@ -150,22 +188,38 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         }else{
             console.log(val);
             tiempo=val;
-        }
+        };
     };
     
 
     function loadImagen(id){
-        console.log('dentro de loadImagen')
-        $scope.imagen.flow.opts.query = {'id_oferta': id};
+        console.log('dentro de loadImagen');
+        $scope.imagen.flow.opts.query = {'id_oferta': id , 'descripcion':JSON.stringify(crearJSON($scope.imagen.flow.files))};
+        console.log($scope.imagen.flow.opts.query['descripcion'])
+        console.log( typeof $scope.imagen.flow.opts.query['descripcion'])
         $scope.imagen.flow.upload(); 
-    }
+    };
 
-    $scope.removerImagen = function(item){
+    $scope.removerImagen = function(item,index){
         if(item!==undefined){
             item.cancel();
-        }
-    }
+            if($scope.txt_imagen_lst.length !== 0){
+                $scope.txt_imagen_lst = $scope.txt_imagen_lst.slice(1,$scope.txt_imagen_lst.length-1);
+            };  
+        };
+    };
 
+    function crearJSON(list){
+        var json_array = [];
+        var i=0;
+        var value;
+        for (l in list){
+            value = String(list[l].uniqueIdentifier);
+            json_array.push({value:value,descripcion:$scope.txt_imagen_lst[i]});
+            i++;
+        };
+        return json_array;
+    }
 
 
     $scope.guardar = function(){
@@ -175,8 +229,8 @@ appoferta.controller('crearOfertaFormController',['$scope','$rootScope','Oferta'
         $scope.oferta.$save(function(response){
             console.log('Se ha creado con exito la Oferta');
 
-            var id = $scope.oferta.id_oferta;
-            loadImagen(id);
+            $scope.oferta_id = $scope.oferta.id_oferta;
+            loadImagen($scope.oferta.id_oferta);
 
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
@@ -652,6 +706,15 @@ appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', functi
 
 
 }]);
+
+appoferta.filter('range', function() {
+  return function(input, total) {
+    total = parseInt(total);
+    for (var i=0; i<total; i++)
+      input.push(i);
+    return input;
+  };
+});
 
 
 

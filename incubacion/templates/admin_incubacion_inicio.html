@@ -74,12 +74,21 @@
               <div class="row" style="margin-bottom: 25px;">
                 <div align=left class="col-md-3 col-sm-3 col-xs-4">
                     <form id="formCrearIncubacion" action="/CrearIncubacion/" method="GET"> 
-                        <button type="submit" class="btn" style="background-color:#F4E222; color: white;" id="btnIncubacion" name="btnIncubacion">Crear Incubaci&oacute;n
+                        <button type="submit" class="btn" style="background-color:#F44336; color: white;" id="btnIncubacion" name="btnIncubacion">Crear Incubaci&oacute;n
                         </button>
                         
                     </form>
+                    <button id="btn_participar" class="btn btn-green btn-sm"
+                            style="color:white;margin-top: 15px;" data-toggle="modal"
+                            data-target="#CrearConvocatoria">Crear Convacatoria
+                    </button>
+
+                    
+                    
                     
                 </div>
+                
+
                 <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
                   <div class="col-sm-9">
                       <input type="text" class="form-control" ng-model="busqueda_ofertas"
@@ -243,7 +252,49 @@
             </div>
         </div>
     </div>
- 
+
+    <!-- COMIENZAN Los modals que se usan en toda la pagina -->
+
+
+    <!-- //// VENTANA EMERGENTE SOLICITAR MEMBRESIA A OFERTA ///// -->
+    <div class="modal modal-vcenter fade" id="CrearConvocatoria" tabindex="-1" role="dialog"
+         aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                    <h4 class="modal-title" id="sendemailtitle">Crear Convocatoria</h4>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body" style="margin-bottom:30px">
+                    <form role="form" action="" method=''>
+                        <!--{% csrf_token %}-->
+                        <div class="form-group">
+                          <label style="resize:none" >Alcance:</label>
+                          <select name="alcance" style="resize:none" >    
+                             <option value="Local" selected="selected">Local</option>
+                             <option value="Algunas Instituciones">Algunas Instituciones</option>
+                             <option value="Global">Global</option>
+                          </select>
+
+                          <br>
+                          <label style="resize:none" >Fecha Máxima De Aplicación:</label>
+                          <input type="date" name="fecMaxima" style="resize:none">
+                        </div>
+                        
+                            <button id="btn_convocatoria" class="btn btn-green btn-sm"
+                            style="color:white;margin-top: 15px;" >
+                                Enviar
+                            </button>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  
 {% endblock %}
 
 
