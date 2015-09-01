@@ -44,7 +44,7 @@
 			        </div>
 			        <div class="col-md-7" align=right>
 			            <a href="/CrearOferta/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultor</a>
-			            <a href="#" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
+			            <a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
 			        </div> 
 			    </div>
 
@@ -400,8 +400,76 @@
 		              <a href="#" class="read-more">Ver m&aacute;s...</a>
 		            
 	            <!-- TERMINA Panel de los consultores -->
+
+				<!--Modal-->
+                        <div id="definirMilestone" class="modal fade" role="dialog">
+                          <div class="modal-dialog" style="width: 70% !important;">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 class="modal-title">Definir un Milestone</h4>
+                                  </div>
+                                  <div class="modal-body" style="font-size:14px;overflow-y:auto">                           
+                                      <div class="comment" id="Comentario">
+                                          <div class="media">
+                                            <form  class="form-horizontal col-md-12"  name="formMilestone"> 
+                                                <div class="form-group">
+                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Requerimientos para la incubada</label>
+                                                  <div class="col-md-7">
+                                                    <textarea autofocus  name="requerimientosDescripcion" rows="3"  class="form-control" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
+                                                    ></textarea>
+                                                  </div>
+                                                  <br>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de milestone</label>
+                                                  <div class="col-md-7">
+                                                      <input autofocus type="date" class="form-control" placeholder="Nombre de la Oferta"
+                                                      id="fecha" name="fecha_milestone"  data-trigger="focus">
+                                                  </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Importancia del milestone</label>
+                                                  <div class="col-md-7">
+                                                    <textarea autofocus rows="3"  class="form-control" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
+                                                    ></textarea>
+                                                  </div>
+                                                  <br>
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Otros</label>
+                                                   <div class="col-md-7 pull-left" id="nuevos">
+                                                   <form method="get">
+                                                    <textarea autofocus rows="5"  class="tinymce form-control" style="resize: none;"
+                                                    ></textarea>
+                                                  </div>
+                                                  </form>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div align="right">
+                                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                                                      <button href="#" class="btn btn-green" style="background-color:#FFEA00;"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                                                    </div>                                                  
+                                                </div>
+                                            </form>   
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+
+
 	        </div>
 	    </div>
+	<script type="text/javascript" src="static/js/incubacion/editorTexto/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+     tinyMCE.init({
+       mode : "specific_textareas",
+       editor_selector : "tinymce",
+      }) 
+    </script>
 	</div>
 
 {% endblock%}
