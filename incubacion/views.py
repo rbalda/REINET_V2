@@ -58,7 +58,7 @@ def ver_lista_incubadas(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	return render_to_response('admin_ver_lista_incubadas.html',args)
+	return render_to_response('admin_ver_incubacion.html',args)
 
 
 
