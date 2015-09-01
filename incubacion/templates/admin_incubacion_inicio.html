@@ -72,32 +72,10 @@
 <!--Lista de menu -->
             <div class="col-md-9">
               <div class="row" style="margin-bottom: 25px;">
-                <div align=left class="col-md-3 col-sm-3 col-xs-4">
-                    <form id="formCrearIncubacion" action="/CrearIncubacion/" method="GET">
-                        <button type="submit" class="btn" style="background-color:#F44336; color: white;" id="btnIncubacion" name="btnIncubacion">Crear Incubaci&oacute;n
-                        </button>
-
-                    </form>
-                    <button id="btn_participar" class="btn btn-green btn-sm"
-                            style="color:white;margin-top: 15px;" data-toggle="modal"
-                            data-target="#CrearConvocatoria">Crear Convacatoria
-                    </button>
-
-
-
-
-                </div>
-
-
-                <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
-                  <div class="col-sm-9">
-                      <input type="text" class="form-control" ng-model="busqueda_ofertas"
-                             placeholder="Buscar Incubaciones por Nombre"/>
-                  </div>
-                  <div class="col-sm-3" ng-controller="busquedaControlador">
-                      <button class="btn btn-blue" ng-click='buscarOfertas()'>Buscar</button>
-                  </div>
-                </div>
+                <div class="col-md-7" align=right>
+                  <a href="/CrearIncubacion/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Crear Incubaci&oacute;n</a>
+                  <a id="milestone" href="#" data-target="#CrearConvocatoria" data-toggle="modal" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear Convacatoria</a>
+              </div> 
               </div>
 
 

@@ -72,15 +72,11 @@ Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofer
 
 @login_required
 def crear_incubacion(request):
-	if request.GET.get('btnIncubacion', True):
-		print "entro if"
-		args = {}
-		args['usuario']=request.user
-		args['es_admin']=request.session['es_admin']
-		args['incubacion'] = None
-		return render_to_response('admin_crear_incubacion.html',args)
-	else:
-		return redirect('/CrearIncubacion/')
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	args['incubacion'] = None
+	return render_to_response('admin_crear_incubacion.html',args)
 
 """
 Autor: Henry Lasso
