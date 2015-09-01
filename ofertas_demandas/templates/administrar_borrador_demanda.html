@@ -1,19 +1,19 @@
 
 {% extends "oferta_inicio.html" %}
 
-{% block sliderPagina %}BORRADOR DE OFERTA {% endblock %}
+{% block sliderPagina %}BORRADOR DE DEMANDA {% endblock %}
 {% block contenido %}
     <div class="container">
     <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
         <div class="col-md-6 col-xs-6" align="left" style="padding-left: 0px;">
-            <h4>{{ oferta.nombre }}</h4>
+            <h4>{{ demanda.nombre }}</h4>
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ dueno }}</a></li>
-                <li><i class="fa fa-calendar"></i> {{ oferta.fecha_creacion }}</li>
+                <li><i class="fa fa-calendar"></i> {{ demanda.fecha_creacion }}</li>
             </ul>
         </div>
         <div class="col-md-6 col-xs-6" align="right" style="padding-top: 15px;padding-right: 0px;">
-            <a href="/EditarBorrador/{{oferta.id_oferta}}" class="btn btn-green">
+            <a href="/EditarBorrador/{{demanda.codigo}}" class="btn btn-green">
                 <i class="fa fa-pencil"></i>
                 Editar
             </a>
@@ -80,13 +80,10 @@
                         <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
                     </li>
                     <li role="presentation">
-                        <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+                        <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria</a>
                     </li>
                     <li role="presentation">
-                        <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
+                        <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado</a>
                     </li>
                 </ul>
                 <!-- Tab panes -->
@@ -113,26 +110,16 @@
                                 </div>
                             </div>
                             <div class="col-md-8 col-sm-8 col-xs-8">
-                                <!--Tipo-->
-                                <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
-                                <p>
-                                {% if oferta.tipo == 0 %}
-                                Emprendimiento
-                                {% elif oferta.tipo == 1 %}
-                                Tecnologia
-                                {% elif oferta.tipo == 2 %}
-                                Prototipo
-                                {% endif %}
-                                </label>
-                                    <!--Descripcion-->
+                                
+                                <!--Descripcion-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
-                                <p>{{ oferta.descripcion }} </p>
+                                <p>{{ demanda.descripcion }} </p>
                                 <!--Dominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
-                                <p>{{ oferta.dominio }}</label>
+                                <p>{{ demanda.dominio }}</label>
                                     <!--Subdominio-->
                                 <p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
-                                <p>{{ oferta.subdominio }}</label>
+                                <p>{{ demanda.subdominio }}</label>
                                     <!--Palabras Clave-->
                                 <p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
                                 <p class="tags">
@@ -148,8 +135,8 @@
                             <!--Perfil Cliente-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
                             <p class="col-md-9">
-                            {% if oferta.perfil_cliente != None %}
-                            {{ oferta.perfil_cliente }} 
+                            {% if demanda.perfil_cliente != None %}
+                            {{ demanda.perfil_cliente }} 
                             {% else %}
                             No disponible
                             {% endif %}
@@ -157,64 +144,21 @@
                             <!--Perfil Beneficiario-->
                             <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
                             <p class="col-md-9">
-                            {% if oferta.perfil_beneficiario != None %}
-                            {{ oferta.perfil_beneficiario }} 
+                            {% if demanda.perfil_beneficiario != None %}
+                            {{ demanda.perfil_beneficiario }} 
                             {% else %}
                             No disponible
                             {% endif %} </p>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="modelo">
-                        <div class="col-md-12">
-                            <!--Canvas del modelo de negocio-->
-                            <h3 style="text-align:center" class="h4">  Canvas del Modelo de negocios</h3>
-                            <hr>
-
-                            <div class="col-md-12 table-responsive" style="font-size: 12px;">
-                                <table class="table table-bordered" >
-                                    <tr>
-                                        <th>Socios clave</th>
-                                        <th>Actividades clave</th>
-                                        <th>Propuestas de valor</th>
-                                        <th>Relaciones con los clientes</th>
-                                        <th>Segementos de clientes</th>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
-                                        <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
-                                        <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
-                                        <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
-                                        <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Recursos Claves</th>
-                                        <th>Canales</th>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
-                                        <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan=3>Estructura de Costos</th>
-                                        <th colspan=2>Fuentes de Ingresos</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
-                                        <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
                     <div role="tabpanel" class="tab-pane" id="industria">
                         <div class="col-md-12">
                             <!--Tendencias-->
-                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
+                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Importancia de resolver la necesidad</p>
                             <br>
                             <p class="col-md-12">
-                            {% if oferta.cuadro_tendencias_relevantes != None %}
-                            {{ oferta.cuadro_tendencias_relevantes }} 
+                            {% if demanda.importancia_resolver_necesidad != None %}
+                            {{ demanda.importancia_resolver_necesidad }} 
                             {% else %}
                             No disponible
                             {% endif %} </p>
@@ -222,65 +166,32 @@
                             <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</p>
                             <br>
                             <p class="col-md-12">
-                            {% if oferta.descripcion_soluciones_existentes != None %}
-                            {{ oferta.descripcion_soluciones_existentes }} 
+                            {% if demanda.alternativas_soluciones_existentes != None %}
+                            {{ demanda.alternativas_soluciones_existentes }} 
                             {% else %}
                             No disponible
                             {% endif %} 
                             </p>
-                            <!--Diagrama de Porter-->
-
-                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
-
-                            <div class="col-md-12 table-responsive" style="font-size: 12px;">
-                                <table class="table table-bordered" >
-                                    <tr>
-                                        <th>Competidores</th>
-                                        <th>Poder de consumidores</th>
-                                        <th>Sustitutos</th>
-                                        <th>Poder de proveedores</th>
-                                        <th>Nuevos entrantes</th>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
-                                        <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
-                                        <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
-                                        <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
-                                        <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <br><br>
+                            <br>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="esta_logro">
                         <div class="col-md-12">
                             <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del producto o servicio</p>
                             <p>
-                            {% if oferta.tiempo_para_estar_disponible != None %}
-                            {{ oferta.tiempo_para_estar_disponible }} 
+                            {% if demanda.tiempo_para_estar_disponible != None %}
+                            {{ demanda.tiempo_para_estar_disponible }} 
                             {% else %}
                             No disponible
                             {% endif %}
                             </p>
                             <br>
                             <!--Estado de propiedad Intelectual-->
-                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
+                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Lugar donde se la necesita</p>
                             <br>
                             <p class="col-md-12">
-                            {% if oferta.estado_propieada_intelectual != None %}
-                            {{ oferta.estado_propieada_intelectual }} 
-                            {% else %}
-                            No disponible
-                            {% endif %}
-                            </p>
-                            <!--Evidencia de Traccion-->
-                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
-                            <br>
-                            <p class="col-md-12">
-                            {% if oferta.evidencia_traccion != None %}
-                            {{ oferta.evidencia_traccion }} 
+                            {% if demanda.lugar_donde_necesita != None %}
+                            {{ demanda.lugar_donde_necesita }} 
                             {% else %}
                             No disponible
                             {% endif %}
