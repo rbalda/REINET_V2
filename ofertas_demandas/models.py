@@ -68,6 +68,7 @@ class Oferta(models.Model):
     palabras_clave = models.ManyToManyField('PalabraClave',related_name='ofertas_con_esta_palabra')
     comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
     alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
+    es_publica = models.BooleanField(default=False)#si es false el alcance de la oferta se tendra que validar con las intituciones asignadas
 
     class Meta:
         db_table = 'Oferta'
@@ -96,6 +97,7 @@ class Demanda(models.Model):
     palabras_clave = models.ManyToManyField('PalabraClave',related_name='demandas_con_esta_palabra')
     alcance = models.ManyToManyField(Institucion,related_name='demandas_por_institucion')
     comentarios = models.ManyToManyField(Perfil,through='ComentarioDemanda',through_fields=('fk_demanda','fk_usuario'),related_name='usuarios_que_cpmentaron')
+    es_publica = models.BooleanField(default=False)#si es false el alcance de la demanda se tendra que validar con las intituciones asignadas
 
 
     class Meta:
