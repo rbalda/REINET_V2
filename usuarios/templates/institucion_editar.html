@@ -165,22 +165,18 @@
                             </div>
                             <!--EMAIL-->
                             <script>
-                                redInn.controller('ExampleController', ['$scope', function($scope) {
-                                    $scope.email = {
-                                      text: 'me@dfgdsf.com'
-                                    };
-                                  }]);
+                               
                               </script>
-                            <div class="form-group">
+                            <div class="form-group" ng-controller="ExampleController">
                                 <label for="emailInstitucion" class="col-md-4">E-mail</label>
                                 
-                                <div class="col-md-8" ng-controller="ExampleController">
+                                <div class="col-md-8" >
                                   <div ng-messages='editar_institucion.emailInstitucion.$error' >
                                   <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="editar_institucion.emailInstitucion.$dirty && editar_institucion.emailInstitucion.$invalid">
                                     Ingrese una dirección de email válida. Ejemplo: ejemplo@reinet.com.
                                   </label>
                                 </div>
-                                    <input type="email"  ng-model="email.text" class="form-control" id="emailInstitucion"
+                                    <input type="email"  ng-model="email" ng-init="email='{{institucion.correo}}'" class="form-control" id="emailInstitucion"
                                            name="emailInstitucion" 
                                           ng-pattern="/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/"
                                            placeholder="Email" maxlength="45" data-toggle="popover"
@@ -193,19 +189,19 @@
                             <!--SITIO WEB-->
                             <div class="form-group">
                                 <label for="webInstitucion" class="col-md-4">Sitio web</label>
-                                <div ng-messages='editar_institucion.webInstitucion.$error' >
+                              
+                                <div class="col-md-8">
+                                    <div ng-messages='editar_institucion.webInstitucion.$error' >
                                   <label class="info-board-red" style="display: block; color: red; text-align:center" ng-show="editar_institucion.webInstitucion.$dirty && editar_institucion.webInstitucion.$invalid">
-                                    El sitio web debe tener entre 3 y 240 caracteres.
-                                    Ejemplo: www.reinet.org
+                                     Ingrese una url válida.
                                   </label>
                                 </div>
-                                <div class="col-md-8">
-                                <input type="text" class="form-control" maxlength="45" id="webInstitucion"
+                                <input type="text" class="form-control" maxlength="245" id="webInstitucion"
                                        name="webInstitucion" placeholder="Dirección web"
                                        data-toggle="popover" data-placement="left" data-trigger="focus"
                                        data-content="Ingrese la dirección web de la Institución"
                                        data-original-title="Dirección Web" ng-model="institucion.webInstitucion"
-                                       ng-pattern="/^www\.[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/" ng-required="true"
+                                       ng-pattern="/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/" ng-required="true"
                                        ng-init="institucion.webInstitucion='{{ institucion.web }}'">
 
                                 </div>

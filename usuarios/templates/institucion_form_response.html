@@ -122,7 +122,8 @@
     <input type="text" class="form-control" maxlength="45" id="webInstitucion" onblur="validarURL(this)"
            name="webInstitucion" placeholder="Dirección web"
            data-toggle="popover" data-placement="left" data-trigger="focus"
-           data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required>
+           data-content="Ingrese la dirección web de la Institución" data-original-title="Dirección Web" required
+           pattern="/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/">
 </div>
 
 <label for="logo">Logo</label>

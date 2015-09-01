@@ -1,5 +1,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<input type="hidden" value="{{membresiasPendientes|length}}">
+<div style="margin-left:10px;"><p class="text-muted"><span class="glyphicon glyphicon-list-alt"></span> Solicitudes Pendientes {{membresiasPendientes|length}}</p></div>
+
+
 {% for miembro in membresiasPendientes %}
 	<li id="solicitud{{miembro.id_membresia}}">
         <p class="text-muted" >
@@ -13,10 +15,10 @@
 
         <p class="text-muted" >
             <a class="inbox-dialog col-sm-offset-4"><br>
-                <button type="button" class="btn btn-green btn-md " id="Aceptar{{miembro.id_membresia}}"  data-toggle="modal" data-target="#enviarMensaje">
+                <button type="button" class="btn btn-green btn-md " id="Aceptar{{miembro.id_membresia}}"  data-toggle="modal" data-target="#enviarMensaje{{miembro.id_membresia}}">
                     <span class="glyphicon glyphicon-plus-sign"></span> Aceptar
                 </button>
-                <button type="button" class="btn btn-default btn-md" id="Rechazar{{miembro.id_membresia}}" data-toggle="modal" data-target="#enviarMensaje">
+                <button type="button" class="btn btn-default btn-md" id="Rechazar{{miembro.id_membresia}}" data-toggle="modal" data-target="#enviarMensaje{{miembro.id_membresia}}">
                     <span class="glyphicon glyphicon-minus-sign"></span> Rechazar
                 </button>
 
@@ -26,65 +28,63 @@
     </li>
 
 		 <script>
+            var opcion;
 		 	$(document).ready(function(){
 		 		$(function(){
-                    var opcion = -1;
-                    var asunto = " ";
+                    
 
                     $('#Rechazar{{miembro.id_membresia}}').click(function(){
                         console.log('rechazo solicitud');
-                        asunto = "Su solicitud a {{ institucion.nombre }} a sido rechazada"
                         opcion = 0;
                     });
 
                     $('#Aceptar{{miembro.id_membresia}}').click(function(){
                         console.log('acepto solicitud');
-                        asunto = "Su solicitud a {{ institucion.nombre }} a sido aceptada"
                         opcion = 1;
                     });
 
 
-		 			$(document).on('click','#accionMembresia',function(){
+		 			$(document).on('click','#accionMembresia{{miembro.id_membresia}}',function(){
 		 				console.log('hizo click en accion membresia');
-		 				document.getElementById("accionMembresia").disabled=true;
-                        console.log($('#asunto_form').val());
                         console.log($('#mensaje_form').val());
-		 				$.ajax({
-		 					data : {
-                                'asunto' : asunto,
-                                'mensaje' : $('#mensaje_form').val(),
-                                'membresia' : {{miembro.id_membresia}},
-		 						'accion' : opcion,
-		 						'csrfmiddlewaretoken' : '{{ csrf_token }}'
-		 					},
-		 					type : 'post',
-		 					url : '/accionMembresia/',
-		 					success: function(data){
-		 						var objeto = JSON.parse(data);
 
-		 						if (objeto.membresia_save){
-		 							$('#solicitud{{miembro.id_membresia}}').remove();
-		 							$(function(){
-                                  		$('#panel_miembros').ready(actualizarListaMiembros);
+                            $.ajax({
+                                data : {
+                                    'asunto' : '{{ institucion.nombre }}',
+                                    'mensaje' : $('#mensaje_form').val(),
+                                    'membresia' : {{miembro.id_membresia}},
+                                    'accion' : opcion,
+                                    'csrfmiddlewaretoken' : '{{ csrf_token }}'
+                                },
+                                type : 'post',
+                                url : '/accionMembresia/',
+                                beforeSend: function(){
+                                    $('#Rechazar{{miembro.id_membresia}}').attr('disabled',true);
+                                    $('#Aceptar{{miembro.id_membresia}}').attr('disabled',true);
+                                    $('#accionMembresia{{miembro.id_membresia}}').attr('disabled',true);
+                                },
+                                success: function(data){
+                                    var objeto = JSON.parse(data);
 
-                                    	function actualizarListaMiembros(){
-                                    		$.ajax({
-                                      			data:{
-                                        			'institucion':{{institucion.id_institucion}}
-                                      			},
-                                      			type:'get',
-                                      			url: '/MiembrosInstitucion/',
-                                      			success: function(data){
-                                        			$('#panel_miembros').html(data)
-                                      			}
-                                    		});
-                                  		}
-                                	});
-		 						}
-		 					}
-		 				});
-		 		});
+                                    if (objeto.membresia_save){
+                                        $('#solicitud{{miembro.id_membresia}}').remove();
+                                    }else{
+                                    console.log('alerta error grave - solicitud no se guardo');
+                                    }
+                                }
+                            });
 
+		 		   });// fin de document accionmembresia
+
+                      $('.cancelar').on('click',function(){
+                            limpiarInputsMensajes();
+                        });
+
+                          function limpiarInputsMensajes(){
+                              $('#mensaje_form').val("");
+                          }
+
+                // fin de function
              });
 
          });
@@ -93,35 +93,35 @@
 
 
 <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-                        <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <img src={{ usuarioSesion.foto.url }} alt="...">
-                                    <h4 class="modal-title" id="sendemailtitle">{{ institucion.nombre }}</h4>
-                                    <p class="text-muted"><i class="fa fa-envelope"></i>Mensaje Membresia</p>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form" action="" method='POST'>
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                        <label for="Destinatario">Para: </label>
-                                        <p class="text-muted">{{ miembro.fk_usuario.first_name }} {{ miembro.fk_usuario.last_name }}&lt;{{ miembro.fk_usuario.username }}&gt; </p>
-                                         </div>
-                                        <div class="form-group">
-                                            <label for="Mensaje">Mensaje:</label>
-                                            <textarea class="form-control" maxlength="1000" rows="3" id="mensaje_form" name="mensaje"
-                                            required></textarea>
-                                        </div>
-                                        <button data-dismiss="modal" class="btn btn-blue" id="accionMembresia">Enviar</button>
+<div class="modal fade" id="enviarMensaje{{miembro.id_membresia}}" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close cancelar" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <img src={{ usuarioSesion.foto.url }} alt="...">
+            <h4 class="modal-title" id="sendemailtitle">{{ institucion.nombre }}</h4>
+            <p class="text-muted"><i class="fa fa-envelope"></i>Mensaje Membresia</p>
+            <div class="clearfix"></div>
+        </div>
+        <div class="modal-body">
+            <form role="form" action="" method='POST'>
+                {% csrf_token %}
+                <div class="form-group">
+                <label for="Destinatario">Para: </label>
+                <p class="text-muted">{{ miembro.fk_usuario.first_name }} {{ miembro.fk_usuario.last_name }}&lt;{{ miembro.fk_usuario.username }}&gt; </p>
+                 </div>
+                <div class="form-group">
+                    <label for="Mensaje">Mensaje:</label>
+                    <textarea class="form-control" maxlength="1000" rows="3" id="mensaje_form" name="mensaje"
+                    required></textarea>
+                </div>
+                <button data-dismiss="modal" class="btn btn-blue" id="accionMembresia{{miembro.id_membresia}}">Enviar</button>
 
-                                         <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-                                    </form>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
+                 <button type="button" class="btn btn-default cancelar" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
 </div>

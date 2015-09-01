@@ -1,19 +1,26 @@
-{% extends "profile_institucion.html" %}
-
-{% block contenidoinstitucion %}
-
-    <div class="col-sm-8 col-md-7">
+    <div class="col-sm-12">
         <div class="clearfix"></div>
         <hr>
         <div class="pm bottom-15">
             <div class="media">
+                {% if msj.tipo_mensaje == 'institucion-usuario' or msj.tipo_mensaje == 'institucion-institucion'%}
+                    <a data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
+                    <i class="fa fa-bookmark" style="color:blue;"></i></a>
+                {% endif %}
                 <a class="pull-left" href="#">
-                    <img class="media-object" src="{{ emisor.foto.url }}" alt="...">
+                    <img class="media-object" src="{% if tipo_envio %}{{ msj.fk_emisor.foto.url }}{% else %}{{ msj.fk_receptor.foto.url }}{% endif %}" alt="...">
                 </a>
 
                 <div class="media-body">
                     <p>
-                        <b>De:</b> <a href="/usuario/{{ msj.fk_emisor }}">{{ usuario_emisor.first_name }} {{ usuario_emisor.last_name }} </a>
+                        <b>{% if tipo_envio %}De:{% else %}Para:{% endif %}</b>
+                        <a href="/usuario/{% if tipo_envio %}{{ msj.fk_emisor }}{% else %}{{ msj.fk_receptor }}{% endif %}">
+                        {% if tipo_envio %}
+                            {{ msj.fk_emisor.first_name }} {{ msj.fk_emisor.last_name }} &lt;{{  msj.fk_emisor.username }}&gt;
+                        {% else %}
+                            {{ msj.fk_receptor.first_name }} {{ msj.fk_receptor.last_name }} &lt;{{  msj.fk_receptor.username }}&gt;
+                        {% endif %}
+                        </a>
                     </p>
                     <p>
                         <b>Asunto:</b>&nbsp; {{ msj.asunto }}
@@ -27,28 +34,35 @@
                 </div>
             </div>
         </div>
+
         <div class="message-answer" style="text-align:center">
-            <a href="#" class="btn-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensajeInstitucion"><i
+            <a href="#" class="btn-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#responder_mensaje_institucion{{ msj.id_mensaje }}"><i
                  class="fa fa-envelope"></i> Responder</a>
         </div>
+
             <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-            <div class="modal fade" id="enviarMensajeInstitucion" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+            <div class="modal fade" id="responder_mensaje_institucion{{ msj.id_mensaje }}" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <img src={{ receptor.foto.url }} alt="...">
+                        <button type="button" class="close cancelar" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <img src="{% if tipo_envio %}{{ msj.fk_emisor.foto.url }}{% else %}{{ msj.fk_receptor.foto.url }}{% endif %}" alt="...">
                         <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
                         <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
                         <div class="clearfix"></div>
                     </div>
                     <div class="modal-body">
-                        <form role="form" action="/enviarMensajeInstitucion/" method='POST'>
-                            {% csrf_token %}
+                        <div>
                             <div class="form-group">
                                 <label for="Destinatario">Para:</label>
-                                <input type="text" class="form-control" id="destinatario" name="destinatario"
-                                placeholder="Destinatario" value="{{ emisor.username }}" maxlength="50" required>
+                                <p class="text-muted">
+                                    {% if tipo_envio %}
+                                        {{ msj.fk_emisor.first_name }} {{ msj.fk_emisor.last_name }} &lt;{{  msj.fk_emisor.username }}&gt;
+                                    {% else %}
+                                        {{ msj.fk_receptor.first_name }} {{ msj.fk_receptor.last_name }} &lt;{{  msj.fk_receptor.username }}&gt;
+                                    {% endif %}
+                                </p>
+                                <input type="hidden" id="destinatario" name="destinatario" value="{% if tipo_envio %}{{ msj.fk_emisor.username }}{% else %}{{ msj.fk_receptor.username }}{% endif %}" />
                             </div>
                             <div class="form-group">
                                 <label for="Asunto">Asunto:</label>
@@ -60,15 +74,14 @@
                                 <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
                                 required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-green">Enviar</button>
-                        </form>
+                            <button data-dismiss="modal" class="btn btn-blue" id="btn_enviar_mensaje_nuevo">Enviar</button>
+                            <button type="button" class="btn btn-default cancelar" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                        </div>
                     </div>
                     </div>
                 </div>
             </div>
             <div class="clearfix"></div>
-
     </div>
-
-{% endblock %}
+<script src="/static/js/autocompletar.js"></script>
 

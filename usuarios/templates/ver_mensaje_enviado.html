@@ -39,12 +39,13 @@
 {% endblock %}
 
 {% block contenidousuario %}
-
     <div class="col-sm-8 col-md-7">
-        <div class="clearfix"></div>
-        <hr>
         <div class="pm bottom-15">
             <div class="media">
+                {% if msj.tipo_mensaje == 'institucion-usuario' or msj.tipo_mensaje == 'institucion-institucion'%}
+                    <a data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
+                    <i class="fa fa-bookmark" style="color:blue;"></i></a>
+                {% endif %}
                 <a class="pull-left" href="#">
                     <img class="media-object" src="{{ receptor.foto.url }}" alt="...">
                 </a>
@@ -65,47 +66,6 @@
                 </div>
             </div>
         </div>
-        <div class="message-answer" style="text-align:center">
-            <a href="#" class="btn-sm-12 btn btn-green btn-sm" data-toggle="modal" data-target="#enviarMensaje"><i
-                 class="fa fa-envelope"></i> Responder</a>
-        </div>
-            <!-- //// VENTANA EMERGENTE EMAIL ///// -->
-            <div class="modal fade" id="enviarMensaje" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <img src={{ receptor.foto.url }} alt="...">
-                        <h4 class="modal-title" id="sendemailtitle">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
-                        <p class="text-muted"><i class="fa fa-envelope"></i> Nuevo Mensaje</p>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="modal-body">
-                        <form role="form" action="/enviarMensaje/" method='POST'>
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="Destinatario">Para:</label>
-                                <input type="text" class="form-control" id="destinatario" name="destinatario"
-                                placeholder="Destinatario" value="{{ receptor.username }}" maxlength="50" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Asunto">Asunto:</label>
-                                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
-                                maxlength="40" value="RE:{{ msj.asunto }}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Mensaje">Mensaje:</label>
-                                <textarea class="form-control" maxlength="1000" rows="3" id="mensaje" name="mensaje"
-                                required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-green">Enviar</button>
-                        </form>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-
     </div>
 
 {% endblock %}

@@ -68,7 +68,6 @@ function convertirFecha(){
                                                 
     td_fecha.innerHTML=dia+'/'+mes+'/'+año;
 
-}                                               
+}                                           
 window.onload = fijarReputacion;                                            
-
                                                 

@@ -32,6 +32,10 @@
         <div class="clearfix"></div>
         <div class="pm bottom-15">
             <div class="media">
+                {% if msj.tipo_mensaje == 'institucion-usuario' or msj.tipo_mensaje == 'institucion-institucion'%}
+                    <a data-toggle="tooltip" title="Administrador de Instituci&oacute;n" data-placement="top">
+                    <i class="fa fa-bookmark" style="color:blue;"></i></a>
+                {% endif %}
                 <a class="pull-left" href="#">
                     <img class="media-object" src="{{ emisor.foto.url }}" alt="...">
                 </a>
@@ -74,7 +78,7 @@
                             <div class="form-group">
                                 <label for="Destinatario">Para:</label>
                                 <input type="text" class="form-control" id="destinatario" name="destinatario"
-                                       placeholder="Destinatario" value="{{ msj.fk_emisor }}" maxlength="50" required>
+                                       placeholder="Destinatario" value="{{ msj.fk_emisor }}" maxlength="50" readonly required>
                             </div>
                             <div class="form-group">
                                 <label for="Asunto">Asunto:</label>

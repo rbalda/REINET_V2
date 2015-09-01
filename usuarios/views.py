@@ -1895,8 +1895,6 @@ def administrar_membresias(request):
         return redirect('/')
 
 
-
-
 """
 Autor: Leonel Ramirez, Jose Velez
 Nombre de funcion: eliminarMensajeRecibido
@@ -1964,11 +1962,101 @@ def eliminarMensajeEnviado(request,):
 
 """
 Autor: Fausto Mora
-Nombre de funcion: eliminarMensajeRecibidoInstitucion
-Entrada: request POST
-Salida: elimina mensaje .
-Descripción: marca eliminado mensaje y actuliza template.
+Nombre de funcion: BandejaDeEntradaInstitucion
+Entrada: request get
+Salida: Redireccion bandeja de entrada de institucion
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario tiene en su bandeja de entrada de institucion
 """
+
+@login_required
+def BandejaDeEntradaInstitucion(request):
+	if request.is_ajax():
+		print 'dentro de bandeja de entrada institucion'
+
+		usuario = User.objects.get(id=request.GET['usuario_id'])
+		mensajes = Mensaje.objects.all().filter(fk_receptor=request.session['id_usuario'],visible_receptor = 1).exclude(tipo_mensaje='institucion-usuario').exclude(tipo_mensaje='usuario-usuario')
+		mensajes = mensajes.order_by('-fecha_de_envio')
+		paginacion = Paginator(mensajes, 5)
+
+		try:
+			msjs = paginacion.page(request.GET['pagina'])
+		except (EmptyPage, InvalidPage):
+			msjs = paginacion.page(paginacion.num_pages)
+
+		args={}
+		args['usuario'] = usuario
+		args['mensajes'] = mensajes
+		args['msjs'] = msjs
+		args.update(csrf(request))
+		return render(request,'bandeja_de_entrada_institucion.html',args)
+	else:
+		return redirect('/')
+
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: BandejaSalidaInstitucion
+Entrada: request get
+Salida: Muestra los mensajes enviados de una institucion
+Descripción: Esta funcion permite visualizar los mensajes
+enviados a otros usuarios ddesde el buzon de institucion
+"""
+
+@login_required
+def BandejaSalidaInstitucion(request):
+	if request.is_ajax():
+		print 'en bandeja de salida institucion'
+
+		usuario=User.objects.get(id=request.GET['usuario_id'])
+		mensajes = Mensaje.objects.all().filter(fk_emisor=request.session['id_usuario'],visible_emisor = 1).exclude(tipo_mensaje='usuario-usuario').exclude(tipo_mensaje='usuario-institucion')
+		mensajes = mensajes.order_by('-fecha_de_envio')
+		paginacion = Paginator(mensajes, 5)
+
+
+		try:
+			msjs = paginacion.page(request.GET['pagina'])
+		except (EmptyPage, InvalidPage):
+			msjs = paginacion.page(paginacion.num_pages)
+
+		args={}
+		args['usuario']=usuario
+		args['msjs']=msjs
+		args['mensajes']=mensajes
+		args.update(csrf(request))
+		return render(request,'bandeja_de_salida_institucion.html',args)
+	else:
+		return redirect('/')
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: nuevoMensajeInstitucion
+Entrada: request get
+Salida: html
+Descripción: Esta funcion carga la plantilla para envio de mensajes desde
+perfil de institucion
+
+"""
+
+@login_required
+def nuevoMensajeInstitucion(request):
+	if request.is_ajax():
+		print 'en nuevo mensaje institucion'
+
+		return render(request,'nuevo_mensaje_institucion.html')
+	else:
+		return redirect('/')
+
+
+"""
+Autor: Fausto Mora
+Nombre de funcion: enviarMensajeInstitucion
+Entrada: request POST
+Salida: Redireccion bandeja de entrada de institucion
+Descripción: Esta funcion permite visualizar los mensajes
+que un usuario administrador de una institucion tiene en su bandeja de entrada
+"""
+
 @login_required
 def eliminarMensajeRecibidoInstitucion(request):
     sesion=request.session['id_usuario']
@@ -1993,11 +2081,13 @@ def eliminarMensajeRecibidoInstitucion(request):
 
 """
 Autor: Fausto Mora
-Nombre de funcion: eliminarMensajeEnviadoInstitucion
+Nombre de funcion: verMensajeInstitucion
 Entrada: request POST
-Salida: elimina mensaje en enviados.
-Descripción: elimina y actuliza los mensaje del buzon.
+Salida: Redireccion mensaje recibido
+Descripción: Esta funcion permite visualizar los mensajes
+detalladamente desde el buzon de administrador de institucion
 """
+
 @login_required
 def eliminarMensajeEnviadoInstitucion(request,):
     sesion=request.session['id_usuario']
@@ -2120,7 +2210,7 @@ def verificarSuscripcion(request):
 """
 Autor: Fausto Mora
 Nombre de funcion: buzonMembresias
-Entrada: request get
+Entrada: request ajax get
 Salida: envia un HttpResponse
 Descripción: Esta funcion carga las membresias en el perfil 
 de la institucion
@@ -2148,8 +2238,8 @@ def buzonMembresias(request):
 """
 Autor: Fausto Mora
 Nombre de funcion: accionMembresia
-Entrada: request post
-Salida: envia un response
+Entrada: request ajax post id_membresia
+Salida: JsonResponse
 Descripción: Esta funcion carga maneja la aceptacion y rechazo
 de las solicitudes de membresia de una institucion
 """
