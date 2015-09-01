@@ -39,7 +39,9 @@ urlpatterns = patterns('',
 		url(r'^CargarImagenDemanda[/]?$','ofertas_demandas.views.CargarImagenDemanda', name='CargarImagenDemanda'),
         url(r'^demanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.verCualquierDemanda', name='verDemanda'),
         url(r'^listaComentariosAceptadosDemandas[/]?$', 'ofertas_demandas.views.listaComentariosAceptadosDemandas', name='listaComentariosAceptados'),
-         url(r'^enviarComentarioDemanda[/]?$', 'ofertas_demandas.views.enviarComentarioDemanda', name='enviarComentario'),
+        url(r'^enviarComentarioDemanda[/]?$', 'ofertas_demandas.views.enviarComentarioDemanda', name='enviarComentarioDemanda'),
+        url(r'^aceptarComentarioDemanda/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.aceptarComentarioDemanda', name='aceptarComentarioDemanda'),
+        url(r'^rechazarComentarioDemanda/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.rechazarComentarioDemanda', name='rechazarComentarioDemanda'),
 		)
 
 urlpatterns += routers.ofertas_routers
