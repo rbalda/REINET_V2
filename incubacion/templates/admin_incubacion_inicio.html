@@ -64,7 +64,7 @@
                                 <i class="sign fa fa-users bg-turquoise " ></i>Membres&iacute;as
                                 <i class="fa fa-chevron-right pull-right"></i>
                             </a>
-                        </li>                        
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -73,21 +73,21 @@
             <div class="col-md-9">
               <div class="row" style="margin-bottom: 25px;">
                 <div align=left class="col-md-3 col-sm-3 col-xs-4">
-                    <form id="formCrearIncubacion" action="/CrearIncubacion/" method="GET"> 
+                    <form id="formCrearIncubacion" action="/CrearIncubacion/" method="GET">
                         <button type="submit" class="btn" style="background-color:#F44336; color: white;" id="btnIncubacion" name="btnIncubacion">Crear Incubaci&oacute;n
                         </button>
-                        
+
                     </form>
                     <button id="btn_participar" class="btn btn-green btn-sm"
                             style="color:white;margin-top: 15px;" data-toggle="modal"
                             data-target="#CrearConvocatoria">Crear Convacatoria
                     </button>
 
-                    
-                    
-                    
+
+
+
                 </div>
-                
+
 
                 <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
                   <div class="col-sm-9">
@@ -217,9 +217,9 @@
                               </p>
                             </div>
                       </div>
-                        
-                
-                              
+
+
+
                         <!-- PAGINACION DE VER INCUBACIONES
                         -->
                         <div class="pagination col-md-10">
@@ -241,10 +241,10 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="aa">
-                    
+
                     </div>
                     <div role="tabpanel" class="tab-pane" id="bb">
-                    
+
                     </div>
 
                 </div>
@@ -269,11 +269,11 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-body" style="margin-bottom:30px">
-                    <form role="form" action="" method=''>
+                  <!--<form role="form" action="" method=''>-->
                         <!--{% csrf_token %}-->
                         <div class="form-group">
                           <label style="resize:none" >Alcance:</label>
-                          <select name="alcance" style="resize:none" >    
+                          <select name="alcance" style="resize:none" >
                              <option value="Local" selected="selected">Local</option>
                              <option value="Algunas Instituciones">Algunas Instituciones</option>
                              <option value="Global">Global</option>
@@ -281,21 +281,50 @@
 
                           <br>
                           <label style="resize:none" >Fecha Máxima De Aplicación:</label>
-                          <input type="date" name="fecMaxima" style="resize:none">
+                          <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none">
                         </div>
-                        
+
                             <button id="btn_convocatoria" class="btn btn-green btn-sm"
                             style="color:white;margin-top: 15px;" >
                                 Enviar
                             </button>
-                        
-                    </form>
+
+                  <!--</form>-->
                 </div>
             </div>
         </div>
     </div>
-  
+
+    <script>
+      $('#btn_convocatoria').click(function(e){
+        e.preventDefault();
+        $('#CrearConvocatoria').modal('hide');
+        var btn_participar =  $('#btn_participar');
+        btn_participar.removeAttr('data-target');
+        btn_participar.empty();
+        btn_participar.html('Convocatoria creada');
+        btn_participar.removeClass();
+        btn_participar.toggleClass('btn btn-green-disable btn-sm');
+        btn_participar.css('cursor','not-allowed');
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        var max = new Date($('#fecMaxAlcance').val());
+        var timeDiff = Math.abs(today.getTime() - max.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        console.log(diffDays);
+        if (diffDays>0){
+          var btn_participar =  $('#btn_participar');
+          btn_participar.removeAttr('data-target');
+          btn_participar.empty();
+          btn_participar.html('Convocatoria terminada');
+          btn_participar.removeClass();
+          btn_participar.toggleClass('btn btn-green-disable btn-sm');
+          btn_participar.css('cursor','not-allowed');
+        }
+
+      });
+    </script>btn
 {% endblock %}
-
-
 
