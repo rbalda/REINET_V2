@@ -69,39 +69,70 @@
 	  					<div class="user-status">
 	  					</div>
   					</div>
-  				</div>
-  				<div class="col-md-3" style="margin-left:190px;">
-  					<div style="margin-top:20px;">
-	              		<div class="panel panel-red">
-			        		<div class="panel-heading">
-			        			<div class="row">
-				              		<div class="col-md-9" style="margin-top:5px;margin-left:3px;">
-				              			<h4 class="panel-title">Convocatoria</h4>
-				              		</div>
-				              		<div class="col-md-1" style="margin-left:10px">
-				              			<a href="#" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i></a>
-				            		</div>
-				            	</div>
-			            	</div>
-			            	<div class="panel-body">
-			            		<table class="table table-hover" >
-			            			<tbody>
-                                        <tr>
-                                        	<td class="text-muted">Fecha Máxima</td>
-                                            <td style="text-align:left"> 20/02/2016</td>
-                                        </tr>
-                                            <td class="text-muted">Alcance</td>
-                                            <td style="text-align:left">TODOS</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-			            	</div>
+  					
+            	<div class="col-md-5" >
+            		<div style="margin-top:20px;margin-left:90px">
+            			<div class="panel panel-red">
+            				<div class="panel-heading">
+				        			<div class="row">
+					              		<div class="col-md-9" style="margin-top:5px;margin-left:3px;">
+					              			<h4 class="panel-title">
+					              				Convocatoria
+					              			</h4>
+					              		</div>
+					              		<div class="col-md-1" style="margin-left:20px">
+					              			<a href="#" class="btn btn-dark btn-sm">
+					              				<i class="fa fa-plus"></i>
+					              			</a>
+					            		</div>
+					            	</div>
+				            </div>
+				            <div class="panel-body">
+				            		<table class="table table-hover" >
+				            			<tbody>
+	                                        <tr>
+	                                        	<td class="text-muted">Fecha Máxima</td>
+	                                            <td style="text-align:left"> 20/02/2016</td>
+	                                        </tr>
+	                                            <td class="text-muted">Alcance</td>
+	                                            <td style="text-align:left">TODOS</td>
+	                                        </tr>
+	                                    </tbody>
+	                                </table>
+				            </div>
 			          	</div>
-			        </div>
+	              	</div>
+
+
+	              	<div style="margin-top:20px;margin-left:90px">
+            			<div class="panel panel-blue">
+            				<div class="panel-heading">
+				        			<div class="row">
+					              		<div class="col-md-9" style="margin-top:5px;margin-left:3px;">
+					              			<h4 class="panel-title">
+					              				Consultores
+					              			</h4>
+					              		</div>
+					              		<div class="col-md-1" style="margin-left:20px">
+					              			<a href="#" class="btn btn-dark btn-sm" data-toggle="modal" id="botonInvitarConsultor" data-target="#modalInvitarConsultor">
+					              				<i class="fa fa-plus"></i>
+					              			</a>
+					            		</div>
+					            	</div>
+				            </div>
+				            <div class="panel-body">
+				            </div>
+			          	</div>
+	              	</div>
+	              	
+
+
 	            </div>
-	        <div>
-	    </div>
-	    <br><br><br><br><br>
+	        </div>
+	    <div>
+	    
+	    <br><br><br><br>
+
 
 	    <div class="row" >
 	    	
@@ -118,19 +149,141 @@
 					    <p>Aqui van las incubadas</p>
 					  </div>
 					  <div id="solicitudes_ofertas" class="tab-pane fade">
-
-					    <div class="alert alert-warning">
-					    	Para tener ofertas aplicantes debe crear una convocatoria
+					  	<div class="alert alert-warning">
+					  		Para tener ofertas aplicantes debe crear una convocatoria
 					    </div>
-
-					    	<p>Aqui van las solicitudes</p>
-					  	</div>
+					    	
+										<div class="text-muted">
+							    		<div align="left">
+				                            <img class="pull-left img-responsive blog-img" alt="Imagen de mi Oferta" style="height: 115px; width: 115px;">
+				                        </div>
+							    		<div class="form-group">
+							    			<a href="#">ofertaAplicante2</a>
+							    		</div> 
+							    		<div class="form-group">
+							    			<label>Descripcion: </label>
+							    		</div>
+							    		<div class="form-group">
+							    			<label>Fecha de creacion: </label>
+							    		</div>
+							    		<div class="form-group">
+							    			<label>Numero de Consultores: </label>
+							    		</div>
+							    		<div align="right">
+							    			<a href="" class="button">
+				                                <button id="btn_ver_oferta" type="button" class="btn btn-blue">Ver Oferta</button>
+				                            </a>
+				                            <a href="" class="button">
+				                                <button id="btn_aceptar_oferta" type="button" class="btn btn-green" data-target="#ofertaAceptada" data-toggle="modal">Aceptar</button>
+				                            </a>
+				                            <a href="" class="button">
+				                                <button id="btn_rechazar_oferta" type="button" class="btn btn-red" data-target="#ofertaRechazada" data-toggle="modal">Rechazar</button>
+				                            </a>
+				                        </div>
+							    </div>
+					    	
+					  </div>
 					</div>
 	    		</div>
 	    	</div>
 	    </div>
   	</div>
-</div>
+  	</div>
+
+   <!-- COMIENZAN Los modals que se usan en toda la pagina -->
+  	<div class="modal modal-vcenter fade" id="ofertaAceptada" tabindex="-1" role="dialog"
+         aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method=''>
+                        <!--{% csrf_token %}-->
+                        <div class="form-group">
+                            <label for="Confirmacion">La oferta ha sido aprobada con &eacute;xito.</label>
+                            
+                        </div>
+                        <div align="right">
+                            <a href="" class="button">
+                                <button id="btn_aceptada" type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      	<div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
+         aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method=''>
+                        <!--{% csrf_token %}-->
+                        <div class="form-group">
+                            <label for="Confirmacion">La oferta ha sido rechazada con &eacute;xito.</label>
+                            
+                        </div>
+                        <div align="right">
+                            <a href="" class="button">
+                                <button id="btn_rechazada"type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      $('#btn_rechazada').click(function(e){
+        e.preventDefault();
+        $('#ofertaRechazada').modal('hide');
+        var btn_rechazar =  $('#btn_rechazar_oferta');
+        var btn_ver =  $('#btn_ver_oferta');
+        var btn_aceptar =  $('#btn_aceptar_oferta');
+        btn_aceptar.hide();
+        btn_ver.hide();
+        btn_rechazar.removeAttr('data-target');
+        btn_rechazar.empty();
+        btn_rechazar.html('Oferta Rechazada');
+        btn_rechazar.removeClass();
+        btn_rechazar.toggleClass('btn btn-green');
+        btn_rechazar.css('cursor','not-allowed');
+        
+
+      });
+    </script>
+	
+	<script>
+      $('#btn_aceptada').click(function(e){
+        e.preventDefault();
+        $('#ofertaAceptada').modal('hide');
+        var btn_aceptar =  $('#btn_aceptar_oferta');
+        var btn_rechazar =  $('#btn_rechazar_oferta');
+        
+        btn_rechazar.hide();
+        btn_aceptar.removeAttr('data-target');
+        btn_aceptar.empty();
+        btn_aceptar.html('Oferta Aceptada');
+        btn_aceptar.removeClass();
+        btn_aceptar.toggleClass('btn btn-green');
+        btn_aceptar.css('cursor','not-allowed');
+        
+
+      });
+    </script>
+
 
 </div>
 {% endblock %}

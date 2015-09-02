@@ -43,9 +43,50 @@
 			            
 			        </div>
 			        <div class="col-md-7" align=right>
-			            <a href="/CrearOferta/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultor</a>
-			            <a href="#" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
+			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultor</a>
+			            <a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
 			        </div> 
+
+			        <!-- comienza MODAL Invitar Consultor -->
+				    <div id="modalInvitarConsultor" class="modal fade" role="dialog">
+				    	<div class="modal-dialog" style="width: 70% !important;">
+				    		<div class="modal-content">
+				    			<div class="modal-header">
+				    				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				    				<h4 class="modal-title">Invitar Consultor</h4>
+				    			</div>
+				    			<div class="modal-body" style="font-size:14px;overflow-y:auto">
+				                    	<div class="comment" id="Comentario">
+	                                      	<div class="media">
+					                        	<form class="form-horizontal col-md-12">
+					                        		{% csrf_token %}
+					                        		<div class="form-group col-md-9">
+					                        			<input type="text" class="form-control" id="consultor" name="consultor"
+							                                placeholder="Buscar a consultor" value="{{ msj.fk_emisor }}" maxlength="50"  required>
+							                        </div>
+					                        		<div class="form-group ">
+					                        			<button type="submit" class="btn btn-red">
+					                        				Agregar
+					                        			</button>
+						                            </div>
+						                           
+						                            <div class="form-group">
+						                            	<a>Cargando..</a>
+						                            </div>
+						                            <div class="form-group">
+									                	<div align="right">
+									                		<a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+									                		<button href="#" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+									                	</div>
+									                </div>
+						                        </form>
+						                    </div>
+						                </div>
+						        </div>
+				        	</div>
+				        </div>
+				    </div>
+				    <!-- termina MODAL Invitar Consultor -->
 			    </div>
 
 	            <div class="blog-text">
@@ -191,6 +232,10 @@
 	                            <!--Perfil Cliente-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
 	                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+
+	                            
+
+
 	                            <!--Perfil Beneficiario-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
 	                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
@@ -287,12 +332,12 @@
 	                    </div>
 	                    <div role="tabpanel" class="tab-pane" id="esta_logro">
 	                        <div class="col-md-12">
-	                        	 <div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
-	                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del producto o servicio</p>
-	                            <p class="col-md-6">Enero/2015</p>
-	                            
+	                        	<div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
+	                            <p style="color: darkgray" for="Descripcion" class="col-md-8">Tiempo aproximado de disponilidad del producto o servicio</p>
+	                            <p class="col-md-4">Enero/2015</p>
+
 	                            <!--Estado del producto o servicio-->
-	                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
+	                            <p style="color: darkgray" for="Descripcion" class="col-md-12">Estado del producto o servicio</p>
 	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
 	                            <!--Estrategia de crecimiento-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
@@ -316,7 +361,7 @@
 	        <div class="col-md-4 col-sm-6">
 
 		       <!-- COMIENZA  Panel de los consultores -->
-		            <div class="panel panel-red">
+		            <div class="panel panel-dark">
 		                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
 		                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
 		                        <div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
@@ -396,8 +441,76 @@
 		              <a href="#" class="read-more">Ver m&aacute;s...</a>
 		            
 	            <!-- TERMINA Panel de los consultores -->
+
+				<!--Modal-->
+                        <div id="definirMilestone" class="modal fade" role="dialog">
+                          <div class="modal-dialog" style="width: 70% !important;">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 class="modal-title">Definir un Milestone</h4>
+                                  </div>
+                                  <div class="modal-body" style="font-size:14px;overflow-y:auto">                           
+                                      <div class="comment" id="Comentario">
+                                          <div class="media">
+                                            <form  class="form-horizontal col-md-12"  name="formMilestone"> 
+                                                <div class="form-group">
+                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Requerimientos para la incubada</label>
+                                                  <div class="col-md-7">
+                                                    <textarea autofocus  name="requerimientosDescripcion" rows="3"  class="form-control" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
+                                                    ></textarea>
+                                                  </div>
+                                                  <br>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de milestone</label>
+                                                  <div class="col-md-7">
+                                                      <input autofocus type="date" class="form-control" placeholder="Nombre de la Oferta"
+                                                      id="fecha" name="fecha_milestone"  data-trigger="focus">
+                                                  </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Importancia del milestone</label>
+                                                  <div class="col-md-7">
+                                                    <textarea autofocus rows="3"  class="form-control" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
+                                                    ></textarea>
+                                                  </div>
+                                                  <br>
+                                                </div>
+                                                <div class="form-group">
+                                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Otros</label>
+                                                   <div class="col-md-7 pull-left" id="nuevos">
+                                                   <form method="get">
+                                                    <textarea autofocus rows="5"  class="tinymce form-control" style="resize: none;"
+                                                    ></textarea>
+                                                  </div>
+                                                  </form>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div align="right">
+                                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                                                      <button href="#" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                                                    </div>                                                  
+                                                </div>
+                                            </form>   
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+
+
 	        </div>
 	    </div>
+	<script type="text/javascript" src="static/js/incubacion/editorTexto/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+     tinyMCE.init({
+       mode : "specific_textareas",
+       editor_selector : "tinymce",
+      }) 
+    </script>
 	</div>
 
 {% endblock%}
