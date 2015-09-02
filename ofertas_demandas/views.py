@@ -50,7 +50,7 @@ def InicioDemanda(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	return HttpResponseRedirect('/NotFound/')
+	return render_to_response('demanda_inicio.html', args)
 
 
 """
@@ -200,7 +200,7 @@ def CrearDemandaCopia(request):
 		args.update(csrf(request))
 		return render(request,'crear_demanda.html',args)
 	else:
-		return redirect('/CrearOferta/')
+		return redirect('/CrearDemanda/')
 
 """
 Autor: FaustoMora
@@ -237,7 +237,7 @@ def CargarImagenDemanda(request):
 		return HttpResponse(response.content)
 
 """
-Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
+Autor: Rolando Sornoza, Roberto Yoncon, David Vinces, Pedro Iniguez
 Nombre de funcion: verCualquierOferta
 Parametros: request
 Salida: http
@@ -284,13 +284,15 @@ def verCualquierOferta(request, id_oferta):
 			except Exception as e:
 				palabras_claves =  ["Null", "Null", "Null", "Null"]
 
-
+		galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['palabras_claves'] = palabras_claves
 		args['comentariosOferta'] = comentariosOferta
 		args['calificacionOferta'] = str(calificacionOferta)
 		args['propietario'] = propietario
+		args['galeria'] = galeria
+		args['imagen_principal'] = galeria.first()
 		return render_to_response('oferta_ver_otra.html',args)
 
 	else:
@@ -343,6 +345,7 @@ def administrar_Oferta(request, id_oferta):
 	except Exception as e:
 		palabras_claves =  ["Null", "Null", "Null", "Null"]
 
+	galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
 	args['palabras_claves'] = palabras_claves
 	args['comentariosPendientes'] = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=0)
 	args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
@@ -354,6 +357,8 @@ def administrar_Oferta(request, id_oferta):
 	args['calificacionOferta'] = str(calificacionOferta)
 	args['participantes'] = participantes
 	args['solicitudes']=solicitudes
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
 	return render_to_response('administrar_oferta.html',args)
 
 """
@@ -392,10 +397,15 @@ def administrar_Borrador(request, id_oferta):
 
 	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
 
+	galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
+
 	args.update(csrf(request))
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
 	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
+	args['palabras'] = oferta.palabras_clave.all
 	return render_to_response('administrar_borrador.html',args)
 
 """
@@ -535,7 +545,7 @@ Descripción:Esta función permite mostrar el listado de comentarios aceptados d
 """
 @login_required
 def listaComentariosAceptados(request):
-	print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']
+	"""print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']"""
 	if request.is_ajax():
 		args={}
 		try:
@@ -977,3 +987,199 @@ def enviarComentario(request):
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/')
+
+
+
+"""
+Autor: Rolando Sornoza
+Nombre de funcion: verCualquierDemaanda
+Parametros: request
+Salida: http
+Descripcion: funcion para ver una demanda publicada
+"""
+@login_required
+def verCualquierDemanda(request, id_demanda):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+		try:
+			demanda = Demanda.objects.get(id_demanda = id_demanda)
+			args['demanda'] = demanda
+		except:
+			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
+
+
+		if demanda.publicada == 0 :
+			args.update(csrf(request))
+			args['mensaje_error'] = "La demanda "+demanda.nombre+", no esta actualmente publicada."
+			return render_to_response('problema_oferta.html',args)
+
+		else:
+			propietario = demanda.fk_perfil
+			comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
+			args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario_id=usuario).count
+			try:
+				palabras_claves = demanda.palabras_clave.all()
+			except Exception as e:
+				palabras_claves =  ["Null", "Null", "Null", "Null"]
+
+
+		args.update(csrf(request))
+		args['palabras_claves'] = palabras_claves
+		args['comentariosDemanda'] = comentariosDemanda
+		args['propietario'] = propietario
+		return render_to_response('demanda_ver_otra.html',args)
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+"""
+Autor: Andres Sornoza, David Vinces
+Nombre de funcion: enviarComentarioDemanda
+Parametros: request
+Salida:
+Descripcion: crea un comentario de una demanda con estado_comentario=0, es decir pendiente
+"""
+@login_required
+def enviarComentarioDemanda(request):
+	if request.method=="POST":
+		args={}
+		try:
+			demanda = Demanda.objects.get(id_oferta=request.POST['demanda'])
+			print "grabando demanda"
+			print demanda.nombre
+			usuario = Perfil.objects.get(id=request.user.id)
+			"""calificacion = request.POST['calificacion']"""
+			mensaje = request.POST['comentario_peticion']
+			comentario = ComentarioDemanda()
+			"""comentario.calificacion = calificacion"""
+			comentario.comentario = mensaje
+			comentario.estado_comentario=0
+			comentario.fecha_comentario = datetime.datetime.now()
+			comentario.fk_demanda = demanda
+			comentario.fk_usuario = usuario
+			comentario.save()
+			"""promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
+			oferta.calificacion_total = promedio_calificacion["average_cal"]
+			oferta.save()"""
+			response = JsonResponse({})
+			return HttpResponse(response.content)
+		except Exception as e:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return redirect('/')
+
+"""
+Autor: Andres Sornoza, David Vinces
+Nombre de la funcion: listaComentariosAceptadosDemandas
+Entrada:
+Salida: Muestra la lista de Comentarios Aceptados de una demanda
+Descripción:Esta función permite mostrar el listado de comentarios aceptados de una Demanda
+"""
+@login_required
+def listaComentariosAceptadosDemandas(request):
+	"""print 'listaComentariosAceptadosDemandas :: ajax con id '+ request.GET['oferta']"""
+	if request.is_ajax():
+		args={}
+		try:
+			demanda = Demanda.objects.get(id_demanda=request.GET['demanda'])
+			listaComentarios= ComentarioDemanda.objects.filter(fk_demanda = demanda.id_demanda)
+			args['listaComentarios'] = listaComentarios
+			args['demanda']=demanda
+			args.update(csrf(request))
+			return render(request,'comentario_demanda.html',args)
+		except Demanda.DoesNotExist:
+			print '>> Demanda no existe'
+		except ComentarioDemanda.DoesNotExist:
+			print '>> Comentario de Demanda no existe'
+		except:
+			print '>> Excepcion no controlada'
+	else:
+		return redirect('/NotFound')
+
+
+"""
+Autor: David Vinces
+Nombre de funcion: aceptarComentarioDemanda
+Parametros: request, id de un comentario
+Salida: 
+Descripcion: cambia el estado de un comentario de una demanda para que sea visible
+"""
+@login_required
+def aceptarComentarioDemanda(request, id_comentario):
+	try:
+		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario = 1
+		demanda_id = comentario.fk_demanda.id_demanda
+		comentario.save()
+	except:
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	
+	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
+
+"""
+Autor: David Vinces
+Nombre de funcion: rechazarComentarioDemanda
+Parametros: request, id de un comentario
+Salida: 
+Descripcion: cambia el estado de un comentario de una demanda para eliminarlo
+"""
+@login_required
+def rechazarComentarioDemanda(request, id_comentario):
+	try:
+		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario=-1
+		demanda_id = comentario.fk_demanda.id_demanda
+		comentario.save()
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	
+	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
+
+"""
+Autor: Pedro Iniguez
+Nombre de funcion: administarBorrador
+Parametros: request
+Salida:
+Descripcion: funcion para administrar mi oferta publicada.
+"""
+
+@login_required
+def administrar_Borrador_Demanda(request, id_demanda):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		demanda = Demanda.objects.get(id_demanda = id_demanda)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+
+	if (demanda.publicada == 1 or demanda.fk_perfil_id!=usuario.id_perfil):
+		return HttpResponseRedirect('/NotFound/')
+
+	galeria = ImagenDemanda.objects.all().filter(fk_demanda_id = demanda.id_demanda)
+
+	args.update(csrf(request))
+	args['dueno'] = usuario.first_name + ' ' + usuario.last_name
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['demanda'] = demanda
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
+	args['palabras'] = demanda.palabras_clave.all
+	return render_to_response('administrar_borrador_demanda.html',args)

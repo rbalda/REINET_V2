@@ -7,6 +7,7 @@ from rest_framework import status
 from ofertas_demandas.models import Oferta, ImagenOferta
 from ofertas_demandas.models import Perfil
 from ofertas_demandas.models import PalabraClave
+from ofertas_demandas.models import PalabraClave
 from ofertas_demandas.models import *
 from ofertas_demandas.pagination import PaginacionPorDefecto
 from ofertas_demandas.pagination import PaginacionCinco
@@ -23,7 +24,53 @@ class DemandaViewSet(ModelViewSet):
     serializer_class = DemandaSerializador
     permission_classes = (IsAuthenticated,)
     pagination_class = PaginacionCinco
+    def get_queryset(self):
+        busqueda = self.request.query_params.get('busqueda',None)
+        queryset = []
+        usuario = Perfil.objects.get(id=self.request.user.id)
+        if (busqueda != 'undefined') and (busqueda is not None):
+            try: 
+                queryset = PalabraClave.objects.all().filter(palabra = busqueda).first().demandas_con_esta_palabra.all().filter(publicada = 1).exclude(fk_perfil_id=usuario.id_perfil).order_by('-fecha_publicacion')
+                queryset = queryset | Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+            except:
+                queryset = Demanda.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(fk_perfil_id=usuario.id_perfil).order_by('-fecha_publicacion')
+        else:
+            queryset = Demanda.objects.all().filter(publicada = 1).exclude(fk_perfil_id=usuario.id_perfil).order_by('-fecha_publicacion')
+        return queryset
 
+class MisDemandasViewSet(ModelViewSet):
+    queryset = Demanda.objects.all()
+    serializer_class = DemandaSerializador
+    permission_classes = (IsAuthenticated,)
+    pagination_class = PaginacionCinco
+
+    def get_queryset(self):
+        busqueda = self.request.query_params.get('busqueda',None)
+        print busqueda
+        queryset = []
+        usuario = Perfil.objects.get(id=self.request.user.id)
+        if (busqueda != 'undefined') and (busqueda is not None):
+            queryset = Demanda.objects.all().filter(publicada = 1, fk_perfil_id=usuario.id_perfil, nombre__icontains=busqueda).order_by('-fecha_publicacion')
+        else:
+            queryset = Demanda.objects.all().filter(publicada = 1, fk_perfil_id=usuario.id_perfil).order_by('-fecha_publicacion')
+        return queryset
+
+class MisDemandasBorradoresViewSet(ModelViewSet):
+    queryset = Demanda.objects.all()
+    serializer_class = DemandaSerializador
+    permission_classes = (IsAuthenticated,)
+    pagination_class = PaginacionCinco
+
+    def get_queryset(self):
+        queryset = []
+        busqueda = self.request.query_params.get('busqueda',None)
+        usuario = Perfil.objects.get(id=self.request.user.id)
+        #queryset = self.get_queryset().filter(miembroequipo__fk_participante=request.user.id, miembroequipo__es_propietario=1)
+        if (busqueda != 'undefined') and (busqueda is not None):
+            queryset = Demanda.objects.all().filter(publicada = 0, fk_perfil_id=usuario.id_perfil, nombre__icontains=busqueda).order_by('-fecha_publicacion')
+        else:
+            queryset = Demanda.objects.all().filter(publicada = 0, fk_perfil_id=usuario.id_perfil).order_by('-fecha_publicacion')
+        return queryset
 
 class OfertaViewSet(ModelViewSet):
     queryset = Oferta.objects.all()

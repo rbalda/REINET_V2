@@ -231,3 +231,278 @@ appdemanda.controller('CargarDemandasSelectController',['$scope','$http','urls',
     
 }]);
 
+
+
+
+//INICIO DEMANDAS
+
+function getQueryVariable(variable, url) {
+    var query = url;
+    var vars = query.split("page=");
+    console.log(query);
+    if (vars[1]!=null){
+        return vars[1];
+    }
+    return "1";
+}
+
+//CONTROLADOR LISTA DEMANDAS DE LA RED
+appdemanda.controller('DemandasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Demandas de la red!");
+    $http.get(urls.BASE_API+'/demandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.pagina = 1;
+        $scope.listaDemandas = response.results;
+        $scope.contador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.siguiente = urls.BASE_API+'/demandas/?page=1';
+        }else{
+            $scope.siguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.anterior = urls.BASE_API+'/demandas/?page=' + $scope.contador;
+        }else{
+            $scope.anterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguiente = function(){
+        $http.get($scope.siguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.pagina = getQueryVariable('page', $scope.siguiente);
+            $scope.listaDemandas = response.results;
+            $scope.contador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.siguiente = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.siguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.anterior = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.contador;
+            }else{
+                $scope.anterior=response.previous;
+            }
+            console.log('buscando: ' + $scope.busqueda_demandas);
+            console.log($scope.siguiente);
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.irAlanterior = function(){
+        $http.get($scope.anterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.pagina = getQueryVariable('page', $scope.anterior);
+            $scope.listaDemandas = response.results;
+            $scope.contador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.siguiente = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.siguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.anterior = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.contador;
+            }else{
+                $scope.anterior=response.previous;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.$on('buscandoDemandas', function(){
+        $http.get(urls.BASE_API+'/demandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.pagina = 1;
+            $scope.listaDemandas = response.results;
+            $scope.contador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.siguiente = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.siguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.anterior = urls.BASE_API+'/demandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.contador;
+            }else{
+                $scope.anterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    });
+}]);
+
+
+//CONTROLADOR MIS DEMANDAS
+appdemanda.controller('MisDemandasControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Mis Demandas!");
+    $http.get(urls.BASE_API+'/misDemandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.MDpagina = 1;
+        $scope.MDlistaOfertas = response.results;
+        $scope.MDcontador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
+        }else{
+            $scope.MDsiguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
+        }else{
+            $scope.MDanterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguientePublicada = function(){
+        $http.get($scope.MDsiguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.MDpagina = getQueryVariable('page', $scope.MDsiguiente);
+            $scope.MDlistaOfertas = response.results;
+            $scope.MDcontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.MDsiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
+            }else{
+                $scope.MDanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error ' + $scope.MDsiguiente);
+        });
+    };
+    $scope.irAlanteriorPublicada = function(){
+        $http.get($scope.MDanterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.MDpagina = getQueryVariable('page', $scope.MDanterior);
+            $scope.MDlistaOfertas = response.results;
+            $scope.MDcontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.MDsiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
+            }else{
+                $scope.MDanterior=response.next;
+            }
+            console.log('NO hubo un error ' + $scope.MDanterior);
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.$on('buscandoDemandas', function(){
+        $http.get(urls.BASE_API+'/misDemandas/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.MDpagina = 1;
+            $scope.MDlistaOfertas = response.results;
+            $scope.MDcontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.MDsiguiente = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.MDsiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.MDanterior = urls.BASE_API+'/misDemandas/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.MDcontador;
+            }else{
+                $scope.MDanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    });
+}]);
+
+//CONTROLADOR LISTA OFERTAS BORRADOR
+appdemanda.controller('MisDemandasBorradoresControlador',['$scope','$http','urls',function($scope,$http,urls){
+    console.log("Mis Ofertas Borradores!");
+    $http.get(urls.BASE_API+'/misDemandasBorradores/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
+    .success(function(response){
+        $scope.Borradorespagina = 1;
+        $scope.BorradoreslistaDemandas = response.results;
+        $scope.Borradorescontador = Math.ceil(response.count/5);
+        if(response.next == null){
+            $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
+        }else{
+            $scope.Borradoressiguiente=response.next;
+        }
+        if(response.previous == null){
+            $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
+        }else{
+            $scope.Borradoresanterior=response.next;
+        }
+    }).error(function(){
+        console.log('hubo un error');
+    });
+    $scope.irAlsiguienteBorrador = function(){
+        $http.get($scope.Borradoressiguiente,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoressiguiente);
+            $scope.BorradoreslistaDemandas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.irAlanteriorBorrador = function(){
+        $http.get($scope.Borradoresanterior,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = getQueryVariable('page', $scope.Borradoresanterior);
+            $scope.BorradoreslistaDemandas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    };
+    $scope.$on('buscandoDemandas', function(){
+        $http.get(urls.BASE_API+'/misDemandasBorradores/' + "?busqueda=" + $scope.busqueda_demandas,{},{headers:{"Content-Type":"application/json"}})
+        .success(function(response){
+            $scope.Borradorespagina = 1;
+            $scope.BorradoreslistaDemandas = response.results;
+            $scope.Borradorescontador = Math.ceil(response.count/5);
+            if(response.next == null){
+                $scope.Borradoressiguiente = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas;
+            }else{
+                $scope.Borradoressiguiente=response.next;
+            }
+            if(response.previous == null){
+                $scope.Borradoresanterior = urls.BASE_API+'/misDemandasBorradores/?busqueda=' + $scope.busqueda_demandas + '&page=' + $scope.Borradorescontador;
+            }else{
+                $scope.Borradoresanterior=response.next;
+            }
+        }).error(function(){
+            console.log('hubo un error');
+        });
+    });
+}]);
+
+
+appdemanda.controller('busquedaDemandaControlador',['$rootScope', '$scope','$http','urls',function($rootScope, $scope,$http,urls){
+    $scope.buscarDemandas = function(){
+        $rootScope.$broadcast('buscandoDemandas');
+        console.log('Aquiiiii');
+    }
+}]);

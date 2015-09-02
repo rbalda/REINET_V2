@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="redInn">
+
+<head>
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }       
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="REINET APP">
+    <meta name="author" content="ESPOL">
+
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+    <title>REI-NET
+        
+        
+    </title>
+     <!-- Funcionalidad de abstraccion de la ruta de los archivos estaticos -->                                       
+                                                                                            
+                                                                                                                  
+ <!-- Links utilizados -->                                                                                        
+ <link href="/static/css/bootstrap.css" rel="stylesheet">                                                  
+ <link href="/static/css/animate.css" type="text/css" rel="stylesheet"/>                                   
+ <link href="/static/css/hideandshow.css" rel="stylesheet" type="text/css" />                              
+ <link href="/static/css/elements.css" type="text/css" rel="stylesheet"/>                                  
+ <link href="/static/css/custom.css" type="text/css" rel="stylesheet"/>                                    
+ <link href="/static/css/styles.css" rel="stylesheet">                                                     
+ <link href="/static/fonts/font-awesome-4.0.3/css/font-awesome.min.css" type="text/css" rel="stylesheet"/> 
+ <link href="/static/isotope/css/style.css" rel="stylesheet">                                              
+ <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>           
+ <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" >
+
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+<link rel="stylesheet" type="text/css" href="/static/css/ng-tags-input.css">
+<link rel="stylesheet" type="text/css" href="/static/css/ng-tags-input.bootstrap.css">
+
+ 
+
+
+</head>
+
+<body ng-cloak>
+
+<!-- Barra de Navegacion -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+    <a class="navbar-brand" href="/" class="link">REI-NET</a>
+
+        </div>
+        
+    <div class="collapse navbar-collapse">
+
+        <ul class="nav navbar-nav navbar-right hidden-xs">
+
+            
+                <li id="sign-up" class="show"><a href="/registro_usuario/">Registrarse</a></li>
+                <li id="sign-in" class="show"><a href="/iniciarSesion/">Iniciar Sesión</a></li>
+            
+
+            
+
+            
+
+        </ul>
+    </div>
+
+    </div>
+</div>
+
+<!-- Contenido de la Pagina-->
+<div class="wrapper">
+    
+
+    <div id="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <h1 class="animated slideInDown">RED ECUATORIANA DE INNOVACIÓN</h1>
+
+                    <div class="list">
+                        <ul>
+                            <li class="animated slideInLeft first"><span><i class="fa fa fa-code"></i> Piensa.</span>
+                            </li>
+                            <li class="animated slideInLeft second"><span><i class="fa fa-cogs"></i> Construye.</span>
+                            </li>
+                            <li class="animated slideInLeft third"><span><i class="fa fa-tablet"></i> Innova.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 hidden-sm hidden-xs">
+                    <div class="showcase">
+                        <img src="../static/img/iMac.png" alt="..." class="iMac animated fadeInDown">
+                        <img src="../static/img/iPad.png" alt="..." class="iPad animated fadeInLeft">
+                        <img src="../static/img/iPhone.png" alt="..." class="iPhone animated fadeInRight">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="services">
+                    <ul>
+                        <li>
+                            <i class="fa fa-lightbulb-o fa-3x"></i>
+
+                            <p>Ofertas destacadas<br/><a href="#">Ver Ofertas...</a></p>
+                        </li>
+                        <li>
+                            <i class="fa fa-hand-o-up fa-3x"></i>
+
+                            <p>Demandas destacadas<br/><a href="#">Ver Demandas...</a></p>
+                        </li>
+                        <li>
+                            <i class="fa fa-trophy fa-3x"></i>
+
+                            <p>Concursos destacados<br/><a href="#">Ver Concursos...</a></p>
+                        </li>
+                        <li>
+                            <i class="fa fa-suitcase fa-3x"></i>
+
+                            <p>Incubaciones destacadas<br/><a href="#">Ver Incubaciones...</a></p>
+                        </li>
+                        <li>
+                            <i class="fa fa-university fa-3x"></i>
+
+                            <p>Mejores Instituciones<br/><a href="#">Ver Instituciones...</a></p>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+    </div>
+
+
+</div>
+
+        <div ng-controller="MensajesControllers"
+             ng-show="mostrarNotificacion"
+                class="info-board info-board-green notificacion">
+                hello
+        </div>
+
+        <div ng-controller="NotificacionControllers"
+             ng-show="mostrarNotificacion"
+                class="info-board info-board-red notificacion">
+                Im a notify
+        </div>
+
+<!-- Pie de Pagina-->
+
+    <br/>
+<footer>
+    <div class="container">
+        <div class="row">
+            <!--Contactanos-->
+            <div class="col-sm-4">
+                <div class="headline"><h3>Cont&aacute;ctanos</h3></div>
+                <div class="content">
+                    <p>
+                        Guayaquil, GYE<br/>
+                        Nueva Prosperina<br/>
+                        Tel&eacute;fono: 042123456<br/>
+                        Email: <a href="#">admin@espol.edu.ec</a>
+                    </p>
+                </div>
+            </div>
+            <!--Iconos Sociales-->
+            <div class="col-sm-4">
+                <div class="headline"><h3>Redes sociales</h3></div>
+                <div class="content social">
+                    <p>Mantente en contacto:</p>
+                    <ul>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-pinterest"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-youtube"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-github"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-vk"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--Suscribirse-->
+            <div class="col-sm-4">
+                <div class="headline"><h3>Subscr&iacute;bete</h3></div>
+                <div class="content">
+                    <p>Ingresa su dirección de e-mail abajo para suscribirse a nuestro boletín de noticias
+                        libre.<br/>Nos comprometemos a no molestar a menudo!</p>
+                    <form class="form" role="form">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <label class="sr-only" for="subscribe-email">Dirección Email</label>
+                                    <input type="email" class="form-control" id="subscribe-email"
+                                           placeholder="Ingresa email">
+                                    <span class="input-group-btn">
+                                      <button type="submit" class="btn btn-default">OK</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Informacion Legal-->
+<div class="legal">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>&copy; REI-NET 2014. <a href="/TerminosCondiciones/">Políticas de Privacidad y T&eacute;rminos del servicio</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Archivos bases de Bootstrap -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/scrolltopcontrol.js"></script>
+<script src="/static/js/angular.js"></script>
+<script src="/static/js/angular-cookies.js"></script>
+<script src="/static/js/angular-route.js"></script>
+<script src="/static/js/angular-resource.js"></script>
+<script src="/static/js/angular-animate.js"></script>
+<script src="/static/js/angular-route.js"></script>
+<script src="/static/js/angular-messages.js"></script>
+<script src="/static/js/autocompletar.js"></script>
+<script src="/static/js/ofertas-demandas/autocompletar_nuevo_integrante.js"></script>
+<script src="/static/js/enviarSolicitudInstitucion.js"></script>
+<script src="/static/js/registrarInstitucion.js"></script>
+<script src="/static/js/custom.js"></script>
+<script src="/static/js/angular-messages.js"></script>
+<script src="/static/js/angular-resource.js"></script>
+
+
+<script type="text/javascript" src="http://127.0.0.1:9999/settings.js"></script>
+<script src="/static/js/swampdragon/js/dist/swampdragon.min.js"></script>
+<script src="/static/js/swampdragon/js/dist/datamapper.js"></script>
+<script src="/static/js/swampdragon/js/angular/services.js"></script>
+
+<script src="/static/js/angular-route.js"></script>
+
+<script src="/static/js/institucion-verifCrea.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/ofertas-demandas/crear-oferta-angular.js"></script>
+    <script src="/static/js/perfil_usuario.js"></script>
+    <script src="/static/js/ng-tags-input.js"></script>
+
+</body>
+</html>
