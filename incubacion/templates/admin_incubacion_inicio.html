@@ -74,7 +74,7 @@
               <div class="row" style="margin-bottom: 25px;">
                 <div class="col-md-7" align=right>
                   <a href="/CrearIncubacion/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Crear Incubaci&oacute;n</a>
-                  <a id="milestone" href="#" data-target="#CrearConvocatoria" data-toggle="modal" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear Convacatoria</a>
+                  <a id="btn_participar" href="#" data-target="#CrearConvocatoria" data-toggle="modal" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear Convacatoria</a>
               </div> 
               </div>
 
@@ -241,37 +241,39 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
                     <h4 class="modal-title" id="sendemailtitle">Crear Convocatoria</h4>
-
                     <div class="clearfix"></div>
                 </div>
-                <div class="modal-body" style="margin-bottom:30px">
-                  <!--<form role="form" action="" method=''>-->
+                <div class="modal-body">
+                    <form role="form" action="" method=''>
                         <!--{% csrf_token %}-->
                         <div class="form-group">
-                          <label style="resize:none" >Alcance:</label>
-                          <select name="alcance" style="resize:none" >
-                             <option value="Local" selected="selected">Local</option>
-                             <option value="Algunas Instituciones">Algunas Instituciones</option>
-                             <option value="Global">Global</option>
-                          </select>
-
-                          <br>
-                          <label style="resize:none" >Fecha Máxima De Aplicación:</label>
-                          <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none">
+                            <label for="Alcance">Alcance: </label>
+                           
+                                  <select name="alcance" style="resize:none">
+                                     <option value="Local" selected="selected">Local</option>
+                                     <option value="Algunas Instituciones">Algunas Instituciones</option>
+                                     <option value="Global">Global</option>
+                                  </select>
+                            
                         </div>
-
-                            <button id="btn_convocatoria" class="btn btn-green btn-sm"
-                            style="color:white;margin-top: 15px;" >
-                                Enviar
-                            </button>
-
-                  <!--</form>-->
+                        <div class="form-group">
+                            <label for="fecMaxima">Fecha Maxima de Aplicacion: </label>
+                            <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none">
+                            
+                        </div>
+                        <div align="right">
+                            <a href="" class="button">
+                                <button id="btn_convocatoria" type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                            </a>
+                        </div>
+                    </form>
                 </div>
+                
             </div>
         </div>
     </div>
+</div>
 
     <script>
       $('#btn_convocatoria').click(function(e){
@@ -303,6 +305,6 @@
         }
 
       });
-    </script>btn
+    </script>
 {% endblock %}
 
