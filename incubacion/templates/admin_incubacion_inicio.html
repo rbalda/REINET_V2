@@ -72,7 +72,7 @@
 <!--Lista de menu -->
             <div class="col-md-9">
               <div class="row" style="margin-bottom: 25px;">
-                <div class="col-md-7" align=right>
+                <div class="col-md-5 pull-right">
                   <a href="/CrearIncubacion/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Crear Incubaci&oacute;n</a>
                   <a id="btn_participar" href="#" data-target="#CrearConvocatoria" data-toggle="modal" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear Convacatoria</a>
               </div> 
@@ -82,8 +82,6 @@
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#verIncubaciones" aria-controls="home" role="tab" data-toggle="tab">INCUBACIONES PUBLICADAS</a></li>
-                    <li role="presentation"><a href="#aa"  role="tab" data-toggle="tab">INCUBACIONES EN LA RED</a></li>
-                    <li role="presentation"><a href="#bb" role="tab" data-toggle="tab">GG</a></li>
                   </ul>
 
                   <!-- Tab panes -->
@@ -157,27 +155,18 @@
                         -->
                         <div class="pagination col-md-10">
                             <span class="step-links">
-                            {% if msjs.has_previous %}
                                 <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
-                            {% endif %}
-
                             <span class="current">
-                                Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                      
                             </span>
-
-                            {% if msjs.has_next %}
-                                <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
-                            {% endif %}
+                              <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
                             </span>
                         </div>
 
                     </div>
-
                     <div role="tabpanel" class="tab-pane" id="aa">
-
                     </div>
                     <div role="tabpanel" class="tab-pane" id="bb">
-
                     </div>
 
                 </div>
