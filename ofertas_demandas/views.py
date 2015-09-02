@@ -486,9 +486,16 @@ def editar_borrador(request, id_oferta):
 		ofertaEditada.perfil_cliente = perfilCliente
 		ofertaEditada.perfil_beneficiario = perfilBeneficiario
 
-		if ofertaEditada.fk_diagrama_canvas is None:
+		if ofertaEditada.fk_diagrama_canvas.id_diagrama_business_canvas is not None:
+			print "Veamos si sale"
+		else:
+			print "que lastima pero adios"
+
+		if canvasSocioClave is None:
+			print "ESTO VALE"
 			ofertaEditada.fk_diagrama_canvas = None
 		else:
+			print "NO NO VALE"
 			ofertaEditada.fk_diagrama_canvas.asociaciones_clave = canvasSocioClave
 			ofertaEditada.fk_diagrama_canvas.actividades_clave = canvasActividadesClave
 			ofertaEditada.fk_diagrama_canvas.recursos_clave = canvasRecursos
