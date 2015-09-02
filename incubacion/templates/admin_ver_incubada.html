@@ -22,11 +22,13 @@
     {% endblock %}
 
 
-
-	<div class="container">
+    <div class="container">
 	    
 
-	    <div class="col-md-12">
+	    <div class="col-md-12" style="
+    padding-right: 0px;
+    padding-left: 0px;
+">
 
 	    	
 
@@ -42,7 +44,7 @@
 			            </ul>
 			            
 			        </div>
-			        <div class="col-md-7" align=right>
+			        <div class="col-md-7" align="right">
 			            <a href="/CrearOferta/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultor</a>
 			            <a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
 			        </div> 
@@ -111,7 +113,7 @@
 		                            
 	                            </div>
 
-	                            <div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6" >
+	                            <div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6">
 
 	                                <div class="block-inverse">
 	                                    <div class="head-inverse">
@@ -139,7 +141,7 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-	                            <div class="col-md-5 col-sm-6 col-xs-6" >
+	                            <div class="col-md-5 col-sm-6 col-xs-6">
 	                            	<!-- COMIENZA  Panel del equipo -->
 							            <div class="panel panel-default">
 							                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
@@ -317,8 +319,13 @@
 	            </div>
 	            <br>
 	        </div>      
-	        <div class="col-md-4 col-sm-6">
 
+	        <div class="col-md-4 col-sm-12" style="
+    padding-right: 0px;
+">
+	        <div class="col-md-12 col-sm-6" style="
+    padding-right: 0px;
+">
 		       <!-- COMIENZA  Panel de los consultores -->
 		            <div class="panel panel-dark">
 		                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
@@ -330,7 +337,7 @@
 		                    </div>
 		                </div>
 		            
-		                <div class="panel-body" >
+		                <div class="panel-body" style=" overflow-y: scroll; height:400px">
 		                	<div class="media">
 				                <a class="pull-left" href="#">
 				                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
@@ -338,7 +345,7 @@
 				                <div class="media-body">
 				                  <a href="#">Alex Smith de Naranjito</a>
 				                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
-				                </div>
+				                </p></div>
 				            </div>
 				            <div class="media">
 				                <a class="pull-left" href="#">
@@ -347,7 +354,7 @@
 				                <div class="media-body">
 				                  <a href="#">Alex Smith Jaramillo de los Jaramillos</a>
 				                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
-				                </div>
+				                </p></div>
 				            </div>
 				             <div class="media">
 				                <a class="pull-left" href="#">
@@ -356,15 +363,37 @@
 				                <div class="media-body">
 				                  <a href="#">Alex Smith hooola tengo un nombre de bastantes letras</a>
 				                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
-				                </div>
+				                </p></div>
 				            </div>
-				             <div class="media">
+				            <hr>
+				            <h4>Invitaciones pendientes</h4>
+				            <hr>
+
+
+				            <!--SI NO HAY NINGGUNA INVITACION PENDIENTE DE ACEPTAR SE PONE LO SIGUIENTE-->
+				            <div class="alert alert-success alert-dismissible" role="alert">
+							  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+							  No hay invitaciones pendientes
+							</div>
+
+
+				            <!--COMIENZAN LAS INVITACIONES PENDIENTES-->
+				            <div class="media">
 				                <a class="pull-left" href="#">
 				                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
 				                </a>
 				                <div class="media-body">
-				                  <a href="#">Alex Smith</a>
-				                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
+				                  <a class="col-md-8 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+				                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+				                </div>
+				            </div>
+				            <div class="media">
+				                <a class="pull-left" href="#">
+				                  <img class="media-object" src="/../../media/ofertas-demandas/face2.jpg" alt="Blog Message">
+				                </a>
+				                <div class="media-body">
+				                  <a class="col-md-8 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano </a>
+				                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar </a>				                  
 				                </div>
 				            </div>
 		                </div>  
@@ -372,97 +401,130 @@
 	            <!-- TERMINA Panel de los consultores -->
 	        </div>
 
-	        <div class="col-md-4 col-sm-6">
-	            <!-- COMIENZA  Panel de los consultores -->
+	        <div class="col-md-12 col-sm-6" style="
+    padding-right: 0px;
+">
+
+
+				<!--PANEL DEL MILESTONE ACTUAL-->	 
+
+		            <div class="panel panel-red" style="margin-top:30px">
+		                		            
+		                <div class="panel-body">
+		                	<div class="media">
+		                		<div class="row faq-cats">
+					              <div class="col-md-12">
+					                <ul>
+					                  <li style="margin-bottom: 0px;"><i class="fa fa-briefcase fa-2x" style="color:#F44336"></i>Milestone actual</li>				                  
+					                </ul>
+					              </div>
+					            </div>
+		                		<hr style="margin-top: 10px;">
+		                		<!--COMIENZA MENSJE SI NO HAY MILESTONE-->
+		                		<div class="info-board info-board-orange"> No hay ningún milestone en curso</div>
+		                		<!--TERMINA MENSAJE SI NO HAY MILESTONE-->
+				                <div class="media-body">
+
+				                  <h4 style="margin-top: 0px;"><a href="#">January 28, 2014</a></h4>
+				                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim...
+				                </div>
+				              </div>
+		                </div>  
+		            </div>
+	            <!-- TERMINA Panel de los consultores -->
+
+
+	            <!-- COMIENZA  Historial de Milestones -->
 			          <div class="block-header">
-			            <h2>
+			            <h2 style="margin-bottom: 20px;">
 			              <span class="title">Historial Milestones</span><span class="decoration"></span><span class="decoration"></span><span class="decoration"></span>
 			            </h2>
 			          </div>
 		              <div class="media">
 		                <div class="media-body">
-		                  <h4 class="media-heading"><a href="#">January 28, 2014</a></h4>
-		                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim...
+		                  <h4 style="margin-top: 0px;"><a href="#">January 28, 2014</a></h4>
+		                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...
 		                </div>
 		              </div>
 		              <div class="media">
 		                <div class="media-body">
-		                  <h4 class="media-heading"><a href="#">January 28, 2014</a></h4>
-		                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim...
+		                  <h4 style="margin-top: 0px;"><a href="#">January 28, 2014</a></h4>
+		                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...
 		                </div>
 		              </div>
-		              <div class="media">
-		                <div class="media-body">
-		                  <h4 class="media-heading"><a href="#">January 28, 2014</a></h4>
-		                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim...
-		                </div>
-		              </div>
-		              <a href="#" class="read-more">Ver m&aacute;s...</a>
+		              <a href="#" class="read-more">Ver más...</a>
 		            
 	            <!-- TERMINA Panel de los consultores -->
 
 				<!--Modal-->
-                        <div id="definirMilestone" class="modal fade" role="dialog">
-                          <div class="modal-dialog" style="width: 70% !important;">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                      <h4 class="modal-title">Definir un Milestone</h4>
-                                  </div>
-                                  <div class="modal-body" style="font-size:14px;overflow-y:auto">                           
-                                      <div class="comment" id="Comentario">
-                                          <div class="media">
-                                            <form  class="form-horizontal col-md-12"  name="formMilestone"> 
-                                                <div class="form-group">
-                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Requerimientos para la incubada</label>
-                                                  <div class="col-md-7">
-                                                    <textarea autofocus  name="requerimientosDescripcion" rows="3"  class="form-control" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
-                                                    ></textarea>
-                                                  </div>
-                                                  <br>
-                                                </div>
-                                                <div class="form-group">
-                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de milestone</label>
-                                                  <div class="col-md-7">
-                                                      <input autofocus type="date" class="form-control" placeholder="Nombre de la Oferta"
-                                                      id="fecha" name="fecha_milestone"  data-trigger="focus">
-                                                  </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Importancia del milestone</label>
-                                                  <div class="col-md-7">
-                                                    <textarea autofocus rows="3"  class="form-control" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
-                                                    ></textarea>
-                                                  </div>
-                                                  <br>
-                                                </div>
-                                                <div class="form-group">
-                                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Otros</label>
-                                                   <div class="col-md-7 pull-left" id="nuevos">
-                                                   <form method="get">
-                                                    <textarea autofocus rows="5"  class="tinymce form-control" style="resize: none;"
-                                                    ></textarea>
-                                                  </div>
-                                                  </form>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div align="right">
-                                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                                                      <button href="#" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
-                                                    </div>                                                  
-                                                </div>
-                                            </form>   
+                <div id="definirMilestone" class="modal fade" role="dialog">
+                  	<div class="modal-dialog" style="width: 70% !important;">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">×</button>
+                              <h4 class="modal-title">Definir un Milestone</h4>
+                          </div>
+                          <div class="modal-body" style="font-size:14px;overflow-y:auto">                           
+                              <div class="comment" id="Comentario">
+                                  <div class="media">
+                                    <form class="form-horizontal col-md-12 ng-pristine ng-valid" name="formMilestone"> 
+                                        <div class="form-group">
+                                          <label for="Nombres" class="col-md-3 col-md-offset-1">Requerimientos para la incubada</label>
+                                          <div class="col-md-7">
+                                            <textarea autofocus="" name="requerimientosDescripcion" rows="3" class="form-control" placeholder="Escribe aquí los requerimientos del milestone" style="resize: none;"></textarea>
                                           </div>
-                                      </div>
+                                          <br>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de milestone</label>
+                                          <div class="col-md-7">
+                                              <input autofocus="" type="date" class="form-control" placeholder="Nombre de la Oferta" id="fecha" name="fecha_milestone" data-trigger="focus">
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                          <label for="Nombres" class="col-md-3 col-md-offset-1">Importancia del milestone</label>
+                                          <div class="col-md-7">
+                                            <textarea autofocus="" rows="3" class="form-control" placeholder="Escribe aquí que tan importante es el milestone" style="resize: none;"></textarea>
+                                          </div>
+                                          <br>
+                                        </div>
+                                        <div class="form-group">
+                                           <label for="Nombres" class="col-md-3 col-md-offset-1">Otros</label>
+                                           <div class="col-md-7 pull-left" id="nuevos">
+                                           
+                                            <div id="mceu_13" class="mce-tinymce mce-container mce-panel" hidefocus="1" tabindex="-1" role="application" style="visibility: hidden; border-width: 1px;"><div id="mceu_13-body" class="mce-container-body mce-stack-layout"><div id="mceu_14" class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first" role="menubar" style="border-width: 0px 0px 1px;"><div id="mceu_14-body" class="mce-container-body mce-flow-layout"><div id="mceu_15" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-first" tabindex="-1" aria-labelledby="mceu_15" role="menuitem" aria-haspopup="true"><button id="mceu_15-open" role="presentation" type="button" tabindex="-1">File <i class="mce-caret"></i></button></div><div id="mceu_16" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_16" role="menuitem" aria-haspopup="true"><button id="mceu_16-open" role="presentation" type="button" tabindex="-1">Edit <i class="mce-caret"></i></button></div><div id="mceu_17" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_17" role="menuitem" aria-haspopup="true"><button id="mceu_17-open" role="presentation" type="button" tabindex="-1">View <i class="mce-caret"></i></button></div><div id="mceu_18" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-last" tabindex="-1" aria-labelledby="mceu_18" role="menuitem" aria-haspopup="true"><button id="mceu_18-open" role="presentation" type="button" tabindex="-1">Format <i class="mce-caret"></i></button></div></div></div><div id="mceu_19" class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group"><div id="mceu_19-body" class="mce-container-body mce-stack-layout"><div id="mceu_20" class="mce-container mce-toolbar mce-stack-layout-item mce-first mce-last" role="toolbar"><div id="mceu_20-body" class="mce-container-body mce-flow-layout"><div id="mceu_21" class="mce-container mce-flow-layout-item mce-first mce-btn-group" role="group"><div id="mceu_21-body"><div id="mceu_0" class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby="mceu_0" role="button" aria-label="Undo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-undo"></i></button></div><div id="mceu_1" class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby="mceu_1" role="button" aria-label="Redo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-redo"></i></button></div></div></div><div id="mceu_22" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_22-body"><div id="mceu_2" class="mce-widget mce-btn mce-menubtn mce-first mce-last" tabindex="-1" aria-labelledby="mceu_2" role="button" aria-haspopup="true"><button id="mceu_2-open" role="presentation" type="button" tabindex="-1">Formats <i class="mce-caret"></i></button></div></div></div><div id="mceu_23" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_23-body"><div id="mceu_3" class="mce-widget mce-btn mce-first" tabindex="-1" aria-labelledby="mceu_3" role="button" aria-label="Bold"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bold"></i></button></div><div id="mceu_4" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_4" role="button" aria-label="Italic"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-italic"></i></button></div></div></div><div id="mceu_24" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_24-body"><div id="mceu_5" class="mce-widget mce-btn mce-first" tabindex="-1" aria-labelledby="mceu_5" role="button" aria-label="Align left"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignleft"></i></button></div><div id="mceu_6" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_6" role="button" aria-label="Align center"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-aligncenter"></i></button></div><div id="mceu_7" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_7" role="button" aria-label="Align right"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignright"></i></button></div><div id="mceu_8" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_8" role="button" aria-label="Justify"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignjustify"></i></button></div></div></div><div id="mceu_25" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_25-body"><div id="mceu_9" class="mce-widget mce-btn mce-first" tabindex="-1" aria-labelledby="mceu_9" role="button" aria-label="Bullet list"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bullist"></i></button></div><div id="mceu_10" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_10" role="button" aria-label="Numbered list"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-numlist"></i></button></div><div id="mceu_11" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_11" role="button" aria-label="Decrease indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-outdent"></i></button></div><div id="mceu_12" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_12" role="button" aria-label="Increase indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-indent"></i></button></div></div></div><div id="mceu_26" class="mce-container mce-flow-layout-item mce-last mce-btn-group" role="group"><div id="mceu_26-body"></div></div></div></div></div></div><div id="mceu_27" class="mce-edit-area mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><iframe id="mce_0_ifr" frameborder="0" allowtransparency="true" title="Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help" src='javascript:""' style="width: 100%; height: 100px; display: block;"></iframe></div><div id="mceu_28" class="mce-statusbar mce-container mce-panel mce-stack-layout-item mce-last" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><div id="mceu_28-body" class="mce-container-body mce-flow-layout"><div id="mceu_29" class="mce-path mce-flow-layout-item mce-first"><div role="button" class="mce-path-item mce-last" data-index="0" tabindex="-1" id="mceu_29-0" aria-level="0">p</div></div><div id="mceu_30" class="mce-flow-layout-item mce-last mce-resizehandle"><i class="mce-ico mce-i-resize"></i></div></div></div></div></div><textarea autofocus="" rows="5" class="tinymce form-control" style="resize: none; display: none;" id="mce_0" aria-hidden="true"></textarea>
+                                          </div>
+                                          
+                                        </div></form>
+                                        <div class="form-group">
+                                            <div align="right">
+                                              <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                                              <button href="#" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                                            </div>                                                  
+                                        </div>
+                                       
                                   </div>
                               </div>
-                            </div>
                           </div>
-
-
+                      </div>
+                    </div>  
+                </div>
+	        </div>
 	        </div>
 	    </div>
+	<script type="text/javascript" src="static/js/incubacion/editorTexto/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+     tinyMCE.init({
+       mode : "specific_textareas",
+       editor_selector : "tinymce",
+      }) 
+    </script>
+	</div>
+	
+
+
+	
 	<script type="text/javascript" src="static/js/incubacion/editorTexto/js/tinymce/tinymce.min.js"></script>
     <script type="text/javascript">
      tinyMCE.init({
