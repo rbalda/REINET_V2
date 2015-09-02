@@ -156,38 +156,36 @@
 					  	<div class="alert alert-warning">
 					  		Para tener ofertas aplicantes debe crear una convocatoria
 					    </div>
-					    
-					    <div class="info-board info-board-red">
-					    		<div align="left">
-		                            <img class="pull-left img-responsive blog-img" alt="Imagen de mi Oferta" style="height: 115px; width: 115px;">
-		                        </div>
-					    		<div class="form-group">
-					    			<label>Nombre: </label>
-					    		</div> 
-					    		<div class="form-group">
-					    			<label>Descripcion: </label>
-					    		</div>
-					    		<div class="form-group">
-					    			<label>Fecha de creacion: </label>
-					    		</div>
-					    		<div class="form-group">
-					    			<label>Numero de Consultores: </label>
-					    		</div>
-					    		<div align="right">
-					    			<a href="" class="button">
-		                                <button id="btn_convocatoria" type="button" class="btn btn-blue" data-dismiss="modal">Ver Oferta</button>
-		                            </a>
-		                            <a href="" class="button">
-		                                <button id="btn_convocatoria" type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-		                            </a>
-		                            <a href="" class="button">
-		                                <button id="btn_convocatoria" type="button" class="btn btn-red" data-dismiss="modal">Rechazar</button>
-		                            </a>
-		                        </div>
-					    </div>
-
-					    
-
+					    	
+										<div class="text-muted">
+							    		<div align="left">
+				                            <img class="pull-left img-responsive blog-img" alt="Imagen de mi Oferta" style="height: 115px; width: 115px;">
+				                        </div>
+							    		<div class="form-group">
+							    			<a href="#">ofertaAplicante2</a>
+							    		</div> 
+							    		<div class="form-group">
+							    			<label>Descripcion: </label>
+							    		</div>
+							    		<div class="form-group">
+							    			<label>Fecha de creacion: </label>
+							    		</div>
+							    		<div class="form-group">
+							    			<label>Numero de Consultores: </label>
+							    		</div>
+							    		<div align="right">
+							    			<a href="" class="button">
+				                                <button id="btn_ver_oferta" type="button" class="btn btn-blue">Ver Oferta</button>
+				                            </a>
+				                            <a href="" class="button">
+				                                <button id="btn_aceptar_oferta" type="button" class="btn btn-green" data-target="#ofertaAceptada" data-toggle="modal">Aceptar</button>
+				                            </a>
+				                            <a href="" class="button">
+				                                <button id="btn_rechazar_oferta" type="button" class="btn btn-red" data-target="#ofertaRechazada" data-toggle="modal">Rechazar</button>
+				                            </a>
+				                        </div>
+							    </div>
+					    	
 					  </div>
 					</div>
 	    		</div>
@@ -199,7 +197,7 @@
   	</div>
 
    <!-- COMIENZAN Los modals que se usan en toda la pagina -->
-  	<div class="modal modal-vcenter fade" id="confirmarcionComentario" tabindex="-1" role="dialog"
+  	<div class="modal modal-vcenter fade" id="ofertaAceptada" tabindex="-1" role="dialog"
          aria-labelledby="sendemailtitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -212,13 +210,12 @@
                     <form role="form" action="" method=''>
                         <!--{% csrf_token %}-->
                         <div class="form-group">
-                            <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
-                            <p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser
-                                aprobados por el dueño de la oferta para ser mostrados</p>
+                            <label for="Confirmacion">La oferta ha sido aprobada con &eacute;xito.</label>
+                            
                         </div>
                         <div align="right">
                             <a href="" class="button">
-                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                <button id="btn_aceptada" type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
                             </a>
                         </div>
                     </form>
@@ -227,7 +224,7 @@
         </div>
     </div>
 
-      	<div class="modal modal-vcenter fade" id="confirmarcionComentario" tabindex="-1" role="dialog"
+      	<div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
          aria-labelledby="sendemailtitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -240,13 +237,12 @@
                     <form role="form" action="" method=''>
                         <!--{% csrf_token %}-->
                         <div class="form-group">
-                            <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
-                            <p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser
-                                aprobados por el dueño de la oferta para ser mostrados</p>
+                            <label for="Confirmacion">La oferta ha sido rechazada con &eacute;xito.</label>
+                            
                         </div>
                         <div align="right">
                             <a href="" class="button">
-                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+                                <button id="btn_rechazada"type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
                             </a>
                         </div>
                     </form>
@@ -254,7 +250,45 @@
             </div>
         </div>
     </div>
+
+    <script>
+      $('#btn_rechazada').click(function(e){
+        e.preventDefault();
+        $('#ofertaRechazada').modal('hide');
+        var btn_rechazar =  $('#btn_rechazar_oferta');
+        var btn_ver =  $('#btn_ver_oferta');
+        var btn_aceptar =  $('#btn_aceptar_oferta');
+        btn_aceptar.hide();
+        btn_ver.hide();
+        btn_rechazar.removeAttr('data-target');
+        btn_rechazar.empty();
+        btn_rechazar.html('Oferta Rechazada');
+        btn_rechazar.removeClass();
+        btn_rechazar.toggleClass('btn btn-green');
+        btn_rechazar.css('cursor','not-allowed');
+        
+
+      });
+    </script>
 	
+	<script>
+      $('#btn_aceptada').click(function(e){
+        e.preventDefault();
+        $('#ofertaAceptada').modal('hide');
+        var btn_aceptar =  $('#btn_aceptar_oferta');
+        var btn_rechazar =  $('#btn_rechazar_oferta');
+        
+        btn_rechazar.hide();
+        btn_aceptar.removeAttr('data-target');
+        btn_aceptar.empty();
+        btn_aceptar.html('Oferta Aceptada');
+        btn_aceptar.removeClass();
+        btn_aceptar.toggleClass('btn btn-green');
+        btn_aceptar.css('cursor','not-allowed');
+        
+
+      });
+    </script>
 
 
 {% endblock %}
