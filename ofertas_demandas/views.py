@@ -237,7 +237,7 @@ def CargarImagenDemanda(request):
 		return HttpResponse(response.content)
 
 """
-Autor: Rolando Sornoza, Roberto Yoncon, David Vinces
+Autor: Rolando Sornoza, Roberto Yoncon, David Vinces, Pedro Iniguez
 Nombre de funcion: verCualquierOferta
 Parametros: request
 Salida: http
@@ -405,6 +405,7 @@ def administrar_Borrador(request, id_oferta):
 	args['oferta'] = oferta
 	args['galeria'] = galeria
 	args['imagen_principal'] = galeria.first()
+	args['palabras'] = oferta.palabras_clave.all
 	return render_to_response('administrar_borrador.html',args)
 
 """
@@ -1147,3 +1148,45 @@ def rechazarComentarioDemanda(request, id_comentario):
 		return HttpResponseRedirect('/NotFound/')
 	
 	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
+
+"""
+Autor: Pedro Iniguez
+Nombre de funcion: administarBorrador
+Parametros: request
+Salida:
+Descripcion: funcion para administrar mi oferta publicada.
+"""
+
+@login_required
+def administrar_Borrador_Demanda(request, id_demanda):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		demanda = Demanda.objects.get(id_demanda = id_demanda)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+
+	if (demanda.publicada == 1 or demanda.fk_perfil_id!=usuario.id_perfil):
+		return HttpResponseRedirect('/NotFound/')
+
+	galeria = ImagenDemanda.objects.all().filter(fk_demanda_id = demanda.id_demanda)
+
+	args.update(csrf(request))
+	args['dueno'] = usuario.first_name + ' ' + usuario.last_name
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['demanda'] = demanda
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
+	args['palabras'] = demanda.palabras_clave.all
+	return render_to_response('administrar_borrador_demanda.html',args)
