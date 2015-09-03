@@ -6,6 +6,7 @@
     <style>
         textarea { resize: none; }
     </style>
+
     <div class="container" ng-controller="editar_oferta_form">
     <form role="form" action="/EditarBorrador/{{oferta.id_oferta}}" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"name="form_editar" novalidate>{% csrf_token %}
     <div class="row col-md-12">
@@ -63,8 +64,22 @@
                 <label for="Tipo" class="col-md-2">Tipo</label>
 
                 <div class="col-xs-3">
-                    <select class="form-control" ng-required="true" name="select_tipo_oferta" ng-model="oferta.tipo" ng-options="i.valor as i.tipo for i in items_tipo" >
+                    <select class="form-control" ng-required="true" name="select_tipo_oferta" >
+                        {% if oferta.tipo == 0 %}
+                        <option value="0" selected>Emprendimiento</option>
+                        <option value="1">Tecnolog&iacute;a</option>
+                        <option value="2">Prototipo</option>
+                        {% elif oferta.tipo == 1 %}
+                        <option value="0">Emprendimiento</option>
+                        <option value="1" selected>Tecnolog&iacute;a</option>
+                        <option value="2">Prototipo</option>
+                        {% elif oferta.tipo == 2 %}
+                        <option value="0">Emprendimiento</option>
+                        <option value="1">Tecnolog&iacute;a</option>
+                        <option value="2" selected>Prototipo</option>
+                        {% else %}
                         <option value="">Seleccione tipo de oferta</option>
+                        {% endif %}
                     </select>
         <span ng-show="form_editar.select_tipo_oferta.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio
         </p></span>
@@ -82,7 +97,7 @@
 
                 </div>
             </div>
-            <!--Fotos-->
+            <!--Fotos
             <div class="form-group">
                 <label class="col-md-2">Fotos</label>
                 <div class="col-md-6">
@@ -94,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!--Dominio-->
             <div class="form-group">
                 <label for="oferta-dominio" class="col-md-2">Dominio</label>
@@ -122,9 +137,8 @@
                 <label for="oferta_palabras_clave" class="col-md-2">Palabras Claves</label>
                 <div class="col-md-6">
 
-
-                    <span><p class="text-muted">Agrege palabras claves</p></span>
-                    <!--<span ng-show="crear_oferta_form1.oferta_palabras_clave.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                    <tags-input class="tags" name="oferta_tags" ng-model="oferta.tags" placeholder="Agrege palabras claves"></tags-input>
+            <!--<span ng-show="crear_oferta_form1.oferta_palabras_clave.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                 </div>
             </div>
@@ -456,10 +470,11 @@
     </form>
     <script>
         var oferta_editar = undefined;
-
+        var duracion = undefined;
+        var sinDuracion = 1;
         {% if oferta %}
             oferta_editar = {
-                //tipo:'{{oferta.tipo}}',
+                tipo:'{{oferta.tipo}}',
                 nombre: '{{ oferta.nombre }}',
                 descripcion:'{{ oferta.descripcion }}',
                 dominio:'{{ oferta.dominio }}',
@@ -485,8 +500,18 @@
                 canvas_estructura_costos : '{{ oferta.fk_diagrama_canvas.estructura_costos }}',
                 canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_canvas.fuente_ingresos }}'
             };
-        {% endif %}
+            try{
+                duracion = oferta_editar.tiempo_para_estar_disponible;
+                if (duracion.indexOf("Año") > -1){
+                    console.log("HOLA");
+                }else{
+                    console.log("CHAO");
+                }
+            }catch(e){
+                sinDuracion = 1;
+            }
 
+        {% endif %}
     </script>
 
     </div>

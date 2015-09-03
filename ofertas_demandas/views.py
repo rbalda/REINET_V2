@@ -486,34 +486,39 @@ def editar_borrador(request, id_oferta):
 
 		ofertaEditada.perfil_cliente = perfilCliente
 		ofertaEditada.perfil_beneficiario = perfilBeneficiario
+	
 
-		if ofertaEditada.fk_diagrama_canvas is None:
+		if canvasSocioClave == "" and canvasActividadesClave=="" and canvasRecursos=="" and canvasPropuesta=="" and canvasRelaciones=="" and canvasCanales=="" and canvasSegmentos=="" and canvasEstructura=="" and canvasFuentes=="" :
 			ofertaEditada.fk_diagrama_canvas = None
 		else:
-			ofertaEditada.fk_diagrama_canvas.asociaciones_clave = canvasSocioClave
-			ofertaEditada.fk_diagrama_canvas.actividades_clave = canvasActividadesClave
-			ofertaEditada.fk_diagrama_canvas.recursos_clave = canvasRecursos
-			ofertaEditada.fk_diagrama_canvas.propuesta_valor = canvasPropuesta
-			ofertaEditada.fk_diagrama_canvas.relacion_clientes = canvasRelaciones
-			ofertaEditada.fk_diagrama_canvas.canales_distribucion = canvasCanales
-			ofertaEditada.fk_diagrama_canvas.segmento_mercado = canvasSegmentos
-			ofertaEditada.fk_diagrama_canvas.estructura_costos = canvasEstructura
-			ofertaEditada.fk_diagrama_canvas.fuente_ingresos = canvasFuentes
-			ofertaEditada.fk_diagrama_canvas.save()
+			diagramaCanvas = DiagramaBusinessCanvas()
+			diagramaCanvas.asociaciones_clave = canvasSocioClave
+			diagramaCanvas.actividades_clave = canvasActividadesClave
+			diagramaCanvas.recursos_clave = canvasRecursos
+			diagramaCanvas.propuesta_valor = canvasPropuesta
+			diagramaCanvas.relacion_clientes = canvasRelaciones
+			diagramaCanvas.canales_distribucion = canvasCanales
+			diagramaCanvas.segmento_mercado = canvasSegmentos
+			diagramaCanvas.estructura_costos = canvasEstructura
+			diagramaCanvas.fuente_ingresos = canvasFuentes
+			diagramaCanvas.save()
+			ofertaEditada.fk_diagrama_canvas = diagramaCanvas
 			
 		#seccion de industria
 		ofertaEditada.cuadro_tendencias_relevantes = tendencias
 		ofertaEditada.descripcion_soluciones_existentes = solucionesAlternativas
 		#para Diagrama de Porter
-		if ofertaEditada.fk_diagrama_competidores is None:
+		if porterCompetidores == "" and porterConsumidores=="" and porterSustitutos=="" and porterProveedores=="" and porterNuevos=="":
 			ofertaEditada.fk_diagrama_competidores = None
 		else:
-			ofertaEditada.fk_diagrama_competidores.competidores = porterCompetidores
-			ofertaEditada.fk_diagrama_competidores.consumidores = porterConsumidores
-			ofertaEditada.fk_diagrama_competidores.sustitutos = porterSustitutos
-			ofertaEditada.fk_diagrama_competidores.proveedores = porterProveedores
-			ofertaEditada.fk_diagrama_competidores.nuevosMiembros = porterNuevos
-			ofertaEditada.fk_diagrama_competidores.save()
+			diagramaPorter = DiagramaPorter()
+			diagramaPorter.competidores = porterCompetidores
+			diagramaPorter.consumidores = porterConsumidores
+			diagramaPorter.sustitutos = porterSustitutos
+			diagramaPorter.proveedores = porterProveedores
+			diagramaPorter.nuevosMiembros = porterNuevos
+			diagramaPorter.save()
+			ofertaEditada.fk_diagrama_competidores = diagramaPorter
 			
 		#seccion de estado/Logros
 		#ofertaEditada = tiempoDisponible
@@ -1183,3 +1188,38 @@ def administrar_Borrador_Demanda(request, id_demanda):
 	args['imagen_principal'] = galeria.first()
 	args['palabras'] = demanda.palabras_clave.all
 	return render_to_response('administrar_borrador_demanda.html',args)
+
+
+
+
+"""
+Autor: Rolando Sornoza
+Nombre de funcion: administrarDemanda
+Parametros: request
+Salida:
+Descripcion: funcion para administrar mi demanda publicada.
+"""
+
+@login_required
+def administrar_demanda(request, id_demanda):
+	session = request.session['id_usuario']
+	usuario = request.user
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	demanda = Demanda.objects.get(id_demanda = id_demanda)
+	print demanda.id_demanda
+
+
+	if (demanda.publicada == 0):
+		print 'No publicada'
+
+	args['demanda'] = demanda
+
+	return render_to_response('administrar_demanda.html',args)
