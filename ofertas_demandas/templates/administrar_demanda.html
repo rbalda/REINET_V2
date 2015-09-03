@@ -1,0 +1,302 @@
+
+{% extends "oferta_inicio.html" %}
+
+{% block sliderPagina %}MI DEMANDA{% endblock %}
+
+{% block contenido %}
+    <link href="/static/css/star-rating.min.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="/static/js/star-rating.min.js" type="text/javascript"></script>
+    <div class="container">
+    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;"align="left">
+
+        <div class="col-md-7">
+            <h4>{{ demanda.nombre }}</h4>
+            <ul class="text-muted list-inline">
+                <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ propietario }}</a></li>
+                <li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
+                <li><i class="fa fa-comments-o"></i> {{ comentariosDemanda | length }} Comentarios</li>
+            </ul>
+
+        </div>
+        <div class="col-md-5" align=right>
+            <a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarDemanda"><i class="fa fa-ban"></i>&nbsp;&nbsp;Inactivar</a>
+            <form method="GET" action="/CrearDemandaCopia/">
+                <input type="hidden" id="select_demanda" name="select_demanda" value="{{demanda.id_demanda}}" style="display: none;">
+                <button type="submit" class="btn btn-green pull-right"><i class="fa fa-files-o"></i>&nbsp;&nbsp;Duplicar&nbsp;&nbsp;</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="col-md-12">
+    <div class="col-md-8" style="padding-left: 0px;">
+        <div class="blog-text">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs " role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+                </li>
+                <li role="presentation">
+                    <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+                </li>
+                <li role="presentation">
+                    <a href="#industria" aria-controls="messages" role="tab" data-toggle="tab">Industria</a>
+                </li>
+                <li role="presentation">
+                    <a href="#estado" aria-controls="settings" role="tab" data-toggle="tab">Estado</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content row">
+                <!-- Tab INFORMACION -->
+                <div role="tabpanel" class="tab-pane active" id="informacion">
+                    <div class="col-md-12">
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="block-inverse">
+                                <div class="head-inverse">
+                                    <p class="text-center"><strong class="text-muted">Galeria</strong></p>
+                                    {% if imagenPrincipal == False%}
+                                        <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
+                                    {% else %}
+                                        <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+                                    {% endif %}
+                                </div>
+                                <div class="body-inverse">
+                                    <ul class="row list-inline gallery-list-small"
+                                        style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+                                        {% if imagenesDemanda == False%}
+                                            {% for temp in "XXXX" %}
+                                                <li class="col-xs-6">
+                                                    <a href="#">
+                                                        <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"
+                                                             alt="...">
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for imagenes in imagenesDemanda %}
+                                                <li class="col-xs-6">
+                                                    <a href="#">
+                                                        <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
+                                                             alt="...">
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif  %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
+                            <!--Tipo-->
+                            <p style="color: darkgray" class="col-md-3">Tipo</p>
+                            {% if demanda.tipo == 0 %}
+                                <p>Emprendimiento</p>
+                            {% elif demanda.tipo == 1 %}
+                                <p>Tecnologia</p>
+                            {% elif demanda.tipo == 2 %}
+                                <p>Prototipo</p>
+                            {% endif %}
+                            <!--Descripcion-->
+                            <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
+                            <p>{{ demanda.descripcion  | title}} </p>
+
+                            <!--Dominio-->
+                            <p style="color: darkgray" class="col-md-3">Dominio</p>
+                            <p>{{ demanda.dominio }}</p>
+
+                            <!--Subdominio-->
+                            <p style="color: darkgray" class="col-md-3">Sub-dominio</p>
+                            <p>{{ demanda.subdominio }}</p>
+
+                            <!--Palabras Clave-->
+                            <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
+
+                            <p class="tags">
+                                {% for tag in palabras_claves %}
+                                    <a>{{ tag.palabra }}</a>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab CLIENTE USUARIO -->
+                <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                    <div class="col-md-12">
+                        <!--Perfil Cliente-->
+                        <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
+                        <p class="col-md-9">
+                            {% if demanda.perfil_cliente != None %}
+                                {{ demanda.perfil_cliente }}
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </p>
+                        <!--Perfil Beneficiario-->
+                        <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
+                        <p class="col-md-9">
+                            {% if demanda.perfil_beneficiario != None %}
+                                {{ demanda.perfil_beneficiario }}
+                            {% else %}
+                                No disponible
+                            {% endif %} </p>
+                    </div>
+                </div>
+
+                <!-- Tab Industria -->
+                <div role="tabpanel" class="tab-pane" id="industria">
+                    <div class="col-md-12">
+                        <!--Importancia de Resolver la Necesidad-->
+                        <p style="color: darkgray" for="Descripcion" class="col-md-6">Importancia de Resolver la Necesidad</p>
+                        <p class="col-md-6">
+                            {% if demanda.importancia_resolver_necesidad != None %}
+                                {{ demanda.importancia_resolver_necesidad }}
+                            {% else %}
+                                No Aplica
+                            {% endif %}
+                        </p>
+                        <!--Alternativas de Solución Existentes-->
+                        <p style="color: darkgray" for="Descripcion" class="col-md-6">Alternativas de Solución Existentes</p>
+                        <p class="col-md-6">
+                            {% if demanda.alternativas_soluciones_existentes != None %}
+                                {{ demanda.alternativas_soluciones_existentes }}
+                            {% else %}
+                                No Aplica
+                            {% endif %}
+
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tab Estado -->
+                <div role="tabpanel" class="tab-pane" id="estado">
+                    <div class="col-md-12">
+                        <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo en que se necesita disponer de solución</p>
+                        <p class="col-md-6">
+                            {% if demanda.tiempo_para_estar_disponible != None %}
+                                {{ demanda.tiempo_para_estar_disponible }}
+                            {% else %}
+                                No Aplica
+                            {% endif %}
+                        </p>
+                        </br>
+                        <!--Estado del producto o servicio-->
+                        <p style="color: darkgray" for="Descripcion" class="col-md-6">Lugar/es donde se necesita</p>
+                        <p class="col-md-6">
+                            {% if demanda.lugar_donde_necesita != None %}
+                                {{ demanda.lugar_donde_necesita }}
+                            {% else %}
+                                No Aplica
+                            {% endif %}
+                        </p>
+                        </br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <h4>{{ comentariosAceptados }} comentarios</h4>
+        <hr>
+        <div align=right>
+            <p><a href="#" class="btn btn-sm btn-green" style="color:white"data-toggle="modal" data-target="#solicitudesComentarios"><span class="badge" style="background-color:white; color:#5D8731">{{ comentariosPendientes | length }}</span>&nbsp;&nbsp;Comentarios nuevos</a></p>
+            <p class="text-muted" style="font-size:11px">*Los comentarios de otros usuarios deben ser aprobados para estar visibles<p>
+        </div>
+        <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
+        <div class="comment">
+            <ul id="lista_comentarios">
+
+            </ul>
+            <!--Script para mostrar la lista de comentarios aceptados-->
+            <script>
+                $(document).ready(function () {
+                    $(function () {
+                        $('#lista_comentarios').ready(listaComentarios);
+                        function listaComentarios() {
+                            $.ajax({
+                                data: {
+                                    'demanda':{{demanda.id_demanda}}
+                                },
+                                type: 'get',
+                                url: '/listaComentariosAceptadosDemandas/',
+                                success: function (data) {
+                                    $('#lista_comentarios').html(data)
+                                }
+                            });
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+    </div>
+    </div>
+    </div>
+
+
+    <!-- COMIENZAN Los modals que se usan en toda la pagina -->
+
+    <!-- comienza Mooooooooooooooooodal ACEPTAR O RECHAZAR comentarios -->
+    <div id="solicitudesComentarios" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Comentarios Nuevos</h4>
+                </div>
+                <div class="modal-body" style="font-size:12px;overflow-y:auto">
+                    {% if comentarios|length == 0 %}
+                        <a >No hay comentarios nuevos </a>
+                    {% endif %}
+                    {%for comentario in comentariosPendientes%}
+                        <div class="comment" id="Comentario">
+                            <div class="media">
+                                <a class="pull-left" href="/usuario/{{ comentario.fk_usuario }}">
+                                    <img class="media-object img-circle" src="{{ comentario.fk_usuario.foto.url }}" alt="...">
+                                </a>
+                                <div class=" media-body">
+                                    <p><a href="/usuario/{{ comentario.fk_usuario }}">{{ comentario.fk_usuario.first_name }} {{ comentario.fk_usuario.last_name }}</a></p>
+                                    <p>
+                                        {{ comentario.comentario }}
+                                    </p>
+                                    <ul class="text-muted list-inline">
+                                        <li><i class="fa fa-calendar"></i> {{ comentario.fecha_comentario }} </li>
+                                    </ul>
+                                </div>
+                                <div align=right id="">
+                                    <a href="/aceptarComentario/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-green btn-xs"><span class="glyphicon glyphicon-plus-sign"></span> Aceptar</a>
+                                    <a href="/rechazarComentario/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-dark btn-md btn-xs"><span class="glyphicon glyphicon-minus-sign"></span> Rechazar</a>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- termina Mooooooooooooooooodal ACEPTAR O RECHAZAR comentarios -->
+
+    <!-- comienza INACTIVAAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEEEEEEERTAAA-->
+    <div id="InactivarOferta" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Inactivar oferta</h4>
+                </div>
+                <div class="modal-body" style="overflow-y:auto">
+                    <p>Está seguro que desea desactivar la oferta. Recuerde que este cambio no es reversible</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-green" data-dismiss="modal" data-toggle="modal" data-target="#guardarEditarEquipo">Aceptar</button>
+                    <button id="btnCancelarEditarEquipo" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- termina INACTIVAAAAAAAAAAAAAAAAAAAR DEMANDA -->
+
+{% endblock %}	    

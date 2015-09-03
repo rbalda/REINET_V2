@@ -1,3 +1,9 @@
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: crear_oferta_form2.html
+        Descripción: html del formulario cliente/usuario de crear oferta
+{% endcomment %}
+
 <div class="col-md-12">
     <!--Perfil Cliente-->
 
@@ -8,7 +14,6 @@
             <textarea autofocus id="oferta_descripcion_perfil" name="oferta_descripcion_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"
                       ng-model="oferta.perfil_cliente"  ng-required="false"
                     ></textarea>
-            <!--<span ng-show="crear_oferta_form2.oferta_descripcion_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
         </div>
     </div>
@@ -21,7 +26,6 @@
             <textarea autofocus id="oferta_beneficiario_perfil" name="oferta_beneficiario_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"
                       ng-model="oferta.perfil_beneficiario"  ng-required="false"
                     ></textarea>
-            <!--<span ng-show="crear_oferta_form2.oferta_beneficiario_perfil.$error.required" ng-if="!crear_oferta_form2.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
         </div>
     </div>

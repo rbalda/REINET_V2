@@ -1,3 +1,9 @@
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: crear_oferta_form1.html
+        Descripción: html del formulario informacion general de crear oferta
+{% endcomment %}
+
 <div class="col-md-12">
     <!--NOMBRES-->
 
@@ -71,21 +77,6 @@
 
                 </div>
             </div>
-
-            <!--
-            <div flow-init flow-name="imagen.flow">
-              <span class="btn btn-default btn-file" flow-btn>Cargar Archivo</span>
-
-              <table>
-                <tr ng-repeat="file in $flow.files">
-                    <td>
-                        <div class="thumbnail"><img flow-img="file"/>[[file.name]]</div>
-                        [[$index+1]]</div>
-                    </td>
-                </tr>
-              </table>
-            </div>
-            -->
         </div>
     </div>
 
@@ -120,7 +111,6 @@
         <div class="col-md-6">
 
             <tags-input class="tags" name="oferta_tags" ng-model="oferta.tags" placeholder="Agrege palabras claves"></tags-input>
-            <!--<span ng-show="crear_oferta_form1.oferta_palabras_clave.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
         </div>
     </div>
