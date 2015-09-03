@@ -231,7 +231,8 @@
     </div>
             <div class="col-md-4">
                 <!-- Social Links -->
-                <h4>Estado</h4>
+                <h4>Estado de la demanda</h4>
+                <div id="msj_retro_estado"></div>
                 <div class="thumbnail col-md-8"  style="margin-bottom:0px">
                    
                     <select  style="float:left;" class="form-control col-md-4"name="estado_demanda">
@@ -386,17 +387,15 @@
             dataType : 'text',
             success: function(data){
                 if(data=="ok"){
-                 alert("ok");
+                 $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la demanda ha sido modificado exitosamente</div>');
                 }else{
-                   alert("no ok no error");
+            $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+               
                 }
             },
             error: function(e){
-                alert("error");
-             //   $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
-
-               // $("[id='"+idObtenido+"'][name='Solicitud01']").show();
-
+             $("#msj_retro_estado").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+           
             }
         });
     });
