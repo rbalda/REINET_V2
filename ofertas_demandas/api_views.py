@@ -15,9 +15,22 @@ from ofertas_demandas.pagination import NoPaginacion
 from ofertas_demandas.permissions import SiEsPropietarioOEstaEnAlcance
 from ofertas_demandas.serializers import OfertaSerializador, DemandaSerializador
 from rest_framework.response import Response
+from usuarios.models import Institucion
+from usuarios.serializers import InstitucionSerializador
 
 
 __author__ = 'rbalda'
+
+
+class AlcanceViewSet(ModelViewSet):
+    queryset = Institucion.objects.all()
+    serializer_class = DemandaSerializador
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = []
+        queryset = Institucion.objects.all()
+        return queryset
 
 class DemandaViewSet(ModelViewSet):
     queryset = Demanda.objects.all()

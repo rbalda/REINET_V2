@@ -82,7 +82,6 @@ class Demanda(models.Model):
     estado = models.PositiveSmallIntegerField() #Activo(1), Terminada(2), Desactiva(3) y Censurada(4)
     nombre = models.CharField(max_length=300)
     publicada = models.BooleanField(default=False)
-    tipo = models.PositiveSmallIntegerField()
     descripcion = models.TextField()
     dominio = models.TextField()
     subdominio = models.TextField()

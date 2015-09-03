@@ -28,14 +28,30 @@
             <p class="text-muted" style="font-size:11px"><br>*Esta oferta no se encuentra publicada en la red</p><p>
         </p></div>
     </div>
-    <div id="aceptarPublicar" class="modal fade" role="dialog">
+    <div id="aceptarPublicar" class="modal fade" role="dialog" ng-controller="AlcanceController">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Advertencia</h4>
                 </div>
                 <div class="modal-body">
+
+<div class="form-group">
+    <label for="alcance_instituciones" class="col-md-2">Instituciones para Alcance</label>
+    <div class="col-md-6">
+        <tags-input class="tags" name="alcance_tags" ng-model="alcance_tags" placeholder="Agrege siglas de las Instituciones">
+              <auto-complete source="loadInstituciones($query)"
+                     min-length="0"
+                     load-on-focus="true"
+                     load-on-empty="true"
+                     max-results-to-show="32"
+                     ></auto-complete>
+        </tags-input>
+    </div>
+</div>
+
                     <p>Una vez publicada una oferta, &eacute;sta no podr&aacute; ser modificada.</p>
                     <p>¿Desea continuar?</p>
                 </div>
