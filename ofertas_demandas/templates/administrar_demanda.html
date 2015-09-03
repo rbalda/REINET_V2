@@ -16,7 +16,6 @@
                 <li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
                 <li><i class="fa fa-comments-o"></i> {{ comentariosDemanda | length }} Comentarios</li>
             </ul>
-
         </div>
         <div class="col-md-5" align=right>
             <a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarDemanda"><i class="fa fa-ban"></i>&nbsp;&nbsp;Inactivar</a>
@@ -230,6 +229,42 @@
         </div>
         <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
     </div>
+            <div class="col-md-4">
+                <!-- Social Links -->
+                <h4>Estado de la demanda</h4>
+                <div id="msj_retro_estado"></div>
+                <div class="thumbnail col-md-8"  style="margin-bottom:0px">
+                   
+                    <select  style="float:left;" class="form-control col-md-4"name="estado_demanda">
+                        {% if demanda.estado == 1 %}
+                        <option value="1" selected>Activa</option>
+                        {% else %}
+                         <option value="1" selected>Activa</option>
+                        {% endif %}
+                        
+                        {% if demanda.estado == 2 %}
+                           <option value="2" selected>Terminada</option>
+                        {% else %}
+                         <option value="2">Terminada</option>
+       
+                        {% endif %}
+                       {% if demanda.estado == 3 %}
+                        <option value="3" selected>Desactivada</option>
+                        {% else %}
+                         <option value="3" selected>Desactivada</option>
+                        {% endif %}
+                        {% if demanda.estado == 4 %}
+                        <option value="4" selected>Censurada</option>
+                        {% else %}
+                         <option value="4" selected>Censurada</option>
+                        {% endif %}
+
+                    </select>
+                </div>
+                <div>
+                    <button class="btn btn-green col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
+                </div>
+            </div>
     </div>
     </div>
 
@@ -298,5 +333,73 @@
         </div>
     </div>
     <!-- termina INACTIVAAAAAAAAAAAAAAAAAAAR DEMANDA -->
+
+    <div id="agregarMiembro" class="modal fade" role="dialog" tabindex="-1" style="width:100%">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Agregar nuevo integrante al equipo</h4>
+                </div>
+                <div class="modal-body"style="font-size:12px;overflow-y:auto;">
+                    <form id="formulario" role="form" action="/agregarParticipante/" method='POST'>
+                        {% csrf_token %}
+                        <input required autofocus type="text" class="form-control"
+                               id="nuevoIntegrante" name="nuevoIntegrante"  data-placement="left" data-trigger="focus"
+                               data-original-title="nuevoIntegrante" placeholder="Buscar">
+
+                        <input type="text" id="particOferta" name="particOferta" hidden>
+                        <input type="text" id="ofertaAdmin" name="ofertaAdmin" value="{{ oferta.id_oferta }}" hidden>
+                        <br/>
+                        <label>
+                            Ingrese el rol del nuevo integrante:
+                        </label>
+                        <input required type="text" class="form-control"
+                               id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
+                               data-original-title="rolNuevoIntegrante" placeholder="Ingrese un rol">
+                        <br/>
+                        <br/>
+                        <button type="submit" class="btn btn-green" href="/agregarParticipante/">Agregar</button>
+                        <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    $("#btn_editar_estado").on('click', function (e2){
+        estado=$("[name='estado_demanda']").val();
+        id_demanda="{{demanda.id_demanda}}";
+        datos={
+            'id_demanda': id_demanda,
+            'estado':estado,
+            'csrfmiddlewaretoken' :'{{ csrf_token }}'
+        };
+        console.log("estado demanda");
+        console.log(estado);
+                console.log(id_demanda);
+        $.ajax({
+            url: '/editarEstadoDemanda',
+            type: 'POST',
+            async: true,
+            data: datos,
+            dataType : 'text',
+            success: function(data){
+                if(data=="ok"){
+                 $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la demanda ha sido modificado exitosamente</div>');
+                }else{
+            $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+               
+                }
+            },
+            error: function(e){
+             $("#msj_retro_estado").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+           
+            }
+        });
+    });
+
+    </script>
 
 {% endblock %}	    
