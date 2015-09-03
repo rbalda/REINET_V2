@@ -34,8 +34,8 @@ from django.db.models import Avg
 Autor: Leonel Ramirez
 Nombre de funcion: InicioIncubacion
 Parametros: request
-Salida: 
-Descripcion: para llamar la pagina oferta inicio
+Salida: pagina de incubacion
+Descripcion: para llamar la pagina incubacion inicio
 """
 
 @login_required
@@ -139,3 +139,19 @@ def buscar_usuario(request):
 		args['usuario']=usuario
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
+
+
+"""
+Autor: Leonel Ramirez
+Nombre de funcion: VerMilestone
+Parametros: request
+Salida: pagian ver milestone
+Descripcion: para llamar la pagina ver milestone
+"""
+
+@login_required
+def admin_ver_milestone(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('admin_ver_milestone.html',args)

@@ -1,0 +1,32 @@
+
+{% extends "base-incubaciones.tpl.html" %}
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
+
+{% endif %}
+
+
+{% block sliderPagina %}INCUBACIONES{% endblock %}
+
+{% block contenido %}
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+
+    <div class="container">
+   <!-- Menu del Perfil -->
+            <label style="size=12px">I love MAYA</label>
+    </div>
+ 
+{% endblock %}
+
+
+
