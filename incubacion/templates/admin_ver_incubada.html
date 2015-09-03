@@ -22,6 +22,14 @@
     {% endblock %}
 
 
+    <style type="text/css">
+    	.popover{
+		    max-width: 100%; // Max Width of the popover (depending on the container!)
+		    
+		}
+    </style>
+
+
     <div class="container">
 	    <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
 	        <div class="col-md-8" style=" padding-top: 20px;margin-bottom: 15px; border:1px solid #ddd">
@@ -153,9 +161,84 @@
 	                                <!--Tipo-->
 	                                <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
 	                                <p class="col-md-9">Tecnología
+
 	                                <!--Descripcion-->
-	                                </p><p style="color: darkgray" for="Nombres" class="col-md-3">Descripción</p>
-	                                <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                                </p>
+	                                <p style="color: darkgray" for="Nombres" class="col-md-3">Descripción
+	                                </p>
+
+	                                <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales.
+	                                <br>
+	                                 <a id="popoverDescripcion" tabindex="1"  title="Retroalimentaci&oacute;n de la descripci&oacute;n" style="cursor:pointer" data-trigger="focus">
+	                                (Ver Retroalimentaci&oacute;n)</a>
+	                                </p>
+
+
+	                                <div id="retroalDescripcion" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                                </div>
+	                                
 	                                <!--Dominio-->
 	                                <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
 	                                <p class="col-md-9">Dominio
@@ -483,7 +566,7 @@
 			                		<!--TERMINA MENSAJE SI NO HAY MILESTONE-->
 					                <div class="media-body">
 
-					                  <h4 style="margin-top: 0px;"><a href="#">January 28, 2014</a></h4>
+					                  <h4 style="margin-top: 0px;"><a href="/VerMilestone/">January 28, 2014</a></h4>
 					                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim...
 					                </div>
 					              </div>
