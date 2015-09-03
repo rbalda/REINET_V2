@@ -31,15 +31,14 @@ from usuarios.serializers import UsuarioSerializador
 
 """
 Autor: Leonel Ramirez
-Nombre de funcion: InicioOferta
+Nombre de funcion: inicio_oferta
 Parametros: request
-Salida: 
+Salida: render 
 Descripcion: para llamar la pagina oferta inicio
 """
 
 @login_required
 def inicio_oferta(request):
-
 
 	args = {}
 	args['usuario']=request.user
@@ -652,6 +651,7 @@ def editar_borrador(request, id_oferta):
 		args['oferta_duracion']=oferta_duracion
 		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = oferta_editada
+		args['msg'] = "Borrador de oferta modificada exitosamente"
 		return render_to_response('administrar_borrador.html',args)
 
 	else:
