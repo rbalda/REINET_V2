@@ -31,15 +31,14 @@ from usuarios.serializers import UsuarioSerializador
 
 """
 Autor: Leonel Ramirez
-Nombre de funcion: InicioOferta
+Nombre de funcion: inicio_oferta
 Parametros: request
-Salida: 
+Salida: render 
 Descripcion: para llamar la pagina oferta inicio
 """
 
 @login_required
 def inicio_oferta(request):
-
 
 	args = {}
 	args['usuario']=request.user
