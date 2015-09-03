@@ -43,6 +43,7 @@ urlpatterns = patterns('',
                        url(r'^CrearDemanda[/]?$','ofertas_demandas.views.crear_demanda', name='CrearDemanda'),
                        url(r'^CrearDemandaCopia[/]?$','ofertas_demandas.views.crear_demanda_copia', name='CrearDemandaCopia'),
                        url(r'^CargarImagenDemanda[/]?$','ofertas_demandas.views.cargar_imagen_demanda', name='CargarImagenDemanda'),
+                       url(r'^EliminarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.eliminar_borrador_demanda', name='EliminarBorradorDemanda'),
 
                        url(r'^demanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.ver_cualquier_demanda', name='verDemanda'),
                        url(r'^administrarDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.administrar_demanda', name='AdministrarDemanda'),
