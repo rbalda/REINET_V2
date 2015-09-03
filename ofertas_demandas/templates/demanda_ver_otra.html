@@ -2,9 +2,6 @@
 {% block sliderPagina %}DEMANDA{% endblock %}
 
 {% block contenido %}
-    <link href="/static/css/star-rating.min.css" media="all" rel="stylesheet" type="text/css" />
-    <script src="/static/js/star-rating.min.js" type="text/javascript"></script>
-
     <div class="container">
     <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
         <div class="col-md-7">
@@ -46,29 +43,19 @@
                     <div class="block-inverse">
                         <div class="head-inverse">
                             <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                            <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
+                            <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
                         </div>
                         <div class="body-inverse">
                             <ul class="row list-inline gallery-list-small"
                                 style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+                                {% for imagenes in imagenesDemanda %}
                                 <li class="col-xs-6">
                                     <a href="#">
-                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg"
+                                        <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
                                              alt="...">
                                     </a>
                                 </li>
-                                <li class="col-xs-6">
-                                    <a href="#">
-                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg"
-                                             alt="...">
-                                    </a>
-                                </li>
-                                <li class="col-xs-6">
-                                    <a href="#">
-                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg"
-                                             alt="...">
-                                    </a>
-                                </li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
