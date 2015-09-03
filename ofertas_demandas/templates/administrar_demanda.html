@@ -264,7 +264,39 @@
     </div>
     <!-- termina INACTIVAAAAAAAAAAAAAAAAAAAR DEMANDA -->
 
+    <div id="agregarMiembro" class="modal fade" role="dialog" tabindex="-1" style="width:100%">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Agregar nuevo integrante al equipo</h4>
+                </div>
+                <div class="modal-body"style="font-size:12px;overflow-y:auto;">
+                    <form id="formulario" role="form" action="/agregarParticipante/" method='POST'>
+                        {% csrf_token %}
+                        <input required autofocus type="text" class="form-control"
+                               id="nuevoIntegrante" name="nuevoIntegrante"  data-placement="left" data-trigger="focus"
+                               data-original-title="nuevoIntegrante" placeholder="Buscar">
 
+                        <input type="text" id="particOferta" name="particOferta" hidden>
+                        <input type="text" id="ofertaAdmin" name="ofertaAdmin" value="{{ oferta.id_oferta }}" hidden>
+                        <br/>
+                        <label>
+                            Ingrese el rol del nuevo integrante:
+                        </label>
+                        <input required type="text" class="form-control"
+                               id="rolNuevoIntegrante" name="rolNuevoIntegrante"  data-placement="left"
+                               data-original-title="rolNuevoIntegrante" placeholder="Ingrese un rol">
+                        <br/>
+                        <br/>
+                        <button type="submit" class="btn btn-green" href="/agregarParticipante/">Agregar</button>
+                        <button id="btnCancelarAgregarIntegrante" type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
 
 {% endblock %}	    
