@@ -529,32 +529,32 @@ def editar_borrador(request, id_oferta):
 		subdominio = request.POST['oferta_sub_dominio']
 		#tags = request.POST['oferta_tags'] #Aun no usado
 		#seccion de perfiles
-		perfil_cliente = request.POST.get('oferta_descripcion_perfil', None)
-		perfil_beneficiario = request.POST.get('oferta_beneficiario_perfil', None)
+		perfil_cliente = request.POST.get('oferta_descripcion_perfil', "No disponible")
+		perfil_beneficiario = request.POST.get('oferta_beneficiario_perfil', "No disponible")
 		#seccion de business canvas
-		canvas_socio_clave = request.POST.get('canvas_socio_clave', None)
-		canvas_actividades_clave = request.POST.get('canvas_actividades_clave', None)
-		canvas_recursos = request.POST.get('canvas_recrusos_clave', None)
-		canvas_propuesta = request.POST.get('canvas_propuesta_valor', None)
-		canvas_relaciones = request.POST.get('canvas_ralaciones_clientes', None)
-		canvas_canales = request.POST.get('canvas_canales_distribucion', None)
-		canvas_segmentos = request.POST.get('canvas_segmentos_clientes', None)
-		canvas_estructura = request.POST.get('canvas_estructura_costos', None)
-		canvas_fuente = request.POST.get('canvas_fuente_ingresos', None)
+		canvas_socio_clave = request.POST.get('canvas_socio_clave', "No disponible")
+		canvas_actividades_clave = request.POST.get('canvas_actividades_clave', "No disponible")
+		canvas_recursos = request.POST.get('canvas_recrusos_clave', "No disponible")
+		canvas_propuesta = request.POST.get('canvas_propuesta_valor', "No disponible")
+		canvas_relaciones = request.POST.get('canvas_ralaciones_clientes', "No disponible")
+		canvas_canales = request.POST.get('canvas_canales_distribucion', "No disponible")
+		canvas_segmentos = request.POST.get('canvas_segmentos_clientes', "No disponible")
+		canvas_estructura = request.POST.get('canvas_estructura_costos', "No disponible")
+		canvas_fuente = request.POST.get('canvas_fuente_ingresos', "No disponible")
 		#seccion de industria
-		tendencias = request.POST.get('oferta_tendencias', None)
-		soluciones_alternativas = request.POST.get('ofertas_alternativas_soluciones', None)
+		tendencias = request.POST.get('oferta_tendencias', "No disponible")
+		soluciones_alternativas = request.POST.get('ofertas_alternativas_soluciones', "No disponible")
 		#para Diagrama de Porter
-		porter_competidores = request.POST.get('diagramapoter_competidores', None)
-		porter_consumidores = request.POST.get('diagramapoter_consumidores', None)
-		porter_sustitutos = request.POST.get('diagramapoter_sustitutos', None)
-		porter_proveedores = request.POST.get('diagramapoter_proveedores', None)
-		porter_nuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
+		porter_competidores = request.POST.get('diagramapoter_competidores', "No disponible")
+		porter_consumidores = request.POST.get('diagramapoter_consumidores', "No disponible")
+		porter_sustitutos = request.POST.get('diagramapoter_sustitutos', "No disponible")
+		porter_proveedores = request.POST.get('diagramapoter_proveedores', "No disponible")
+		porter_nuevos = request.POST.get('diagramapoter_nuevos_entrantes', "No disponible")
 		#seccion de estado/Logros
-		tiempo_disponible = request.POST.get('oferta_tiempo_disponibilidad', None)
+		tiempo_disponible = request.POST.get('oferta_tiempo_disponibilidad', "No disponible")
 		tiempo_unidad = request.POST.get('select_oferta_tiempo', None)
-		propiedad_intelectual = request.POST.get('oferta_propiedad_intelectual', None)
-		evidencia_traccion = request.POST.get('oferta_evidencia_traccion', None)
+		propiedad_intelectual = request.POST.get('oferta_propiedad_intelectual', "No disponible")
+		evidencia_traccion = request.POST.get('oferta_evidencia_traccion', "No disponible")
 		#seccion de copia de datos a la oferta a modificar
 		#seccion informacion
 		oferta_editada = oferta
@@ -590,7 +590,6 @@ def editar_borrador(request, id_oferta):
 		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama canvas
 		if canvas_socio_clave == "" and canvas_actividades_clave=="" and canvas_recursos=="" and canvas_propuesta=="" and canvas_relaciones=="" and canvas_canales=="" and canvas_segmentos=="" and canvas_estructura=="" and canvas_fuente=="" :
 			oferta_editada.fk_diagrama_canvas = None
-
 		#si existen datos ingresados, se los asigna 
 		else:
 
@@ -625,7 +624,6 @@ def editar_borrador(request, id_oferta):
 		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama porter
 		if porter_competidores == "" and porter_consumidores=="" and porter_sustitutos=="" and porter_proveedores=="" and porter_nuevos=="":
 			oferta_editada.fk_diagrama_competidores = None
-
 		#si existen datos ingresados, se los asigna 
 		else:
 
@@ -924,19 +922,20 @@ Descripcion: elimina un borrador de oferta de la base de datos
 """
 @login_required
 def eliminar_borrador(request, id_oferta):
-	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
+	sesion = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=sesion)
 	args = {}
 	args['es_admin']=request.session['es_admin']
 
+	#verificar que el usuario exista
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
-
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
 
+	#verificar que la oferta que se quiere eliminar exista
 	try:
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
 	except:
@@ -944,6 +943,38 @@ def eliminar_borrador(request, id_oferta):
 
 	oferta.delete()
 	return render_to_response('oferta_inicio.html',args)
+
+
+"""
+Autor: Roberto Yoncon
+Nombre de funcion: eliminar_borrador_demanda
+Parametros: request, id de una demanda
+Salida: 
+Descripcion: elimina un borrador de demanda de la base de datos
+"""
+@login_required
+def eliminar_borrador_demanda(request, id_demanda):
+	sesion = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=sesion)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+
+	#verificar que el usuario exista
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	#verificar que la demanda que se quiere eliminar exista
+	try:
+		demanda = Demanda.objects.get(id_demanda = id_demanda)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+
+	demanda.delete()
+	return render_to_response('demanda_inicio.html',args)
 
 
 """Autor: Angel Guale
