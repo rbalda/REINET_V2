@@ -792,9 +792,6 @@ def solicitarMembresiaOferta(request):
 		args={}
 		try:
 			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
-			print request.POST['oferta']
-			print request.user
-
 			solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
 
 			if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
@@ -803,7 +800,6 @@ def solicitarMembresiaOferta(request):
 				solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
 				solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
 				solicitudMembresia.save()
-				print 'se actualizo parece'
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
 
@@ -820,7 +816,6 @@ def solicitarMembresiaOferta(request):
 				solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
 				solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
 				solicitudMembresia.save()
-				print 'se guardo parece'
 				response = JsonResponse({'save_estado':True})
 				return HttpResponse(response.content)
 		except:
@@ -1457,13 +1452,13 @@ def resolverDemanda(request):
 		args={}
 		try:
 			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
-			print request.POST['demanda']
-			print request.user
 			print "ahora viene la oferta escogida"
-			ofertaSel =  Oferta.objects.get(id_oferta = request.POST['oferta_escogida'])
-			print ofertaSel
-
-
+			print request.POST['oferta_escogida']
+			ofertaSel = Oferta.objects.get(id_oferta = request.POST['oferta_escogida'])
+			demanda.fk_oferta = ofertaSel
+			demanda.save()
+			response = JsonResponse({'save_estado':True})
+			return HttpResponse(response.content)
 		except Demanda.DoesNotExist:
 			args['mensaje_error'] = "La demanda no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_demanda.html',args)
@@ -1471,3 +1466,58 @@ def resolverDemanda(request):
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		return redirect('/')
+
+
+"""
+Autor: Ray Montiel
+Nombre de la funcion: ofertaResuelveDemanda
+Entrada:
+Salida: Muestra el equipo de una oferta
+Descripción:Esta función permite mostrar el equipo de una oferta
+"""
+@login_required
+def ofertaResuelveDemanda(request):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+	if request.is_ajax():
+		try:
+			demanda = Demanda.objects.get(id_demanda=request.GET['demanda'])
+			oferta = Oferta.objects.get(id_oferta = demanda.fk_oferta.id_oferta)
+			try:
+				imagenes = ImagenDemanda.objects.filter(fk_oferta = oferta.id_oferta)
+				imagenPrincipal = ImagenDemanda.objects.filter(fk_oferta = oferta.id_oferta).first()
+				if not imagenes:
+					imagenes =  False
+					imagenPrincipal =  False
+			except Exception as e:
+				imagenes = False
+				imagenPrincipal = False
+
+			calificacionOferta = oferta.calificacion_total
+			args['imagenesDemanda'] = imagenes
+			args['imagenPrincipal'] = imagenPrincipal
+			args['oferta'] = oferta
+			args['demanda']=demanda
+			args['calificacionOferta'] = str(calificacionOferta)
+			args.update(csrf(request))
+			return render(request,'resuelve_demanda.html',args)
+
+		except Oferta.DoesNotExist:
+			print 'esa oferta no existe '
+			return redirect('/')
+		except Demanda.DoesNotExist:
+			print 'yiyi izi :/'
+			return redirect('/')
+		except:
+			print 'ya me jodi =('
+			return redirect('/')
+	else:
+		return redirect('/NotFound')

@@ -53,6 +53,7 @@ urlpatterns = patterns('',
                        url(r'^rechazarComentarioDemanda/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.rechazarComentarioDemanda', name='rechazarComentarioDemanda'),
                        url(r'^administrarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.administrar_Borrador_Demanda', name='administrarBorrador'),
                        url(r'^resolverDemanda[/]?$', 'ofertas_demandas.views.resolverDemanda', name='resolverDemanda'),
+                       url(r'^ofertaResuelveDemanda[/]?$', 'ofertas_demandas.views.ofertaResuelveDemanda', name='ofertaResuelveDemanda'),
                        )
 
 urlpatterns += routers.ofertas_routers
