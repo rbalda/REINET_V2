@@ -1136,9 +1136,13 @@ def ver_cualquier_demanda(request, id_demanda):
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
+		ofertas = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil,es_propietario=1)
+		args['ofertas']=ofertas
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
+			estado = demanda.estado
 			args['demanda'] = demanda
+			args['estado'] = estado
 		except:
 			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_oferta.html',args)
@@ -1392,3 +1396,30 @@ def administrar_demanda(request, id_demanda):
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
+"""
+Autor: Ray Montiel
+Nombre de la funcion: resolverDemanda
+Entrada: request
+Salida:HttpResponse
+Descripción:Envia una solicitud para resolver en una Demanda
+"""
+@login_required
+def resolverDemanda(request):
+	if request.method=="POST":
+		args={}
+		try:
+			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
+			print request.POST['demanda']
+			print request.user
+			print "ahora viene la oferta escogida"
+			ofertaSel =  Oferta.objects.get(id_oferta = request.POST['oferta_escogida'])
+			print ofertaSel
+
+
+		except Demanda.DoesNotExist:
+			args['mensaje_error'] = "La demanda no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_demanda.html',args)
+		except:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return redirect('/')
