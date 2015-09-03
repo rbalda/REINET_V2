@@ -79,6 +79,9 @@
                         <option value="2" selected>Prototipo</option>
                         {% else %}
                         <option value="">Seleccione tipo de oferta</option>
+                        <option value="0">Emprendimiento</option>
+                        <option value="1">Tecnolog&iacute;a</option>
+                        <option value="2">Prototipo</option>
                         {% endif %}
                     </select>
         <span ng-show="form_editar.select_tipo_oferta.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio
@@ -406,7 +409,7 @@
                 <div class="col-md-8">
                     <label class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
 
-                    <input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false"
+                    <input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" value="{{oferta_tiempo}}"
                             >
                     <span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
                     <!--<span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
@@ -419,7 +422,17 @@
                 </div>-->
                 <div class="col-xs-2" style="right:25%;">
                     <select name="select_oferta_tiempo" id="select_oferta_tiempo" class="form-control" ng-required="false" >
+                        {% if oferta_duracion == -1 %}
                         <option value="">Seleccione duraci&oacute;n</option>
+                        <option value="0">Mes/es</option>
+                        <option value="1">Año/s</option>
+                        {% elif oferta_duracion == 0 %}
+                        <option value="0" selected>Mes/es</option>
+                        <option value="1">Año/s</option>
+                        {% else %}
+                        <option value="0">Mes/es</option>
+                        <option value="1" selected>Año/s</option>
+                        {% endif %}
                     </select>
                     <!--<span ng-show="form_editar.tiempo_tipo.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                 </div>
@@ -471,7 +484,9 @@
     <script>
         var oferta_editar = undefined;
         var duracion = undefined;
+        var oferta_tiempo = undefined;
         var sinDuracion = 1;
+        var oferta_duracion = {{oferta_duracion}};
         {% if oferta %}
             oferta_editar = {
                 tipo:'{{oferta.tipo}}',
@@ -498,20 +513,17 @@
                 canvas_canales_distribucion : '{{ oferta.fk_diagrama_canvas.canales_distribucion }}',
                 canvas_segmento_mercado : '{{ oferta.fk_diagrama_canvas.segmento_mercado }}',
                 canvas_estructura_costos : '{{ oferta.fk_diagrama_canvas.estructura_costos }}',
-                canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_canvas.fuente_ingresos }}'
+                canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_canvas.fuente_ingresos }}',
+                tiempo_para_estar_disponible : '{{ oferta.tiempo_para_estar_disponible }}'
             };
-            try{
-                duracion = oferta_editar.tiempo_para_estar_disponible;
-                if (duracion.indexOf("Año") > -1){
-                    console.log("HOLA");
-                }else{
-                    console.log("CHAO");
-                }
-            }catch(e){
-                sinDuracion = 1;
-            }
-
+            {% if oferta_tiempo == "" %}
+                oferta_tiempo = undefined;
+            {% else %}
+                oferta_tiempo = {{oferta_tiempo}};
+            {% endif %}
+            
         {% endif %}
+        $('p.tags a').each(function(){console.log($(this));});
     </script>
 
     </div>

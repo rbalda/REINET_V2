@@ -25,7 +25,7 @@
                 <i class="fa fa-trash-o"></i>
                 Eliminar
             </a>
-            <p class="text-muted" style="font-size:11px"><br>*Esta oferta no se encuentra publicada en la red</p><p>
+            <p class="text-muted" style="font-size:11px"><br>*Esta demanda no se encuentra publicada en la red</p><p>
         </p></div>
     </div>
     <div id="aceptarPublicar" class="modal fade" role="dialog">
@@ -36,12 +36,12 @@
                     <h4 class="modal-title">Advertencia</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Una vez publicada una oferta, &eacute;sta no podr&aacute; ser modificada.</p>
+                    <p>Una vez publicada una demanda, &eacute;sta no podr&aacute; ser modificada.</p>
                     <p>¿Desea continuar?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    <a href="/publicarBorrador/{{ oferta.id_oferta }}" type="button" class="btn btn-green">Aceptar</a>
+                    <a href="/publicarBorrador/{{ demanda.id_demanda }}" type="button" class="btn btn-green">Aceptar</a>
                 </div>
             </div>
 
@@ -56,12 +56,12 @@
                     <h4 class="modal-title">Advertencia</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Una vez eliminada un borrador de una oferta, &eacute;ste no se podr&aacute; recuperar.</p>
+                    <p>Una vez eliminada un borrador de una demanda, &eacute;ste no se podr&aacute; recuperar.</p>
                     <p>¿Desea eliminarlo?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    <a href="/eliminarBorrador/{{ oferta.id_oferta }}" type="button" class="btn btn-green">Aceptar</a>
+                    <a href="/EliminarBorradorDemanda/{{ demanda.id_demanda }}" type="button" class="btn btn-green">Aceptar</a>
                 </div>
             </div>
 

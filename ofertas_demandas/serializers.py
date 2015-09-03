@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from django.contrib.admin.utils import model_format_dict
 from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, ComentarioCalificacion, MiembroEquipo, PalabraClave, \
-    ImagenOferta, Demanda
+    ImagenOferta, Demanda, ImagenDemanda
 from usuarios.models import Perfil
 from rest_framework import serializers
 import json
@@ -23,6 +23,12 @@ class ImagenOfertaSerializer(ModelSerializer):
     imagen = serializers.ImageField()
     class Meta:
         model=ImagenOferta
+        fields=('imagen','descripcion')
+
+class ImagenDemandaSerializer(ModelSerializer):
+    imagen = serializers.ImageField()
+    class Meta:
+        model=ImagenDemanda
         fields=('imagen','descripcion')
 
 class DiagramaPorterSerializador(ModelSerializer):
@@ -142,6 +148,7 @@ class DemandaSerializador(ModelSerializer):
     dueno = serializers.SerializerMethodField('getdueno',read_only=True)
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
+    galeria = ImagenDemandaSerializer(many=True,required=False)
     tags = serializers.ListField(
             child=serializers.CharField(),
             required=False,allow_null=True
@@ -153,10 +160,10 @@ class DemandaSerializador(ModelSerializer):
             'id_demanda','codigo','estado','nombre','publicada','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave','comentarios', 'dueno',
-            'duenoUsername')
+            'duenoUsername','galeria')
 
         read_only_fields = ('id_oferta','codigo','estado','fecha_publicacion','fecha_creacion',
-                            'palabras_clave','alcance','comentarios')
+                            'palabras_clave','alcance','comentarios','galeria')
 
     def getdueno(self,obj):
         perfil = Perfil.objects.all().filter(id_perfil = obj.fk_perfil_id).first()
