@@ -6,6 +6,7 @@ from ofertas_demandas.api_views import MisOfertasAllViewSet
 from ofertas_demandas.api_views import DemandaViewSet
 from ofertas_demandas.api_views import MisDemandasViewSet
 from ofertas_demandas.api_views import MisDemandasBorradoresViewSet
+from ofertas_demandas.api_views import misDemandasAllViewSet
 
 __author__ = 'rbalda'
 
@@ -22,6 +23,7 @@ router.register(r'api/misOfertasAll',MisOfertasAllViewSet)
 router.register(r'api/demandas',DemandaViewSet)
 router.register(r'api/misDemandas',MisDemandasViewSet)
 router.register(r'api/misDemandasBorradores', MisDemandasBorradoresViewSet)
+router.register(r'api/misDemandasAll',misDemandasAllViewSet)
 
 ofertas_routers = router.urls
 

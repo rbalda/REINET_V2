@@ -38,203 +38,258 @@ Descripcion: para llamar la pagina oferta inicio
 """
 
 @login_required
-def InicioOferta(request):
-    args = {}
-    args['usuario']=request.user
-    args['es_admin']=request.session['es_admin']
-    return render_to_response('oferta_inicio.html',args)
+def inicio_oferta(request):
 
+
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('oferta_inicio.html',args)
+
+
+"""
+Autor: FaustoMora y Pedro Iñiguez
+Nombre de funcion: inicio_demanda
+Parametros: request
+Salida: render 
+Descripcion: para llamar la pagina demanda inicio
+"""
 
 @login_required
-def InicioDemanda(request):
-    args = {}
-    args['usuario']=request.user
-    args['es_admin']=request.session['es_admin']
-    return render_to_response('demanda_inicio.html', args)
+def inicio_demanda(request):
+
+
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('demanda_inicio.html', args)
 
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearOfertaCopia
+Nombre de funcion: crear_oferta_copia
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_oferta_copia
 """
 @login_required
-def CrearOfertaCopia(request):
-    if request.GET.get('select_oferta',False):
-        args = {}
-        args['es_admin']=request.session['es_admin']
-        args['usuario']=request.user
-        oferta = None
-        oferta_id = request.GET['select_oferta']
-        oferta = Oferta.objects.get(id_oferta=oferta_id)
-        palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
-        tags = []
-        for t in palabra_clave:
-            aux_tag ={'text':t.palabra}
-            tags.append(t.palabra.encode('utf-8','ignore'))
+def crear_oferta_copia(request):
 
-        tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
-        oferta_tiempo = int(tiempo_disponilbe[0])
 
-        if tiempo_disponilbe[1] == 'Mes/es':
-            oferta_duracion = 0
-        else:
-            oferta_duracion = 1
+	# si existe la variable en el request del get
+	if request.GET.get('select_oferta',False):
+		args = {}
+		args['es_admin']=request.session['es_admin']
+		args['usuario']=request.user
+		oferta = None
+		oferta_id = request.GET['select_oferta']
 
-        tags_json= json.dumps(tags)
-        args['oferta_tiempo']=oferta_tiempo
-        args['oferta_duracion']=oferta_duracion
-        args['oferta']=oferta
-        args['tags']=tags_json
-        args.update(csrf(request))
-        return render(request,'crear_oferta.html',args)
-    else:
-        return redirect('/CrearOferta/')
+		# oferta pertenezca al user
+		try:
+			perfil = Perfil.objects.get(id=request.user.id)
+			oferta = perfil.participa_en.all().get(miembroequipo__es_propietario=1,id_oferta=oferta_id)
+			palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
+			tags = []
+
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
+
+			tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
+			oferta_tiempo = int(tiempo_disponilbe[0])
+
+			if tiempo_disponilbe[1] == 'Mes/es':
+				oferta_duracion = 0
+			else:
+				oferta_duracion = 1
+
+			etiqueta_json= json.dumps(tags)
+			args['oferta_tiempo']=oferta_tiempo
+			args['oferta_duracion']=oferta_duracion
+			args['oferta']=oferta
+			args['tags']=etiqueta_json
+			args.update(csrf(request))
+			return render(request,'crear_oferta.html',args)
+
+		# caso contrario se redirecciona a crear oferta
+		except Oferta.DoesNotExist:
+			return redirect('/CrearOferta/')
+
+	#no existe variable se redireeciona a crear oferta
+	else:
+		return redirect('/CrearOferta/')
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearOferta
+Nombre de funcion: crear_oferta
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_oferta
 """
 
 @login_required
-def CrearOferta(request):
-    args = {}
-    args['usuario']=request.user
-    args['es_admin']=request.session['es_admin']
-    args['oferta'] = None
-    args.update(csrf(request))
-    return render(request,'crear_oferta.html',args)
+def crear_oferta(request):
+
+
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	args['oferta'] = None
+	args.update(csrf(request))
+	return render(request,'crear_oferta.html',args)
 
 
 """
 Autor: FaustoMora
-Nombre de funcion: CargarImagenOferta
+Nombre de funcion: cargar_imagen_oferta
 Parametros: request
 Salida: HttpResponse status
 Descripcion: funcion para upload de imagnes en crear oferta
 """
 
 @login_required
-def CargarImagenOferta(request):
-    try:
-        print 'cargar oferta imagen'
-        imagen = ImagenOferta()
-        descripcion = request.POST.get('descripcion',None)
-        descripcion = json.loads(descripcion)
-        if descripcion:
-            aux = request.POST['flowIdentifier']
+def cargar_imagen_oferta(request):
 
-            for x in descripcion:
-                if x['value'] == aux:
-                    imagen.descripcion=x['descripcion']
-        else:
-            imagen.descripcion=" "
 
-        id = request.POST['id_oferta']
-        imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
-        img = request.FILES['file']
-        imagen.imagen = img
-        imagen.save()
-        response = JsonResponse({'save_estado':True})
-        return HttpResponse(response.content)
-    except:
-        response = JsonResponse({'save_estado':False})
-        return HttpResponse(response.content)
+	try:
+		imagen = ImagenOferta()
+		descripcion = request.POST.get('descripcion',None)
+		descripcion = json.loads(descripcion)
+
+		# si existe la descripcion de las imagenes correspondientes
+		if descripcion:
+			aux = request.POST['flowIdentifier']
+
+			for x in descripcion:
+				if x['value'] == aux:
+					imagen.descripcion=x['descripcion']
+
+		# caso contrario se guarda un espacio en blanco
+		else:
+			imagen.descripcion=" "
+
+		id = request.POST['id_oferta']
+		imagen.fk_oferta = Oferta.objects.get(id_oferta=id)
+		img = request.FILES['file']
+		imagen.imagen = img
+		imagen.save()
+		response = JsonResponse({'save_estado':True})
+		return HttpResponse(response.content)
+
+	except:
+		response = JsonResponse({'save_estado':False})
+		return HttpResponse(response.content)
 
 """
 Autor: FaustoMora
-Nombre de funcion: crearDemanda
+Nombre de funcion: crear_demanda
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redirect a crear demanda
 """
 @login_required
-def CrearDemanda(request):
-    args = {}
-    args['usuario']=request.user
-    args['es_admin']=request.session['es_admin']
-    args['demanda'] = None
-    args.update(csrf(request))
-    return render(request,'crear_demanda.html',args)
+def crear_demanda(request):
+
+
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	args['demanda'] = None
+	args.update(csrf(request))
+	return render(request,'crear_demanda.html',args)
 
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearDemandaCopia
+Nombre de funcion: crear_demanda_copia
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_demanda_copia
 """
 @login_required
-def CrearDemandaCopia(request):
-    if request.GET.get('select_demanda',False):
-        args = {}
-        args['es_admin']=request.session['es_admin']
-        args['usuario']=request.user
-        demanda_id = request.GET['select_demanda']
-        demanda = Demanda.objects.get(id_demanda=demanda_id)
-        palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
-        tags = []
-        for t in palabra_clave:
-            aux_tag ={'text':t.palabra}
-            tags.append(t.palabra.encode('utf-8','ignore'))
+def crear_demanda_copia(request):
 
-        tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
-        demanda_tiempo = int(tiempo_disponilbe[0])
 
-        if tiempo_disponilbe[1] == 'Mes/es':
-            demanda_duracion = 0
-        else:
-            demanda_duracion = 1
+	# si existe la variable en el request del get
+	if request.GET.get('select_demanda',False):
+		args = {}
+		args['es_admin']=request.session['es_admin']
+		args['usuario']=request.user
+		demanda_id = request.GET['select_demanda']
 
-        tags_json= json.dumps(tags)
-        args['demanda_tiempo']=demanda_tiempo
-        args['demanda_duracion']=demanda_duracion
-        args['demanda']=demanda
-        args['tags']=tags_json
-        args.update(csrf(request))
-        return render(request,'crear_demanda.html',args)
-    else:
-        return redirect('/CrearDemanda/')
+		#demanda pertenezca al user
+		try:
+			perfil = Perfil.objects.get(id=request.user.id)
+			demanda = Demanda.objects.get(id_demanda=demanda_id,fk_perfil=perfil)
+			palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
+			tags = []
+
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
+
+			tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
+			demanda_tiempo = int(tiempo_disponilbe[0])
+
+			if tiempo_disponilbe[1] == 'Mes/es':
+				demanda_duracion = 0
+			else:
+				demanda_duracion = 1
+
+			etiqueta_json= json.dumps(tags)
+			args['demanda_tiempo']=demanda_tiempo
+			args['demanda_duracion']=demanda_duracion
+			args['demanda']=demanda
+			args['tags']=etiqueta_json
+			args.update(csrf(request))
+			return render(request,'crear_demanda.html',args)
+
+		# en caso de no encontrarla redireciona a crear demanda
+		except Demanda.DoesNotExist:
+			return redirect('/CrearDemanda/')
+
+	# si no existe se redirecciona a crear demanda
+	else:
+		return redirect('/CrearDemanda/')
 
 """
 Autor: FaustoMora
-Nombre de funcion: CargarImagenDemanda
+Nombre de funcion: cargar_imagen_demanda
 Parametros: request
 Salida: HttpResponse status
 Descripcion: funcion para upload de imagnes en crear demanda
 """
 
 @login_required
-def CargarImagenDemanda(request):
-    try:
-        imagen = ImagenDemanda()
-        descripcion = request.POST.get('descripcion',None)
-        descripcion = json.loads(descripcion)
-        if descripcion:
-            aux = request.POST['flowIdentifier']
+def cargar_imagen_demanda(request):
 
-            for x in descripcion:
-                if x['value'] == aux:
-                    imagen.descripcion=x['descripcion']
-        else:
-            imagen.descripcion=" "
 
-        id = request.POST['id_demanda']
-        imagen.fk_demanda = Demanda.objects.get(id_demanda=id)
-        img = request.FILES['file']
-        imagen.imagen = img
-        imagen.save()
-        response = JsonResponse({'save_estado':True})
-        return HttpResponse(response.content)
-    except:
-        response = JsonResponse({'save_estado':False})
-        return HttpResponse(response.content)
+	try:
+		imagen = ImagenDemanda()
+		descripcion = request.POST.get('descripcion',None)
+		descripcion = json.loads(descripcion)
+
+		# si existe la descripcion de las imagenes correspondientes
+		if descripcion:
+			aux = request.POST['flowIdentifier']
+
+			for x in descripcion:
+				if x['value'] == aux:
+					imagen.descripcion=x['descripcion']
+
+		# caso contrario se guarda un espacio en blanco
+		else:
+			imagen.descripcion=" "
+
+		id = request.POST['id_demanda']
+		imagen.fk_demanda = Demanda.objects.get(id_demanda=id)
+		img = request.FILES['file']
+		imagen.imagen = img
+		imagen.save()
+		response = JsonResponse({'save_estado':True})
+		return HttpResponse(response.content)
+
+	except:
+		response = JsonResponse({'save_estado':False})
+		return HttpResponse(response.content)
 
 """
 Autor: Rolando Sornoza, Roberto Yoncon, David Vinces, Pedro Iniguez
@@ -340,35 +395,35 @@ def administrar_Oferta(request, id_oferta):
     #return HttpResponseRedirect('/NotFound/')
     membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
-    if membresiaOferta is None:
-        return HttpResponseRedirect('/NotFound/')
+	if membresiaOferta is None:
+		return HttpResponseRedirect('/NotFound/')
 
 
-    solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
+	solicitudes=MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa = id_oferta, estado_membresia=0)
 
-    participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1,activo =1)
+	participantes = MiembroEquipo.objects.all().filter(fk_oferta_en_que_participa=oferta.id_oferta,estado_membresia=1,activo =1)
 
-    equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
-    try:
-        palabras_claves = oferta.palabras_clave.all()
-    except Exception as e:
-        palabras_claves =  ["Null", "Null", "Null", "Null"]
+	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
+	try:
+		palabras_claves = oferta.palabras_clave.all()
+	except Exception as e:
+		palabras_claves =  ["Null", "Null", "Null", "Null"]
 
-    galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
-    args['palabras_claves'] = palabras_claves
-    args['comentariosPendientes'] = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=0)
-    args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
-    args.update(csrf(request))
-    args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-    args['institucion_nombre'] = request.session['institucion_nombre']
-    args['oferta'] = oferta
-    calificacionOferta = oferta.calificacion_total
-    args['calificacionOferta'] = str(calificacionOferta)
-    args['participantes'] = participantes
-    args['solicitudes']=solicitudes
-    args['galeria'] = galeria
-    args['imagen_principal'] = galeria.first()
-    return render_to_response('administrar_oferta.html',args)
+	galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
+	args['palabras_claves'] = palabras_claves
+	args['comentariosPendientes'] = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=0)
+	args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
+	args.update(csrf(request))
+	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['oferta'] = oferta
+	calificacionOferta = oferta.calificacion_total
+	args['calificacionOferta'] = str(calificacionOferta)
+	args['participantes'] = participantes
+	args['solicitudes']=solicitudes
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
+	return render_to_response('administrar_oferta.html',args)
 
 """
 Autor: Pedro Iniguez
@@ -380,42 +435,42 @@ Descripcion: funcion para administrar mi oferta publicada.
 
 @login_required
 def administrar_Borrador(request, id_oferta):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
 
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
 
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-    try:
-        oferta = Oferta.objects.get(id_oferta = id_oferta)
-    except:
-        return HttpResponseRedirect('/NotFound/')
-    if (oferta.publicada == 1):
-        return HttpResponseRedirect('/NotFound/')
-    membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	if (oferta.publicada == 1):
+		return HttpResponseRedirect('/NotFound/')
+	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
-    if membresiaOferta is None:
-        return HttpResponseRedirect('/NotFound/')
+	if membresiaOferta is None:
+		return HttpResponseRedirect('/NotFound/')
 
-    equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
+	equipoDueno = MiembroEquipo.objects.all().filter(es_propietario=1, fk_oferta_en_que_participa=oferta.id_oferta).first()
 
-    galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
+	galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
 
-    args.update(csrf(request))
-    args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-    args['institucion_nombre'] = request.session['institucion_nombre']
-    args['oferta'] = oferta
-    args['galeria'] = galeria
-    args['imagen_principal'] = galeria.first()
-    args['palabras'] = oferta.palabras_clave.all
-    return render_to_response('administrar_borrador.html',args)
+	args.update(csrf(request))
+	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['oferta'] = oferta
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
+	args['palabras'] = oferta.palabras_clave.all
+	return render_to_response('administrar_borrador.html',args)
 
 """
 Autor: Roberto Yoncon
@@ -426,127 +481,127 @@ Descripcion: funcion para editar un borrador
 """
 @login_required
 def editar_borrador(request, id_oferta):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
 
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-    try:
-        oferta = Oferta.objects.get(id_oferta = id_oferta)
-    except:
-        return HttpResponseRedirect('/NotFound/')
-    if (oferta.publicada == 1):
-        return HttpResponseRedirect('/NotFound/')
-    membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	if (oferta.publicada == 1):
+		return HttpResponseRedirect('/NotFound/')
+	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
-    if membresiaOferta is None:
-        return HttpResponseRedirect('/NotFound/')
+	if membresiaOferta is None:
+		return HttpResponseRedirect('/NotFound/')
 
-    if request.method == 'POST':
-        #seccion de informacion
-        nombre = request.POST['nombre_oferta']
-        tipo = request.POST['select_tipo_oferta']
-        descripcion = request.POST['descripcion_oferta']
-        dominio = request.POST['oferta_dominio']
-        subdominio = request.POST['oferta_sub_dominio']
-        #tags = request.POST['oferta_tags'] #Aun no usado
-        #seccion de perfiles
-        perfilCliente = request.POST.get('oferta_descripcion_perfil', None)
-        perfilBeneficiario = request.POST.get('oferta_beneficiario_perfil', None)
-        #seccion de business canvas
-        canvasSocioClave = request.POST.get('canvas_socio_clave', None)
-        canvasActividadesClave = request.POST.get('canvas_actividades_clave', None)
-        canvasRecursos = request.POST.get('canvas_recrusos_clave', None)
-        canvasPropuesta = request.POST.get('canvas_propuesta_valor', None)
-        canvasRelaciones = request.POST.get('canvas_ralaciones_clientes', None)
-        canvasCanales = request.POST.get('canvas_canales_distribucion', None)
-        canvasSegmentos = request.POST.get('canvas_segmentos_clientes', None)
-        canvasEstructura = request.POST.get('canvas_estructura_costos', None)
-        canvasFuentes = request.POST.get('canvas_fuente_ingresos', None)
-        #seccion de industria
-        tendencias = request.POST.get('oferta_tendencias', None)
-        solucionesAlternativas = request.POST.get('ofertas_alternativas_soluciones', None)
-        #para Diagrama de Porter
-        porterCompetidores = request.POST.get('diagramapoter_competidores', None)
-        porterConsumidores = request.POST.get('diagramapoter_consumidores', None)
-        porterSustitutos = request.POST.get('diagramapoter_sustitutos', None)
-        porterProveedores = request.POST.get('diagramapoter_proveedores', None)
-        porterNuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
-        #seccion de estado/Logros
-        tiempoDisponible = request.POST.get('oferta_tiempo_disponibilidad', None)
-        tiempoUnidad = request.POST.get('select_oferta_tiempo', None)
-        propiedadIntelectual = request.POST.get('oferta_propiedad_intelectual', None)
-        evidenciaTraccion = request.POST.get('oferta_evidencia_traccion', None)
+	if request.method == 'POST':
+		#seccion de informacion
+		nombre = request.POST['nombre_oferta']
+		tipo = request.POST['select_tipo_oferta']
+		descripcion = request.POST['descripcion_oferta']
+		dominio = request.POST['oferta_dominio']
+		subdominio = request.POST['oferta_sub_dominio']
+		#tags = request.POST['oferta_tags'] #Aun no usado
+		#seccion de perfiles
+		perfilCliente = request.POST.get('oferta_descripcion_perfil', None)
+		perfilBeneficiario = request.POST.get('oferta_beneficiario_perfil', None)
+		#seccion de business canvas
+		canvasSocioClave = request.POST.get('canvas_socio_clave', None)
+		canvasActividadesClave = request.POST.get('canvas_actividades_clave', None)
+		canvasRecursos = request.POST.get('canvas_recrusos_clave', None)
+		canvasPropuesta = request.POST.get('canvas_propuesta_valor', None)
+		canvasRelaciones = request.POST.get('canvas_ralaciones_clientes', None)
+		canvasCanales = request.POST.get('canvas_canales_distribucion', None)
+		canvasSegmentos = request.POST.get('canvas_segmentos_clientes', None)
+		canvasEstructura = request.POST.get('canvas_estructura_costos', None)
+		canvasFuentes = request.POST.get('canvas_fuente_ingresos', None)
+		#seccion de industria
+		tendencias = request.POST.get('oferta_tendencias', None)
+		solucionesAlternativas = request.POST.get('ofertas_alternativas_soluciones', None)
+		#para Diagrama de Porter
+		porterCompetidores = request.POST.get('diagramapoter_competidores', None)
+		porterConsumidores = request.POST.get('diagramapoter_consumidores', None)
+		porterSustitutos = request.POST.get('diagramapoter_sustitutos', None)
+		porterProveedores = request.POST.get('diagramapoter_proveedores', None)
+		porterNuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
+		#seccion de estado/Logros
+		tiempoDisponible = request.POST.get('oferta_tiempo_disponibilidad', None)
+		tiempoUnidad = request.POST.get('select_oferta_tiempo', None)
+		propiedadIntelectual = request.POST.get('oferta_propiedad_intelectual', None)
+		evidenciaTraccion = request.POST.get('oferta_evidencia_traccion', None)
 
-        ofertaEditada = oferta
-        ofertaEditada.nombre = nombre
-        ofertaEditada.tipo = tipo
-        ofertaEditada.descripcion = descripcion
+		ofertaEditada = oferta
+		ofertaEditada.nombre = nombre
+		ofertaEditada.tipo = tipo
+		ofertaEditada.descripcion = descripcion
 
-        ofertaEditada.dominio = dominio
-        ofertaEditada.subdominio = subdominio
+		ofertaEditada.dominio = dominio
+		ofertaEditada.subdominio = subdominio
 
-        ofertaEditada.perfil_cliente = perfilCliente
-        ofertaEditada.perfil_beneficiario = perfilBeneficiario
+		ofertaEditada.perfil_cliente = perfilCliente
+		ofertaEditada.perfil_beneficiario = perfilBeneficiario
+	
 
+		if canvasSocioClave == "" and canvasActividadesClave=="" and canvasRecursos=="" and canvasPropuesta=="" and canvasRelaciones=="" and canvasCanales=="" and canvasSegmentos=="" and canvasEstructura=="" and canvasFuentes=="" :
+			ofertaEditada.fk_diagrama_canvas = None
+		else:
+			diagramaCanvas = DiagramaBusinessCanvas()
+			diagramaCanvas.asociaciones_clave = canvasSocioClave
+			diagramaCanvas.actividades_clave = canvasActividadesClave
+			diagramaCanvas.recursos_clave = canvasRecursos
+			diagramaCanvas.propuesta_valor = canvasPropuesta
+			diagramaCanvas.relacion_clientes = canvasRelaciones
+			diagramaCanvas.canales_distribucion = canvasCanales
+			diagramaCanvas.segmento_mercado = canvasSegmentos
+			diagramaCanvas.estructura_costos = canvasEstructura
+			diagramaCanvas.fuente_ingresos = canvasFuentes
+			diagramaCanvas.save()
+			ofertaEditada.fk_diagrama_canvas = diagramaCanvas
+			
+		#seccion de industria
+		ofertaEditada.cuadro_tendencias_relevantes = tendencias
+		ofertaEditada.descripcion_soluciones_existentes = solucionesAlternativas
+		#para Diagrama de Porter
+		if porterCompetidores == "" and porterConsumidores=="" and porterSustitutos=="" and porterProveedores=="" and porterNuevos=="":
+			ofertaEditada.fk_diagrama_competidores = None
+		else:
+			diagramaPorter = DiagramaPorter()
+			diagramaPorter.competidores = porterCompetidores
+			diagramaPorter.consumidores = porterConsumidores
+			diagramaPorter.sustitutos = porterSustitutos
+			diagramaPorter.proveedores = porterProveedores
+			diagramaPorter.nuevosMiembros = porterNuevos
+			diagramaPorter.save()
+			ofertaEditada.fk_diagrama_competidores = diagramaPorter
+			
+		#seccion de estado/Logros
+		#ofertaEditada = tiempoDisponible
+		#ofertaEditada = tiempoUnidad
+		ofertaEditada.estado_propieada_intelectual = propiedadIntelectual
+		ofertaEditada.evidencia_traccion = evidenciaTraccion
 
-        if canvasSocioClave == "" and canvasActividadesClave=="" and canvasRecursos=="" and canvasPropuesta=="" and canvasRelaciones=="" and canvasCanales=="" and canvasSegmentos=="" and canvasEstructura=="" and canvasFuentes=="" :
-            ofertaEditada.fk_diagrama_canvas = None
-        else:
-            diagramaCanvas = DiagramaBusinessCanvas()
-            diagramaCanvas.asociaciones_clave = canvasSocioClave
-            diagramaCanvas.actividades_clave = canvasActividadesClave
-            diagramaCanvas.recursos_clave = canvasRecursos
-            diagramaCanvas.propuesta_valor = canvasPropuesta
-            diagramaCanvas.relacion_clientes = canvasRelaciones
-            diagramaCanvas.canales_distribucion = canvasCanales
-            diagramaCanvas.segmento_mercado = canvasSegmentos
-            diagramaCanvas.estructura_costos = canvasEstructura
-            diagramaCanvas.fuente_ingresos = canvasFuentes
-            diagramaCanvas.save()
-            ofertaEditada.fk_diagrama_canvas = diagramaCanvas
+		ofertaEditada.save()
 
-        #seccion de industria
-        ofertaEditada.cuadro_tendencias_relevantes = tendencias
-        ofertaEditada.descripcion_soluciones_existentes = solucionesAlternativas
-        #para Diagrama de Porter
-        if porterCompetidores == "" and porterConsumidores=="" and porterSustitutos=="" and porterProveedores=="" and porterNuevos=="":
-            ofertaEditada.fk_diagrama_competidores = None
-        else:
-            diagramaPorter = DiagramaPorter()
-            diagramaPorter.competidores = porterCompetidores
-            diagramaPorter.consumidores = porterConsumidores
-            diagramaPorter.sustitutos = porterSustitutos
-            diagramaPorter.proveedores = porterProveedores
-            diagramaPorter.nuevosMiembros = porterNuevos
-            diagramaPorter.save()
-            ofertaEditada.fk_diagrama_competidores = diagramaPorter
+		args.update(csrf(request))
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args['oferta'] = ofertaEditada
+		return render_to_response('administrar_borrador.html',args)
 
-        #seccion de estado/Logros
-        #ofertaEditada = tiempoDisponible
-        #ofertaEditada = tiempoUnidad
-        ofertaEditada.estado_propieada_intelectual = propiedadIntelectual
-        ofertaEditada.evidencia_traccion = evidenciaTraccion
-
-        ofertaEditada.save()
-
-        args.update(csrf(request))
-        args['institucion_nombre'] = request.session['institucion_nombre']
-        args['oferta'] = ofertaEditada
-        return render_to_response('administrar_borrador.html',args)
-
-    else:
-        args.update(csrf(request))
-        args['institucion_nombre'] = request.session['institucion_nombre']
-        args['oferta'] = oferta
-        return render_to_response('editar_borrador.html',args)
+	else:
+		args.update(csrf(request))
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args['oferta'] = oferta
+		return render_to_response('editar_borrador.html',args)
 
 
 
@@ -559,24 +614,24 @@ Descripción:Esta función permite mostrar el listado de comentarios aceptados d
 """
 @login_required
 def listaComentariosAceptados(request):
-    """print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']"""
-    if request.is_ajax():
-        args={}
-        try:
-            oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
-            listaComentarios= ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta)
-            args['listaComentarios'] = listaComentarios
-            args['oferta']=oferta
-            args.update(csrf(request))
-            return render(request,'comentario_oferta.html',args)
-        except Oferta.DoesNotExist:
-            print '>> Oferta no existe'
-        except ComentarioCalificacion.DoesNotExist:
-            print '>> Comentario no existe'
-        except:
-            print '>> Excepcion no controlada'
-    else:
-        return redirect('/NotFound')
+	"""print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']"""
+	if request.is_ajax():
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaComentarios= ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta)
+			args['listaComentarios'] = listaComentarios
+			args['oferta']=oferta
+			args.update(csrf(request))
+			return render(request,'comentario_oferta.html',args)
+		except Oferta.DoesNotExist:
+			print '>> Oferta no existe'
+		except ComentarioCalificacion.DoesNotExist:
+			print '>> Comentario no existe'
+		except:
+			print '>> Excepcion no controlada'
+	else:
+		return redirect('/NotFound')
 
 
 """
@@ -588,61 +643,61 @@ Descripción:Esta función permite mostrar el equipo de una oferta
 """
 @login_required
 def equipoOferta(request):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
-    if usuario is not None:
-        args['usuario'] = usuario
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    if request.is_ajax():
-        print 'estoy en el ajax'
-        try:
-            oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
-            listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta)
-            args['listaEquipo'] = listaEquipo
-            args['oferta']=oferta
-            args.update(csrf(request))
-            return render(request,'equipo_oferta.html',args)
+	if request.is_ajax():
+		print 'estoy en el ajax'
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta)
+			args['listaEquipo'] = listaEquipo
+			args['oferta']=oferta
+			args.update(csrf(request))
+			return render(request,'equipo_oferta.html',args)
 
-        except Oferta.DoesNotExist:
-            print 'esa oferta no existe '
-            return redirect('/')
-        except MiembroEquipo.DoesNotExist:
-            print 'Este pana no tiene amigos :/'
-            return redirect('/')
-        except:
-            print 'ya me jodi =('
-            return redirect('/')
-    else:
-        return redirect('/NotFound')
+		except Oferta.DoesNotExist:
+			print 'esa oferta no existe '
+			return redirect('/')
+		except MiembroEquipo.DoesNotExist:
+			print 'Este pana no tiene amigos :/'
+			return redirect('/')
+		except:
+			print 'ya me jodi =('
+			return redirect('/')
+	else:
+		return redirect('/NotFound')
 
 @login_required
 def equipoEditableOferta(request):
 
-    if request.is_ajax():
-        args={}
-        try:
-            oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
-            listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta, estado_membresia=1)
-            args['listaEquipo'] = listaEquipo
-            args['oferta']=oferta
-            args.update(csrf(request))
-            return render(request,'equipo_editable.html',args)
+	if request.is_ajax():
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
+			listaEquipo= MiembroEquipo.objects.filter(fk_oferta_en_que_participa = oferta.id_oferta, estado_membresia=1)
+			args['listaEquipo'] = listaEquipo
+			args['oferta']=oferta
+			args.update(csrf(request))
+			return render(request,'equipo_editable.html',args)
 
-        except Oferta.DoesNotExist:
-            print 'esa oferta no existe '
-            return redirect('/')
-        except MiembroEquipo.DoesNotExist:
-            print 'Este pana no tiene amigos :/'
-            return redirect('/')
-        except:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('/NotFound')
+		except Oferta.DoesNotExist:
+			print 'esa oferta no existe '
+			return redirect('/')
+		except MiembroEquipo.DoesNotExist:
+			print 'Este pana no tiene amigos :/'
+			return redirect('/')
+		except:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return redirect('/NotFound')
 
 
 
@@ -654,14 +709,14 @@ Salida: Muestra los usuarios disponibles para agregarlos a la oferta
 Descripción:Esta función permite mostrar los participantes autocompletando sus nombres y usernames
 """
 class AutocompletarParticipante(APIView):
-    permission_classes = (IsAuthenticated,)
+	permission_classes = (IsAuthenticated,)
 
-    def get(self,request,*args,**kwargs):
-        user = request.query_params.get('term',None)
-        usuarios = User.objects.filter(username__icontains=user)[:5]
-        serializador = UsuarioSerializador(usuarios,many=True)
-        response = Response(serializador.data)
-        return response
+	def get(self,request,*args,**kwargs):
+		user = request.query_params.get('term',None)
+		usuarios = User.objects.filter(username__icontains=user)[:5]
+		serializador = UsuarioSerializador(usuarios,many=True)
+		response = Response(serializador.data)
+		return response
 
 
 
@@ -674,45 +729,45 @@ Descripción:Envia una solicitud para participar en una Oferta
 """
 @login_required
 def solicitarMembresiaOferta(request):
-    if request.method=="POST":
-        args={}
-        try:
-            oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
-            print request.POST['oferta']
-            print request.user
+	if request.method=="POST":
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
+			print request.POST['oferta']
+			print request.user
 
-            solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
+			solicitudMembresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante=request.user.id)
 
-            if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
-                solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
-                solicitudMembresia.estado_membresia = 0
-                solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
-                solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
-                solicitudMembresia.save()
-                print 'se actualizo parece'
-                response = JsonResponse({'save_estado':True})
-                return HttpResponse(response.content)
+			if solicitudMembresia is not None and solicitudMembresia.estado==-1 :
+				solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
+				solicitudMembresia.estado_membresia = 0
+				solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
+				solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
+				solicitudMembresia.save()
+				print 'se actualizo parece'
+				response = JsonResponse({'save_estado':True})
+				return HttpResponse(response.content)
 
-        except Oferta.DoesNotExist:
-            args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
-            return render_to_response('problema_oferta.html',args)
-        except MiembroEquipo.DoesNotExist:
-            solicitudMembresia = MiembroEquipo()
-            solicitudMembresia.es_propietario = False
-            solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
-            solicitudMembresia.estado_membresia = 0
-            solicitudMembresia.fk_participante = request.user.perfil
-            solicitudMembresia.fk_oferta_en_que_participa = oferta
-            solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
-            solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
-            solicitudMembresia.save()
-            print 'se guardo parece'
-            response = JsonResponse({'save_estado':True})
-            return HttpResponse(response.content)
-        except:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('/')
+		except Oferta.DoesNotExist:
+			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
+		except MiembroEquipo.DoesNotExist:
+				solicitudMembresia = MiembroEquipo()
+				solicitudMembresia.es_propietario = False
+				solicitudMembresia.rol_participante = "Miembro del Equipo de la Oferta"
+				solicitudMembresia.estado_membresia = 0
+				solicitudMembresia.fk_participante = request.user.perfil
+				solicitudMembresia.fk_oferta_en_que_participa = oferta
+				solicitudMembresia.fecha_aceptacion = datetime.datetime.now()
+				solicitudMembresia.comentario_peticion= request.POST['comentario_peticion']
+				solicitudMembresia.save()
+				print 'se guardo parece'
+				response = JsonResponse({'save_estado':True})
+				return HttpResponse(response.content)
+		except:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return redirect('/')
 
 """
 Autor: Ray Montiel
@@ -722,45 +777,45 @@ Salida:
 Descripción:Agrega a un participante a una oferta
 """
 def agregarParticipante(request):
-    if request.method=="POST":
-        session = request.session['id_usuario']
-        usuario = Perfil.objects.get(id=session)
-        args = {}
-        participante = Perfil.objects.get(username = request.POST['particOferta'])
-        rol = request.POST['rolNuevoIntegrante']
-        ofertaAdmin = request.POST['ofertaAdmin']
-        if usuario is not None:
-            #Guardo en la variable de sesion a usuario.
-            args['usuario'] = usuario
-            print usuario.username
-        else:
-            args['error'] = "Error al cargar los datos"
-            return HttpResponseRedirect('/NotFound/')
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		args = {}
+		participante = Perfil.objects.get(username = request.POST['particOferta'])
+		rol = request.POST['rolNuevoIntegrante']
+		ofertaAdmin = request.POST['ofertaAdmin']
+		if usuario is not None:
+			#Guardo en la variable de sesion a usuario.
+			args['usuario'] = usuario
+			print usuario.username
+		else:
+			args['error'] = "Error al cargar los datos"
+			return HttpResponseRedirect('/NotFound/')
 
-        try:
-            oferta = Oferta.objects.get(id_oferta=ofertaAdmin)
-            membresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = participante)
+		try:
+			oferta = Oferta.objects.get(id_oferta=ofertaAdmin)
+			membresia = MiembroEquipo.objects.get(fk_oferta_en_que_participa=oferta.id_oferta,fk_participante = participante)
 
-            if membresia is not None:
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+			if membresia is not None:
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        except Oferta.DoesNotExist:
-            args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
-            return render_to_response('problema_oferta.html',args)
-        except MiembroEquipo.DoesNotExist:
-            print 'Membresia no existe'
-            membresia = MiembroEquipo()
-            membresia.es_propietario = False
-            membresia.rol_participante = rol
-            membresia.estado_membresia = 1
-            membresia.fk_participante = participante.perfil
-            membresia.fk_oferta_en_que_participa = oferta
-            membresia.fecha_aceptacion = datetime.datetime.now()
-            membresia.save()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+		except Oferta.DoesNotExist:
+			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
+		except MiembroEquipo.DoesNotExist:
+			print 'Membresia no existe'
+			membresia = MiembroEquipo()
+			membresia.es_propietario = False
+			membresia.rol_participante = rol
+			membresia.estado_membresia = 1
+			membresia.fk_participante = participante.perfil
+			membresia.fk_oferta_en_que_participa = oferta
+			membresia.fecha_aceptacion = datetime.datetime.now()
+			membresia.save()
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    else:
-        return HttpResponseRedirect('/Not Found')
+	else:
+		return HttpResponseRedirect('/Not Found')
 
 """
 Autor: Roberto Yoncon
@@ -771,31 +826,31 @@ Descripcion: cambia el estado de una oferta de 0 a 1, mostrandola como publicada
 """
 @login_required
 def publicar_borrador(request, id_oferta):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
 
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
 
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-    try:
-        oferta = Oferta.objects.get(id_oferta = id_oferta)
-    except:
-        return HttpResponseRedirect('/NotFound/')
-    if (oferta.publicada == 1):
-        return HttpResponseRedirect('/NotFound/')
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	if (oferta.publicada == 1):
+		return HttpResponseRedirect('/NotFound/')
 
-    oferta.fecha_publicacion = datetime.datetime.now()
-    oferta.publicada = 1
-    oferta.save()
-    args['oferta'] = oferta
-    return render_to_response('oferta_inicio.html',args)
+	oferta.fecha_publicacion = datetime.datetime.now()
+	oferta.publicada = 1
+	oferta.save()
+	args['oferta'] = oferta
+	return render_to_response('oferta_inicio.html',args)
 
 
 
@@ -808,123 +863,123 @@ Descripcion: elimina un borrador de oferta de la base de datos
 """
 @login_required
 def eliminar_borrador(request, id_oferta):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
 
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
 
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-    try:
-        oferta = Oferta.objects.get(id_oferta = id_oferta)
-    except:
-        return HttpResponseRedirect('/NotFound/')
+	try:
+		oferta = Oferta.objects.get(id_oferta = id_oferta)
+	except:
+		return HttpResponseRedirect('/NotFound/')
 
-    oferta.delete()
-    return render_to_response('oferta_inicio.html',args)
+	oferta.delete()
+	return render_to_response('oferta_inicio.html',args)
 
 
 """Autor: Angel Guale
 
 """
 def aceptar_peticion(request):
-    if request.method=="POST":
-        session = request.session['id_usuario']
-        usuario = Perfil.objects.get(id=session)
-        id_user_peticion=request.POST["id_user_peticion"]
-        id_oferta=request.POST["id_oferta"]
-        rol_participante=request.POST["rol"]
-        args = {}
-        oferta=Oferta.objects.get(id_oferta=id_oferta);
-        solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
-        if solicitudMembresia is not None:
-            solicitudMembresia.estado_membresia=1
-            solicitudMembresia.rol_participante=rol_participante
-            solicitudMembresia.save()
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_peticion"]
+		id_oferta=request.POST["id_oferta"]
+		rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.estado_membresia=1
+			solicitudMembresia.rol_participante=rol_participante
+			solicitudMembresia.save()
 
-            return HttpResponse("ok")
-        else:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return HttpResponseRedirect('NotFound');
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('NotFound');
 
 """Autor: Angel Guale
 
 """
 def rechazar_peticion(request):
-    if request.method=="POST":
-        session = request.session['id_usuario']
-        usuario = Perfil.objects.get(id=session)
-        id_user_peticion=request.POST["id_user_peticion"]
-        id_oferta=request.POST["id_oferta"]
-        #rol_participante=request.POST["rol"]
-        args = {}
-        oferta=Oferta.objects.get(id_oferta=id_oferta);
-        solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
-        if solicitudMembresia is not None:
-            solicitudMembresia.estado_membresia=-1
-            solicitudMembresia.save()
-            #response = JsonResponse({'aceptado':"True"})
-            #return HttpResponse(response.content)
-            return HttpResponse("ok")
-        else:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return HttpResponseRedirect('NotFound');
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_peticion"]
+		id_oferta=request.POST["id_oferta"]
+		#rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.estado_membresia=-1
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('NotFound');
 
 
 def editar_rol_membresia(request):
-    if request.method=="POST":
-        session = request.session['id_usuario']
-        usuario = Perfil.objects.get(id=session)
-        id_user_peticion=request.POST["id_user_editable"]
-        id_oferta=request.POST["id_oferta"]
-        rol_participante=request.POST["rol"]
-        args = {}
-        oferta=Oferta.objects.get(id_oferta=id_oferta);
-        solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
-        if solicitudMembresia is not None:
-            solicitudMembresia.rol_participante=rol_participante
-            solicitudMembresia.save()
-            #response = JsonResponse({'aceptado':"True"})
-            #return HttpResponse(response.content)
-            return HttpResponse("ok")
-        else:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return HttpResponseRedirect('NotFound');
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_editable"]
+		id_oferta=request.POST["id_oferta"]
+		rol_participante=request.POST["rol"]
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.rol_participante=rol_participante
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('NotFound');
 
 def editar_estado_membresia(request):
-    if request.method=="POST":
-        session = request.session['id_usuario']
-        usuario = Perfil.objects.get(id=session)
-        id_user_peticion=request.POST["id_user_editable"]
-        id_oferta=request.POST["id_oferta"]
-        estado_str=request.POST["estado"]
-        activo=1
-        if estado_str=="ACTIVO":
-            activo=1
-        else:
-            activo=0
-        args = {}
-        oferta=Oferta.objects.get(id_oferta=id_oferta);
-        solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
-        if solicitudMembresia is not None:
-            solicitudMembresia.activo=activo
-            solicitudMembresia.save()
-            #response = JsonResponse({'aceptado':"True"})
-            #return HttpResponse(response.content)
-            return HttpResponse("ok")
-        else:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return HttpResponseRedirect('NotFound');
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_user_peticion=request.POST["id_user_editable"]
+		id_oferta=request.POST["id_oferta"]
+		estado_str=request.POST["estado"]
+		activo=1
+		if estado_str=="ACTIVO":
+			activo=1
+		else:
+			activo=0
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		solicitudMembresia = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,fk_participante=id_user_peticion).first()
+		if solicitudMembresia is not None:
+			solicitudMembresia.activo=activo
+			solicitudMembresia.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('NotFound');
 
 
 
@@ -938,15 +993,15 @@ Descripcion: cambia el estado de un comentario de una oferta para que sea visibl
 """
 @login_required
 def aceptarComentario(request, id_comentario):
-    try:
-        comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
-        comentario.estado_comentario = 1
-        oferta_id = comentario.fk_oferta.id_oferta
-        comentario.save()
-    except:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-    return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
+	try:
+		comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario = 1
+		oferta_id = comentario.fk_oferta.id_oferta
+		comentario.save()
+	except:
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	
+	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
 """
 Autor: David Vinces
@@ -957,15 +1012,15 @@ Descripcion: cambia el estado de un comentario de una oferta para eliminarlo
 """
 @login_required
 def rechazarComentario(request, id_comentario):
-    try:
-        comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
-        comentario.estado_comentario=-1
-        oferta_id = comentario.fk_oferta.id_oferta
-        comentario.save()
-    except:
-        return HttpResponseRedirect('/NotFound/')
-
-    return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
+	try:
+		comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario=-1
+		oferta_id = comentario.fk_oferta.id_oferta
+		comentario.save()
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	
+	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
 
 """
@@ -977,30 +1032,30 @@ Descripcion: crea un comentario de una oferta con estado_comentario=0, es decir 
 """
 @login_required
 def enviarComentario(request):
-    if request.method=="POST":
-        args={}
-        try:
-            oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
-            usuario = Perfil.objects.get(id=request.user.id)
-            calificacion = request.POST['calificacion']
-            mensaje = request.POST['comentario_peticion']
-            comentario = ComentarioCalificacion()
-            comentario.calificacion = calificacion
-            comentario.comentario = mensaje
-            comentario.estado_comentario=0
-            comentario.fecha_comentario = datetime.datetime.now()
-            comentario.fk_oferta = oferta
-            comentario.fk_usuario = usuario
-            comentario.save()
-            promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
-            oferta.calificacion_total = promedio_calificacion["average_cal"]
-            oferta.save()
-            response = JsonResponse({})
-            return HttpResponse(response.content)
-        except Exception as e:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('/')
+	if request.method=="POST":
+		args={}
+		try:
+			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
+			usuario = Perfil.objects.get(id=request.user.id)
+			calificacion = request.POST['calificacion']
+			mensaje = request.POST['comentario_peticion']
+			comentario = ComentarioCalificacion()
+			comentario.calificacion = calificacion
+			comentario.comentario = mensaje
+			comentario.estado_comentario=0
+			comentario.fecha_comentario = datetime.datetime.now()
+			comentario.fk_oferta = oferta
+			comentario.fk_usuario = usuario
+			comentario.save()
+			promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
+			oferta.calificacion_total = promedio_calificacion["average_cal"]
+			oferta.save()
+			response = JsonResponse({})
+			return HttpResponse(response.content)
+		except Exception as e:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return redirect('/')
 
 
 
@@ -1013,56 +1068,56 @@ Descripcion: funcion para ver una demanda publicada
 """
 @login_required
 def verCualquierDemanda(request, id_demanda):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
-        try:
-            demanda = Demanda.objects.get(id_demanda = id_demanda)
-            args['demanda'] = demanda
-        except:
-            args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
-            return render_to_response('problema_oferta.html',args)
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+		try:
+			demanda = Demanda.objects.get(id_demanda = id_demanda)
+			args['demanda'] = demanda
+		except:
+			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
 
 
-        if demanda.publicada == 0 :
-            args.update(csrf(request))
-            args['mensaje_error'] = "La demanda "+demanda.nombre+", no esta actualmente publicada."
-            return render_to_response('problema_oferta.html',args)
+		if demanda.publicada == 0 :
+			args.update(csrf(request))
+			args['mensaje_error'] = "La demanda "+demanda.nombre+", no esta actualmente publicada."
+			return render_to_response('problema_oferta.html',args)
 
-        else:
-            propietario = demanda.fk_perfil
-            comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
-            args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario_id=usuario).count
-            try:
-                palabras_claves = demanda.palabras_clave.all()
-            except Exception as e:
-                palabras_claves =  ["Null", "Null", "Null", "Null"]
-            try:
-                imagenes = ImagenDemanda.objects.filter(fk_demanda = id_demanda)
-                imagenPrincipal = ImagenDemanda.objects.filter(fk_demanda = id_demanda).first()
-                if not imagenes:
-                    imagenes =  False
-                    imagenPrincipal =  False
+		else:
+			propietario = demanda.fk_perfil
+			comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
+			args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario_id=usuario).count
+			try:
+				palabras_claves = demanda.palabras_clave.all()
+			except Exception as e:
+				palabras_claves =  ["Null", "Null", "Null", "Null"]
+			try:
+				imagenes = ImagenDemanda.objects.filter(fk_demanda = id_demanda)
+				imagenPrincipal = ImagenDemanda.objects.filter(fk_demanda = id_demanda).first()
+				if not imagenes:
+					imagenes =  False
+					imagenPrincipal =  False
 
-            except Exception as e:
-                imagenes = False
-                imagenPrincipal = False
+			except Exception as e:
+				imagenes = False
+				imagenPrincipal = False
 
-        args.update(csrf(request))
-        args['imagenesDemanda'] = imagenes
-        args['imagenPrincipal'] = imagenPrincipal
-        args['palabras_claves'] = palabras_claves
-        args['comentariosDemanda'] = comentariosDemanda
-        args['propietario'] = propietario
-        return render_to_response('demanda_ver_otra.html',args)
+		args.update(csrf(request))
+		args['imagenesDemanda'] = imagenes
+		args['imagenPrincipal'] = imagenPrincipal
+		args['palabras_claves'] = palabras_claves
+		args['comentariosDemanda'] = comentariosDemanda
+		args['propietario'] = propietario
+		return render_to_response('demanda_ver_otra.html',args)
 
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
 """
 Autor: Andres Sornoza, David Vinces
@@ -1073,32 +1128,32 @@ Descripcion: crea un comentario de una demanda con estado_comentario=0, es decir
 """
 @login_required
 def enviarComentarioDemanda(request):
-    if request.method=="POST":
-        args={}
-        try:
-            demanda = Demanda.objects.get(id_oferta=request.POST['demanda'])
-            print "grabando demanda"
-            print demanda.nombre
-            usuario = Perfil.objects.get(id=request.user.id)
-            """calificacion = request.POST['calificacion']"""
-            mensaje = request.POST['comentario_peticion']
-            comentario = ComentarioDemanda()
-            """comentario.calificacion = calificacion"""
-            comentario.comentario = mensaje
-            comentario.estado_comentario=0
-            comentario.fecha_comentario = datetime.datetime.now()
-            comentario.fk_demanda = demanda
-            comentario.fk_usuario = usuario
-            comentario.save()
-            """promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
-            oferta.calificacion_total = promedio_calificacion["average_cal"]
-            oferta.save()"""
-            response = JsonResponse({})
-            return HttpResponse(response.content)
-        except Exception as e:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('/')
+	if request.method=="POST":
+		args={}
+		try:
+			demanda = Demanda.objects.get(id_oferta=request.POST['demanda'])
+			print "grabando demanda"
+			print demanda.nombre
+			usuario = Perfil.objects.get(id=request.user.id)
+			"""calificacion = request.POST['calificacion']"""
+			mensaje = request.POST['comentario_peticion']
+			comentario = ComentarioDemanda()
+			"""comentario.calificacion = calificacion"""
+			comentario.comentario = mensaje
+			comentario.estado_comentario=0
+			comentario.fecha_comentario = datetime.datetime.now()
+			comentario.fk_demanda = demanda
+			comentario.fk_usuario = usuario
+			comentario.save()
+			"""promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
+			oferta.calificacion_total = promedio_calificacion["average_cal"]
+			oferta.save()"""
+			response = JsonResponse({})
+			return HttpResponse(response.content)
+		except Exception as e:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return redirect('/')
 
 """
 Autor: Andres Sornoza, David Vinces
@@ -1109,24 +1164,24 @@ Descripción:Esta función permite mostrar el listado de comentarios aceptados d
 """
 @login_required
 def listaComentariosAceptadosDemandas(request):
-    """print 'listaComentariosAceptadosDemandas :: ajax con id '+ request.GET['oferta']"""
-    if request.is_ajax():
-        args={}
-        try:
-            demanda = Demanda.objects.get(id_demanda=request.GET['demanda'])
-            listaComentarios= ComentarioDemanda.objects.filter(fk_demanda = demanda.id_demanda)
-            args['listaComentarios'] = listaComentarios
-            args['demanda']=demanda
-            args.update(csrf(request))
-            return render(request,'comentario_demanda.html',args)
-        except Demanda.DoesNotExist:
-            print '>> Demanda no existe'
-        except ComentarioDemanda.DoesNotExist:
-            print '>> Comentario de Demanda no existe'
-        except:
-            print '>> Excepcion no controlada'
-    else:
-        return redirect('/NotFound')
+	"""print 'listaComentariosAceptadosDemandas :: ajax con id '+ request.GET['oferta']"""
+	if request.is_ajax():
+		args={}
+		try:
+			demanda = Demanda.objects.get(id_demanda=request.GET['demanda'])
+			listaComentarios= ComentarioDemanda.objects.filter(fk_demanda = demanda.id_demanda)
+			args['listaComentarios'] = listaComentarios
+			args['demanda']=demanda
+			args.update(csrf(request))
+			return render(request,'comentario_demanda.html',args)
+		except Demanda.DoesNotExist:
+			print '>> Demanda no existe'
+		except ComentarioDemanda.DoesNotExist:
+			print '>> Comentario de Demanda no existe'
+		except:
+			print '>> Excepcion no controlada'
+	else:
+		return redirect('/NotFound')
 
 
 """
@@ -1138,15 +1193,15 @@ Descripcion: cambia el estado de un comentario de una demanda para que sea visib
 """
 @login_required
 def aceptarComentarioDemanda(request, id_comentario):
-    try:
-        comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
-        comentario.estado_comentario = 1
-        demanda_id = comentario.fk_demanda.id_demanda
-        comentario.save()
-    except:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-    return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
+	try:
+		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario = 1
+		demanda_id = comentario.fk_demanda.id_demanda
+		comentario.save()
+	except:
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	
+	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
 
 """
 Autor: David Vinces
@@ -1157,15 +1212,15 @@ Descripcion: cambia el estado de un comentario de una demanda para eliminarlo
 """
 @login_required
 def rechazarComentarioDemanda(request, id_comentario):
-    try:
-        comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
-        comentario.estado_comentario=-1
-        demanda_id = comentario.fk_demanda.id_demanda
-        comentario.save()
-    except:
-        return HttpResponseRedirect('/NotFound/')
-
-    return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
+	try:
+		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
+		comentario.estado_comentario=-1
+		demanda_id = comentario.fk_demanda.id_demanda
+		comentario.save()
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	
+	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
 
 """
 Autor: Pedro Iniguez
@@ -1177,37 +1232,37 @@ Descripcion: funcion para administrar mi oferta publicada.
 
 @login_required
 def administrar_Borrador_Demanda(request, id_demanda):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
 
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
 
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-    try:
-        demanda = Demanda.objects.get(id_demanda = id_demanda)
-    except:
-        return HttpResponseRedirect('/NotFound/')
+	try:
+		demanda = Demanda.objects.get(id_demanda = id_demanda)
+	except:
+		return HttpResponseRedirect('/NotFound/')
 
-    if (demanda.publicada == 1 or demanda.fk_perfil_id!=usuario.id_perfil):
-        return HttpResponseRedirect('/NotFound/')
+	if (demanda.publicada == 1 or demanda.fk_perfil_id!=usuario.id_perfil):
+		return HttpResponseRedirect('/NotFound/')
 
-    galeria = ImagenDemanda.objects.all().filter(fk_demanda_id = demanda.id_demanda)
+	galeria = ImagenDemanda.objects.all().filter(fk_demanda_id = demanda.id_demanda)
 
-    args.update(csrf(request))
-    args['dueno'] = usuario.first_name + ' ' + usuario.last_name
-    args['institucion_nombre'] = request.session['institucion_nombre']
-    args['demanda'] = demanda
-    args['galeria'] = galeria
-    args['imagen_principal'] = galeria.first()
-    args['palabras'] = demanda.palabras_clave.all
-    return render_to_response('administrar_borrador_demanda.html',args)
+	args.update(csrf(request))
+	args['dueno'] = usuario.first_name + ' ' + usuario.last_name
+	args['institucion_nombre'] = request.session['institucion_nombre']
+	args['demanda'] = demanda
+	args['galeria'] = galeria
+	args['imagen_principal'] = galeria.first()
+	args['palabras'] = demanda.palabras_clave.all
+	return render_to_response('administrar_borrador_demanda.html',args)
 
 
 
@@ -1222,24 +1277,24 @@ Descripcion: funcion para administrar mi demanda publicada.
 
 @login_required
 def administrar_demanda(request, id_demanda):
-    session = request.session['id_usuario']
-    usuario = request.user
-    args = {}
-    args['es_admin']=request.session['es_admin']
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	session = request.session['id_usuario']
+	usuario = request.user
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-    demanda = Demanda.objects.get(id_demanda = id_demanda)
-    print demanda.id_demanda
+	demanda = Demanda.objects.get(id_demanda = id_demanda)
+	print demanda.id_demanda
 
 
-    if (demanda.publicada == 0):
-        print 'No publicada'
+	if (demanda.publicada == 0):
+		print 'No publicada'
 
-    args['demanda'] = demanda
+	args['demanda'] = demanda
 
-    return render_to_response('administrar_demanda.html',args)
+	return render_to_response('administrar_demanda.html',args)

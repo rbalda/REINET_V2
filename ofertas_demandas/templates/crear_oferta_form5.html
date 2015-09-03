@@ -1,3 +1,9 @@
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: crear_oferta_form5.html
+        Descripción: html del formulario estado/logros de crear oferta
+{% endcomment %}
+
 <div class="col-md-12">
 
     <div class="form-group">
@@ -8,25 +14,14 @@
                    ng-model="tiempo_disponible" ng-pattern="/^([1-9][0-9]*)$/" ng-change="tiempoDisponibleInput(tiempo_disponible)" ng-required="false"
                     >
             <span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
-            <!--<span ng-show="crear_oferta_form5.oferta_tiempo_disponibilidad.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
         </div>
 
-        <!--<div class="col-xs-2" style="right:25%;">
-        <select class="form-control" ng-model="tiempo_oferta" ng-options="item.tipo for item in items_date" ng-change="seleccionTiempoDisponible(item)">
-            <option></option>
-        </select>
-        </div>-->
         <div class="col-xs-2" style="right:25%;">
             <select name="select_oferta_tiempo" id="select_oferta_tiempo" class="form-control" ng-options="i.tipo as i.tipo for i in items_date" ng-model="tiempo_tipo"  ng-change="tiempoDisponibleSelect(tiempo_tipo)" ng-required="false" >
                 <option value="">Seleccione duraci&oacute;n</option>
             </select>
-            <!--<span ng-show="crear_oferta_form5.tiempo_tipo.$error.required" ng-if="!crear_oferta_form5.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
         </div>
-
-        <!--<input id="oferta.tiempo_para_estar_disponible" type="hidden" ng-model="oferta.tiempo_para_estar_disponible" value="[[tiempo_disponible]][[tiempo_tipo]]" ng-update-hidden-->
-
-
-
+        
     </div>
 
     <!--Estado de propiedad Intelectual-->

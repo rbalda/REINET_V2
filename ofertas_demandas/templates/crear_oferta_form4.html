@@ -1,3 +1,9 @@
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: crear_oferta_form4.html
+        Descripción: html del formulario industria/competidores de crear oferta
+{% endcomment %}
+
 <div class="col-md-12">
     <!--Industria Competidores-->
 
@@ -9,7 +15,6 @@
             <textarea autofocus type="text" class="form-control" id="oferta_tendencias" name="oferta_tendencias" rows="4" placeholder="Describa tendencias relevantes a la oferta"
                       ng-model="oferta.cuadro_tendencias_relevantes" ng-required="false"
                     ></textarea>
-            <!--<span ng-show="crear_oferta_form4.oferta_tendencias.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
         </div>
     </div>
@@ -45,31 +50,26 @@
                                       placeholder="Indique las empresas con las que puede competir directamente que ofrecen el mismo producto."
                                       ng-model="oferta.fk_diagrama_competidores.competidores" ng-required="false"
                                 ></textarea>
-                            <!--<span ng-show="crear_oferta_form4.diagramapoter_competidores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                         </td>
                         <td><textarea autofocus name="diagramapoter_consumidores" id="diagramapoter_consumidores" style="resize:none "rows="6"
                                       placeholder="Es si su empresa esta llegando a los clientes y cuál es el grado de dependencia o lealtad de ellos con sus productos."
                                       ng-model="oferta.fk_diagrama_competidores.consumidores" ng-required="false"
                                 ></textarea>
-                            <!--<span ng-show="crear_oferta_form4.diagramapoter_consumidores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                         </td>
                         <td><textarea autofocus name="diagramapoter_sustitutos" id="diagramapoter_sustitutos" style="resize:none "rows="6"
                                       placeholder="Es la existencia de los productos que pueden sustituir su producto en precios, características,etc."
                                       ng-model="oferta.fk_diagrama_competidores.sustitutos" ng-required="false"
                                 ></textarea>
-                            <!--<span ng-show="crear_oferta_form4.diagramapoter_sustitutos.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                         </td>
                         <td><textarea autofocus name="diagramapoter_proveedores" id="diagramapoter_proveedores" style="resize:none "rows="6"
                                       placeholder="Es la forma de la negociación con los proveedores, ya que ellos son los que realmente saben dónde está la rentabilidad en el sector."
                                       ng-model="oferta.fk_diagrama_competidores.proveedores" ng-required="false"
                                 ></textarea>
-                            <!--<span ng-show="crear_oferta_form4.diagramapoter_proveedores.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                         </td>
                         <td><textarea autofocus name="diagramapoter_nuevos_entrantes" id="diagramapoter_nuevos_entrantes" style="resize:none "rows="6"
                                       placeholder="Aquí es donde realmente se mide con otras empresas para poder ver si su producto realmente es rentable o no."
                                       ng-model="oferta.fk_diagrama_competidores.nuevosMiembros" ng-required="false"
                                 ></textarea>
-                            <!--<span ng-show="crear_oferta_form4.diagramapoter_nuevos_entrantes.$error.required" ng-if="!crear_oferta_form4.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
                         </td>
                     </tr>
                 </table>
