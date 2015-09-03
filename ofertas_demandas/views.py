@@ -1035,9 +1035,13 @@ def verCualquierDemanda(request, id_demanda):
 			try:
 				imagenes = ImagenDemanda.objects.filter(fk_demanda = id_demanda)
 				imagenPrincipal = ImagenDemanda.objects.filter(fk_demanda = id_demanda).first()
+				if not imagenes:
+					imagenes =  False
+					imagenPrincipal =  False
+
 			except Exception as e:
-				imagenes =  ["/ofertas-demandas/works3.jpg", "/ofertas-demandas/works3.jpg", "/ofertas-demandas/works3.jpg", "/ofertas-demandas/works3.jpg"]
-				imagenPrincipal =  ["/ofertas-demandas/works3.jpg"]
+				imagenes = False
+				imagenPrincipal = False
 
 		args.update(csrf(request))
 		args['imagenesDemanda'] = imagenes

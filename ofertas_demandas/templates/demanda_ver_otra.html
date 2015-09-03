@@ -9,7 +9,7 @@
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
-                <li><i class="fa fa-comments-o"></i> {{ comentariosDemandas | length }}</li>
+                <li><i class="fa fa-comments-o"></i> {{ comentariosDemanda | length }}</li>
             </ul>
 
         </div>
@@ -43,19 +43,34 @@
                     <div class="block-inverse">
                         <div class="head-inverse">
                             <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                            <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+                             {% if imagenesDemanda == False%}
+                                  <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
+                             {% else %}
+                                <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+                             {% endif %}
                         </div>
                         <div class="body-inverse">
                             <ul class="row list-inline gallery-list-small"
                                 style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-                                {% for imagenes in imagenesDemanda %}
-                                <li class="col-xs-6">
-                                    <a href="#">
-                                        <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
-                                             alt="...">
-                                    </a>
-                                </li>
-                                {% endfor %}
+                                {% if imagenesDemanda == False%}
+                                    {% for temp in "XXXX" %}
+                                    <li class="col-xs-6">
+                                        <a href="#">
+                                            <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"
+                                                 alt="...">
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for imagenes in imagenesDemanda %}
+                                    <li class="col-xs-6">
+                                        <a href="#">
+                                            <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
+                                                 alt="...">
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                {% endif  %}
                             </ul>
                         </div>
                     </div>
@@ -122,10 +137,10 @@
             <div class="col-md-12">
                 <!--Importancia de Resolver la Necesidad-->
                 <p style="color: darkgray" for="Descripcion" class="col-md-6">Importancia de Resolver la Necesidad</p>
-                <p class="col-md-6">{{ demanda.importancia_resolver_necesidad }}asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdsadasdasd </p>
+                <p class="col-md-6">{{ demanda.importancia_resolver_necesidad }} </p>
                 <!--Alternativas de Solución Existentes-->
                 <p style="color: darkgray" for="Descripcion" class="col-md-6">Alternativas de Solución Existentes</p>
-                <p class="col-md-6">{{ demanda.alternativas_soluciones_existentes }} asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd</p>
+                <p class="col-md-6">{{ demanda.alternativas_soluciones_existentes }} </p>
             </div>
         </div>
 
@@ -201,7 +216,7 @@
     {% endif %}
 
     <!-- Comments list -->
-    <h4>{{ comentariosDemandas | length }} comentarios</h4>
+    <h4>{{ comentariosDemanda | length }} comentarios</h4>
     <hr>
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
