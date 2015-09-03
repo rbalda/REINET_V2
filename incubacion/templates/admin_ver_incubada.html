@@ -43,40 +43,73 @@
 			            
 			        </div>
 			        <div class="col-md-7" align=right>
-			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultor</a>
+			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultores</a>
 			            <a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
 			        </div> 
 
 			        <!-- comienza MODAL Invitar Consultor -->
 				    <div id="modalInvitarConsultor" class="modal fade" role="dialog">
-				    	<div class="modal-dialog" style="width: 70% !important;">
+				    	<div class="modal-dialog" style="width: 40% !important;">
 				    		<div class="modal-content">
 				    			<div class="modal-header">
 				    				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				    				<h4 class="modal-title">Invitar Consultor</h4>
+				    				<h4 class="modal-title">Invitar Consultores</h4>
 				    			</div>
-				    			<div class="modal-body" style="font-size:14px;overflow-y:auto">
+				    			<div class="modal-body" style="font-size:14px">
 				                    	<div class="comment" id="Comentario">
 	                                      	<div class="media">
 					                        	<form class="form-horizontal col-md-12">
 					                        		{% csrf_token %}
-					                        		<div class="form-group col-md-9">
+					                        		<div class="form-group col-md-10">
 					                        			<input type="text" class="form-control" id="consultor" name="consultor"
 							                                placeholder="Buscar a consultor" value="{{ msj.fk_emisor }}" maxlength="50"  required>
 							                        </div>
 					                        		<div class="form-group ">
-					                        			<button type="submit" class="btn btn-red">
-					                        				Agregar
-					                        			</button>
+					                        			<div align="right">
+									                		<button href="#" class="btn btn-dark"><i class="fa"></i>&nbsp;&nbsp;Invitar&nbsp;&nbsp;</button>
+									                	</div>
 						                            </div>
 						                           
-						                            <div class="form-group">
-						                            	<a>Cargando..</a>
+						                            <div class="form-group" style="overflow-y:auto; height:250px;margin-left: 0px;">
+						                            	<div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div>
+											            <div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div>
+											            <div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div><div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div>
 						                            </div>
 						                            <div class="form-group">
 									                	<div align="right">
-									                		<a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-									                		<button href="#" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+									                		<button href="#" class="btn btn-red"><i class="fa"></i>&nbsp;&nbsp;Enviar Invitaciones&nbsp;&nbsp;</button>
 									                	</div>
 									                </div>
 						                        </form>
@@ -240,6 +273,7 @@
 	                                              <a href="#">
 	                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
 	                                              </a>
+
 	                                            </li>
 	                                            <li class="col-xs-6">
 	                                              <a href="#">
@@ -306,14 +340,150 @@
 	                        <div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
 	                            <!--Perfil Cliente-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
-	                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. 
+	                            <br>
+	                                 <a id="popoverPerfilCliente" tabindex="1"  title="Perfil del Cliente" style="cursor:pointer" data-trigger="focus">
+	                                (Ver Retroalimentaci&oacute;n)</a>
+	                            </p>
+	                            <div id="retroalPerfilCliente" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 
 	                            
 
 
 	                            <!--Perfil Beneficiario-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
-	                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. 
+	                            <br>
+	                                 <a id="popoverPerfilBeneficiario" tabindex="1"  title="Perfil del Beneficiario" style="cursor:pointer" data-trigger="focus">
+	                                (Ver Retroalimentaci&oacute;n)</a>
+	                            </p>
+	                            <div id="retroalPerfilBeneficiario" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                        </div> 
 	                        </div> 
 	                    </div>
@@ -328,33 +498,627 @@
 	                                <table class="table table-bordered">
 	                                      <tbody><tr>
 	                                         <th>Socios clave</th>
-	                                         <th>Actividades clave</th>
+	                                         <th>Actividades claves</th>
 	                                         <th>Propuestas de valor</th>
 	                                         <th>Relaciones con los clientes</th>
 	                                         <th>Segementos de clientes</th>
 	                                      </tr>
 	                                      <tr>
-	                                         <td rowspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td rowspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td rowspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+	                                         <td rowspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverSocioClave" tabindex="1"  title="Socios clave" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalSocioClave" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverActividadesClaves" tabindex="1"  title="Actividades claves" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalActividadesClaves" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td rowspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverPropuestaValor" tabindex="1"  title="Propuestas de valor" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalPropuestaValor" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverRelacionesCliente" tabindex="1"  title="Relaciones con los clientes" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalRelacionesCliente" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td rowspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverSegmentosClientes" tabindex="1"  title="Segementos de clientes" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalSegmentosClientes" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
 	                                      </tr>
 	                                      <tr>
 	                                        <th>Recursos Claves</th>
 	                                        <th>Canales</th>
 	                                      </tr>
 	                                      <tr>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverRecursosClaves" tabindex="1"  title="Recursos Claves" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalRecursosClaves" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverCanales" tabindex="1"  title="Canales" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalCanales" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
 	                                      </tr>
 	                                      <tr>
 	                                        <th colspan="3">Estructura de Costos</th>
 	                                        <th colspan="2">Fuentes de Ingresos</th>
 	                                      </tr>
 	                                      <tr>
-	                                         <td colspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td colspan="2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+	                                         <td colspan="3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverEstructurasCostos" tabindex="1"  title="Estructura de Costos" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalEstructurasCostos" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td colspan="2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverFuentesIngresos" tabindex="1"  title="Fuentes de Ingresos" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalFuentesIngresos" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
 	                                      </tr>
 	                                </tbody></table>
 
@@ -369,15 +1133,210 @@
 	                            <!--Tendencias-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
 	                            
-	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. <br>
+			                    <a id="popoverTendenciasRelevantes" tabindex="1"  title="Tendencias Relevantes" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></p>
+			                    <div id="retroalTendenciasRelevantes" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                             <!--Alternativas de solucion-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Solución Existentes</p>
 	                            
-	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. <br>
+			                    <a id="popoverAlternativasSolucionExistentes" tabindex="1"  title="Alternativas de Solución Existentes" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></p>
+			                    <div id="retroalAlternativasSolucionExistentes" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                            <!--Competidores-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Competidores</p>
 	                            
-	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. <br>
+			                    <a id="popoverCompetidores1" tabindex="1"  title="Competidores" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></p>
+			                    <div id="retroalCompetidores1" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                            <!--Diagrama de Porter-->
 
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
@@ -392,11 +1351,338 @@
 	                                         <th>Nuevos entrantes</th>
 	                                      </tr>
 	                                      <tr>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
-	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam </td>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverCompetidores2" tabindex="1"  title="Competidores" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalCompetidores2" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverPoderConsumidores" tabindex="1"  title="Poder de consumidores" style="cursor:pointer" data-trigger="focus">
+			                                (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalPoderConsumidores" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverSustitutos" tabindex="1"  title="Sustitutos" style="cursor:pointer" data-trigger="focus">(Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalSustitutos" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverPoderProveedores" tabindex="1"  title="Poder de proveedores" style="cursor:pointer" data-trigger="focus">(Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalPoderProveedores" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
+	                                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam <br>
+			                                 <a id="popoverNuevosEntrantes" tabindex="1"  title="Nuevos entrantes" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></td>
+			                                <div id="retroalNuevosEntrantes" style="display: none">
+			                                	<div style="height: 450px;overflow-y: scroll;">
+				                                	<div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+										            <div class="comment">
+										              <div class="media">
+										                <div class="media-body">
+										                  <p style="margin-bottom: 0px;">
+										                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+										                  </p>
+										                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+										                  	<i class="fa fa-calendar"></i> November 10, 2013
+										                  </p>
+										                  <p style="line-height: 1.5;">
+										                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+										                  </p>							                  
+										                </div>
+										              </div>
+										            </div>
+									            </div>
+			                                </div>
 	                                      </tr>
 	                                </tbody></table>
 	                            </div>
@@ -413,19 +1699,279 @@
 
 	                            <!--Estado del producto o servicio-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-12">Estado del producto o servicio</p>
-	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. <br>
+			                    <a id="popoverEstadoProductoServicio" tabindex="1"  title="Estado del producto o servicio" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></p>
+			                    <div id="retroalEstadoProductoServicio" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                            <!--Estrategia de crecimiento-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
 	                            
-	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. <br>
+			                    <a id="popoverEstrategiaCrecimiento" tabindex="1"  title="Estrategia de crecimiento" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></p>
+			                    <div id="retroalEstrategiaCrecimiento" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                            <!--Estado de propiedad Intelectual-->
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
 	                            
-	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. <br>
+			                    <a id="popoverEstadoPropiedadIntelectual" tabindex="1"  title="Estado de propiedad Intelectual" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></p>
+			                    <div id="retroalEstadoPropiedadIntelectual" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                            <!--Evidencia de Traccion-->
-	                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracción</p>
+	                            <p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
 	                            
-	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. </p>
+	                            <p class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales. <br>
+			                    <a id="popoverEvidenciaTraccion" tabindex="1"  title="Evidencia de Tracci&oacute;n" style="cursor:pointer" data-trigger="focus"> (Ver Retroalimentaci&oacute;n)</a></p>
+			                    <div id="retroalEvidenciaTraccion" style="display: none">
+	                                	<div style="height: 450px;overflow-y: scroll;">
+		                                	<div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+								            <div class="comment">
+								              <div class="media">
+								                <div class="media-body">
+								                  <p style="margin-bottom: 0px;">
+								                  	De:&nbsp;<a href="">Antonio Jaramillo San Lucas<br></a>	
+								                  </p>
+								                  <p class="text-muted" align="left" style="margin-bottom:0px;font-size:12px">
+								                  	<i class="fa fa-calendar"></i> November 10, 2013
+								                  </p>
+								                  <p style="line-height: 1.5;">
+								                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+								                  </p>							                  
+								                </div>
+								              </div>
+								            </div>
+							            </div>
+	                            </div>
 	                            </div>
 	                        </div>
 	                    </div>
