@@ -110,14 +110,23 @@
         <!-- Tab CLIENTE USUARIO -->
         <div role="tabpanel" class="tab-pane" id="cliente_usuario">
             <div class="col-md-12">
-                <!--Perfil Cliente-->
+                 <!--Perfil Cliente-->
                 <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
-
-                <p class="col-md-9">{{ demanda.perfil_cliente }} </p>
+                <p class="col-md-9">
+                {% if demanda.perfil_cliente != None %}
+                {{ demanda.perfil_cliente }}
+                {% else %}
+                No disponible
+                {% endif %}
+                </p>
                 <!--Perfil Beneficiario-->
                 <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
-
-                <p class="col-md-9">{{ demanda.perfil_beneficiario }} </p>
+                <p class="col-md-9">
+                {% if demanda.perfil_beneficiario != None %}
+                {{ demanda.perfil_beneficiario }}
+                {% else %}
+                No disponible
+                {% endif %} </p>
             </div>
         </div>
 

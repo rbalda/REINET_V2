@@ -1188,3 +1188,38 @@ def administrar_Borrador_Demanda(request, id_demanda):
 	args['imagen_principal'] = galeria.first()
 	args['palabras'] = demanda.palabras_clave.all
 	return render_to_response('administrar_borrador_demanda.html',args)
+
+
+
+
+"""
+Autor: Rolando Sornoza
+Nombre de funcion: administrarDemanda
+Parametros: request
+Salida:
+Descripcion: funcion para administrar mi demanda publicada.
+"""
+
+@login_required
+def administrar_demanda(request, id_demanda):
+	session = request.session['id_usuario']
+	usuario = request.user
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	demanda = Demanda.objects.get(id_demanda = id_demanda)
+	print demanda.id_demanda
+
+
+	if (demanda.publicada == 0):
+		print 'No publicada'
+
+	args['demanda'] = demanda
+
+	return render_to_response('administrar_demanda.html',args)
