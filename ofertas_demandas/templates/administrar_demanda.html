@@ -232,8 +232,9 @@
             <div class="col-md-4">
                 <!-- Social Links -->
                 <h4>Estado</h4>
-                <div class="thumbnail" align=center style="margin-bottom:0px">
-                    <select name="estado_demanda">
+                <div class="thumbnail col-md-8"  style="margin-bottom:0px">
+                   
+                    <select  style="float:left;" class="form-control col-md-4"name="estado_demanda">
                         {% if demanda.estado == 1 %}
                         <option value="1" selected>Activa</option>
                         {% else %}
@@ -258,7 +259,9 @@
                         {% endif %}
 
                     </select>
-                    <button id="btn_editar_estado"> Guardar</button>
+                </div>
+                <div>
+                    <button class="btn btn-green col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
                 </div>
             </div>
     </div>
