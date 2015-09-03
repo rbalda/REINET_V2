@@ -417,14 +417,13 @@ Descripcion: funcion para editar un borrador
 """
 @login_required
 def editar_borrador(request, id_oferta):
-	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
+	sesion = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=sesion)
 	args = {}
 	args['es_admin']=request.session['es_admin']
-	if usuario is not None:
-		#Guardo en la variable de sesion a usuario.
-		args['usuario'] = usuario
 
+	if usuario is not None:
+		args['usuario'] = usuario
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
@@ -433,12 +432,29 @@ def editar_borrador(request, id_oferta):
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
 	except:
 		return HttpResponseRedirect('/NotFound/')
+
 	if (oferta.publicada == 1):
 		return HttpResponseRedirect('/NotFound/')
-	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
-	if membresiaOferta is None:
+	membresia_oferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+
+	if membresia_oferta is None:
 		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		tiempo_disponible = oferta.tiempo_para_estar_disponible.split(' ',1)
+		oferta_tiempo = int(tiempo_disponible[0])
+
+		#si la duracion es de mes
+		if tiempo_disponible[1] == 'Mes/es':
+			oferta_duracion = 0
+		else:
+			oferta_duracion = 1
+
+	#si no se encuentra establecida la duracion
+	except:
+		oferta_duracion = -1
+		oferta_tiempo = ""
 
 	if request.method == 'POST':
 		#seccion de informacion
@@ -449,92 +465,137 @@ def editar_borrador(request, id_oferta):
 		subdominio = request.POST['oferta_sub_dominio']
 		#tags = request.POST['oferta_tags'] #Aun no usado
 		#seccion de perfiles
-		perfilCliente = request.POST.get('oferta_descripcion_perfil', None)
-		perfilBeneficiario = request.POST.get('oferta_beneficiario_perfil', None)
+		perfil_cliente = request.POST.get('oferta_descripcion_perfil', None)
+		perfil_beneficiario = request.POST.get('oferta_beneficiario_perfil', None)
 		#seccion de business canvas
-		canvasSocioClave = request.POST.get('canvas_socio_clave', None)
-		canvasActividadesClave = request.POST.get('canvas_actividades_clave', None)
-		canvasRecursos = request.POST.get('canvas_recrusos_clave', None)
-		canvasPropuesta = request.POST.get('canvas_propuesta_valor', None)
-		canvasRelaciones = request.POST.get('canvas_ralaciones_clientes', None)
-		canvasCanales = request.POST.get('canvas_canales_distribucion', None)
-		canvasSegmentos = request.POST.get('canvas_segmentos_clientes', None)
-		canvasEstructura = request.POST.get('canvas_estructura_costos', None)
-		canvasFuentes = request.POST.get('canvas_fuente_ingresos', None)
+		canvas_socio_clave = request.POST.get('canvas_socio_clave', None)
+		canvas_actividades_clave = request.POST.get('canvas_actividades_clave', None)
+		canvas_recursos = request.POST.get('canvas_recrusos_clave', None)
+		canvas_propuesta = request.POST.get('canvas_propuesta_valor', None)
+		canvas_relaciones = request.POST.get('canvas_ralaciones_clientes', None)
+		canvas_canales = request.POST.get('canvas_canales_distribucion', None)
+		canvas_segmentos = request.POST.get('canvas_segmentos_clientes', None)
+		canvas_estructura = request.POST.get('canvas_estructura_costos', None)
+		canvas_fuente = request.POST.get('canvas_fuente_ingresos', None)
 		#seccion de industria
 		tendencias = request.POST.get('oferta_tendencias', None)
-		solucionesAlternativas = request.POST.get('ofertas_alternativas_soluciones', None)
+		soluciones_alternativas = request.POST.get('ofertas_alternativas_soluciones', None)
 		#para Diagrama de Porter
-		porterCompetidores = request.POST.get('diagramapoter_competidores', None)
-		porterConsumidores = request.POST.get('diagramapoter_consumidores', None)
-		porterSustitutos = request.POST.get('diagramapoter_sustitutos', None)
-		porterProveedores = request.POST.get('diagramapoter_proveedores', None)
-		porterNuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
+		porter_competidores = request.POST.get('diagramapoter_competidores', None)
+		porter_consumidores = request.POST.get('diagramapoter_consumidores', None)
+		porter_sustitutos = request.POST.get('diagramapoter_sustitutos', None)
+		porter_proveedores = request.POST.get('diagramapoter_proveedores', None)
+		porter_nuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
 		#seccion de estado/Logros
-		tiempoDisponible = request.POST.get('oferta_tiempo_disponibilidad', None)
-		tiempoUnidad = request.POST.get('select_oferta_tiempo', None)
-		propiedadIntelectual = request.POST.get('oferta_propiedad_intelectual', None)
-		evidenciaTraccion = request.POST.get('oferta_evidencia_traccion', None)
-
-		ofertaEditada = oferta
-		ofertaEditada.nombre = nombre
-		ofertaEditada.tipo = tipo
-		ofertaEditada.descripcion = descripcion
-
-		ofertaEditada.dominio = dominio
-		ofertaEditada.subdominio = subdominio
-
-		ofertaEditada.perfil_cliente = perfilCliente
-		ofertaEditada.perfil_beneficiario = perfilBeneficiario
-	
-
-		if canvasSocioClave == "" and canvasActividadesClave=="" and canvasRecursos=="" and canvasPropuesta=="" and canvasRelaciones=="" and canvasCanales=="" and canvasSegmentos=="" and canvasEstructura=="" and canvasFuentes=="" :
-			ofertaEditada.fk_diagrama_canvas = None
-		else:
-			diagramaCanvas = DiagramaBusinessCanvas()
-			diagramaCanvas.asociaciones_clave = canvasSocioClave
-			diagramaCanvas.actividades_clave = canvasActividadesClave
-			diagramaCanvas.recursos_clave = canvasRecursos
-			diagramaCanvas.propuesta_valor = canvasPropuesta
-			diagramaCanvas.relacion_clientes = canvasRelaciones
-			diagramaCanvas.canales_distribucion = canvasCanales
-			diagramaCanvas.segmento_mercado = canvasSegmentos
-			diagramaCanvas.estructura_costos = canvasEstructura
-			diagramaCanvas.fuente_ingresos = canvasFuentes
-			diagramaCanvas.save()
-			ofertaEditada.fk_diagrama_canvas = diagramaCanvas
-			
-		#seccion de industria
-		ofertaEditada.cuadro_tendencias_relevantes = tendencias
-		ofertaEditada.descripcion_soluciones_existentes = solucionesAlternativas
-		#para Diagrama de Porter
-		if porterCompetidores == "" and porterConsumidores=="" and porterSustitutos=="" and porterProveedores=="" and porterNuevos=="":
-			ofertaEditada.fk_diagrama_competidores = None
-		else:
-			diagramaPorter = DiagramaPorter()
-			diagramaPorter.competidores = porterCompetidores
-			diagramaPorter.consumidores = porterConsumidores
-			diagramaPorter.sustitutos = porterSustitutos
-			diagramaPorter.proveedores = porterProveedores
-			diagramaPorter.nuevosMiembros = porterNuevos
-			diagramaPorter.save()
-			ofertaEditada.fk_diagrama_competidores = diagramaPorter
-			
+		tiempo_disponible = request.POST.get('oferta_tiempo_disponibilidad', None)
+		tiempo_unidad = request.POST.get('select_oferta_tiempo', None)
+		propiedad_intelectual = request.POST.get('oferta_propiedad_intelectual', None)
+		evidencia_traccion = request.POST.get('oferta_evidencia_traccion', None)
+		#seccion de copia de datos a la oferta a modificar
+		#seccion informacion
+		oferta_editada = oferta
+		oferta_editada.nombre = nombre
+		oferta_editada.tipo = tipo
+		oferta_editada.descripcion = descripcion
+		oferta_editada.dominio = dominio
+		oferta_editada.subdominio = subdominio
+		#seccion perfiles
+		oferta_editada.perfil_cliente = perfil_cliente
+		oferta_editada.perfil_beneficiario = perfil_beneficiario
+		#seccion industria
+		oferta_editada.cuadro_tendencias_relevantes = tendencias
+		oferta_editada.descripcion_soluciones_existentes = soluciones_alternativas
 		#seccion de estado/Logros
-		#ofertaEditada = tiempoDisponible
-		#ofertaEditada = tiempoUnidad
-		ofertaEditada.estado_propieada_intelectual = propiedadIntelectual
-		ofertaEditada.evidencia_traccion = evidenciaTraccion
 
-		ofertaEditada.save()
+		#manejo de la duracion de la oferta
+		if tiempo_disponible != "" and tiempo_unidad != "":
 
+			if tiempo_unidad == "0":
+				tiempo_unidad = "Mes/es"
+			else:
+				tiempo_unidad = "Año/s"
+
+			oferta_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
+		else:
+			oferta_editada.tiempo_para_estar_disponible = None
+
+		oferta_editada.estado_propieada_intelectual = propiedad_intelectual
+		oferta_editada.evidencia_traccion = evidencia_traccion
+
+		#seccion Diagrama canvas
+		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama canvas
+		if canvas_socio_clave == "" and canvas_actividades_clave=="" and canvas_recursos=="" and canvas_propuesta=="" and canvas_relaciones=="" and canvas_canales=="" and canvas_segmentos=="" and canvas_estructura=="" and canvas_fuente=="" :
+			oferta_editada.fk_diagrama_canvas = None
+
+		#si existen datos ingresados, se los asigna 
+		else:
+
+			#si anteriormente tuvo canvas, se lo modifica
+			try:
+				oferta_editada.fk_diagrama_canvas.asociaciones_clave = canvas_socio_clave
+				oferta_editada.fk_diagrama_canvas.actividades_clave = canvas_actividades_clave
+				oferta_editada.fk_diagrama_canvas.recursos_clave = canvas_recursos
+				oferta_editada.fk_diagrama_canvas.propuesta_valor = canvas_propuesta
+				oferta_editada.fk_diagrama_canvas.relacion_clientes = canvas_relaciones
+				oferta_editada.fk_diagrama_canvas.canales_distribucion = canvas_canales
+				oferta_editada.fk_diagrama_canvas.segmento_mercado = canvas_segmentos
+				oferta_editada.fk_diagrama_canvas.estructura_costos = canvas_estructura
+				oferta_editada.fk_diagrama_canvas.fuente_ingresos = canvas_fuente
+				oferta_editada.fk_diagrama_canvas.save()
+			#si no tenia, se crea un diagrama canvas nuevo
+			except:
+				diagrama_canvas = DiagramaBusinessCanvas()
+				diagrama_canvas.asociaciones_clave = canvas_socio_clave
+				diagrama_canvas.actividades_clave = canvas_actividades_clave
+				diagrama_canvas.recursos_clave = canvas_recursos
+				diagrama_canvas.propuesta_valor = canvas_propuesta
+				diagrama_canvas.relacion_clientes = canvas_relaciones
+				diagrama_canvas.canales_distribucion = canvas_canales
+				diagrama_canvas.segmento_mercado = canvas_segmentos
+				diagrama_canvas.estructura_costos = canvas_estructura
+				diagrama_canvas.fuente_ingresos = canvas_fuente
+				diagrama_canvas.save()
+				oferta_editada.fk_diagrama_canvas = diagrama_canvas
+
+		#seccion Diagrama de Porter
+		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama porter
+		if porter_competidores == "" and porter_consumidores=="" and porter_sustitutos=="" and porter_proveedores=="" and porter_nuevos=="":
+			oferta_editada.fk_diagrama_competidores = None
+
+		#si existen datos ingresados, se los asigna 
+		else:
+
+			#si anteriormente tuvo porter, cambiarlo
+			try:
+				oferta_editada.fk_diagrama_competidores.competidores = porter_competidores
+				oferta_editada.fk_diagrama_competidores.consumidores = porter_consumidores
+				oferta_editada.fk_diagrama_competidores.sustitutos = porter_sustitutos
+				oferta_editada.fk_diagrama_competidores.proveedores = porter_proveedores
+				oferta_editada.fk_diagrama_competidores.nuevosMiembros = porter_nuevos
+				oferta_editada.fk_diagrama_competidores.save()
+			#si no tenia, se crea uno nuevo y se lo asigna
+			except:
+				diagrama_porter = DiagramaPorter()
+				diagrama_porter.competidores = porter_competidores
+				diagrama_porter.consumidores = porter_consumidores
+				diagrama_porter.sustitutos = porter_sustitutos
+				diagrama_porter.proveedores = porter_proveedores
+				diagrama_porter.nuevosMiembros = porter_nuevos
+				diagrama_porter.save()
+				oferta_editada.fk_diagrama_competidores = diagrama_porter
+		
+		oferta_editada.save()
 		args.update(csrf(request))
+		args['oferta_tiempo']=oferta_tiempo
+		args['oferta_duracion']=oferta_duracion
 		args['institucion_nombre'] = request.session['institucion_nombre']
-		args['oferta'] = ofertaEditada
+		args['oferta'] = oferta_editada
 		return render_to_response('administrar_borrador.html',args)
 
 	else:
 		args.update(csrf(request))
+		args['oferta_tiempo']=oferta_tiempo
+		args['oferta_duracion']=oferta_duracion
 		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = oferta
 		return render_to_response('editar_borrador.html',args)
