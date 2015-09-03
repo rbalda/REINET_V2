@@ -299,7 +299,7 @@ Salida: http
 Descripcion: funcion para ver una oferta publicada
 """
 @login_required
-def verCualquierOferta(request, id_oferta):
+def ver_cualquier_oferta(request, id_oferta):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
@@ -1067,7 +1067,7 @@ Salida: http
 Descripcion: funcion para ver una demanda publicada
 """
 @login_required
-def verCualquierDemanda(request, id_demanda):
+def ver_cualquier_demanda(request, id_demanda):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
