@@ -38,6 +38,19 @@ class DemandaViewSet(ModelViewSet):
             queryset = Demanda.objects.all().filter(publicada = 1).exclude(fk_perfil_id=usuario.id_perfil).order_by('-fecha_publicacion')
         return queryset
 
+class misDemandasAllViewSet(ModelViewSet):
+    queryset = Demanda.objects.all()
+    serializer_class = DemandaSerializador
+    permission_classes = (IsAuthenticated,)
+    pagination_class = PaginacionCinco
+
+    def get_queryset(self):
+        queryset = []
+        usuario = Perfil.objects.get(id=self.request.user.id)
+        queryset = Demanda.objects.all().filter(fk_perfil_id=usuario.id_perfil).order_by('-fecha_publicacion')
+        return queryset
+
+
 class MisDemandasViewSet(ModelViewSet):
     queryset = Demanda.objects.all()
     serializer_class = DemandaSerializador
@@ -127,7 +140,7 @@ class MisOfertasAllViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = []
         usuario = Perfil.objects.get(id=self.request.user.id)
-        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1)
+        queryset = usuario.participa_en.all().filter(miembroequipo__es_propietario=1).order_by('-fecha_publicacion')
         return queryset
 
 class MisOfertaViewSet(ModelViewSet):

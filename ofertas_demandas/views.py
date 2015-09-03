@@ -38,15 +38,27 @@ Descripcion: para llamar la pagina oferta inicio
 """
 
 @login_required
-def InicioOferta(request):
+def inicio_oferta(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('oferta_inicio.html',args)
 
 
+"""
+Autor: FaustoMora y Pedro Iñiguez
+Nombre de funcion: inicio_demanda
+Parametros: request
+Salida: render 
+Descripcion: para llamar la pagina demanda inicio
+"""
+
 @login_required
-def InicioDemanda(request):
+def inicio_demanda(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
@@ -55,54 +67,69 @@ def InicioDemanda(request):
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearOfertaCopia
+Nombre de funcion: crear_oferta_copia
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_oferta_copia
 """
 @login_required
-def CrearOfertaCopia(request):
+def crear_oferta_copia(request):
+
+
+	# si existe la variable en el request del get
 	if request.GET.get('select_oferta',False):
 		args = {}
 		args['es_admin']=request.session['es_admin']
 		args['usuario']=request.user
 		oferta = None
 		oferta_id = request.GET['select_oferta']
-		oferta = Oferta.objects.get(id_oferta=oferta_id)
-		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
-		tags = []
-		for t in palabra_clave:
-			aux_tag ={'text':t.palabra}
-			tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
-		oferta_tiempo = int(tiempo_disponilbe[0])
+		# oferta pertenezca al user
+		try:
+			perfil = Perfil.objects.get(id=request.user.id)
+			oferta = perfil.participa_en.all().get(miembroequipo__es_propietario=1,id_oferta=oferta_id)
+			palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
+			tags = []
 
-		if tiempo_disponilbe[1] == 'Mes/es':
-			oferta_duracion = 0
-		else:
-			oferta_duracion = 1
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tags_json= json.dumps(tags)
-		args['oferta_tiempo']=oferta_tiempo
-		args['oferta_duracion']=oferta_duracion
-		args['oferta']=oferta
-		args['tags']=tags_json
-		args.update(csrf(request))
-		return render(request,'crear_oferta.html',args)
+			tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
+			oferta_tiempo = int(tiempo_disponilbe[0])
+
+			if tiempo_disponilbe[1] == 'Mes/es':
+				oferta_duracion = 0
+			else:
+				oferta_duracion = 1
+
+			etiqueta_json= json.dumps(tags)
+			args['oferta_tiempo']=oferta_tiempo
+			args['oferta_duracion']=oferta_duracion
+			args['oferta']=oferta
+			args['tags']=etiqueta_json
+			args.update(csrf(request))
+			return render(request,'crear_oferta.html',args)
+
+		# caso contrario se redirecciona a crear oferta
+		except Oferta.DoesNotExist:
+			return redirect('/CrearOferta/')
+
+	#no existe variable se redireeciona a crear oferta
 	else:
 		return redirect('/CrearOferta/')
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearOferta
+Nombre de funcion: crear_oferta
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_oferta
 """
 
 @login_required
-def CrearOferta(request):
+def crear_oferta(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
@@ -113,25 +140,30 @@ def CrearOferta(request):
 
 """
 Autor: FaustoMora
-Nombre de funcion: CargarImagenOferta
+Nombre de funcion: cargar_imagen_oferta
 Parametros: request
 Salida: HttpResponse status
 Descripcion: funcion para upload de imagnes en crear oferta
 """
 
 @login_required
-def CargarImagenOferta(request):
+def cargar_imagen_oferta(request):
+
+
 	try:
-		print 'cargar oferta imagen'
 		imagen = ImagenOferta()
 		descripcion = request.POST.get('descripcion',None)
 		descripcion = json.loads(descripcion)
+
+		# si existe la descripcion de las imagenes correspondientes
 		if descripcion:
 			aux = request.POST['flowIdentifier']
 
 			for x in descripcion:
 				if x['value'] == aux:
 					imagen.descripcion=x['descripcion']
+
+		# caso contrario se guarda un espacio en blanco
 		else:
 			imagen.descripcion=" "
 
@@ -142,19 +174,22 @@ def CargarImagenOferta(request):
 		imagen.save()
 		response = JsonResponse({'save_estado':True})
 		return HttpResponse(response.content)
+
 	except:
 		response = JsonResponse({'save_estado':False})
 		return HttpResponse(response.content)
 
 """
 Autor: FaustoMora
-Nombre de funcion: crearDemanda
+Nombre de funcion: crear_demanda
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redirect a crear demanda
 """
 @login_required
-def CrearDemanda(request):
+def crear_demanda(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
@@ -165,63 +200,82 @@ def CrearDemanda(request):
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearDemandaCopia
+Nombre de funcion: crear_demanda_copia
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_demanda_copia
 """
 @login_required
-def CrearDemandaCopia(request):
+def crear_demanda_copia(request):
+
+
+	# si existe la variable en el request del get
 	if request.GET.get('select_demanda',False):
 		args = {}
 		args['es_admin']=request.session['es_admin']
 		args['usuario']=request.user
 		demanda_id = request.GET['select_demanda']
-		demanda = Demanda.objects.get(id_demanda=demanda_id)
-		palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
-		tags = []
-		for t in palabra_clave:
-			aux_tag ={'text':t.palabra}
-			tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
-		demanda_tiempo = int(tiempo_disponilbe[0])
+		#demanda pertenezca al user
+		try:
+			perfil = Perfil.objects.get(id=request.user.id)
+			demanda = Demanda.objects.get(id_demanda=demanda_id,fk_perfil=perfil)
+			palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
+			tags = []
 
-		if tiempo_disponilbe[1] == 'Mes/es':
-			demanda_duracion = 0
-		else:
-			demanda_duracion = 1
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tags_json= json.dumps(tags)
-		args['demanda_tiempo']=demanda_tiempo
-		args['demanda_duracion']=demanda_duracion
-		args['demanda']=demanda
-		args['tags']=tags_json
-		args.update(csrf(request))
-		return render(request,'crear_demanda.html',args)
+			tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
+			demanda_tiempo = int(tiempo_disponilbe[0])
+
+			if tiempo_disponilbe[1] == 'Mes/es':
+				demanda_duracion = 0
+			else:
+				demanda_duracion = 1
+
+			etiqueta_json= json.dumps(tags)
+			args['demanda_tiempo']=demanda_tiempo
+			args['demanda_duracion']=demanda_duracion
+			args['demanda']=demanda
+			args['tags']=etiqueta_json
+			args.update(csrf(request))
+			return render(request,'crear_demanda.html',args)
+
+		# en caso de no encontrarla redireciona a crear demanda
+		except Demanda.DoesNotExist:
+			return redirect('/CrearDemanda/')
+
+	# si no existe se redirecciona a crear demanda
 	else:
 		return redirect('/CrearDemanda/')
 
 """
 Autor: FaustoMora
-Nombre de funcion: CargarImagenDemanda
+Nombre de funcion: cargar_imagen_demanda
 Parametros: request
 Salida: HttpResponse status
 Descripcion: funcion para upload de imagnes en crear demanda
 """
 
 @login_required
-def CargarImagenDemanda(request):
+def cargar_imagen_demanda(request):
+
+
 	try:
 		imagen = ImagenDemanda()
 		descripcion = request.POST.get('descripcion',None)
 		descripcion = json.loads(descripcion)
+
+		# si existe la descripcion de las imagenes correspondientes
 		if descripcion:
 			aux = request.POST['flowIdentifier']
 
 			for x in descripcion:
 				if x['value'] == aux:
 					imagen.descripcion=x['descripcion']
+
+		# caso contrario se guarda un espacio en blanco
 		else:
 			imagen.descripcion=" "
 
@@ -232,6 +286,7 @@ def CargarImagenDemanda(request):
 		imagen.save()
 		response = JsonResponse({'save_estado':True})
 		return HttpResponse(response.content)
+
 	except:
 		response = JsonResponse({'save_estado':False})
 		return HttpResponse(response.content)
@@ -244,7 +299,7 @@ Salida: http
 Descripcion: funcion para ver una oferta publicada
 """
 @login_required
-def verCualquierOferta(request, id_oferta):
+def ver_cualquier_oferta(request, id_oferta):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
@@ -283,16 +338,25 @@ def verCualquierOferta(request, id_oferta):
 				palabras_claves = oferta.palabras_clave.all()
 			except Exception as e:
 				palabras_claves =  ["Null", "Null", "Null", "Null"]
+			try:
+				imagenes = ImagenOferta.objects.filter(fk_oferta = id_oferta)
+				imagenPrincipal = imagenes.first()
+				if not imagenes:
+					imagenes = False
+					imagenPrincipal = False
 
-		galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
+			except Exception as e:
+				imagenes = False
+				imagenPrincipal = False
+
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['palabras_claves'] = palabras_claves
 		args['comentariosOferta'] = comentariosOferta
 		args['calificacionOferta'] = str(calificacionOferta)
 		args['propietario'] = propietario
-		args['galeria'] = galeria
-		args['imagen_principal'] = galeria.first()
+		args['imagenesOferta'] = imagenes
+		args['imagenPrincipal'] = imagenPrincipal
 		return render_to_response('oferta_ver_otra.html',args)
 
 	else:
@@ -328,7 +392,7 @@ def administrar_Oferta(request, id_oferta):
 
 	if (oferta.publicada == 0):
 		print 'No publicada'
-		#return HttpResponseRedirect('/NotFound/')
+	#return HttpResponseRedirect('/NotFound/')
 	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
 	if membresiaOferta is None:
@@ -417,14 +481,13 @@ Descripcion: funcion para editar un borrador
 """
 @login_required
 def editar_borrador(request, id_oferta):
-	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
+	sesion = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=sesion)
 	args = {}
 	args['es_admin']=request.session['es_admin']
-	if usuario is not None:
-		#Guardo en la variable de sesion a usuario.
-		args['usuario'] = usuario
 
+	if usuario is not None:
+		args['usuario'] = usuario
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
@@ -433,12 +496,29 @@ def editar_borrador(request, id_oferta):
 		oferta = Oferta.objects.get(id_oferta = id_oferta)
 	except:
 		return HttpResponseRedirect('/NotFound/')
+
 	if (oferta.publicada == 1):
 		return HttpResponseRedirect('/NotFound/')
-	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
-	if membresiaOferta is None:
+	membresia_oferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+
+	if membresia_oferta is None:
 		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		tiempo_disponible = oferta.tiempo_para_estar_disponible.split(' ',1)
+		oferta_tiempo = int(tiempo_disponible[0])
+
+		#si la duracion es de mes
+		if tiempo_disponible[1] == 'Mes/es':
+			oferta_duracion = 0
+		else:
+			oferta_duracion = 1
+
+	#si no se encuentra establecida la duracion
+	except:
+		oferta_duracion = -1
+		oferta_tiempo = ""
 
 	if request.method == 'POST':
 		#seccion de informacion
@@ -449,92 +529,137 @@ def editar_borrador(request, id_oferta):
 		subdominio = request.POST['oferta_sub_dominio']
 		#tags = request.POST['oferta_tags'] #Aun no usado
 		#seccion de perfiles
-		perfilCliente = request.POST.get('oferta_descripcion_perfil', None)
-		perfilBeneficiario = request.POST.get('oferta_beneficiario_perfil', None)
+		perfil_cliente = request.POST.get('oferta_descripcion_perfil', None)
+		perfil_beneficiario = request.POST.get('oferta_beneficiario_perfil', None)
 		#seccion de business canvas
-		canvasSocioClave = request.POST.get('canvas_socio_clave', None)
-		canvasActividadesClave = request.POST.get('canvas_actividades_clave', None)
-		canvasRecursos = request.POST.get('canvas_recrusos_clave', None)
-		canvasPropuesta = request.POST.get('canvas_propuesta_valor', None)
-		canvasRelaciones = request.POST.get('canvas_ralaciones_clientes', None)
-		canvasCanales = request.POST.get('canvas_canales_distribucion', None)
-		canvasSegmentos = request.POST.get('canvas_segmentos_clientes', None)
-		canvasEstructura = request.POST.get('canvas_estructura_costos', None)
-		canvasFuentes = request.POST.get('canvas_fuente_ingresos', None)
+		canvas_socio_clave = request.POST.get('canvas_socio_clave', None)
+		canvas_actividades_clave = request.POST.get('canvas_actividades_clave', None)
+		canvas_recursos = request.POST.get('canvas_recrusos_clave', None)
+		canvas_propuesta = request.POST.get('canvas_propuesta_valor', None)
+		canvas_relaciones = request.POST.get('canvas_ralaciones_clientes', None)
+		canvas_canales = request.POST.get('canvas_canales_distribucion', None)
+		canvas_segmentos = request.POST.get('canvas_segmentos_clientes', None)
+		canvas_estructura = request.POST.get('canvas_estructura_costos', None)
+		canvas_fuente = request.POST.get('canvas_fuente_ingresos', None)
 		#seccion de industria
 		tendencias = request.POST.get('oferta_tendencias', None)
-		solucionesAlternativas = request.POST.get('ofertas_alternativas_soluciones', None)
+		soluciones_alternativas = request.POST.get('ofertas_alternativas_soluciones', None)
 		#para Diagrama de Porter
-		porterCompetidores = request.POST.get('diagramapoter_competidores', None)
-		porterConsumidores = request.POST.get('diagramapoter_consumidores', None)
-		porterSustitutos = request.POST.get('diagramapoter_sustitutos', None)
-		porterProveedores = request.POST.get('diagramapoter_proveedores', None)
-		porterNuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
+		porter_competidores = request.POST.get('diagramapoter_competidores', None)
+		porter_consumidores = request.POST.get('diagramapoter_consumidores', None)
+		porter_sustitutos = request.POST.get('diagramapoter_sustitutos', None)
+		porter_proveedores = request.POST.get('diagramapoter_proveedores', None)
+		porter_nuevos = request.POST.get('diagramapoter_nuevos_entrantes', None)
 		#seccion de estado/Logros
-		tiempoDisponible = request.POST.get('oferta_tiempo_disponibilidad', None)
-		tiempoUnidad = request.POST.get('select_oferta_tiempo', None)
-		propiedadIntelectual = request.POST.get('oferta_propiedad_intelectual', None)
-		evidenciaTraccion = request.POST.get('oferta_evidencia_traccion', None)
-
-		ofertaEditada = oferta
-		ofertaEditada.nombre = nombre
-		ofertaEditada.tipo = tipo
-		ofertaEditada.descripcion = descripcion
-
-		ofertaEditada.dominio = dominio
-		ofertaEditada.subdominio = subdominio
-
-		ofertaEditada.perfil_cliente = perfilCliente
-		ofertaEditada.perfil_beneficiario = perfilBeneficiario
-	
-
-		if canvasSocioClave == "" and canvasActividadesClave=="" and canvasRecursos=="" and canvasPropuesta=="" and canvasRelaciones=="" and canvasCanales=="" and canvasSegmentos=="" and canvasEstructura=="" and canvasFuentes=="" :
-			ofertaEditada.fk_diagrama_canvas = None
-		else:
-			diagramaCanvas = DiagramaBusinessCanvas()
-			diagramaCanvas.asociaciones_clave = canvasSocioClave
-			diagramaCanvas.actividades_clave = canvasActividadesClave
-			diagramaCanvas.recursos_clave = canvasRecursos
-			diagramaCanvas.propuesta_valor = canvasPropuesta
-			diagramaCanvas.relacion_clientes = canvasRelaciones
-			diagramaCanvas.canales_distribucion = canvasCanales
-			diagramaCanvas.segmento_mercado = canvasSegmentos
-			diagramaCanvas.estructura_costos = canvasEstructura
-			diagramaCanvas.fuente_ingresos = canvasFuentes
-			diagramaCanvas.save()
-			ofertaEditada.fk_diagrama_canvas = diagramaCanvas
-			
-		#seccion de industria
-		ofertaEditada.cuadro_tendencias_relevantes = tendencias
-		ofertaEditada.descripcion_soluciones_existentes = solucionesAlternativas
-		#para Diagrama de Porter
-		if porterCompetidores == "" and porterConsumidores=="" and porterSustitutos=="" and porterProveedores=="" and porterNuevos=="":
-			ofertaEditada.fk_diagrama_competidores = None
-		else:
-			diagramaPorter = DiagramaPorter()
-			diagramaPorter.competidores = porterCompetidores
-			diagramaPorter.consumidores = porterConsumidores
-			diagramaPorter.sustitutos = porterSustitutos
-			diagramaPorter.proveedores = porterProveedores
-			diagramaPorter.nuevosMiembros = porterNuevos
-			diagramaPorter.save()
-			ofertaEditada.fk_diagrama_competidores = diagramaPorter
-			
+		tiempo_disponible = request.POST.get('oferta_tiempo_disponibilidad', None)
+		tiempo_unidad = request.POST.get('select_oferta_tiempo', None)
+		propiedad_intelectual = request.POST.get('oferta_propiedad_intelectual', None)
+		evidencia_traccion = request.POST.get('oferta_evidencia_traccion', None)
+		#seccion de copia de datos a la oferta a modificar
+		#seccion informacion
+		oferta_editada = oferta
+		oferta_editada.nombre = nombre
+		oferta_editada.tipo = tipo
+		oferta_editada.descripcion = descripcion
+		oferta_editada.dominio = dominio
+		oferta_editada.subdominio = subdominio
+		#seccion perfiles
+		oferta_editada.perfil_cliente = perfil_cliente
+		oferta_editada.perfil_beneficiario = perfil_beneficiario
+		#seccion industria
+		oferta_editada.cuadro_tendencias_relevantes = tendencias
+		oferta_editada.descripcion_soluciones_existentes = soluciones_alternativas
 		#seccion de estado/Logros
-		#ofertaEditada = tiempoDisponible
-		#ofertaEditada = tiempoUnidad
-		ofertaEditada.estado_propieada_intelectual = propiedadIntelectual
-		ofertaEditada.evidencia_traccion = evidenciaTraccion
 
-		ofertaEditada.save()
+		#manejo de la duracion de la oferta
+		if tiempo_disponible != "" and tiempo_unidad != "":
 
+			if tiempo_unidad == "0":
+				tiempo_unidad = "Mes/es"
+			else:
+				tiempo_unidad = "Año/s"
+
+			oferta_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
+		else:
+			oferta_editada.tiempo_para_estar_disponible = None
+
+		oferta_editada.estado_propieada_intelectual = propiedad_intelectual
+		oferta_editada.evidencia_traccion = evidencia_traccion
+
+		#seccion Diagrama canvas
+		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama canvas
+		if canvas_socio_clave == "" and canvas_actividades_clave=="" and canvas_recursos=="" and canvas_propuesta=="" and canvas_relaciones=="" and canvas_canales=="" and canvas_segmentos=="" and canvas_estructura=="" and canvas_fuente=="" :
+			oferta_editada.fk_diagrama_canvas = None
+
+		#si existen datos ingresados, se los asigna 
+		else:
+
+			#si anteriormente tuvo canvas, se lo modifica
+			try:
+				oferta_editada.fk_diagrama_canvas.asociaciones_clave = canvas_socio_clave
+				oferta_editada.fk_diagrama_canvas.actividades_clave = canvas_actividades_clave
+				oferta_editada.fk_diagrama_canvas.recursos_clave = canvas_recursos
+				oferta_editada.fk_diagrama_canvas.propuesta_valor = canvas_propuesta
+				oferta_editada.fk_diagrama_canvas.relacion_clientes = canvas_relaciones
+				oferta_editada.fk_diagrama_canvas.canales_distribucion = canvas_canales
+				oferta_editada.fk_diagrama_canvas.segmento_mercado = canvas_segmentos
+				oferta_editada.fk_diagrama_canvas.estructura_costos = canvas_estructura
+				oferta_editada.fk_diagrama_canvas.fuente_ingresos = canvas_fuente
+				oferta_editada.fk_diagrama_canvas.save()
+			#si no tenia, se crea un diagrama canvas nuevo
+			except:
+				diagrama_canvas = DiagramaBusinessCanvas()
+				diagrama_canvas.asociaciones_clave = canvas_socio_clave
+				diagrama_canvas.actividades_clave = canvas_actividades_clave
+				diagrama_canvas.recursos_clave = canvas_recursos
+				diagrama_canvas.propuesta_valor = canvas_propuesta
+				diagrama_canvas.relacion_clientes = canvas_relaciones
+				diagrama_canvas.canales_distribucion = canvas_canales
+				diagrama_canvas.segmento_mercado = canvas_segmentos
+				diagrama_canvas.estructura_costos = canvas_estructura
+				diagrama_canvas.fuente_ingresos = canvas_fuente
+				diagrama_canvas.save()
+				oferta_editada.fk_diagrama_canvas = diagrama_canvas
+
+		#seccion Diagrama de Porter
+		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama porter
+		if porter_competidores == "" and porter_consumidores=="" and porter_sustitutos=="" and porter_proveedores=="" and porter_nuevos=="":
+			oferta_editada.fk_diagrama_competidores = None
+
+		#si existen datos ingresados, se los asigna 
+		else:
+
+			#si anteriormente tuvo porter, cambiarlo
+			try:
+				oferta_editada.fk_diagrama_competidores.competidores = porter_competidores
+				oferta_editada.fk_diagrama_competidores.consumidores = porter_consumidores
+				oferta_editada.fk_diagrama_competidores.sustitutos = porter_sustitutos
+				oferta_editada.fk_diagrama_competidores.proveedores = porter_proveedores
+				oferta_editada.fk_diagrama_competidores.nuevosMiembros = porter_nuevos
+				oferta_editada.fk_diagrama_competidores.save()
+			#si no tenia, se crea uno nuevo y se lo asigna
+			except:
+				diagrama_porter = DiagramaPorter()
+				diagrama_porter.competidores = porter_competidores
+				diagrama_porter.consumidores = porter_consumidores
+				diagrama_porter.sustitutos = porter_sustitutos
+				diagrama_porter.proveedores = porter_proveedores
+				diagrama_porter.nuevosMiembros = porter_nuevos
+				diagrama_porter.save()
+				oferta_editada.fk_diagrama_competidores = diagrama_porter
+		
+		oferta_editada.save()
 		args.update(csrf(request))
+		args['oferta_tiempo']=oferta_tiempo
+		args['oferta_duracion']=oferta_duracion
 		args['institucion_nombre'] = request.session['institucion_nombre']
-		args['oferta'] = ofertaEditada
+		args['oferta'] = oferta_editada
 		return render_to_response('administrar_borrador.html',args)
 
 	else:
 		args.update(csrf(request))
+		args['oferta_tiempo']=oferta_tiempo
+		args['oferta_duracion']=oferta_duracion
 		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = oferta
 		return render_to_response('editar_borrador.html',args)
@@ -918,6 +1043,23 @@ def editar_estado_membresia(request):
 		return HttpResponseRedirect('NotFound');
 
 
+def editar_estado_demanda(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_demanda=request.POST["id_demanda"]
+		estado_str=request.POST["estado"]
+		print "estado "+ estado_str
+		args = {}
+		demanda=Demanda.objects.get(id_demanda=id_demanda);
+		if demanda is not None:
+			demanda.estado=estado_str
+			demanda.save
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('NotFound');
 
 
 """
@@ -1003,7 +1145,7 @@ Salida: http
 Descripcion: funcion para ver una demanda publicada
 """
 @login_required
-def verCualquierDemanda(request, id_demanda):
+def ver_cualquier_demanda(request, id_demanda):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
@@ -1027,16 +1169,29 @@ def verCualquierDemanda(request, id_demanda):
 		else:
 			propietario = demanda.fk_perfil
 			comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
-			args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario_id=usuario).count
+			args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario=usuario).count
 			try:
 				palabras_claves = demanda.palabras_clave.all()
 			except Exception as e:
 				palabras_claves =  ["Null", "Null", "Null", "Null"]
+			try:
+				imagenes = ImagenDemanda.objects.filter(fk_demanda = id_demanda)
+				imagenPrincipal = ImagenDemanda.objects.filter(fk_demanda = id_demanda).first()
+				if not imagenes:
+					imagenes =  False
+					imagenPrincipal =  False
 
+			except Exception as e:
+				imagenes = False
+				imagenPrincipal = False
+			aceptados = ComentarioDemanda.objects.filter(fk_demanda = id_demanda, estado_comentario=1).count
 
 		args.update(csrf(request))
+		args['imagenesDemanda'] = imagenes
+		args['imagenPrincipal'] = imagenPrincipal
 		args['palabras_claves'] = palabras_claves
 		args['comentariosDemanda'] = comentariosDemanda
+		args['comentariosAceptados'] = aceptados
 		args['propietario'] = propietario
 		return render_to_response('demanda_ver_otra.html',args)
 
@@ -1203,23 +1358,54 @@ Descripcion: funcion para administrar mi demanda publicada.
 @login_required
 def administrar_demanda(request, id_demanda):
 	session = request.session['id_usuario']
-	usuario = request.user
+	usuario = Perfil.objects.get(id=session)
 	args = {}
 	args['es_admin']=request.session['es_admin']
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
+		try:
+			demanda = Demanda.objects.get(id_demanda = id_demanda)
+			args['demanda'] = demanda
+		except:
+			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
+			return render_to_response('problema_oferta.html',args)
+
+
+		if demanda.publicada == 0 :
+			args.update(csrf(request))
+			args['mensaje_error'] = "La demanda "+demanda.nombre+", no esta actualmente publicada."
+			return render_to_response('problema_oferta.html',args)
+
+		else:
+			propietario = demanda.fk_perfil
+			comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
+			args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario=usuario).count
+			try:
+				palabras_claves = demanda.palabras_clave.all()
+			except Exception as e:
+				palabras_claves =  ["Null", "Null", "Null", "Null"]
+			try:
+				imagenes = ImagenDemanda.objects.filter(fk_demanda = id_demanda)
+				imagenPrincipal = ImagenDemanda.objects.filter(fk_demanda = id_demanda).first()
+				if not imagenes:
+					imagenes =  False
+					imagenPrincipal =  False
+			except Exception as e:
+				imagenes = False
+				imagenPrincipal = False
+			pendientes = ComentarioDemanda.objects.filter(fk_demanda = id_demanda, estado_comentario=0)
+			aceptados = ComentarioDemanda.objects.filter(fk_demanda = id_demanda, estado_comentario=1).count
+		args.update(csrf(request))
+		args['imagenesDemanda'] = imagenes
+		args['imagenPrincipal'] = imagenPrincipal
+		args['palabras_claves'] = palabras_claves
+		args['comentariosDemanda'] = comentariosDemanda
+		args['propietario'] = propietario
+		args['comentariosPendientes'] = pendientes
+		args['comentariosAceptados']= aceptados
+		return render_to_response('administrar_demanda.html',args)
+
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
-
-	demanda = Demanda.objects.get(id_demanda = id_demanda)
-	print demanda.id_demanda
-
-
-	if (demanda.publicada == 0):
-		print 'No publicada'
-
-	args['demanda'] = demanda
-
-	return render_to_response('administrar_demanda.html',args)

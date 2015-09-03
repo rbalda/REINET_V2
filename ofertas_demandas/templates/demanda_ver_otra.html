@@ -2,9 +2,6 @@
 {% block sliderPagina %}DEMANDA{% endblock %}
 
 {% block contenido %}
-    <link href="/static/css/star-rating.min.css" media="all" rel="stylesheet" type="text/css" />
-    <script src="/static/js/star-rating.min.js" type="text/javascript"></script>
-
     <div class="container">
     <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
         <div class="col-md-7">
@@ -12,7 +9,7 @@
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
-                <li><i class="fa fa-comments-o"></i> {{ comentariosDemandas | length }}</li>
+                <li><i class="fa fa-comments-o"></i> {{ comentariosAceptados }} </li>
             </ul>
 
         </div>
@@ -21,142 +18,170 @@
     <div class="col-md-12">
     <div class="col-md-8" style="padding-left: 0px;">
     <div class="blog-text">
-    <!-- Pestañas de Navegacion de la demanda-->
-    <ul class="nav nav-tabs " role="tablist">
-        <li role="presentation" class="active">
-            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
-        </li>
-        <li role="presentation">
-            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
-        </li>
-        </li>
-        <li role="presentation">
-            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria</a>
-        </li>
-        <li role="presentation">
-            <a href="#estado" aria-controls="messages" role="tab" data-toggle="tab">Estado</a>
-        </li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content row">
-        <!-- Tab INFORMACION -->
-        <div role="tabpanel" class="tab-pane active" id="informacion">
-            <div class="col-md-12">
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                    <div class="block-inverse">
-                        <div class="head-inverse">
-                            <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                            <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
-                        </div>
-                        <div class="body-inverse">
-                            <ul class="row list-inline gallery-list-small"
-                                style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-                                <li class="col-xs-6">
-                                    <a href="#">
-                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg"
-                                             alt="...">
-                                    </a>
-                                </li>
-                                <li class="col-xs-6">
-                                    <a href="#">
-                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg"
-                                             alt="...">
-                                    </a>
-                                </li>
-                                <li class="col-xs-6">
-                                    <a href="#">
-                                        <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg"
-                                             alt="...">
-                                    </a>
-                                </li>
-                            </ul>
+        <!-- Pestañas de Navegacion de la demanda-->
+        <ul class="nav nav-tabs " role="tablist">
+            <li role="presentation" class="active">
+                <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+            </li>
+            <li role="presentation">
+                <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+            </li>
+            </li>
+            <li role="presentation">
+                <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria</a>
+            </li>
+            <li role="presentation">
+                <a href="#estado" aria-controls="messages" role="tab" data-toggle="tab">Estado</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content row">
+            <!-- Tab INFORMACION -->
+            <div role="tabpanel" class="tab-pane active" id="informacion">
+                <div class="col-md-12">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="block-inverse">
+                            <div class="head-inverse">
+                                <p class="text-center"><strong class="text-muted">Galeria</strong></p>
+                                {% if imagenPrincipal == False%}
+                                    <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
+                                {% else %}
+                                    <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+                                {% endif %}
+                            </div>
+                            <div class="body-inverse">
+                                <ul class="row list-inline gallery-list-small"
+                                    style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+                                    {% if imagenesDemanda == False%}
+                                        {% for temp in "XXXX" %}
+                                            <li class="col-xs-6">
+                                                <a href="#">
+                                                    <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"
+                                                         alt="...">
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for imagenes in imagenesDemanda %}
+                                            <li class="col-xs-6">
+                                                <a href="#">
+                                                    <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
+                                                         alt="...">
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif  %}
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <!--Tipo-->
+                        <p style="color: darkgray" class="col-md-3">Tipo</p>
+                        {% if demanda.tipo == 0 %}
+                            <p>Emprendimiento</p>
+                        {% elif demanda.tipo == 1 %}
+                            <p>Tecnologia</p>
+                        {% elif demanda.tipo == 2 %}
+                            <p>Prototipo</p>
+                        {% endif %}
+                        <!--Descripcion-->
+                        <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
+                        <p>{{ demanda.descripcion  | title}} </p>
+
+                        <!--Dominio-->
+                        <p style="color: darkgray" class="col-md-3">Dominio</p>
+                        <p>{{ demanda.dominio }}</p>
+
+                        <!--Subdominio-->
+                        <p style="color: darkgray" class="col-md-3">Sub-dominio</p>
+                        <p>{{ demanda.subdominio }}</p>
+
+                        <!--Palabras Clave-->
+                        <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
+
+                        <p class="tags">
+                            {% for tag in palabras_claves %}
+                                <a>{{ tag.palabra }}</a>
+                            {% endfor %}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-8 col-sm-8 col-xs-8">
-                    <!--Tipo-->
-                    <p style="color: darkgray" class="col-md-3">Tipo</p>
-                    {% if demanda.tipo == 0 %}
-                        <p>Emprendimiento</p>
-                    {% elif demanda.tipo == 1 %}
-                        <p>Tecnologia</p>
-                    {% elif demanda.tipo == 2 %}
-                        <p>Prototipo</p>
-                    {% endif %}
-                    <!--Descripcion-->
-                    <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
-                    <p>{{ demanda.descripcion  | title}} </p>
+            </div>
 
-                    <!--Dominio-->
-                    <p style="color: darkgray" class="col-md-3">Dominio</p>
-                    <p>{{ demanda.dominio }}</p>
+            <!-- Tab CLIENTE USUARIO -->
+            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                <div class="col-md-12">
+                    <!--Perfil Cliente-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
+                    <p class="col-md-9">
+                        {% if demanda.perfil_cliente != None %}
+                            {{ demanda.perfil_cliente }}
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </p>
+                    <!--Perfil Beneficiario-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
+                    <p class="col-md-9">
+                        {% if demanda.perfil_beneficiario != None %}
+                            {{ demanda.perfil_beneficiario }}
+                        {% else %}
+                            No disponible
+                        {% endif %} </p>
+                </div>
+            </div>
 
-                    <!--Subdominio-->
-                    <p style="color: darkgray" class="col-md-3">Sub-dominio</p>
-                    <p>{{ demanda.subdominio }}</p>
+            <!-- Tab Industria -->
+            <div role="tabpanel" class="tab-pane" id="industria">
+                <div class="col-md-12">
+                    <!--Importancia de Resolver la Necesidad-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Importancia de Resolver la Necesidad</p>
+                    <p class="col-md-6">
+                        {% if demanda.importancia_resolver_necesidad != None %}
+                            {{ demanda.importancia_resolver_necesidad }}
+                        {% else %}
+                            No Aplica
+                        {% endif %}
+                    </p>
+                    <!--Alternativas de Solución Existentes-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Alternativas de Solución Existentes</p>
+                    <p class="col-md-6">
+                        {% if demanda.alternativas_soluciones_existentes != None %}
+                            {{ demanda.alternativas_soluciones_existentes }}
+                        {% else %}
+                            No Aplica
+                        {% endif %}
 
-                    <!--Palabras Clave-->
-                    <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
-
-                    <p class="tags">
-                        {% for tag in palabras_claves %}
-                            <a>{{ tag.palabra }}</a>
-                        {% endfor %}
                     </p>
                 </div>
             </div>
-        </div>
 
-        <!-- Tab CLIENTE USUARIO -->
-        <div role="tabpanel" class="tab-pane" id="cliente_usuario">
-            <div class="col-md-12">
-                 <!--Perfil Cliente-->
-                <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
-                <p class="col-md-9">
-                {% if demanda.perfil_cliente != None %}
-                {{ demanda.perfil_cliente }}
-                {% else %}
-                No disponible
-                {% endif %}
-                </p>
-                <!--Perfil Beneficiario-->
-                <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
-                <p class="col-md-9">
-                {% if demanda.perfil_beneficiario != None %}
-                {{ demanda.perfil_beneficiario }}
-                {% else %}
-                No disponible
-                {% endif %} </p>
+            <!-- Tab LOGROS -->
+            <div role="tabpanel" class="tab-pane" id="estado">
+                <div class="col-md-12">
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo en que se necesita disponer de solución</p>
+                    <p class="col-md-6">
+                        {% if demanda.tiempo_para_estar_disponible != None %}
+                            {{ demanda.tiempo_para_estar_disponible }}
+                        {% else %}
+                            No Aplica
+                        {% endif %}
+                    </p>
+                    </br>
+                    <!--Estado del producto o servicio-->
+                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Lugar/es donde se necesita</p>
+                    <p class="col-md-6">
+                        {% if demanda.lugar_donde_necesita != None %}
+                            {{ demanda.lugar_donde_necesita }}
+                        {% else %}
+                            No Aplica
+                        {% endif %}
+                    </p>
+                    </br>
+                </div>
             </div>
         </div>
-
-       <!-- Tab Industria -->
-        <div role="tabpanel" class="tab-pane" id="industria">
-            <div class="col-md-12">
-                <!--Importancia de Resolver la Necesidad-->
-                <p style="color: darkgray" for="Descripcion" class="col-md-3">Importancia de Resolver la Necesidad</p>
-
-                <p class="col-md-9">{{ demanda.importancia_resolver_necesidad }} </p>
-                <!--Alternativas de Solución Existentes-->
-                <p style="color: darkgray" for="Descripcion" class="col-md-3">Alternativas de Solución Existentes</p>
-
-                <p class="col-md-9">{{ demanda.alternativas_soluciones_existentes }} </p>
-            </div>
-        </div>
-
-        <!-- Tab LOGROS -->
-        <div role="tabpanel" class="tab-pane" id="estado">
-            <div class="col-md-12">
-                <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo en que se necesita disponer de solución</p>
-                <p>{{ demanda.tiempo_para_estar_disponible }}</p>
-                </br>
-                <!--Estado del producto o servicio-->
-                <p style="color: darkgray" for="Descripcion" class="col-md-6">Lugar/es donde se necesita</p>
-                <p>{{ demanda.lugar_donde_necesita }} </p>
-                </br>
-            </div>
-        </div>
-    </div>
     </div>
     <br>
 
@@ -216,7 +241,7 @@
     {% endif %}
 
     <!-- Comments list -->
-    <h4>{{ comentariosDemandas | length }} comentarios</h4>
+    <h4>{{ comentariosAceptados }} comentarios</h4>
     <hr>
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
