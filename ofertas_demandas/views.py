@@ -374,26 +374,26 @@ Descripcion: funcion para administrar mi oferta publicada.
 
 @login_required
 def administrar_Oferta(request, id_oferta):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin']=request.session['es_admin']
-    print 'mi id antes'+id_oferta
-    if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+	print 'mi id antes'+id_oferta
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
 
-    oferta = Oferta.objects.get(id_oferta = id_oferta)
-    print oferta.id_oferta
+	oferta = Oferta.objects.get(id_oferta = id_oferta)
+	print oferta.id_oferta
 
 
-    if (oferta.publicada == 0):
-        print 'No publicada'
-    #return HttpResponseRedirect('/NotFound/')
-    membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+	if (oferta.publicada == 0):
+		print 'No publicada'
+	#return HttpResponseRedirect('/NotFound/')
+	membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
 
 	if membresiaOferta is None:
 		return HttpResponseRedirect('/NotFound/')
