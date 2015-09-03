@@ -38,15 +38,27 @@ Descripcion: para llamar la pagina oferta inicio
 """
 
 @login_required
-def InicioOferta(request):
+def inicio_oferta(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('oferta_inicio.html',args)
 
 
+"""
+Autor: FaustoMora y Pedro Iñiguez
+Nombre de funcion: inicio_demanda
+Parametros: request
+Salida: render 
+Descripcion: para llamar la pagina demanda inicio
+"""
+
 @login_required
-def InicioDemanda(request):
+def inicio_demanda(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
@@ -55,54 +67,69 @@ def InicioDemanda(request):
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearOfertaCopia
+Nombre de funcion: crear_oferta_copia
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_oferta_copia
 """
 @login_required
-def CrearOfertaCopia(request):
+def crear_oferta_copia(request):
+
+
+	# si existe la variable en el request del get
 	if request.GET.get('select_oferta',False):
 		args = {}
 		args['es_admin']=request.session['es_admin']
 		args['usuario']=request.user
 		oferta = None
 		oferta_id = request.GET['select_oferta']
-		oferta = Oferta.objects.get(id_oferta=oferta_id)
-		palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
-		tags = []
-		for t in palabra_clave:
-			aux_tag ={'text':t.palabra}
-			tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
-		oferta_tiempo = int(tiempo_disponilbe[0])
+		# oferta pertenezca al user
+		try:
+			perfil = Perfil.objects.get(id=request.user.id)
+			oferta = perfil.participa_en.all().get(miembroequipo__es_propietario=1,id_oferta=oferta_id)
+			palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
+			tags = []
 
-		if tiempo_disponilbe[1] == 'Mes/es':
-			oferta_duracion = 0
-		else:
-			oferta_duracion = 1
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tags_json= json.dumps(tags)
-		args['oferta_tiempo']=oferta_tiempo
-		args['oferta_duracion']=oferta_duracion
-		args['oferta']=oferta
-		args['tags']=tags_json
-		args.update(csrf(request))
-		return render(request,'crear_oferta.html',args)
+			tiempo_disponilbe = oferta.tiempo_para_estar_disponible.split(' ',1)
+			oferta_tiempo = int(tiempo_disponilbe[0])
+
+			if tiempo_disponilbe[1] == 'Mes/es':
+				oferta_duracion = 0
+			else:
+				oferta_duracion = 1
+
+			etiqueta_json= json.dumps(tags)
+			args['oferta_tiempo']=oferta_tiempo
+			args['oferta_duracion']=oferta_duracion
+			args['oferta']=oferta
+			args['tags']=etiqueta_json
+			args.update(csrf(request))
+			return render(request,'crear_oferta.html',args)
+
+		# caso contrario se redirecciona a crear oferta
+		except Oferta.DoesNotExist:
+			return redirect('/CrearOferta/')
+
+	#no existe variable se redireeciona a crear oferta
 	else:
 		return redirect('/CrearOferta/')
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearOferta
+Nombre de funcion: crear_oferta
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_oferta
 """
 
 @login_required
-def CrearOferta(request):
+def crear_oferta(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
@@ -113,25 +140,30 @@ def CrearOferta(request):
 
 """
 Autor: FaustoMora
-Nombre de funcion: CargarImagenOferta
+Nombre de funcion: cargar_imagen_oferta
 Parametros: request
 Salida: HttpResponse status
 Descripcion: funcion para upload de imagnes en crear oferta
 """
 
 @login_required
-def CargarImagenOferta(request):
+def cargar_imagen_oferta(request):
+
+
 	try:
-		print 'cargar oferta imagen'
 		imagen = ImagenOferta()
 		descripcion = request.POST.get('descripcion',None)
 		descripcion = json.loads(descripcion)
+
+		# si existe la descripcion de las imagenes correspondientes
 		if descripcion:
 			aux = request.POST['flowIdentifier']
 
 			for x in descripcion:
 				if x['value'] == aux:
 					imagen.descripcion=x['descripcion']
+
+		# caso contrario se guarda un espacio en blanco
 		else:
 			imagen.descripcion=" "
 
@@ -142,19 +174,22 @@ def CargarImagenOferta(request):
 		imagen.save()
 		response = JsonResponse({'save_estado':True})
 		return HttpResponse(response.content)
+
 	except:
 		response = JsonResponse({'save_estado':False})
 		return HttpResponse(response.content)
 
 """
 Autor: FaustoMora
-Nombre de funcion: crearDemanda
+Nombre de funcion: crear_demanda
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redirect a crear demanda
 """
 @login_required
-def CrearDemanda(request):
+def crear_demanda(request):
+
+
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
@@ -165,63 +200,82 @@ def CrearDemanda(request):
 
 """
 Autor: FaustoMora
-Nombre de funcion: CrearDemandaCopia
+Nombre de funcion: crear_demanda_copia
 Parametros: request
 Salida: HttpResponseRedirect
 Descripcion: funcion para redireccion a crear_demanda_copia
 """
 @login_required
-def CrearDemandaCopia(request):
+def crear_demanda_copia(request):
+
+
+	# si existe la variable en el request del get
 	if request.GET.get('select_demanda',False):
 		args = {}
 		args['es_admin']=request.session['es_admin']
 		args['usuario']=request.user
 		demanda_id = request.GET['select_demanda']
-		demanda = Demanda.objects.get(id_demanda=demanda_id)
-		palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
-		tags = []
-		for t in palabra_clave:
-			aux_tag ={'text':t.palabra}
-			tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
-		demanda_tiempo = int(tiempo_disponilbe[0])
+		#demanda pertenezca al user
+		try:
+			perfil = Perfil.objects.get(id=request.user.id)
+			demanda = Demanda.objects.get(id_demanda=demanda_id,fk_perfil=perfil)
+			palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
+			tags = []
 
-		if tiempo_disponilbe[1] == 'Mes/es':
-			demanda_duracion = 0
-		else:
-			demanda_duracion = 1
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
 
-		tags_json= json.dumps(tags)
-		args['demanda_tiempo']=demanda_tiempo
-		args['demanda_duracion']=demanda_duracion
-		args['demanda']=demanda
-		args['tags']=tags_json
-		args.update(csrf(request))
-		return render(request,'crear_demanda.html',args)
+			tiempo_disponilbe = demanda.tiempo_para_estar_disponible.split(' ',1)
+			demanda_tiempo = int(tiempo_disponilbe[0])
+
+			if tiempo_disponilbe[1] == 'Mes/es':
+				demanda_duracion = 0
+			else:
+				demanda_duracion = 1
+
+			etiqueta_json= json.dumps(tags)
+			args['demanda_tiempo']=demanda_tiempo
+			args['demanda_duracion']=demanda_duracion
+			args['demanda']=demanda
+			args['tags']=etiqueta_json
+			args.update(csrf(request))
+			return render(request,'crear_demanda.html',args)
+
+		# en caso de no encontrarla redireciona a crear demanda
+		except Demanda.DoesNotExist:
+			return redirect('/CrearDemanda/')
+
+	# si no existe se redirecciona a crear demanda
 	else:
 		return redirect('/CrearDemanda/')
 
 """
 Autor: FaustoMora
-Nombre de funcion: CargarImagenDemanda
+Nombre de funcion: cargar_imagen_demanda
 Parametros: request
 Salida: HttpResponse status
 Descripcion: funcion para upload de imagnes en crear demanda
 """
 
 @login_required
-def CargarImagenDemanda(request):
+def cargar_imagen_demanda(request):
+
+
 	try:
 		imagen = ImagenDemanda()
 		descripcion = request.POST.get('descripcion',None)
 		descripcion = json.loads(descripcion)
+
+		# si existe la descripcion de las imagenes correspondientes
 		if descripcion:
 			aux = request.POST['flowIdentifier']
 
 			for x in descripcion:
 				if x['value'] == aux:
 					imagen.descripcion=x['descripcion']
+
+		# caso contrario se guarda un espacio en blanco
 		else:
 			imagen.descripcion=" "
 
@@ -232,6 +286,7 @@ def CargarImagenDemanda(request):
 		imagen.save()
 		response = JsonResponse({'save_estado':True})
 		return HttpResponse(response.content)
+
 	except:
 		response = JsonResponse({'save_estado':False})
 		return HttpResponse(response.content)

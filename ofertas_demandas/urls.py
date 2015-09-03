@@ -5,10 +5,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
-                       url(r'^InicioOferta[/]?$','ofertas_demandas.views.InicioOferta', name='InicioOferta'),
-                       url(r'^CrearOferta[/]?$','ofertas_demandas.views.CrearOferta', name='CrearOferta'),
-                       url(r'^CrearOfertaCopia[/]?$','ofertas_demandas.views.CrearOfertaCopia', name='CrearOfertaCopia'),
-                       url(r'^CargarImagenOferta[/]?$','ofertas_demandas.views.CargarImagenOferta', name='CargarImagenOferta'),
+                       url(r'^InicioOferta[/]?$','ofertas_demandas.views.inicio_oferta', name='InicioOferta'),
+                       url(r'^CrearOferta[/]?$','ofertas_demandas.views.crear_oferta', name='CrearOferta'),
+                       url(r'^CrearOfertaCopia[/]?$','ofertas_demandas.views.crear_oferta_copia', name='CrearOfertaCopia'),
+                       url(r'^CargarImagenOferta[/]?$','ofertas_demandas.views.cargar_imagen_oferta', name='CargarImagenOferta'),
 
                        url(r'^oferta/(?P<id_oferta>\w{0,250})[/]?$','ofertas_demandas.views.verCualquierOferta', name='verOferta'),
                        url(r'^administrarOferta/(?P<id_oferta>\w{0,250})[/]?$','ofertas_demandas.views.administrar_Oferta', name='AdministrarOferta'),
@@ -33,10 +33,11 @@ urlpatterns = patterns('',
                        url(r'^aceptarComentario/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.aceptarComentario', name='aceptarComentario'),
                        url(r'^rechazarComentario/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.rechazarComentario', name='rechazarComentario'),
 
-                       url(r'^InicioDemanda[/]?$','ofertas_demandas.views.InicioDemanda', name='InicioDemanda'),
-                       url(r'^CrearDemanda[/]?$','ofertas_demandas.views.CrearDemanda', name='CrearDemanda'),
-                       url(r'^CrearDemandaCopia[/]?$','ofertas_demandas.views.CrearDemandaCopia', name='CrearDemandaCopia'),
-                       url(r'^CargarImagenDemanda[/]?$','ofertas_demandas.views.CargarImagenDemanda', name='CargarImagenDemanda'),
+                       url(r'^InicioDemanda[/]?$','ofertas_demandas.views.inicio_demanda', name='InicioDemanda'),
+                       url(r'^CrearDemanda[/]?$','ofertas_demandas.views.crear_demanda', name='CrearDemanda'),
+                       url(r'^CrearDemandaCopia[/]?$','ofertas_demandas.views.crear_demanda_copia', name='CrearDemandaCopia'),
+                       url(r'^CargarImagenDemanda[/]?$','ofertas_demandas.views.cargar_imagen_demanda', name='CargarImagenDemanda'),
+
                        url(r'^demanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.verCualquierDemanda', name='verDemanda'),
                        url(r'^administrarDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.administrar_demanda', name='AdministrarDemanda'),
                        url(r'^listaComentariosAceptadosDemandas[/]?$', 'ofertas_demandas.views.listaComentariosAceptadosDemandas', name='listaComentariosAceptados'),
