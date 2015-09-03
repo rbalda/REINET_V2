@@ -13,7 +13,7 @@
 {% endif %}
 
 
-{% block sliderPagina %}INCUBACIONES{% endblock %}
+{% block sliderPagina %}Historial de Milestones{% endblock %}
 
 {% block contenido %}
 
@@ -21,11 +21,88 @@
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
+    <style type="text/css">
+        .milestone:hover {
+        background-color:#F5F5F5;
+        }
+
+        .milestone {
+            color: black;
+            padding: 15px;
+
+        }
+
+        .active{
+            background-color:#FBF0EE;
+        }
+        .sub:link {
+            text-decoration:none;  
+        }
+    }
+    </style>
+  
     <div class="container">
-   <!-- Menu del Perfil -->
-            <label style="size=12px">I love MAYA</label>
+        <div class="col-md-4 col-sm-12" style="padding-left: 0px;">
+            <div class="col-md-12 col-sm-6" style="padding-right: 0px;padding-left: 0px;">
+                <!-- COMIENZA  Panel de los consultores -->                        
+                <div class="panel-body" style=" overflow-y: scroll; height:600px;padding:0px;">
+                   <a class="sub" href="#">
+                        <div class="media milestone active">
+                            <div>
+                              <h4>January 28, 2014</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...</p>
+                            </div>
+                        </div>
+                    </a>
+                     <a class="sub" href="#">
+                        <div class="media milestone">
+                            <div>
+                              <h4>January 28, 2014</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...</p>
+                            </div>
+                        </div>
+                    </a>
+                     <a class="sub" href="#">
+                        <div class="media milestone">
+                            <div>
+                              <h4>January 28, 2014</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="sub" href="#">
+                        <div class="media milestone">
+                            <div>
+                              <h4>January 28, 2014</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="sub" href="#">
+                        <div class="media milestone">
+                            <div>
+                              <h4>January 28, 2014</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="sub" href="#">
+                        <div class="media milestone">
+                            <div>
+                              <h4>January 28, 2014</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec...</p>
+                            </div>
+                        </div>
+                    </a>
+                   
+                                
+                </div>
+            </div>
+                
+            </div> 
+        </div>
     </div>
- 
+ </div>
 {% endblock %}
 
 
