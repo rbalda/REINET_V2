@@ -14,7 +14,7 @@
         <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
             <div class="col-sm-9">
                 <input type="text" class="form-control" ng-model="busqueda_demandas"
-                       placeholder="Buscar Demandas por Nombre o por Tag (Solo para las ofertas de la red)"/>
+                       placeholder="Buscar Demandas por Nombre o por Tag (Solo para las demandas de la red)"/>
             </div>
             <div class="col-sm-3" ng-controller="busquedaDemandaControlador">
                 <button class="btn btn-blue" ng-click='buscarDemandas()'>Buscar</button>
@@ -71,7 +71,7 @@
                         <hr style="margin-top: 10px;">
                         <p class="blog-text" style="height: 125px">
                             <img class="img-responsive blog-img" alt="Imagen de la demanda"
-                                 src="[[ o.galeria[0].imagen ]]" style="height: 115px; width: 115px;" align="left">
+                                 src="[[ demanda.galeria[0].imagen ]]" style="height: 115px; width: 115px;" align="left">
                             [[demanda.descripcion]]
                         </p>
 
@@ -101,7 +101,7 @@
                     <div class="blog-summary">
                         <h4 class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
                             <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                <a class="ng-binding" href="/administrarDemanda/[[ publicada.id_oferta ]]">[[publicada.nombre]]</a>
+                                <a class="ng-binding" href="/administrarDemanda/[[ publicada.id_demanda ]]">[[publicada.nombre]]</a>
                             </div>
                             <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:-10px;" align="right">
                                 <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">

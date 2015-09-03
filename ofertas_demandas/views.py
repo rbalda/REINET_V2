@@ -1074,6 +1074,23 @@ def editar_estado_membresia(request):
 		return HttpResponseRedirect('NotFound');
 
 
+def editar_estado_demanda(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_demanda=request.POST["id_demanda"]
+		estado_str=request.POST["estado"]
+		print "estado "+ estado_str
+		args = {}
+		demanda=Demanda.objects.get(id_demanda=id_demanda);
+		if demanda is not None:
+			demanda.estado=estado_str
+			demanda.save
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('NotFound');
 
 
 """
