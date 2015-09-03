@@ -35,40 +35,73 @@
 			            
 			        </div>
 			        <div class="col-md-7" align=right>
-			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultor</a>
+			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultores</a>
 			            <a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
 			        </div> 
 
 			        <!-- comienza MODAL Invitar Consultor -->
 				    <div id="modalInvitarConsultor" class="modal fade" role="dialog">
-				    	<div class="modal-dialog" style="width: 70% !important;">
+				    	<div class="modal-dialog" style="width: 40% !important;">
 				    		<div class="modal-content">
 				    			<div class="modal-header">
 				    				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				    				<h4 class="modal-title">Invitar Consultor</h4>
+				    				<h4 class="modal-title">Invitar Consultores</h4>
 				    			</div>
-				    			<div class="modal-body" style="font-size:14px;overflow-y:auto">
+				    			<div class="modal-body" style="font-size:14px">
 				                    	<div class="comment" id="Comentario">
 	                                      	<div class="media">
 					                        	<form class="form-horizontal col-md-12">
 					                        		{% csrf_token %}
-					                        		<div class="form-group col-md-9">
+					                        		<div class="form-group col-md-10">
 					                        			<input type="text" class="form-control" id="consultor" name="consultor"
 							                                placeholder="Buscar a consultor" value="{{ msj.fk_emisor }}" maxlength="50"  required>
 							                        </div>
 					                        		<div class="form-group ">
-					                        			<button type="submit" class="btn btn-red">
-					                        				Agregar
-					                        			</button>
+					                        			<div align="right">
+									                		<button href="#" class="btn btn-dark"><i class="fa"></i>&nbsp;&nbsp;Invitar&nbsp;&nbsp;</button>
+									                	</div>
 						                            </div>
 						                           
-						                            <div class="form-group">
-						                            	<a>Cargando..</a>
+						                            <div class="form-group" style="overflow-y:auto; height:250px;margin-left: 0px;">
+						                            	<div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div>
+											            <div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div>
+											            <div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div><div align="left" class="media" style="margin-bottom: 1px solid gray">
+											                <a align="left" class="pull-left" href="#">
+											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+											                </a>
+											                <div class="media-body">
+											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
+											                </div>
+											            </div>
 						                            </div>
 						                            <div class="form-group">
 									                	<div align="right">
-									                		<a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-									                		<button href="#" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+									                		<button href="#" class="btn btn-red"><i class="fa"></i>&nbsp;&nbsp;Enviar Invitaciones&nbsp;&nbsp;</button>
 									                	</div>
 									                </div>
 						                        </form>
