@@ -1087,9 +1087,20 @@ def verCualquierDemanda(request, id_demanda):
 				palabras_claves = demanda.palabras_clave.all()
 			except Exception as e:
 				palabras_claves =  ["Null", "Null", "Null", "Null"]
+			try:
+				imagenes = ImagenDemanda.objects.filter(fk_demanda = id_demanda)
+				imagenPrincipal = ImagenDemanda.objects.filter(fk_demanda = id_demanda).first()
+				if not imagenes:
+					imagenes =  False
+					imagenPrincipal =  False
 
+			except Exception as e:
+				imagenes = False
+				imagenPrincipal = False
 
 		args.update(csrf(request))
+		args['imagenesDemanda'] = imagenes
+		args['imagenPrincipal'] = imagenPrincipal
 		args['palabras_claves'] = palabras_claves
 		args['comentariosDemanda'] = comentariosDemanda
 		args['propietario'] = propietario
