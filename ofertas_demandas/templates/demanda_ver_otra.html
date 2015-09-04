@@ -9,7 +9,11 @@
 			<ul class="text-muted list-inline">
 				<li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
 				<li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
+<<<<<<< HEAD
 				<li><i class="fa fa-comments-o"></i> {{ comentariosAceptados }} comentarios </li>
+=======
+				<li><i class="fa fa-comments-o"></i> {{ comentarios_aceptados }} </li>
+>>>>>>> ce2beb288d9236787c1de96a5f154dd0f118e510
 			</ul>
 
 		</div>
@@ -43,16 +47,16 @@
                         <div class="block-inverse">
                             <div class="head-inverse">
                                 <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                                {% if imagenPrincipal == False%}
+                                {% if imagen_principal == False%}
                                     <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
                                 {% else %}
-                                    <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+                                    <img class=" img-responsive" src="/media/{{ imagen_principal.imagen }}" alt="...">
                                 {% endif %}
                             </div>
                             <div class="body-inverse">
                                 <ul class="row list-inline gallery-list-small"
                                     style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-                                    {% if imagenesDemanda == False%}
+                                    {% if imagenes_demanda == False%}
                                         {% for temp in "XXXX" %}
                                             <li class="col-xs-6">
                                                 <a href="#">
@@ -62,7 +66,7 @@
                                             </li>
                                         {% endfor %}
                                     {% else %}
-                                        {% for imagenes in imagenesDemanda %}
+                                        {% for imagenes in imagenes_demanda %}
                                             <li class="col-xs-6">
                                                 <a href="#">
                                                     <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
@@ -178,7 +182,7 @@
 
 
     <!-- New comment form -->
-    {% if numComentarios == 0 %}
+    {% if num_comentarios == 0 %}
         <div class="NuevoComentario" id="divNuevoComentario">
             <form class="form-horizontal" role="form" id="ComentarioForm" >
                 <div class="form-group" style="margin-bottom: 15px;">
@@ -232,7 +236,7 @@
     {% endif %}
 
     <!-- Comments list -->
-    <h4>{{ comentariosAceptados }} comentarios</h4>
+    <h4>{{ comentarios_aceptados }} comentarios</h4>
     <hr>
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
