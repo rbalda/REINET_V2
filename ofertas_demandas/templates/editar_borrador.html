@@ -100,19 +100,6 @@
 
                 </div>
             </div>
-            <!--Fotos
-            <div class="form-group">
-                <label class="col-md-2">Fotos</label>
-                <div class="col-md-6">
-                    <input name="imagen" type="file" id="files">
-                    <div id="id1" style="float:left" class="thumbnail">
-                        <div id="list" class="avatar">
-                            <a href="#" class="thumbnail bottom-15" data-toggle="modal" data-target="#upload-avatar">
-                                <img src="#" alt="..."></a>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
             <!--Dominio-->
             <div class="form-group">
                 <label for="oferta-dominio" class="col-md-2">Dominio</label>
@@ -136,12 +123,11 @@
                 </div>
             </div>
             <!--Palabras Clave-->
-            <div class="form-group">
+            <!--<div class="form-group">
                 <label for="oferta_palabras_clave" class="col-md-2">Palabras Claves</label>
                 <div class="col-md-6">
 
                     <tags-input class="tags" name="oferta_tags" ng-model="oferta.tags" placeholder="Agrege palabras claves"></tags-input>
-            <!--<span ng-show="crear_oferta_form1.oferta_palabras_clave.$error.required" ng-if="!crear_oferta_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
 
                 </div>
             </div>
@@ -409,7 +395,7 @@
                 <div class="col-md-8">
                     <label class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
 
-                    <input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" value="{{oferta_tiempo}}"
+                    <input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" value="{{oferta_tiempo}}" ng-model="tiempo_disponible"
                             >
                     <span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
                     <!--<span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
@@ -523,7 +509,9 @@
             {% endif %}
             
         {% endif %}
-        $('p.tags a').each(function(){console.log($(this));});
+        $('p.tags a').each(function(){
+            console.log($(this));
+        });
     </script>
 
     </div>

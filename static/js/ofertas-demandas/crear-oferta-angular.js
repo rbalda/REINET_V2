@@ -663,7 +663,6 @@ appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', functi
 
     if($scope.editar_oferta !== undefined){
         $scope.editar_oferta2 = {
-            //tipo : $scope.copia_oferta.tipo,
             nombre : $scope.editar_oferta.nombre,
             descripcion : $scope.editar_oferta.descripcion,
             dominio : $scope.editar_oferta.dominio,
@@ -700,7 +699,7 @@ appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', functi
         }
 
     }else{
-        console.log('copia oferta no existe');
+        console.log('borrador oferta no existe');
     }
     
 

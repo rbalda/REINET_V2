@@ -52,6 +52,8 @@ urlpatterns = patterns('',
                        url(r'^aceptarComentarioDemanda/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.aceptarComentarioDemanda', name='aceptarComentarioDemanda'),
                        url(r'^rechazarComentarioDemanda/(?P<id_comentario>\w{0,250})[/]?$','ofertas_demandas.views.rechazarComentarioDemanda', name='rechazarComentarioDemanda'),
                        url(r'^administrarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.administrar_Borrador_Demanda', name='administrarBorrador'),
+                       url(r'^EditarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.editar_borrador_demanda', name='EditarBorradorDemanda'),
+                       url(r'^PublicarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.publicar_borrador_demanda', name='PublicarBorradorDemanda'),
                        )
 
 urlpatterns += routers.ofertas_routers

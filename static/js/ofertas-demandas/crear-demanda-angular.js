@@ -506,3 +506,35 @@ appdemanda.controller('busquedaDemandaControlador',['$rootScope', '$scope','$htt
         console.log('Aquiiiii');
     }
 }]);
+
+appdemanda.controller('editar_demanda_form', ['$scope','$window', 'Demanda', function( $scope, $window, Demanda){
+
+    $scope.editar_demanda=$window.demanda_editar;
+
+    $scope.demanda = new Demanda(); 
+
+    $scope.tipo = 0;
+    $scope.hide = true;
+
+    if($scope.editar_demanda !== undefined){
+        $scope.editar_demanda2 = {
+            nombre : $scope.editar_demanda.nombre,
+            descripcion : $scope.editar_demanda.descripcion,
+            dominio : $scope.editar_demanda.dominio,
+            subdominio : $scope.editar_demanda.subdominio,
+            perfil_beneficiario : $scope.editar_demanda.perfil_beneficiario,
+            perfil_cliente : $scope.editar_demanda.perfil_cliente,
+            alternativas_soluciones_existentes : $scope.editar_demanda.alternativas_soluciones_existentes,
+            lugar_donde_necesita : $scope.editar_demanda.lugar_donde_necesita,
+            importancia_resolver_necesidad : $scope.editar_demanda.importancia_resolver_necesidad
+        };
+
+        if($scope.editar_demanda2!== undefined){
+            $scope.demanda = new Demanda($scope.editar_demanda2);   
+        }
+
+    }else{
+        console.log('borrador demanda no existe');
+    }
+    
+}]);

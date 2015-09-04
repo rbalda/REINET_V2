@@ -1,0 +1,295 @@
+{% extends "demanda_inicio.html" %}
+
+{% block sliderPagina %}EDITAR BORRADOR DE DEMANDA{% endblock %}
+
+{% block contenido %}
+    <style>
+        textarea { resize: none; }
+    </style>
+
+    <div class="container" ng-controller="editar_demanda_form">
+    <form role="form" action="/EditarBorradorDemanda/{{demanda.id_demanda}}" method="post" enctype="multipart/form-data" class="form-horizontal col-md-12"name="form_editar" novalidate>{% csrf_token %}
+    <div class="row col-md-12">
+
+        <div align=right>
+            <button class="btn btn-green" ng-disabled="form_editar.$invalid" ><i class="fa fa-floppy-o" ></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+            <a href="/administrarBorradorDemanda/{{demanda.id_demanda}}" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+        </div>
+    </div>
+
+    <div align=right>
+
+    </div>
+
+
+    <div class="row">
+    <div class=" col-md-12">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
+        <li role="presentation" id="prueba">
+            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
+        <li role="presentation">
+            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria/Competidores</a></li>
+        <li role="presentation">
+            <a href="#estado" aria-controls="messages" role="tab" data-toggle="tab">Estado</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+
+    <div class="tab-content">
+
+    <div role="tabpanel" class="tab-pane active" id="informacion">
+        <div class="col-md-12">
+            <!--<form  class="form-horizontal"  name="form_editar" id="crear_demanda_form1" novalidate>-->
+            <!--NOMBRES-->
+
+            <div class="form-group">
+                <label for="Nombres" class="col-md-2">Nombre</label>
+
+                <div class="col-md-6">
+
+                    <input autofocus type="text" class="form-control" placeholder="Nombre de la demanda"
+                           id="nombre" name="nombre_demanda"  data-trigger="focus" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true"  ng-focus="" value="{{ demanda.nombre }}" ng-model="demanda.nombre">
+                    <span ng-show="form_editar.nombre_demanda.$error.pattern"><p class="bg-danger text-danger">Nombre de la demanda debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
+                    <span ng-show="form_editar.nombre_demanda.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                </div>
+            </div>
+            <!--Descripicion-->
+            <div class="form-group">
+                <label for="descripcion-demanda" class="col-md-2">Descripci&oacute;n</label>
+                <div class="col-md-6">
+
+                    <textarea id="descripcion_demanda" name="descripcion_demanda" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la demanda" ng-required="true"  ng-model="demanda.descripcion">{{ demanda.descripcion }}</textarea>
+                    <span ng-show="form_editar.descripcion_demanda.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+
+                </div>
+            </div>
+            <!--Dominio-->
+            <div class="form-group">
+                <label for="demanda-dominio" class="col-md-2">Dominio</label>
+                <div class="col-md-6">
+
+                    <textarea type="text" class="form-control" id="demanda_dominio" name="demanda_dominio"
+                              placeholder="Ingresa el dominio de la demanda" rows="5" ng-required="true"  ng-model="demanda.dominio">{{ demanda.dominio }}</textarea>
+                    <span ng-show="form_editar.demanda_dominio.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+
+                </div>
+            </div>
+            <!--Sub dominio-->
+            <div class="form-group">
+                <label for="demanda_sub_dominio" class="col-md-2">Sub Dominio</label>
+                <div class="col-md-6">
+
+                    <textarea type="text" class="form-control" id="demanda_sub_dominio" name="demanda_sub_dominio" placeholder="Ingresa el subdominio de la demanda" rows="5" ng-required="true" ng-model="demanda.subdominio">{{ demanda.subdominio }}</textarea>
+                    <span ng-show="form_editar.demanda_sub_dominio.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+
+                </div>
+            </div>
+            <!--Palabras Clave-->
+            <!--<div class="form-group">
+                <label for="demanda_palabras_clave" class="col-md-2">Palabras Claves</label>
+                <div class="col-md-6">
+
+                    <tags-input class="tags" name="demanda_tags" ng-model="demanda.tags" placeholder="Agrege palabras claves"></tags-input>
+
+                </div>
+            </div>
+            <!--</form>-->
+            <!-- Tags -->
+            <div class="form-group col-md-8">
+                <label class="col-md-3"></label>
+                <p class="tags col-md-9">
+
+                </p>
+            </div>
+            <div class="col-md-8">
+                <a href="#cliente_usuario"  aria-controls="messages" role="tab" data-toggle="tab">
+                    <input type="button" class="btn btn-info pull-right" value="Siguiente">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+        <div class="col-md-12">
+
+            <!--Perfil Cliente-->
+            <div class="form-group">
+                <label for="demanda_descripcion_perfil" class="col-md-2">Perfil Cliente</label>
+                <div class="col-md-6">
+
+                    <textarea autofocus id="demanda_descripcion_perfil" name="demanda_descripcion_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil" ng-required="false" ng-model="demanda.perfil_cliente"
+                            >{{ demanda.perfil_cliente }}</textarea>
+                    <!--<span ng-show="form_editar.demanda_descripcion_perfil.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+
+                </div>
+            </div>
+
+            <!--Perfil Cliente-->
+            <div class="form-group">
+                <label for="demanda_beneficiario_perfil" class="col-md-2">Perfil del Beneficiario</label>
+                <div class="col-md-6">
+
+                    <textarea autofocus id="demanda_beneficiario_perfil" name="demanda_beneficiario_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario" ng-required="false" ng-model="demanda.perfil_beneficiario"
+                            >{{ demanda.perfil_beneficiario }}</textarea>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <br>
+
+                <a href="#modelo"  aria-controls="messages" role="tab" data-toggle="tab">
+                    <input type="button" class="btn btn-info pull-right" value="Siguiente">
+                </a>
+
+                <a href="#informacion" aria-controls="messages" role="tab" data-toggle="tab" style="margin-right:15px;margin-left:15px;">
+                    <input type="button" class="btn btn-info pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="industria">
+        <div class="col-md-12">
+            <!--<form  class="form-horizontal"  name="forms.form_editar" novalidate>  -->
+            <!--Industria Competidores-->
+
+            <!--Tendencias-->
+            <div class="form-group">
+                <label for="Nombres" class="col-md-2">Importancia a resolver</label>
+                <div class="col-md-6">
+
+                    <textarea autofocus type="text" class="form-control" id="demanda_importancia_resolver_necesidad" name="demanda_importancia_resolver_necesidad" rows="4" placeholder="Describa la importancia de resolver la demanda" ng-required="false"  ng-model="demanda.importancia_resolver_necesidad"
+                            >{{ demanda.importancia_resolver_necesidad }}</textarea>
+                    <!--<span ng-show="form_editar.demanda_tendencias.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+
+                </div>
+            </div>
+
+            <!--Alternativas de solucion-->
+            <div class="form-group">
+                <label for="Nombres" class="col-md-2">Alternativas de Soluci&oacute;n Existentes</label>
+                <div class="col-md-6">
+
+
+                    <textarea autofocus type="text" class="form-control" id="demandas_alternativas_soluciones" name="demandas_alternativas_soluciones" rows="4" placeholder="Describa otras alternativas existentes a su demanda" ng-required="false"   ng-model="demanda.alternativas_soluciones_existentes"
+                            >{{ demanda.alternativas_soluciones_existentes }}</textarea>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <br>
+
+                <a href="#estado"  aria-controls="messages" role="tab" data-toggle="tab">
+                    <input type="button" class="btn btn-info pull-right" value="Siguiente">
+                </a>
+
+                <a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">
+                    <input type="button" class="btn btn-info pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;">
+                </a>
+            </div>
+
+            <!-- </forms>-->
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="estado">
+        <div class="col-md-12">
+
+            <!--<form  class="form-horizontal"  name="forms.form_editar" novalidate>-->
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    <label class="col-md-6">Tiempo en que se necesita disponer de soluci&oacute;n</label>
+
+                    <input autofocus number type="text" class="form-control" id="demanda_tiempo_disponibilidad" name="demanda_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" value="{{demanda_tiempo}}" ng-model="tiempo_tipo"
+                            >
+                    <span ng-show="form_editar.demanda_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
+                    <!--<span ng-show="form_editar.demanda_tiempo_disponibilidad.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                </div>
+
+                <!--<div class="col-xs-2" style="right:25%;">
+                <select class="form-control"  ng-change="seleccionTiempoDisponible(item)">
+                    <option></option>
+                </select>
+                </div>-->
+                <div class="col-xs-2" style="right:25%;">
+                    <select name="select_demanda_tiempo" id="select_demanda_tiempo" class="form-control" ng-required="false" >
+                        {% if demanda_duracion == -1 %}
+                        <option value="">Seleccione duraci&oacute;n</option>
+                        <option value="0">Mes/es</option>
+                        <option value="1">Año/s</option>
+                        {% elif demanda_duracion == 0 %}
+                        <option value="0" selected>Mes/es</option>
+                        <option value="1">Año/s</option>
+                        {% else %}
+                        <option value="0">Mes/es</option>
+                        <option value="1" selected>Año/s</option>
+                        {% endif %}
+                    </select>
+                    <!--<span ng-show="form_editar.tiempo_tipo.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
+                </div>
+
+                <!--<input id="demanda.tiempo_para_estar_disponible" type="hidden"  value="[[tiempo_disponible]][[tiempo_tipo]]" ng-update-hidden-->
+
+
+
+            </div>
+
+            <!--Lugar donde se necesita-->
+            <div class="form-group">
+                <label for="Nombres" class="col-md-2">Lugar/es donde se necesita</label>
+                <div class="col-md-6">
+
+                    <textarea autofocus type="text" class="form-control" id="demanda_lugar_donde_necesita" name="demanda_lugar_donde_necesita" rows="4" placeholder="Escriba el sitio/s donde se necesita la solución a la demanda" ng-required="false" ng-model="demanda.lugar_donde_necesita"
+                            >{{ demanda.lugar_donde_necesita }}</textarea>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    </div>
+    </form>
+    <script>
+        var demanda_editar = undefined;
+        var duracion = undefined;
+        var demanda_tiempo = undefined;
+        var sinDuracion = 1;
+        var demanda_duracion = {{demanda_duracion}};
+        {% if demanda %}
+            demanda_editar = {
+                nombre: '{{ demanda.nombre }}',
+                descripcion:'{{ demanda.descripcion }}',
+                dominio:'{{ demanda.dominio }}',
+                subdominio: '{{ demanda.subdominio }}',
+                perfil_cliente : '{{ demanda.perfil_cliente }}',
+                perfil_beneficiario : '{{ demanda.perfil_beneficiario }}',
+                alternativas_soluciones_existentes : '{{ demanda.alternativas_soluciones_existentes }}',
+                lugar_donde_necesita : '{{ demanda.lugar_donde_necesita }}',
+                importancia_resolver_necesidad : '{{demanda.importancia_resolver_necesidad}}',
+                tiempo_para_estar_disponible : '{{ demanda.tiempo_para_estar_disponible }}'
+            };
+            {% if demanda_tiempo == "" %}
+                demanda_tiempo = undefined;
+            {% else %}
+                demanda_tiempo = {{demanda_tiempo}};
+            {% endif %}
+            
+        {% endif %}
+        $('p.tags a').each(function(){
+            console.log($(this));
+        });
+    </script>
+
+    </div>
+
+    </div>
+{% endblock%}

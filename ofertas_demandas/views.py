@@ -645,6 +645,19 @@ def editar_borrador(request, id_oferta):
 				diagrama_porter.save()
 				oferta_editada.fk_diagrama_competidores = diagrama_porter
 		
+		#manejo de tags
+		try:
+			palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
+			tags = []
+
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
+
+			etiqueta_json= json.dumps(tags)
+			args['tags']=etiqueta_json
+		except:
+			palabras_claves =  ["Null", "Null", "Null", "Null"]
+
 		oferta_editada.save()
 		args.update(csrf(request))
 		args['oferta_tiempo']=oferta_tiempo
@@ -661,6 +674,125 @@ def editar_borrador(request, id_oferta):
 		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = oferta
 		return render_to_response('editar_borrador.html',args)
+
+
+"""
+Autor: Roberto Yoncon
+Nombre de funcion: editar_borrador_demanda
+Parametros: request, id de una demanda
+Salida: 
+Descripcion: funcion para editar un borrador
+"""
+@login_required
+def editar_borrador_demanda(request, id_demanda):
+	sesion = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=sesion)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+
+	if usuario is not None:
+		args['usuario'] = usuario
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		demanda = Demanda.objects.get(id_demanda = id_demanda)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+
+	if (demanda.publicada == 1):
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		tiempo_disponible = demanda.tiempo_para_estar_disponible.split(' ',1)
+		demanda_tiempo = int(tiempo_disponible[0])
+
+		#si la duracion es de mes
+		if tiempo_disponible[1] == 'Mes/es':
+			demanda_duracion = 0
+		else:
+			demanda_duracion = 1
+
+	#si no se encuentra establecida la duracion
+	except:
+		demanda_duracion = -1
+		demanda_tiempo = ""
+
+	if request.method == 'POST':
+		#seccion de informacion
+		nombre = request.POST['nombre_demanda']
+		descripcion = request.POST['descripcion_demanda']
+		dominio = request.POST['demanda_dominio']
+		subdominio = request.POST['demanda_sub_dominio']
+		#tags = request.POST['demanda_tags'] #Aun no usado
+		#seccion de perfiles
+		perfil_cliente = request.POST.get('demanda_descripcion_perfil', "No disponible")
+		perfil_beneficiario = request.POST.get('demanda_beneficiario_perfil', "No disponible")
+		#seccion de industria
+		importancia_resolver_necesidad = request.POST.get('demanda_importancia_resolver_necesidad', "No disponible")
+		alternativas_soluciones_existentes = request.POST.get('demanda_alternativas_soluciones', "No disponible")
+		#seccion de estado/Logros
+		tiempo_disponible = request.POST.get('demanda_tiempo_disponibilidad', "No disponible")
+		tiempo_unidad = request.POST.get('select_demanda_tiempo', None)
+		lugar_donde_necesita = request.POST.get('demanda_lugar_donde_necesita', "No disponible")
+		#seccion de copia de datos a la demanda a modificar
+		#seccion informacion
+		demanda_editada = demanda
+		demanda_editada.nombre = nombre
+		demanda_editada.descripcion = descripcion
+		demanda_editada.dominio = dominio
+		demanda_editada.subdominio = subdominio
+		#seccion perfiles
+		demanda_editada.perfil_cliente = perfil_cliente
+		demanda_editada.perfil_beneficiario = perfil_beneficiario
+		#seccion industria
+		demanda_editada.importancia_resolver_necesidad = importancia_resolver_necesidad
+		demanda_editada.alternativas_soluciones_existentes = alternativas_soluciones_existentes
+		#seccion de estado
+		demanda_editada.lugar_donde_necesita = lugar_donde_necesita
+
+		#manejo de la duracion de la demanda
+		if tiempo_disponible != "" and tiempo_unidad != "":
+
+			if tiempo_unidad == "0":
+				tiempo_unidad = "Mes/es"
+			else:
+				tiempo_unidad = "Año/s"
+
+			demanda_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
+		else:
+			demanda_editada.tiempo_para_estar_disponible = None
+
+		#manejo de tags
+		try:
+			palabra_clave = PalabraClave.objects.filter(demandas_con_esta_palabra=demanda)
+			tags = []
+
+			for t in palabra_clave:
+				tags.append(t.palabra.encode('utf-8','ignore'))
+
+			etiqueta_json= json.dumps(tags)
+			args['tags']=etiqueta_json
+		except:
+			palabras_claves =  ["Null", "Null", "Null", "Null"]
+
+		demanda_editada.save()
+		args.update(csrf(request))
+		args['demanda_tiempo']=demanda_tiempo
+		args['demanda_duracion']=demanda_duracion
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args['demanda'] = demanda_editada
+		args['msg'] = "Borrador de demanda modificado exitosamente"
+		return render_to_response('administrar_borrador_demanda.html',args)
+
+	else:
+		args.update(csrf(request))
+		args['demanda_tiempo']=demanda_tiempo
+		args['demanda_duracion']=demanda_duracion
+		args['institucion_nombre'] = request.session['institucion_nombre']
+		args['demanda'] = demanda
+		return render_to_response('editar_borrador_demanda.html',args)
 
 
 
@@ -910,6 +1042,43 @@ def publicar_borrador(request, id_oferta):
 	oferta.save()
 	args['oferta'] = oferta
 	return render_to_response('oferta_inicio.html',args)
+
+
+
+"""
+Autor: Roberto Yoncon
+Nombre de funcion: publicar_borrador_demanda
+Parametros: request, id de una demanda
+Salida: 
+Descripcion: cambia el estado de una demanda de 0 a 1, mostrandola como publicada
+"""
+@login_required
+def publicar_borrador_demanda(request, id_demanda):
+	session = request.session['id_usuario']
+	usuario = Perfil.objects.get(id=session)
+	args = {}
+	args['es_admin']=request.session['es_admin']
+
+	if usuario is not None:
+		#Guardo en la variable de sesion a usuario.
+		args['usuario'] = usuario
+
+	else:
+		args['error'] = "Error al cargar los datos"
+		return HttpResponseRedirect('/NotFound/')
+
+	try:
+		demanda = Demanda.objects.get(id_demanda = id_demanda)
+	except:
+		return HttpResponseRedirect('/NotFound/')
+	if (demanda.publicada == 1):
+		return HttpResponseRedirect('/NotFound/')
+
+	demanda.fecha_publicacion = datetime.datetime.now()
+	demanda.publicada = 1
+	demanda.save()
+	args['demanda'] = demanda
+	return render_to_response('demanda_inicio.html',args)
 
 
 
