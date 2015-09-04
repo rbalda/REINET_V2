@@ -2214,7 +2214,7 @@ def accionMembresia(request):
 
 
 class AutocompletarUsuario(APIView):
-	permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self,request,*args,**kwargs):
         user = request.query_params.get('term',None)
