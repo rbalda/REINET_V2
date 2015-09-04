@@ -271,7 +271,7 @@
                     <h4 class="modal-title">Comentarios Nuevos</h4>
                 </div>
                 <div class="modal-body" style="font-size:12px;overflow-y:auto">
-                    {% if comentarios|length == 0 %}
+                    {% if comentariosPendientes|length == 0 %}
                         <a >No hay comentarios nuevos </a>
                     {% endif %}
                     {%for comentario in comentariosPendientes%}
