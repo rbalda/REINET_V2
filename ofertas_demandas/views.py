@@ -419,7 +419,6 @@ def administrar_Oferta(request, id_oferta):
 	args['comentariosAceptados']=ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta, estado_comentario=1).count
 	args.update(csrf(request))
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	calificacionOferta = oferta.calificacion_total
 	args['calificacionOferta'] = str(calificacionOferta)
@@ -469,7 +468,6 @@ def administrar_Borrador(request, id_oferta):
 
 	args.update(csrf(request))
 	args['dueno'] = equipoDueno.fk_participante.first_name + ' ' + equipoDueno.fk_participante.last_name
-	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['oferta'] = oferta
 	args['galeria'] = galeria
 	args['imagen_principal'] = galeria.first()
@@ -521,8 +519,8 @@ def editar_borrador(request, id_oferta):
 
 	#si no se encuentra establecida la duracion
 	except:
-		oferta_duracion = -1
-		oferta_tiempo = ""
+		oferta_duracion = 1
+		oferta_tiempo = "Año/s"
 
 	if request.method == 'POST':
 		#seccion de informacion
@@ -667,7 +665,6 @@ def editar_borrador(request, id_oferta):
 		args.update(csrf(request))
 		args['oferta_tiempo']=oferta_tiempo
 		args['oferta_duracion']=oferta_duracion
-		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = oferta_editada
 		args['msg'] = "Borrador de oferta modificada exitosamente"
 		return render_to_response('administrar_borrador.html',args)
@@ -676,7 +673,6 @@ def editar_borrador(request, id_oferta):
 		args.update(csrf(request))
 		args['oferta_tiempo']=oferta_tiempo
 		args['oferta_duracion']=oferta_duracion
-		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['oferta'] = oferta
 		return render_to_response('editar_borrador.html',args)
 
@@ -786,7 +782,6 @@ def editar_borrador_demanda(request, id_demanda):
 		args.update(csrf(request))
 		args['demanda_tiempo']=demanda_tiempo
 		args['demanda_duracion']=demanda_duracion
-		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['demanda'] = demanda_editada
 		args['msg'] = "Borrador de demanda modificado exitosamente"
 		return render_to_response('administrar_borrador_demanda.html',args)
@@ -795,7 +790,6 @@ def editar_borrador_demanda(request, id_demanda):
 		args.update(csrf(request))
 		args['demanda_tiempo']=demanda_tiempo
 		args['demanda_duracion']=demanda_duracion
-		args['institucion_nombre'] = request.session['institucion_nombre']
 		args['demanda'] = demanda
 		return render_to_response('editar_borrador_demanda.html',args)
 
@@ -1593,7 +1587,6 @@ def administrar_Borrador_Demanda(request, id_demanda):
 
 	args.update(csrf(request))
 	args['dueno'] = usuario.first_name + ' ' + usuario.last_name
-	args['institucion_nombre'] = request.session['institucion_nombre']
 	args['demanda'] = demanda
 	args['galeria'] = galeria
 	args['imagen_principal'] = galeria.first()
