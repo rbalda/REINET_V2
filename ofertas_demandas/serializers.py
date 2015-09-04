@@ -59,7 +59,6 @@ class OfertaSerializador(ModelSerializer):
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
     numComentarios = serializers.SerializerMethodField('getNumeroComentarios',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
-    galeria = ImagenOfertaSerializer(many=True,required=False)
     tags = serializers.ListField(
             child=serializers.CharField(),
             required=False,allow_null=True
@@ -73,10 +72,10 @@ class OfertaSerializador(ModelSerializer):
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno',
-            'duenoUsername','galeria', 'numComentarios')
+            'duenoUsername', 'numComentarios')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
-                            'calificacion_total','comentarios','palabras_clave','alcance','galeria')
+                            'calificacion_total','comentarios','palabras_clave','alcance')
 
 
     def getdueno(self,obj):
