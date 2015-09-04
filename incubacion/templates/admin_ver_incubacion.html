@@ -12,7 +12,7 @@
 {% endif %}
 
 
-{% block sliderPagina %}INCUBACIONES{% endblock %}
+{% block sliderPagina %}INCUBACI&Oacute;N{% endblock %}
 
 {% block contenido %}
 
@@ -21,148 +21,113 @@
     {% endblock %}
 
     <div class="container">
-    	<div class="row">
-  			<div class="col-md-12">
-  				<div class="blog-summary">
-  					<div class="col-md-7">
-  						<div class="row">
-	  						<div class="col-md-8">
-	  							<h3 class="hl">Nombre de la Incubación</h3>
-	  							<ul class="text-muted list-inline">
-            						<li><i class="fa fa-calendar"></i> November 10, 2013</li>
-            						<li><i class="fa fa-eye"></i> TODOS</li>
-                      			</ul>
-	  						</div>
-	  						<div class="col-md-1" style="margin-top:25px;margin-left:150px;">
-	  							<a href="#" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i></a>
-	  						</div>
-	  					</div>
-	  					<hr>
-	  					<div class="row">
-	  						<div class="col-sm-12">
-				              <h4 class="hl"><i class="fa fa-info-circle"></i> Descripción</h4>
-				              <p class="bottom-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
-				              <hr>
-				            </div>
-				        </div>
-				        <div class="row">
-	  						<div class="col-sm-12">
-				              <h4 class="hl"><i class="fa fa-question-circle"></i> Condiciones</h4>
-				              <p class="bottom-15">Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
-				              <hr>
-				            </div>
-				        </div>
-				        <div class="row">
-	  						<div class="col-sm-12">
-	  							<h4 class="hl"><i class="fa fa-sitemap"></i> Acerca de la Oferta</h4>
-				              	<div role="tabpanel" class="tab-pane" id="cliente_usuario">
-				              		<div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
-					              		<p style="color: darkgray"  class="col-md-3">Perfil de la Oferta</p>
-					              		<p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. </p>
-					              		<p style="color: darkgray"  class="col-md-3">Tipo de la Oferta</p>
-					                    <p class="col-md-9"> euismod </p>
-				                	</div>
-				                </div>
-				            </div>
-				            <hr>
-				        </div>	
-	  					<div class="user-status">
-	  					</div>
-  					</div>
-  					
-            	<div class="col-md-5" >
-            		<div style="margin-top:20px;margin-left:90px">
-            			<div class="panel panel-red">
-            				<div class="panel-heading">
-				        			<div class="row">
-					              		<div class="col-md-9" style="margin-top:5px;margin-left:3px;">
-					              			<h4 class="panel-title">
-					              				Convocatoria
-					              			</h4>
-					              		</div>
-					              		<div class="col-md-1" style="margin-left:20px">
-					              			<a href="#" class="btn btn-dark btn-sm">
-					              				<i class="fa fa-plus"></i>
-					              			</a>
-					            		</div>
-					            	</div>
-				            </div>
-				            <div class="panel-body">
-				            		<table class="table table-hover" >
-				            			<tbody>
-	                                        <tr>
-	                                        	<td class="text-muted">Fecha Máxima</td>
-	                                            <td style="text-align:left"> 20/02/2016</td>
-	                                        </tr>
-	                                            <td class="text-muted">Alcance</td>
-	                                            <td style="text-align:left">TODOS</td>
-	                                        </tr>
-	                                    </tbody>
-	                                </table>
-				            </div>
-			          	</div>
-	              	</div>
-	              	
-	            </div>
+    	<div class="col-sm-12 col-xs-12" style="padding:0">
+    		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">Nombre de la Incubación</h3></div>
+    		<div class="col-sm-6">
+    			
+  				<a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
+  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
+  			</div>  			
+  		</div>
+  		<div class="col-sm-12" style="border-bottom:1px solid #eee;">
+  				<ul class="text-muted list-inline">
+					<li><i class="fa fa-calendar"></i> November 10, 2013</li>
+					<li><i class="fa fa-eye"></i> TODOS</li>
+  				</ul>
+    	</div>
+
+
+    	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
+    		<div align="right">
+    			<a href="#" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>Editar</a>
+    		</div>
+    		
+			<div class="col-sm-12">
+	            <h4 class="hl"><i class="fa fa-info-circle"></i> Descripción</h4>
+	            <p class="bottom-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
+	           	<h4 class="hl"><i class="fa fa-question-circle"></i> Condiciones</h4>
+	            <p class="bottom-15">Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
 	        </div>
-	    <div>
-	    
-	    <br><br><br><br>
+			<div class="col-sm-12">
+				<h4 class="hl"><i class="fa fa-sitemap"></i> Acerca de la Ofertas a Incubar</h4>
+	            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+	              	<div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
+		              	<p style="color: darkgray"  class="col-md-3">Perfil de la Oferta</p>
+		              	<p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. </p>
+		              	<p style="color: darkgray"  class="col-md-3">Tipo de la Oferta</p>
+		                <p class="col-md-9"> euismod </p>
+	                </div>
+	            </div>
+	            <hr>
+	        </div>	
+    	</div>
+    	<div class="col-sm-7">
+    		<div class="col-sm-8 col-sm-offset-2" align="center" style="padding:15px">
+    			<div class="panel panel-dark" align="center">
+				    <div class="panel-body">
+				    	<h4 class="hl" style=" font-weight: bold"></i><bold> Convocatoria Actual de ofertas</bold></h4>
+	            		<table class="table table-hover" style="margin-bottom: 0px;">
+	            			<tbody>
+                                <tr>
+                                	<td class="text-muted">Fecha Máxima</td>
+                                    <td style="text-align:left"> 20/02/2016</td>
+                                </tr>
+                                    <tr><td class="text-muted">Alcance</td>
+                                    <td style="text-align:left">TODOS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+		            </div>
+			    </div>
+    		</div>
 
-
-	    <div class="row" >
-	    	
-	    	<div class="col-md-12">
-	    		
-	    		<div class="col-md-7"><hr>
-	    			<ul class="nav nav-tabs" role="tablist">
-                    	<li role="presentation" class="active"><a href="#incubadas" aria-controls="home" role="tab" data-toggle="tab">LISTA DE INCUBADAS</a></li>
-                    	<li role="presentation" ><a href="#solicitudes_ofertas" aria-controls="home" role="tab" data-toggle="tab">LISTA DE OFERTAS</a></li>
-                   	</ul>
-					<div class="tab-content">
-					  <div id="incubadas" class="tab-pane fade in active">
-					    <p>Aqui van las incubadas</p>
-					  </div>
-					  <div id="solicitudes_ofertas" class="tab-pane fade">
-					  	<div class="alert alert-warning">
-					  		Para tener ofertas aplicantes debe crear una convocatoria
-					    </div>
-					    	
-										<div class="text-muted">
-							    		<div align="left">
-				                            <img class="pull-left img-responsive blog-img" alt="Imagen de mi Oferta" style="height: 115px; width: 115px;">
-				                        </div>
-							    		<div class="form-group">
-							    			<a href="#">ofertaAplicante2</a>
-							    		</div> 
-							    		<div class="form-group">
-							    			<label>Descripcion: </label>
-							    		</div>
-							    		<div class="form-group">
-							    			<label>Fecha de creacion: </label>
-							    		</div>
-							    		<div class="form-group">
-							    			<label>Numero de Consultores: </label>
-							    		</div>
-							    		<div align="right">
-							    			<a href="" class="button">
-				                                <button id="btn_ver_oferta" type="button" class="btn btn-blue">Ver Oferta</button>
-				                            </a>
-				                            <a href="" class="button">
-				                                <button id="btn_aceptar_oferta" type="button" class="btn btn-green" data-target="#ofertaAceptada" data-toggle="modal">Aceptar</button>
-				                            </a>
-				                            <a href="" class="button">
-				                                <button id="btn_rechazar_oferta" type="button" class="btn btn-red" data-target="#ofertaRechazada" data-toggle="modal">Rechazar</button>
-				                            </a>
-				                        </div>
-							    </div>
-					    	
-					  </div>
-					</div>
-	    		</div>
-	    	</div>
-	    </div>
-  	</div>
+    		<div class="col-sm-12">
+	    		<ul class="nav nav-tabs" role="tablist">
+	            	<li role="presentation" class="active"><a href="#incubadas" aria-controls="home" role="tab" data-toggle="tab">INCUBADAS</a></li>
+	            	<li role="presentation" ><a href="#solicitudes_ofertas" aria-controls="home" role="tab" data-toggle="tab">OFERTAS APLICANTES</a></li>
+	           	</ul>
+				<div class="tab-content">
+				  <div id="incubadas" class="tab-pane fade in active">
+				    <p>Aqui van las incubadas</p>
+				  </div>
+				  <div id="solicitudes_ofertas" class="tab-pane fade">
+				  	<div class="alert alert-warning">
+				  		Para tener ofertas aplicantes debe crear una convocatoria
+				    </div>
+				    	
+									<div class="text-muted">
+						    		<div align="left">
+			                            <img class="pull-left img-responsive blog-img" alt="Imagen de mi Oferta" style="height: 115px; width: 115px;">
+			                        </div>
+						    		<div class="form-group">
+						    			<a href="#">ofertaAplicante2</a>
+						    		</div> 
+						    		<div class="form-group">
+						    			<label>Descripcion: </label>
+						    		</div>
+						    		<div class="form-group">
+						    			<label>Fecha de creacion: </label>
+						    		</div>
+						    		<div class="form-group">
+						    			<label>Numero de Consultores: </label>
+						    		</div>
+						    		<div align="right">
+						    			<a href="" class="button">
+			                                <button id="btn_ver_oferta" type="button" class="btn btn-blue">Ver Oferta</button>
+			                            </a>
+			                            <a href="" class="button">
+			                                <button id="btn_aceptar_oferta" type="button" class="btn btn-green" data-target="#ofertaAceptada" data-toggle="modal">Aceptar</button>
+			                            </a>
+			                            <a href="" class="button">
+			                                <button id="btn_rechazar_oferta" type="button" class="btn btn-red" data-target="#ofertaRechazada" data-toggle="modal">Rechazar</button>
+			                            </a>
+			                        </div>
+						    </div>
+				    	
+				  </div>
+				</div>
+			</div>
+    	</div>
   	</div>
 
    <!-- COMIENZAN Los modals que se usan en toda la pagina -->

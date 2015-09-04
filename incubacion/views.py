@@ -46,21 +46,6 @@ def ver_incubaciones(request):
 	return render_to_response('admin_incubacion_inicio.html',args)
 
 
-"""
-Autor: Sixto Castro
-Nombre de funcion: ver_lista_incubadas
-Parametros: request
-Salida:
-Descripcion: Llama al template admin_ver_lista_incubadas.html
-"""
-@login_required
-def ver_lista_incubadas(request):
-	args = {}
-	args['usuario']=request.user
-	args['es_admin']=request.session['es_admin']
-	return render_to_response('admin_ver_incubacion.html',args)
-
-
 
 """
 Autor: Jose Velez
@@ -92,6 +77,24 @@ def editar_mi_incubacion(request):
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('admin_editar_mi_incubacion.html',args)
+
+
+"""
+Autor: Estefania Lozano
+Nombre de funcion: admin_ver_incubada
+Parametros: request
+Salida: 
+Descripcion: Mostar template editar mi incubacion
+"""
+
+@login_required
+def admin_ver_incubacion(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('admin_ver_incubacion.html',args)
+
+
 
 """
 Autor: Estefania Lozano
@@ -139,6 +142,9 @@ def buscar_usuario(request):
 		args['usuario']=usuario
 		args['es_admin']=request.session['es_admin']
 		args.update(csrf(request))
+
+
+		
 
 
 """
