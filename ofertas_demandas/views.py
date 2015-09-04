@@ -1407,10 +1407,12 @@ Descripcion: crea un comentario de una demanda con estado_comentario=0, es decir
 @login_required
 def enviarComentarioDemanda(request):
 	if request.method=="POST":
+		print "entro al post"
 		args={}
 		try:
-			demanda = Demanda.objects.get(id_oferta=request.POST['demanda'])
-			print "grabando demanda"
+			print "entro al try"
+			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
+			print "obtuvo demanda"
 			print demanda.nombre
 			usuario = Perfil.objects.get(id=request.user.id)
 			"""calificacion = request.POST['calificacion']"""
