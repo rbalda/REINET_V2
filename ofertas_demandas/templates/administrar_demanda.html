@@ -14,7 +14,7 @@
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ propietario }}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
-                <li><i class="fa fa-comments-o"></i> {{ listaComentariosAceptadosDemandas }} Comentarios</li>
+                <li><i class="fa fa-comments-o"></i> {{ comentarios_demanda | length }} Comentarios</li>
             </ul>
         </div>
         <div class="col-md-5" align=right>
@@ -54,16 +54,16 @@
                             <div class="block-inverse">
                                 <div class="head-inverse">
                                     <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                                    {% if imagenPrincipal == False%}
+                                    {% if imagen_principal == False%}
                                         <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
                                     {% else %}
-                                        <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+                                        <img class=" img-responsive" src="/media/{{ imagen_principal.imagen }}" alt="...">
                                     {% endif %}
                                 </div>
                                 <div class="body-inverse">
                                     <ul class="row list-inline gallery-list-small"
                                         style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-                                        {% if imagenesDemanda == False%}
+                                        {% if imagenes_demanda == False%}
                                             {% for temp in "XXXX" %}
                                                 <li class="col-xs-6">
                                                     <a href="#">
@@ -73,7 +73,7 @@
                                                 </li>
                                             {% endfor %}
                                         {% else %}
-                                            {% for imagenes in imagenesDemanda %}
+                                            {% for imagenes in imagenes_demanda %}
                                                 <li class="col-xs-6">
                                                     <a href="#">
                                                         <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
@@ -186,10 +186,10 @@
             </div>
         </div>
         <br>
-        <h4>{{ comentariosAceptados }} comentarios</h4>
+        <h4>{{ comentarios_aceptados }} comentarios</h4>
         <hr>
         <div align=right>
-            <p><a href="#" class="btn btn-sm btn-green" style="color:white"data-toggle="modal" data-target="#solicitudesComentarios"><span class="badge" style="background-color:white; color:#5D8731">{{ comentariosPendientes | length }}</span>&nbsp;&nbsp;Comentarios nuevos</a></p>
+            <p><a href="#" class="btn btn-sm btn-green" style="color:white"data-toggle="modal" data-target="#solicitudesComentarios"><span class="badge" style="background-color:white; color:#5D8731">{{ comentarios_pendientes | length }}</span>&nbsp;&nbsp;Comentarios nuevos</a></p>
             <p class="text-muted" style="font-size:11px">*Los comentarios de otros usuarios deben ser aprobados para estar visibles<p>
         </div>
         <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
@@ -271,10 +271,10 @@
                     <h4 class="modal-title">Comentarios Nuevos</h4>
                 </div>
                 <div class="modal-body" style="font-size:12px;overflow-y:auto">
-                    {% if comentariosPendientes|length == 0 %}
+                    {% if comentarios_pendientes|length == 0 %}
                         <a >No hay comentarios nuevos </a>
                     {% endif %}
-                    {%for comentario in comentariosPendientes%}
+                    {%for comentario in comentarios_pendientes%}
                         <div class="comment" id="Comentario">
                             <div class="media">
                                 <a class="pull-left" href="/usuario/{{ comentario.fk_usuario }}">
