@@ -72,9 +72,8 @@
 <!--Lista de menu -->
             <div class="col-md-9">
               <div class="row" style="margin-bottom: 25px;">
-                <div class="col-md-5 pull-right">
+                <div class="pull-right">
                   <a href="/CrearIncubacion/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Crear Incubaci&oacute;n</a>
-                  <a id="btn_participar" href="#" data-target="#CrearConvocatoria" data-toggle="modal" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear Convacatoria</a>
               </div> 
               </div>
 
@@ -177,78 +176,6 @@
 
     <!-- COMIENZAN Los modals que se usan en toda la pagina -->
 
-
-    <!-- //// VENTANA EMERGENTE SOLICITAR MEMBRESIA A OFERTA ///// -->
-    <div class="modal modal-vcenter fade" id="CrearConvocatoria" tabindex="-1" role="dialog"
-         aria-labelledby="sendemailtitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Crear Convocatoria</h4>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-body">
-                    <form role="form" action="" method=''>
-                        <!--{% csrf_token %}-->
-                        <div class="form-group">
-                            <label for="Alcance">Alcance: </label>
-                           
-                                  <select name="alcance" style="resize:none">
-                                     <option value="Local" selected="selected">Local</option>
-                                     <option value="Algunas Instituciones">Algunas Instituciones</option>
-                                     <option value="Global">Global</option>
-                                  </select>
-                            
-                        </div>
-                        <div class="form-group">
-                            <label for="fecMaxima">Fecha Maxima de Aplicacion: </label>
-                            <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none">
-                            
-                        </div>
-                        <div align="right">
-                            <a href="" class="button">
-                                <button id="btn_convocatoria" type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                            </a>
-                        </div>
-                    </form>
-                </div>
-                
-            </div>
-        </div>
-    </div>
 </div>
-
-    <script>
-      $('#btn_convocatoria').click(function(e){
-        e.preventDefault();
-        $('#CrearConvocatoria').modal('hide');
-        var btn_participar =  $('#btn_participar');
-        btn_participar.removeAttr('data-target');
-        btn_participar.empty();
-        btn_participar.html('Convocatoria creada');
-        btn_participar.removeClass();
-        btn_participar.toggleClass('btn btn-green-disable btn-sm');
-        btn_participar.css('cursor','not-allowed');
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        var max = new Date($('#fecMaxAlcance').val());
-        var timeDiff = Math.abs(today.getTime() - max.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        console.log(diffDays);
-        if (diffDays>0){
-          var btn_participar =  $('#btn_participar');
-          btn_participar.removeAttr('data-target');
-          btn_participar.empty();
-          btn_participar.html('Convocatoria terminada');
-          btn_participar.removeClass();
-          btn_participar.toggleClass('btn btn-green-disable btn-sm');
-          btn_participar.css('cursor','not-allowed');
-        }
-
-      });
-    </script>
 {% endblock %}
 
