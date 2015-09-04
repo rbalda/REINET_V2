@@ -149,7 +149,6 @@ class DemandaSerializador(ModelSerializer):
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
     numComentarios = serializers.SerializerMethodField('getNumeroComentarios',read_only=True)
-    galeria = ImagenDemandaSerializer(many=True,required=False)
     tags = serializers.ListField(
             child=serializers.CharField(),
             required=False,allow_null=True
@@ -161,10 +160,10 @@ class DemandaSerializador(ModelSerializer):
             'id_demanda','codigo','estado','nombre','publicada','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave','comentarios', 'dueno',
-            'duenoUsername','galeria', 'numComentarios')
+            'duenoUsername', 'numComentarios')
 
         read_only_fields = ('id_oferta','codigo','estado','fecha_publicacion','fecha_creacion',
-                            'palabras_clave','alcance','comentarios','galeria')
+                            'palabras_clave','alcance','comentarios')
 
     def getdueno(self,obj):
         perfil = Perfil.objects.all().filter(id_perfil = obj.fk_perfil_id).first()
