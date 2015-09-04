@@ -208,7 +208,7 @@
                             'comentario_peticion': $("[name='comentario_demanda']").val()
                         },
                         type: 'post',
-                        url: '/enviarComentarioDemanda/',
+                        url: '/enviar_comentario_demanda/',
                         success: function (data) {
                             limpiarComentarios(1)
                         },
@@ -233,7 +233,7 @@
     {% endif %}
 
     <!-- Comments list -->
-    <h4>Comentarios</h4>
+    <h4>{{ comentarios_aceptados }} Comentarios</h4>
     <hr>
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
@@ -252,7 +252,7 @@
                                 'demanda':{{demanda.id_demanda}}
                             },
                             type: 'get',
-                            url: '/listaComentariosAceptadosDemandas/',
+                            url: '/lista_comentarios_aceptados_demandas/',
                             success: function (data) {
                                 $('#lista_comentarios').html(data)
                             }

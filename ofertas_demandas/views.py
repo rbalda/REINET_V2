@@ -1469,7 +1469,7 @@ Salida:
 Descripcion: crea un comentario de una demanda con estado_comentario=0, es decir pendiente
 """
 @login_required
-def enviarComentarioDemanda(request):
+def enviar_comentario_demanda(request):
 	if request.method=="POST":
 		args={}
 		try:
@@ -1499,14 +1499,14 @@ Salida: Muestra la lista de Comentarios Aceptados de una demanda
 Descripción:Esta función permite mostrar el listado de comentarios aceptados de una Demanda
 """
 @login_required
-def listaComentariosAceptadosDemandas(request):
+def lista_comentarios_aceptados_demandas(request):
 	"""print 'listaComentariosAceptadosDemandas :: ajax con id '+ request.GET['oferta']"""
 	if request.is_ajax():
 		args={}
 		try:
 			demanda = Demanda.objects.get(id_demanda=request.GET['demanda'])
 			listaComentarios= ComentarioDemanda.objects.filter(fk_demanda = demanda.id_demanda)
-			args['listaComentarios'] = listaComentarios
+			args['lista_comentarios'] = listaComentarios
 			args['demanda']=demanda
 			args.update(csrf(request))
 			return render(request,'comentario_demanda.html',args)
@@ -1528,7 +1528,7 @@ Salida:
 Descripcion: cambia el estado de un comentario de una demanda para que sea visible
 """
 @login_required
-def aceptarComentarioDemanda(request, id_comentario):
+def aceptar_comentario_demanda(request, id_comentario):
 	try:
 		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
 		comentario.estado_comentario = 1
@@ -1547,7 +1547,7 @@ Salida:
 Descripcion: cambia el estado de un comentario de una demanda para eliminarlo
 """
 @login_required
-def rechazarComentarioDemanda(request, id_comentario):
+def rechazar_comentario_demanda(request, id_comentario):
 	try:
 		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
 		comentario.estado_comentario=-1
