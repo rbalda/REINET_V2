@@ -59,7 +59,7 @@
                                 <ul class="text-muted list-inline">
                                     <li><i class="fa fa-user"></i> <a href="/usuario/[[ demanda.duenoUsername ]]">[[ demanda.dueno ]]</a></li>
                                     <li><i class="fa fa-calendar"></i> [[ demanda.fecha_publicacion.substring(0,10) ]]</li>
-                                    <li><i class="fa fa-comments-o"></i> [[ demanda.comentarios.length ]] comentarios</li>
+                                    <li><i class="fa fa-comments-o"></i> [[ demanda.numComentarios ]] comentarios</li>
                                 </ul>
                             </div>
                             <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
@@ -122,7 +122,7 @@
                                     </li>
                                     <li><i class="fa fa-calendar"></i> [[ publicada.fecha_publicacion.substring(0,10) ]]
                                     </li>
-                                    <li><i class="fa fa-comments-o"></i> [[publicada.comentarios.length]] comentarios</li>
+                                    <li><i class="fa fa-comments-o"></i> [[publicada.numComentarios]] comentarios</li>
                                 </ul>
                             </div>
                             <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
@@ -182,7 +182,7 @@
                                         </ul>
                                     </div>
                                     <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-                                        <a href="/EditarBorrador/[[ borrador.id_oferta ]]" class="btn btn-green btn-sm">
+                                        <a href="/EditarBorradorDemanda/[[ borrador.id_demanda ]]" class="btn btn-green btn-sm">
                                             <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
                                     </div>
                                 </div>
