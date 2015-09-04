@@ -2,339 +2,490 @@
 {% block sliderPagina %}DEMANDA{% endblock %}
 
 {% block contenido %}
-    <div class="container">
-    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-        <div class="col-md-7">
-            <h4>{{ demanda.nombre | upper }}</h4>
-            <ul class="text-muted list-inline">
-                <li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
-                <li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
-                <li><i class="fa fa-comments-o"></i> {{ comentariosAceptados }} </li>
-            </ul>
+	<div class="container">
+	<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+		<div class="col-md-7">
+			<h4>{{ demanda.nombre | upper }}</h4>
+			<ul class="text-muted list-inline">
+				<li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
+				<li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
+				<li><i class="fa fa-comments-o"></i> {{ comentariosAceptados }} </li>
+			</ul>
 
-        </div>
-    </div>
+		</div>
+	</div>
 
-    <div class="col-md-12">
-    <div class="col-md-8" style="padding-left: 0px;">
-    <div class="blog-text">
-        <!-- Pestañas de Navegacion de la demanda-->
-        <ul class="nav nav-tabs " role="tablist">
-            <li role="presentation" class="active">
-                <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
-            </li>
-            <li role="presentation">
-                <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
-            </li>
-            </li>
-            <li role="presentation">
-                <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria</a>
-            </li>
-            <li role="presentation">
-                <a href="#estado" aria-controls="messages" role="tab" data-toggle="tab">Estado</a>
-            </li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content row">
-            <!-- Tab INFORMACION -->
-            <div role="tabpanel" class="tab-pane active" id="informacion">
-                <div class="col-md-12">
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        <div class="block-inverse">
-                            <div class="head-inverse">
-                                <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                                {% if imagenPrincipal == False%}
-                                    <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
+	<div class="col-md-12">
+	<div class="col-md-8" style="padding-left: 0px;">
+	<div class="blog-text">
+		<!-- Pestañas de Navegacion de la demanda-->
+		<ul class="nav nav-tabs " role="tablist">
+			<li role="presentation" class="active">
+				<a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+			</li>
+			<li role="presentation">
+				<a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+			</li>
+			</li>
+			<li role="presentation">
+				<a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria</a>
+			</li>
+			<li role="presentation">
+				<a href="#estado" aria-controls="messages" role="tab" data-toggle="tab">Estado</a>
+			</li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="tab-content row">
+			<!-- Tab INFORMACION -->
+			<div role="tabpanel" class="tab-pane active" id="informacion">
+				<div class="col-md-12">
+					<div class="col-md-4 col-sm-4 col-xs-4">
+						<div class="block-inverse">
+							<div class="head-inverse">
+								<p class="text-center"><strong class="text-muted">Galeria</strong></p>
+								{% if imagenPrincipal == False%}
+									<img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
+								{% else %}
+									<img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+								{% endif %}
+							</div>
+							<div class="body-inverse">
+								<ul class="row list-inline gallery-list-small"
+									style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+									{% if imagenesDemanda == False%}
+										{% for temp in "XXXX" %}
+											<li class="col-xs-6">
+												<a href="#">
+													<img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"
+														 alt="...">
+												</a>
+											</li>
+										{% endfor %}
+									{% else %}
+										{% for imagenes in imagenesDemanda %}
+											<li class="col-xs-6">
+												<a href="#">
+													<img class="img-responsive" src="/media/{{ imagenes.imagen }}"
+														 alt="...">
+												</a>
+											</li>
+										{% endfor %}
+									{% endif  %}
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8 col-sm-8 col-xs-8">
+						<!--Tipo-->
+						<p style="color: darkgray" class="col-md-3">Tipo</p>
+						{% if demanda.tipo == 0 %}
+							<p>Emprendimiento</p>
+						{% elif demanda.tipo == 1 %}
+							<p>Tecnologia</p>
+						{% elif demanda.tipo == 2 %}
+							<p>Prototipo</p>
+						{% endif %}
+						<!--Descripcion-->
+						<p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
+						<p>{{ demanda.descripcion  | title}} </p>
+
+						<!--Dominio-->
+						<p style="color: darkgray" class="col-md-3">Dominio</p>
+						<p>{{ demanda.dominio }}</p>
+
+						<!--Subdominio-->
+						<p style="color: darkgray" class="col-md-3">Sub-dominio</p>
+						<p>{{ demanda.subdominio }}</p>
+
+						<!--Palabras Clave-->
+						<p style="color: darkgray" class="col-md-3">Palabras Claves</p>
+
+						<p class="tags">
+							{% for tag in palabras_claves %}
+								<a>{{ tag.palabra }}</a>
+							{% endfor %}
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Tab CLIENTE USUARIO -->
+			<div role="tabpanel" class="tab-pane" id="cliente_usuario">
+				<div class="col-md-12">
+					<!--Perfil Cliente-->
+					<p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
+					<p class="col-md-9">
+						{% if demanda.perfil_cliente != None %}
+							{{ demanda.perfil_cliente }}
+						{% else %}
+							No disponible
+						{% endif %}
+					</p>
+					<!--Perfil Beneficiario-->
+					<p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
+					<p class="col-md-9">
+						{% if demanda.perfil_beneficiario != None %}
+							{{ demanda.perfil_beneficiario }}
+						{% else %}
+							No disponible
+						{% endif %} </p>
+				</div>
+			</div>
+
+			<!-- Tab Industria -->
+			<div role="tabpanel" class="tab-pane" id="industria">
+				<div class="col-md-12">
+					<!--Importancia de Resolver la Necesidad-->
+					<p style="color: darkgray" for="Descripcion" class="col-md-6">Importancia de Resolver la Necesidad</p>
+					<p class="col-md-6">
+						{% if demanda.importancia_resolver_necesidad != None %}
+							{{ demanda.importancia_resolver_necesidad }}
+						{% else %}
+							No Aplica
+						{% endif %}
+					</p>
+					<!--Alternativas de Solución Existentes-->
+					<p style="color: darkgray" for="Descripcion" class="col-md-6">Alternativas de Solución Existentes</p>
+					<p class="col-md-6">
+						{% if demanda.alternativas_soluciones_existentes != None %}
+							{{ demanda.alternativas_soluciones_existentes }}
+						{% else %}
+							No Aplica
+						{% endif %}
+
+					</p>
+				</div>
+			</div>
+
+			<!-- Tab LOGROS -->
+			<div role="tabpanel" class="tab-pane" id="estado">
+				<div class="col-md-12">
+					<p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo en que se necesita disponer de solución</p>
+					<p class="col-md-6">
+						{% if demanda.tiempo_para_estar_disponible != None %}
+							{{ demanda.tiempo_para_estar_disponible }}
+						{% else %}
+							No Aplica
+						{% endif %}
+					</p>
+					</br>
+					<!--Estado del producto o servicio-->
+					<p style="color: darkgray" for="Descripcion" class="col-md-6">Lugar/es donde se necesita</p>
+					<p class="col-md-6">
+						{% if demanda.lugar_donde_necesita != None %}
+							{{ demanda.lugar_donde_necesita }}
+						{% else %}
+							No Aplica
+						{% endif %}
+					</p>
+					</br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+
+
+	<!-- New comment form -->
+	{% if numComentarios == 0 %}
+		<div class="NuevoComentario" id="divNuevoComentario">
+			<form class="form-horizontal" role="form" id="ComentarioForm" >
+				<div class="form-group" style="margin-bottom: 15px;">
+					<div class="col-sm-2 hidden-xs">
+						<img src="{{ usuario.foto.url }}" alt="..." class="img-responsive">
+					</div>
+					<div class="col-sm-10">
+						<textarea style="resize:none" class="form-control" rows="3" name="comentario_demanda"
+								  placeholder="Escriba su comentario acerca de la demanda"></textarea>
+					</div>
+				</div>
+				<div class="form-group" style="margin-bottom: 0px;">
+					<div class="col-sm-offset-2 col-sm-10" align="right">
+						<button id="enviarMensaje"  type="submit" class="btn btn-green btn-sm">Publicar
+						</button>
+					</div>
+				</div>
+			</form>
+			<!--Script para enviar los datos para crear el comentario-->
+			<script>
+				$(document).on('click', '#enviarMensaje', function () {
+					$.ajax({
+						data: {
+							'demanda': "{{ demanda.id_demanda }}",
+							'csrfmiddlewaretoken': '{{ csrf_token }}',
+							'comentario_peticion': $("[name='comentario_demanda']").val()
+						},
+						type: 'post',
+						url: '/enviarComentarioDemanda/',
+						success: function (data) {
+							limpiarComentarios(1)
+						},
+						error: function(xhr, status, error) {
+							limpiarComentarios(0)
+						}
+					});
+					function limpiarComentarios(envio) {
+						if(envio){
+							$("#confirmarcionComentario").modal('show');
+							$("#divNuevoComentario").hide();
+						}
+						else{
+							$("#rechazoComentario").modal('show');
+						}
+					}
+
+
+				});
+			</script>
+		</div>
+	{% endif %}
+
+	<!-- Comments list -->
+	<h4>{{ comentariosAceptados }} comentarios</h4>
+	<hr>
+
+	<!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
+	<div class="comment">
+		<ul id="lista_comentarios">
+
+		</ul>
+		<!--Script para mostrar la lista de comentarios aceptados-->
+		<script>
+			$(document).ready(function () {
+				$(function () {
+					$('#lista_comentarios').ready(listaComentarios);
+					function listaComentarios() {
+						$.ajax({
+							data: {
+								'demanda':{{demanda.id_demanda}}
+							},
+							type: 'get',
+							url: '/listaComentariosAceptadosDemandas/',
+							success: function (data) {
+								$('#lista_comentarios').html(data)
+							}
+						});
+					}
+				});
+			});
+
+		</script>
+	</div>
+	<!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+	</div>
+	<div class="col-md-4">
+		<!-- COMIENZA  Panel del equipo -->
+		<div class="panel panel-default">
+			<div class="panel-heading row"
+				 style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+				<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+					<div class="col-md-12" align="left" style="padding-left: 0px;">
+						<h4 style="margin-top: 6px;">Oferta que resolvió esta Demanda</h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+				<div class="recent-blogs">
+					<div class="team">
+
+						<div align=center>
+							<p>
+								{% if estado == 1 %}
+									<button id="btn_resolver" class="btn btn-green btn-sm"
+												style="color:white;margin-top: 15px;" data-toggle="modal"
+												data-target="#resolverDemanda">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Resolver Demanda
+										</button>
+										<hr style="margin-top: 15px;">
+                                {% elif estado == 2 %}
+                                    <label id="btn_resolver" class="btn btn-green btn-sm">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Demanda Resuelta
+										</label>
+										<hr style="margin-top: 15px;">
+                                {% elif estado == 3 %}
+                                    <label id="btn_resolver" class="btn btn-green btn-sm">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Demanda Desactivada
+										</label>
+										<hr style="margin-top: 15px;">
                                 {% else %}
-                                    <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
-                                {% endif %}
-                            </div>
-                            <div class="body-inverse">
-                                <ul class="row list-inline gallery-list-small"
-                                    style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-                                    {% if imagenesDemanda == False%}
-                                        {% for temp in "XXXX" %}
-                                            <li class="col-xs-6">
-                                                <a href="#">
-                                                    <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"
-                                                         alt="...">
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    {% else %}
-                                        {% for imagenes in imagenesDemanda %}
-                                            <li class="col-xs-6">
-                                                <a href="#">
-                                                    <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
-                                                         alt="...">
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    {% endif  %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8">
-                        <!--Tipo-->
-                        <p style="color: darkgray" class="col-md-3">Tipo</p>
-                        {% if demanda.tipo == 0 %}
-                            <p>Emprendimiento</p>
-                        {% elif demanda.tipo == 1 %}
-                            <p>Tecnologia</p>
-                        {% elif demanda.tipo == 2 %}
-                            <p>Prototipo</p>
-                        {% endif %}
-                        <!--Descripcion-->
-                        <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
-                        <p>{{ demanda.descripcion  | title}} </p>
+                                    <label id="btn_resolver" class="btn btn-green btn-sm">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Demanda Censurada
+										</label>
+										<hr style="margin-top: 15px;">
+								{% endif %}
+							</p>
+						</div>
+						<div id="equipo">
+							<ul id="lista_equipo">
 
-                        <!--Dominio-->
-                        <p style="color: darkgray" class="col-md-3">Dominio</p>
-                        <p>{{ demanda.dominio }}</p>
+							</ul>
+							<!--Script para mostrar el equipo de oferta-->
+                            <script>
+                                $(document).ready(function () {
+                                    $(function () {
+                                        $('#lista_equipo').ready(mostrarOfertaQueResolvio);
+                                        function mostrarOfertaQueResolvio() {
+                                            $.ajax({
+                                                data: {
+                                                    'demanda':{{demanda.id_demanda}}
+                                                },
+                                                type: 'get',
+                                                url: '/ofertaResuelveDemanda/',
+                                                success: function (data) {
+                                                    $('#lista_equipo').html(data)
+                                                }
+                                            });
 
-                        <!--Subdominio-->
-                        <p style="color: darkgray" class="col-md-3">Sub-dominio</p>
-                        <p>{{ demanda.subdominio }}</p>
-
-                        <!--Palabras Clave-->
-                        <p style="color: darkgray" class="col-md-3">Palabras Claves</p>
-
-                        <p class="tags">
-                            {% for tag in palabras_claves %}
-                                <a>{{ tag.palabra }}</a>
-                            {% endfor %}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab CLIENTE USUARIO -->
-            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
-                <div class="col-md-12">
-                    <!--Perfil Cliente-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
-                    <p class="col-md-9">
-                        {% if demanda.perfil_cliente != None %}
-                            {{ demanda.perfil_cliente }}
-                        {% else %}
-                            No disponible
-                        {% endif %}
-                    </p>
-                    <!--Perfil Beneficiario-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
-                    <p class="col-md-9">
-                        {% if demanda.perfil_beneficiario != None %}
-                            {{ demanda.perfil_beneficiario }}
-                        {% else %}
-                            No disponible
-                        {% endif %} </p>
-                </div>
-            </div>
-
-            <!-- Tab Industria -->
-            <div role="tabpanel" class="tab-pane" id="industria">
-                <div class="col-md-12">
-                    <!--Importancia de Resolver la Necesidad-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Importancia de Resolver la Necesidad</p>
-                    <p class="col-md-6">
-                        {% if demanda.importancia_resolver_necesidad != None %}
-                            {{ demanda.importancia_resolver_necesidad }}
-                        {% else %}
-                            No Aplica
-                        {% endif %}
-                    </p>
-                    <!--Alternativas de Solución Existentes-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Alternativas de Solución Existentes</p>
-                    <p class="col-md-6">
-                        {% if demanda.alternativas_soluciones_existentes != None %}
-                            {{ demanda.alternativas_soluciones_existentes }}
-                        {% else %}
-                            No Aplica
-                        {% endif %}
-
-                    </p>
-                </div>
-            </div>
-
-            <!-- Tab LOGROS -->
-            <div role="tabpanel" class="tab-pane" id="estado">
-                <div class="col-md-12">
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo en que se necesita disponer de solución</p>
-                    <p class="col-md-6">
-                        {% if demanda.tiempo_para_estar_disponible != None %}
-                            {{ demanda.tiempo_para_estar_disponible }}
-                        {% else %}
-                            No Aplica
-                        {% endif %}
-                    </p>
-                    </br>
-                    <!--Estado del producto o servicio-->
-                    <p style="color: darkgray" for="Descripcion" class="col-md-6">Lugar/es donde se necesita</p>
-                    <p class="col-md-6">
-                        {% if demanda.lugar_donde_necesita != None %}
-                            {{ demanda.lugar_donde_necesita }}
-                        {% else %}
-                            No Aplica
-                        {% endif %}
-                    </p>
-                    </br>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-
-
-    <!-- New comment form -->
-    {% if numComentarios == 0 %}
-        <div class="NuevoComentario" id="divNuevoComentario">
-            <form class="form-horizontal" role="form" id="ComentarioForm" >
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <div class="col-sm-2 hidden-xs">
-                        <img src="{{ usuario.foto.url }}" alt="..." class="img-responsive">
-                    </div>
-                    <div class="col-sm-10">
-                        <textarea style="resize:none" class="form-control" rows="3" name="comentario_demanda"
-                                  placeholder="Escriba su comentario acerca de la demanda"></textarea>
-                    </div>
-                </div>
-                <div class="form-group" style="margin-bottom: 0px;">
-                    <div class="col-sm-offset-2 col-sm-10" align="right">
-                        <button id="enviarMensaje"  type="submit" class="btn btn-green btn-sm">Publicar
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <!--Script para enviar los datos para crear el comentario-->
-            <script>
-                $(document).on('click', '#enviarMensaje', function () {
-                    $.ajax({
-                        data: {
-                            'demanda': "{{ demanda.id_demanda }}",
-                            'csrfmiddlewaretoken': '{{ csrf_token }}',
-                            'comentario_peticion': $("[name='comentario_demanda']").val()
-                        },
-                        type: 'post',
-                        url: '/enviarComentarioDemanda/',
-                        success: function (data) {
-                            limpiarComentarios(1)
-                        },
-                        error: function(xhr, status, error) {
-                            limpiarComentarios(0)
-                        }
-                    });
-                    function limpiarComentarios(envio) {
-                        if(envio){
-                            $("#confirmarcionComentario").modal('show');
-                            $("#divNuevoComentario").hide();
-                        }
-                        else{
-                            $("#rechazoComentario").modal('show');
-                        }
-                    }
-
-
-                });
-            </script>
-        </div>
-    {% endif %}
-
-    <!-- Comments list -->
-    <h4>{{ comentariosAceptados }} comentarios</h4>
-    <hr>
-
-    <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
-    <div class="comment">
-        <ul id="lista_comentarios">
-
-        </ul>
-        <!--Script para mostrar la lista de comentarios aceptados-->
-        <script>
-            $(document).ready(function () {
-                $(function () {
-                    $('#lista_comentarios').ready(listaComentarios);
-                    function listaComentarios() {
-                        $.ajax({
-                            data: {
-                                'demanda':{{demanda.id_demanda}}
-                            },
-                            type: 'get',
-                            url: '/listaComentariosAceptadosDemandas/',
-                            success: function (data) {
-                                $('#lista_comentarios').html(data)
-                            }
-                        });
-                    }
-                });
-            });
-
-        </script>
-    </div>
-    <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
-    </div>
-    </div>
-    </div>
+                                        }
+                                    });
+                                });
+                            </script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- TERMINA Panel del equipo -->
+	</div>
+	</div>
 
 
 
 
 
-    <!-- COMIENZAN Los modals que se usan en toda la pagina -->
+	<!-- COMIENZAN Los modals que se usan en toda la pagina -->
+
+	<!-- //// VENTANA EMERGENTE SOLICITAR RESOLVER DEMANDA ///// -->
+	<div class="modal modal-vcenter fade" id="resolverDemanda" tabindex="-1" role="dialog"
+		 aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+					<h4 class="modal-title" id="sendemailtitle">Resolver Demanda</h4>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body" style="margin-bottom:30px">
+					<form role="form" action="" method='POST'>
+						<!--{% csrf_token %}-->
+						<div class="form-group">
+							<select name = "oferta_escogida" class="form-control col-md-4">
+                                {% for of in ofertas %}
+                                    <option value={{ of.fk_oferta_en_que_participa.id_oferta }}> {{ of.fk_oferta_en_que_participa.nombre }} </option>
+                                {% endfor %}
+							</select>
+                        </br>
+							<textarea style="resize:none" class="form-control" rows="3" name="comentario_resolucion"
+									  placeholder="Escriba algun comentario acerca de su solicitud para resolver esta Demanda"></textarea>
+						</div>
+						<a href="/resolverDemanda/" class="button" data-toggle="modal"
+						   data-target="#confirmacionSolicitud" style="float:right">
+							<button id="enviarResolucion" type="button" class="btn btn-green" data-dismiss="modal">
+								Enviar
+							</button>
+						</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Script para enviar solicitud de membresia a la oferta-->
+	<script>
+		$(document).on('click', '#enviarResolucion', function () {
+            ofertaS =$("[name='oferta_escogida']").val();
+            console.log("oferta_escogida");
+            console.log(ofertaS);
+			$.ajax({
+				data: {
+					'demanda': "{{ demanda.id_demanda }}",
+					'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'oferta_escogida': ofertaS,
+					'comentario_resolucion': $("[name='comentario_resolucion']").val()
+				},
+				type: 'post',
+				url: '/resolverDemanda/',
+				success: function (data) {
+					var objeto = JSON.parse(data);
+					if (objeto.save_estado) {
+						$('#btn_resolver').attr('disabled', true);
+						$('#btn_resolver').popover('hide');
+						$('#btn_resolver').text("Solicitud Enviada");
+						$('#btn_resolver').css('color', 'green');
+
+					} else {
+						console.log('algo paso')
+					}
+				},
+				error: function(xhr, status, error) {
+				}
+			});
+
+		});
+
+	</script>
+
+	<!---->
 
 
-    <!-- MODAL DE CONFIRMACION DE ENTREGA DE COMENTARIO-->
-    <div class="modal modal-vcenter fade" id="confirmarcionComentario" tabindex="-1" role="dialog"
-         aria-labelledby="sendemailtitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-body">
-                    <form role="form" action="" method=''>
-                        <!--{% csrf_token %}-->
-                        <div class="form-group">
-                            <label for="Confirmacion">Ha calificado y comentado la demanda con &eacute;xito</label>
-                            <p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser
-                                aprobados por el dueño de la demanda para ser mostrados</p>
-                        </div>
-                        <div align="right">
-                            <a href="" class="button">
-                                <button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- MODAL DE CONFIRMACION DE ENTREGA DE COMENTARIO-->
+	<div class="modal modal-vcenter fade" id="confirmarcionComentario" tabindex="-1" role="dialog"
+		 aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body">
+					<form role="form" action="" method=''>
+						<!--{% csrf_token %}-->
+						<div class="form-group">
+							<label for="Confirmacion">Ha calificado y comentado la demanda con &eacute;xito</label>
+							<p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser
+								aprobados por el dueño de la demanda para ser mostrados</p>
+						</div>
+						<div align="right">
+							<a href="" class="button">
+								<button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="modal modal-vcenter fade" id="rechazoComentario" tabindex="-1" role="dialog"
-         aria-labelledby="sendemailtitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Algo salió mal.</h4>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-body">
-                    <form role="form" action="" method=''>
-                        <div class="form-group">
-                            <label for="Confirmacion">REINET lo siente un mundo, algo ha salido mal intentalo de nuevo por favor.</label>
-                        </div>
-                        <div align="right">
-                            <a href="" class="button">
-                                <button type="button" class="btn btn-red" data-dismiss="modal">Volver</button>
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+	<div class="modal modal-vcenter fade" id="rechazoComentario" tabindex="-1" role="dialog"
+		 aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="sendemailtitle">Algo salió mal.</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body">
+					<form role="form" action="" method=''>
+						<div class="form-group">
+							<label for="Confirmacion">REINET lo siente un mundo, algo ha salido mal intentalo de nuevo por favor.</label>
+						</div>
+						<div align="right">
+							<a href="" class="button">
+								<button type="button" class="btn btn-red" data-dismiss="modal">Volver</button>
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}
