@@ -583,7 +583,7 @@ def editar_borrador(request, id_oferta):
 
 			oferta_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
 		else:
-			oferta_editada.tiempo_para_estar_disponible = None
+			oferta_editada.tiempo_para_estar_disponible = "1 Año/s"
 
 		oferta_editada.estado_propieada_intelectual = propiedad_intelectual
 		oferta_editada.evidencia_traccion = evidencia_traccion
@@ -763,7 +763,7 @@ def editar_borrador_demanda(request, id_demanda):
 
 			demanda_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
 		else:
-			demanda_editada.tiempo_para_estar_disponible = None
+			demanda_editada.tiempo_para_estar_disponible = "1 Año/s"
 
 		#manejo de tags
 		try:
