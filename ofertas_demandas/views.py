@@ -1669,27 +1669,31 @@ def administrar_demanda(request, id_demanda):
 		return HttpResponseRedirect('/NotFound/')
 """
 Autor: Ray Montiel
-Nombre de la funcion: resolverDemanda
+Nombre de la funcion: resolver_demanda
 Entrada: request
 Salida:HttpResponse
 Descripción:Envia una solicitud para resolver en una Demanda
 """
 @login_required
-def resolverDemanda(request):
+def resolver_demanda(request):
 	if request.method=="POST":
 		args={}
 		try:
 			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
-			print "ahora viene la oferta escogida"
-			print request.POST['oferta_escogida']
 			ofertaSel = Oferta.objects.get(id_oferta = request.POST['oferta_escogida'])
-			demanda.fk_oferta = ofertaSel
-			demanda.save()
+			resolucion = ResolucionDemanda()
+			resolucion.fk_oferta_demandante = ofertaSel
+			resolucion.fk_demanda_que_aplica = demanda
+			resolucion.resuelve = 0
+			resolucion.motivo= request.POST['comentario_resolucion']
+			resolucion.save()
 			response = JsonResponse({'save_estado':True})
 			return HttpResponse(response.content)
+
 		except Demanda.DoesNotExist:
 			args['mensaje_error'] = "La demanda no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_demanda.html',args)
+        
 		except:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
@@ -1698,52 +1702,45 @@ def resolverDemanda(request):
 
 """
 Autor: Ray Montiel
-Nombre de la funcion: ofertaResuelveDemanda
+Nombre de la funcion: oferta_resuelve_demanda
 Entrada:
 Salida: Muestra el equipo de una oferta
-Descripción:Esta función permite mostrar el equipo de una oferta
+Descripción:Esta función permite mostrar las ofertas que resolvieron la demanda
 """
 @login_required
-def ofertaResuelveDemanda(request):
+def oferta_resuelve_demanda(request):
 	session = request.session['id_usuario']
 	usuario = Perfil.objects.get(id=session)
 	args = {}
 	args['es_admin']=request.session['es_admin']
+
 	if usuario is not None:
 		args['usuario'] = usuario
+
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
+	#obtencion del ajax
 	if request.is_ajax():
+
 		try:
 			demanda = Demanda.objects.get(id_demanda=request.GET['demanda'])
-			oferta = Oferta.objects.get(id_oferta = demanda.fk_oferta.id_oferta)
-			try:
-				imagenes = ImagenDemanda.objects.filter(fk_oferta = oferta.id_oferta)
-				imagenPrincipal = ImagenDemanda.objects.filter(fk_oferta = oferta.id_oferta).first()
-				if not imagenes:
-					imagenes =  False
-					imagenPrincipal =  False
-			except Exception as e:
-				imagenes = False
-				imagenPrincipal = False
-
-			calificacionOferta = oferta.calificacion_total
-			args['imagenesDemanda'] = imagenes
-			args['imagenPrincipal'] = imagenPrincipal
-			args['oferta'] = oferta
+			ofertas= ResolucionDemanda.objects.filter(fk_demanda_que_aplica = demanda.id_demanda)
+			imagenes = ImagenOferta.objects.all()
+			args['ofertas'] = ofertas
+			args['imagenes'] = imagenes
 			args['demanda']=demanda
-			args['calificacionOferta'] = str(calificacionOferta)
 			args.update(csrf(request))
 			return render(request,'resuelve_demanda.html',args)
 
 		except Oferta.DoesNotExist:
 			print 'esa oferta no existe '
 			return redirect('/')
+
 		except Demanda.DoesNotExist:
 			print 'yiyi izi :/'
 			return redirect('/')
+
 		except:
 			print 'ya me jodi =('
 			return redirect('/')

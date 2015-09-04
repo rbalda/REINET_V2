@@ -109,7 +109,7 @@ class ResolucionDemanda(models.Model):
     fk_demanda_que_aplica = models.ForeignKey(Demanda)
     resuelve = models.SmallIntegerField(default=0)
     motivo = models.TextField()
-    #0 = no resuelve    1 = resuelve
+    #-1 = no resuelve  0 = pendiente  1 = resuelve
 
     class Meta:
         db_table='ResolucionDemanda'
