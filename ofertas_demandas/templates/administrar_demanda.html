@@ -208,7 +208,7 @@
                                     'demanda':{{demanda.id_demanda}}
                                 },
                                 type: 'get',
-                                url: '/listaComentariosAceptadosDemandas/',
+                                url: '/lista_comentarios_aceptados_demandas/',
                                 success: function (data) {
                                     $('#lista_comentarios').html(data)
                                 }
@@ -290,8 +290,8 @@
                                     </ul>
                                 </div>
                                 <div align=right id="">
-                                    <a href="/aceptarComentarioDemanda/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-green btn-xs"><span class="glyphicon glyphicon-plus-sign"></span> Aceptar</a>
-                                    <a href="/rechazarComentarioDemanda/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-dark btn-md btn-xs"><span class="glyphicon glyphicon-minus-sign"></span> Rechazar</a>
+                                    <a href="/aceptar_comentario_demanda/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-green btn-xs"><span class="glyphicon glyphicon-plus-sign"></span> Aceptar</a>
+                                    <a href="/rechazar_comentario_demanda/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-dark btn-md btn-xs"><span class="glyphicon glyphicon-minus-sign"></span> Rechazar</a>
                                 </div>
                             </div>
                             <br>
