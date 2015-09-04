@@ -39,7 +39,7 @@
 
     	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
     		<div align="right">
-    			<a href="#" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>Editar</a>
+    			<a href="#" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>&nbsp;Editar</a>
     		</div>
     		
 			<div class="col-sm-12">
@@ -64,9 +64,9 @@
     	<div class="col-sm-7">
     		<div class="col-sm-8 col-sm-offset-2" align="center" style="padding:15px">
     			<div class="panel panel-dark" align="center">
-				    <div class="panel-body">
-				    	<h4 class="hl" style=" font-weight: bold"></i><bold> Convocatoria Actual de ofertas</bold></h4>
-	            		<table class="table table-hover" style="margin-bottom: 0px;">
+				    <div class="panel-body" style="padding-bottom: 5px;">
+				    	<h4 class="hl" style=" font-weight: bold"><bold> Convocatoria Actual de ofertas</bold></h4>
+	            		<table class="table " style="margin-bottom: 0px;">
 	            			<tbody>
                                 <tr>
                                 	<td class="text-muted">Fecha Máxima</td>
@@ -88,41 +88,64 @@
                     <li role="presentation" ><a href="#consultores" aria-controls="home" role="tab" data-toggle="tab">CONSULTORES</a></li>
 	           	</ul>
 				<div class="tab-content">
-				  <div id="incubadas" class="tab-pane fade in active">
-				    <p>Aqui van las incubadas</p>
+					<div class="alert alert-info alert-dismissable">
+		                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		                <strong>Recuerde!</strong> Para tener incubadas debe crear una convocatoria de ofertas.
+		            </div>
+				  <div id="incubadas" class="tab-pane fade in active" style="height:200px;overflow-y: scroll;">
+				  		<table class="table table-hover">
+		                  <tbody>
+		                    <tr>
+		                    	<td>1</td>
+		                      	<td><img style="width:50px" src="/../../media/ofertas-demandas/face2.jpg" alt="Blog Message"></td>
+		                     	<td><a href="/AdminIncubada/">Zapatos electrocutadores</a></td>
+		                     	<td class="text-muted"><i class="fa fa-user"></i>&nbsp;Jaime desfasdfasdfsadfasd</td>
+		                      	<td class="text-muted" style="width:150px"><i class="fa fa-calendar"></i>&nbsp;2015-08-30</td>
+		                    </tr>
+		                    <tr>
+		                      <td>2</td>
+		                      <td><img style="width:50px" src="/../../media/ofertas-demandas/face3.jpg" alt="Blog Message"></td>
+		                      <td><a href="/AdminIncubada/">Zapatos electrocutadores</a></td>
+		                      <td class="text-muted"><i class="fa fa-user"></i>&nbsp;ewrfasdfasdfsadfsfas</td>
+		                      <td class="text-muted" style="width:150px"><i class="fa fa-calendar"></i>&nbsp;2015-08-30</td>
+		                    </tr>
+		                    <tr>
+		                   		<td>3</td>
+			                    <td><img style="width:50px" src="/../../media/ofertas-demandas/face1.jpg" alt="Oferta"></td>
+			                    <td><a href="/AdminIncubada/">Zapatos electrocutadores</a></td>
+			                    <td class="text-muted"><i class="fa fa-user"></i>&nbsp;sdfasdfasdfasdfdsafds</td>
+			                    <td class="text-muted" style="width:150px"><i class="fa fa-calendar"></i>&nbsp;2015-08-30</td>
+		                    </tr>
+
+		                  </tbody>
+		                </table>
 				  </div>
 				  <div id="solicitudes_ofertas" class="tab-pane fade">
-				  	<div class="alert alert-warning">
-				  		Para tener ofertas aplicantes debe crear una convocatoria
-				    </div>
-				    	
-									<div class="text-muted">
-						    		<div align="left">
-			                            <img class="pull-left img-responsive blog-img" alt="Imagen de mi Oferta" style="height: 115px; width: 115px;">
-			                        </div>
-						    		<div class="form-group">
-						    			<a href="#">ofertaAplicante2</a>
-						    		</div> 
-						    		<div class="form-group">
-						    			<label>Descripcion: </label>
-						    		</div>
-						    		<div class="form-group">
-						    			<label>Fecha de creacion: </label>
-						    		</div>
-						    		<div class="form-group">
-						    			<label>Numero de Consultores: </label>
-						    		</div>
-						    		<div align="right">
-						    			<a href="" class="button">
-			                                <button id="btn_ver_oferta" type="button" class="btn btn-blue">Ver Oferta</button>
-			                            </a>
-			                            <a href="" class="button">
-			                                <button id="btn_aceptar_oferta" type="button" class="btn btn-green" data-target="#ofertaAceptada" data-toggle="modal">Aceptar</button>
-			                            </a>
-			                            <a href="" class="button">
-			                                <button id="btn_rechazar_oferta" type="button" class="btn btn-red" data-target="#ofertaRechazada" data-toggle="modal">Rechazar</button>
-			                            </a>
-			                        </div>
+				  		<table class="table table-hover">
+		                  <tbody>
+		                    <tr>
+		                    	<td>1</td>
+		                      	<td><img style="width:50px" src="/../../media/ofertas-demandas/face2.jpg" alt="Blog Message"></td>
+		                     	<td><a href="/AdminIncubada/">Zapatos electrocutadores</a></td>
+		                     	<td class="text-muted"><i class="fa fa-user"></i>&nbsp;Jaime desfasdfasdfsadfasd</td>
+		                      	<td class="text-muted" style="width:150px">
+		                      		<a href="" id="btn_aceptar_oferta" type="button" class="btn btn-red btn-sm" style="color:white" data-target="#ofertaAceptada" data-toggle="modal">Aprobar</a>
+		                      		<a href="" id="btn_rechazar_oferta" type="button" class="btn btn-dark btn-sm" data-target="#ofertaRechazada" data-toggle="modal" style="color:white">Rechazar</button>
+			                            </a>		                      		
+		                      	</td>
+
+		                    </tr>
+
+		                   
+		                  </tbody>
+		                </table>
+
+
+
+			                            
+
+
+			                           
 						    </div>
 				    	
 				  </div>
@@ -240,6 +263,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <!-- //// MODAL crear convocatoria ///// -->
@@ -249,33 +273,40 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Crear Convocatoria</h4>
-                    <div class="clearfix"></div>
+                    <h4 class="modal-title">Crear Convocatoria</h4>
                 </div>
                 <div class="modal-body">
-                    <form role="form" action="" method=''>
-                        <!--{% csrf_token %}-->
-                        <div class="form-group">
-                            <label for="Alcance">Alcance: </label>
-                           
-                                  <select name="alcance" style="resize:none">
-                                     <option value="Local" selected="selected">Local</option>
-                                     <option value="Algunas Instituciones">Algunas Instituciones</option>
-                                     <option value="Global">Global</option>
-                                  </select>
-                            
-                        </div>
-                        <div class="form-group">
-                            <label for="fecMaxima">Fecha Maxima de Aplicacion: </label>
-                            <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none">
-                            
-                        </div>
-                        <div align="right">
-                            <a href="" class="button">
-                                <button id="btn_convocatoria" type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                            </a>
-                        </div>
-                    </form>
+                    <div class="comment" id="Comentario">
+                          <div class="media">
+                            <form  class="form-horizontal col-md-12"  name="formMilestone"> 
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Alcance</label>
+                                  <div class="col-md-7">
+                                       <select name="alcance" style="resize:none" class="form-control">
+                                         <option value="Local" selected="selected">Local</option>
+                                         <option value="Algunas Instituciones">Algunas Instituciones</option>
+                                         <option value="Global">Global</option>
+                                      </select>
+                                  </div>
+                                  <br>
+                                </div>
+
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha Maxima</label>
+                                  <div class="col-md-7">
+                                       <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
+                                  </div>
+                                  <br>
+                                </div>
+                                <div class="form-group">
+                                    <div align="right">
+                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                                      <button href="#" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
+                                    </div>                                                  
+                                </div>
+                            </form>   
+                          </div>
+                      </div>
                 </div>
                 
             </div>

@@ -279,3 +279,4 @@ $('#btn_convocatoria').click(function(e){
           btn_participar.css('cursor','not-allowed');
         }
 });
+
