@@ -1,0 +1,281 @@
+
+{% extends "base-incubaciones.tpl.html" %}
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
+
+{% endif %}
+
+
+{% block sliderPagina %}INCUBACIONES{% endblock %}
+
+{% block contenido %}
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+
+    <div class="container">
+
+        <div class="row" style="margin-bottom: 25px;">
+            <div align=left class="col-md-3 col-sm-3 col-xs-4">
+                <form id="formCrearIncubacion" action="/CrearIncubacion/" method="GET"> 
+                    <button type="submit" class="btn" style="background-color:#F4E222; color: white;" id="btnIncubacion" name="btnIncubacion"><b>Crear Incubaci&oacute;n</b>
+                    </button>
+                    
+                </form>
+                
+            </div>
+            <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="busqueda_ofertas"
+                           placeholder="Buscar Incubaciones por Nombre"/>
+                </div>
+                <div class="col-sm-3" ng-controller="busquedaControlador">
+                    <button class="btn btn-blue" ng-click='buscarOfertas()'>Buscar</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="col-md-12">
+
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#verIncubaciones" aria-controls="home" role="tab" data-toggle="tab">LISTA DE INCUBADAS</a></li>
+                   </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="verIncubaciones">
+                        <div class="timeline-block col-md-10">
+                          <!-- First blog post -->
+                            <div class="blog-summary col-md-12">
+                              <h4><a href="#">Incubada 1</a></h4>
+                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-user"></i> <a href="#">Administrator</a></li>
+                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
+                                <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                              </ul>
+                              <hr>
+                              <p class="blog-text">
+                                <img style="width: 25%" class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                <ul class="list-inline" align="center">
+                                <br>
+                                    <label>Tipo:  </label>
+                                    <li>
+                                    Tecnolog&iacute;a
+                                    </li><br>
+                                    <label>N&uacute;mero de consultores:  </label>
+                                    <li>
+                                        3
+                                    </li><br>
+                                    <label>N&uacute;mero de retroalimentaciones:  </label>
+                                    <li title="Bookmarks">
+                                        4
+                                    </li><br>
+                                    <label>N&uacute;mero de milestones:  </label>
+                                    <li title="Bookmarks">
+                                        1
+                                    </li><br>
+                                    <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+
+                                </div>
+
+
+                                </ul>
+
+                              </p>
+                               <div class="thumbnail col-md-1 col-sm-6" style="margin-bottom:0px;" align="right">
+                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                              <p class="tags col-md-12">
+                                <a href="#">Bootstrap</a>
+                                <a href="#">HTML5</a>
+                                <a href="#">CSS</a>
+                                <a href="#">jQuery</a>
+                              </p><br><br>
+                               <div style="float:right;margin-right: 20%">
+                                   <a id="ref" href="">
+                                    <button style="background-color:#F4E222" id="bt1" type="button" class="btn btn-green"><b>Administrar</b>  </button>
+                                   </a>
+                               </div>
+
+
+                            </div>
+
+
+                            <!-- Second blog post -->
+                            <div class="blog-summary col-md-12">
+                              <h4><a href="#">Incubada 2</a></h4>
+                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-user"></i> <a href="#">Administrator</a></li>
+                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
+                                <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                              </ul>
+                              <hr>
+                              <p class="blog-text">
+                                <img style="width: 25%" class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                <ul class="list-inline" align="center">
+                                <br>
+                                    <label>Tipo:  </label>
+                                    <li>
+                                    Tecnolog&iacute;a
+                                    </li><br>
+                                    <label>N&uacute;mero de consultores:  </label>
+                                    <li>
+                                        3
+                                    </li><br>
+                                    <label>N&uacute;mero de retroalimentaciones:  </label>
+                                    <li title="Bookmarks">
+                                        4
+                                    </li><br>
+                                    <label>N&uacute;mero de milestones:  </label>
+                                    <li title="Bookmarks">
+                                        1
+                                    </li><br>
+                                    <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+
+                                </div>
+
+
+                                </ul>
+                                </ul>
+
+                              </p>
+                               <div class="thumbnail col-md-1 col-sm-6" style="margin-bottom:0px;" align="right">
+                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                              <p class="tags col-md-12">
+                                <a href="#">Bootstrap</a>
+                                <a href="#">HTML5</a>
+                                <a href="#">CSS</a>
+                                <a href="#">jQuery</a>
+                              </p><br><br>
+                               <div style="float:right;margin-right: 20%">
+                                   <a id="ref" href="">
+                                    <button style="background-color:#F4E222" id="bt1" type="button" class="btn btn-green"><b>Administrar</b> </button>
+                                </a>
+
+                               </div>
+                            </div>
+                            <!-- Third blog post -->
+                            <div class="blog-summary col-md-12">
+                              <h4><a href="#">Incubada 3</a></h4>
+                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-user"></i> <a href="#">Administrator</a></li>
+                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
+                                <li><i class="fa fa-comments-o"></i> 21 comments</li>
+                              </ul>
+                              <hr>
+                              <p class="blog-text">
+                                <img style="width: 25%" class="pull-left img-responsive blog-img" alt="Blog Image" src="/../../media/ofertas-demandas/works1.jpg">
+                                <ul class="list-inline" align="center">
+                                <br>
+                                    <label>Tipo:  </label>
+                                    <li>
+                                    Tecnolog&iacute;a
+                                    </li><br>
+                                    <label>N&uacute;mero de consultores:  </label>
+                                    <li>
+                                        3
+                                    </li><br>
+                                    <label>N&uacute;mero de retroalimentaciones:  </label>
+                                    <li title="Bookmarks">
+                                        4
+                                    </li><br>
+                                    <label>N&uacute;mero de milestones:  </label>
+                                    <li title="Bookmarks">
+                                        1
+                                    </li><br>
+                                    <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+
+                                </div>
+
+
+                                </ul>
+
+                              </p>
+                               <div class="thumbnail col-md-1 col-sm-6" style="margin-bottom:0px;" align="right">
+                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                              <p class="tags col-md-12">
+                                <a href="#">Bootstrap</a>
+                                <a href="#">HTML5</a>
+                                <a href="#">CSS</a>
+                                <a href="#">jQuery</a>
+                              </p><br><br>
+                               <div style="float:right;margin-right: 20%">
+                                   <a id="ref" href="">
+                                    <button style="background-color:#F4E222" id="bt1" type="button" class="btn btn-green"> <b>Administrar</b> </button>
+                                </a>
+
+                               </div>
+                            </div>
+                        </div>
+
+
+                        <!-- PAGINACION DE VER INCUBACIONES
+                        -->
+                        <div class="pagination col-md-10">
+                            <span class="step-links">
+                            {% if msjs.has_previous %}
+                                <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Página {{ msjs.number }} de {{ msjs.paginator.num_pages }}.
+                            </span>
+
+                            {% if msjs.has_next %}
+                                <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
+                            {% endif %}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="aa">
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="bb">
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+ 
+{% endblock %}
+
+
+

@@ -1,0 +1,171 @@
+{% extends "admin_incubacion_inicio.html" %}
+
+{% block sliderPagina %}EDITAR INCUBACION{% endblock %}
+{% block contenido %}
+<style>
+textarea { resize: none; }
+</style>
+<div class="container" ng-controller="crearIncubacionFormController">
+<form  class="form-horizontal"  name="forms.admin_crear_incubacion_form1" id="admin_crear_incubacion_form1" novalidate> 
+
+    <div class="row col-md-12">
+            <div align=right>
+
+                <button href="#" class="btn btn-red"  data-toggle="modal" data-target="#confirmar_cambios" id="btn_crear_incubacion"  ng-click="guardar()" style="background-color:#F44336;"><i class="fa fa-floppy-o" ></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+
+                <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#cancelar_cambios"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+
+            </div>
+    </div>
+
+    <div align=right>
+              
+    </div>
+ 
+    <div class="row">
+
+            
+
+            <div class=" col-md-12">
+
+                  <!-- Tab panes -->
+                  
+                  <div class="tab-content">
+
+                        <div role="tabpanel" class="tab-pane active" id="informacion">
+                            <div class="col-md-12">
+                              <!--Fecha de inicio de la incubacion-->
+                              <div class="form-group">
+                                  <label for="Nombres" class="col-md-2">Fecha de inicio</label>
+                                  <div class="col-md-6">
+
+                                      <input autofocus type="date" class="form-control" value"2016/12/12"
+                                      id="fecha" name="fecha_incubacion"  data-trigger="focus" ng-model="incubacion.fecha" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
+                                      <span ng-show="forms.admin_crear_incubacion_form1.fecha_incubacion.$error.pattern"><p class="bg-danger text-danger">Fecha de la Incubacion debe ser una fecha futura</p></span>
+                                      <span ng-show="forms.admin_crear_incubacion_form1.fecha_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                  </div>
+                              </div> 
+
+                              <!--Nombre-->
+                              <div class="form-group">
+                                  <label for="Nombres" class="col-md-2">Nombre</label>
+                                  <div class="col-md-6">
+
+                                      <input autofocus type="text"   class="form-control" placeholder="Nombre de la Oferta"id="nombre" name="nombre_incubacion"  data-trigger="focus"ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
+                                      <span ng-show="forms.admin_crear_incubacion_form1.nombre_incubacion.$error.pattern"><p class="bg-danger text-danger">Nombre de la Incubaci&oacute;n debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
+                                      <span ng-show="forms.admin_crear_incubacion_form1.nombre_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                  </div>
+                              </div>  
+                               <!--Descripicion-->
+                              <div class="form-group">
+                                  <label for="descripcion-incubacion" class="col-md-2">Descripci&oacute;n</label>
+                                  <div class="col-md-6">
+                                      <textarea id="descripcion_incubacion" name="descripcion_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la incubaci&oacute;n" ng-model="incubacion.descripcion" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)" ng-init="value='Probando'"></textarea>
+                                      <span ng-show="forms.admin_crear_incubacion_form1.descripcion_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                  </div>
+                              </div>
+                              <!--Perfil de la oferta-->
+                              <div class="form-group">
+                                  <label for="perfil-incubacion" class="col-md-2">Perfil de la Oferta</label>
+                                  <div class="col-md-6">
+                                      <textarea id="perfil_incubacion" name="perfil_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; el perfil de la oferta" ng-model="incubacion.perfil" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)" ng-init="value='Probando'"></textarea>
+                                      <span ng-show="forms.admin_crear_incubacion_form1.perfil_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                  </div>
+                              </div>
+
+                              <!--Condiciones-->
+                              <div class="form-group">
+                                  <label for="condiciones-incubacion" class="col-md-2">Condiciones de la iniciativa de incubaci&oacute;n</label>
+                                  <div class="col-md-6">
+                                      <textarea id="condiciones_incubacion" name="condiciones_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la condiciones de la incubaci&oacute;n" ng-model="incubacion.condiciones" ng-required="true" ng-blur="validarSubmit(forms.crear_incubacion_form1)" ng-init="value='Probando'"></textarea>
+                                      <span ng-show="forms.admin_crear_incubacion_form1.condiciones_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                  </div>
+                              </div>
+
+                              <!--Tipo-->
+                              <div class="form-group">
+                                  <label for="Tipo" class="col-md-2">Tipos de Ofertas</label>
+                                  <div class="col-xs-3 col-md-4">
+                                      <select name="select_tipo_incubacion" class="form-control" ng-options="i.valor as i.tipo for i in items_tipo" ng-model="incubacion.tipo" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
+                                          <option>Emprendimiento</option>
+                                          <option>Tecnología</option>
+                                          <option>Prototipos</option>
+                                      </select>
+                                     
+                                  </div>
+                              </div>      
+
+                              <!--Alcance -->
+                              <div class="form-group">
+                                  <label for="Tipo" class="col-md-2">Alcance</label>
+                                  <div class="col-xs-3 col-md-4">
+                                      <select name="select_alcance_incubacion" class="form-control" ng-options="i.valor as i.tipo for i in items_alcance" ng-model="incubacion.alcance" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
+                                          <option value="">Seleccione el alcance de la incubaci&oacute;n</option>
+                                      </select>
+                                      <span ng-show="forms.admin_crear_incubacion_form1.select_alcance_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                  </div>
+                              </div> 
+                          </div>                            
+                        </div>
+
+
+                   </div>
+
+            </div>
+
+    </div>
+
+
+
+<div id="confirmar_cambios" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Mensaje de Confirmación</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Estas Seguro(a) que quieres guardar los cambios?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-green"  style="background-color:#F4E222;" data-dismiss="modal">Sí</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="cancelar_cambios" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Mensaje de Confirmación</h4>
+      </div>
+      <div class="modal-body">
+        <p>Se perderan todos los cambios.¿Quiere continuar?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-green"  style="background-color:#F4E222;" data-dismiss="modal">Sí</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+{% endblock%}
