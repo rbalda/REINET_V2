@@ -174,13 +174,13 @@ class DemandaSerializador(ModelSerializer):
         perfil = Perfil.objects.all().filter(id_perfil = obj.fk_perfil_id).first()
         return perfil.username
 
-    def create(self,validated_data):
-        tags = validated_data.pop('tags',None)
-
     def getNumeroComentarios(self,obj):
         numComentarios = len(ComentarioDemanda.objects.all().filter(fk_demanda_id = obj.id_demanda, estado_comentario = 1))
         return numComentarios
 
+    def create(self,validated_data):
+        
+        tags = validated_data.pop('tags',None)
         nombre = validated_data['nombre']
         demanda = Demanda.objects.create(codigo=crear_codigo(nombre),estado=1,fk_perfil=Perfil.objects.get(id=self.context['request'].user.id),**validated_data)
         
@@ -202,4 +202,4 @@ class DemandaSerializador(ModelSerializer):
                     print type(e)
                     print e
 
-        return demanda
+        return demanda 
