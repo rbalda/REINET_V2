@@ -14,7 +14,7 @@
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="/perfilUsuario">{{ propietario }}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
-                <li><i class="fa fa-comments-o"></i> {{ comentariosDemanda | length }} Comentarios</li>
+                <li><i class="fa fa-comments-o"></i> {{ listaComentariosAceptadosDemandas }} Comentarios</li>
             </ul>
         </div>
         <div class="col-md-5" align=right>
@@ -290,8 +290,8 @@
                                     </ul>
                                 </div>
                                 <div align=right id="">
-                                    <a href="/aceptarComentario/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-green btn-xs"><span class="glyphicon glyphicon-plus-sign"></span> Aceptar</a>
-                                    <a href="/rechazarComentario/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-dark btn-md btn-xs"><span class="glyphicon glyphicon-minus-sign"></span> Rechazar</a>
+                                    <a href="/aceptarComentarioDemanda/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-green btn-xs"><span class="glyphicon glyphicon-plus-sign"></span> Aceptar</a>
+                                    <a href="/rechazarComentarioDemanda/{{ comentario.id_comentario_calificacion }}" type="button" class="btn btn-dark btn-md btn-xs"><span class="glyphicon glyphicon-minus-sign"></span> Rechazar</a>
                                 </div>
                             </div>
                             <br>
