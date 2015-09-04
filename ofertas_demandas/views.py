@@ -355,8 +355,8 @@ def ver_cualquier_oferta(request, id_oferta):
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['palabras_claves'] = palabras_claves
-		args['comentariosOferta'] = comentariosOferta
-		args['calificacionOferta'] = str(calificacionOferta)
+		args['comentariosOferta'] = comentarios_oferta
+		args['calificacionOferta'] = str(calificacion_oferta)
 		args['propietario'] = propietario
 		args['imagenesOferta'] = imagenes
 		args['imagenPrincipal'] = imagenPrincipal
