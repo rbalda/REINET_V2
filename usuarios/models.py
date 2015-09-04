@@ -92,7 +92,6 @@ class Mensaje(SelfPublishModel, models.Model):
     mensaje = models.CharField(max_length=1000)
     fecha_de_envio = models.DateTimeField(auto_now_add=True)
     asunto = models.CharField(max_length=45)
-    tipo_mensaje = models.CharField(max_length=45)
     fk_emisor = models.ForeignKey(User, related_name='mensajes_enviados')
     fk_receptor = models.ForeignKey(User, related_name='mensajes_receptados')
     visible_emisor = models.BooleanField(default=True)

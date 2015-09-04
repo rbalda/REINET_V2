@@ -1,0 +1,54 @@
+{% for equipo in listaEquipo %}
+    {% if equipo.estado_membresia == 1 %}
+
+
+        <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
+        <div class="member-left" style="margin-bottom: 0px;" id="{{ equipo.fk_participante.id_perfil }}" name="divMiembroEditar">
+
+            <img src="{{ equipo.fk_participante.foto.url }}" alt="Team Member" class="left" style="
+                            margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+
+            <a href="/usuario/{{ equipo.fk_participante }}"><h4 style="font-size: 14px;">{{ equipo.fk_participante.first_name }} {{ equipo.fk_participante.last_name }} </h4></a>
+            <div class="col-md-2">
+                <p class="position" style="margin-bottom: 4px;">Estado&nbsp;:&nbsp;&nbsp;</p>
+            </div>
+
+            <div class="col-md-6">
+                {% if equipo.activo == 1 %}
+                    {% if equipo.es_propietario == 1 %}
+                        <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="ACTIVO" disabled >
+                    {% else %}
+                        <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="ACTIVO" >
+                    {% endif %}
+                {% else %}
+                    <input list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="INACTIVO" >
+                {% endif %}
+                <datalist id="estado">
+                    <option value="ACTIVO">
+                    <option value="INACTIVO">
+                </datalist>
+                <a  id="{{ equipo.fk_participante.id_perfil }}"name="btnEditarEstado"><i class="fa fa-cog"></i>Editar</a>
+            </div>
+            <div class="col-md-2">
+                <p class="position" style="margin-bottom: 4px;">Rol&nbsp;:&nbsp;&nbsp;</p>
+            </div>
+
+            <div class="col-md-6">
+
+                <input type="text" id="{{ equipo.fk_participante.id_perfil }}" name="rolEditable" value="{{equipo.rol_participante}}" >
+                <a  id="{{ equipo.fk_participante.id_perfil }}" name="btnEditarRol"><i class="fa fa-cog"></i>Editar</a>
+            </div>
+
+        </div>
+
+
+        </br>
+    {% endif %}
+{% empty %}
+    <div class="member-left" style="margin-bottom: 0px;">
+        <p class="position">No existen participantes en esta oferta</p>
+    </div>
+
+
+{% endfor %}
+

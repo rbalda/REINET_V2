@@ -1,0 +1,525 @@
+{% extends "oferta_inicio.html" %}
+
+
+{% block contenido %}
+<link rel="stylesheet" href='/static/css/demo.css'>
+
+
+		{% block registrarinstitucion %}
+				{% include 'menusuperior/registrarinstitucion.tpl.html' %}
+		{% endblock %}
+	<div class="section-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h1 class="animated slideInLeft" ><span style="border-bottom: 5px solid #72A53B;">OFERTA DE LA RED</span></h1>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Main body
+================== -->
+<div class="container">
+	<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;"align="left">
+		<div class="col-md-7">
+			<h4>{{ oferta.nombre }}</h4>
+			<ul class="text-muted list-inline">
+				<li><i class="fa fa-user"></i> <a href="#">Administrador</a></li>
+				<li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
+				<li><i class="fa fa-comments-o"></i> 21 comments</li>
+			</ul>
+
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="col-md-8" style="padding-left: 0px;">
+			<div class="blog-text">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs " role="tablist">
+					<li role="presentation" class="active">
+						<a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a>
+					</li>
+					<li role="presentation">
+						<a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a>
+					</li>
+					<li role="presentation">
+						<a href="#modelo" aria-controls="messages" role="tab" data-toggle="tab">Modelo de Negocio</a>
+					</li>
+					<li role="presentation">
+						<a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Competidores</a>
+					</li>
+					<li role="presentation">
+						<a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Logros</a>
+					</li>
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content row">
+					<div role="tabpanel" class="tab-pane active" id="informacion">
+						<div class="col-md-12">
+							<div class="col-md-4 col-sm-4 col-xs-4">
+								<div class="block-inverse">
+									<div class="head-inverse">
+										<p class="text-center"><strong class="text-muted">Galeria</strong></p>
+										<img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
+									</div>
+									<div class="body-inverse">
+										<ul class="row list-inline gallery-list-small" style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
+											<li class="col-xs-6">
+											  <a href="#">
+												<img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
+											  </a>
+											</li>
+											<li class="col-xs-6">
+											  <a href="#">
+												<img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg" alt="...">
+											  </a>
+											</li>
+											<li class="col-xs-6">
+											  <a href="#">
+												<img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg" alt="...">
+											  </a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 col-sm-8 col-xs-8">
+								<!--Tipo-->
+								<p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
+								<p>{{ oferta.tipo }}</p>
+								<!--Descripcion-->
+								<p  style="color: darkgray" for="Nombres" class="col-md-3">Descripci&oacute;n</p>
+								<p class="col-md-9">{{ oferta.descripcion }} </p>
+								<!--Dominio-->
+								<p style="color: darkgray" for="Nombres" class="col-md-3">{{ oferta.dominio }}</p>
+								<p>Dominio</p>
+								<!--Subdominio-->
+								<p style="color: darkgray" for="Nombres" class="col-md-3">{{ oferta.subdominio }}</p>
+								<p>Sub-dominio</p>
+								<!--Palabras Clave-->
+								<p  style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
+								<p class="tags">
+									<a >Industria</a>
+									<a >Autos</a>
+									<a >Startup</a>
+									<a>Espol</a>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="cliente_usuario">
+						<div class="col-md-12">
+							<!--Perfil Cliente-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Cliente</p>
+							<p class="col-md-9">{{ oferta.perfil_cliente }} </p>
+							<!--Perfil Beneficiario-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-3">Perfil del Beneficiario</p>
+							<p class="col-md-9">{{ oferta.perfil_beneficiario }} </p>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="modelo">
+						<div class="col-md-12">
+							<!--Canvas del modelo de negocio-->
+							<h3 style="text-align:center" class="h4">  Canvas del Modelo de negocios</h3>
+							<hr>
+
+							<div class="col-md-12 table-responsive" style="font-size: 12px;">
+								<table class="table table-bordered" >
+									  <tr>
+										 <th>Socios clave</th>
+										 <th>Actividades clave</th>
+										 <th>Propuestas de valor</th>
+										 <th>Relaciones con los clientes</th>
+										 <th>Segementos de clientes</th>
+									  </tr>
+									  <tr>
+										 <td rowspan=3>{{ oferta.fk_diagrama_canvas.asociaciones_clave }} </td>
+										 <td>{{ oferta.fk_diagrama_canvas.actividades_clave }} </td>
+										 <td rowspan=3>{{ oferta.fk_diagrama_canvas.propuesta_valor }} </td>
+										 <td>{{ oferta.fk_diagrama_canvas.relacion_clientes }} </td>
+										 <td rowspan=3>{{ oferta.fk_diagrama_canvas.segmento_mercado }} </td>
+									  </tr>
+									  <tr>
+										<th>Recursos Claves</th>
+										<th>Canales</th>
+									  </tr>
+									  <tr>
+										 <td>{{ oferta.fk_diagrama_canvas.recursos_clave }} </td>
+										 <td>{{ oferta.fk_diagrama_canvas.canales_distribucion }} </td>
+									  </tr>
+									  <tr>
+										<th colspan=3>Estructura de Costos</th>
+										<th colspan=2>Fuentes de Ingresos</th>
+									  </tr>
+									  <tr>
+										 <td colspan=3>{{ oferta.fk_diagrama_canvas.estructura_costos }}</td>
+										 <td colspan=2>{{ oferta.fk_diagrama_canvas.fuente_ingresos }} </td>
+									  </tr>
+								</table>
+
+							</div>
+						</div>
+
+					</div>
+					<div role="tabpanel" class="tab-pane" id="industria">
+						<div class="col-md-12">
+							<!--Tendencias-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-5">Tendencias Relevantes</p>
+							<br>
+							<p class="col-md-12">{{ oferta.cuadro_tendencias_relevantes }} </p>
+							 <!--Alternativas de solucion-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-5">Alternativas de Soluci&oacute;n Existentes</p>
+							<br>
+							<p class="col-md-12">{{ oferta.descripcion_soluciones_existentes }} </p>
+							<!--Diagrama de Porter-->
+
+							<p style="color: darkgray" for="Descripcion" class="col-md-5">Diagrama de Porter</p>
+
+							<div class="col-md-12 table-responsive" style="font-size: 12px;">
+								<table class="table table-bordered" >
+									   <tr>
+										 <th>Competidores</th>
+										 <th>Poder de consumidores</th>
+										 <th>Sustitutos</th>
+										 <th>Poder de proveedores</th>
+										 <th>Nuevos entrantes</th>
+									  </tr>
+									  <tr>
+										 <td>{{ oferta.fk_diagrama_competidores.competidores }} </td>
+										 <td>{{ oferta.fk_diagrama_competidores.consumidores }} </td>
+										 <td>{{ oferta.fk_diagrama_competidores.sustitutos }} </td>
+										 <td>{{ oferta.fk_diagrama_competidores.proveedores }} </td>
+										 <td>{{ oferta.fk_diagrama_competidores.nuevosMiembros }}</td>
+									  </tr>
+								</table>
+							</div>
+
+							<br><br>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="esta_logro">
+						<div class="col-md-12">
+							<p style="color: darkgray" for="Descripcion" class="col-md-6">Tiempo aproximado de disponilidad del producto o servicio</p>
+							<p>{{ oferta.tiempo_para_estar_disponible }}</p>
+
+							<br>
+							<!--Estado del producto o servicio-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-6">Estado del producto o servicio</p>
+							<p class="col-md-12">No Hay </p>
+							<!--Estrategia de crecimiento-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-6">Estrategia de crecimiento</p>
+							<br>
+							<p class="col-md-12">No Hay </p>
+							<!--Estado de propiedad Intelectual-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-6">Estado de propiedad Intelectual</p>
+							<br>
+							<p class="col-md-12">{{ oferta.estado_propieada_intelectual }} </p>
+							<!--Evidencia de Traccion-->
+							<p style="color: darkgray" for="Descripcion" class="col-md-6">Evidencia de Tracci&oacute;n</p>
+							<br>
+							<p class="col-md-12">{{ oferta.evidencia_traccion }} </p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+
+
+
+			<!-- New comment form -->
+		   <div class="new-comment">
+			  <form class="form-horizontal ng-pristine ng-valid ng-submitted" role="form">
+				<div class="form-group" style="margin-bottom: 15px;">
+				  <div class="col-sm-2 hidden-xs">
+					<img src="/../../media/ofertas-demandas/face1.jpg" alt="..." class="img-responsive">
+				  </div>
+				  <div class="col-sm-10">
+					<div>
+						<span class="rating">
+							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+							<label for="rating-input-1-5" class="rating-star"></label>
+
+							<input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+							<label for="rating-input-1-4" class="rating-star"></label>
+
+							<input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+							<label for="rating-input-1-3" class="rating-star"></label>
+
+							<input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+							<label for="rating-input-1-2" class="rating-star"></label>
+
+							<input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+							<label for="rating-input-1-1" class="rating-star"></label>
+						</span>
+					</div>
+					<textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba su comentario acerca de la oferta"></textarea>
+				  </div>
+				</div>
+				<div class="form-group" style="margin-bottom: 0px;">
+				  <div class="col-sm-offset-2 col-sm-10" align="right">
+					<button type="submit" class="btn btn-green btn-sm" data-toggle="modal" data-target="#confirmarcionCC">Publicar</button>
+				  </div>
+				</div>
+			  </form>
+			</div>
+
+
+
+			<!-- Comments list -->
+			<h4>2 comments</h4>
+			<hr>
+
+
+
+
+
+
+
+
+
+
+			<!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
+			<div class="comment">
+				<div class="media">
+					<a class="pull-left" href="#">
+						<img class="media-object img-circle" src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+					</a>
+					<div class="media-body">
+						<p><a href="profile.html">Username 3</a></p>
+						<div class="thumbnail" style="margin-bottom:0px">
+							<div class="caption" style="padding-top:0px; padding-bottom:0px">
+								<div class="rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+								</div>
+							</div>
+						</div>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+						</p>
+						<ul class="text-muted list-inline">
+							<li><i class="fa fa-calendar"></i> 11/10/2013</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="comment">
+				<div class="media">
+					<a class="pull-left" href="#">
+						<img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
+					</a>
+					<div class="media-body">
+						<p><a href="profile.html">Username 3</a></p>
+						<div class="thumbnail" style="margin-bottom:0px">
+							<div class="caption" style="padding-top:0px; padding-bottom:0px">
+								<div class="rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+								</div>
+							</div>
+						</div>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus.
+						</p>
+						<ul class="text-muted list-inline">
+							<li><i class="fa fa-calendar"></i> 11/10/2013</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+		</div>
+		<div class="col-md-4">
+			<!-- Social Links -->
+			<h4>Calificaci&oacute;n general</h4>
+			<div class="thumbnail" align=center style="margin-bottom:0px">
+				<div class="caption" style="padding-top:0px; padding-bottom:0px">
+						<div class="rating">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+						</div>
+				</div>
+			</div>
+			<!-- COMIENZA  Panel del equipo -->
+			<div class="panel panel-default">
+				<div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+					<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+						<div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
+							<h4 style="margin-top: 6px;">Equipo</h4>
+						 </div>
+					</div>
+				</div>
+
+				<div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+					<div class="recent-blogs">
+						<div class="team">
+
+							<div align=center>
+								<p>
+									{%if participantes|length >= 5 %}
+										<button disabled="true" id="btn_participar" class="btn btn-green btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Equipo Lleno</button>
+
+									{% elif existeMembresia == True or estadoMembresia == 0 %}
+										<button disabled="true" id="btn_participar" class="btn btn-green btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Ya envió una solicitud</button>
+
+									{% elif existeMembresia == False or estadoMembresia == -1 %}
+										<button id="btn_participar" class="btn btn-white btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Participar en este equipo</button>
+
+									{% elif estadoMembresia == 1 %}
+										<button disabled="true" id="btn_participar" class="btn btn-green btn-sm" style="color:green;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Usted ya pertenece a este equipo</button>
+
+									{% else %}
+										<button id="btn_participar" class="btn btn-white btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitarEquipo">
+										<i class="fa fa-sign-in"></i>
+										&nbsp;&nbsp;Participar en este equipo</button>
+									{% endif %}
+								</p>
+							</div>
+							<hr style="margin-top: 15px;">
+							<div id="equipo">
+								<ul id="lista_equipo">
+
+								</ul>
+								<!--Script para mostrar el equipo de oferta-->
+								<script>
+									$(document).ready(function(){
+										$(function(){
+										  $('#lista_equipo').ready(mostrarEquipoOferta);
+											function mostrarEquipoOferta(){
+											$.ajax({
+											  data:{
+												'oferta':{{oferta.id_oferta}}
+											  },
+											  type:'get',
+											  url: '/equipoOferta/',
+											  success: function(data){
+												$('#lista_equipo').html(data)
+											  }
+											});
+
+										  }
+										});
+									  });
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- TERMINA Panel del equipo -->
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- COMIENZAN Los modals que se usan en toda la pagina -->
+
+
+<!-- //// VENTANA EMERGENTE SOLICITAR MEMBRESIA A OFERTA ///// -->
+	<div class="modal modal-vcenter fade" id="solicitarEquipo" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+					<h4 class="modal-title" id="sendemailtitle">Solicitar pertenecer al equipo de trabajo de la oferta</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body" style="margin-bottom:30px">
+					<form role="form" action="" method='POST'>
+						<!--{% csrf_token %}-->
+						<div class="form-group">
+							<textarea style="resize:none" class="form-control" rows="3" placeholder="Escriba algun comentario acerca de su solicitud de participación en el equipo"></textarea>
+						</div>
+						<a href="/solicitarMembresiaOferta/" class="button" data-toggle="modal" data-target="#confirmarcionSolicitud" style="float:right">
+							<button id="enviarSolicitud" type="button" class="btn btn-green" data-dismiss="modal">Enviar</button>
+						</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Script para enviar solicitud de membresia a la oferta-->
+	<script>
+	$(document).on('click','#enviarSolicitud',function(){
+	console.log('dentro de enviarSolicitud');
+	  $.ajax({
+		  data: {
+			'oferta' : {{ oferta.id_oferta }},
+			'csrfmiddlewaretoken' :'{{ csrf_token }}'
+		  },
+		  type: 'post',
+		  url: '/solicitarMembresiaOferta/',
+		  success: function(data){
+				  var objeto = JSON.parse(data);
+				  if (objeto.save_estado){
+					$('#btn_participar').attr('disabled', true);
+					$('#btn_participar').popover('hide');
+					$('#btn_participar').text("Solicitud Enviada");
+					$('#btn_participar').css('color', 'green');
+
+				  }else{
+					console.log('algo paso')
+				  }
+		  }
+	  });
+
+  });
+	</script>
+
+<!---->
+
+
+
+
+	 <div class="modal modal-vcenter fade" id="confirmarcionCC" tabindex="-1" role="dialog" aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body">
+					<form role="form" action="" method=''>
+						<!--{% csrf_token %}-->
+						<div class="form-group">
+							<label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
+							<p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser aprobados por el dueño de la oferta para ser mostrados</p>
+						</div>
+						<div align="right">
+							<a href="" class="button">
+								<button type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
+							</a>
+						</div>
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+{% endblock %}

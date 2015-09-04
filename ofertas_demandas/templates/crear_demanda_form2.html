@@ -1,0 +1,43 @@
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: crear_demanda_form2.html
+        Descripción: html del formulario cliente/usuario de crear demanda
+{% endcomment %}
+
+<div class="col-md-12">
+    <!--Perfil Cliente-->
+
+    <div class="form-group">
+        <label for="demanda_descripcion_perfil" class="col-md-2">Perfil Cliente</label>
+        <div class="col-md-6">
+
+            <textarea autofocus id="demanda_descripcion_perfil" name="demanda_descripcion_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n del perfil"
+                      ng-model="demanda.perfil_cliente"  ng-required="false"
+                    ></textarea>
+        </div>
+    </div>
+
+    <!--Perfil Beneficiario-->
+    <div class="form-group">
+        <label for="demanda_beneficiario_perfil" class="col-md-2">Perfil del Beneficiario</label>
+        <div class="col-md-6">
+
+            <textarea autofocus id="demanda_beneficiario_perfil" name="demanda_beneficiario_perfil" rows="4"  class="form-control" placeholder="Escribe aqu&iacute; el perfil del beneficiario"
+                      ng-model="demanda.perfil_beneficiario"  ng-required="false"
+                    ></textarea>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <br>
+
+        <a href="#industria"  aria-controls="messages" role="tab" data-toggle="tab">
+            <input type="button" class="btn btn-info pull-right" value="Siguiente">
+        </a>
+
+        <a href="#informacion" aria-controls="messages" role="tab" data-toggle="tab" style="margin-right:15px;margin-left:15px;">
+            <input type="button" class="btn btn-default pull-right" value="Atr&aacute;s" style="margin-right:15px;margin-left:15px;">
+        </a>
+    </div>
+
+</div>

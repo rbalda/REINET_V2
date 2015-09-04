@@ -1,0 +1,38 @@
+{% for equipo in listaEquipo %}
+    {% if equipo.estado_membresia == 1 and equipo.activo == 1 %}
+        <div class="member-left" style="margin-bottom: 0px;">
+            <img src="{{ equipo.fk_participante.foto.url }}" alt="Team Member" class="left" style="
+                margin-right: 40px; margin-left: 40px; width: 75px;height: 75px;">
+            <a href="/usuario/{{ equipo.fk_participante }}"><h4 style="font-size: 14px;">{{ equipo.fk_participante.username }}</h4></a>
+            <p id="cambioEstado" class="position" style="margin-bottom: 4px;">
+                {% if equipo.activo == 1 %}
+                    {% if equipo.fk_participante.id_perfil == usuario.id_perfil and equipo.es_propietario != 1%}
+                        Estado&nbsp;:&nbsp;&nbsp;
+                        <span style="color:black;font-size: 12px;">
+                                <input style="width:80px;" list="estado" name="estadoEditable" id="{{ equipo.fk_participante.id_perfil }}" value="ACTIVO">
+                            </span>
+                        <datalist id="estado">
+                            <option id="cambioEstado" value="ACTIVO">
+                            <option id="cambioEstado" value="INACTIVO">
+                        </datalist>
+                        <button type="submit" class="btn btn-green" id="guardarEditarEquipo">Guardar</button>
+                    {% else %}
+                        Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">ACTIVO</span>
+                    {% endif %}
+                {% else %}
+                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">INACTIVO</span>
+                {% endif %}
+
+            </p>
+            <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">{{ equipo.rol_participante }}</span></p>
+        </div>
+    {% endif %}
+{% empty %}
+    <!-- PRIMER MIEMBRO DEL EQUIPO-->
+    <div class="member-left" style="margin-bottom: 0px;">
+        <p class="position">No existen participantes en esta oferta</p>
+    </div>
+
+
+{% endfor %}
+

@@ -1,0 +1,104 @@
+{% extends "oferta_inicio.html" %}
+
+{% block sliderPagina %}CREAR DEMANDA{% endblock %}
+{% block contenido %}
+
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: crear_demanda.html
+        Descripción: html de los tabs del formulario de crear demanda
+{% endcomment %}
+
+    <style>
+        textarea { resize: none; }
+    </style>
+    <div class="container" ng-controller="crearDemandaFormController">
+        <form  class="form-horizontal"  name="forms.crear_demanda_form1" id="crear_demanda_form1" novalidate>
+        
+            <div class="row col-md-12">
+                <div align=right>
+
+                    <button href="#" class="btn btn-warning" id="btn_crear_demanda" ng-disabled="validar_form" ng-click="guardar()"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+
+                    <a href="/InicioDemanda/" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+
+                </div>
+            </div>
+
+            <div align=right>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4 col-md-offset-4 alert alert-dismissible" ng-class="textType" style="text-align:center; margin-top:10px;" role="alert" ng-hide="hide" ng-cloak>
+                    <button id="info_crear_close" type="button" class="close" ng-click="hide=true" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p><span class="glyphicon" ng-class="iconoClass" aria-hidden="true"></span><strong>[[ info_crear_demanda]]</strong></p>
+                </div>
+
+
+                <div class=" col-md-12">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#informacion" aria-controls="home" role="tab" data-toggle="tab">Informaci&oacute;n General</a></li>
+                        <li role="presentation" id="prueba">
+                            <a href="#cliente_usuario" aria-controls="profile" role="tab" data-toggle="tab">Cliente/Usuario</a></li>
+                        <li role="presentation">
+                            <a href="#industria" aria-controls="settings" role="tab" data-toggle="tab">Industria</a></li>
+                        <li role="presentation">
+                            <a href="#esta_logro" aria-controls="messages" role="tab" data-toggle="tab">Estado</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+
+                    <div class="tab-content">
+
+                        <div role="tabpanel" class="tab-pane active" id="informacion">
+                            {% include "crear_demanda_form1.html" %}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                            {% include "crear_demanda_form2.html" %}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="industria">
+                            {% include "crear_demanda_form3.html" %}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="esta_logro">
+                            {% include "crear_demanda_form4.html" %}
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+    <script>
+    var demanda_copia = undefined;
+
+    {% if demanda %}
+      demanda_copia = {
+          descripcion:'{{ demanda.descripcion }}',
+          dominio:'{{ demanda.dominio }}',
+          subdominio: '{{ demanda.subdominio }}',
+          perfil_cliente : '{{ demanda.perfil_cliente|default_if_none:"" }}',
+          perfil_beneficiario : '{{ demanda.perfil_beneficiario|default_if_none:"" }}',
+          alternativas_soluciones_existentes : '{{ demanda.alternativas_soluciones_existentes|default_if_none:"" }}',
+          importancia_resolver_necesidad : '{{ demanda.importancia_resolver_necesidad|default_if_none:"" }}',
+          lugar_donde_necesita : '{{ demanda.lugar_donde_necesita|default_if_none:"" }}'
+      };
+
+      var tags_copia = {{ tags|safe }};
+
+      var demanda_tiempo = {{demanda_tiempo}};
+      var demanda_duracion = {{demanda_duracion}};
+
+    {% endif %}
+
+    </script>
+    
+</div>
+{% endblock %}

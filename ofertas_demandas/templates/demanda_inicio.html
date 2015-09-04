@@ -1,0 +1,289 @@
+{% extends "oferta_inicio.html" %}
+
+{% block sliderPagina %}DEMANDAS{% endblock %}
+
+
+{% block contenido %}
+    <div class="container">
+    <div class="row" style="margin-bottom: 25px;">
+        <div align=left class="col-md-3 col-sm-3 col-xs-4">
+            <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearDemanda">Crear
+                Demanda
+            </button>
+        </div>
+        <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="busqueda_demandas"
+                       placeholder="Buscar Demandas por Nombre o por Tag (Solo para las demandas de la red)"/>
+            </div>
+            <div class="col-sm-3" ng-controller="busquedaDemandaControlador">
+                <button class="btn btn-blue" ng-click='buscarDemandas()'>Buscar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+    <div class=" col-sm-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#demandasPublicadas" aria-controls="home" role="tab" data-toggle="tab">Mis Demandas</a>
+        </li>
+        <li role="presentation">
+            <a href="#borradorDemanda" aria-controls="borradorDemanda" role="tab" data-toggle="tab">Borradores</a>
+        </li>
+        <li role="presentation">
+            <a href="#demandasdelaREd" aria-controls="demandasdelaREd" role="tab" data-toggle="tab">Demandas de la Red</a>
+        </li>
+    </ul>
+
+
+    <div class="tab-content col-sm-12">
+
+        <!-- COMIENZA DEMANDAS DE LA RED-->
+    <div role="tabpanel" class="tab-pane" id="demandasdelaREd" ng-controller="DemandasControlador">
+        <div class="col-sm-12">
+            <div class="timeline-block">
+                <!-- First blog post -->
+                <div ng-repeat="demanda in listaDemandas">
+                    <div class="blog-summary">
+                        <h4 class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                            <a class="ng-binding" href="/demanda/[[ demanda.id_demanda ]]">[[demanda.nombre]]</a>
+                        </h4>
+                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[ demanda.fecha_publicacion.substring(0,4) ]]/
+                            [[ demanda.fecha_publicacion.substring(5,7) ]]/ [[ demanda.fecha_publicacion.substring(8,10) ]]
+                        </time>
+                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-user"></i> <a href="/usuario/[[ demanda.duenoUsername ]]">[[ demanda.dueno ]]</a></li>
+                                    <li><i class="fa fa-calendar"></i> [[ demanda.fecha_publicacion.substring(0,10) ]]</li>
+                                    <li><i class="fa fa-comments-o"></i> [[ demanda.numComentarios ]] comentarios</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+
+                            </div>
+                        </div>
+                        <div style="clear:both;">
+                        </div>
+                        <hr style="margin-top: 10px;">
+                        <p class="blog-text" style="height: 125px">
+                            <img class="img-responsive blog-img" alt="Imagen de la demanda"
+                                 src="[[ demanda.galeria[0].imagen ]]" style="height: 115px; width: 115px;" align="left">
+                            [[demanda.descripcion]]
+                        </p>
+
+                        <div class="tags">
+                            <a ng-repeat="tag in o.palabras_clave">[[tag.palabra]]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PAGINACION DE OFERTA PUBLICADAS-->
+        <div class="pagination">
+            <button class="btn btn-green" ng-click='irAlanterior()'>Anterior</button>
+            <span class="current">
+              Página [[ pagina ]] de [[ contador ]].
+            </span>
+            <button class="btn btn-green" ng-click='irAlsiguiente()'>Siguiente</button>
+        </div>
+    </div>
+
+    <!-- COMIENZA TAB DE OFERTAS PUBLICADAS-->
+    <div role="tabpanel" class="tab-pane active" id="demandasPublicadas" ng-controller="MisDemandasControlador">
+        <div class="col-sm-12">
+            <div class="timeline-block">
+                <!-- First blog post -->
+                <div ng-repeat="publicada in MDlistaOfertas">
+                    <div class="blog-summary">
+                        <h4 class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
+                                <a class="ng-binding" href="/administrarDemanda/[[ publicada.id_demanda ]]">[[publicada.nombre]]</a>
+                            </div>
+                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:-10px;" align="right">
+                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
+                                    <div class="rating" ng-repeat="n in [] | range:[[publicada.calificacion_total]]">
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </h4>
+                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[
+                            publicada.fecha_publicacion.substring(0,4) ]]/ [[ publicada.fecha_publicacion.substring(5,7)
+                            ]]/ [[ publicada.fecha_publicacion.substring(8,10) ]]
+                        </time>
+                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ publicada.dueno ]]</a>
+                                    </li>
+                                    <li><i class="fa fa-calendar"></i> [[ publicada.fecha_publicacion.substring(0,10) ]]
+                                    </li>
+                                    <li><i class="fa fa-comments-o"></i> [[publicada.numComentarios]] comentarios</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+                                <a href="/administrarOferta/[[ publicada.id_oferta ]]" class="btn btn-green btn-sm">
+                                    <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
+                            </div>
+                        </div>
+                        <div style="clear:both;">
+                        </div>
+                        <hr style="margin-top: 10px;">
+                        <p class="blog-text" style="height: 125px">
+                            <img class="img-responsive blog-img" alt="Imagen de mi Demanda"
+                                 src="[[ publicada.galeria[0].imagen ]]" style="height: 115px; width: 115px;" align="left">
+                            [[publicada.descripcion]]
+                        </p>
+                        <p class="tags">
+                            <a ng-repeat="tag in publicada.palabras_clave">[[tag.palabra]]</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pagination">
+            <button class="btn btn-green" ng-click='irAlanteriorPublicada()'>Anterior</button>
+            <span class="current">
+              Página [[ MDpagina ]] de [[ MDcontador ]].
+            </span>
+            <button class="btn btn-green" ng-click='irAlsiguientePublicada()'>Siguiente</button>
+        </div>
+    </div>
+    <!-- TERMINA TAB DE OFERTAS PUBLICADAS-->
+
+    <!-- COMIENZA TAB DE BORRADORES-->
+    <div role="tabpanel" class="tab-pane" id="borradorDemanda" ng-controller="MisDemandasBorradoresControlador">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="timeline-block">
+                        <!-- First blog post -->
+                        <div ng-repeat="borrador in BorradoreslistaDemandas">
+                            <div class="blog-summary">
+                                <h4 style="padding-left: 0px;padding-right: 0px;">
+                                    <a href="/administrarBorradorDemanda/[[ borrador.id_demanda ]]">[[borrador.nombre]]</a>
+                                </h4>
+                                <time datetime="2013-11-10" class="timestamp hidden-xs">[[
+                                    borrador.fecha_creacion.substring(0,4) ]]/ [[ borrador.fecha_creacion.substring(5,7)
+                                    ]]/ [[ borrador.fecha_creacion.substring(8,10) ]]
+                                </time>
+                                <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
+                                        <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ borrador.dueno
+                                                ]]</a></li>
+                                            <li><i class="fa fa-calendar"></i> [[
+                                                borrador.fecha_creacion.substring(0,10) ]]
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
+                                        <a href="/EditarBorradorDemanda/[[ borrador.id_demanda ]]" class="btn btn-green btn-sm">
+                                            <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
+                                    </div>
+                                </div>
+                                <div style="clear:both;">
+                                </div>
+                                <hr style="margin-top: 10px;">
+                                <p class="blog-text">
+                                    [[borrador.descripcion]]
+                                </p>
+                                <p class="tags">
+                                    <a ng-repeat="tag in borrador.palabras_clave">[[tag.palabra]]</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <button class="btn btn-green" ng-click='irAlanteriorBorrador()'>Anterior</button>
+            <span class="current">
+                Página [[ Borradorespagina ]] de [[ Borradorescontador ]].
+            </span>
+            <button class="btn btn-green" ng-click='irAlsiguienteBorrador()'>Siguiente</button>
+        </div>
+
+    </div>
+    <!-- TERMINA TAB DE BORRADORES-->
+
+
+    <!-- TERMINA OFERTAS DE LA RED-->
+    <!-- TERMINA EQUIPO-->
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!--MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL CREAAAAAAAAAAAAAAAAAAR OFEEEEEEEEEEEEEERTA-->
+
+    <div class="modal fade" id="modalCrearDemanda" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form id="formCrearDemanda" ng-controller="CargarDemandasSelectController" action="/CrearDemandaCopia/"
+                      method="GET">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close cancelar" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Crear Demanda</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-offset-1">
+                            <input type="radio" name="radioName" id="radio1" value="1" checked
+                                   class="'disabled':'disabled';"/>&nbsp;&nbsp;Nueva demanda<br/>
+                            <input type="radio" name="radioName" id="radio2" value="2"/>&nbsp;&nbsp;De demanda
+                            existente<br/>
+
+                            <div class="" id="lista_de_demandas" style="display:none;">
+
+                                <select class="form-control select-box" id="lista_demanda" name="lista_demanda"
+                                        ng-model="lista_demanda"
+                                        ng-options="i.id_demanda as i.nombre for i in listaDemandas"
+                                        style="margin-left: 3px;margin-top: 5px;overflow-x: hidden;overflow-y: scroll;"
+                                        ng-change="selectDemanda(i.id_demanda)">
+                                </select>
+                            </div>
+                            <input type="hidden" id="select_demanda" name="select_demanda" value="[[ lista_demanda ]]">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="bt1" type="submit" class="btn btn-green"> Aceptar</button>
+                        <button type="button" class="btn btn-dark cancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>-->
+
+
+
+    <script>
+        $('#formCrearDemanda input').on('change', function () {
+            var valor = $('input[name=radioName]:checked', '#formCrearDemanda').val();
+            if (valor == "1") {
+                $("#lista_de_demandas").hide();
+            } else if (valor == "2") {
+                $("#lista_de_demandas").show();
+            }
+        });
+        $('.cancelar').on('click', function () {
+            $('#lista_de_demandas').fadeIn();
+            $('#lista_de_demandas').hide();
+            $('#radio1').prop("checked", true);
+            $('#select_demanda').val("");
+        });
+    </script>
+
+    </div>
+
+{% endblock %}
