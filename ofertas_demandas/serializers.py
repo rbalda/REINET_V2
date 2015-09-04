@@ -182,7 +182,7 @@ class DemandaSerializador(ModelSerializer):
         
         tags = validated_data.pop('tags',None)
         nombre = validated_data['nombre']
-        demanda = Demanda.objects.create(codigo=crear_codigo(nombre),estado=1,fk_perfil=Perfil.objects.get(id=self.context['request'].user.id),**validated_data)
+        demanda = Demanda.objects.create(codigo=crear_codigo(nombre),estado=1,fk_perfil=Perfil.objects.get(id=self.context['request'].user.id),fk_oferta=None,**validated_data)
         
         if tags:
             for d in tags:
