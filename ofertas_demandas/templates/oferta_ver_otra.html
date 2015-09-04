@@ -12,7 +12,7 @@
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
-                <li><i class="fa fa-comments-o"></i> {{ comentariosOferta | length }}</li>
+                <li><i class="fa fa-comments-o"></i> {{ comentarios_oferta | length }}</li>
             </ul>
 
         </div>
@@ -48,16 +48,16 @@
                 <div class="block-inverse">
                     <div class="head-inverse">
                         <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-                        {% if imagenPrincipal == False%}
+                        {% if imagen_principal == False%}
                             <img class="img-responsive" src="/media/ofertas-demandas/nomedia.jpg"alt="...">
                         {% else %}
-                            <img class=" img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="...">
+                            <img class=" img-responsive" src="/media/{{ imagen_principal.imagen }}" alt="...">
                         {% endif %}
                     </div>
                     <div class="body-inverse">
                         <ul class="row list-inline gallery-list-small"
                             style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-                            {% if imagenesOferta == False%}
+                            {% if imagenes_oferta == False%}
                                 {% for temp in "XXXX" %}
                                     <li class="col-xs-6">
                                         <a href="#">
@@ -67,7 +67,7 @@
                                     </li>
                                 {% endfor %}
                             {% else %}
-                                {% for imagenes in imagenesOferta %}
+                                {% for imagenes in imagenes_oferta %}
                                     <li class="col-xs-6">
                                         <a href="#">
                                             <img class="img-responsive" src="/media/{{ imagenes.imagen }}"
@@ -272,7 +272,7 @@
 
 
     <!-- New comment form -->
-    {% if miComentario == 0 %}
+    {% if mi_comentario == 0 %}
         <div class="NuevoComentario" id="divNuevoComentario">
             <form class="form-horizontal" role="form" id="ComentarioForm" >
                 <div class="form-group" style="margin-bottom: 15px;">
@@ -338,7 +338,7 @@
     {% endif %}
 
     <!-- Comments list -->
-    <h4>{{ comentariosOferta | length }} comentarios</h4>
+    <h4>{{ comentarios_oferta | length }} comentarios</h4>
     <hr>
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
@@ -377,7 +377,7 @@
 
         <div class="thumbnail" align=center style="margin-bottom:0px">
             <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                <input id="calificacionOferta" value="{{ calificacionOferta }}" class="rating" data-size="xs"/>
+                <input id="calificacionOferta" value="{{ calificacion_oferta }}" class="rating" data-size="xs"/>
             </div>
         </div>
 
@@ -398,7 +398,7 @@
 
                         <div align=center>
                             <p>
-                                {% if estadoMembresia == 2 %}
+                                {% if estado_membresia == 2 %}
                                     {% if participantes|length >= 5%}
                                         <button disabled="true" id="btn_participar" class="btn btn-green btn-sm"
                                                 style="color:green;margin-top: 15px;" data-toggle="modal"
@@ -416,7 +416,7 @@
                                         </button>
                                         <hr style="margin-top: 15px;">
                                     {% endif %}
-                                {% elif estadoMembresia == 0 %}
+                                {% elif estado_membresia == 0 %}
                                     <button disabled="true" id="btn_participar" class="btn btn-green btn-sm"
                                             style="color:green;margin-top: 15px;" data-toggle="modal"
                                             data-target="#solicitarEquipo">
@@ -424,7 +424,7 @@
                                         &nbsp;&nbsp;Solicitud Pendiente
                                     </button>
                                     <hr style="margin-top: 15px;">
-                                {% elif estadoMembresia == -1 %}
+                                {% elif estado_membresia == -1 %}
                                     <button id="btn_participar" class="btn btn-green btn-sm"
                                             style="color:white;margin-top: 15px;" data-toggle="modal"
                                             data-target="#solicitarEquipo">
@@ -432,7 +432,7 @@
                                         &nbsp;&nbsp;Enviar Peticion de Nuevo
                                     </button>
                                     <hr style="margin-top: 15px;">
-                                {% elif estadoMembresia == 1 %}
+                                {% elif estado_membresia == 1 %}
                                     <label disabled="true" class="btn btn-green btn-sm"
                                            style="color:green;margin-top: 15px;">
                                         <i class="fa fa-sign-in"></i>

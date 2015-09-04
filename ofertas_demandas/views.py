@@ -299,63 +299,70 @@ Descripcion: funcion para ver una oferta publicada
 """
 @login_required
 def ver_cualquier_oferta(request, id_oferta):
-	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
 	args = {}
 	args['es_admin']=request.session['es_admin']
 
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
+		#Obtengo la oferta
 		try:
 			oferta = Oferta.objects.get(id_oferta = id_oferta)
 			args['oferta'] = oferta
+		#Sino la encuentro informo.
 		except:
 			args['mensaje_error'] = "La oferta no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_oferta.html',args)
-
+		#Obtengo la membresia.
 		try:
-			membresiaOferta = MiembroEquipo.objects.get(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = oferta.id_oferta)
-			estadoMembresia = membresiaOferta.estado_membresia
-			args['estadoMembresia'] = estadoMembresia
+			membresia_oferta = MiembroEquipo.objects.get(fk_participante = usuario.id_perfil,
+														fk_oferta_en_que_participa = oferta.id_oferta)
+			estado_membresia = membresia_oferta.estado_membresia
+			args['estado_membresia'] = estado_membresia
+		#Si no tengo la membresia es xq nunca he aplicado. Identificador = 2
 		except Exception as e:
-			args['estadoMembresia'] = 2
+			args['estado_membresia'] = 2
 
-
+		# Sino esta publicada no avanzo.
 		if oferta.publicada == 0 :
 			args.update(csrf(request))
 			args['mensaje_error'] = "La oferta "+oferta.nombre+", no esta actualmente publicada."
 			return render_to_response('problema_oferta.html',args)
-
+		#Una vez que esta lista la oferta para presentar cargo todos sus datos.
 		else:
-			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,estado_membresia=1)
-			propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=id_oferta,estado_membresia=1,es_propietario=1).fk_participante
-			comentariosOferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta)
-			args['miComentario'] = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, fk_usuario_id=usuario).count
-			calificacionOferta = oferta.calificacion_total
+			participantes = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=id_oferta,
+														 estado_membresia=1)
+			propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=id_oferta,
+													estado_membresia=1,
+													es_propietario=1).fk_participante
+			comentarios_oferta = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta, estado_comentario=1)
+			args['mi_comentario'] = ComentarioCalificacion.objects.filter(fk_oferta_id=id_oferta,
+																		 fk_usuario_id=usuario).count
+			calificacion_oferta = oferta.calificacion_total
 			try:
 				palabras_claves = oferta.palabras_clave.all()
 			except Exception as e:
 				palabras_claves =  ["Null", "Null", "Null", "Null"]
 			try:
 				imagenes = ImagenOferta.objects.filter(fk_oferta = id_oferta)
-				imagenPrincipal = imagenes.first()
+				imagen_principal = imagenes.first()
 				if not imagenes:
 					imagenes = False
-					imagenPrincipal = False
+					imagen_principal = False
 
 			except Exception as e:
 				imagenes = False
-				imagenPrincipal = False
-
+				imagen_principal = False
+		#Envio los args.
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['palabras_claves'] = palabras_claves
-		args['comentariosOferta'] = comentariosOferta
-		args['calificacionOferta'] = str(calificacionOferta)
+		args['comentarios_oferta'] = comentarios_oferta
+		args['calificacion_oferta'] = str(calificacion_oferta)
 		args['propietario'] = propietario
-		args['imagenesOferta'] = imagenes
-		args['imagenPrincipal'] = imagenPrincipal
+		args['imagenes_oferta'] = imagenes
+		args['imagen_principal'] = imagen_principal
 		return render_to_response('oferta_ver_otra.html',args)
 
 	else:
@@ -1340,38 +1347,41 @@ Descripcion: funcion para ver una demanda publicada
 """
 @login_required
 def ver_cualquier_demanda(request, id_demanda):
-	session = request.session['id_usuario']
-	usuario = Perfil.objects.get(id=session)
+	usuario = Perfil.objects.get(id=request.session['id_usuario'])
 	args = {}
 	args['es_admin']=request.session['es_admin']
 	if usuario is not None:
 		#Guardo en la variable de sesion a usuario.
 		args['usuario'] = usuario
-		ofertas = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil,es_propietario=1)
-		args['ofertas']=ofertas
+		#Obtengo la demanda
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
 			estado = demanda.estado
 			args['demanda'] = demanda
 			args['estado'] = estado
+		#Si algo sale mal entonces la demanda no existe.
 		except:
 			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_oferta.html',args)
 
-
+		#Si no esta publicada, retorno mensaje correspondiente.
 		if demanda.publicada == 0 :
 			args.update(csrf(request))
 			args['mensaje_error'] = "La demanda "+demanda.nombre+", no esta actualmente publicada."
 			return render_to_response('problema_oferta.html',args)
 
+		#Si llego hasta este punto, la demanda es viable de presentar
 		else:
 			propietario = demanda.fk_perfil
 			comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
-			args['numComentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda, fk_usuario=usuario).count
+			args['num_comentarios'] = ComentarioDemanda.objects.filter(fk_demanda=id_demanda,
+																	  fk_usuario=usuario).count
+			#Intento obtener las palabras claves, sino relleno un arreglo vacio.
 			try:
 				palabras_claves = demanda.palabras_clave.all()
 			except Exception as e:
 				palabras_claves =  ["Null", "Null", "Null", "Null"]
+			#Intento obtener las imagenes, sino retorno false, para manejarlas en el template.
 			try:
 				imagenes = ImagenDemanda.objects.filter(fk_demanda = id_demanda)
 				imagenPrincipal = ImagenDemanda.objects.filter(fk_demanda = id_demanda).first()
@@ -1382,17 +1392,19 @@ def ver_cualquier_demanda(request, id_demanda):
 			except Exception as e:
 				imagenes = False
 				imagenPrincipal = False
-			aceptados = ComentarioDemanda.objects.filter(fk_demanda = id_demanda, estado_comentario=1).count
-
+			#Lista de comentarios aceptados.
+			aceptados = ComentarioDemanda.objects.filter(fk_demanda = id_demanda,
+														 estado_comentario=1).count
+		#Envio de parametros.
 		args.update(csrf(request))
-		args['imagenesDemanda'] = imagenes
-		args['imagenPrincipal'] = imagenPrincipal
+		args['imagenes_demanda'] = imagenes
+		args['imagen_principal'] = imagenPrincipal
 		args['palabras_claves'] = palabras_claves
-		args['comentariosDemanda'] = comentariosDemanda
-		args['comentariosAceptados'] = aceptados
+		args['comentarios_demanda'] = comentariosDemanda
+		args['comentarios_aceptados'] = aceptados
 		args['propietario'] = propietario
 		return render_to_response('demanda_ver_otra.html',args)
-
+	# Si algo sale mal.
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
