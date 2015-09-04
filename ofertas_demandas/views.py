@@ -358,7 +358,7 @@ def ver_cualquier_oferta(request, id_oferta):
 		args.update(csrf(request))
 		args['participantes'] = participantes
 		args['palabras_claves'] = palabras_claves
-		args['comentarios_oferta'] = comentarios_oferta
+		args['comentarios_aceptados'] = comentarios_oferta
 		args['calificacion_oferta'] = str(calificacion_oferta)
 		args['propietario'] = propietario
 		args['imagenes_oferta'] = imagenes
@@ -816,7 +816,7 @@ def lista_comentarios_aceptados(request):
 		try:
 			#Obtiene la oferta de la base de datos, en base a la oferta obtenida del request
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
-			#Obtiene los comentarios de la base de datos, en base al id de la oferta obtenida del request
+			#Obtiene el comentario de la base de datos, en base al id de la oferta obtenida del request
 			lista_comentarios = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta)
 			#Guarda variables para la plantilla
 			args['lista_comentarios'] = lista_comentarios
@@ -1461,25 +1461,22 @@ def ver_cualquier_demanda(request, id_demanda):
 	else:
 		args['error'] = "Error al cargar los datos"
 		return HttpResponseRedirect('/NotFound/')
-
-
 """
 Autor: Andres Sornoza, David Vinces
-Nombre de funcion: enviar_comentario_demanda
+Nombre de funcion: enviarComentarioDemanda
 Parametros: request
-Salida: Respuesta json
-Descripcion: Crea un comentario de una demanda con estado_comentario=0, es decir pendiente
+Salida:
+Descripcion: crea un comentario de una demanda con estado_comentario=0, es decir pendiente
 """
 @login_required
-def enviar_comentario_demanda(request):
+def enviarComentarioDemanda(request):
 	if request.method=="POST":
-
+		args={}
 		try:
-			#Obtenemos la oferta, el usario, la calificacion y el mensaje del comentario
+			print "entro al try"
 			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
 			usuario = Perfil.objects.get(id=request.user.id)
 			mensaje = request.POST['comentario_peticion']
-			#Creamos un Objeto Comentario y guardamos los datos
 			comentario = ComentarioDemanda()
 			comentario.comentario = mensaje
 			comentario.estado_comentario=0
@@ -1487,107 +1484,79 @@ def enviar_comentario_demanda(request):
 			comentario.fk_demanda = demanda
 			comentario.fk_usuario = usuario
 			comentario.save()
-			#Se retorna la respuesta en Json
 			response = JsonResponse({})
 			return HttpResponse(response.content)
-
-		#Si algo no funciona se envia el codigo Http correspondiente
 		except Exception as e:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
 	else:
 		return redirect('/')
 
 """
 Autor: Andres Sornoza, David Vinces
-Nombre de la funcion: lista_comentarios_aceptados_demandas
-Entrada: Respuesta html
+Nombre de la funcion: listaComentariosAceptadosDemandas
+Entrada:
 Salida: Muestra la lista de Comentarios Aceptados de una demanda
 Descripción:Esta función permite mostrar el listado de comentarios aceptados de una Demanda
 """
 @login_required
-def lista_comentarios_aceptados_demandas(request):
+def listaComentariosAceptadosDemandas(request):
 	"""print 'listaComentariosAceptadosDemandas :: ajax con id '+ request.GET['oferta']"""
 	if request.is_ajax():
 		args={}
-
 		try:
-			#Obtiene la demanda de la base de datos, en base a la demanda obtenida del request
 			demanda = Demanda.objects.get(id_demanda=request.GET['demanda'])
-			#Obtiene los comentarios de la base de datos, en base al id de la demanda obtenida del request
-			lista_comentarios = ComentarioDemanda.objects.filter(fk_demanda = demanda.id_demanda)
-			#Guarda variables para la plantilla
-			args['lista_comentarios'] = lista_comentarios
+			listaComentarios= ComentarioDemanda.objects.filter(fk_demanda = demanda.id_demanda)
+			args['listaComentarios'] = listaComentarios
 			args['demanda']=demanda
 			args.update(csrf(request))
-			#Renderiza y Envia la plantilla html donde se muestran los comentarios
 			return render(request,'comentario_demanda.html',args)
-
-		#Si la demanda no existe, registra un mensaje en el log
 		except Demanda.DoesNotExist:
 			print '>> Demanda no existe'
-
-		#Si el comentario no existe, registra un mensaje en el log
 		except ComentarioDemanda.DoesNotExist:
 			print '>> Comentario de Demanda no existe'
-
-		#Si un error inesperado ocurre, registra un mensaje en el log
 		except:
 			print '>> Excepcion no controlada'
-
 	else:
 		return redirect('/NotFound')
 
 
 """
 Autor: David Vinces
-Nombre de funcion: aceptar_comentario_demanda
+Nombre de funcion: aceptarComentarioDemanda
 Parametros: request, id de un comentario
-Salida: Redireccion a Administrar Demanda
-Descripcion: Cambia el estado de un comentario de una demanda para que sea visible
+Salida: 
+Descripcion: cambia el estado de un comentario de una demanda para que sea visible
 """
 @login_required
-def aceptar_comentario_demanda(request, id_comentario):
+def aceptarComentarioDemanda(request, id_comentario):
 	try:
-		#Obtenemos el comentario de la base a la que hace referencia el id_comentario
 		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
-		#Seteamos el comentario a 1, que significa Aceptado y guardamos en la base
 		comentario.estado_comentario = 1
 		demanda_id = comentario.fk_demanda.id_demanda
 		comentario.save()
-
-	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	
-	#Si todo fue bien redirecciona a Administrar Demanda 
 	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
-
 
 """
 Autor: David Vinces
-Nombre de funcion: rechazar_comentario_demanda
+Nombre de funcion: rechazarComentarioDemanda
 Parametros: request, id de un comentario
-Salida: Redireccion a Administrar Demanda
-Descripcion: Cambia el estado de un comentario de una demanda para rechazarlo
+Salida: 
+Descripcion: cambia el estado de un comentario de una demanda para eliminarlo
 """
 @login_required
-def rechazar_comentario_demanda(request, id_comentario):
+def rechazarComentarioDemanda(request, id_comentario):
 	try:
-		#Obtenemos el comentario de la base a la que hace referencia el id_comentario
 		comentario = ComentarioDemanda.objects.get(id_comentario_calificacion = id_comentario)
-		#Seteamos el comentario a -1, que significa Rechazado y guardamos en la base
 		comentario.estado_comentario=-1
 		demanda_id = comentario.fk_demanda.id_demanda
 		comentario.save()
-
-	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect('/NotFound/')
 	
-	#Si todo fue bien redirecciona a Administrar Demanda 
 	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
-
 
 """
 Autor: Pedro Iniguez
@@ -1596,6 +1565,7 @@ Parametros: request
 Salida:
 Descripcion: funcion para administrar mi oferta publicada.
 """
+
 @login_required
 def administrar_Borrador_Demanda(request, id_demanda):
 	session = request.session['id_usuario']
