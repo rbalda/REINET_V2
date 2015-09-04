@@ -12,7 +12,7 @@
             <ul class="text-muted list-inline">
                 <li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
                 <li><i class="fa fa-calendar"></i> {{ oferta.fecha_publicacion }}</li>
-                <li><i class="fa fa-comments-o"></i> {{ comentarios_oferta | length }}</li>
+                <li><i class="fa fa-comments-o"></i> {{ comentarios_oferta | length }} comentarios</li>
             </ul>
 
         </div>
@@ -338,7 +338,7 @@
     {% endif %}
 
     <!-- Comments list -->
-    <h4>{{ comentarios_oferta | length }} comentarios</h4>
+    <h4>Comentarios</h4>
     <hr>
 
     <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
