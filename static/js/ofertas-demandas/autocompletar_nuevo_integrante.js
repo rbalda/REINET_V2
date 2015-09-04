@@ -3,7 +3,7 @@
  */
 $(function() {
   $("#nuevoIntegrante").autocomplete({
-    source: "/AutocompletarParticipante",
+    source: "/Autocompletar_Participante",
     minLength:2,
     labels: ["first_name"]
   });

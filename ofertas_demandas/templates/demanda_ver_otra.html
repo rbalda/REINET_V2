@@ -9,11 +9,8 @@
 			<ul class="text-muted list-inline">
 				<li><i class="fa fa-user"></i> <a href="/usuario/{{ propietario}}">{{propietario}}</a></li>
 				<li><i class="fa fa-calendar"></i> {{ demanda.fecha_publicacion }}</li>
-<<<<<<< HEAD
-				<li><i class="fa fa-comments-o"></i> {{ comentariosAceptados }} comentarios </li>
-=======
 				<li><i class="fa fa-comments-o"></i> {{ comentarios_aceptados }} </li>
->>>>>>> ce2beb288d9236787c1de96a5f154dd0f118e510
+
 			</ul>
 
 		</div>
@@ -268,6 +265,83 @@
     </div>
     <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
     </div>
+    <div class="col-md-4">
+		<!-- COMIENZA  Panel del equipo -->
+		<div class="panel panel-default">
+			<div class="panel-heading row"
+				 style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+				<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+					<div class="col-md-12" align="left" style="padding-left: 0px;">
+						<h4 style="margin-top: 6px;">Oferta que resolvió esta Demanda</h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+				<div class="recent-blogs">
+					<div class="team">
+
+						<div align=center>
+							<p>
+								{% if estado == 1 %}
+									<button id="btn_resolver" class="btn btn-warning btn-sm"
+												style="color:white;margin-top: 15px;" data-toggle="modal"
+												data-target="#resolverDemanda">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Resolver Demanda
+										</button>
+										<hr style="margin-top: 15px;">
+                                {% elif estado == 2 %}
+                                    <label id="btn_resolver" class="btn btn-warning btn-sm">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Demanda Resuelta
+										</label>
+										<hr style="margin-top: 15px;">
+                                {% elif estado == 3 %}
+                                    <label id="btn_resolver" class="btn btn-warning btn-sm">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Demanda Desactivada
+										</label>
+										<hr style="margin-top: 15px;">
+                                {% else %}
+                                    <label id="btn_resolver" class="btn btn-warning btn-sm">
+											<i class="fa fa-sign-in"></i>
+											&nbsp;&nbsp;Demanda Censurada
+										</label>
+										<hr style="margin-top: 15px;">
+								{% endif %}
+							</p>
+						</div>
+						<div id="equipo">
+							<ul id="lista_equipo">
+
+							</ul>
+							<!--Script para mostrar el equipo de oferta-->
+                            <script>
+                                $(document).ready(function () {
+                                    $(function () {
+                                        $('#lista_equipo').ready(mostrarOfertaQueResolvio);
+                                        function mostrarOfertaQueResolvio() {
+                                            $.ajax({
+                                                data: {
+                                                    'demanda':{{demanda.id_demanda}}
+                                                },
+                                                type: 'get',
+                                                url: '/ofertaResuelveDemanda/',
+                                                success: function (data) {
+                                                    $('#lista_equipo').html(data)
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            </script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- TERMINA Panel del equipo -->
     </div>
     </div>
 
@@ -277,7 +351,75 @@
 
     <!-- COMIENZAN Los modals que se usan en toda la pagina -->
 
+    	<!-- //// VENTANA EMERGENTE SOLICITAR RESOLVER DEMANDA ///// -->
+	<div class="modal modal-vcenter fade" id="resolverDemanda" tabindex="-1" role="dialog"
+		 aria-labelledby="sendemailtitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
+					<h4 class="modal-title" id="sendemailtitle">Resolver Demanda</h4>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-body" style="margin-bottom:30px">
+					<form role="form" action="" method='POST'>
+						<!--{% csrf_token %}-->
+						<div class="form-group">
+							<select name = "oferta_escogida" class="form-control col-md-4">
+                                {% for of in ofertas %}
+                                    <option value={{ of.fk_oferta_en_que_participa.id_oferta }}> {{ of.fk_oferta_en_que_participa.nombre }} </option>
+                                {% endfor %}
+							</select>
+                        </br>
+							<textarea style="resize:none" class="form-control" rows="3" name="comentario_resolucion"
+									  placeholder="Escriba algun comentario acerca de su solicitud para resolver esta Demanda"></textarea>
+						</div>
+						<a href="/resolverDemanda/" class="button" data-toggle="modal"
+						   data-target="#confirmacionSolicitud" style="float:right">
+							<button id="enviarResolucion" type="button" class="btn btn-warning" data-dismiss="modal">
+								Enviar
+							</button>
+						</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Script para enviar solicitud de membresia a la oferta-->
+	<script>
+		$(document).on('click', '#enviarResolucion', function () {
+            ofertaS =$("[name='oferta_escogida']").val();
+            console.log("oferta_escogida");
+            console.log(ofertaS);
+			$.ajax({
+				data: {
+					'demanda': "{{ demanda.id_demanda }}",
+					'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'oferta_escogida': ofertaS,
+					'comentario_resolucion': $("[name='comentario_resolucion']").val()
+				},
+				type: 'post',
+				url: '/resolverDemanda/',
+				success: function (data) {
+					var objeto = JSON.parse(data);
+					if (objeto.save_estado) {
+						$('#btn_resolver').attr('disabled', true);
+						$('#btn_resolver').popover('hide');
+						$('#btn_resolver').text("Solicitud Enviada");
+						$('#btn_resolver').css('color', 'warning');
+					} else {
+						console.log('algo paso')
+					}
+				},
+				error: function(xhr, status, error) {
+				}
+			});
+		});
+	</script>
+
+	<!---->
     <!-- MODAL DE CONFIRMACION DE ENTREGA DE COMENTARIO-->
     <div class="modal modal-vcenter fade" id="confirmarcionComentario" tabindex="-1" role="dialog"
          aria-labelledby="sendemailtitle" aria-hidden="true">
@@ -333,3 +475,4 @@
     </div>
 
 {% endblock %}
+</div>
