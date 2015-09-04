@@ -1693,7 +1693,7 @@ def resolver_demanda(request):
 		except Demanda.DoesNotExist:
 			args['mensaje_error'] = "La demanda no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_demanda.html',args)
-        
+
 		except:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
