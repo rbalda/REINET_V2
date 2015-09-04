@@ -803,29 +803,40 @@ def editar_borrador_demanda(request, id_demanda):
 
 """
 Autor: David Vinces
-Nombre de la funcion: listaComentariosAceptados
-Entrada:
-Salida: Muestra la lista de Comentarios Aceptados de una oferta
-Descripción:Esta función permite mostrar el listado de comentarios aceptados de una oferta
+Nombre de la funcion: lista_comentarios_aceptados
+Entrada: request 
+Salida: Respuesta html
+Descripción: Esta función permite mostrar el listado de comentarios aceptados de una oferta
 """
 @login_required
-def listaComentariosAceptados(request):
-	"""print 'listaComentariosAceptados :: ajax con id '+ request.GET['oferta']"""
+def lista_comentarios_aceptados(request):
 	if request.is_ajax():
 		args={}
+
 		try:
+			#Obtiene la oferta de la base de datos, en base a la oferta obtenida del request
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])
-			listaComentarios= ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta)
-			args['listaComentarios'] = listaComentarios
+			#Obtiene el comentario de la base de datos, en base al id de la oferta obtenida del request
+			lista_comentarios = ComentarioCalificacion.objects.filter(fk_oferta = oferta.id_oferta)
+			#Guarda variables para la plantilla
+			args['lista_comentarios'] = lista_comentarios
 			args['oferta']=oferta
 			args.update(csrf(request))
+			#Renderiza y Envia la plantilla html donde se muestran los comentarios
 			return render(request,'comentario_oferta.html',args)
+
+		#Si la oferta no existe, registra un mensaje en el log
 		except Oferta.DoesNotExist:
 			print '>> Oferta no existe'
+
+		#Si el comentario no existe, registra un mensaje en el log
 		except ComentarioCalificacion.DoesNotExist:
 			print '>> Comentario no existe'
+
+		#Si un error inesperado ocurre, registra un mensaje en el log
 		except:
 			print '>> Excepcion no controlada'
+
 	else:
 		return redirect('/NotFound')
 
@@ -1264,37 +1275,46 @@ def editar_estado_demanda(request):
 
 """
 Autor: David Vinces
-Nombre de funcion: aceptarComentario
+Nombre de funcion: aceptar_comentario
 Parametros: request, id de un comentario
-Salida: 
-Descripcion: cambia el estado de un comentario de una oferta para que sea visible
+Salida: Redireccion a Administrar Oferta
+Descripcion: Cambia el estado de un comentario de una oferta para que sea visible
 """
 @login_required
-def aceptarComentario(request, id_comentario):
+def aceptar_comentario(request, id_comentario):
 	try:
+		#Obtenemos el comentario de la base a la que hace referencia el id_comentario
 		comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
+		#Seteamos el comentario a 1, que significa Aceptado y guardamos en la base
 		comentario.estado_comentario = 1
 		oferta_id = comentario.fk_oferta.id_oferta
 		comentario.save()
+
+	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
+
 """
 Autor: David Vinces
-Nombre de funcion: rechazarComentario
+Nombre de funcion: rechazar_comentario
 Parametros: request, id de un comentario
-Salida: 
-Descripcion: cambia el estado de un comentario de una oferta para eliminarlo
+Salida: Redireccion a Administrar Oferta
+Descripcion: Cambia el estado de un comentario de una oferta para rechazarlo
 """
 @login_required
-def rechazarComentario(request, id_comentario):
+def rechazar_comentario(request, id_comentario):
 	try:
+		#Obtenemos el comentario de la base a la que hace referencia el id_comentario
 		comentario = ComentarioCalificacion.objects.get(id_comentario_calificacion = id_comentario)
+		#Seteamos el comentario a -1, que significa Rechazado y guardamos en la base
 		comentario.estado_comentario=-1
 		oferta_id = comentario.fk_oferta.id_oferta
 		comentario.save()
+
+	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect('/NotFound/')
 	
@@ -1303,20 +1323,22 @@ def rechazarComentario(request, id_comentario):
 
 """
 Autor: David Vinces
-Nombre de funcion: crearComentario
+Nombre de funcion: enviar_comentario
 Parametros: request
-Salida: 
-Descripcion: crea un comentario de una oferta con estado_comentario=0, es decir pendiente
+Salida: Respuesta json
+Descripcion: Crea un comentario de una oferta con estado_comentario=0, es decir pendiente
 """
 @login_required
-def enviarComentario(request):
+def enviar_comentario(request):
 	if request.method=="POST":
-		args={}
+
 		try:
+			#Obtenemos la oferta, el usario, la calificacion y el mensaje del comentario
 			oferta = Oferta.objects.get(id_oferta=request.POST['oferta'])
 			usuario = Perfil.objects.get(id=request.user.id)
 			calificacion = request.POST['calificacion']
 			mensaje = request.POST['comentario_peticion']
+			#Creamos un Objeto Comentario y guardamos los datos
 			comentario = ComentarioCalificacion()
 			comentario.calificacion = calificacion
 			comentario.comentario = mensaje
@@ -1325,16 +1347,20 @@ def enviarComentario(request):
 			comentario.fk_oferta = oferta
 			comentario.fk_usuario = usuario
 			comentario.save()
+			#Se calcula el promedio total de la calificacion del comentario y se actualiza la oferta
 			promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
 			oferta.calificacion_total = promedio_calificacion["average_cal"]
 			oferta.save()
+			#Se retorna la respuesta en Json
 			response = JsonResponse({})
 			return HttpResponse(response.content)
+
+		#Si algo no funciona se envia el codigo Http correspondiente
 		except Exception as e:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 	else:
 		return redirect('/')
-
 
 
 """
