@@ -87,15 +87,6 @@
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8">
-                            <!--Tipo-->
-                            <p style="color: darkgray" class="col-md-3">Tipo</p>
-                            {% if demanda.tipo == 0 %}
-                                <p>Emprendimiento</p>
-                            {% elif demanda.tipo == 1 %}
-                                <p>Tecnologia</p>
-                            {% elif demanda.tipo == 2 %}
-                                <p>Prototipo</p>
-                            {% endif %}
                             <!--Descripcion-->
                             <p style="color: darkgray" class="col-md-3">Descripci&oacute;n</p>
                             <p>{{ demanda.descripcion  | title}} </p>

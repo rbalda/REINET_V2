@@ -388,7 +388,6 @@ def administrar_Oferta(request, id_oferta):
 	oferta = Oferta.objects.get(id_oferta = id_oferta)
 	print oferta.id_oferta
 
-
 	if (oferta.publicada == 0):
 		print 'No publicada'
 	#return HttpResponseRedirect('/NotFound/')
@@ -1576,6 +1575,11 @@ def administrar_demanda(request, id_demanda):
 			args['mensaje_error'] = "La demanda "+demanda.nombre+", no esta actualmente publicada."
 			return render_to_response('problema_oferta.html',args)
 
+		elif demanda.fk_perfil_id!=usuario.id_perfil:
+			args.update(csrf(request))
+			args['mensaje_error'] = "Usted no es el dueño de la demanda, por favor no moleste."
+			return render_to_response('problema_oferta.html',args)
+
 		else:
 			propietario = demanda.fk_perfil
 			comentariosDemanda = ComentarioDemanda.objects.filter(fk_demanda =id_demanda)
@@ -1595,6 +1599,7 @@ def administrar_demanda(request, id_demanda):
 				imagenPrincipal = False
 			pendientes = ComentarioDemanda.objects.filter(fk_demanda = id_demanda, estado_comentario=0)
 			aceptados = ComentarioDemanda.objects.filter(fk_demanda = id_demanda, estado_comentario=1).count
+
 		args.update(csrf(request))
 		args['imagenesDemanda'] = imagenes
 		args['imagenPrincipal'] = imagenPrincipal
