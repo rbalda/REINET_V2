@@ -220,42 +220,42 @@
         </div>
         <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
     </div>
-            <div class="col-md-4">
-                <!-- Social Links -->
-                <h4>Estado de la demanda</h4>
-                <div id="msj_retro_estado"></div>
-                <div class="thumbnail col-md-8"  style="margin-bottom:0px">
-                   
-                    <select  style="float:left;" class="form-control col-md-4"name="estado_demanda">
-                        {% if demanda.estado == 1 %}
-                        <option value="1" selected>Activa</option>
-                        {% else %}
-                         <option value="1" selected>Activa</option>
-                        {% endif %}
-                        
-                        {% if demanda.estado == 2 %}
-                           <option value="2" selected>Terminada</option>
-                        {% else %}
-                         <option value="2">Terminada</option>
-       
-                        {% endif %}
-                       {% if demanda.estado == 3 %}
-                        <option value="3" selected>Desactivada</option>
-                        {% else %}
-                         <option value="3" selected>Desactivada</option>
-                        {% endif %}
-                        {% if demanda.estado == 4 %}
-                        <option value="4" selected>Censurada</option>
-                        {% else %}
-                         <option value="4" selected>Censurada</option>
-                        {% endif %}
+    <div class="col-md-4">
+        <!-- Social Links -->
+        <h4>Estado de la demanda</h4>
+        <div id="msj_retro_estado"></div>
+        <div class="thumbnail col-md-8"  style="margin-bottom:0px">
 
-                    </select>
-                </div>
-                <div>
-                    <button class="btn btn-green col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
-                </div>
-            </div>
+            <select  style="float:left;" class="form-control col-md-4"name="estado_demanda">
+                {% if demanda.estado == 1 %}
+                    <option value="1" selected>Activa</option>
+                {% else %}
+                    <option value="1" selected>Activa</option>
+                {% endif %}
+
+                {% if demanda.estado == 2 %}
+                    <option value="2" selected>Terminada</option>
+                {% else %}
+                    <option value="2">Terminada</option>
+
+                {% endif %}
+                {% if demanda.estado == 3 %}
+                    <option value="3" selected>Desactivada</option>
+                {% else %}
+                    <option value="3" selected>Desactivada</option>
+                {% endif %}
+                {% if demanda.estado == 4 %}
+                    <option value="4" selected>Censurada</option>
+                {% else %}
+                    <option value="4" selected>Censurada</option>
+                {% endif %}
+
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-green col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
+        </div>
+    </div>
     </div>
     </div>
 
@@ -359,37 +359,37 @@
     </div>
     <script type="text/javascript">
 
-    $("#btn_editar_estado").on('click', function (e2){
-        estado=$("[name='estado_demanda']").val();
-        id_demanda="{{demanda.id_demanda}}";
-        datos={
-            'id_demanda': id_demanda,
-            'estado':estado,
-            'csrfmiddlewaretoken' :'{{ csrf_token }}'
-        };
-        console.log("estado demanda");
-        console.log(estado);
-                console.log(id_demanda);
-        $.ajax({
-            url: '/editarEstadoDemanda',
-            type: 'POST',
-            async: true,
-            data: datos,
-            dataType : 'text',
-            success: function(data){
-                if(data=="ok"){
-                 $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la demanda ha sido modificado exitosamente</div>');
-                }else{
-            $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+        $("#btn_editar_estado").on('click', function (e2){
+            estado=$("[name='estado_demanda']").val();
+            id_demanda="{{demanda.id_demanda}}";
+            datos={
+                'id_demanda': id_demanda,
+                'estado':estado,
+                'csrfmiddlewaretoken' :'{{ csrf_token }}'
+            };
+            console.log("estado demanda");
+            console.log(estado);
+            console.log(id_demanda);
+            $.ajax({
+                url: '/editarEstadoDemanda',
+                type: 'POST',
+                async: true,
+                data: datos,
+                dataType : 'text',
+                success: function(data){
+                    if(data=="ok"){
+                        $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la demanda ha sido modificado exitosamente</div>');
+                    }else{
+                        $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+
+                    }
+                },
+                error: function(e){
+                    $("#msj_retro_estado").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
 
                 }
-            },
-            error: function(e){
-             $("#msj_retro_estado").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
-           
-            }
+            });
         });
-    });
 
     </script>
 
