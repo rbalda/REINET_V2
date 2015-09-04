@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from django.contrib.admin.utils import model_format_dict
 from ofertas_demandas.models import DiagramaPorter, DiagramaBusinessCanvas, Oferta, ComentarioCalificacion, MiembroEquipo, PalabraClave, \
-    ImagenOferta, Demanda, ImagenDemanda
+    ImagenOferta, Demanda, ImagenDemanda, ComentarioDemanda
 from usuarios.models import Perfil
 from rest_framework import serializers
 import json
@@ -148,6 +148,7 @@ class DemandaSerializador(ModelSerializer):
     dueno = serializers.SerializerMethodField('getdueno',read_only=True)
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
+    numComentarios = serializers.SerializerMethodField('getNumeroComentarios',read_only=True)
     galeria = ImagenDemandaSerializer(many=True,required=False)
     tags = serializers.ListField(
             child=serializers.CharField(),
@@ -160,7 +161,7 @@ class DemandaSerializador(ModelSerializer):
             'id_demanda','codigo','estado','nombre','publicada','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave','comentarios', 'dueno',
-            'duenoUsername','galeria')
+            'duenoUsername','galeria', 'numComentarios')
 
         read_only_fields = ('id_oferta','codigo','estado','fecha_publicacion','fecha_creacion',
                             'palabras_clave','alcance','comentarios','galeria')
@@ -175,6 +176,10 @@ class DemandaSerializador(ModelSerializer):
 
     def create(self,validated_data):
         tags = validated_data.pop('tags',None)
+
+    def getNumeroComentarios(self,obj):
+        numComentarios = len(ComentarioDemanda.objects.all().filter(fk_demanda_id = obj.id_demanda, estado_comentario = 1))
+        return numComentarios
 
         nombre = validated_data['nombre']
         demanda = Demanda.objects.create(codigo=crear_codigo(nombre),estado=1,fk_perfil=Perfil.objects.get(id=self.context['request'].user.id),**validated_data)
