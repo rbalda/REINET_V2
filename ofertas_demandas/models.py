@@ -94,7 +94,7 @@ class Demanda(models.Model):
     lugar_donde_necesita = models.TextField(null=True,blank=True)
     importancia_resolver_necesidad = models.TextField(null=True,blank=True)
     fk_perfil = models.ForeignKey(Perfil)
-    fk_oferta = models.ForeignKey(Oferta)
+    fk_oferta = models.ForeignKey(Oferta,null=True)
     palabras_clave = models.ManyToManyField('PalabraClave',related_name='demandas_con_esta_palabra')
     alcance = models.ManyToManyField(Institucion,related_name='demandas_por_institucion')
     comentarios = models.ManyToManyField(Perfil,through='ComentarioDemanda',through_fields=('fk_demanda','fk_usuario'),related_name='usuarios_que_cpmentaron')
