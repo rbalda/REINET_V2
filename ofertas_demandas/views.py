@@ -1417,27 +1417,19 @@ Descripcion: crea un comentario de una demanda con estado_comentario=0, es decir
 @login_required
 def enviarComentarioDemanda(request):
 	if request.method=="POST":
-		print "entro al post"
 		args={}
 		try:
 			print "entro al try"
 			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
-			print "obtuvo demanda"
-			print demanda.nombre
 			usuario = Perfil.objects.get(id=request.user.id)
-			"""calificacion = request.POST['calificacion']"""
 			mensaje = request.POST['comentario_peticion']
 			comentario = ComentarioDemanda()
-			"""comentario.calificacion = calificacion"""
 			comentario.comentario = mensaje
 			comentario.estado_comentario=0
 			comentario.fecha_comentario = datetime.datetime.now()
 			comentario.fk_demanda = demanda
 			comentario.fk_usuario = usuario
 			comentario.save()
-			"""promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
-			oferta.calificacion_total = promedio_calificacion["average_cal"]
-			oferta.save()"""
 			response = JsonResponse({})
 			return HttpResponse(response.content)
 		except Exception as e:
