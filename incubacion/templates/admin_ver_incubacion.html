@@ -26,7 +26,7 @@
     		<div class="col-sm-6">
     			
   				<a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
-  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
+  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
   			</div>  			
   		</div>
   		<div class="col-sm-12" style="border-bottom:1px solid #eee;">
@@ -208,45 +208,53 @@
         </div>
     </div>
 
-    <script>
-      $('#btn_rechazada').click(function(e){
-        e.preventDefault();
-        $('#ofertaRechazada').modal('hide');
-        var btn_rechazar =  $('#btn_rechazar_oferta');
-        var btn_ver =  $('#btn_ver_oferta');
-        var btn_aceptar =  $('#btn_aceptar_oferta');
-        btn_aceptar.hide();
-        btn_ver.hide();
-        btn_rechazar.removeAttr('data-target');
-        btn_rechazar.empty();
-        btn_rechazar.html('Oferta Rechazada');
-        btn_rechazar.removeClass();
-        btn_rechazar.toggleClass('btn btn-green');
-        btn_rechazar.css('cursor','not-allowed');
-        
-
-      });
-    </script>
-	
-	<script>
-      $('#btn_aceptada').click(function(e){
-        e.preventDefault();
-        $('#ofertaAceptada').modal('hide');
-        var btn_aceptar =  $('#btn_aceptar_oferta');
-        var btn_rechazar =  $('#btn_rechazar_oferta');
-        this.hide();
-        btn_rechazar.hide();
-        btn_aceptar.removeAttr('data-target');
-        btn_aceptar.empty();
-        btn_aceptar.html('Oferta Aceptada');
-        btn_aceptar.removeClass();
-        btn_aceptar.toggleClass('btn btn-green');
-        btn_aceptar.css('cursor','not-allowed');
-        
-
-      });
-    </script>
-
 </div>
+
+<!-- //// MODAL crear convocatoria ///// -->
+    <div class="modal modal-vcenter fade" id="CrearConvocatoria" tabindex="-1" role="dialog"
+         aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Crear Convocatoria</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="comment" id="Comentario">
+                          <div class="media">
+                            <form  class="form-horizontal col-md-12"  name="formMilestone"> 
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Alcance</label>
+                                  <div class="col-md-7">
+                                       <select name="alcance" style="resize:none" class="form-control">
+                                         <option value="Local" selected="selected">Local</option>
+                                         <option value="Algunas Instituciones">Algunas Instituciones</option>
+                                         <option value="Global">Global</option>
+                                      </select>
+                                  </div>
+                                  <br>
+                                </div>
+
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha Maxima</label>
+                                  <div class="col-md-7">
+                                       <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
+                                  </div>
+                                  <br>
+                                </div>
+                                <div class="form-group">
+                                    <div align="right">
+                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                                      <button href="#" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
+                                    </div>                                                  
+                                </div>
+                            </form>   
+                          </div>
+                      </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

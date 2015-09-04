@@ -4,7 +4,7 @@
         <label for="Nombres" class="col-md-2">Fecha de inicio</label>
         <div class="col-md-6">
 
-            <input autofocus type="date" class="form-control" placeholder="Nombre de la Oferta"
+            <input autofocus type="date" class="form-control" placeholder="Fecha de la Oferta"
             id="fecha" name="fecha_incubacion"  data-trigger="focus" ng-model="incubacion.fecha" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
             <span ng-show="forms.admin_crear_incubacion_form1.fecha_incubacion.$error.pattern"><p class="bg-danger text-danger">Fecha de la Incubacion debe ser una fecha futura</p></span>
             <span ng-show="forms.admin_crear_incubacion_form1.fecha_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
