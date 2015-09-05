@@ -219,7 +219,9 @@
             </script>
         </div>
         <!-- TEEEEEEEEEEEEEEERMINANN LOS COMENTARIOS -->
+
     </div>
+
     <div class="col-md-4">
         <!-- Social Links -->
         <h4>Estado de la demanda</h4>
@@ -255,12 +257,131 @@
         <div>
             <button class="btn btn-warning col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
         </div>
+        <br>
+        <br>
+        <br>
+        <!-- COMIENZA  Panel del equipo -->
+        <div class="panel panel-default">
+            <div class="panel-heading row"
+                 style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+                <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                    <div class="col-md-12" align="left" style="padding-left: 0px;">
+                        <h4 style="margin-top: 6px;">Oferta que resolvió esta Demanda</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+                <div class="recent-blogs">
+                    <div class="team">
+                        <div align=center>
+                            <p>
+                                <a href="#" class="btn btn-warning btn-sm" style="color:white;margin-top: 15px;" data-toggle="modal" data-target="#solicitudesEquipo">
+                                    <span class="badge" style="background-color:white;">{{solicitudes|length}}</span>
+                                    &nbsp;&nbsp;Solicitudes de resolución</a>
+                            </p>
+                        </div>
+                        <hr style="margin-top: 15px;">
+                        <div id="equipo">
+                            <ul id="lista_equipo">
+
+                            </ul>
+                            <!--Script para mostrar el equipo de oferta-->
+                            <script>
+                                $(document).ready(function () {
+                                    $(function () {
+                                        $('#lista_equipo').ready(mostrarOfertaQueResolvio);
+                                        function mostrarOfertaQueResolvio() {
+                                            $.ajax({
+                                                data: {
+                                                    'demanda':{{demanda.id_demanda}}
+                                                },
+                                                type: 'get',
+                                                url: '/ofertaResuelveDemanda/',
+                                                success: function (data) {
+                                                    $('#lista_equipo').html(data)
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TERMINA Panel del equipo -->
     </div>
     </div>
     </div>
 
 
     <!-- COMIENZAN Los modals que se usan en toda la pagina -->
+
+    <!-- comienza Mooooooooooooooooodal ACEPTAR O RECHAZAR SOLICITUDES Equipo -->
+    <div id="solicitudesEquipo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Solicitudes de resolución de la demanda</h4>
+                </div>
+                <div class="modal-body"style="font-size:12px;overflow-y:auto">
+                    <!-- PRIMERA SOLICITUUUUUUUUUUUUUUUUUUUUUUUUUUUUUD -->
+                    {% if solicitudes|length == 0 %}
+                        <a >No hay solicitudes </a>
+                    {% endif %}
+
+                    {%for solicitud in solicitudes%}
+                        <div class="comment" id="{{solicitud.fk_oferta_demandante.id_oferta}}" name="Solicitud01">
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-circle" src="/../../media/ofertas-demandas/face3.jpg" alt="...">
+                                </a>
+                                <div class=" media-body">
+                                    <p><a href="profile.html">{{solicitud.fk_oferta_demandante.nombre}}</a></p>
+                                    <div id="{{solicitud.fk_oferta_demandante.id_oferta}}" name="datosSolicitud01">
+                                        {% if solicitud.motivo %}
+                                            <p>{{solicitud.motivo}}</p>
+                                        {%  else %}
+                                            <p>Hola que tal, agrégame a tu oferta </p>
+                                        {% endif %}
+                                    </div>
+                                    <form role="form" action="/aceptarPeticionMiembro/" method="post" name="miembro_form"
+                                          enctype="multipart/form-data" > {% csrf_token %}
+                                        <div class="form-group" id="{{solicitud.fk_oferta_demandante.id_oferta}}"  name="rolSolicitud01"  style="display: none;">
+                                            <p>Para agregar a un usuario al equipo debe definirle un rol de trabajo</p>
+                                            <label for="Nombres" class="col-md-2">Rol:</label>
+                                            <div class="col-md-6">
+                                                <input required autofocus type="text" class="form-control"
+                                                       id="{{solicitud.fk_participante.id_perfil}}"  name="rol"  data-placement="left" data-trigger="focus"
+                                                       data-content="Ingresa tu nombre aquí." data-original-title="Rol">
+                                                <input hidden value="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" id="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" name="id_oferta">
+                                                <input hidden id="{{solicitud.fk_oferta_en_que_participa.id_oferta}}"  value="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" name="id_user_peticion">
+                                            </div>
+                                            <button type="button" class="btn btn-green btn-sm" id="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" name="aceptarRolEquipo01">
+                                                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div align=right id="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" name="botonesSolicitud01">
+
+                                    <button type="button"class="btn btn-green btn-xs" id="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" name="aceptarSolicitudEquipo01">
+                                        <span class="glyphicon glyphicon-plus-sign"></span> Agregar</button>
+                                    <button type="button" class="btn btn-dark btn-xs " id="{{solicitud.fk_oferta_en_que_participa.id_oferta}}" name="rechazarSolicitudEquipo01">
+                                        <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TERMINAN Mooooooooooooooooodal ACEPTAR O RECHAZAR SOLICITUDES Equipo -->
 
     <!-- comienza Mooooooooooooooooodal ACEPTAR O RECHAZAR comentarios -->
     <div id="solicitudesComentarios" class="modal fade" role="dialog">

@@ -1424,6 +1424,7 @@ def ver_cualquier_demanda(request, id_demanda):
 		#Obtengo las ofertas de las que soy dueño
 		ofertas = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil,es_propietario=1)
 		args['ofertas']=ofertas
+
 		#Obtengo la demanda
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
@@ -1640,6 +1641,8 @@ def administrar_demanda(request, id_demanda):
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
 			args['demanda'] = demanda
+			solicitudes = ResolucionDemanda.objects.filter(fk_demanda_que_aplica = demanda)
+			args['solicitudes'] = solicitudes
 		except:
 			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_oferta.html',args)
