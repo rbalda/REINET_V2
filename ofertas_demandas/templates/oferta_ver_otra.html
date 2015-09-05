@@ -305,33 +305,38 @@
                     calificacion=value;
                 });
                 $(document).on('click', '#enviarMensaje', function () {
-                    $.ajax({
-                        data: {
-                            'oferta': "{{ oferta.id_oferta }}",
-                            'calificacion': calificacion,
-                            'csrfmiddlewaretoken': '{{ csrf_token }}',
-                            'comentario_peticion': $("[name='comentario_oferta']").val()
-                        },
-                        type: 'post',
-                        url: '/enviarComentario/',
-                        success: function (data) {
-                            limpiarComentarios(1)
-                        },
-                        error: function(xhr, status, error) {
-                            limpiarComentarios(0)
-                        }
-                    });
-                    function limpiarComentarios(envio) {
-                        if(envio){
-                            $("#confirmarcionComentario").modal('show');
-                            $("#divNuevoComentario").hide();
-                        }
-                        else{
-                            $("#rechazoComentario").modal('show');
+                    if(calificacion==0)
+                    {
+                        $("#faltaCalificacion").modal('show');
+                    }
+                    else
+                    {
+                        $.ajax({
+                            data: {
+                                'oferta': "{{ oferta.id_oferta }}",
+                                'calificacion': calificacion,
+                                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                                'comentario_peticion': $("[name='comentario_oferta']").val()
+                            },
+                            type: 'post',
+                            url: '/enviarComentario/',
+                            success: function (data) {
+                                limpiarComentarios(1)
+                            },
+                            error: function(xhr, status, error) {
+                                limpiarComentarios(0)
+                            }
+                        });
+                        function limpiarComentarios(envio) {
+                            if(envio){
+                                $("#confirmarcionComentario").modal('show');
+                                $("#divNuevoComentario").hide();
+                            }
+                            else{
+                                $("#rechazoComentario").modal('show');
+                            }
                         }
                     }
-
-
                 });
             </script>
         </div>
@@ -633,4 +638,28 @@
         </div>
     </div>
 
+    <div class="modal modal-vcenter fade" id="faltaCalificacion" tabindex="-1" role="dialog"
+         aria-labelledby="sendemailtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="sendemailtitle">Debe calificar la Oferta.</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method=''>
+                        <div class="form-group">
+                            <label for="Confirmacion">REINET le informa que la calificación no puede ser cero, debe elegir un valor.</label>
+                        </div>
+                        <div align="right">
+                            <a href="" class="button">
+                                <button type="button" class="btn btn-red" data-dismiss="modal">Volver</button>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
