@@ -72,10 +72,10 @@ class OfertaSerializador(ModelSerializer):
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'descripcion_soluciones_existentes','estado_propieada_intelectual','evidencia_traccion','cuadro_tendencias_relevantes',
             'equipo','tags','comentarios','alcance','fk_diagrama_competidores','fk_diagrama_canvas','palabras_clave', 'dueno',
-            'duenoUsername', 'numComentarios')
+            'duenoUsername', 'numComentarios','galeria')
 
         read_only_fields = ('id_oferta','codigo','fecha_publicacion','fecha_creacion',
-                            'calificacion_total','comentarios','palabras_clave','alcance')
+                            'calificacion_total','comentarios','palabras_clave','alcance','galeria')
 
 
     def getdueno(self,obj):
@@ -159,10 +159,10 @@ class DemandaSerializador(ModelSerializer):
             'id_demanda','codigo','estado','nombre','publicada','descripcion','dominio','subdominio',
             'fecha_creacion','fecha_publicacion','tiempo_para_estar_disponible','perfil_beneficiario','perfil_cliente',
             'alternativas_soluciones_existentes','lugar_donde_necesita','importancia_resolver_necesidad','tags','alcance','palabras_clave','comentarios', 'dueno',
-            'duenoUsername', 'numComentarios')
+            'duenoUsername', 'numComentarios','galeria')
 
         read_only_fields = ('id_oferta','codigo','estado','fecha_publicacion','fecha_creacion',
-                            'palabras_clave','alcance','comentarios')
+                            'palabras_clave','alcance','comentarios','galeria')
 
     def getdueno(self,obj):
         perfil = Perfil.objects.all().filter(id_perfil = obj.fk_perfil_id).first()
