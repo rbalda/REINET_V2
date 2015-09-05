@@ -160,7 +160,12 @@ def cargar_imagen_oferta(request):
 
 			for x in descripcion:
 				if x['value'] == aux:
-					imagen.descripcion=x['descripcion']
+					if 'descripcion' in x:
+						imagen.descripcion=x['descripcion']
+
+					#si no existe descripcion en dictionario
+					else:
+						imagen.descripcion=" "
 
 		# caso contrario se guarda un espacio en blanco
 		else:
@@ -272,7 +277,12 @@ def cargar_imagen_demanda(request):
 
 			for x in descripcion:
 				if x['value'] == aux:
-					imagen.descripcion=x['descripcion']
+					if 'descripcion' in x:
+						imagen.descripcion=x['descripcion']
+
+					#si no existe descripcion en dictionario
+					else:
+						imagen.descripcion=" "
 
 		# caso contrario se guarda un espacio en blanco
 		else:
