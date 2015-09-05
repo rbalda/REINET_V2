@@ -59,6 +59,7 @@ class OfertaSerializador(ModelSerializer):
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
     numComentarios = serializers.SerializerMethodField('getNumeroComentarios',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
+    galeria = ImagenOfertaSerializer(many=True,required=False)
     tags = serializers.ListField(
             child=serializers.CharField(),
             required=False,allow_null=True
@@ -148,6 +149,7 @@ class DemandaSerializador(ModelSerializer):
     duenoUsername = serializers.SerializerMethodField('getDuenoUsername',read_only=True)
     palabras_clave = PalabraClaveSerializador(required=False,read_only=True,many=True)
     numComentarios = serializers.SerializerMethodField('getNumeroComentarios',read_only=True)
+    galeria = ImagenDemandaSerializer(many=True,required=False)
     tags = serializers.ListField(
             child=serializers.CharField(),
             required=False,allow_null=True
