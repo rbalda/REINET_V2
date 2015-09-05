@@ -207,7 +207,7 @@
                 <div class="col-md-8">
                     <label class="col-md-6">Tiempo en que se necesita disponer de soluci&oacute;n</label>
 
-                    <input autofocus number type="text" class="form-control" id="demanda_tiempo_disponibilidad" name="demanda_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" value="{{demanda_tiempo}}" ng-model="tiempo_tipo"
+                    <input autofocus number type="text" class="form-control" id="demanda_tiempo_disponibilidad" name="demanda_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" ng-change="tiempoDisponibleInput(tiempo_disponible)" ng-model="tiempo_disponible"
                             >
                     <span ng-show="form_editar.demanda_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
                     <!--<span ng-show="form_editar.demanda_tiempo_disponibilidad.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
@@ -261,7 +261,7 @@
     <script>
         var demanda_editar = undefined;
         var duracion = undefined;
-        var demanda_tiempo = undefined;
+        var demanda_tiempo = {{demanda_tiempo}};
         var sinDuracion = 1;
         var demanda_duracion = {{demanda_duracion}};
         {% if demanda %}
@@ -276,13 +276,7 @@
                 lugar_donde_necesita : '{{ demanda.lugar_donde_necesita }}',
                 importancia_resolver_necesidad : '{{demanda.importancia_resolver_necesidad}}',
                 tiempo_para_estar_disponible : '{{ demanda.tiempo_para_estar_disponible }}'
-            };
-            {% if demanda_tiempo == "" %}
-                demanda_tiempo = undefined;
-            {% else %}
-                demanda_tiempo = {{demanda_tiempo}};
-            {% endif %}
-            
+            };            
         {% endif %}
         $('p.tags a').each(function(){
             console.log($(this));

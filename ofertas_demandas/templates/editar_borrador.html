@@ -395,7 +395,7 @@
                 <div class="col-md-8">
                     <label class="col-md-6">Tiempo de disponilidad del producto o servicio</label>
 
-                    <input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" value="{{oferta_tiempo}}" ng-model="tiempo_disponible"
+                    <input autofocus number type="text" class="form-control" id="oferta_tiempo_disponibilidad" name="oferta_tiempo_disponibilidad" style="width:70px;" ng-pattern="/^([1-9][0-9]*)$/" ng-required="false" ng-change="tiempoDisponibleInput(tiempo_disponible)" ng-model="tiempo_disponible"
                             >
                     <span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.pattern"><p class="bg-danger text-danger">N&uacute;mero no v&aacute;lido</p></span>
                     <!--<span ng-show="form_editar.oferta_tiempo_disponibilidad.$error.required" ng-if="!form_editar.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>-->
@@ -470,9 +470,10 @@
     <script>
         var oferta_editar = undefined;
         var duracion = undefined;
-        var oferta_tiempo = undefined;
+        var oferta_tiempo = {{oferta_tiempo}};
         var sinDuracion = 1;
         var oferta_duracion = {{oferta_duracion}};
+        
         {% if oferta %}
             oferta_editar = {
                 tipo:'{{oferta.tipo}}',
@@ -502,11 +503,6 @@
                 canvas_fuente_ingresos :  '{{ oferta.fk_diagrama_canvas.fuente_ingresos }}',
                 tiempo_para_estar_disponible : '{{ oferta.tiempo_para_estar_disponible }}'
             };
-            {% if oferta_tiempo == "" %}
-                oferta_tiempo = undefined;
-            {% else %}
-                oferta_tiempo = {{oferta_tiempo}};
-            {% endif %}
             
         {% endif %}
         $('p.tags a').each(function(){

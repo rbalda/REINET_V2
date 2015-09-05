@@ -94,7 +94,6 @@ class Demanda(models.Model):
     lugar_donde_necesita = models.TextField(null=True,blank=True)
     importancia_resolver_necesidad = models.TextField(null=True,blank=True)
     fk_perfil = models.ForeignKey(Perfil)
-    fk_oferta = models.ForeignKey(Oferta)
     palabras_clave = models.ManyToManyField('PalabraClave',related_name='demandas_con_esta_palabra')
     alcance = models.ManyToManyField(Institucion,related_name='demandas_por_institucion')
     comentarios = models.ManyToManyField(Perfil,through='ComentarioDemanda',through_fields=('fk_demanda','fk_usuario'),related_name='usuarios_que_cpmentaron')
@@ -104,6 +103,16 @@ class Demanda(models.Model):
     class Meta:
         db_table = 'Demanda'
 
+class ResolucionDemanda(models.Model):
+    id_propuesta = models.AutoField(primary_key=True)
+    fk_oferta_demandante = models.ForeignKey(Oferta)
+    fk_demanda_que_aplica = models.ForeignKey(Demanda)
+    resuelve = models.SmallIntegerField(default=0)
+    motivo = models.TextField()
+    #-1 = no resuelve  0 = pendiente  1 = resuelve
+
+    class Meta:
+        db_table='ResolucionDemanda'
 
 class MiembroEquipo(models.Model):
     id_equipo = models.AutoField(primary_key=True)

@@ -391,8 +391,7 @@
     <script>
         $(document).on('click', '#enviarResolucion', function () {
             ofertaS =$("[name='oferta_escogida']").val();
-            console.log("oferta_escogida");
-            console.log(ofertaS);
+
             $.ajax({
                 data: {
                     'demanda': "{{ demanda.id_demanda }}",
