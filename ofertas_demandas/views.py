@@ -671,12 +671,15 @@ def editar_borrador(request, id_oferta):
 		except:
 			palabras_claves =  ["Null", "Null", "Null", "Null"]
 
+		galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
 		oferta_editada.save()
 		args.update(csrf(request))
 		args['oferta_tiempo']=oferta_tiempo
 		args['oferta_duracion']=oferta_duracion
 		args['oferta'] = oferta_editada
 		args['msg'] = "Borrador de oferta modificada exitosamente"
+		args['imagen_principal'] = galeria.first()
+		args['palabras'] = oferta.palabras_clave.all
 		return render_to_response('administrar_borrador.html',args)
 
 	else:
@@ -788,12 +791,15 @@ def editar_borrador_demanda(request, id_demanda):
 		except:
 			palabras_claves =  ["Null", "Null", "Null", "Null"]
 
+		galeria = ImagenDemanda.objects.all().filter(fk_demanda_id = demanda.id_demanda)
 		demanda_editada.save()
 		args.update(csrf(request))
 		args['demanda_tiempo']=demanda_tiempo
 		args['demanda_duracion']=demanda_duracion
 		args['demanda'] = demanda_editada
 		args['msg'] = "Borrador de demanda modificado exitosamente"
+		args['imagen_principal'] = galeria.first()
+		args['palabras'] = demanda.palabras_clave.all
 		return render_to_response('administrar_borrador_demanda.html',args)
 
 	else:
@@ -1081,6 +1087,7 @@ def publicar_borrador(request, id_oferta):
 	oferta.publicada = 1
 	oferta.save()
 	args['oferta'] = oferta
+	args['msg'] = "Oferta publicada exitosamente"
 	return render_to_response('oferta_inicio.html',args)
 
 
@@ -1118,6 +1125,7 @@ def publicar_borrador_demanda(request, id_demanda):
 	demanda.publicada = 1
 	demanda.save()
 	args['demanda'] = demanda
+	args['msg'] = "Demanda publicada exitosamente"
 	return render_to_response('demanda_inicio.html',args)
 
 
@@ -1151,6 +1159,7 @@ def eliminar_borrador(request, id_oferta):
 		return HttpResponseRedirect('/NotFound/')
 
 	oferta.delete()
+	args['msg'] = "Borrador de oferta eliminado exitosamente"
 	return render_to_response('oferta_inicio.html',args)
 
 
@@ -1183,6 +1192,7 @@ def eliminar_borrador_demanda(request, id_demanda):
 		return HttpResponseRedirect('/NotFound/')
 
 	demanda.delete()
+	args['msg'] = "Borrador de demanda eliminado exitosamente"
 	return render_to_response('demanda_inicio.html',args)
 
 

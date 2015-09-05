@@ -21,7 +21,7 @@
             <a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarDemanda"><i class="fa fa-ban"></i>&nbsp;&nbsp;Inactivar</a>
             <form method="GET" action="/CrearDemandaCopia/">
                 <input type="hidden" id="select_demanda" name="select_demanda" value="{{demanda.id_demanda}}" style="display: none;">
-                <button type="submit" class="btn btn-green pull-right"><i class="fa fa-files-o"></i>&nbsp;&nbsp;Duplicar&nbsp;&nbsp;</button>
+                <button type="submit" class="btn btn-warning pull-right"><i class="fa fa-files-o"></i>&nbsp;&nbsp;Duplicar&nbsp;&nbsp;</button>
             </form>
         </div>
 
@@ -189,7 +189,7 @@
         <h4>Comentarios</h4>
         <hr>
         <div align=right>
-            <p><a href="#" class="btn btn-sm btn-green" style="color:white"data-toggle="modal" data-target="#solicitudesComentarios"><span class="badge" style="background-color:white; color:#5D8731">{{ comentarios_pendientes | length }}</span>&nbsp;&nbsp;Comentarios nuevos</a></p>
+            <p><a href="#" class="btn btn-sm btn-warning" style="color:white"data-toggle="modal" data-target="#solicitudesComentarios"><span class="badge" style="background-color:white; color:#5D8731">{{ comentarios_pendientes | length }}</span>&nbsp;&nbsp;Comentarios nuevos</a></p>
             <p class="text-muted" style="font-size:11px">*Los comentarios de otros usuarios deben ser aprobados para estar visibles<p>
         </div>
         <!-- cOOOOOOOOOOOOOOOOOOOOOOMIENZAN LOS COMENTARIOS -->
@@ -253,7 +253,7 @@
             </select>
         </div>
         <div>
-            <button class="btn btn-green col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
+            <button class="btn btn-warning col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
         </div>
     </div>
     </div>
