@@ -365,6 +365,7 @@
                         function limpiarComentarios(envio) {
                             if(envio){
                                 $("#confirmarcionComentario").modal('show');
+                                $("#divNuevoComentario").hide();
                             }
                             else{
                                 $("#rechazoComentario").modal('show');
@@ -631,7 +632,11 @@
                     <form role="form" action="" method=''>
                         <!--{% csrf_token %}-->
                         <div class="form-group">
+                            {% if mi_comentario == 0 %}
                             <label for="Confirmacion">Ha calificado y comentado la oferta con &eacute;xito</label>
+                            {% else %}
+                            <label for="Confirmacion">Ha comentado la oferta con &eacute;xito</label>
+                            {% endif %}
                             <p class="text-muted" style="font-size:11px;margin-bottom: 0px;">*Los comentarios deben ser
                                 aprobados por el dueño de la oferta para ser mostrados</p>
                         </div>
