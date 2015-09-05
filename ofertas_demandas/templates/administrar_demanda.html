@@ -228,7 +228,7 @@
         <div id="msj_retro_estado"></div>
         <div class="thumbnail col-md-8"  style="margin-bottom:0px">
 
-            <select  style="float:left;" class="form-control col-md-4"name="estado_demanda">
+            <select  style="float:left;" class="form-control col-md-4"name="estado_demanda" disabled>
                 {% if demanda.estado == 1 %}
                     <option value="1" selected>Activa</option>
                 {% else %}
@@ -254,8 +254,11 @@
 
             </select>
         </div>
-        <div>
-            <button class="btn btn-warning col-md-3" style="float:right;" id="btn_editar_estado"> Guardar</button>
+        <div id="div_guardar" hidden>
+            <button class="btn btn-warning col-md-3" style="float:right;" id="btn_editar_estado" > Guardar</button>
+        </div>
+         <div id="div_editar">
+            <button class="btn btn-warning col-md-3" style="float:right;" id="btn_activar_editar"> Editar</button>
         </div>
         <br>
         <br>
@@ -500,6 +503,9 @@
                 success: function(data){
                     if(data=="ok"){
                         $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la demanda ha sido modificado exitosamente</div>');
+                        $("[name='estado_demanda']").prop( "disabled", true );
+                        $("#div_editar").prop("hidden", false);
+                         $("#div_guardar").prop("hidden", true);
                     }else{
                         $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
 
@@ -512,6 +518,12 @@
             });
         });
 
+ $("#btn_activar_editar").on('click', function (e2){
+            $("[name='estado_demanda']").prop( "disabled", false );
+            $("#div_editar").prop("hidden", true);
+             $("#div_guardar").prop("hidden", false);
+       
+});
     </script>
 
 {% endblock %}	    
