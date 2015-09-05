@@ -179,58 +179,56 @@
 
 
     <!-- New comment form -->
-    {% if num_comentarios == 0 %}
-        <div class="NuevoComentario" id="divNuevoComentario">
-            <form class="form-horizontal" role="form" id="ComentarioForm" >
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <div class="col-sm-2 hidden-xs">
-                        <img src="{{ usuario.foto.url }}" alt="..." class="img-responsive">
-                    </div>
-                    <div class="col-sm-10">
-                        <textarea style="resize:none" class="form-control" rows="3" name="comentario_demanda"
-                                  placeholder="Escriba su comentario acerca de la demanda"></textarea>
-                    </div>
+    <div class="NuevoComentario" id="divNuevoComentario">
+        <form class="form-horizontal" role="form" id="ComentarioForm" >
+            <div class="form-group" style="margin-bottom: 15px;">
+                <div class="col-sm-2 hidden-xs">
+                    <img src="{{ usuario.foto.url }}" alt="..." class="img-responsive">
                 </div>
-                <div class="form-group" style="margin-bottom: 0px;">
-                    <div class="col-sm-offset-2 col-sm-10" align="right">
-                        <button id="enviarMensaje"  type="submit" class="btn btn-green btn-sm">Publicar
-                        </button>
-                    </div>
+                <div class="col-sm-10">
+                    <textarea style="resize:none" class="form-control" rows="3" name="comentario_demanda"
+                              placeholder="Escriba su comentario acerca de la demanda"></textarea>
                 </div>
-            </form>
-            <!--Script para enviar los datos para crear el comentario-->
-            <script>
-                $(document).on('click', '#enviarMensaje', function () {
-                    $.ajax({
-                        data: {
-                            'demanda': "{{ demanda.id_demanda }}",
-                            'csrfmiddlewaretoken': '{{ csrf_token }}',
-                            'comentario_peticion': $("[name='comentario_demanda']").val()
-                        },
-                        type: 'post',
-                        url: '/enviar_comentario_demanda/',
-                        success: function (data) {
-                            limpiarComentarios(1)
-                        },
-                        error: function(xhr, status, error) {
-                            limpiarComentarios(0)
-                        }
-                    });
-                    function limpiarComentarios(envio) {
-                        if(envio){
-                            $("#confirmarcionComentario").modal('show');
-                            $("#divNuevoComentario").hide();
-                        }
-                        else{
-                            $("#rechazoComentario").modal('show');
-                        }
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div class="col-sm-offset-2 col-sm-10" align="right">
+                    <button id="enviarMensaje"  type="submit" class="btn btn-green btn-sm">Publicar
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!--Script para enviar los datos para crear el comentario-->
+        <script>
+            $(document).on('click', '#enviarMensaje', function () {
+                $.ajax({
+                    data: {
+                        'demanda': "{{ demanda.id_demanda }}",
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'comentario_peticion': $("[name='comentario_demanda']").val()
+                    },
+                    type: 'post',
+                    url: '/enviar_comentario_demanda/',
+                    success: function (data) {
+                        limpiarComentarios(1)
+                    },
+                    error: function(xhr, status, error) {
+                        limpiarComentarios(0)
                     }
-
-
                 });
-            </script>
-        </div>
-    {% endif %}
+                function limpiarComentarios(envio) {
+                    if(envio){
+                        $("#confirmarcionComentario").modal('show');
+                        $("#divNuevoComentario").hide();
+                    }
+                    else{
+                        $("#rechazoComentario").modal('show');
+                    }
+                }
+
+
+            });
+        </script>
+    </div>
 
     <!-- Comments list -->
     <h4>{{ comentarios_aceptados }} Comentarios</h4>
