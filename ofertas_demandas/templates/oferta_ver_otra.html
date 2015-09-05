@@ -272,7 +272,6 @@
 
 
     <!-- New comment form -->
-    {% if mi_comentario == 0 %}
         <div class="NuevoComentario" id="divNuevoComentario">
             <form class="form-horizontal" role="form" id="ComentarioForm" >
                 <div class="form-group" style="margin-bottom: 15px;">
@@ -281,7 +280,11 @@
                     </div>
                     <div class="col-sm-10">
                         <div>
-                            <input id="calificacionComentario" data-min="0" data-max="5" data-step="1" data-size="xs">
+                            {% if mi_comentario == 0 %}
+                                <input id="calificacionComentario" data-min="0" data-max="5" data-step="1" data-size="xs">
+                            {% else %}
+                                <label>Usted ya ha calificado, pero puede seguir comentando</label>
+                            {% endif %}
                         </div>
                         <textarea style="resize:none" class="form-control" rows="3" name="comentario_oferta"
                                   placeholder="Escriba su comentario acerca de la oferta"></textarea>
@@ -295,31 +298,63 @@
                 </div>
             </form>
             <!--Script para enviar los datos para crear el comentario-->
-            <script>
-                calificacion=0;
-                $("#calificacionComentario").rating({
-                    starCaptions: {1: "Mala Idea", 2: "Por Mejorar", 3: "Genial", 4: "Prometedora", 5: "BOOM!"},
-                    starCaptionClasses: {1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success"}
-                });
-                $("#calificacionComentario").on("rating.change", function(event, value, caption) {
-                    calificacion=value;
-                });
-                $(document).on('click', '#enviarMensaje', function () {
-                    if(calificacion==0)
-                    {
-                        $("#faltaCalificacion").modal('show');
-                    }
-                    else
-                    {
+            {% if mi_comentario == 0 %}
+                <script>
+                    calificacion=0;
+                    $("#calificacionComentario").rating({
+                        starCaptions: {1: "Mala Idea", 2: "Por Mejorar", 3: "Genial", 4: "Prometedora", 5: "BOOM!"},
+                        starCaptionClasses: {1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success"}
+                    });
+                    $("#calificacionComentario").on("rating.change", function(event, value, caption) {
+                        calificacion=value;
+                    });
+                    $(document).on('click', '#enviarMensaje', function () {
+                        if(calificacion==0)
+                        {
+                            $("#faltaCalificacion").modal('show');
+                        }
+                        else
+                        {
+                            $.ajax({
+                                data: {
+                                    'oferta': "{{ oferta.id_oferta }}",
+                                    'calificacion': calificacion,
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                                    'comentario_peticion': $("[name='comentario_oferta']").val()
+                                },
+                                type: 'post',
+                                url: '/enviarComentario/',
+                                success: function (data) {
+                                    limpiarComentarios(1)
+                                },
+                                error: function(xhr, status, error) {
+                                    limpiarComentarios(0)
+                                }
+                            });
+                            function limpiarComentarios(envio) {
+                                if(envio){
+                                    $("#confirmarcionComentario").modal('show');
+                                    $("#divNuevoComentario").hide();
+                                }
+                                else{
+                                    $("#rechazoComentario").modal('show');
+                                }
+                            }
+                        }
+                    });
+                </script>
+            {% else %}
+                <script>
+                    $(document).on('click', '#enviarMensaje', function () {
                         $.ajax({
                             data: {
                                 'oferta': "{{ oferta.id_oferta }}",
-                                'calificacion': calificacion,
+                                'calificacion': -1,
                                 'csrfmiddlewaretoken': '{{ csrf_token }}',
                                 'comentario_peticion': $("[name='comentario_oferta']").val()
                             },
                             type: 'post',
-                            url: '/enviarComentario/',
+                            url: '/enviarComentarioSolo/',
                             success: function (data) {
                                 limpiarComentarios(1)
                             },
@@ -330,17 +365,15 @@
                         function limpiarComentarios(envio) {
                             if(envio){
                                 $("#confirmarcionComentario").modal('show');
-                                $("#divNuevoComentario").hide();
                             }
                             else{
                                 $("#rechazoComentario").modal('show');
                             }
                         }
-                    }
-                });
-            </script>
+                    });
+                </script>
+            {% endif %}
         </div>
-    {% endif %}
 
     <!-- Comments list -->
     <h4>{{ comentarios_aceptados | length }} Comentarios</h4>
@@ -644,13 +677,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Debe calificar la Oferta.</h4>
+                    <h4 class="modal-title" id="sendemailtitle">No ha calificado la Oferta</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-body">
                     <form role="form" action="" method=''>
                         <div class="form-group">
-                            <label for="Confirmacion">REINET le informa que la calificación no puede ser cero, debe elegir un valor.</label>
+                            <label for="Confirmacion">Debe calificar la Oferta para poder publicar su comentario. Esta calificación solo la podré hacer una sola vez.</label>
                         </div>
                         <div align="right">
                             <a href="" class="button">
