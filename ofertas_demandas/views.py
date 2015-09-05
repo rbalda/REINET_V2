@@ -1376,10 +1376,14 @@ def enviar_comentario(request):
 			comentario.fk_oferta = oferta
 			comentario.fk_usuario = usuario
 			comentario.save()
+			
 			#Se calcula el promedio total de la calificacion del comentario y se actualiza la oferta
-			promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
-			oferta.calificacion_total = promedio_calificacion["average_cal"]
-			oferta.save()
+			#Solo si el comentario es el primero, es decir que tiene calificacion (diferente -1)
+			if calificacion!=-1:
+				promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
+				oferta.calificacion_total = promedio_calificacion["average_cal"]
+				oferta.save()
+				
 			#Se retorna la respuesta en Json
 			response = JsonResponse({})
 			return HttpResponse(response.content)
