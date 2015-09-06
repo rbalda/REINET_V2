@@ -2,7 +2,7 @@
     <div class="member-left" style="margin-bottom: 5px;">
         {% for img in imagenes %}
             {% if img.fk_oferta == ofer.fk_oferta_demandante %}
-                <img  class="img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="..."
+                <img  class="img-responsive" src="/media/{{ img.imagen }}" alt="..."
                         style="margin-right: 40px; margin-left: 5px; width: 75px;height: 75px;">
             {% endif %}
         {% endfor %}
