@@ -11,12 +11,14 @@
         <!-- Panel Calificacion -->
         <div class="thumbnail" align=center style="margin-bottom:0px;float:left;">
             <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                <input id="calificacionOferta" value="{{ ofer.fk_oferta_demandante.calificacion_total }}" class="rating" data-size="xs"/>
+                <input id="{{ ofer.fk_oferta_demandante.id_oferta}}" name="calificacionOferta" value="{{ofer.calificacion}}" data-min="0" data-max="5" step="1" class="rating" data-size="xs"/>
+               
             </div>
+           
         </div>
     </div>
     <br>
-{% empty %}
+    {% empty %}
     <br>
     <div class="member-left" style="margin-bottom: 0px;">
         <p class="position">Ninguna oferta ha intentado resolver esta demanda</p>
@@ -25,6 +27,6 @@
 
 {% endfor %}
 <script>
-    $("#calificacionOferta").rating({disabled: true, showCaption:false, showClear: false});
+    $("[name='calificacionOferta']").rating({disabled: false, showCaption:true, showClear: false});
 </script>
 
