@@ -745,13 +745,29 @@ def editar_borrador_demanda(request, id_demanda):
 		perfil_beneficiario = request.POST.get('demanda_beneficiario_perfil', "No disponible")
 		#seccion de industria
 		importancia_resolver_necesidad = request.POST.get('demanda_importancia_resolver_necesidad', "No disponible")
-		alternativas_soluciones_existentes = request.POST.get('demanda_alternativas_soluciones', "No disponible")
+		alternativas_soluciones_existentes = request.POST.get('demandas_alternativas_soluciones', "No disponible")
 		#seccion de estado/Logros
 		tiempo_disponible = request.POST.get('demanda_tiempo_disponibilidad', "No disponible")
 		tiempo_unidad = request.POST.get('select_demanda_tiempo', None)
 		lugar_donde_necesita = request.POST.get('demanda_lugar_donde_necesita', "No disponible")
 		#seccion de copia de datos a la demanda a modificar
 		#seccion informacion
+
+		if perfil_cliente == "None":
+			perfil_cliente =""
+
+		if perfil_beneficiario == "None":
+			perfil_beneficiario = ""
+
+		if importancia_resolver_necesidad == "None":
+			importancia_resolver_necesidad = ""
+
+		if alternativas_soluciones_existentes== "None":
+			alternativas_soluciones_existentes= ""
+
+		if lugar_donde_necesita== "None":
+			lugar_donde_necesita= ""
+
 		demanda_editada = demanda
 		demanda_editada.nombre = nombre
 		demanda_editada.descripcion = descripcion
@@ -1085,6 +1101,7 @@ def publicar_borrador(request, id_oferta):
 
 	oferta.fecha_publicacion = datetime.datetime.now()
 	oferta.publicada = 1
+	oferta.es_publica = 1
 	oferta.save()
 	args['oferta'] = oferta
 	args['msg'] = "Oferta publicada exitosamente"
@@ -1123,6 +1140,7 @@ def publicar_borrador_demanda(request, id_demanda):
 
 	demanda.fecha_publicacion = datetime.datetime.now()
 	demanda.publicada = 1
+	demanda.es_publica = 1
 	demanda.save()
 	args['demanda'] = demanda
 	args['msg'] = "Demanda publicada exitosamente"
