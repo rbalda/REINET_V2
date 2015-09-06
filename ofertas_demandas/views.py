@@ -1752,14 +1752,18 @@ def resolver_demanda(request):
 		try:
 			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
 			ofertaSel = Oferta.objects.get(id_oferta = request.POST['oferta_escogida'])
-			resolucion = ResolucionDemanda()
-			resolucion.fk_oferta_demandante = ofertaSel
-			resolucion.fk_demanda_que_aplica = demanda
-			resolucion.resuelve = 0
-			resolucion.motivo= request.POST['comentario_resolucion']
-			resolucion.save()
-			response = JsonResponse({'save_estado':True})
-			return HttpResponse(response.content)
+			if ofertaSel.id_oferta == ResolucionDemanda.fk_oferta_demandante.id_oferta:
+				response = JsonResponse({'save_estado':False})
+				return HttpResponse(response.content)
+			else:
+				resolucion = ResolucionDemanda()
+				resolucion.fk_oferta_demandante = ofertaSel
+				resolucion.fk_demanda_que_aplica = demanda
+				resolucion.resuelve = 0
+				resolucion.motivo= request.POST['comentario_resolucion']
+				resolucion.save()
+				response = JsonResponse({'save_estado':True})
+				return HttpResponse(response.content)
 
 		except Demanda.DoesNotExist:
 			args['mensaje_error'] = "La demanda no se encuentra en la red, lo sentimos."
