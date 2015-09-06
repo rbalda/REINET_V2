@@ -660,8 +660,19 @@ appoferta.controller('editar_oferta_form', ['$scope','$window', 'Oferta', functi
 
     $scope.tipo = 0;
     $scope.hide = true;
-
+    var tiempo='1';
+    var duracion='A\u00F1o/s';
     if($scope.editar_oferta !== undefined){
+        tiempo = $window.oferta_tiempo;
+        duracion = $window.oferta_duracion;
+
+        if(duracion===1){
+            $scope.tiempo_tipo = 'A\u00F1o/s';
+        }else{
+            $scope.tiempo_tipo = 'Mes/es';
+        }
+        $scope.tiempo_disponible = tiempo;
+
         $scope.editar_oferta2 = {
             nombre : $scope.editar_oferta.nombre,
             descripcion : $scope.editar_oferta.descripcion,

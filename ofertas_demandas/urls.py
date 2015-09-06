@@ -29,6 +29,8 @@ urlpatterns = patterns('',
                        url(r'^rechazarPeticionMiembro[/]?$','ofertas_demandas.views.rechazar_peticion', name='rechazar_peticion'),
 
                        url(r'^editarEstadoMembresia[/]?$','ofertas_demandas.views.editar_estado_membresia', name='editarEstadoMembresia'),
+                      url(r'^calificacionResolverDemanda[/]?$','ofertas_demandas.views.calificacion_resolver_demanda', name='calificacion_resolver_demanda'),
+                    
                        url(r'^editarRolMembresia[/]?$','ofertas_demandas.views.editar_rol_membresia', name='editarRolMembresia'),
                        url(r'^aceptarPeticionMiembro[/]?$','ofertas_demandas.views.aceptar_peticion', name='aceptar_peticion'),
                        url(r'^editarEstadoMembresia[/]?$','ofertas_demandas.views.editar_estado_membresia', name='editarEstadoMembresia'),
@@ -54,8 +56,8 @@ urlpatterns = patterns('',
                        url(r'^administrarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.administrar_Borrador_Demanda', name='administrarBorrador'),
                        url(r'^EditarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.editar_borrador_demanda', name='EditarBorradorDemanda'),
                        url(r'^PublicarBorradorDemanda/(?P<id_demanda>\w{0,250})[/]?$','ofertas_demandas.views.publicar_borrador_demanda', name='PublicarBorradorDemanda'),
-                       url(r'^resolverDemanda[/]?$', 'ofertas_demandas.views.resolverDemanda', name='resolverDemanda'),
-                       url(r'^ofertaResuelveDemanda[/]?$', 'ofertas_demandas.views.ofertaResuelveDemanda', name='ofertaResuelveDemanda'),
+                       url(r'^resolverDemanda[/]?$', 'ofertas_demandas.views.resolver_demanda', name='resolverDemanda'),
+                       url(r'^ofertaResuelveDemanda[/]?$', 'ofertas_demandas.views.oferta_resuelve_demanda', name='ofertaResuelveDemanda'),
                        )
 
 urlpatterns += routers.ofertas_routers

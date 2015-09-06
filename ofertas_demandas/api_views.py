@@ -100,12 +100,12 @@ class OfertaViewSet(ModelViewSet):
         usuario = Perfil.objects.get(id=self.request.user.id)
         if (busqueda != 'undefined') and (busqueda is not None):
             try: 
-                queryset = PalabraClave.objects.all().filter(palabra = busqueda).first().ofertas_con_esta_palabra.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
-                queryset = queryset | Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+                queryset = PalabraClave.objects.all().filter(palabra = busqueda).first().ofertas_con_esta_palabra.all().filter(publicada = 1).exclude(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, estado_membresia=1)).order_by('-fecha_publicacion')
+                queryset = queryset | Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, estado_membresia=1)).order_by('-fecha_publicacion')
             except:
-                queryset = Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+                queryset = Oferta.objects.all().filter(publicada = 1, nombre__icontains=busqueda).exclude(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, estado_membresia=1)).order_by('-fecha_publicacion')
         else:
-            queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo__fk_participante=usuario.id_perfil).order_by('-fecha_publicacion')
+            queryset = Oferta.objects.all().filter(publicada = 1).exclude(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, estado_membresia=1)).order_by('-fecha_publicacion')
         return queryset
 
     @detail_route(methods=['post'])
