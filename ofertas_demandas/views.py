@@ -1731,7 +1731,7 @@ def resolver_demanda(request):
 Autor: Ray Montiel
 Nombre de la funcion: oferta_resuelve_demanda
 Entrada:
-Salida: Muestra el equipo de una oferta
+Salida: Muestra las ofertas que resuelven la demanda
 Descripción:Esta función permite mostrar las ofertas que resolvieron la demanda
 """
 @login_required

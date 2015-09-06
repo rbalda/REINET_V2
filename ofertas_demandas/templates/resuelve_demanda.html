@@ -1,25 +1,21 @@
 {% for ofer in ofertas %}
-    {% if ofer.resuelve == 1  %}
-        <div class="member-left" style="margin-bottom: 5px;">
-            {% for img in imagenes %}
-                {% if img.fk_oferta == ofer.id_oferta %}
-                    <img  class="img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="..."
-                            style="margin-right: 40px; margin-left: 5px; width: 75px;height: 75px;">
-                {% else %}
-                    <img class="img-responsive gallery-list-small" src="/media/ofertas-demandas/nomedia.jpg" alt="..."
-                            style="margin-right: 40px; margin-left: 5px; width: 75px;height: 75px;">
-                {% endif %}
-            {% endfor %}
-            <a href="/oferta/{{ ofer.id_oferta }}"><h4 style="font-size: 14px;">{{ ofer.nombre }}</h4></a>
-            <br><br>
-            <!-- Panel Calificacion -->
-            <div class="thumbnail" align=center style="margin-bottom:0px">
-                <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                    <input id="calificacionOferta" value="{{ ofer.calificacion_total }}" class="rating" data-size="xs"/>
-                </div>
+    <div class="member-left" style="margin-bottom: 5px;">
+        {% for img in imagenes %}
+            {% if img.fk_oferta == ofer.fk_oferta_demandante %}
+                <img  class="img-responsive" src="/media/{{ imagenPrincipal.imagen }}" alt="..."
+                        style="margin-right: 40px; margin-left: 5px; width: 75px;height: 75px;">
+            {% endif %}
+        {% endfor %}
+        <a href="/oferta/{{ ofer.fk_oferta_demandante.id_oferta }}"><h4 style="font-size: 14px;">{{ ofer.fk_oferta_demandante.nombre }}</h4></a>
+        <br><br>
+        <!-- Panel Calificacion -->
+        <div class="thumbnail" align=center style="margin-bottom:0px;float:left;">
+            <div class="caption" style="padding-top:0px; padding-bottom:0px">
+                <input id="calificacionOferta" value="{{ ofer.fk_oferta_demandante.calificacion_total }}" class="rating" data-size="xs"/>
             </div>
         </div>
-    {% endif %}
+    </div>
+    <br>
 {% empty %}
     <br>
     <div class="member-left" style="margin-bottom: 0px;">
@@ -28,5 +24,7 @@
 
 
 {% endfor %}
-
+<script>
+    $("#calificacionOferta").rating({disabled: true, showCaption:false, showClear: false});
+</script>
 
