@@ -11,7 +11,7 @@
         <!-- Panel Calificacion -->
         <div class="thumbnail" align=center style="margin-bottom:0px;float:left;">
             <div class="caption" style="padding-top:0px; padding-bottom:0px">
-                <input id="{{ ofer.fk_oferta_demandante.id_oferta}}" name="calificacionOferta" value="{{ofer.calificacion}}" data-min="0" data-max="5" step="1" class="rating" data-size="xs"/>
+                <input id="{{ ofer.fk_oferta_demandante.id_oferta}}" name="calificacionOferta" value="{{ofer.calificacion}}" data-min="0" data-max="5" data-step="1" class="rating" data-size="xs"/>
                
             </div>
            
@@ -28,5 +28,32 @@
 {% endfor %}
 <script>
     $("[name='calificacionOferta']").rating({disabled: false, showCaption:true, showClear: false});
+      $("[name='calificacionOferta']").on("rating.change", function(event, value, caption) {
+                        
+                        calificacion=value;
+                       alert(calificacion);
+                        id_oferta=$(this).attr("id");
+                        id_demanda="{{demanda.id_demanda}}";
+                      //  alert("id "+id_demada);
+                         $.ajax({
+                                data: {
+                                    'id_oferta': id_oferta,
+                                    'calificacion': calificacion,
+                                    'id_demanda':id_demanda,
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                                },
+                                type: 'post',
+                                url: '/calificacionResolverDemanda/',
+                                success: function (data) {
+                               //    alert("ok");
+                                },
+                                error: function(xhr, status, error) {
+                                //    alert(error);
+                                }
+                            });
+                          
+
+                    });
+                  
 </script>
 

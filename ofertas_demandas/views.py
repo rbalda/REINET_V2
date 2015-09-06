@@ -1266,6 +1266,32 @@ def editar_rol_membresia(request):
 	else:
 		return HttpResponseRedirect('NotFound');
 
+
+def calificacion_resolver_demanda(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_oferta=request.POST["id_oferta"]
+		id_demanda=request.POST["id_demanda"]
+		calificacion=request.POST["calificacion"]
+		print calificacion
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta)
+		demanda=Demanda.objects.get(id_demanda=id_demanda)
+		resolucion_demanda = ResolucionDemanda.objects.filter(fk_demanda_que_aplica = id_demanda,fk_oferta_demandante=id_oferta).first()
+		if resolucion_demanda is not None:
+			resolucion_demanda.calificacion=calificacion
+			#print calificacion
+			resolucion_demanda.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('/NotFound');
+
+
 def editar_estado_membresia(request):
 	if request.method=="POST":
 		session = request.session['id_usuario']
