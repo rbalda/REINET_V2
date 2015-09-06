@@ -6,12 +6,20 @@
 {% block contenido %}
     <div class="container">
     <div class="row" style="margin-bottom: 25px;">
-        <div align=left class="col-md-3 col-sm-3 col-xs-4">
-            <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearDemanda">Crear
+        <div align=left class="col-md-2 col-sm-2 col-xs-3">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalCrearDemanda">Crear
                 Demanda
             </button>
         </div>
-        <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
+        <div class="col-md-4 col-sm-4 col-xs-3">
+            {% if msg != None %}
+            <div class="alert alert-success alert-dismissable" style="margin-bottom:-10px; padding:8px 25px 8px 15px">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6  col-sm-6 col-xs-6">
             <div class="col-sm-9">
                 <input type="text" class="form-control" ng-model="busqueda_demandas"
                        placeholder="Buscar Demandas por Nombre o por Tag (Solo para las demandas de la red)"/>
@@ -84,11 +92,11 @@
         </div>
         <!-- PAGINACION DE OFERTA PUBLICADAS-->
         <div class="pagination">
-            <button class="btn btn-green" ng-click='irAlanterior()'>Anterior</button>
+            <button class="btn btn-warning" ng-click='irAlanterior()'>Anterior</button>
             <span class="current">
               Página [[ pagina ]] de [[ contador ]].
             </span>
-            <button class="btn btn-green" ng-click='irAlsiguiente()'>Siguiente</button>
+            <button class="btn btn-warning" ng-click='irAlsiguiente()'>Siguiente</button>
         </div>
     </div>
 
@@ -126,7 +134,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-                                <a href="/administrarOferta/[[ publicada.id_oferta ]]" class="btn btn-green btn-sm">
+                                <a href="/administrarDemanda/[[ publicada.id_demanda ]]" class="btn btn-warning btn-sm">
                                     <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
                             </div>
                         </div>
@@ -146,11 +154,11 @@
             </div>
         </div>
         <div class="pagination">
-            <button class="btn btn-green" ng-click='irAlanteriorPublicada()'>Anterior</button>
+            <button class="btn btn-warning" ng-click='irAlanteriorPublicada()'>Anterior</button>
             <span class="current">
               Página [[ MDpagina ]] de [[ MDcontador ]].
             </span>
-            <button class="btn btn-green" ng-click='irAlsiguientePublicada()'>Siguiente</button>
+            <button class="btn btn-warning" ng-click='irAlsiguientePublicada()'>Siguiente</button>
         </div>
     </div>
     <!-- TERMINA TAB DE OFERTAS PUBLICADAS-->
@@ -182,7 +190,7 @@
                                         </ul>
                                     </div>
                                     <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-                                        <a href="/EditarBorradorDemanda/[[ borrador.id_demanda ]]" class="btn btn-green btn-sm">
+                                        <a href="/EditarBorradorDemanda/[[ borrador.id_demanda ]]" class="btn btn-warning btn-sm">
                                             <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
                                     </div>
                                 </div>
@@ -203,11 +211,11 @@
         </div>
 
         <div class="pagination">
-            <button class="btn btn-green" ng-click='irAlanteriorBorrador()'>Anterior</button>
+            <button class="btn btn-warning" ng-click='irAlanteriorBorrador()'>Anterior</button>
             <span class="current">
                 Página [[ Borradorespagina ]] de [[ Borradorescontador ]].
             </span>
-            <button class="btn btn-green" ng-click='irAlsiguienteBorrador()'>Siguiente</button>
+            <button class="btn btn-warning" ng-click='irAlsiguienteBorrador()'>Siguiente</button>
         </div>
 
     </div>
@@ -263,7 +271,7 @@
             </div>
 
         </div>
-    </div>-->
+    </div>
 
 
 
