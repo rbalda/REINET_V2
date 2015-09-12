@@ -602,7 +602,7 @@ def editar_borrador(request, id_oferta):
 		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama canvas
 		if canvas_socio_clave == "" and canvas_actividades_clave=="" and canvas_recursos=="" and canvas_propuesta=="" and canvas_relaciones=="" and canvas_canales=="" and canvas_segmentos=="" and canvas_estructura=="" and canvas_fuente=="" :
 			oferta_editada.fk_diagrama_canvas = None
-		#si existen datos ingresados, se los asigna 
+		#si existen datos ingresados, se los asigna
 		else:
 
 			#si anteriormente tuvo canvas, se lo modifica
@@ -636,7 +636,7 @@ def editar_borrador(request, id_oferta):
 		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama porter
 		if porter_competidores == "" and porter_consumidores=="" and porter_sustitutos=="" and porter_proveedores=="" and porter_nuevos=="":
 			oferta_editada.fk_diagrama_competidores = None
-		#si existen datos ingresados, se los asigna 
+		#si existen datos ingresados, se los asigna
 		else:
 
 			#si anteriormente tuvo porter, cambiarlo
@@ -657,7 +657,7 @@ def editar_borrador(request, id_oferta):
 				diagrama_porter.nuevosMiembros = porter_nuevos
 				diagrama_porter.save()
 				oferta_editada.fk_diagrama_competidores = diagrama_porter
-		
+
 		#manejo de tags
 		try:
 			palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
@@ -1376,7 +1376,7 @@ def aceptar_comentario(request, id_comentario):
 	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-	
+
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
 
@@ -1400,7 +1400,7 @@ def rechazar_comentario(request, id_comentario):
 	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect('/NotFound/')
-	
+
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
 
@@ -1430,14 +1430,14 @@ def enviar_comentario(request):
 			comentario.fk_oferta = oferta
 			comentario.fk_usuario = usuario
 			comentario.save()
-			
+
 			#Se calcula el promedio total de la calificacion del comentario y se actualiza la oferta
 			#Solo si el comentario es el primero, es decir que tiene calificacion (diferente -1)
 			if not comentario.calificacion == -1 :
 				promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
 				oferta.calificacion_total = promedio_calificacion["average_cal"]
 				oferta.save()
-				
+
 			#Se retorna la respuesta en Json
 			response = JsonResponse({})
 			return HttpResponse(response.content)
@@ -1599,7 +1599,7 @@ def aceptar_comentario_demanda(request, id_comentario):
 		comentario.save()
 	except:
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-	
+
 	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
 
 """
@@ -1618,7 +1618,7 @@ def rechazar_comentario_demanda(request, id_comentario):
 		comentario.save()
 	except:
 		return HttpResponseRedirect('/NotFound/')
-	
+
 	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
 
 """
@@ -1752,7 +1752,8 @@ def resolver_demanda(request):
 		try:
 			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
 			ofertaSel = Oferta.objects.get(id_oferta = request.POST['oferta_escogida'])
-			if ofertaSel.id_oferta == ResolucionDemanda.fk_oferta_demandante.id_oferta:
+			resolucion= ResolucionDemanda.objects.filter(fk_demanda_que_aplica = demanda.id_demanda,fk_oferta_demandante=ofertaSel.id_oferta).first()
+			if resolucion is not None:
 				response = JsonResponse({'save_estado':False})
 				return HttpResponse(response.content)
 			else:
