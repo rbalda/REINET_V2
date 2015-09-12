@@ -1348,7 +1348,7 @@ def editar_estado_demanda(request):
 		demanda=Demanda.objects.get(id_demanda=id_demanda);
 		if demanda is not None:
 			demanda.estado=estado_str
-			demanda.save
+			demanda.save()
 			return HttpResponse("ok")
 		else:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
