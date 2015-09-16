@@ -15,12 +15,16 @@ class Incubacion(models.Model):
 	condiciones = models.TextField()
 	tipos_oferta = models.PositiveSmallIntegerField()
 	otros = models.TextField(null=True,blank=True)
-	fk_incubada = models.ManyToManyField('Incubada',related_name='galeria')
-    
+
 	class Meta:
 		db_table = 'Incubacion'
 
 
+class Consultor(models.Model):
+	id_consultor = models.AutoField(primary_key=True)
+	fk_usuario_consultor = models.ForeignKey(Perfil)
+	class Meta:
+		db_table = 'Consultor'
 
 class Incubada(models.Model):
     id_incubada = models.AutoField(primary_key=True)
@@ -41,7 +45,7 @@ class Incubada(models.Model):
     cuadro_tendencias_relevantes = models.TextField(null=True,blank=True)
     fk_diagrama_competidores = models.OneToOneField(DiagramaPorter,related_name='incubada_con_este_diagrama_porter',null=True)
     fk_diagrama_canvas = models.OneToOneField(DiagramaBusinessCanvas,related_name='incubada_con_este_digrama_canvas',null=True)
-    
+    #equipo = models.ManyToManyField(Perfil,through='MiembroEquipo',through_fields=('fk_oferta_en_que_participa','fk_participante'),related_name='participa_en')
     equipo = models.ForeignKey(MiembroEquipo)
     palabras_clave = models.ManyToManyField(PalabraClave,related_name='incubada_con_esta_palabra')
     
@@ -49,22 +53,17 @@ class Incubada(models.Model):
     #alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
     fk_incubacion = models.ForeignKey(Incubacion)
 
+    consultores=models.ManyToManyField(Consultor,through='IncubadaConsultor',through_fields=('fk_incubada','fk_consultor'),related_name='consultores')
     class Meta:
         db_table = 'Incubada'
 
 
-class Consultor(models.Model):
-	id_consultor = models.AutoField(primary_key=True)
-	fk_usuario_consultor = models.ForeignKey(Perfil)
 
-	class Meta:
-		db_table = 'Consultor'
 
 class IncubadaConsultor(models.Model):
 	id_incubadaConsultor = models.AutoField(primary_key=True)
 	fk_consultor = models.ForeignKey(Consultor)
 	fk_incubada = models.ForeignKey(Incubada)
-
 	class Meta:
 		db_table = 'IncubadaConsultor'
 
@@ -76,7 +75,7 @@ class Milestone(models.Model):
 	importancia = models.TextField()
 	otros = models.TextField(null=True,blank=True)
 	fk_incubada = models.ForeignKey(Incubada)
-
+	retroalimentaciones=models.ManyToManyField(Consultor,through='Retroalimentacion',through_fields=('fk_milestone','fk_consultor'),related_name='retroalimentaciones')
 	class Meta:
 		db_table = 'Milestone'
 
@@ -87,20 +86,21 @@ class Retroalimentacion(models.Model):
 	fecha_creacion = models.DateTimeField(auto_now_add=True)
 	fk_milestone = models.ForeignKey(Milestone)
 	fk_consultor = models.ForeignKey(Consultor)
-
 	class Meta:
 		db_table = 'Retroalimentacion'
 
-class ConvocatoriaOfertas(models.Model):
+class Convocatoria(models.Model):
 	id_convocatoria_ofertas=models.AutoField(primary_key=True)
 	fecha_creacion= models.DateTimeField(auto_now_add=True)
 	fecha_maxima= models.DateTimeField()
+	solicitudes=models.ManyToManyField(Oferta,through='SolicitudOfertasConvocatoria',through_fields=('fk_convocatoria','fk_oferta'),related_name='solicitudes_Ofertas')
 	class Meta:
-		db_table = 'ConvocatoriaOfertas'
+		db_table = 'Convocatoria'
 
 class SolicitudOfertasConvocatoria(models.Model):
 	id_solicitud_ofertas_convocatoria=models.AutoField(primary_key=True)
 	estado_solicitud=models.PositiveSmallIntegerField() #Pendiente=0,Aprobada=1,Rechazada=2
+	fk_convocatoria=models.ForeignKey(Convocatoria)
 	fk_oferta=models.ForeignKey(Oferta)
 	class Meta:
 		db_table='SolicitudOfertasConvocatoria'
