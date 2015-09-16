@@ -13,8 +13,11 @@ urlpatterns = patterns('',
         url(r'^BuscarConsultor[/]?$', 'incubacion.views.buscar_usuario', name='buscar_usuario'),
 		url(r'^VerMilestone[/]?$', 'incubacion.views.admin_ver_milestone', name='admin_ver_milestone'),
 
+		url(r'^AdminIncubada[/]?$','incubacion.views.admin_ver_incubada', name='admin_ver_incubada'),
+		url(r'^ConsultorIncubada[/]?$','incubacion.views.consultor_ver_incubada', name='consultor_ver_incubada'),
+		url(r'^Incubada[/]?$','incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
-		#url(r'^NotFound[/]?$', vista_404, name='NotFound'),
-		)
+		url(r'^NotFound[/]?$', vista_404, name='NotFound'),
+)
 
 

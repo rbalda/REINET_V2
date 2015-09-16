@@ -431,6 +431,7 @@ Salida:
 Descripción:
 """
 
+@csrf_exempt
 def index(request): #Error 10, nombre inadecuado de la funcion
     if request.user.is_authenticated():
         return HttpResponseRedirect('/inicioUsuario')
@@ -497,6 +498,8 @@ Salida: hhtp
 Descripción: hace el logout del usuario y redirecciona a index
 """
 #usar palabras en español
+@csrf_exempt
+@login_required
 def cerrarSesion(request):
     logout(request)
     return redirect('../')
@@ -509,7 +512,8 @@ Parámetros:request
 Salida: Redirecciona al perfil de usuario
 Descripción: Esta funcion edita la contraseña del usuario y la actualiza en la bases de datos
 """
-
+@csrf_exempt
+@login_required
 def editarContrasena(request):
     session = request.session['id_usuario']
     usuarioSession = Perfil.objects.get(id=session)

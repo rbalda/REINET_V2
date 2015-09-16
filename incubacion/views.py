@@ -101,7 +101,7 @@ Autor: Estefania Lozano
 Nombre de funcion: admin_ver_incubada
 Parametros: request
 Salida: 
-Descripcion: Mostar template editar mi incubacion
+Descripcion: Mostar template de la incubada para el administrador de la incubacion
 """
 
 @login_required
@@ -110,6 +110,38 @@ def admin_ver_incubada(request):
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('admin_ver_incubada.html',args)
+
+
+"""
+Autor: Estefania Lozano
+Nombre de funcion: consultor_ver_incubada
+Parametros: request
+Salida: 
+Descripcion: Mostar template de la incubada para el consultor de la incubada
+"""
+
+@login_required
+def consultor_ver_incubada(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('consultor_ver_incubada.html',args)
+
+"""
+Autor: Estefania Lozano
+Nombre de funcion: ver_incubada
+Parametros: request
+Salida: 
+Descripcion: Mostar template de la incubada para el dueño de la incubada
+"""
+
+@login_required
+def usuario_ver_incubada(request):
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('usuario_ver_incubada.html',args)
+
 
 
 
@@ -144,9 +176,6 @@ def buscar_usuario(request):
 		args.update(csrf(request))
 
 
-		
-
-
 """
 Autor: Leonel Ramirez
 Nombre de funcion: VerMilestone
@@ -161,3 +190,18 @@ def admin_ver_milestone(request):
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('admin_ver_milestone.html',args)
+
+
+
+def vista_404(request):
+    try:
+        id_session=request.session['id_user']
+    except:
+        id_session=None
+    args={}
+    if id_session is not None:
+        tipo404="inicio_view"
+    else:
+        tipo404="index"
+    args['tipo404']=tipo404
+    return render_to_response('404.html',args,context_instance=RequestContext(request))
