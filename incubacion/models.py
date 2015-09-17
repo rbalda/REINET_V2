@@ -70,6 +70,7 @@ class IncubadaConsultor(models.Model):
 class Milestone(models.Model):
 	id_milestone = models.AutoField(primary_key=True)
 	fecha_creacion = models.DateTimeField(auto_now_add=True)
+	fecha_maxima_Retroalimentacion = models.DateTimeField()
 	fecha_maxima = models.DateTimeField()
 	requerimientos = models.TextField()
 	importancia = models.TextField()
