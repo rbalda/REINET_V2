@@ -1,0 +1,56 @@
+ <div class="table-responsive">
+              <table class="table">
+
+                  <thead>
+
+        <tr>
+            <th>Nombre</th>
+             <th>Tipo</th>
+              <th>Publicada</th>
+
+            <th>Calificacion</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+    	{% for o in ofertas%}
+
+        <tr>
+
+            <td>{{o.nombre}}</td>
+
+                        <td>{{o.tipo}}</td>
+                        <td>{{o.publicada}}</td>
+            <td>{{o.calificacion_total}}</td>
+
+          
+
+        </tr>
+        {% endfor %}
+
+    </tbody>
+               
+    </table>
+
+
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if ofertas.has_previous %}
+            <a onclick="ajaxPaginacion({{ ofertas.previous_page_number }});">Atrás</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ ofertas.number }} de {{ ofertas.paginator.num_pages }}.
+        </span>
+
+        {% if ofertas.has_next %}
+            <a onclick="ajaxPaginacion({{ ofertas.next_page_number }});">Siguiente</a>
+        {% endif %}
+    </span>
+	</div>
+
+
+</div> 

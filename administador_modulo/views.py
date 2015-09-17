@@ -11,7 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
-
+from usuarios.models import *
+from ofertas_demandas.models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import *
@@ -66,4 +67,35 @@ def usuarios_render(request):
 		print e
 		args={}
 		return render_to_response('usuarios_render.html', args)
-	
+
+def ofertas_render(request):
+	try:
+		print "entre"
+		input_query=request.GET['input']
+		print input_query
+		usuarios_query=Oferta.objects.filter(nombre__icontains=input_query)
+		paginator = Paginator(usuarios_query, 5) # Show 25 contacts per page
+		page = request.GET.get('page')
+		try:
+			ofertas = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			ofertas = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			ofertas = paginator.page(paginator.num_pages)
+		args={}
+		args['ofertas']=ofertas
+		return render_to_response('ofertas_render.html', args)
+	except Exception as e:
+		print e
+		args={}
+		return render_to_response('ofertas_render.html', args)
+
+
+def administrar_ofertas(request):
+	if request.method == "POST":
+		pass
+	else:
+		args={}
+		return render_to_response('admin_administrar_ofertas.html', args)

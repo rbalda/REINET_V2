@@ -24,7 +24,7 @@
             <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Administrar
             </button>
                     {% endcomment %}
-                    Administrar usuarios
+                    Administrar Ofertas
         </div>
 
 
@@ -41,7 +41,7 @@
         <div class="col-md-6  col-sm-6 col-xs-6">
             <div class="col-sm-9">
                 <input type="text" class="form-control" name="input_busqueda"
-                       placeholder="Buscar usuario por nombre"/>
+                       placeholder="Buscar oferta por nombre"/>
             </div>
             <div class="col-sm-3" >
                 <button class="btn btn-blue" id="buscar_usuarios">Buscar</button>
@@ -54,7 +54,7 @@
     <div class=" col-sm-12">
     <!-- Nav tabs -->
 
-    <div id="usuarios">
+    <div id="ofertas">
             </div>
 
 
@@ -62,21 +62,21 @@
     <script type="text/javascript">
     $("#buscar_usuarios").click(function(){
        
-        apellido=$("[name='input_busqueda']").val()
+        input=$("[name='input_busqueda']").val()
             $.ajax({
             data:{
-                'apellido': apellido,
+                'input': input,
                 'csrfmiddlewaretoken' :'{{ csrf_token }}',
                 'page':1,
                },
             type:'GET',
-            url: '/adminrenderusuarios/',
+            url: '/admin_render_ofertas/',
             success: function(data){
-                $('#usuarios').html(data);
+                $('#ofertas').html(data);
             },
             error: function () {
                
-                 $('#usuarios').html("Se ha producido un error, contáctese con el administrador");
+                 $('#ofertas').html("Se ha producido un error, contáctese con el administrador");
             }
         });
 
@@ -84,20 +84,22 @@
 
 
     function ajaxPaginacion(page){
+        input=$("[name='input_busqueda']").val()
+        
          $.ajax({
             data:{
-                'apellido': apellido,
+                'input': input,
                 'csrfmiddlewaretoken' :'{{ csrf_token }}',
                 'page':page,
-               },
+               },  
             type:'GET',
-            url: '/adminrenderusuarios/',
+            url: '/admin_render_ofertas/',
             success: function(data){
-                $('#usuarios').html(data);
+                $('#ofertas').html(data);
             },
             error: function () {
                
-                 $('#usuarios').html("Se ha producido un error, contáctese con el administrador");
+                 $('#ofertas').html("Se ha producido un error, contáctese con el administrador");
             }
         });
 
