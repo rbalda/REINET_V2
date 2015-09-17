@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 	'usuarios',
 	'ofertas_demandas',
 	'incubacion',
+	'administador_modulo',
 )
 
 MIDDLEWARE_CLASSES = (

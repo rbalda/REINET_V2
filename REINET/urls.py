@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^',include('usuarios.urls')),
     url(r'^',include('ofertas_demandas.urls')),
     url(r'^',include('incubacion.urls')),
+    url(r'^',include('administador_modulo.urls')),
 )
 
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
