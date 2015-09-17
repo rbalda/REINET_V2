@@ -101,8 +101,8 @@ DATABASES = {
 	  'default': {
 		  'ENGINE': 'django.db.backends.mysql',
 		  'NAME': 'Reinet',
-		  'HOST': '201.183.227.87',
-		  'PORT':'13306',
+		  'HOST': '181.198.55.114',
+		  'PORT':'3306',
 		  'USER':'reinet',
 		  'PASSWORD':'ReInEt2015'
 	  }
