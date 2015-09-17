@@ -18,12 +18,20 @@
 {% block contenido %}
     <div class="container">
     <div class="row" style="margin-bottom: 25px;">
-        <div align=left class="col-md-3 col-sm-3 col-xs-4">
+        <div align=left class="col-md-2 col-sm-2 col-xs-3">
             <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Crear
                 Oferta
             </button>
         </div>
-        <div class="col-md-offset-3 col-md-6  col-sm-9 col-xs-8">
+        <div class="col-md-4 col-sm-4 col-xs-3">
+            {% if msg != None %}
+            <div class="alert alert-success alert-dismissable" style="margin-bottom:-10px; padding:8px 25px 8px 15px">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6  col-sm-6 col-xs-6">
             <div class="col-sm-9">
                 <input type="text" class="form-control" ng-model="busqueda_ofertas"
                        placeholder="Buscar Oferta por Nombre o por Tag (Solo para las ofertas de la red)"/>

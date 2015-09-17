@@ -160,7 +160,12 @@ def cargar_imagen_oferta(request):
 
 			for x in descripcion:
 				if x['value'] == aux:
-					imagen.descripcion=x['descripcion']
+					if 'descripcion' in x:
+						imagen.descripcion=x['descripcion']
+
+					#si no existe descripcion en dictionario
+					else:
+						imagen.descripcion=" "
 
 		# caso contrario se guarda un espacio en blanco
 		else:
@@ -272,7 +277,12 @@ def cargar_imagen_demanda(request):
 
 			for x in descripcion:
 				if x['value'] == aux:
-					imagen.descripcion=x['descripcion']
+					if 'descripcion' in x:
+						imagen.descripcion=x['descripcion']
+
+					#si no existe descripcion en dictionario
+					else:
+						imagen.descripcion=" "
 
 		# caso contrario se guarda un espacio en blanco
 		else:
@@ -592,7 +602,7 @@ def editar_borrador(request, id_oferta):
 		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama canvas
 		if canvas_socio_clave == "" and canvas_actividades_clave=="" and canvas_recursos=="" and canvas_propuesta=="" and canvas_relaciones=="" and canvas_canales=="" and canvas_segmentos=="" and canvas_estructura=="" and canvas_fuente=="" :
 			oferta_editada.fk_diagrama_canvas = None
-		#si existen datos ingresados, se los asigna 
+		#si existen datos ingresados, se los asigna
 		else:
 
 			#si anteriormente tuvo canvas, se lo modifica
@@ -626,7 +636,7 @@ def editar_borrador(request, id_oferta):
 		#se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama porter
 		if porter_competidores == "" and porter_consumidores=="" and porter_sustitutos=="" and porter_proveedores=="" and porter_nuevos=="":
 			oferta_editada.fk_diagrama_competidores = None
-		#si existen datos ingresados, se los asigna 
+		#si existen datos ingresados, se los asigna
 		else:
 
 			#si anteriormente tuvo porter, cambiarlo
@@ -647,7 +657,7 @@ def editar_borrador(request, id_oferta):
 				diagrama_porter.nuevosMiembros = porter_nuevos
 				diagrama_porter.save()
 				oferta_editada.fk_diagrama_competidores = diagrama_porter
-		
+
 		#manejo de tags
 		try:
 			palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
@@ -661,12 +671,15 @@ def editar_borrador(request, id_oferta):
 		except:
 			palabras_claves =  ["Null", "Null", "Null", "Null"]
 
+		galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
 		oferta_editada.save()
 		args.update(csrf(request))
 		args['oferta_tiempo']=oferta_tiempo
 		args['oferta_duracion']=oferta_duracion
 		args['oferta'] = oferta_editada
 		args['msg'] = "Borrador de oferta modificada exitosamente"
+		args['imagen_principal'] = galeria.first()
+		args['palabras'] = oferta.palabras_clave.all
 		return render_to_response('administrar_borrador.html',args)
 
 	else:
@@ -732,13 +745,29 @@ def editar_borrador_demanda(request, id_demanda):
 		perfil_beneficiario = request.POST.get('demanda_beneficiario_perfil', "No disponible")
 		#seccion de industria
 		importancia_resolver_necesidad = request.POST.get('demanda_importancia_resolver_necesidad', "No disponible")
-		alternativas_soluciones_existentes = request.POST.get('demanda_alternativas_soluciones', "No disponible")
+		alternativas_soluciones_existentes = request.POST.get('demandas_alternativas_soluciones', "No disponible")
 		#seccion de estado/Logros
 		tiempo_disponible = request.POST.get('demanda_tiempo_disponibilidad', "No disponible")
 		tiempo_unidad = request.POST.get('select_demanda_tiempo', None)
 		lugar_donde_necesita = request.POST.get('demanda_lugar_donde_necesita', "No disponible")
 		#seccion de copia de datos a la demanda a modificar
 		#seccion informacion
+
+		if perfil_cliente == "None":
+			perfil_cliente =""
+
+		if perfil_beneficiario == "None":
+			perfil_beneficiario = ""
+
+		if importancia_resolver_necesidad == "None":
+			importancia_resolver_necesidad = ""
+
+		if alternativas_soluciones_existentes== "None":
+			alternativas_soluciones_existentes= ""
+
+		if lugar_donde_necesita== "None":
+			lugar_donde_necesita= ""
+
 		demanda_editada = demanda
 		demanda_editada.nombre = nombre
 		demanda_editada.descripcion = descripcion
@@ -778,12 +807,15 @@ def editar_borrador_demanda(request, id_demanda):
 		except:
 			palabras_claves =  ["Null", "Null", "Null", "Null"]
 
+		galeria = ImagenDemanda.objects.all().filter(fk_demanda_id = demanda.id_demanda)
 		demanda_editada.save()
 		args.update(csrf(request))
 		args['demanda_tiempo']=demanda_tiempo
 		args['demanda_duracion']=demanda_duracion
 		args['demanda'] = demanda_editada
 		args['msg'] = "Borrador de demanda modificado exitosamente"
+		args['imagen_principal'] = galeria.first()
+		args['palabras'] = demanda.palabras_clave.all
 		return render_to_response('administrar_borrador_demanda.html',args)
 
 	else:
@@ -1069,8 +1101,10 @@ def publicar_borrador(request, id_oferta):
 
 	oferta.fecha_publicacion = datetime.datetime.now()
 	oferta.publicada = 1
+	oferta.es_publica = 1
 	oferta.save()
 	args['oferta'] = oferta
+	args['msg'] = "Oferta publicada exitosamente"
 	return render_to_response('oferta_inicio.html',args)
 
 
@@ -1106,8 +1140,10 @@ def publicar_borrador_demanda(request, id_demanda):
 
 	demanda.fecha_publicacion = datetime.datetime.now()
 	demanda.publicada = 1
+	demanda.es_publica = 1
 	demanda.save()
 	args['demanda'] = demanda
+	args['msg'] = "Demanda publicada exitosamente"
 	return render_to_response('demanda_inicio.html',args)
 
 
@@ -1141,6 +1177,7 @@ def eliminar_borrador(request, id_oferta):
 		return HttpResponseRedirect('/NotFound/')
 
 	oferta.delete()
+	args['msg'] = "Borrador de oferta eliminado exitosamente"
 	return render_to_response('oferta_inicio.html',args)
 
 
@@ -1173,6 +1210,7 @@ def eliminar_borrador_demanda(request, id_demanda):
 		return HttpResponseRedirect('/NotFound/')
 
 	demanda.delete()
+	args['msg'] = "Borrador de demanda eliminado exitosamente"
 	return render_to_response('demanda_inicio.html',args)
 
 
@@ -1246,6 +1284,32 @@ def editar_rol_membresia(request):
 	else:
 		return HttpResponseRedirect('NotFound');
 
+
+def calificacion_resolver_demanda(request):
+	if request.method=="POST":
+		session = request.session['id_usuario']
+		usuario = Perfil.objects.get(id=session)
+		id_oferta=request.POST["id_oferta"]
+		id_demanda=request.POST["id_demanda"]
+		calificacion=request.POST["calificacion"]
+		print calificacion
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta)
+		demanda=Demanda.objects.get(id_demanda=id_demanda)
+		resolucion_demanda = ResolucionDemanda.objects.filter(fk_demanda_que_aplica = id_demanda,fk_oferta_demandante=id_oferta).first()
+		if resolucion_demanda is not None:
+			resolucion_demanda.calificacion=calificacion
+			#print calificacion
+			resolucion_demanda.save()
+			#response = JsonResponse({'aceptado':"True"})
+			#return HttpResponse(response.content)
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		return HttpResponseRedirect('/NotFound');
+
+
 def editar_estado_membresia(request):
 	if request.method=="POST":
 		session = request.session['id_usuario']
@@ -1284,7 +1348,7 @@ def editar_estado_demanda(request):
 		demanda=Demanda.objects.get(id_demanda=id_demanda);
 		if demanda is not None:
 			demanda.estado=estado_str
-			demanda.save
+			demanda.save()
 			return HttpResponse("ok")
 		else:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -1312,7 +1376,7 @@ def aceptar_comentario(request, id_comentario):
 	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-	
+
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
 
@@ -1336,7 +1400,7 @@ def rechazar_comentario(request, id_comentario):
 	#Si algo no funciona se redirecciona No Encontrado
 	except:
 		return HttpResponseRedirect('/NotFound/')
-	
+
 	return HttpResponseRedirect('/administrarOferta/'+str(oferta_id))
 
 
@@ -1366,10 +1430,14 @@ def enviar_comentario(request):
 			comentario.fk_oferta = oferta
 			comentario.fk_usuario = usuario
 			comentario.save()
+
 			#Se calcula el promedio total de la calificacion del comentario y se actualiza la oferta
-			promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
-			oferta.calificacion_total = promedio_calificacion["average_cal"]
-			oferta.save()
+			#Solo si el comentario es el primero, es decir que tiene calificacion (diferente -1)
+			if not comentario.calificacion == -1 :
+				promedio_calificacion = ComentarioCalificacion.objects.filter(fk_oferta=request.POST['oferta']).aggregate(average_cal=Avg('calificacion'))
+				oferta.calificacion_total = promedio_calificacion["average_cal"]
+				oferta.save()
+
 			#Se retorna la respuesta en Json
 			response = JsonResponse({})
 			return HttpResponse(response.content)
@@ -1400,6 +1468,7 @@ def ver_cualquier_demanda(request, id_demanda):
 		#Obtengo las ofertas de las que soy dueño
 		ofertas = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil,es_propietario=1)
 		args['ofertas']=ofertas
+
 		#Obtengo la demanda
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
@@ -1530,7 +1599,7 @@ def aceptar_comentario_demanda(request, id_comentario):
 		comentario.save()
 	except:
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-	
+
 	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
 
 """
@@ -1549,7 +1618,7 @@ def rechazar_comentario_demanda(request, id_comentario):
 		comentario.save()
 	except:
 		return HttpResponseRedirect('/NotFound/')
-	
+
 	return HttpResponseRedirect('/administrarDemanda/'+str(demanda_id))
 
 """
@@ -1616,6 +1685,8 @@ def administrar_demanda(request, id_demanda):
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
 			args['demanda'] = demanda
+			solicitudes = ResolucionDemanda.objects.filter(fk_demanda_que_aplica = demanda)
+			args['solicitudes'] = solicitudes
 		except:
 			args['mensaje_error'] = "La Demanda no se encuentra en la red, lo sentimos."
 			return render_to_response('problema_oferta.html',args)
@@ -1681,14 +1752,19 @@ def resolver_demanda(request):
 		try:
 			demanda = Demanda.objects.get(id_demanda=request.POST['demanda'])
 			ofertaSel = Oferta.objects.get(id_oferta = request.POST['oferta_escogida'])
-			resolucion = ResolucionDemanda()
-			resolucion.fk_oferta_demandante = ofertaSel
-			resolucion.fk_demanda_que_aplica = demanda
-			resolucion.resuelve = 0
-			resolucion.motivo= request.POST['comentario_resolucion']
-			resolucion.save()
-			response = JsonResponse({'save_estado':True})
-			return HttpResponse(response.content)
+			resolucion= ResolucionDemanda.objects.filter(fk_demanda_que_aplica = demanda.id_demanda,fk_oferta_demandante=ofertaSel.id_oferta).first()
+			if resolucion is not None:
+				response = JsonResponse({'save_estado':False})
+				return HttpResponse(response.content)
+			else:
+				resolucion = ResolucionDemanda()
+				resolucion.fk_oferta_demandante = ofertaSel
+				resolucion.fk_demanda_que_aplica = demanda
+				resolucion.resuelve = 0
+				resolucion.motivo= request.POST['comentario_resolucion']
+				resolucion.save()
+				response = JsonResponse({'save_estado':True})
+				return HttpResponse(response.content)
 
 		except Demanda.DoesNotExist:
 			args['mensaje_error'] = "La demanda no se encuentra en la red, lo sentimos."
@@ -1704,7 +1780,7 @@ def resolver_demanda(request):
 Autor: Ray Montiel
 Nombre de la funcion: oferta_resuelve_demanda
 Entrada:
-Salida: Muestra el equipo de una oferta
+Salida: Muestra las ofertas que resuelven la demanda
 Descripción:Esta función permite mostrar las ofertas que resolvieron la demanda
 """
 @login_required

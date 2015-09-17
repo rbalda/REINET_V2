@@ -19,11 +19,11 @@
             </ul>
         </div>
         <div class="col-md-6 col-xs-6" align="right" style="padding-top: 15px;padding-right: 0px;">
-            <a href="/EditarBorradorDemanda/{{demanda.id_demanda}}" class="btn btn-green">
+            <a href="/EditarBorradorDemanda/{{demanda.id_demanda}}" class="btn btn-warning">
                 <i class="fa fa-pencil"></i>
                 Editar
             </a>
-            <a href="#" class="btn btn-green" data-toggle="modal" data-target="#aceptarPublicar">
+            <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#aceptarPublicar">
                 <i class="fa fa-globe"></i>
                 Publicar
             </a>
@@ -46,7 +46,7 @@
                     <p>¿Desea continuar?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
                     <a href="/PublicarBorradorDemanda/{{ demanda.id_demanda }}" type="button" class="btn btn-green">Aceptar</a>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                     <p>¿Desea eliminarlo?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
                     <a href="/EliminarBorradorDemanda/{{ demanda.id_demanda }}" type="button" class="btn btn-green">Aceptar</a>
                 </div>
             </div>
