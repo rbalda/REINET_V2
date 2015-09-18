@@ -31,6 +31,22 @@ from django.db.models import Avg
 # Create your views here.
 
 """
+Autor: Kevin Zambrano
+Nombre de funcion: inicio_incubacion
+Parametros: request
+Salida: render 
+Descripcion: para llamar la pagina incubacion desde la barra de navegacion
+"""
+
+@login_required
+def inicio_incubacion(request):
+
+	args = {}
+	args['usuario']=request.user
+	args['es_admin']=request.session['es_admin']
+	return render_to_response('inicio_incubacion.html',args)
+
+"""
 Autor: Leonel Ramirez
 Nombre de funcion: InicioIncubacion
 Parametros: request

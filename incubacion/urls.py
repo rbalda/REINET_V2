@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = patterns('',
+		url(r'^InicioIncubaciones[/]?$','incubacion.views.inicio_incubacion', name='InicioIncubacion'),
 		url(r'^InicioIncubacion[/]?$','incubacion.views.ver_incubaciones', name='ver_incubaciones'),
 		url(r'^CrearIncubacion[/]?$','incubacion.views.crear_incubacion', name='crear_incubacion'),
         url(r'^EditarMiIncubacion[/]?$','incubacion.views.editar_mi_incubacion', name='editar_incubacion'),
