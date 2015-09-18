@@ -82,76 +82,85 @@
                     <li role="presentation" class="active"><a href="#verIncubaciones" aria-controls="home" role="tab" data-toggle="tab">INCUBACIONES PUBLICADAS</a></li>
                   </ul>
 
+                  <!-- the input fields that will hold the variables we will use -->  
+                  
+
                   <!-- Tab panes -->
-                  <div class="tab-content col-md-11">
-                    <div role="tabpanel" class="tab-pane active" id="verIncubaciones">
-                            <div class="timeline-block col-md-10">
-                          <!-- First blog post -->
-                            <div class="blog-summary col-md-12">
-                              <h4><a href="/AdminIncubacion/">Nombre de la incubaci&oacute;n</a></h4>
-                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
-                              <ul class="text-muted list-inline">
-                                <li><i class="fa fa-user"></i> <a href="#">Juan Piguave</a></li>
-                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
-                              </ul>
-                              <hr>
-                                  <!--Tipo-->
-                                  <p style="color: darkgray" for="Tipo" class="col-md-4">Alcance</p>
-                                  <p class="col-md-8">Todas
-                                  <!--Dominio-->
-                                  <p style="color: darkgray" for="Nombres" class="col-md-4">N&uacute;mero de Incubadas</p>
-                                  <p class="col-md-8">8
-                                  <!--Descripcion-->
-                                  </p><p style="color: darkgray" for="Nombres" class="col-md-4">Descripción</p>
-                                  <p class="col-md-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus  </p>
+                  <div class="tab-content col-md-11" >
+                    <input type='hidden' id='current_page' />  
+                    <input type='hidden' id='show_per_page' />
+                    <div role="tabpanel" class="tab-pane active" id="content">
                             
-                      </div>
+                          <!-- First blog post -->
+                            <div class="comment">
+                              <div class="media">
+                                <div class="media-body">
+
+                                  <h3><a href="/AdminIncubacion/">Nombre de la incubaci&oacute;n</a></h3>
+                                  
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                    <li><i class="fa fa-user"></i> Administrador: Juan Piguave</li>
+                                  </ul>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                    <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                                  </ul>
+                                  
+                                  </div>
+                              </div>
+                            </div>
 
                       <!-- Second blog post -->
-                            <div class="blog-summary col-md-12">
-                              <h4><a href="/VerIncubacion">Nombre de la incubaci&oacute;n</a></h4>
-                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
-                              <ul class="text-muted list-inline">
-                                <li><i class="fa fa-user"></i> <a href="#">Juan Piguave</a></li>
-                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
-                              </ul>
-                              <hr>
-                                  <!--Tipo-->
-                                  <p style="color: darkgray" for="Tipo" class="col-md-4">Alcance</p>
-                                  <p class="col-md-8">Todas
-                                  <!--Dominio-->
-                                  <p style="color: darkgray" for="Nombres" class="col-md-4">N&uacute;mero de Incubadas</p>
-                                  <p class="col-md-8">8
-                                  <!--Descripcion-->
-                                  </p><p style="color: darkgray" for="Nombres" class="col-md-4">Descripción</p>
-                                  <p class="col-md-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus  </p>
-                          <!-- Third blog post -->
-                            <div class="blog-summary col-md-12">
-                              <h4><a href="/VerIncubacion">Nombre de la incubaci&oacute;n</a></h4>
-                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
-                              <ul class="text-muted list-inline">
-                                <li><i class="fa fa-user"></i> <a href="#">Juan Piguave</a></li>
-                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
-                              </ul>
-                              <hr>
-                                  <!--Tipo-->
-                                  <p style="color: darkgray" for="Tipo" class="col-md-4">Alcance</p>
-                                  <p class="col-md-8">Todas
-                                  <!--Dominio-->
-                                  <p style="color: darkgray" for="Nombres" class="col-md-4">N&uacute;mero de Incubadas</p>
-                                  <p class="col-md-8">8
-                                  <!--Descripcion-->
-                                  </p><p style="color: darkgray" for="Nombres" class="col-md-4">Descripción</p>
-                                  <p class="col-md-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus  </p>
- 
-                            
-                            
+                            <div class="comment">
+                              <div class="media">
+                                <div class="media-body">
 
+                                  <h3><a href="/VerIncubacion">Name de la incubaci&oacute;n</a></h3>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                    <li><i class="fa fa-user"></i> Administrador: Juan Piguave</li>
+                                  </ul>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                    <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                                  </ul>
 
+                              </div>
+                              </div>
+                            </div>
 
-                        <!-- PAGINACION DE VER INCUBACIONES
-                        -->
-                        <div class="pagination col-md-10">
+                              <!-- Third blog post -->
+                            <div class="comment">
+                              <div class="media">
+                                <div class="media-body">
+
+                                  <h3><a href="/VerIncubacion">Incubaci&oacute;n</a></h3>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                    <li><i class="fa fa-user"></i> Administrador: Juan Piguave</li>
+                                  </ul>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                    <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                                  </ul>
+
+                                </div>
+                              </div>
+                            </div>
+                        <!-- PAGINACION DE VER INCUBACIONES-->
+                        <!--<ul class="pagination">
+                          <li class="disabled"><a href="#!"><i class="material-icons">Anterior</i></a></li>
+                          <li class="active"><a href="#!">1</a></li>
+                          <li class="waves-effect"><a href="#!">2</a></li>
+                          <li class="waves-effect"><a href="#!">3</a></li>
+                          <li class="waves-effect"><a href="#!">4</a></li>
+                          <li class="waves-effect"><a href="#!">5</a></li>
+                          <li class="waves-effect"><a href="#!"><i class="material-icons">Siguiente</i></a></li>
+                        </ul>-->
+
+                         
+                        <!--<div class="pagination col-md-10">
                             <span class="step-links">
                                 <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
                             <span class="current">
@@ -159,9 +168,10 @@
                             </span>
                               <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
                             </span>
-                        </div>
+                        </div>-->
 
                     </div>
+                    <div id='page_navigation'></div>
                     <div role="tabpanel" class="tab-pane" id="aa">
                     </div>
                     <div role="tabpanel" class="tab-pane" id="bb">
@@ -169,12 +179,106 @@
 
                 </div>
 
-            </div>
+            
         </div>
     </div>
 
     <!-- COMIENZAN Los modals que se usan en toda la pagina -->
 
 </div>
+
+<script>
+$(document).ready(function(){  
+  
+    //how much items per page to show  
+    var show_per_page = 1;  
+    //getting the amount of elements inside content div  
+    var number_of_items = $('#content').children().size();  
+    //calculate the number of pages we are going to have  
+    var number_of_pages = Math.ceil(number_of_items/show_per_page);  
+  
+    //set the value of our hidden input fields  
+    $('#current_page').val(0);  
+    $('#show_per_page').val(show_per_page);  
+  
+    //now when we got all we need for the navigation let's make it '  
+  
+    /* 
+    what are we going to have in the navigation? 
+        - link to previous page 
+        - links to specific pages 
+        - link to next page 
+    */
+    var navigation_html = '<ul class="pagination" id="bsc">';  
+    navigation_html += '<li class="waves-effect"><a class="previous_link" href="javascript:previous();"><i class="material-icons">Anterior</i></a></li> '; 
+    var current_link = 0;  
+    while(number_of_pages > current_link){  
+        navigation_html += '<li class="waves-effect"><a class="page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +'</a></li>';
+        current_link++;  
+    }  
+    navigation_html += '<li class="waves-effect"><a class="next_link" href="javascript:next();"><i class="material-icons">Siguiente</i></a></li>'; 
+    navigation_html +=  '</ul>';
+    
+    /*var navigation_html = '<a class="waves-effect" class="previous_link" href="javascript:previous();">Prev</a>';  
+    var current_link = 0;  
+    while(number_of_pages > current_link){  
+        navigation_html += '<a class="waves-effect" class="page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +'</a>';  
+        current_link++;  
+    }  
+    navigation_html += '<a class="waves-effect" class="next_link" href="javascript:next();">Next</a>';*/
+
+    $('#page_navigation').html(navigation_html);  
+  
+    //add active_page class to the first page link  
+    $('#bsc.page_link:first').addClass('active_page');  
+  
+    //hide all the elements inside content div  
+    $('#content').children().css('display', 'none');  
+  
+    //and show the first n (show_per_page) elements  
+    $('#content').children().slice(0, show_per_page).css('display', 'block');  
+  
+});  
+  
+function previous(){  
+  
+    new_page = parseInt($('#current_page').val()) - 1;  
+    //if there is an item before the current active link run the function  
+    if($('.active_page').prev('.page_link').length==true){  
+        go_to_page(new_page);  
+    }  
+  
+}  
+  
+function next(){  
+    new_page = parseInt($('#current_page').val()) + 1;  
+    //if there is an item after the current active link run the function  
+    if($('.active_page').next('.page_link').length==true){  
+        go_to_page(new_page);  
+    }  
+  
+}  
+function go_to_page(page_num){  
+    //get the number of items shown per page  
+    var show_per_page = parseInt($('#show_per_page').val());  
+  
+    //get the element number where to start the slice from  
+    start_from = page_num * show_per_page;  
+  
+    //get the element number where to end the slice  
+    end_on = start_from + show_per_page;  
+  
+    //hide all children elements of content div, get specific items and show them  
+    $('#content').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');  
+  
+    /*get the page link that has longdesc attribute of the current page and add active_page class to it 
+    and remove that class from previously active page link*/  
+    $('.page_link[longdesc=' + page_num +']').addClass('active_page').siblings('.active_page').removeClass('active_page');  
+  
+    //update the current page input field  
+    $('#current_page').val(page_num);  
+} 
+</script>
+
 {% endblock %}
 
