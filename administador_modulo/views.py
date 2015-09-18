@@ -150,3 +150,21 @@ def admin_editar_estado_demanda(request):
 	else:
 		print "not found en editar estado"
 		return HttpResponseRedirect('NotFound');
+
+
+def admin_editar_estado_oferta(request):
+	if request.method=="GET":
+		id_oferta=request.GET["id_oferta"]
+		estado_str=request.GET["estado"]
+		print "estado "+ estado_str
+		args = {}
+		oferta=Oferta.objects.get(id_oferta=id_oferta);
+		if oferta is not None:
+			oferta.estado=estado_str
+			oferta.save()
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		print "not found en editar estado"
+		return HttpResponseRedirect('NotFound');
