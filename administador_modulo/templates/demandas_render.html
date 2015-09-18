@@ -18,7 +18,10 @@
         <tr>
             <td>{{d.nombre}}</td>
             <td>{{d.publicada}}</td>
+              
+            {% comment %}
                {% if d.estado == 1 %}
+            
             <td>Activa</td>
             {%elif d.estado == 2%}
             <td>Terminada</td>
@@ -27,15 +30,40 @@
             {%elif d.estado == 4%}
             <td>Censurada</td>
             {%endif%}
+            {% endcomment %}
 
-            <td><select id="{{d.id_demanda}}" name="estado">
-            <option value="1">Activo</option>
-            <option value="2">Terminada</option>
-            <option value="3">Inactiva</option>
-            <option value="4">Censurada</option>            
+            <td><select  style="float:left; width:35%" class="form-control col-md-4" id="{{d.id_demanda}}"name="estado_demanda" disabled>
+                {% if d.estado == 1 %}
+                    <option value="1" selected>Activa</option>
+                {% else %}
+                    <option value="1" >Activa</option>
+                {% endif %}
 
+                {% if d.estado == 2 %}
+                    <option value="2" selected>Terminada</option>
+                {% else %}
+                    <option value="2">Terminada</option>
+
+                {% endif %}
+                {% if d.estado == 3 %}
+                    <option value="3" selected>Desactivada</option>
+                {% else %}
+                    <option value="3" >Desactivada</option>
+                {% endif %}
+                 {% if d.estado == 4 %}
+                    <option value="3" selected>Censurada</option>
+                {% else %}
+                    <option value="3" >Censurada</option>
+                {% endif %}
+            
             </select>
-            <button id="{{d.id_demanda}}" name="guardar_btn">Guardar</button>
+             <div name="div_guardar" id="{{d.id_demanda}}"hidden>
+            <button class="btn btn-success col-md-2" style="float:center;" id="{{d.id_demanda}}" name="guardar_btn" > Guardar</button>
+        </div>
+        <div name="div_editar" id="{{d.id_demanda}}">
+            <button class="btn btn-warning col-md-2" style="float:center;" id="{{d.id_demanda}}" name="btn_activar_editar"> Editar</button>
+        </div>
+       
             </td>
            
         </tr>
@@ -68,7 +96,7 @@
     $("[name='guardar_btn']").on('click', function (e2){
         e2.preventDefault();
         var idObtenido = $(e2.target).attr('id');
-        estado=$("[id='"+idObtenido+"'][name='estado']").val();
+        estado=$("[id='"+idObtenido+"'][name='estado_demanda']").val();
         
         datos={
             'id_demanda': idObtenido,
@@ -85,6 +113,10 @@
                
                    if(data=="ok"){
                         $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la demanda ha sido modificado exitosamente</div>');
+                       
+                          $("[id='"+idObtenido+"'][name='estado_demanda']").prop( "disabled", true );
+                            $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
+                            $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
                     }else{
                         $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
 
@@ -93,14 +125,18 @@
             },
             error: function(e){
 
-                $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
-
-                $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+                $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar. Error de conexíón.</div>');
 
             }
         });
     });
-    $
+    $("[name='btn_activar_editar']").on('click', function (e2){
+         var idObtenido=$(e2.target).attr('id');
+            $("[id='"+idObtenido+"'][name='estado_demanda']").prop( "disabled", false );
+            $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", true);
+             $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", false);
+       
+});
     </script>
 
 </div> 
