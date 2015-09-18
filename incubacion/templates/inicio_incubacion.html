@@ -37,266 +37,103 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
-            <a href="#ofertasPublicadas" aria-controls="home" role="tab" data-toggle="tab">Mis Incubadas</a>
+            <a href="#misIncubadas" aria-controls="home" role="tab" data-toggle="tab">Mis Incubadas</a>
         </li>
         <li role="presentation">
-            <a href="#borradorOferta" aria-controls="borradorOferta" role="tab" data-toggle="tab">Incubaciones en la red</a>
+            <a href="#incubacionesRed" aria-controls="borradorOferta" role="tab" data-toggle="tab">Incubaciones en la red</a>
         </li>
         <li role="presentation">
-            <a href="#ofertasdelaREd" aria-controls="ofertasdelaREd" role="tab" data-toggle="tab">Consultor de Incubadas</a>
+            <a href="#incubacionesConsultor" aria-controls="ofertasdelaREd" role="tab" data-toggle="tab">Consultor de Incubadas</a>
         </li>
     </ul>
 
 
-    <div class="tab-content col-sm-12">
-    <!-- COMIENZA TAB DE OFERTAS PUBLICADAS-->
-    <div role="tabpanel" class="tab-pane active" id="ofertasPublicadas" ng-controller="MisOfertasControlador">
+    <div class="tab-content col-sm-8">
+        <!-- COMIENZA TAB DE MIS INCUBADAS-->
+        <div role="tabpanel" class="tab-pane active" id="misIncubadas">
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de Mi Incubada</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Dueño: </li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-cogs"></i> <a href="#">Dominio: </a>Medicinal</li>
+                                <li><i class="fa fa-cog"></i> <a href="#">Subdominio: </a>Medicina Natural</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de milestones: 3</li>
+                                <li><i class="fa fa-users"></i> Numero de consultores: 3</li>
+                              </ul>                              
+                            </div>            
+                    </div>
+                </div>        
 
-        <div class="col-sm-12">
-            <div class="timeline-block">
-                <!-- First blog post -->
-                <div ng-repeat="publicada in MOlistaOfertas">
-                    <div class="blog-summary">
-                        <h4 class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                            <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                <a class="ng-binding" href="/administrarOferta/[[ publicada.id_oferta ]]">[[publicada.nombre]]</a>
-                            </div>
-                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:-10px;" align="right">
-                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                    <div class="rating" ng-repeat="n in [] | range:[[publicada.calificacion_total]]">
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </h4>
-                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[
-                            publicada.fecha_publicacion.substring(0,4) ]]/ [[ publicada.fecha_publicacion.substring(5,7)
-                            ]]/ [[ publicada.fecha_publicacion.substring(8,10) ]]
-                        </time>
-                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                            <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
-                                <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ publicada.dueno ]]</a>
-                                    </li>
-                                    <li><i class="fa fa-calendar"></i> [[ publicada.fecha_publicacion.substring(0,10) ]]
-                                    </li>
-                                    <li><i class="fa fa-comments-o"></i> [[publicada.numComentarios]] comentarios</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-                                <a href="/administrarOferta/[[ publicada.id_oferta ]]" class="btn btn-green btn-sm">
-                                    <i class="fa fa-pencil"></i>&nbsp;&nbsp;Administrar</a>
-                            </div>
-                        </div>
-                        <div style="clear:both;">
-                        </div>
-                        <hr style="margin-top: 10px;">
-                        <p class="blog-text" style="height: 125px">
-                            <img class="img-responsive blog-img" alt="Imagen de mi Oferta"
-                                 src="[[ publicada.galeria[0].imagen ]]" style="height: 115px; width: 115px;" align="left">
-                            [[publicada.descripcion]]
-                        </p>
-                        <p class="tags">
-                            <a ng-repeat="tag in publicada.palabras_clave">[[tag.palabra]]</a>
-                        </p>
+        </div>
+        <!-- TERMINA TAB DE MIS INCUBADAS-->
+
+        <!-- COMIENZA TAB DE INCUBACIONES ENLA RED-->
+        <div role="tabpanel" class="tab-pane" id="incubacionesRed">
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de la Incubacion</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Administrador</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                              </ul>
+                            </div>            
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="pagination">
-            <button class="btn btn-green" ng-click='irAlanteriorPublicada()'>Anterior</button>
-            <span class="current">
-              Página [[ MOpagina ]] de [[ MOcontador ]].
-            </span>
-            <button class="btn btn-green" ng-click='irAlsiguientePublicada()'>Siguiente</button>
-        </div>
-    </div>
-    <!-- TERMINA TAB DE OFERTAS PUBLICADAS-->
 
-    <!-- COMIENZA TAB DE BORRADORES-->
-    <div role="tabpanel" class="tab-pane" id="borradorOferta" ng-controller="MisOfertasBorradoresControlador">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="timeline-block">
-                        <!-- First blog post -->
-                        <div ng-repeat="borrador in BorradoreslistaOfertas">
-                            <div class="blog-summary">
-                                <h4 style="padding-left: 0px;padding-right: 0px;">
-                                    <a href="/administrarBorrador/[[ borrador.id_oferta ]]">[[borrador.nombre]]</a>
-                                </h4>
-                                <time datetime="2013-11-10" class="timestamp hidden-xs">[[
-                                    borrador.fecha_creacion.substring(0,4) ]]/ [[ borrador.fecha_creacion.substring(5,7)
-                                    ]]/ [[ borrador.fecha_creacion.substring(8,10) ]]
-                                </time>
-                                <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                                    <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
-                                        <ul class="text-muted list-inline">
-                                            <li><i class="fa fa-user"></i> <a href="/perfilUsuario">[[ borrador.dueno
-                                                ]]</a></li>
-                                            <li><i class="fa fa-calendar"></i> [[
-                                                borrador.fecha_creacion.substring(0,10) ]]
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-                                        <a href="/EditarBorrador/[[ borrador.id_oferta ]]" class="btn btn-green btn-sm">
-                                            <i class="fa fa-pencil"></i>&nbsp;&nbsp;Editar</a>
-                                    </div>
-                                </div>
-                                <div style="clear:both;">
-                                </div>
-                                <hr style="margin-top: 10px;">
-                                <p class="blog-text">
-                                    [[borrador.descripcion]]
-                                </p>
-                                <p class="tags">
-                                    <a ng-repeat="tag in borrador.palabras_clave">[[tag.palabra]]</a>
-                                </p>
-                            </div>
-                        </div>
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de la Incubacion</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Administrador</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                              </ul>
+                            </div>            
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="pagination">
-            <button class="btn btn-green" ng-click='irAlanteriorBorrador()'>Anterior</button>
-            <span class="current">
-                Página [[ Borradorespagina ]] de [[ Borradorescontador ]].
-            </span>
-            <button class="btn btn-green" ng-click='irAlsiguienteBorrador()'>Siguiente</button>
-        </div>
-
-    </div>
-    <!-- TERMINA TAB DE BORRADORES-->
-
-    <!-- COMIENZA OFERTAS DE LA RED-->
-    <div role="tabpanel" class="tab-pane" id="ofertasdelaREd" ng-controller="OfertasControlador">
-        <div class="col-sm-12">
-            <div class="timeline-block">
-                <!-- First blog post -->
-                <div ng-repeat="o in listaOfertas">
-                    <div class="blog-summary">
-                        <h4 class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                            <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                <a class="ng-binding" href="/oferta/[[ o.id_oferta ]]">[[o.nombre]]</a>
-                            </div>
-                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:-10px;" align="right">
-                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                    <div class="rating" ng-repeat="n in [] | range:[[o.calificacion_total]]">
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </h4>
-                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[ o.fecha_publicacion.substring(0,4) ]]/
-                            [[ o.fecha_publicacion.substring(5,7) ]]/ [[ o.fecha_publicacion.substring(8,10) ]]
-                        </time>
-                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                            <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
-                                <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-user"></i> <a href="/usuario/[[ o.duenoUsername ]]">[[ o.dueno
-                                        ]]</a></li>
-                                    <li><i class="fa fa-calendar"></i> [[ o.fecha_publicacion.substring(0,10) ]]</li>
-                                    <li><i class="fa fa-comments-o"></i> [[o.numComentarios]] comentarios</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-
-                            </div>
-                        </div>
-                        <div style="clear:both;">
-                        </div>
-                        <hr style="margin-top: 10px;">
-                        <p class="blog-text" style="height: 125px">
-                            <img class="img-responsive blog-img" alt="Imagen de mi Oferta"
-                                 src="[[ o.galeria[0].imagen ]]" style="height: 115px; width: 115px;" align="left">
-                            [[o.descripcion]]
-                        </p>
-
-                        <div class="tags">
-                            <a ng-repeat="tag in o.palabras_clave">[[tag.palabra]]</a>
-                        </div>
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de la Incubacion</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Administrador</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                              </ul>
+                            </div>            
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- PAGINACION DE OFERTA PUBLICADAS-->
-        <!-- PAGINACION DE OFERTA PUBLICADAS-->
-        <div class="pagination">
-            <button class="btn btn-green" ng-click='irAlanterior()'>Anterior</button>
-            <span class="current">
-              Página [[ pagina ]] de [[ contador ]].
-            </span>
-            <button class="btn btn-green" ng-click='irAlsiguiente()'>Siguiente</button>
-        </div>
-    </div>
-    <!-- TERMINA OFERTAS DE LA RED-->
 
-    <!-- COMIENZA OFERTAS EN LAS QUE PARTICIPO -->
-    <div role="tabpanel" class="tab-pane" id="ofertasparticipantes" ng-controller="MiembroOfertasControlador">
-        <div class="col-sm-12">
-            <div class="timeline-block">
-                <!-- First blog post -->
-                <div ng-repeat="miembro in miembrolistaOfertas">
-                    <div class="blog-summary">
-                        <h4 class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                            <div class="col-md-9 col-sm-6" align="left" style="padding-left: 0px;">
-                                <a class="ng-binding" href="/oferta/[[ miembro.id_oferta ]]">[[miembro.nombre]]</a>
-                            </div>
-                            <div class="thumbnail col-md-3 col-sm-6" style="margin-bottom:-10px;" align="right">
-                                <div class="caption" style="padding-bottom:0px;padding-top: 0px;padding-right: 0px;">
-                                    <div class="rating" ng-repeat="n in [] | range:[[miembro.calificacion_total]]">
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </h4>
-                        <time datetime="2013-11-10" class="timestamp hidden-xs">[[ miembro.fecha_publicacion.substring(0,4)
-                            ]]/ [[ miembro.fecha_publicacion.substring(5,7) ]]/ [[ miembro.fecha_publicacion.substring(8,10)
-                            ]]
-                        </time>
-                        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                            <div class="col-md-6 col-xs-7" style="padding-left: 0px;">
-                                <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-user"></i> <a href="/usuario/[[ miembro.duenoUsername ]]">[[ miembro.dueno
-                                        ]]</a></li>
-                                    <li><i class="fa fa-calendar"></i> [[ miembro.fecha_publicacion.substring(0,10) ]]</li>
-                                    <li><i class="fa fa-comments-o"></i> [[miembro.numComentarios]] comentarios</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6 col-xs-5" align="right" style="padding-right: 0px;">
-
-                            </div>
-                        </div>
-                        <div style="clear:both;">
-                        </div>
-                        <hr style="margin-top: 10px;">
-                        <p class="blog-text" style="height: 125px">
-                            <img class="img-responsive blog-img" alt="Imagen de mi Oferta"
-                                 src="[[ miembro.galeria[0].imagen ]]" style="height: 115px; width: 115px;" align="left">
-                            [[miembro.descripcion]]
-                        </p>
-
-                        <p class="tags">
-                            <a ng-repeat="tag in miembro.palabras_clave">[[tag.palabra]]</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
-        <!-- PAGINACION DE OFERTA PUBLICADAS-->
-        <!-- PAGINACION DE OFERTA PUBLICADAS-->
-        <div class="pagination">
-            <button class="btn btn-green" ng-click='irAlanteriorMiembro()'>Anterior</button>
-            <span class="current">
-                Página [[ miembropagina ]] de [[ miembrocontador ]].
-            </span>
-            <button class="btn btn-green" ng-click='irAlsiguienteMiembro()'>Siguiente</button>
-        </div>
+        <!-- TERMINA TAB DE CONSULTOR DE INCUBADAS-->
 
-    </div>
+        <!-- COMIENZA OFERTAS DE LA RED-->
+        <div role="tabpanel" class="tab-pane" id="incubacionesConsultor">
+            
+        </div>
+        <!-- TERMINA TAB DE CONSULTOR DE INCUBADAS-->
+
+    
     <!-- TERMINA EQUIPO-->
     </div>
     </div>
