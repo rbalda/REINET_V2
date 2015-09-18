@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
@@ -99,3 +99,54 @@ def administrar_ofertas(request):
 	else:
 		args={}
 		return render_to_response('admin_administrar_ofertas.html', args)
+
+
+def demandas_render(request):
+	try:
+		print "entre"
+		input_query=request.GET['input']
+		print input_query
+		usuarios_query=Demanda.objects.filter(nombre__icontains=input_query)
+		paginator = Paginator(usuarios_query, 5) # Show 25 contacts per page
+		page = request.GET.get('page')
+		try:
+			demandas = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			demandas = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			demandas = paginator.page(paginator.num_pages)
+		args={}
+		args['demandas']=demandas
+		return render_to_response('demandas_render.html', args)
+	except Exception as e:
+		print e
+		args={}
+		return render_to_response('demandas_render.html', args)
+
+
+def administrar_demandas(request):
+	if request.method == "POST":
+		pass
+	else:
+		args={}
+		return render_to_response('admin_administrar_demandas.html', args)
+
+
+def admin_editar_estado_demanda(request):
+	if request.method=="GET":
+		id_demanda=request.GET["id_demanda"]
+		estado_str=request.GET["estado"]
+		print "estado "+ estado_str
+		args = {}
+		demanda=Demanda.objects.get(id_demanda=id_demanda);
+		if demanda is not None:
+			demanda.estado=estado_str
+			demanda.save()
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		print "not found en editar estado"
+		return HttpResponseRedirect('NotFound');

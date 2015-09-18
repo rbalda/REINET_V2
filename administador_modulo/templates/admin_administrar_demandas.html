@@ -24,7 +24,7 @@
             <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Administrar
             </button>
                     {% endcomment %}
-                    Administrar Ofertas
+                    Administrar Demandas
         </div>
 
 
@@ -41,7 +41,7 @@
         <div class="col-md-6  col-sm-6 col-xs-6">
             <div class="col-sm-9">
                 <input type="text" class="form-control" name="input_busqueda"
-                       placeholder="Buscar oferta por nombre"/>
+                       placeholder="Buscar demanda por nombre"/>
             </div>
             <div class="col-sm-3" >
                 <button class="btn btn-blue" id="buscar_usuarios">Buscar <span id="cargando_icono" ></span></button>
@@ -53,7 +53,7 @@
     <div class="row">
     <div class=" col-sm-12">
     <!-- Nav tabs -->
-
+    <div id="msj_retro_estado"></div>
     <div id="ofertas">
             </div>
 
@@ -72,7 +72,7 @@
                 'page':1,
                },
             type:'GET',
-            url: '/admin_render_ofertas/',
+            url: '/admin_render_demandas/',
             success: function(data){
                  $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
        
@@ -97,8 +97,10 @@
                 'page':page,
                },  
             type:'GET',
-            url: '/admin_render_ofertas/',
-            success: function(data){
+            url: '/admin_render_demandas/',
+             success: function(data){
+                 $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+       
                 $('#ofertas').html(data);
             },
             error: function () {

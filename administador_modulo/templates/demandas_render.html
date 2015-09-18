@@ -1,0 +1,106 @@
+ <div class="table-responsive">
+              <table class="table">
+
+                  <thead>
+
+        <tr>
+            <th>Nombre</th>
+              <th>Publicada</th>
+               <th>Estado</th>
+
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+    	{% for d in demandas%}
+        <tr>
+            <td>{{d.nombre}}</td>
+            <td>{{d.publicada}}</td>
+               {% if d.estado == 1 %}
+            <td>Activa</td>
+            {%elif d.estado == 2%}
+            <td>Terminada</td>
+            {%elif d.estado == 3%}
+            <td>Inactiva</td>
+            {%elif d.estado == 4%}
+            <td>Censurada</td>
+            {%endif%}
+
+            <td><select id="{{d.id_demanda}}" name="estado">
+            <option value="1">Activo</option>
+            <option value="2">Terminada</option>
+            <option value="3">Inactiva</option>
+            <option value="4">Censurada</option>            
+
+            </select>
+            <button id="{{d.id_demanda}}" name="guardar_btn">Guardar</button>
+            </td>
+           
+        </tr>
+        {% endfor %}
+
+    </tbody>
+               
+    </table>
+
+
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if demandas.has_previous %}
+            <a onclick="ajaxPaginacion({{ demandas.previous_page_number }});">Atrás</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ demandas.number }} de {{ demandas.paginator.num_pages }}.
+        </span>
+
+        {% if demandas.has_next %}
+            <a onclick="ajaxPaginacion({{ demandas.next_page_number }});">Siguiente</a>
+        {% endif %}
+    </span>
+	</div>
+
+    <script type="text/javascript">
+
+    $("[name='guardar_btn']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        estado=$("[id='"+idObtenido+"'][name='estado']").val();
+        
+        datos={
+            'id_demanda': idObtenido,
+            'estado':estado,
+            'csrfmiddlewaretoken' :'{{ csrf_token }}'
+        };
+        $.ajax({
+            url: '/admin_editar_estado_demanda',
+            async: true,
+            data: datos,
+            dataType : 'text',
+            
+            success: function(data){
+               
+                   if(data=="ok"){
+                        $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la demanda ha sido modificado exitosamente</div>');
+                    }else{
+                        $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+
+                    }
+
+            },
+            error: function(e){
+
+                $("[id='"+idObtenido+"'][name='Solicitud01']").html("<a>Ocurrió un error. Recargue la página</a>");
+
+                $("[id='"+idObtenido+"'][name='Solicitud01']").show();
+
+            }
+        });
+    });
+    $
+    </script>
+
+</div> 

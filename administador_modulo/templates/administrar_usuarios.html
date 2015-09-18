@@ -44,8 +44,11 @@
                        placeholder="Buscar usuario por nombre"/>
             </div>
             <div class="col-sm-3" >
-                <button class="btn btn-blue" id="buscar_usuarios">Buscar</button>
+                <button class="btn btn-blue " id="buscar_usuarios">Buscar  <span id="cargando_icono" ></span></button>
+
+             
             </div>
+        
         </div>
     </div>
 
@@ -63,6 +66,7 @@
     $("#buscar_usuarios").click(function(){
        
         apellido=$("[name='input_busqueda']").val()
+        $("#cargando_icono").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
             $.ajax({
             data:{
                 'apellido': apellido,
@@ -72,6 +76,8 @@
             type:'GET',
             url: '/adminrenderusuarios/',
             success: function(data){
+
+                $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
                 $('#usuarios').html(data);
             },
             error: function () {
@@ -81,7 +87,6 @@
         });
 
     });
-
 
     function ajaxPaginacion(page){
          $.ajax({

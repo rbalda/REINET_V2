@@ -13,6 +13,7 @@
              <th>Username</th>
 
             <th>Estado</th>
+             <th>Cambiar Estado</th>
 
         </tr>
 
@@ -30,8 +31,17 @@
             <td>{{u.last_name}}</td>
                <td>{{u.username}}</td>
 
-            <td>{{u.estado}}</td>
+               {% if u.estado == 1 %}
+            <td>Activo</td>
+            {%elif u.estado == 0%}
+            <td>Suspendido</td>
+            {%endif%}
 
+            {% if u.estado == 1 %}
+            <td><button>Suspender</button></td>
+            {%elif u.estado == 0%}
+            <td><button>Activar</button></td>
+            {%endif%}
         </tr>
         {% endfor %}
 
