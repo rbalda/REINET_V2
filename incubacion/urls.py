@@ -19,6 +19,7 @@ urlpatterns = patterns('',
 		url(r'^Incubada[/]?$','incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
 		url(r'^NotFound[/]?$', vista_404, name='NotFound'),
+		url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view() , name='AutocompletarConsultor'),
 )
 
 

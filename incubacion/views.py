@@ -21,7 +21,7 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from datetime import *
-
+from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
 
 
 from usuarios.models import *
@@ -206,6 +206,19 @@ def admin_ver_milestone(request):
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
 	return render_to_response('admin_ver_milestone.html',args)
+
+
+
+
+class Autocompletar_Consultor(APIView):
+	permission_classes = (IsAuthenticated,)
+
+	def get(self,request,*args,**kwargs):
+		user = request.query_params.get('term',None)
+		usuarios = User.objects.filter(username__icontains=user)[:5]
+		serializador = UsuarioSerializador(usuarios,many=True)
+		response = Response(serializador.data)
+		return response
 
 
 
