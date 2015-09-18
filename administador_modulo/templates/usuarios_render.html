@@ -13,7 +13,7 @@
              <th>Username</th>
 
             <th>Estado</th>
-             <th>Cambiar Estado</th>
+
 
         </tr>
 
@@ -31,17 +31,29 @@
             <td>{{u.last_name}}</td>
                <td>{{u.username}}</td>
 
-               {% if u.estado == 1 %}
-            <td>Activo</td>
-            {%elif u.estado == 0%}
-            <td>Suspendido</td>
-            {%endif%}
+               <td><select  style="float:left; width:40%" class="form-control col-md-4" id="{{u.id_perfil}}"name="estado" disabled>
+                {% if u.estado == 1 %}
+                    <option value="1" selected>Activa</option>
+                {% else %}
+                    <option value="1" >Activa</option>
+                {% endif %}
 
-            {% if u.estado == 1 %}
-            <td><button>Suspender</button></td>
-            {%elif u.estado == 0%}
-            <td><button>Activar</button></td>
-            {%endif%}
+                {% if u.estado == 2 %}
+                    <option value="2" selected>Desactivada</option>
+                {% else %}
+                    <option value="2">Desactivada</option>
+                {% endif %}
+              
+              
+            </select>
+             <div name="div_guardar" id="{{u.id_perfil}}"hidden>
+            <button class="btn btn-success col-md-3" style="float:center;" id="{{u.id_perfil}}" name="guardar_btn" > Guardar</button>
+        </div>
+        <div name="div_editar" id="{{u.id_perfil}}">
+            <button class="btn btn-warning col-md-3" style="float:center;" id="{{u.id_perfil}}" name="btn_activar_editar"> Editar</button>
+        </div>
+       
+            </td>
         </tr>
         {% endfor %}
 
@@ -67,6 +79,54 @@
     </span>
 	</div>
 
+
+     <script type="text/javascript">
+
+    $("[name='guardar_btn']").on('click', function (e2){
+        e2.preventDefault();
+        var idObtenido = $(e2.target).attr('id');
+        estado=$("[id='"+idObtenido+"'][name='estado']").val();
+        
+        datos={
+            'id_usuario': idObtenido,
+            'estado':estado,
+            'csrfmiddlewaretoken' :'{{ csrf_token }}'
+        };
+        $.ajax({
+            url: '/admin_editar_estado_usuario',
+            async: true,
+            data: datos,
+            dataType : 'text',
+            
+            success: function(data){
+               
+                   if(data=="ok"){
+                        $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la oferta ha sido modificado exitosamente</div>');
+                       
+                          $("[id='"+idObtenido+"'][name='estado']").prop( "disabled", true );
+                            $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
+                            $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
+                    }else{
+                        $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
+
+                    }
+
+            },
+            error: function(e){
+
+                $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar. Error de conexíón.</div>');
+
+            }
+        });
+    });
+    $("[name='btn_activar_editar']").on('click', function (e2){
+         var idObtenido=$(e2.target).attr('id');
+            $("[id='"+idObtenido+"'][name='estado']").prop( "disabled", false );
+            $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", true);
+             $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", false);
+       
+});
+    </script>
 
 </div> 
 

@@ -168,3 +168,21 @@ def admin_editar_estado_oferta(request):
 	else:
 		print "not found en editar estado"
 		return HttpResponseRedirect('NotFound');
+
+def admin_editar_estado_usuario(request):
+	if request.method=="GET":
+		id_usuario=request.GET["id_usuario"]
+		estado_str=request.GET["estado"]
+		print "estado "+ estado_str
+		args = {}
+		usuario=Perfil.objects.get(id_perfil=id_usuario);
+		if usuario is not None:
+			usuario.estado=estado_str
+			usuario.save()
+			return HttpResponse("ok")
+		else:
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	else:
+		print "not found en editar estado"
+		return HttpResponseRedirect('NotFound');
+

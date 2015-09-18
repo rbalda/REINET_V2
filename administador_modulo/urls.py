@@ -14,5 +14,6 @@ urlpatterns = patterns('',
 	url(r'^admin_render_demandas[/]?$','administador_modulo.views.demandas_render', name='usuarios_render'),
 	url(r'^admin_editar_estado_demanda[/]?$','administador_modulo.views.admin_editar_estado_demanda', name='usuarios_render'),
 	url(r'^admin_editar_estado_oferta[/]?$','administador_modulo.views.admin_editar_estado_oferta', name='usuarios_render'),
+	url(r'^admin_editar_estado_usuario[/]?$','administador_modulo.views.admin_editar_estado_usuario', name='usuarios_render'),
 
 )
