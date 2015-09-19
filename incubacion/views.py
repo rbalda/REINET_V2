@@ -21,6 +21,7 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from datetime import *
+import incubacion
 from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
 
 from usuarios.models import *
@@ -112,12 +113,16 @@ Descripcion: Mostar template editar mi incubacion
 
 @login_required
 def admin_ver_incubacion(request):
-    args = {}
-    convocatorias = Convocatoria.objects.all()
-    args['convocatorias'] = convocatorias
-    args['usuario'] = request.user
-    args['es_admin'] = request.session['es_admin']
-    return render_to_response('admin_ver_incubacion.html', args)
+    if request.method == 'GET':
+        id_incubacion = request.GET['idIncubacion']
+        incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+        args = {}
+        args['incubacion'] = incubacion
+        convocatorias = Convocatoria.objects.all()
+        args['convocatorias'] = convocatorias
+        args['usuario'] = request.user
+        args['es_admin'] = request.session['es_admin']
+        return render_to_response('admin_ver_incubacion.html', args)
 
 
 """

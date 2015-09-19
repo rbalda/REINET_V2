@@ -22,7 +22,7 @@
 
     <div class="container">
     	<div class="col-sm-12 col-xs-12" style="padding:0">
-    		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">Nombre de la Incubación</h3></div>
+    		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
     		<div class="col-sm-6">
     			
   				<a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
@@ -294,7 +294,7 @@
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha Maxima</label>
                                   <div class="col-md-7">
-                                       <input type="hidden" name="idIncubacion" value="1">
+                                       <input type="hidden" name="idIncubacion" value="{{ incubacion.id_incubacion }}">
                                        <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
                                   </div>
                                   <br>
