@@ -9,7 +9,7 @@ from ofertas_demandas.models import Oferta,DiagramaPorter,DiagramaBusinessCanvas
 class Incubacion(models.Model):
 	id_incubacion=models.AutoField(primary_key=True)
 	nombre=models.CharField(max_length=300)
-	fecha_inicio = models.DateTimeField(auto_now_add=True)
+	fecha_inicio = models.DateTimeField()
 	descripcion = models.TextField()
 	perfil_oferta = models.TextField()
 	condiciones = models.TextField()

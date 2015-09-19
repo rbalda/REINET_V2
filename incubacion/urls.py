@@ -2,6 +2,7 @@ from views import *
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.conf.urls.static import static
+from incubacion import routers
 
 
 urlpatterns = patterns('',
@@ -22,4 +23,4 @@ urlpatterns = patterns('',
 		url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view() , name='AutocompletarConsultor'),
 )
 
-
+urlpatterns += routers.incubacion_routers
