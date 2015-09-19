@@ -1096,7 +1096,7 @@ Descripción:
 """
 
 @login_required
-def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la funcion
+def verCualquierUsuario(request, username):  
     usuario = Perfil.objects.get(id=request.session['id_usuario'])
     if username != "":
         try:
@@ -1104,6 +1104,10 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
             print perfil.username
             print perfil.first_name
             print perfil.last_name
+            if perfil.estado == 2:
+                return HttpResponseRedirect('/NotFound')
+            if perfil.id_perfil== usuario.id_perfil:
+                return HttpResponseRedirect('/perfilUsuario')
             if username is not None:
                 args = {}
                 args['usuario'] = usuario

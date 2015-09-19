@@ -58,10 +58,10 @@
             
             </select>
              <div name="div_guardar" id="{{d.id_demanda}}"hidden>
-            <button class="btn btn-success col-md-2" style="float:center;" id="{{d.id_demanda}}" name="guardar_btn" > Guardar</button>
+            <button class="btn btn-success col-md-3" style="float:center;" id="{{d.id_demanda}}" name="guardar_btn" > Guardar <span name="cargando_icono_ind" id="{{d.id_demanda}}" ></span></button>
         </div>
         <div name="div_editar" id="{{d.id_demanda}}">
-            <button class="btn btn-warning col-md-2" style="float:center;" id="{{d.id_demanda}}" name="btn_activar_editar"> Editar</button>
+            <button class="btn btn-warning col-md-3" style="float:center;" id="{{d.id_demanda}}" name="btn_activar_editar"> Editar</button>
         </div>
        
             </td>
@@ -97,6 +97,7 @@
         e2.preventDefault();
         var idObtenido = $(e2.target).attr('id');
         estado=$("[id='"+idObtenido+"'][name='estado_demanda']").val();
+        $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
         
         datos={
             'id_demanda': idObtenido,
@@ -117,16 +118,18 @@
                           $("[id='"+idObtenido+"'][name='estado_demanda']").prop( "disabled", true );
                             $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
                             $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
+
+                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
                     }else{
                         $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
-
+                        $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
                     }
 
             },
             error: function(e){
 
                 $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar. Error de conexíón.</div>');
-
+                $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
             }
         });
     });

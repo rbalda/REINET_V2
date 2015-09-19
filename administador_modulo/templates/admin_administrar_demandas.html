@@ -17,6 +17,25 @@
 
 {% block contenido %}
     <div class="container">
+
+<style type="text/css">
+    .glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+</style>
+ 
+
     <div class="row" style="margin-bottom: 25px;">
         <div align=left class="col-md-2 col-sm-2 col-xs-3">
           {% comment %}
@@ -55,6 +74,8 @@
     <!-- Nav tabs -->
     <div id="msj_retro_estado"></div>
     <div id="ofertas">
+         <div class="col-md-6" style="float: right;"><i style="float:center;"class="fa fa-spinner fa-pulse"></i>
+        </div>
             </div>
 
 
@@ -110,6 +131,10 @@
         });
 
     }
+
+    
+    $("#ofertas").ready(ajaxPaginacion(1));
+
     </script>
     </div>
 {% endblock %}
