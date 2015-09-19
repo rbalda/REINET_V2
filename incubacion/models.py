@@ -15,6 +15,7 @@ class Incubacion(models.Model):
 	condiciones = models.TextField()
 	tipos_oferta = models.PositiveSmallIntegerField()
 	otros = models.TextField(null=True,blank=True)
+	estado_incubacion = models.PositiveSmallIntegerField()
 	fk_perfil = models.ForeignKey(Perfil)
 
 	class Meta:
@@ -95,6 +96,7 @@ class Convocatoria(models.Model):
 	fecha_maxima= models.DateTimeField()
 	solicitudes=models.ManyToManyField(Oferta,through='SolicitudOfertasConvocatoria',through_fields=('fk_convocatoria','fk_oferta'),related_name='solicitudes_Ofertas')
 	otros = models.TextField(null=True,blank=True)
+	fk_incubacion = models.ForeignKey(Incubacion)
 	class Meta:
 		db_table = 'Convocatoria'
 
