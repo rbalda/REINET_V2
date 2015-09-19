@@ -866,6 +866,8 @@ Autores: Pedro Iniguez
 Nombre de funcion: perfilInstituciones
 Entrada: request GET
 Salida: Perfil de otra institucion de la que no sea admin
+UltimaModificacion: Fausto Mora - se le agrego un argumento para saber si la institucion
+a la que queria acceder es la misma a la que pertenece
 """
 
 @login_required

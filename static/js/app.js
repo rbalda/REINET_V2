@@ -258,6 +258,12 @@ redInn.controller('NotificacionContadorController',['$scope','ContarNoLeidos',fu
 
 }]);
 
+
+ redInn.controller('ExampleController', ['$scope', function($scope) {
+                                    $scope.email = 'me@dfgdsf.com';
+                                    
+                                  }]);
+
 redInn.directive('uniqueNombre', function($http){
             var toId;
             return {

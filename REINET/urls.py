@@ -22,11 +22,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from usuarios.views import *
 from ofertas_demandas.views import *
+from incubacion.views import *
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^',include('usuarios.urls')),
     url(r'^',include('ofertas_demandas.urls')),
+    url(r'^',include('incubacion.urls')),
+    url(r'^',include('administador_modulo.urls')),
 )
 
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -8,7 +8,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane active" id="solicitudes">
+                    <div class="tab-pane fade in active" id="solicitudes">
                         <!-- ////// Contenido del tab de solicitudes /////// -->
 
                     <div class="col-md-offset-11"><a href=""><i id="btn_update" class="fa fa-refresh"></i></a></div>
@@ -29,7 +29,7 @@
                        
 
                     </div>
-                    <div class="tab-pane" id="miembros">
+                    <div class="tab-pane fade" id="miembros">
                         <!-- ////// Contenido del tab de solicitudes /////// -->
                         <div class="row">
                             <div class="col-md-12" style="height:500px;overflow:hidden">
@@ -44,45 +44,56 @@
                         <script>
                             $(document).ready(function(){
                                 $(function(){
+
                                   console.log('dentro del panel mem');
                                   console.log({{institucion.id_institucion}})
                                   $('#panel_membresias').ready(actualizarBuzonMembresia);
                                   $('#btn_update').click(actualizarBuzonMembresia);
+                                  $('#panel_miembros').ready(actualizarListaMiembros);
 
                                     function actualizarBuzonMembresia(){
                                         console.log('actualizandooo')
-                                    $.ajax({
-                                      data:{
-                                        'institucion':{{institucion.id_institucion}}
-                                      },
-                                      type:'get',
-                                      url: '/buzonMembresias/',
-                                      success: function(data){
-                                        $('#panel_membresias').html(data)
-                                      }
-                                    });
-
-                                  }
-
-
-                                });
-                                $(function(){
-                                  $('#panel_miembros').ready(actualizarListaMiembros);
+                                      $.ajax({
+                                        data:{
+                                          'institucion':{{institucion.id_institucion}}
+                                        },
+                                        type:'get',
+                                        url: '/buzonMembresias/',
+                                        success: function(data){
+                                          $('#panel_membresias').html(data)
+                                        }
+                                      });
+                                    }
+          
 
                                     function actualizarListaMiembros(){
-                                        console.log('actualizandooo')
-                                    $.ajax({
-                                      data:{
-                                        'institucion':{{institucion.id_institucion}}
-                                      },
-                                      type:'get',
-                                      url: '/MiembrosInstitucion/',
-                                      success: function(data){
-                                        $('#panel_miembros').html(data)
-                                      }
-                                    });
+                                          console.log('actualizandooo miembros')
+                                      $.ajax({
+                                        data:{
+                                          'institucion':{{institucion.id_institucion}}
+                                        },
+                                        type:'get',
+                                        url: '/MiembrosInstitucion/',
+                                        success: function(data){
+                                          $('#panel_miembros').html(data)
+                                        }
+                                      });
+                                    }
 
-                                  }
+
+                                  $(".nav-tabs a").on('click',function(event){
+                                      var x = $(event.target).text();
+
+                                        if (x == 'Miembros'){
+                                              actualizarListaMiembros();
+                                        }else{
+                                          if( x == 'Solicitudes'){
+                                              actualizarBuzonMembresia();
+                                          }
+                                        }
+
+                                  });
+
                                 });
                               });
                         </script>

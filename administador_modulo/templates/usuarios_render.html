@@ -1,0 +1,61 @@
+ <div class="table-responsive">
+              <table class="table">
+
+                  <thead>
+
+        <tr>
+
+            <th>Cedula</th>
+
+            <th>Nombres</th>
+
+            <th>Apellidos</th>
+
+            <th>Estado</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+    	{% for u in usuarios%}
+
+        <tr>
+
+            <td>{{u.cedula}}</td>
+
+            <td>{{u.first_name}}</td>
+
+            <td>{{u.last_name}}</td>
+
+            <td>{{u.estado}}</td>
+
+        </tr>
+        {% endfor %}
+
+    </tbody>
+               
+    </table>
+
+
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if usuarios.has_previous %}
+            <a onclick="ajaxPaginacion({{ contacts.previous_page_number }});">Atrás</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}.
+        </span>
+
+        {% if usuarios.has_next %}
+            <a onclick="ajaxPaginacion({{ usuarios.next_page_number }});">Siguiente</a>
+        {% endif %}
+    </span>
+	</div>
+
+
+</div> 
+
+
