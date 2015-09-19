@@ -57,15 +57,4 @@
             <span ng-show="admin_crear_incubacion_form1.select_tipo_incubacion.$error.required" ng-if="!admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
         </div>
     </div>      
-
-    <!--Alcance -->
-    <div class="form-group">
-        <label for="Tipo" class="col-md-2">Alcance</label>
-        <div class="col-xs-3 col-md-4">
-            <select name="select_alcance_incubacion" class="form-control" ng-options="i.valor as i.tipo for i in items_alcance" ng-model="incubacion.alcance" ng-required="true">
-                <option value="">Seleccione el alcance de la incubaci&oacute;n</option>
-            </select>
-            <span ng-show="admin_crear_incubacion_form1.select_alcance_incubacion.$error.required" ng-if="!admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
-        </div>
-    </div> 
 </div>

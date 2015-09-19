@@ -76,8 +76,10 @@ def crear_incubacion(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
-	args['incubacion'] = None
-	return render_to_response('admin_crear_incubacion.html',args)
+	if args['es_admin']:
+		return render_to_response('admin_crear_incubacion.html',args)
+	else:
+		return HttpResponseRedirect('InicioIncubaciones')
 
 """
 Autor: Henry Lasso
