@@ -76,11 +76,16 @@ Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofer
 
 @login_required
 def crear_incubacion(request):
+
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
-    if args['es_admin']:
+
+	# verificar que el creador de una incubacion sea admin de institucion
+    if args['es_admin']: 
         return render_to_response('admin_crear_incubacion.html', args)
+
+    # caso contrario no es admin y lo redirrecciona al inicio incubacion    
     else:
         return HttpResponseRedirect('InicioIncubaciones')
 
