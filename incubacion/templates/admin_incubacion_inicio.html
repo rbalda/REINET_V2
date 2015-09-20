@@ -90,92 +90,46 @@
                     <input type='hidden' id='current_page' />  
                     <input type='hidden' id='show_per_page' />
                     <div role="tabpanel" class="tab-pane active" id="content">
-                            
+                    {% if incubaciones %}
+                        {% for incubacion in incubaciones %}
                           <!-- First blog post -->
                             <div class="comment">
                               <div class="media">
                                 <div class="media-body">
 
-                                  <h3><a href="/AdminIncubacion/">Nombre de la incubaci&oacute;n</a></h3>
+                                  <h3><a href="/AdminIncubacion/{{incubacion.id_incubacion}}">{{ incubacion.nombre }}</a></h3>
                                   
                                   <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
-                                    <li><i class="fa fa-user"></i> Administrador: Juan Piguave</li>
+                                    <li><i class="fa fa-calendar"></i> <a href="#">{{ incubacion.fecha_inicio }}</a></li>
+                                    <li><i class="fa fa-user"></i> Administrador: {{ incubacion.fk_perfil.username }}</li>
                                   </ul>
                                   <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
-                                    <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                                    <li><i class="fa fa-bars"></i> Numero de condiciones: {{ incubacion.condiciones }} </li>
+                                    <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a> {{ incubacion.tipos_oferta }}</li>
+
                                   </ul>
                                   
                                   </div>
                               </div>
                             </div>
+                          {% endfor %}
+                          {% else %}
 
-                      <!-- Second blog post -->
-                            <div class="comment">
-                              <div class="media">
-                                <div class="media-body">
-
-                                  <h3><a href="/VerIncubacion">Name de la incubaci&oacute;n</a></h3>
-                                  <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
-                                    <li><i class="fa fa-user"></i> Administrador: Juan Piguave</li>
-                                  </ul>
-                                  <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
-                                    <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
-                                  </ul>
-
-                              </div>
-                              </div>
-                            </div>
-
-                              <!-- Third blog post -->
-                            <div class="comment">
-                              <div class="media">
-                                <div class="media-body">
-
-                                  <h3><a href="/VerIncubacion">Incubaci&oacute;n</a></h3>
-                                  <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
-                                    <li><i class="fa fa-user"></i> Administrador: Juan Piguave</li>
-                                  </ul>
-                                  <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
-                                    <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
-                                  </ul>
-
-                                </div>
-                              </div>
-                            </div>
-                        <!-- PAGINACION DE VER INCUBACIONES-->
-                        <!--<ul class="pagination">
-                          <li class="disabled"><a href="#!"><i class="material-icons">Anterior</i></a></li>
-                          <li class="active"><a href="#!">1</a></li>
-                          <li class="waves-effect"><a href="#!">2</a></li>
-                          <li class="waves-effect"><a href="#!">3</a></li>
-                          <li class="waves-effect"><a href="#!">4</a></li>
-                          <li class="waves-effect"><a href="#!">5</a></li>
-                          <li class="waves-effect"><a href="#!"><i class="material-icons">Siguiente</i></a></li>
-                        </ul>-->
-
-                         
-                        <!--<div class="pagination col-md-10">
-                            <span class="step-links">
-                                <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
-                            <span class="current">
-                      
-                            </span>
-                              <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
-                            </span>
-                        </div>-->
+            <div class="alert alert-info alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    Usted no ha sido asignado como consultor de una incubada.
+            </div>
+                          {% endif %}
+                              
 
                     </div>
-                    <div id='page_navigation'></div>
+                    <!-- PAGINACION DE VER INCUBACIONES DEL ADMINISTRADOR-->
+                    <div id='page_navigation' class="about-btn"></div>
                     <div role="tabpanel" class="tab-pane" id="aa">
                     </div>
                     <div role="tabpanel" class="tab-pane" id="bb">
                     </div>
+                            
 
                 </div>
 
@@ -183,7 +137,7 @@
         </div>
     </div>
 
-    <!-- COMIENZAN Los modals que se usan en toda la pagina -->
+<!-- SCRIPT PARA LA PAGINACION -->
 
 </div>
 
@@ -191,7 +145,7 @@
 $(document).ready(function(){  
   
     //how much items per page to show  
-    var show_per_page = 1;  
+    var show_per_page = 5;  
     //getting the amount of elements inside content div  
     var number_of_items = $('#content').children().size();  
     //calculate the number of pages we are going to have  
@@ -202,35 +156,20 @@ $(document).ready(function(){
     $('#show_per_page').val(show_per_page);  
   
     //now when we got all we need for the navigation let's make it '  
-  
-    /* 
-    what are we going to have in the navigation? 
-        - link to previous page 
-        - links to specific pages 
-        - link to next page 
-    */
-    var navigation_html = '<ul class="pagination" id="bsc">';  
-    navigation_html += '<li class="waves-effect"><a class="previous_link" href="javascript:previous();"><i class="material-icons">Anterior</i></a></li> '; 
+         
+    var navigation_html = '<a class="btn btn-default" href="javascript:previous();">Anterior </a>';  
     var current_link = 0;  
     while(number_of_pages > current_link){  
-        navigation_html += '<li class="waves-effect"><a class="page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +'</a></li>';
+        navigation_html += '<a class="btn btn-default page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +' </a>';  
         current_link++;  
     }  
-    navigation_html += '<li class="waves-effect"><a class="next_link" href="javascript:next();"><i class="material-icons">Siguiente</i></a></li>'; 
-    navigation_html +=  '</ul>';
-    
-    /*var navigation_html = '<a class="waves-effect" class="previous_link" href="javascript:previous();">Prev</a>';  
-    var current_link = 0;  
-    while(number_of_pages > current_link){  
-        navigation_html += '<a class="waves-effect" class="page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +'</a>';  
-        current_link++;  
-    }  
-    navigation_html += '<a class="waves-effect" class="next_link" href="javascript:next();">Next</a>';*/
+    navigation_html += '<a class="btn btn-default" href="javascript:next();">Siguiente </a>';
 
+    
     $('#page_navigation').html(navigation_html);  
   
     //add active_page class to the first page link  
-    $('#bsc.page_link:first').addClass('active_page');  
+    $('#page_navigation .page_link:first').addClass('active_page');  
   
     //hide all the elements inside content div  
     $('#content').children().css('display', 'none');  

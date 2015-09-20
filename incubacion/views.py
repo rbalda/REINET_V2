@@ -23,7 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import *
 from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
 
-
+from incubacion.models import *
 from usuarios.models import *
 from django.db.models import Avg
 
@@ -44,6 +44,29 @@ def inicio_incubacion(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
+	incubaciones = Incubacion.objects.all()
+	args['incubaciones'] = incubaciones
+	incubadas = []
+	for incubacion in incubaciones:
+		for incubada in  Incubada.objects.all():
+			if incubada.fk_incubacion.id_incubacion == incubacion.id_incubacion:
+				milestones = len(Milestone.objects.filter(fk_incubada = incubada))
+				consultores = len(incubada.consultores.all())
+				incubadas.append((incubada,milestones,consultores))
+	args['incubadas'] = incubadas
+	consultor = Consultor.objects.filter(fk_usuario_consultor= request.user.perfil)
+	if consultor:
+		incubadas_consultores =  IncubadaConsultor.objects.filter(fk_consultor = consultor)
+		incubadas = []
+		for ic in incubadas_consultores:
+			incubada = Incubada.objects.filter(id_incubada = ic.fk_incubada)
+			if incubada:
+				milestones = len(Milestone.objects.filter(fk_incubada = incubada))
+				consultores = len(incubada.consultores.all())
+				incubadas.append((incubada, milestones, consultores))
+		args['consultores'] = incubadas
+	else:
+		args['consultores'] = None
 	return render_to_response('inicio_incubacion.html',args)
 
 """
@@ -59,6 +82,7 @@ def ver_incubaciones(request):
 	args = {}
 	args['usuario']=request.user
 	args['es_admin']=request.session['es_admin']
+	args['incubaciones'] = Incubacion.objects.filter(fk_perfil = request.user.perfil)
 	return render_to_response('admin_incubacion_inicio.html',args)
 
 
