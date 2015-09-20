@@ -258,8 +258,8 @@ def vista_404(request):
 Autor: Sixto Castro
 Nombre de funcion: GuardarConvocatoria
 Parametros: request
-Salida: pagian ver milestone
-Descripcion: para llamar la pagina ver milestone
+Salida: Se crea convocatoria exitosamente. Caso contrario se muestra el mensaje de error respectivo
+Descripcion: Funcion para crear convocatoria a la incubacion respectiva
 """
 
 @login_required
