@@ -1649,6 +1649,7 @@ def verMensaje(request):
         args['receptor']=receptor
         args['usuario']=usuario
         args['es_admin']=request.session['es_admin']
+        args.update(csrf(request))
         return render_to_response('ver_mensaje.html',args)
     except:
         return HttpResponseRedirect("/BandejaDeEntrada/")
