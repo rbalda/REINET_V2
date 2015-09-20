@@ -152,10 +152,10 @@ Nombre de funcion: registrarSolicitud
 Entrada: request POST
 Salida: Registrar peticion
 """
-@csrf_exempt
+#@csrf_exempt
 @login_required
 def registrarSolicitud(request):
-    if request.method == 'POST':
+    if True:
         args = {}
         try:
             peticion = Peticion.objects.get(fk_usuario = request.session['id_usuario'])
@@ -166,7 +166,7 @@ def registrarSolicitud(request):
             print "not loaded"
 
         try:
-            peticion = Peticion.objects.get(nombre_institucion = request.POST['nombre_institucion'])
+            peticion = Peticion.objects.get(nombre_institucion = request.GET['nombre_institucion'])
             args['msj'] = 'Ya existe una INSTITUCION con este nombre'
             args['esAlerta'] = 1
             return render_to_response('respuesta_Solicitud_Institucion.html', args)
@@ -175,7 +175,7 @@ def registrarSolicitud(request):
             usuario = Perfil.objects.get(id=request.session['id_usuario'])
             peticion = Peticion()
             peticion.codigo = '000000'
-            peticion.nombre_institucion = request.POST['nombre_institucion']
+            peticion.nombre_institucion = request.GET['nombre_institucion']
             peticion.usado = 0
             peticion.fk_usuario = usuario
             peticion.save()
@@ -183,7 +183,10 @@ def registrarSolicitud(request):
             args['msj'] = 'Se ha enviado su solicitud con exito!'
 
         return render_to_response('respuesta_Solicitud_Institucion.html', args)
-
+    else:
+        args['msj'] = 'Rrror en la transaccion'
+        args['esAlerta'] = 1
+        return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 """
 Autor: Pedro Iniguez
