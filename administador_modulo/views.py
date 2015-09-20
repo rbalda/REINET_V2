@@ -186,3 +186,37 @@ def admin_editar_estado_usuario(request):
 		print "not found en editar estado"
 		return HttpResponseRedirect('NotFound');
 
+
+def verPeticiones(request):
+    try:
+        args = {}
+        args['peticiones'] = Peticion.objects.all().filter(codigo='000000')
+        args['peticiones_aceptadas'] = Peticion.objects.all().exclude(codigo='000000')
+        args.update(csrf(request))
+        return render_to_response('verPeticiones.html', args)
+    except:
+        return HttpResponseRedirect('/NotFound')
+
+def aceptarPeticiones(request):
+    args={}
+    try:
+        peticion = Peticion.objects.get(id_peticion = request.GET['id_peticion'])
+        usuario = Perfil.objects.get(id=peticion.fk_usuario.id)
+        destinatario = usuario.email
+        codigo = "12341234"+usuario.username
+        peticion.codigo = codigo
+        peticion.save()
+        print codigo
+        #html_content = "<p><h2>Hola... puedes crear tu institucion desde el siguiente link: http://www.reinet.org/registro_institucion/" + codigo
+        #msg = EmailMultiAlternatives('Registra tu institucion en REINET', html_content,
+        #                             'REINET <from@server.com>', [destinatario])
+        #msg.attach_alternative(html_content, 'text/html')
+        #msg.send()
+        #args['esAlerta'] = 0
+        #args['msj'] = 'Aceptada la institucion ' + peticion.nombre_institucion
+        return HttpResponse("ok")
+    except Exception as e:
+    	print e
+        args['esAlerta'] = 1
+        #args['msj'] = 'Refresque la pagina, error al aceptar ' + peticion.nombre_institucion
+        return HttpResponse("error")

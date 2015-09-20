@@ -219,7 +219,7 @@ Nombre de funcion: verPeticiones
 Entrada: request POST
 Salida: las peticiones de codigo 000000
 """
-
+"""
 @login_required
 def verPeticiones(request):
     try:
@@ -230,7 +230,7 @@ def verPeticiones(request):
     except:
         return HttpResponseRedirect('/NotFound')
 
-
+"""
 """
 Autor: Pedro Iniguez
 Nombre de funcion: aceptarPeticiones

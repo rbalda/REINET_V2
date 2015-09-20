@@ -1,0 +1,115 @@
+{% extends "base-admin.tpl.html" %}
+
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html' %}
+    {% endblock %}
+
+{% endif %}
+
+{% block sliderPagina %}Administrar{% endblock %}
+
+
+{% block contenido %}
+    <!-- Page Tip -->
+    <div class="container">
+        <div class="row">
+            <div class="">
+                <div id="mensaje"></div>
+                <h3 class="hl top-zero">Peticiones para registrar Institucion</h3>
+             <div class="table-responsive">
+              <table class="table">
+
+                  <thead>
+
+        <tr>
+
+            <th>Usuario</th>
+
+            <th>Institución</th>
+
+            <th>Aceptar</th>
+            
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+         {% for peticion in peticiones %}
+
+        <tr>
+
+            <td>{{ peticion.fk_usuario.username }}</td>
+
+            <td>{{ peticion.nombre_institucion }}</td>
+
+       
+               <td>
+             <button class="btn btn-green col-md-6" name="aceptarPeticion" value="{{ peticion.id_peticion }}"
+                                onclick="aceptarPeticion(this)">Aceptar</button>
+       
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% for peticion in peticiones_aceptadas %}
+
+        <tr>
+
+            <td>{{ peticion.fk_usuario.username }}</td>
+
+            <td>{{ peticion.nombre_institucion }}</td>
+
+       
+               <td>
+             Aceptada
+       
+            </td>
+        </tr>
+        {% endfor %}
+       
+    </tbody>
+               
+    </table>
+
+            </div>
+        </div>
+    </div>
+    {% csrf_token %}
+
+    <script>
+        function aceptarPeticion(e) {
+            id_peticion = e.value;
+            console.log(id_peticion);
+            $.ajax({
+                dataType : 'text',
+                type: "GET",
+                
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                    'id_peticion': id_peticion
+                },
+                url: "/aceptarPeticiones",
+                success: function(data){alert(data);},
+                error: function(){alert("error2");},
+                
+            });
+           
+           
+        }
+
+        function solicitudSuccess(data) {
+             console.log('bye');
+            alert("data");
+        }
+    </script>
+
+{% endblock %}
+
+ 

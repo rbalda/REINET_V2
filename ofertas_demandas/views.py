@@ -1478,6 +1478,9 @@ def ver_cualquier_demanda(request, id_demanda):
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
 			estado = demanda.estado
+			if estado==4:
+				args['mensaje_error'] = "La Demanda no se encuentra disponible, lo sentimos."
+				return render_to_response('problema_oferta.html',args)
 			args['demanda'] = demanda
 			args['estado'] = estado
 		#Si algo sale mal entonces la demanda no existe.
