@@ -312,8 +312,8 @@ def guardar_convocatoria(request):
                     args['mensajeAlerta'] = 'Convocatoria Creada con exito'
             except ValueError:
                 print 'Error con la fecha'
-                args['mensajeError'] = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
-                args['mensajeAlerta'] = 'No se creo Convocatoria'
+                args['mensajeError'] = 'La fecha tiene un formato errado. Debe ser (A\xc3\xb1o-Mes-D\xc3\xada)'
+                args['mensajeAlerta'] = 'No se cre\xc3\xb3 Convocatoria'
                 args.update(csrf(request))
                 return render_to_response('admin_ver_incubacion.html', args, context_instance=RequestContext(request))
 
