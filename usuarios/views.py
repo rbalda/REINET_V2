@@ -403,7 +403,7 @@ def registro_usuario(request):
                     return HttpResponseRedirect('/iniciarSesion')
 
             except Exception as e:
-                #print e.getMessage()
+                print e
                 args = {}
                 mensaje = "No se pudo crear el usuario. Esto pudo deberse a un problema de conexión o a que ingresó datos no válidos"
                 args.update(csrf(request))
@@ -448,6 +448,8 @@ Descripción: permite el login de un usuario registrado
 #usar palabras en español
 def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
     if request.user.is_authenticated():
+        if request.user.username=="adminreinet":
+            return HttpResponseRedirect('/gestionarUsuarios')
         return HttpResponseRedirect('/inicioUsuario/')
     else:
         if request.method == 'POST':
@@ -470,6 +472,8 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 
                     if user.privacidad<10000 :
                         auth.login(request, usuario)
+                        if usuario.username=="adminreinet":
+                            return HttpResponseRedirect('/gestionarUsuarios')
                         return HttpResponseRedirect('/inicioUsuario')
                     else:
                         args.update(csrf(request))
