@@ -78,7 +78,7 @@
     <div class="pagination">
     <span class="step-links">
         {% if demandas.has_previous %}
-            <a onclick="ajaxPaginacion({{ demandas.previous_page_number }});">Atrás</a>
+            <button class="btn btn-success" onclick="ajaxPaginacion({{ demandas.previous_page_number }});">Atrás</button>
         {% endif %}
 
         <span class="current">
@@ -86,7 +86,7 @@
         </span>
 
         {% if demandas.has_next %}
-            <a onclick="ajaxPaginacion({{ demandas.next_page_number }});">Siguiente</a>
+            <button class="btn btn-success" onclick="ajaxPaginacion({{ demandas.next_page_number }});">Siguiente</button>
         {% endif %}
     </span>
 	</div>

@@ -319,6 +319,10 @@ def ver_cualquier_oferta(request, id_oferta):
 		#Obtengo la oferta
 		try:
 			oferta = Oferta.objects.get(id_oferta = id_oferta)
+			print "ofeeerta"
+			print oferta.estado
+			if oferta.estado == 3:  #la oferta esta censurada
+				return HttpResponseRedirect('/NotFound')
 			args['oferta'] = oferta
 		#Sino la encuentro informo.
 		except:

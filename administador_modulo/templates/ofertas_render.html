@@ -69,7 +69,7 @@
     <div class="pagination">
     <span class="step-links">
         {% if ofertas.has_previous %}
-            <a onclick="ajaxPaginacion({{ ofertas.previous_page_number }});">Atrás</a>
+            <a class="btn btn-success" onclick="ajaxPaginacion({{ ofertas.previous_page_number }});">Atrás</a>
         {% endif %}
 
         <span class="current">
@@ -77,7 +77,7 @@
         </span>
 
         {% if ofertas.has_next %}
-            <a onclick="ajaxPaginacion({{ ofertas.next_page_number }});">Siguiente</a>
+            <a class="btn btn-success" onclick="ajaxPaginacion({{ ofertas.next_page_number }});">Siguiente</a>
         {% endif %}
     </span>
 	</div>
@@ -110,12 +110,12 @@
                             $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
                             $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
 
-                            
+
                                     $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
  
                     }else{
                         $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
-                        
+
                                     $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
  
                     }
@@ -124,7 +124,7 @@
             error: function(e){
 
                 $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar. Error de conexíón.</div>');
-                
+
                                     $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
  
             }
