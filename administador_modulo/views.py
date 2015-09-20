@@ -25,7 +25,7 @@ def administrar_usuarios(request):
 		pass
 	else:
 		args={}
-		return render_to_response('administrar_usuarios.html', args)
+		return render_to_response('administrar_usuarios.html', args,context_instance=RequestContext(request))
 
 """
 def usuarios_render(request):
@@ -98,7 +98,7 @@ def administrar_ofertas(request):
 		pass
 	else:
 		args={}
-		return render_to_response('admin_administrar_ofertas.html', args)
+		return render_to_response('admin_administrar_ofertas.html', args,context_instance=RequestContext(request))
 
 
 def demandas_render(request):
@@ -131,7 +131,7 @@ def administrar_demandas(request):
 		pass
 	else:
 		args={}
-		return render_to_response('admin_administrar_demandas.html', args)
+		return render_to_response('admin_administrar_demandas.html', args,context_instance=RequestContext(request))
 
 
 def admin_editar_estado_demanda(request):
@@ -193,7 +193,7 @@ def verPeticiones(request):
         args['peticiones'] = Peticion.objects.all().filter(codigo='000000')
         args['peticiones_aceptadas'] = Peticion.objects.all().exclude(codigo='000000')
         args.update(csrf(request))
-        return render_to_response('verPeticiones.html', args)
+        return render_to_response('verPeticiones.html', args,context_instance=RequestContext(request))
     except:
         return HttpResponseRedirect('/NotFound')
 
