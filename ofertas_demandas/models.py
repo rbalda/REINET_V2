@@ -69,7 +69,8 @@ class Oferta(models.Model):
     comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
     alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
     es_publica = models.BooleanField(default=False)#si es false el alcance de la oferta se tendra que validar con las intituciones asignadas
-
+    estado=models.SmallIntegerField(default=1) # 1 para activa 2 para inactiva 3 para censurada
+    
     class Meta:
         db_table = 'Oferta'
        # unique_together = ('id_oferta','codigo')

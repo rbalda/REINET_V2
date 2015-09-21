@@ -4,56 +4,59 @@
                   <thead>
 
         <tr>
+            <th>Nombre</th>
+             <th>Tipo</th>
+              <th>Publicada</th>
 
-            <th>Cedula</th>
-
-            <th>Nombres</th>
-
-            <th>Apellidos</th>
-             <th>Username</th>
-
-            <th>Estado</th>
-
+            <th>Calificacion</th>
+                        <th>Estado</th>
 
         </tr>
 
     </thead>
 
     <tbody>
-    	{% for u in usuarios%}
+    	{% for o in ofertas%}
 
         <tr>
 
-            <td>{{u.cedula}}</td>
+            <td>{{o.nombre}}</td>
 
-            <td>{{u.first_name}}</td>
-
-            <td>{{u.last_name}}</td>
-               <td>{{u.username}}</td>
-
-               <td><select  style="float:left; width:40%" class="form-control col-md-4" id="{{u.id_perfil}}"name="estado" disabled>
-                {% if u.estado == 1 %}
-                    <option value="1" selected>Activo</option>
+                        <td>{{o.tipo}}</td>
+                        <td>{{o.publicada}}</td>
+            <td>{{o.calificacion_total}}</td>
+            <td><select  style="float:left; width:40%" class="form-control col-md-4" id="{{o.id_oferta}}"name="estado_oferta" disabled>
+                {% if o.estado == 1 %}
+                    <option value="1" selected>Activa</option>
                 {% else %}
-                    <option value="1" >Activo</option>
+                    <option value="1" >Activa</option>
                 {% endif %}
 
-                {% if u.estado == 2 %}
-                    <option value="2" selected>Inactivo</option>
+                {% if o.estado == 2 %}
+                    <option value="2" selected>Desactivada</option>
                 {% else %}
-                    <option value="2">Inactivo</option>
+                    <option value="2">Desactivada</option>
+
                 {% endif %}
-              
+                {% if o.estado == 3 %}
+                    <option value="3" selected>Censurada</option>
+                {% else %}
+                    <option value="3" >Censurada</option>
+                {% endif %}
               
             </select>
-             <div name="div_guardar" id="{{u.id_perfil}}"hidden>
-            <button class="btn btn-success col-md-4" style="float:left;" id="{{u.id_perfil}}" name="guardar_btn" >Guardar <span name="cargando_icono_ind" id="{{u.id_perfil}}" ></span></button>
+             <div name="div_guardar" id="{{o.id_oferta}}"hidden>
+            <button class="btn btn-success col-md-3" style="float:center;" id="{{o.id_oferta}}" name="guardar_btn" > Guardar  <span name="cargando_icono_ind" id="{{o.id_oferta}}" ></span></button>
         </div>
-        <div name="div_editar" id="{{u.id_perfil}}">
-            <button class="btn btn-warning col-md-4" style="float:left;" id="{{u.id_perfil}}" name="btn_activar_editar"> Editar</button>
+        <div name="div_editar" id="{{o.id_oferta}}">
+            <button class="btn btn-warning col-md-3" style="float:center;" id="{{o.id_oferta}}" name="btn_activar_editar"> Editar</button>
         </div>
        
             </td>
+           
+ 
+          
+
         </tr>
         {% endfor %}
 
@@ -65,36 +68,35 @@
 
     <div class="pagination">
     <span class="step-links">
-        {% if usuarios.has_previous %}
-            <a class="btn btn-success" onclick="ajaxPaginacion({{ contacts.previous_page_number }});">Atrás</a>
+        {% if ofertas.has_previous %}
+            <a class="btn btn-success" onclick="ajaxPaginacion({{ ofertas.previous_page_number }});">Atrás</a>
         {% endif %}
 
         <span class="current">
-            Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}.
+            Página {{ ofertas.number }} de {{ ofertas.paginator.num_pages }}.
         </span>
 
-        {% if usuarios.has_next %}
-            <a class="btn btn-success" onclick="ajaxPaginacion({{ usuarios.next_page_number }});">Siguiente</a>
+        {% if ofertas.has_next %}
+            <a class="btn btn-success" onclick="ajaxPaginacion({{ ofertas.next_page_number }});">Siguiente</a>
         {% endif %}
     </span>
 	</div>
 
-
-     <script type="text/javascript">
+       <script type="text/javascript">
 
     $("[name='guardar_btn']").on('click', function (e2){
         e2.preventDefault();
         var idObtenido = $(e2.target).attr('id');
-        estado=$("[id='"+idObtenido+"'][name='estado']").val();
+        estado=$("[id='"+idObtenido+"'][name='estado_oferta']").val();
          $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
        
         datos={
-            'id_usuario': idObtenido,
+            'id_oferta': idObtenido,
             'estado':estado,
             'csrfmiddlewaretoken' :'{{ csrf_token }}'
         };
         $.ajax({
-            url: '/admin_editar_estado_usuario',
+            url: '/admin_editar_estado_oferta',
             async: true,
             data: datos,
             dataType : 'text',
@@ -104,9 +106,10 @@
                    if(data=="ok"){
                         $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la oferta ha sido modificado exitosamente</div>');
                        
-                          $("[id='"+idObtenido+"'][name='estado']").prop( "disabled", true );
+                          $("[id='"+idObtenido+"'][name='estado_oferta']").prop( "disabled", true );
                             $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
                             $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
+
 
                                     $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
  
@@ -115,14 +118,12 @@
 
                                     $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
  
-
                     }
 
             },
             error: function(e){
 
                 $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar. Error de conexíón.</div>');
-
 
                                     $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
  
@@ -131,13 +132,13 @@
     });
     $("[name='btn_activar_editar']").on('click', function (e2){
          var idObtenido=$(e2.target).attr('id');
-            $("[id='"+idObtenido+"'][name='estado']").prop( "disabled", false );
+            $("[id='"+idObtenido+"'][name='estado_oferta']").prop( "disabled", false );
             $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", true);
              $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", false);
        
 });
     </script>
 
+
+
 </div> 
-
-

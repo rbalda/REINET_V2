@@ -319,6 +319,10 @@ def ver_cualquier_oferta(request, id_oferta):
 		#Obtengo la oferta
 		try:
 			oferta = Oferta.objects.get(id_oferta = id_oferta)
+			print "ofeeerta"
+			print oferta.estado
+			if oferta.estado == 3:  #la oferta esta censurada
+				return HttpResponseRedirect('/NotFound')
 			args['oferta'] = oferta
 		#Sino la encuentro informo.
 		except:
@@ -1355,6 +1359,7 @@ def editar_estado_demanda(request):
 		else:
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
+		print "not found en editar estado"
 		return HttpResponseRedirect('NotFound');
 
 
@@ -1475,6 +1480,9 @@ def ver_cualquier_demanda(request, id_demanda):
 		try:
 			demanda = Demanda.objects.get(id_demanda = id_demanda)
 			estado = demanda.estado
+			if estado==4:
+				args['mensaje_error'] = "La Demanda no se encuentra disponible, lo sentimos."
+				return render_to_response('problema_oferta.html',args)
 			args['demanda'] = demanda
 			args['estado'] = estado
 		#Si algo sale mal entonces la demanda no existe.

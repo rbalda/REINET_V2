@@ -3,7 +3,7 @@
 
 {% if user.is_authenticated %}
     {% block barraderecha %}
-       {% include 'menusuperior/menulogeado_admin.tpl.html' %}
+        {% include 'menusuperior/menulogeado_admin.tpl.html' %}
     {% endblock %}
 
     {% block busqueda %}
@@ -17,7 +17,8 @@
 
 {% block contenido %}
     <div class="container">
- <style type="text/css">
+
+<style type="text/css">
     .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
@@ -34,14 +35,15 @@
 }
 </style>
  
+
     <div class="row" style="margin-bottom: 25px;">
-        <div align=left class="col-md-4 col-sm-2 col-xs-3">
+        <div align=left class="col-md-4  col-sm-2 col-xs-3">
           {% comment %}
     
             <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Administrar
             </button>
                     {% endcomment %}
-                    <h3 class="hl top-zero">Administrar usuarios</h3>
+                       <h3 class="hl top-zero">Administrar Demandas</h3>
         </div>
 
 
@@ -56,16 +58,14 @@
 
         </div>
         <div class="col-md-6  col-sm-6 col-xs-6">
+
             <div class="col-sm-9">
                 <input type="text" class="form-control" name="input_busqueda"
-                       placeholder="Buscar usuario por nombre"/>
+                       placeholder="Buscar demanda por nombre"/>
             </div>
             <div class="col-sm-3" >
-                <button class="btn btn-blue " id="buscar_usuarios">Buscar  <span id="cargando_icono" ></span></button>
-
-             
+                <button class="btn btn-blue" id="buscar_usuarios">Buscar <span id="cargando_icono" ></span></button>
             </div>
-        
         </div>
     </div>
 
@@ -73,10 +73,10 @@
     <div class="row">
     <div class=" col-sm-12">
     <!-- Nav tabs -->
-     <div id="msj_retro_estado"></div>
-   
-    <div id="usuarios">
-        <div class="col-md-6" style="float: right;"><i style="float:center;"class="fa fa-spinner fa-pulse"></i>
+
+    <div id="msj_retro_estado"></div>
+    <div id="ofertas">
+         <div class="col-md-6" style="float: right;"><i style="float:center;"class="fa fa-spinner fa-pulse"></i>
         </div>
             </div>
 
@@ -85,52 +85,57 @@
     <script type="text/javascript">
     $("#buscar_usuarios").click(function(){
        
-            apellido=$("[name='input_busqueda']").val()
-        $("#cargando_icono").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+        input=$("[name='input_busqueda']").val()
+         $("#cargando_icono").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+       
             $.ajax({
             data:{
-                'apellido': apellido,
+                'input': input,
                 'csrfmiddlewaretoken' :'{{ csrf_token }}',
                 'page':1,
                },
             type:'GET',
-            url: '/adminrenderusuarios/',
+            url: '/admin_render_demandas/',
             success: function(data){
-
-                $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
-                $('#usuarios').html(data);
+                 $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+       
+                $('#ofertas').html(data);
             },
             error: function () {
                
-                 $('#usuarios').html("Se ha producido un error, contáctese con el administrador");
+                 $('#ofertas').html("Se ha producido un error, contáctese con el administrador");
             }
         });
 
     });
 
+
     function ajaxPaginacion(page){
-            apellido=$("[name='input_busqueda']").val()
-    
+    input=$("[name='input_busqueda']").val()
+        
          $.ajax({
             data:{
-                'apellido': apellido,
+                'input': input,
                 'csrfmiddlewaretoken' :'{{ csrf_token }}',
                 'page':page,
-               },
+               },  
             type:'GET',
-            url: '/adminrenderusuarios/',
-            success: function(data){
-                $('#usuarios').html(data);
+            url: '/admin_render_demandas/',
+             success: function(data){
+                 $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+       
+                $('#ofertas').html(data);
             },
             error: function () {
                
-                 $('#usuarios').html("Se ha producido un error, contáctese con el administrador");
+                 $('#ofertas').html("Se ha producido un error, contáctese con el administrador");
             }
         });
 
     }
 
-    $("#usuarios").ready(ajaxPaginacion(1));
+
+    $("#ofertas").ready(ajaxPaginacion(1));
 
     </script>
     </div>

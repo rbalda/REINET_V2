@@ -73,8 +73,8 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="modal-body">
-                        <form role="form" action="/enviarMensaje/" method='POST'>
-                            {% csrf_token %}
+                        <form role="form" action="/enviarMensaje" method='POST'>
+                                    {% csrf_token %}
                             <div class="form-group">
                                 <label for="Destinatario">Para:</label>
                                 <input type="text" class="form-control" id="destinatario" name="destinatario"
