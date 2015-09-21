@@ -1,0 +1,220 @@
+{% extends "base-incubaciones.tpl.html" %}
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
+
+{% endif %}
+
+
+{% block sliderPagina %}INCUBACIONES{% endblock %}
+
+
+
+{% block contenido %}
+    <div class="container">
+    <div class="row" style="margin-bottom: 25px;">
+        
+        <div class="col-md-4 col-sm-4 col-xs-3">
+            {% if msg != None %}
+            <div class="alert alert-success alert-dismissable" style="margin-bottom:-10px; padding:8px 25px 8px 15px">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+
+
+    <div class="row">
+    <div class=" col-sm-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#misIncubadas" aria-controls="home" role="tab" data-toggle="tab">Mis Incubadas</a>
+        </li>
+        <li role="presentation">
+            <a href="#incubacionesRed" aria-controls="borradorOferta" role="tab" data-toggle="tab">Incubaciones en la red</a>
+        </li>
+        <li role="presentation">
+            <a href="#incubacionesConsultor" aria-controls="ofertasdelaREd" role="tab" data-toggle="tab">Consultor de Incubadas</a>
+        </li>
+    </ul>
+
+
+    <div class="tab-content col-sm-8">
+        <!-- COMIENZA TAB DE MIS INCUBADAS-->
+        <div role="tabpanel" class="tab-pane active" id="misIncubadas">
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de Mi Incubada</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Dueño: </li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-cogs"></i> <a href="#">Dominio: </a>Medicinal</li>
+                                <li><i class="fa fa-cog"></i> <a href="#">Subdominio: </a>Medicina Natural</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de milestones: 3</li>
+                                <li><i class="fa fa-users"></i> Numero de consultores: 3</li>
+                              </ul>                              
+                            </div>            
+                    </div>
+                </div>        
+
+        </div>
+        <!-- TERMINA TAB DE MIS INCUBADAS-->
+
+        <!-- COMIENZA TAB DE INCUBACIONES ENLA RED-->
+        <div role="tabpanel" class="tab-pane" id="incubacionesRed">
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de la Incubacion</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Administrador</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                              </ul>
+                            </div>            
+                    </div>
+                </div>
+
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de la Incubacion</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Administrador</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                              </ul>
+                            </div>            
+                    </div>
+                </div>
+
+                <div class="comment">        
+                    <div class="media">
+                        <div class="media-body">
+                              <h3><a href="profile.html">Nombre de la Incubacion</a></h3>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-calendar"></i> <a href="#">2015-04-27</a></li>
+                                <li><i class="fa fa-user"></i> Administrador</li>
+                              </ul>
+                              <ul class="text-muted list-inline">
+                                <li><i class="fa fa-bars"></i> Numero de condiciones: 3</li>
+                                <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a>Medicinal</li>
+                              </ul>
+                            </div>            
+                    </div>
+                </div>
+
+        </div>
+        <!-- TERMINA TAB DE CONSULTOR DE INCUBADAS-->
+
+        <!-- COMIENZA OFERTAS DE LA RED-->
+        <div role="tabpanel" class="tab-pane" id="incubacionesConsultor">
+            
+        </div>
+        <!-- TERMINA TAB DE CONSULTOR DE INCUBADAS-->
+        <!-- PAGINACION DE VER INCUBACIONES-->
+                        <ul class="pagination">
+                          <li class="disabled"><a href="#!"><i class="material-icons">Anterior</i></a></li>
+                          <li class="active"><a href="#!">1</a></li>
+                          <li class="waves-effect"><a href="#!">2</a></li>
+                          <li class="waves-effect"><a href="#!">3</a></li>
+                          <li class="waves-effect"><a href="#!">4</a></li>
+                          <li class="waves-effect"><a href="#!">5</a></li>
+                          <li class="waves-effect"><a href="#!"><i class="material-icons">Siguiente</i></a></li>
+                        </ul>
+    
+    <!-- TERMINA EQUIPO-->
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!--MODAL CREAR OFERTA-->
+
+    <div class="modal fade" id="modalCrearOferta" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form id="formCrearOferta" ng-controller="CargarOfertasSelectController" action="/CrearOfertaCopia/"
+                      method="GET">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close cancelar" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Crear Oferta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-offset-1">
+                            <input type="radio" name="radioName" id="radio1" value="1" checked
+                                   class="'disabled':'disabled';"/>&nbsp;&nbsp;Nueva oferta<br/>
+                            <input type="radio" name="radioName" id="radio2" value="2"/>&nbsp;&nbsp;De oferta
+                            existente<br/>
+
+                            <div class="" id="lista_de_ofertas" style="display:none;">
+
+                                <select class="form-control select-box" id="lista_oferta" name="lista_oferta"
+                                        ng-model="lista_oferta"
+                                        ng-options="i.id_oferta as i.nombre for i in listaOfertas"
+                                        style="margin-left: 3px;margin-top: 5px;overflow-x: hidden;overflow-y: scroll;"
+                                        ng-change="selectOferta(i.id_oferta)">
+                                </select>
+                            </div>
+                            <input type="hidden" id="select_oferta" name="select_oferta" value="[[ lista_oferta ]]">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="bt1" type="submit" class="btn btn-green"> Aceptar</button>
+                        <button type="button" class="btn btn-dark cancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script>
+        $('#formCrearOferta input').on('change', function () {
+            var valor = $('input[name=radioName]:checked', '#formCrearOferta').val();
+            if (valor == "1") {
+                $("#lista_de_ofertas").hide();
+            } else if (valor == "2") {
+                $("#lista_de_ofertas").show();
+            }
+        });
+        $('.cancelar').on('click', function () {
+            $('#lista_de_ofertas').fadeIn();
+            $('#lista_de_ofertas').hide();
+            $('#radio1').prop("checked", true);
+            $('#select_oferta').val("");
+        });
+    </script>
+
+    </div>
+
+{% endblock %}
+
+
+

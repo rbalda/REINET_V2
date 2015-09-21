@@ -137,15 +137,30 @@ Parametros: request
 Salida: 
 Descripcion: Mostar template de la incubada para el administrador de la incubacion
 """
-
-
 @login_required
-def admin_ver_incubada(request):
+def admin_ver_incubada(request,id_incubada):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
     args = {}
-    args['usuario'] = request.user
-    args['es_admin'] = request.session['es_admin']
-    return render_to_response('admin_ver_incubada.html', args)
+    args['es_admin']=request.session['es_admin']
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
 
+    try:#Si encuentra la oferta y la membresia
+        incubada = Incubada.objects.get(id_incubada = id_incubada)
+        print 'El nombre de la oferta es:'
+        print incubada.nombre
+
+        if incubada is not None:
+            return render_to_response('admin_ver_incubada.html', args)
+    #si la oferta no existe redirige a un mensaje de error
+    except Incubada.DoesNotExist:
+        args['error'] = "La incubada no se encuentra en la red, lo sentimos."
+        return HttpResponseRedirect('/NotFound/')
+      
 
 """
 Autor: Estefania Lozano
@@ -241,18 +256,23 @@ class Autocompletar_Consultor(APIView):
         return response
 
 
-def vista_404(request):
-    try:
-        id_session = request.session['id_user']
-    except:
-        id_session = None
-    args = {}
-    if id_session is not None:
-        tipo404 = "inicio_view"
-    else:
-        tipo404 = "index"
-    args['tipo404'] = tipo404
-    return render_to_response('404.html', args, context_instance=RequestContext(request))
+
+##
+# Handle 404 Errors
+# @param request WSGIRequest list with all HTTP Request
+def error404(request):
+    # 1. Load models for this view
+    #from idgsupply.models import My404Method
+
+    # 2. Generate Content for this view
+    template = loader.get_template('404.html')
+    context = Context({
+        'message': 'All: %s' % request,
+        })
+
+    # 3. Return Template for this view + Data
+    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
+
 
 """
 Autor: Sixto Castro
