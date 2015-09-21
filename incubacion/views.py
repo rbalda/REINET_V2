@@ -38,15 +38,15 @@ Parametros: request
 Salida: render 
 Descripcion: para llamar la pagina incubacion desde la barra de navegacion
 """
-
-
 @login_required
 def inicio_incubacion(request):
     args = {}
     args['usuario']=request.user
     args['es_admin']=request.session['es_admin']
+    #Para el tab incubaciones de la red
     incubaciones = Incubacion.objects.all()
     args['incubaciones'] = incubaciones
+    #Para el tab de incubadas
     incubadas = []
     for incubacion in incubaciones:
     	for incubada in  Incubada.objects.all():
@@ -55,19 +55,23 @@ def inicio_incubacion(request):
     			consultores = len(incubada.consultores.all())
     			incubadas.append((incubada,milestones,consultores))
     args['incubadas'] = incubadas
+    
+    #Para el tab de consultores
     consultor = Consultor.objects.filter(fk_usuario_consultor= request.user.perfil)
     if consultor:
     	incubadas_consultores =  IncubadaConsultor.objects.filter(fk_consultor = consultor)
     	incubadas = []
     	for ic in incubadas_consultores:
-			incubada = Incubada.objects.filter(id_incubada = ic.fk_incubada)
-			if incubada:
-				milestones = len(Milestone.objects.filter(fk_incubada = incubada))
-				consultores = len(incubada.consultores.all())
-				incubadas.append((incubada, milestones, consultores))
+            print ic.fk_incubada.id_incubada
+            incubada = Incubada.objects.filter(id_incubada = ic.fk_incubada.id_incubada)
+            if incubada:
+                milestones = len(Milestone.objects.filter(fk_incubada = incubada))
+                consultores=len(IncubadaConsultor.objects.filter(fk_incubada = incubada))
+                incubadas.append((incubada, milestones, consultores))
         args['consultores'] = incubadas
     else:
 		args['consultores'] = None
+
     return render_to_response('inicio_incubacion.html',args)
 
 """
@@ -77,8 +81,6 @@ Parametros: request
 Salida: pagina de incubacion
 Descripcion: para llamar la pagina incubacion inicio
 """
-
-
 @login_required
 def ver_incubaciones(request):
 	args = {}
@@ -94,8 +96,6 @@ Parametros: request
 Salida: Muetra el formulario de crear una incubacion
 Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofertas
 """
-
-
 @login_required
 def crear_incubacion(request):
 
@@ -177,8 +177,7 @@ def admin_ver_incubada(request,id_incubada):
         if incubada is not None:
             listConsultores = IncubadaConsultor.objects.filter(fk_incubada=id_incubada)
             for c in listConsultores:
-                print "LAAAAAAAAAAAAAALAAA"
-                print c.fk_consultor.fk_usuario_consultor.id
+                list_perfil_cons=c.fk_consultor.fk_usuario_consultor
 
             return render_to_response('admin_ver_incubada.html', args)
     #si la oferta no existe redirige a un mensaje de error

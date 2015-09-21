@@ -17,7 +17,6 @@ class Incubacion(models.Model):
 	otros = models.TextField(null=True,blank=True)
 	estado_incubacion = models.PositiveSmallIntegerField(default=0)#activa=0,terminada=1,desactivada=2
 	fk_perfil = models.ForeignKey(Perfil)
-
 	class Meta:
 		db_table = 'Incubacion'
 
@@ -55,7 +54,6 @@ class Incubada(models.Model):
     #comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
     #alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
     fk_incubacion = models.ForeignKey(Incubacion)
-
     consultores=models.ManyToManyField(Consultor,through='IncubadaConsultor',through_fields=('fk_incubada','fk_consultor'),related_name='consultores')
     class Meta:
         db_table = 'Incubada'
