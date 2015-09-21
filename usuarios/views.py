@@ -152,10 +152,10 @@ Nombre de funcion: registrarSolicitud
 Entrada: request POST
 Salida: Registrar peticion
 """
-@csrf_exempt
+#@csrf_exempt
 @login_required
 def registrarSolicitud(request):
-    if request.method == 'POST':
+    if True:
         args = {}
         try:
             peticion = Peticion.objects.get(fk_usuario = request.session['id_usuario'])
@@ -166,7 +166,7 @@ def registrarSolicitud(request):
             print "not loaded"
 
         try:
-            peticion = Peticion.objects.get(nombre_institucion = request.POST['nombre_institucion'])
+            peticion = Peticion.objects.get(nombre_institucion = request.GET['nombre_institucion'])
             args['msj'] = 'Ya existe una INSTITUCION con este nombre'
             args['esAlerta'] = 1
             return render_to_response('respuesta_Solicitud_Institucion.html', args)
@@ -175,7 +175,7 @@ def registrarSolicitud(request):
             usuario = Perfil.objects.get(id=request.session['id_usuario'])
             peticion = Peticion()
             peticion.codigo = '000000'
-            peticion.nombre_institucion = request.POST['nombre_institucion']
+            peticion.nombre_institucion = request.GET['nombre_institucion']
             peticion.usado = 0
             peticion.fk_usuario = usuario
             peticion.save()
@@ -183,7 +183,10 @@ def registrarSolicitud(request):
             args['msj'] = 'Se ha enviado su solicitud con exito!'
 
         return render_to_response('respuesta_Solicitud_Institucion.html', args)
-
+    else:
+        args['msj'] = 'Rrror en la transaccion'
+        args['esAlerta'] = 1
+        return render_to_response('respuesta_Solicitud_Institucion.html', args)
 
 """
 Autor: Pedro Iniguez
@@ -219,7 +222,7 @@ Nombre de funcion: verPeticiones
 Entrada: request POST
 Salida: las peticiones de codigo 000000
 """
-
+"""
 @login_required
 def verPeticiones(request):
     try:
@@ -230,7 +233,7 @@ def verPeticiones(request):
     except:
         return HttpResponseRedirect('/NotFound')
 
-
+"""
 """
 Autor: Pedro Iniguez
 Nombre de funcion: aceptarPeticiones
@@ -403,7 +406,7 @@ def registro_usuario(request):
                     return HttpResponseRedirect('/iniciarSesion')
 
             except Exception as e:
-                #print e.getMessage()
+                print e
                 args = {}
                 mensaje = "No se pudo crear el usuario. Esto pudo deberse a un problema de conexión o a que ingresó datos no válidos"
                 args.update(csrf(request))
@@ -448,6 +451,8 @@ Descripción: permite el login de un usuario registrado
 #usar palabras en español
 def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
     if request.user.is_authenticated():
+        if request.user.username=="adminreinet":
+            return HttpResponseRedirect('/gestionarUsuarios')
         return HttpResponseRedirect('/inicioUsuario/')
     else:
         if request.method == 'POST':
@@ -470,6 +475,9 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
 
                     if user.privacidad<10000 :
                         auth.login(request, usuario)
+                        if usuario.username=="adminreinet":
+                            request.session['es_admin'] = False
+                            return HttpResponseRedirect('/gestionarUsuarios')
                         return HttpResponseRedirect('/inicioUsuario')
                     else:
                         args.update(csrf(request))
@@ -1096,7 +1104,7 @@ Descripción:
 """
 
 @login_required
-def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la funcion
+def verCualquierUsuario(request, username):  
     usuario = Perfil.objects.get(id=request.session['id_usuario'])
     if username != "":
         try:
@@ -1104,6 +1112,10 @@ def verCualquierUsuario(request, username):  #Error 10, nombre inadecuado de la 
             print perfil.username
             print perfil.first_name
             print perfil.last_name
+            if perfil.estado == 2:
+                return HttpResponseRedirect('/NotFound')
+            if perfil.id_perfil== usuario.id_perfil:
+                return HttpResponseRedirect('/perfilUsuario')
             if username is not None:
                 args = {}
                 args['usuario'] = usuario
@@ -1645,6 +1657,7 @@ def verMensaje(request):
         args['receptor']=receptor
         args['usuario']=usuario
         args['es_admin']=request.session['es_admin']
+        args.update(csrf(request))
         return render_to_response('ver_mensaje.html',args)
     except:
         return HttpResponseRedirect("/BandejaDeEntrada/")

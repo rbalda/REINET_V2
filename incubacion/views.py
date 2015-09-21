@@ -163,17 +163,26 @@ Descripcion: Mostar template editar mi incubacion
 
 
 @login_required
-def admin_ver_incubacion(request):
-    if request.method == 'GET':
-        id_incubacion = request.GET['idIncubacion']
-        incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-        args = {}
-        args['incubacion'] = incubacion
-        convocatorias = Convocatoria.objects.filter(fk_incubacion_id=id_incubacion)
-        args['convocatorias'] = convocatorias
-        args['usuario'] = request.user
-        args['es_admin'] = request.session['es_admin']
-        return render_to_response('admin_ver_incubacion.html', args)
+def admin_ver_incubacion(request,id_incubacion):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    if usuario is not None:
+        #Guardo en la variable de sesion a usuario.
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
+    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+    convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id = id_incubacion).last()
+    incubadas_incubacion = Incubada.objects.all().filter(fk_incubacion_id=id_incubacion)      
+    #if convocatorias_incubacion.fecha_maxima
+
+    args['incubacion'] = incubacion
+    args['convocatorias'] = convocatorias_incubacion
+    args['incubadas_incubacion'] = incubadas_incubacion    
+    return render_to_response('admin_ver_incubacion.html', args)
 
 
 """
@@ -310,8 +319,8 @@ class Autocompletar_Consultor(APIView):
 Autor: Sixto Castro
 Nombre de funcion: GuardarConvocatoria
 Parametros: request
-Salida: Se crea convocatoria exitosamente. Caso contrario se muestra el mensaje de error respectivo
-Descripcion: Funcion para crear convocatoria a la incubacion respectiva
+Salida: pagian ver milestone
+Descripcion: para llamar la pagina ver milestone
 """
 
 @login_required
@@ -320,33 +329,62 @@ def guardar_convocatoria(request):
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
 
-    if args['es_admin']:
-        if request.method == 'GET':
-            fecha_max = request.GET['fecMaxima']
-            id_incubacion = request.GET['idIncubacion']
-            try:
-                convocatoria = Convocatoria()
-                convocatoria.fecha_creacion = datetime.datetime.now()
-                incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-                convocatoria.fk_incubacion = incubacion
-                convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
-                #convocatoria.fecha_maxima = fecha_max
-                if(convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                    args['mensajeAlerta'] = 'Fecha maxima es menor a la actual'
-                else:
-                    convocatoria.save()
-                    convocatorias = Convocatoria.objects.filter(fk_incubacion_id=id_incubacion)
-                    args['convocatorias'] = convocatorias
+    """
+        if args['es_admin']:
+            if request.method == 'GET':
+                fecha_max = request.GET['fecMaxima']
+                id_incubacion = request.GET['idIncubacion']
+                try:
+                    convocatoria = Convocatoria()
+                    convocatoria.fecha_creacion = datetime.datetime.now()
+                    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+                    convocatoria.fk_incubacion = incubacion
+                    convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
+                    #convocatoria.fecha_maxima = fecha_max
+                    if(convocatoria.fecha_maxima < convocatoria.fecha_creacion):
+                        args['mensajeAlerta'] = 'Fecha maxima es menor a la actual'
+                    else:
+                        convocatoria.save()
+                        convocatorias = Convocatoria.objects.all()
+                        args['convocatorias'] = convocatorias
 
-                    args['mensajeError'] = None
-                    args['mensajeAlerta'] = 'Convocatoria Creada con exito'
-            except ValueError:
-                print 'Error con la fecha'
-                args['mensajeError'] = 'La fecha tiene un formato errado. Debe ser (A\xc3\xb1o-Mes-D\xc3\xada)'
-                args['mensajeAlerta'] = 'No se cre\xc3\xb3 Convocatoria'
-                args.update(csrf(request))
-                return render_to_response('admin_ver_incubacion.html', args, context_instance=RequestContext(request))
+                        args['mensajeError'] = None
+                        args['mensajeAlerta'] = 'Convocatoria Creada con exito'
+                except ValueError:
+                    print 'Error con la fecha'
+                    args['mensajeError'] = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
+                    args['mensajeAlerta'] = 'No se creo Convocatoria'
+                    args.update(csrf(request))
+                    return render_to_response('admin_ver_incubacion.html', args, context_instance=RequestContext(request))
 
-        return render_to_response('admin_ver_incubacion.html', args)
+            return render_to_response('admin_ver_incubacion.html', args)
+        else:
+            return HttpResponseRedirect('InicioIncubaciones')
+    """
+    return render_to_response('admin_ver_incubacion.html', args)
+"""
+Autor: Henry Lasso
+Nombre de funcion: usuario_ver_incubacion
+Parametros: request
+Salida: 
+Descripcion: Mostar template ver mi incubacion
+"""
+
+
+@login_required
+def usuario_ver_incubacion(request,id_incubacion):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    if usuario is not None:
+        #Guardo en la variable de sesion a usuario.
+        args['usuario'] = usuario
     else:
-        return HttpResponseRedirect('InicioIncubaciones')
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
+    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+    
+    args['incubacion'] = incubacion
+    return render_to_response('usuario_ver_incubacion.html', args)
+

@@ -49,13 +49,45 @@ appincubacion.factory('Incubacion',['$resource',function($resource){
     })
 }]);
 
+// directiva para validar fecha de incubacion
+appincubacion.directive('validarFecha',function($http){
+    return{
+        require: 'ngModel', //tipo de target de directiva
+        link: function(scope,elem,attr,ctrl){ //funcion que hace el link con la directiva -siempre es igual
 
+            scope.$watch(attr.ngModel, function(value){
+                var fecha = new Date(value);
+                var fecha_actual = new Date();
 
+                if ( value != undefined){ // que exista fecha en input
 
+                    // fecha menor o igual a hoy, validez del form falso y mostramos mensaje
+                    if(fecha < fecha_actual && !compararFechas(fecha,fecha_actual)){
+                        scope.fecha_incorrecta = true;
+                        ctrl.$setValidity('validarFecha',false);
 
+                    // fecha correcta, validez del form true y no mostramos mensaje
+                    }else{
+                        ctrl.$setValidity('validarFecha',true);
+                        scope.fecha_incorrecta = false;
+                    };
+                };
 
+            });
 
+            // funcion para determinar si son fechas iguales
+            function compararFechas(fecha1,fecha2){
+                if(fecha1.getFullYear() == fecha2.getFullYear()){
+                    if(fecha1.getMonth() == fecha2.getMonth()){
+                        if(fecha1.getDate() == fecha2.getDate()){
+                            return true;
+                        };
+                    };
+                };
+                return false;
+            };
 
-
-
+        }
+    }
+});
 
