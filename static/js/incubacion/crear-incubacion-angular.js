@@ -62,7 +62,7 @@ appincubacion.directive('validarFecha',function($http){
                 if ( value != undefined){ // que exista fecha en input
 
                     // fecha menor o igual a hoy, validez del form falso y mostramos mensaje
-                    if(fecha < fecha_actual){
+                    if(fecha < fecha_actual && !compararFechas(fecha,fecha_actual)){
                         scope.fecha_incorrecta = true;
                         ctrl.$setValidity('validarFecha',false);
 
@@ -74,15 +74,20 @@ appincubacion.directive('validarFecha',function($http){
                 };
 
             });
+
+            // funcion para determinar si son fechas iguales
+            function compararFechas(fecha1,fecha2){
+                if(fecha1.getFullYear() == fecha2.getFullYear()){
+                    if(fecha1.getMonth() == fecha2.getMonth()){
+                        if(fecha1.getDate() == fecha2.getDate()){
+                            return true;
+                        };
+                    };
+                };
+                return false;
+            };
+
         }
     }
 });
-
-
-
-
-
-
-
-
 
