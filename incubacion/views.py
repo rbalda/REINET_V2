@@ -113,6 +113,30 @@ def crear_incubacion(request):
 
 
 """
+Autor: Jose Velez
+Nombre de funcion: invitar_consultor
+Parametros: request
+Salida: Muetra al usuario que desea invitar como consultor
+Descripcion: En esta funcion mostrara los usuario que pueden ser consultor
+"""
+@login_required
+def invitar_consultor(request):
+    if request.is_ajax():
+
+        q = request.GET.get( 'q' )
+        usuario = q.split('-')
+        print "Consultor: ",usuario[1]
+        if q is not None:
+            invitarConsultor = Perfil.objects.all()
+
+            args['resultadosInvitarConsultores'] = invitarConsultor
+            args.update(csrf(request))
+
+            return render( request,'admin_invitar_consultor.html',args)
+        else:
+            print "No entro a consultor"
+
+"""
 Autor: Henry Lasso
 Nombre de funcion: Editar_Incubacion
 Parametros: request
