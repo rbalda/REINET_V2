@@ -145,7 +145,7 @@ def admin_ver_incubacion(request):
         incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
         args = {}
         args['incubacion'] = incubacion
-        convocatorias = Convocatoria.objects.all()
+        convocatorias = Convocatoria.objects.filter(fk_incubacion_id=id_incubacion)
         args['convocatorias'] = convocatorias
         args['usuario'] = request.user
         args['es_admin'] = request.session['es_admin']
@@ -305,7 +305,7 @@ def guardar_convocatoria(request):
                     args['mensajeAlerta'] = 'Fecha maxima es menor a la actual'
                 else:
                     convocatoria.save()
-                    convocatorias = Convocatoria.objects.all()
+                    convocatorias = Convocatoria.objects.filter(fk_incubacion_id=id_incubacion)
                     args['convocatorias'] = convocatorias
 
                     args['mensajeError'] = None
