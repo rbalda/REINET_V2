@@ -97,7 +97,11 @@
                               <div class="media">
                                 <div class="media-body">
 
-                                  <h3><a href="/AdminIncubacion?idIncubacion={{incubacion.id_incubacion}}">{{ incubacion.nombre }}</a></h3>
+<<<<<<< HEAD
+                                  <h3><a href="/AdminIncubacion/{{incubacion.id_incubacion}}">{{ incubacion.nombre }}</a></h3>
+=======
+                                  <h3><a href="/AdminIncubacion?idIncubacion=1">Nombre de la incubaci&oacute;n</a></h3><!-- Debe enviarse el idIncubacion correspondiente-->
+>>>>>>> 18ebd2860c050873b2fac645c5a113dcc99d824a
                                   
                                   <ul class="text-muted list-inline">
                                     <li><i class="fa fa-calendar"></i> <a href="#">{{ incubacion.fecha_inicio }}</a></li>
