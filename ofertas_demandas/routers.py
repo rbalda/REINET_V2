@@ -7,6 +7,7 @@ from ofertas_demandas.api_views import DemandaViewSet
 from ofertas_demandas.api_views import MisDemandasViewSet
 from ofertas_demandas.api_views import MisDemandasBorradoresViewSet
 from ofertas_demandas.api_views import misDemandasAllViewSet
+from ofertas_demandas.api_views import AlcanceViewSet
 
 __author__ = 'rbalda'
 
@@ -24,6 +25,8 @@ router.register(r'api/demandas',DemandaViewSet)
 router.register(r'api/misDemandas',MisDemandasViewSet)
 router.register(r'api/misDemandasBorradores', MisDemandasBorradoresViewSet)
 router.register(r'api/misDemandasAll',misDemandasAllViewSet)
+
+router.register(r'api/alcance',AlcanceViewSet)
 
 ofertas_routers = router.urls
 

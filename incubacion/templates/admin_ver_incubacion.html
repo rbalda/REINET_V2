@@ -22,12 +22,19 @@
 
     <div class="container">
     	<div class="col-sm-12 col-xs-12" style="padding:0">
-    		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">Nombre de la Incubación</h3></div>
+    		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
     		<div class="col-sm-6">
     			
   				<a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
   				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
-  			</div>  			
+                {% if mensajeAlerta %}
+                    <br><br>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeAlerta }}</p></strong>
+                    </div>
+                {% endif %}
+            </div>
   		</div>
   		<div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
@@ -70,14 +77,21 @@
 				    <div class="panel-body" style="padding-bottom: 5px;">
 				    	<h4 class="hl" style=" font-weight: bold"><bold> Convocatoria Actual de ofertas</bold></h4>
 	            		<table class="table " style="margin-bottom: 0px;">
+                            <thead>
+                            <tr>
+                                <th class="text-muted">#</th>
+                                <th class="text-muted">Alcance</th>
+                                <th class="text-muted">Fecha Máxima</th>
+                            </tr>
+                            </thead>
 	            			<tbody>
-                                <tr>
-                                	<td class="text-muted">Fecha Máxima</td>
-                                    <td style="text-align:left"> 20/02/2016</td>
-                                </tr>
-                                    <tr><td class="text-muted">Alcance</td>
-                                    <td style="text-align:left">TODOS</td>
-                                </tr>
+                                {% for conv in convocatorias %}
+                                    <tr>
+                                        <td style="text-align:left">{{ conv.id_convocatoria_ofertas }}</td>
+                                        <td style="text-align:left">Todos</td>
+                                        <td style="text-align:left">{{ conv.fecha_maxima }}</td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
 		            </div>
@@ -276,30 +290,30 @@
                 <div class="modal-body">
                     <div class="comment" id="Comentario">
                           <div class="media">
-                            <form  class="form-horizontal col-md-12"  name="formMilestone"> 
-                                <div class="form-group">
-                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Alcance</label>
-                                  <div class="col-md-7">
-                                       <select name="alcance" style="resize:none" class="form-control">
-                                         <option value="Local" selected="selected">Local</option>
-                                         <option value="Algunas Instituciones">Algunas Instituciones</option>
-                                         <option value="Global">Global</option>
-                                      </select>
-                                  </div>
-                                  <br>
-                                </div>
-
+                            <form action="/GuardarConvocatoria/" method="get" name="guardar_convocatoria_form"
+                                    role="form" enctype="multipart/form-data">
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha Maxima</label>
                                   <div class="col-md-7">
+                                       <input type="hidden" name="idIncubacion" value="{{ incubacion.id_incubacion }}">
                                        <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
                                   </div>
-                                  <br>
-                                </div>
+                                  <br> <br>
+                                  <div class="alert alert-info alert-dismissible" role="alert">
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> Formato de fecha debe ser (A&ntilde;o-Mes-D&iacute;a)</p></strong>
+                                    </div>
+                                    {% if mensajeError %}
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                          <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeError }}</p></strong>
+                                        </div>
+                                    {% endif %}
+                                </div><br>
                                 <div class="form-group">
                                     <div align="right">
                                       <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                                      <button href="#" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
+                                      <button type="submit" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
                                     </div>                                                  
                                 </div>
                             </form>   

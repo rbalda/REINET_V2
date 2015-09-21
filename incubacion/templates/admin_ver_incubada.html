@@ -31,6 +31,12 @@
 
 
     <div class="container">
+
+    
+
+
+
+
 	    <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
 	        <div class="col-md-8" style=" padding-top: 20px;margin-bottom: 15px; border:1px solid #ddd">
 	        	<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;" align="left">
@@ -55,66 +61,45 @@
 				    				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				    				<h4 class="modal-title">Invitar Consultores</h4>
 				    			</div>
-				    			<div class="modal-body" style="font-size:14px">
-				                    	<div class="comment" id="Comentario">
-	                                      	<div class="media">
-					                        	<form class="form-horizontal col-md-12">
-					                        		{% csrf_token %}
-					                        		<div class="form-group col-md-10">
-					                        			<input type="text" class="form-control" id="consultor" name="consultor"
-							                                placeholder="Buscar a consultor" value="{{ msj.fk_emisor }}" maxlength="50"  required>
-							                        </div>
-					                        		<div class="form-group ">
-					                        			<div align="right">
-									                		<button href="#" class="btn btn-dark"><i class="fa"></i>&nbsp;&nbsp;Invitar&nbsp;&nbsp;</button>
-									                	</div>
-						                            </div>
-						                           
-						                            <div class="form-group" style="overflow-y:auto; height:250px;margin-left: 0px;">
-						                            	<div align="left" class="media" style="margin-bottom: 1px solid gray">
-											                <a align="left" class="pull-left" href="#">
-											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
-											                </a>
-											                <div class="media-body">
-											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
-											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
-											                </div>
-											            </div>
-											            <div align="left" class="media" style="margin-bottom: 1px solid gray">
-											                <a align="left" class="pull-left" href="#">
-											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
-											                </a>
-											                <div class="media-body">
-											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
-											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
-											                </div>
-											            </div>
-											            <div align="left" class="media" style="margin-bottom: 1px solid gray">
-											                <a align="left" class="pull-left" href="#">
-											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
-											                </a>
-											                <div class="media-body">
-											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
-											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
-											                </div>
-											            </div><div align="left" class="media" style="margin-bottom: 1px solid gray">
-											                <a align="left" class="pull-left" href="#">
-											                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
-											                </a>
-											                <div class="media-body">
-											                  <a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
-											                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
-											                </div>
-											            </div>
-						                            </div>
-						                            <div class="form-group">
-									                	<div align="right">
-									                		<button href="#" class="btn btn-red"><i class="fa"></i>&nbsp;&nbsp;Enviar Invitaciones&nbsp;&nbsp;</button>
-									                	</div>
-									                </div>
-						                        </form>
-						                    </div>
+				    			<div class="modal-body media" style="font-size:14px">
+				    				<form id="formulario" name="formulario" class="form-horizontal col-md-12">
+				    					{% csrf_token %}
+						                <div class="form-group col-md-10">
+						                    <input type="text" class="form-control" id="destinatario_txt" name="destinatario_txt"
+						                           placeholder="Buscar consultor" maxlength="50" required>
+
+						                    <input type="text" id="destinatario" name="destinatario" hidden="True" z-index="500" class="text">
+
 						                </div>
+
+						                <div class="alert alert-danger" role="alert" hidden="True" id="divAlertaUsuario">
+						                  <strong class="mensaje_error"></strong>
+						                </div>
+						                <div class="form-group ">
+									    	<div align="right">
+									    		<button href="#" class="btn btn-dark"><i class="fa"></i>&nbsp;&nbsp;Invitar&nbsp;&nbsp;</button>
+									    	</div>
+									    </div>
+									    
+									    <div class="form-group" style="overflow-y:auto; height:200px;margin-left: 0px;">
+									    	<div align="left" class="media" style="margin-bottom: 1px solid gray">
+									    		<a align="left" class="pull-left" href="#">
+									    			<img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+									    		</a>
+									    		<div class="media-body">
+									    			<a class="col-md-10 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
+									    			<a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>
+									    		</div>
+									    	</div>
+									    </div>
+									    <div class="form-group">
+									   		<div align="right">
+									   			<button href="#" class="btn btn-red"><i class="fa"></i>&nbsp;&nbsp;Enviar Invitaciones&nbsp;&nbsp;</button>
+									   		</div>
+									   	</div>
+									   	
+						                </br>
+									</form>
 						        </div>
 				        	</div>
 				        </div>
@@ -431,7 +416,7 @@
 			                    </div>
 			                </div>
 			            
-			                <div class="panel-body" style=" overflow-y: scroll; height:400px">
+			                <div class="panel-body" style=" overflow-y: scroll; height:300px">
 			                	<div class="media">
 					                <a class="pull-left" href="#">
 					                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
@@ -459,19 +444,30 @@
 					                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
 					                </p></div>
 					            </div>
+					             <div class="media">
+					                <a class="pull-left" href="#">
+					                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+					                </a>
+					                <div class="media-body">
+					                  <a href="#">Alex Smith hooola tengo un nombre de bastantes letras</a>
+					                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
+					                </p></div>
+					            </div>
+
+					            <!--
 					            <hr>
 					            <h4>Invitaciones pendientes</h4>
 					            <hr>
 
 
-					            <!--SI NO HAY NINGGUNA INVITACION PENDIENTE DE ACEPTAR SE PONE LO SIGUIENTE-->
+					            SI NO HAY NINGGUNA INVITACION PENDIENTE DE ACEPTAR SE PONE LO SIGUIENTE
 					            <div class="alert alert-success alert-dismissible" role="alert">
 								  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 								  No hay invitaciones pendientes
 								</div>
 
 
-					            <!--COMIENZAN LAS INVITACIONES PENDIENTES-->
+					            <!--COMIENZAN LAS INVITACIONES PENDIENTES
 					            <div class="media">
 					                <a class="pull-left" href="#">
 					                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
@@ -490,6 +486,7 @@
 					                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar </a>				                  
 					                </div>
 					            </div>
+					            -->
 			                </div>  
 			            </div>
 		            <!-- TERMINA Panel de los consultores -->
@@ -620,6 +617,9 @@
        editor_selector : "tinymce",
       }) 
     </script>
+
+    
+
 	
 
 {% endblock%}

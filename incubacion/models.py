@@ -9,13 +9,14 @@ from ofertas_demandas.models import Oferta,DiagramaPorter,DiagramaBusinessCanvas
 class Incubacion(models.Model):
 	id_incubacion=models.AutoField(primary_key=True)
 	nombre=models.CharField(max_length=300)
-	fecha_inicio = models.DateTimeField(auto_now_add=True)
+	fecha_inicio = models.DateTimeField()
 	descripcion = models.TextField()
 	perfil_oferta = models.TextField()
 	condiciones = models.TextField()
 	tipos_oferta = models.PositiveSmallIntegerField()
 	otros = models.TextField(null=True,blank=True)
-
+	estado_incubacion = models.PositiveSmallIntegerField(default=0)#activa=0,terminada=1,desactivada=2
+	fk_perfil = models.ForeignKey(Perfil)
 	class Meta:
 		db_table = 'Incubacion'
 
@@ -23,6 +24,7 @@ class Incubacion(models.Model):
 class Consultor(models.Model):
 	id_consultor = models.AutoField(primary_key=True)
 	fk_usuario_consultor = models.ForeignKey(Perfil)
+	fecha_creacion = models.DateField(default=datetime.date.today)
 	class Meta:
 		db_table = 'Consultor'
 
@@ -52,18 +54,16 @@ class Incubada(models.Model):
     #comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
     #alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
     fk_incubacion = models.ForeignKey(Incubacion)
-
     consultores=models.ManyToManyField(Consultor,through='IncubadaConsultor',through_fields=('fk_incubada','fk_consultor'),related_name='consultores')
     class Meta:
         db_table = 'Incubada'
-
-
 
 
 class IncubadaConsultor(models.Model):
 	id_incubadaConsultor = models.AutoField(primary_key=True)
 	fk_consultor = models.ForeignKey(Consultor)
 	fk_incubada = models.ForeignKey(Incubada)
+	fecha_creacion = models.DateField(default=datetime.date.today)
 	class Meta:
 		db_table = 'IncubadaConsultor'
 
@@ -95,6 +95,8 @@ class Convocatoria(models.Model):
 	fecha_creacion= models.DateTimeField(auto_now_add=True)
 	fecha_maxima= models.DateTimeField()
 	solicitudes=models.ManyToManyField(Oferta,through='SolicitudOfertasConvocatoria',through_fields=('fk_convocatoria','fk_oferta'),related_name='solicitudes_Ofertas')
+	otros = models.TextField(null=True,blank=True)
+	fk_incubacion = models.ForeignKey(Incubacion)
 	class Meta:
 		db_table = 'Convocatoria'
 
@@ -103,5 +105,6 @@ class SolicitudOfertasConvocatoria(models.Model):
 	estado_solicitud=models.PositiveSmallIntegerField() #Pendiente=0,Aprobada=1,Rechazada=2
 	fk_convocatoria=models.ForeignKey(Convocatoria)
 	fk_oferta=models.ForeignKey(Oferta)
+	fecha_creacion= models.DateTimeField(auto_now_add=True)
 	class Meta:
 		db_table='SolicitudOfertasConvocatoria'
