@@ -352,6 +352,7 @@ def usuario_ver_incubacion(request,id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
+    args['es_admin']=request.session['es_admin']
     if usuario is not None:
         #Guardo en la variable de sesion a usuario.
         args['usuario'] = usuario
