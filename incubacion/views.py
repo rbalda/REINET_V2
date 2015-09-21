@@ -173,10 +173,13 @@ def admin_ver_incubada(request,id_incubada):
 
     try:#Si encuentra la oferta y la membresia
         incubada = Incubada.objects.get(id_incubada = id_incubada)
-        print 'El nombre de la oferta es:'
-        print incubada.nombre
-
+        args['incubada'] = incubada
         if incubada is not None:
+            listConsultores = IncubadaConsultor.objects.filter(fk_incubada=id_incubada)
+            for c in listConsultores:
+                print "LAAAAAAAAAAAAAALAAA"
+                print c.fk_consultor.fk_usuario_consultor.id
+
             return render_to_response('admin_ver_incubada.html', args)
     #si la oferta no existe redirige a un mensaje de error
     except Incubada.DoesNotExist:
@@ -278,22 +281,6 @@ class Autocompletar_Consultor(APIView):
         return response
 
 
-
-##
-# Handle 404 Errors
-# @param request WSGIRequest list with all HTTP Request
-def error404(request):
-    # 1. Load models for this view
-    #from idgsupply.models import My404Method
-
-    # 2. Generate Content for this view
-    template = loader.get_template('404.html')
-    context = Context({
-        'message': 'All: %s' % request,
-        })
-
-    # 3. Return Template for this view + Data
-    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
 
 
 """

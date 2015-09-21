@@ -839,6 +839,8 @@ def lista_comentarios_aceptados(request):
 	if request.is_ajax():
 		args={}
 
+
+
 		try:
 			#Obtiene la oferta de la base de datos, en base a la oferta obtenida del request
 			oferta = Oferta.objects.get(id_oferta=request.GET['oferta'])

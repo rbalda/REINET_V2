@@ -25,6 +25,7 @@ class Incubacion(models.Model):
 class Consultor(models.Model):
 	id_consultor = models.AutoField(primary_key=True)
 	fk_usuario_consultor = models.ForeignKey(Perfil)
+	fecha_creacion = models.DateField(default=datetime.date.today)
 	class Meta:
 		db_table = 'Consultor'
 
@@ -64,6 +65,7 @@ class IncubadaConsultor(models.Model):
 	id_incubadaConsultor = models.AutoField(primary_key=True)
 	fk_consultor = models.ForeignKey(Consultor)
 	fk_incubada = models.ForeignKey(Incubada)
+	fecha_creacion = models.DateField(default=datetime.date.today)
 	class Meta:
 		db_table = 'IncubadaConsultor'
 

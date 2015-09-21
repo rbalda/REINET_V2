@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from django.conf import settings
 from django.conf.urls.static import static
 from incubacion import routers
-from django.conf.urls import handler404, handler500
+
 
 
 urlpatterns = patterns('',
@@ -22,12 +22,9 @@ urlpatterns = patterns('',
      url(r'^ConsultorIncubada[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
      url(r'^Incubada[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
-
      url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view(),name='AutocompletarConsultor'),
-
 
 )
 
-handler404 = incubacion.views.error404
 
 urlpatterns += routers.incubacion_routers
