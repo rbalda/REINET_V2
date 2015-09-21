@@ -476,6 +476,7 @@ def iniciarSesion(request): #Error 10, nombre inadecuado de la funcion
                     if user.privacidad<10000 :
                         auth.login(request, usuario)
                         if usuario.username=="adminreinet":
+                            request.session['es_admin'] = False
                             return HttpResponseRedirect('/gestionarUsuarios')
                         return HttpResponseRedirect('/inicioUsuario')
                     else:
