@@ -26,8 +26,13 @@
     		<div class="col-sm-6">
     			
   				<a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
-  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
-                {% if mensajeAlerta %}
+
+          {% if convocatorias == "No hay Convocatoria" %}
+            <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
+          {% else %}
+            <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria" disabled="true"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
+          {%endif%}
+                  {% if mensajeAlerta %}
                     <br><br>
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
