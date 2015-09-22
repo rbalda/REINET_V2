@@ -44,14 +44,13 @@
   		<div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
 					<li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio }}</li>
-					<li><i class="fa fa-eye"></i> TODOS</li>
   				</ul>
     	</div>
 
 
     	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
     		<div align="right">
-    			<a href="#" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>&nbsp;Editar</a>
+    			<a href="/EditarMiIncubacion/{{incubacion.id_incubacion}}" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>&nbsp;Editar</a>
     		</div>
     		
 			<div class="col-sm-12">
@@ -92,19 +91,17 @@
                   <table class="table " style="margin-bottom: 0px;">
                     <thead>
                       <tr>
-                        <th class="text-muted">Alcance</th>
                         <th class="text-muted">Disponible Hasta</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="text-align:left">Todos</td>
                         <td style="text-align:left">{{ convocatorias.fecha_maxima }}</td>
                       </tr>
                     </tbody>
                   </table>
                 {% else %}
-                <div class="info-board info-board-blue"> No hay una convocatoria disponible</div>
+                <div class="info-board info-board-red"> Esta incubación no tiene una convocatoria abierta </div>
                 {%endif%}
 		        </div>
 			    </div>
