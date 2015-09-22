@@ -32,7 +32,7 @@
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio }}</li>
+					<li><i class="fa fa-calendar"></i> {{ fecha_creacion }}</li>
 					<li>ESTADO: </i>
             {% if incubacion.estado_incubacion == 0 %}
               ACTIVA
@@ -90,7 +90,7 @@
                   <table class="table " style="margin-bottom: 0px;">
                     <thead>
                       <tr>
-                        <th class="text-muted">Disponible Hasta</th>
+                        <th class="text-muted">Abierta Hasta</th>
                       </tr>
                     </thead>
                     <tbody>

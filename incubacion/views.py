@@ -180,10 +180,7 @@ def admin_ver_incubacion(request,id_incubacion):
     incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
     convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id = id_incubacion).last()
     incubadas_incubacion = Incubada.objects.all().filter(fk_incubacion_id=id_incubacion)      
-    #if convocatorias_incubacion.fecha_maxima
-
-#   hoy = datetime.datetime.now()
-#   fecha_maxima=incubacion.fecha_maxima
+    fecha_creacion= incubacion.fecha_inicio.strftime(' %d/%m/ %Y')
     if convocatorias_incubacion is not None:
         hoy = datetime.datetime.now(timezone.utc)
         print hoy
@@ -197,7 +194,9 @@ def admin_ver_incubacion(request,id_incubacion):
 
     else:        
         args['convocatorias'] = "No hay Convocatoria"         
+    
     args['incubacion'] = incubacion
+    args['fecha_creacion'] = fecha_creacion
     args['incubadas_incubacion'] = incubadas_incubacion    
     return render_to_response('admin_ver_incubacion.html', args)
 
@@ -455,6 +454,7 @@ def usuario_ver_incubacion(request,id_incubacion):
     convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id = id_incubacion).last()
     incubadas_incubacion = Incubada.objects.all().filter(fk_incubacion_id=id_incubacion)      
 
+    fecha_creacion= incubacion.fecha_inicio.strftime('%d de %b del %Y')
     if convocatorias_incubacion is not None:
         hoy = datetime.datetime.now(timezone.utc)
         print hoy
@@ -470,5 +470,6 @@ def usuario_ver_incubacion(request,id_incubacion):
         args['convocatorias'] = "No hay Convocatoria"         
     args['incubacion'] = incubacion
     args['incubadas_incubacion'] = incubadas_incubacion    
+    args['fecha_creacion'] = fecha_creacion
     return render_to_response('usuario_ver_incubacion.html', args)
 
