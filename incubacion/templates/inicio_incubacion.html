@@ -103,7 +103,7 @@
                                     <div class="media-body">
                                           <h3><a href="/VerIncubacion/{{ incubacion.id_incubacion }}">{{ incubacion.nombre }}</a></h3>
                                           <ul class="text-muted list-inline">
-                                            <li><i class="fa fa-calendar"></i>{{ incubacion.fecha_inicio }}</li>
+                                            <li><i class="fa fa-calendar"></i> Fecha de Inicio: {{ incubacion.fecha_inicio }}</li>
                                             <li><i class="fa fa-user"></i> Dueño: {{ incubacion.fk_perfil.username }}</li>
                                           </ul>
                                           <ul class="text-muted list-inline">
@@ -129,25 +129,27 @@
                     
                     {% if consultores %}
                            {% for incubada in consultores %}
-                        <div class="comment" style="border-bottom: none!important;">        
-                            <div class="media">
-                                <div class="media-body">
-                                  <h3><a href="/verIncubada/{{incubada.0.id_incubada}}">{{ incubada.0.nombre }}</a></h3>
-                                  <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-calendar"></i> Fecha De Creación: {{ incubada.0.fecha_creacion }}</li>
-                                    <li><i class="fa fa-user"></i> Dueño: {{ incubada.0.fk_incubacion.fk_perfil.username}} </li>
-                                  </ul>
-                                  <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-cogs"></i> Dominio: {{ incubada.0.dominio}}</li>
-                                    <li><i class="fa fa-cog"></i> Subdominio: {{ incubada.0.subdominio }}</li>
-                                  </ul>
-                                  <ul class="text-muted list-inline">
-                                    <li><i class="fa fa-bars"></i> Numero de milestones: {{ incubada.1 }}</li>
-                                    <li><i class="fa fa-users"></i> Numero de consultores: {{ incubada.2}}</li>
-                                  </ul>                              
-                                </div>            
-                            </div>
-                        </div>          
+                            <div class="comment" style="border-bottom: none!important;">        
+                                <div class="media">
+                                    <div class="media-body">
+                                        {% for ic in incubada.0 %}
+                                            <h3><a href="/verIncubada/{{ic.id_incubada}}">{{ ic.nombre }}</a></h3>
+                                            <ul class="text-muted list-inline">
+                                                <li><i class="fa fa-calendar"></i> Fecha De Creación: {{ ic.fecha_creacion }}</li>
+                                                <li><i class="fa fa-user"></i> Dueño: {{ ic.fk_incubacion.fk_perfil.username}} </li>
+                                            </ul>
+                                            <ul class="text-muted list-inline">
+                                                <li><i class="fa fa-cogs"></i> Dominio: {{ ic.dominio}}</li>
+                                                <li><i class="fa fa-cog"></i> Subdominio: {{ ic.subdominio }}</li>
+                                            </ul>
+                                        {% endfor %}
+                                            <ul class="text-muted list-inline">
+                                                <li><i class="fa fa-bars"></i> Numero de milestones: {{ incubada.1 }}</li>
+                                                <li><i class="fa fa-users"></i> Numero de consultores: {{ incubada.2}}</li>
+                                            </ul>                              
+                                    </div>            
+                                </div>
+                            </div>          
                         {% endfor %}
                         <div id='page_navigation_incubacionesConsultor' data-page="incubacionesConsultor" class="about-btn"></div>
                     {% else %}
