@@ -69,6 +69,8 @@ def inicio_incubacion(request):
                 milestones = len(Milestone.objects.filter(fk_incubada = incubada))
                 consultores = len(IncubadaConsultor.objects.filter(fk_incubada = incubada))
                 incubadas.append((incubada, milestones, consultores))
+                print 'bsc'
+                print incubadas
         args['consultores'] = incubadas
     else:
 		args['consultores'] = None
