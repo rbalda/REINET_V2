@@ -50,14 +50,12 @@ class Incubada(models.Model):
     #equipo = models.ManyToManyField(Perfil,through='MiembroEquipo',through_fields=('fk_oferta_en_que_participa','fk_participante'),related_name='participa_en')
     equipo = models.ForeignKey(MiembroEquipo)
     palabras_clave = models.ManyToManyField(PalabraClave,related_name='incubada_con_esta_palabra')
-    
     #comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
     #alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
     fk_incubacion = models.ForeignKey(Incubacion)
     consultores=models.ManyToManyField(Consultor,through='IncubadaConsultor',through_fields=('fk_incubada','fk_consultor'),related_name='consultores')
     class Meta:
         db_table = 'Incubada'
-
 
 class IncubadaConsultor(models.Model):
 	id_incubadaConsultor = models.AutoField(primary_key=True)

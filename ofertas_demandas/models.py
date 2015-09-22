@@ -126,7 +126,6 @@ class MiembroEquipo(models.Model):
     fecha_aceptacion = models.DateTimeField(null=True,blank=True)
     comentario_peticion = models.TextField(null=True,blank=True)
     #0 = pendiente    1 = aceptada  -1 = rechazada
-
     class Meta:
         db_table='EquipoDeOferta'
 
@@ -145,7 +144,6 @@ class ImagenDemanda(models.Model):
     imagen = models.ImageField(upload_to=definir_ruta_imagen_demanda)
     descripcion = models.TextField()
     fk_demanda = models.ForeignKey(Demanda,related_name='galeria')
-
     class Meta:
         db_table='ImagenDemanda'
 

@@ -32,27 +32,23 @@
 
     <div class="container">
 
-    
-
-
-
-
+   
 	    <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
 	        <div class="col-md-8" style=" padding-top: 20px;margin-bottom: 15px; border:1px solid #ddd">
 	        	<div class="col-md-12" style="padding-left: 0px;padding-right: 0px;" align="left">
 			        <div class="col-md-5">
-			            <h4>Nombre de la oferta</h4>
-			            <ul class="text-muted list-inline">
-			                <li><i class="fa fa-user"></i> <a href="profile.html">Administrator</a></li>
-			                <li><i class="fa fa-calendar"></i> November 10, 2013</li>
-			            </ul>
-			            
+			            <h4>{{incubada.nombre}}</h4>			            
 			        </div>
 			        <div class="col-md-7" align=right>
 			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultores</a>
 			            <a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
 			        </div> 
-
+			        <div class="col-md-12" align=left>
+				        <ul class="text-muted list-inline">
+			                <li><i class="fa fa-user"></i> <a href="/usuario/{{propietario.fk_participante.username}}">{{propietario.fk_participante.first_name}} {{propietario.fk_participante.last_name}}</a></li>
+			                <li><i class="fa fa-calendar"></i> {{incubada.fecha_publicacion.date}}</li>
+				        </ul>
+			        </div>
 			        <!-- comienza MODAL Invitar Consultor -->
 				    <div id="modalInvitarConsultor" class="modal fade" role="dialog">
 				    	<div class="modal-dialog" style="width: 40% !important;">
@@ -404,100 +400,14 @@
 	        </div>      
 
 	        <div class="col-md-4 col-sm-12" style="padding-right: 0px;">
-		        <div class="col-md-12 col-sm-6" style="padding-right: 0px;">
-			       <!-- COMIENZA  Panel de los consultores -->
-			            <div class="panel panel-dark">
-			                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
-			                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-			                        <div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
-			                            <h4 style="margin-top: 6px;">Consultores</h4>
-			                         </div>
-			                        
-			                    </div>
-			                </div>
-			            
-			                <div class="panel-body" style=" overflow-y: scroll; height:300px">
-			                	<div class="media">
-					                <a class="pull-left" href="#">
-					                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
-					                </a>
-					                <div class="media-body">
-					                  <a href="#">Alex Smith de Naranjito</a>
-					                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
-					                </p></div>
-					            </div>
-					            <div class="media">
-					                <a class="pull-left" href="#">
-					                  <img class="media-object" src="/../../media/ofertas-demandas/face2.jpg" alt="Blog Message">
-					                </a>
-					                <div class="media-body">
-					                  <a href="#">Alex Smith Jaramillo de los Jaramillos</a>
-					                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
-					                </p></div>
-					            </div>
-					             <div class="media">
-					                <a class="pull-left" href="#">
-					                  <img class="media-object" src="/../../media/ofertas-demandas/face3.jpg" alt="Blog Message">
-					                </a>
-					                <div class="media-body">
-					                  <a href="#">Alex Smith hooola tengo un nombre de bastantes letras</a>
-					                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
-					                </p></div>
-					            </div>
-					             <div class="media">
-					                <a class="pull-left" href="#">
-					                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
-					                </a>
-					                <div class="media-body">
-					                  <a href="#">Alex Smith hooola tengo un nombre de bastantes letras</a>
-					                  <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">13/01/2014</span>
-					                </p></div>
-					            </div>
-
-					            <!--
-					            <hr>
-					            <h4>Invitaciones pendientes</h4>
-					            <hr>
-
-
-					            SI NO HAY NINGGUNA INVITACION PENDIENTE DE ACEPTAR SE PONE LO SIGUIENTE
-					            <div class="alert alert-success alert-dismissible" role="alert">
-								  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-								  No hay invitaciones pendientes
-								</div>
-
-
-					            <!--COMIENZAN LAS INVITACIONES PENDIENTES
-					            <div class="media">
-					                <a class="pull-left" href="#">
-					                  <img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
-					                </a>
-					                <div class="media-body">
-					                  <a class="col-md-8 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano</a>
-					                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>				                  
-					                </div>
-					            </div>
-					            <div class="media">
-					                <a class="pull-left" href="#">
-					                  <img class="media-object" src="/../../media/ofertas-demandas/face2.jpg" alt="Blog Message">
-					                </a>
-					                <div class="media-body">
-					                  <a class="col-md-8 col-sm-6 col-xs-6" href="#">Alex Smith mercedes katherine zambrano </a>
-					                  <a class="btn btn-default btn-xs" style="padding:4px">Cancelar </a>				                  
-					                </div>
-					            </div>
-					            -->
-			                </div>  
-			            </div>
-		            <!-- TERMINA Panel de los consultores -->
-		        </div>
+		        
 
 		        <div class="col-md-12 col-sm-6" style="padding-right: 0px;">
 
 
 					<!--PANEL DEL MILESTONE ACTUAL-->	 
 
-			            <div class="panel panel-red" style="margin-top:30px">
+			            <div class="panel panel-red" style="margin-top:0px">
 			                		            
 			                <div class="panel-body">
 			                	<div class="media">
@@ -520,12 +430,57 @@
 					              </div>
 			                </div>  
 			            </div>
+		            <!-- TERMINA Panel de Milestone Actual -->
+
+
+
+			       <!-- COMIENZA  Panel de los consultores -->
+			            <div class="panel panel-dark">
+			                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+			                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+			                        <div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
+			                            <h4 style="margin-top: 6px;">Consultores</h4>
+			                         </div>
+			                    </div>
+			                </div>
+			            
+			            	<!--Lo siguiente es el panel donde se mostraran los consultores de una incubada, esto para el administrador debe hacerse por ajax, cada vez que se agregue uno nuevo-->
+			                <div id="divConsultoresInc" class="panel-body" style=" overflow-y: scroll; height:300px">
+
+			                </div>  
+
+			                <script>
+                                $(document).ready(function () {
+                                    $(function () {
+                                        $('#divConsultoresInc').ready(mostrarConsultoresIncubada);
+                                        function mostrarConsultoresIncubada() {
+                                            $.ajax({
+                                                data: {
+                                                    'incubada':{{incubada.id_incubada}}
+                                                },
+                                                type: 'get',
+                                                url: '/AdminConsultores/',
+                                                success: function (data) {
+                                                    $('#divConsultoresInc').html(data)
+                                                }
+                                            });
+
+                                        }
+                                    });
+                                });
+                            </script>
+
+
+			            </div>
 		            <!-- TERMINA Panel de los consultores -->
 
+		            
+		        </div>
 
-		            <!-- COMIENZA  Historial de Milestones -->
+		        <div class="col-md-12 col-sm-6" style="padding-right: 0px;">
+		        	<!-- COMIENZA  Historial de Milestones -->
 		          	<div class="block-header">
-			            <h2 style="margin-bottom: 20px;">
+			            <h2 style="margin-bottom: 20px;margin-top: 20px;">
 			              <span class="title">Historial Milestones</span><span class="decoration"></span><span class="decoration"></span><span class="decoration"></span>
 			            </h2>
 			          </div>
@@ -545,6 +500,9 @@
 			            
 		        	</div>
 		        	<!-- TERMINA Historial de milestones -->
+
+
+
 		        </div>
 	    	</div>
 		</div>

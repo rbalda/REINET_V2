@@ -1,0 +1,20 @@
+{% for consultor in consultores %}
+    
+    <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object" src="{{consultor.fk_consultor.fk_usuario_consultor.foto.url}}" alt="Imagen de usuario">
+        </a>
+        <div class="media-body">
+          <a href="/usuario/{{ consultor.fk_consultor.fk_usuario_consultor.username }}">{{consultor.fk_consultor.fk_usuario_consultor.first_name}} {{consultor.fk_consultor.fk_usuario_consultor.last_name}}</a>
+          <p>Desde&nbsp;:&nbsp;<span style="color:black;font-size: 12px;">{{consultor.fecha_creacion}}</span>
+        </p></div>
+    </div>
+
+    {% empty %}
+    <!-- PRIMER MIEMBRO DEL EQUIPO-->
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        No ha asignado consultores a&uacute;n
+    </div>
+
+{% endfor %}
