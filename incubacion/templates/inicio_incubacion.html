@@ -17,6 +17,11 @@
 
 
 {% block contenido %}
+
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
 <div class="container">
     <div class="row" style="margin-bottom: 25px;">
         
@@ -102,7 +107,7 @@
                 <div class="comment" style="border-bottom: none!important;">        
                     <div class="media">
                         <div class="media-body">
-                              <h3><a href="/verIncubacion/{{ incubacion.id_incubacion }}">{{ incubacion.nombre }}</a></h3>
+                              <h3><a href="/VerIncubacion/{{ incubacion.id_incubacion }}">{{ incubacion.nombre }}</a></h3>
                               <ul class="text-muted list-inline">
                                 <li><i class="fa fa-calendar"></i> <a href="#">{{ incubacion.fecha_inicio }}</a></li>
                                 <li><i class="fa fa-user"></i> Dueño: {{ incubacion.fk_perfil.username }}</li>

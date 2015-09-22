@@ -11,7 +11,10 @@ urlpatterns = patterns('',
      url(r'^InicioIncubacion[/]?$', 'incubacion.views.ver_incubaciones', name='ver_incubaciones'),
      url(r'^CrearIncubacion[/]?$', 'incubacion.views.crear_incubacion', name='crear_incubacion'),
      url(r'^EditarMiIncubacion[/]?$', 'incubacion.views.editar_mi_incubacion',name='editar_incubacion'),
-     url(r'^AdminIncubacion[/]?$', 'incubacion.views.admin_ver_incubacion',name='admin_ver_incubacion'),
+     
+     url(r'^AdminIncubacion/(?P<id_incubacion>\w{0,250})[/]?$', 'incubacion.views.admin_ver_incubacion',name='admin_ver_incubacion'),
+     url(r'^VerIncubacion/(?P<id_incubacion>\w{0,250})[/]?$', 'incubacion.views.usuario_ver_incubacion',name='usuario_ver_incubacion'),
+                       
      url(r'^AdminIncubada[/]?$', 'incubacion.views.admin_ver_incubada', name='admin_ver_incubada'),
      url(r'^BuscarConsultor[/]?$', 'incubacion.views.buscar_usuario', name='buscar_usuario'),
      url(r'^GuardarConvocatoria[/]?$', 'incubacion.views.guardar_convocatoria', name='guardar_convocatoria'),
@@ -24,6 +27,7 @@ urlpatterns = patterns('',
      url(r'^Incubada[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
      url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view(),name='AutocompletarConsultor'),
+     url( r'^InivitarConsultor[/]?$', 'incubacion.views.invitar_consultor' , name = 'invitar_consultor' ),
 
 )
 
