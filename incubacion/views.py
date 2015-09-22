@@ -32,7 +32,7 @@ from django.db.models import Avg
 # Create your views here.
 
 """
-Autor: Kevin Zambrano
+Autor: Kevin Zambrano Cortez
 Nombre de funcion: inicio_incubacion
 Parametros: request
 Salida: render 
@@ -62,11 +62,10 @@ def inicio_incubacion(request):
     	incubadas_consultores =  IncubadaConsultor.objects.filter(fk_consultor = consultor)
     	incubadas = []
     	for ic in incubadas_consultores:
-            print ic.fk_incubada.id_incubada
             incubada = Incubada.objects.filter(id_incubada = ic.fk_incubada.id_incubada)
             if incubada:
                 milestones = len(Milestone.objects.filter(fk_incubada = incubada))
-                consultores=len(IncubadaConsultor.objects.filter(fk_incubada = incubada))
+                consultores = len(IncubadaConsultor.objects.filter(fk_incubada = incubada))
                 incubadas.append((incubada, milestones, consultores))
         args['consultores'] = incubadas
     else:
