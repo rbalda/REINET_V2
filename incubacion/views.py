@@ -122,20 +122,47 @@ Descripcion: En esta funcion mostrara los usuario que pueden ser consultor
 """
 @login_required
 def invitar_consultor(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+
+
+    consultor = request.GET.get( 'consultor' )
+    print "Usuario-Consultor           :",consultor
+    usuario = consultor.split('-')
+    print "Consultor Invitado: ",usuario[1]
+    #si encuentra el ajax del template
     if request.is_ajax():
+        try:
+            print "entro consultor 1"
+            print usuario[1]
+            print "entro"
+            invitarconsultor = Perfil.objects.get(username=usuario[1])
+            print "entro consultor 2"
+            args['invitarconsultor'] = invitarconsultor
+            print invitarconsultor
+            #args.update(csrf(request))
+            return render_to_response('admin_invitar_consultor.html',args)
 
-        q = request.GET.get( 'q' )
-        usuario = q.split('-')
-        print "Consultor: ",usuario[1]
-        if q is not None:
-            invitarConsultor = Perfil.objects.all()
+        except User.DoesNotExist:
+            print '>> Usuario no existe'
+            return redirect('/')
+        except :
+            print '>> Excepcion no controlada INVITAR CONSULTOR'
+            return redirect('/')
+            
 
-            args['resultadosInvitarConsultores'] = invitarConsultor
-            args.update(csrf(request))
-
-            return render( request,'admin_invitar_consultor.html',args)
-        else:
-            print "No entro a consultor"
+    else:
+        print "NO INGRESO A INVITAR"
+        return redirect('/NotFound')
 
 """
 Autor: Henry Lasso

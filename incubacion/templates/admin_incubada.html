@@ -60,10 +60,10 @@
 				    				<form id="formulario" name="formulario" class="form-horizontal col-md-12">
 				    					{% csrf_token %}
 						                <div class="form-group">
-						                    <input type="text" class="form-control col-md-9" id="destinatario_txt" name="destinatario_txt" placeholder="Buscar consultor" maxlength="50" required style="height: 34px;">
+						                    <input type="text" class="form-control col-md-9" id="destinatario_txt" name="destinatario_txt" placeholder="Buscar consultor" maxlength="50" required style="height: 34px;border-left-width: 1px;margin-left: 30px;width: 402px">
 
 						                    <div align="right">
-						                    	<input id="invitarSubmit" type="submit" class="btn btn-dark fa" value="Invitar"/>
+						                    	<input id="invitarSubmit" type="submit" class="btn btn-dark fa" value="Invitar" style=" width: 87px; height: 34px; border-left-width: 0px;" />
 
 									    		<!--<button href="#" class="btn btn-dark col-md-3"><i class="fa"></i>&nbsp;&nbsp;Invitar&nsp;&nbsp;</button>
 									    		-->
@@ -78,12 +78,51 @@
 
 									    <!--INVITAR A CONSULTORES-->
 									    <div class="form-group" style="overflow-y:auto; height:200px;margin-left: 0px;">
-									    	<span id="spinner"><img src="/../site_media/spinner.gif"/></span>
+									    	
+										    <div id="resultadosInvitarConsultores" class="resultadosInvitarConsultores panel-body">
 
-									    	<div id="resultadosInvitarConsultores">
-									    		
+							                </div>  
 
-									    	</div>
+							                <div id="resultadosEncontrados" class="resultadosEncontrados panel-body " style="padding-left: 0px;padding-top: 0px;">
+
+							                </div>  
+
+							                <script>
+				                                $(document).ready(function () {
+				                                    $(function () {
+
+				                                    	var iCnt = 0;
+
+				                                    	$('#invitarSubmit').click(function(){
+
+				                                    		if ( $('#resultadosInvitarConsultores').children().length > 0  ) { 
+				                                    			$( "#resultadosInvitarConsultores" ).clone().appendTo( "#resultadosEncontrados" ); 
+				                                    		}
+
+
+
+				                                    		consultor = $('#destinatario_txt').val();
+				                                    		//clear fields
+				                                    		$('#destinatario_txt').val('');
+					                                        $('#resultadosInvitarConsultores').ready(resultadoInvitar);
+					                                        function resultadoInvitar() {
+					                                            $.ajax({
+					                                                data: {
+					                                                    'incubada':{{incubada.id_incubada}},
+					                                                    'consultor':consultor
+					                                                },
+					                                                type: 'get',
+					                                                url: '/InivitarConsultor/',
+					                                                success: function (data) {
+					                                                    $('#resultadosInvitarConsultores').html(data)
+					                                                }
+					                                            });
+					                                        }
+					                                    });
+				                                    });
+				                                });
+				                            </script>
+
 
 									    </div>
 									    
@@ -581,36 +620,6 @@
       }) 
     </script>
 
-    <script type="text/javascript">
-    	$(document).ready(function(){
-
-    		$('#invitarSubmit').click(function(){
-    			q = $('#destinatario_txt').val();
-
-    			$('#resultadosInvitarConsultores').ready(resultadoInvitar);
-    			function resultadoInvitar(){
-    				$.ajax({
-    					data:{
-    						'incubacion':q
-    					},
-    					type: 'get',
-    					url: '/InivitarConsultor/',
-    					success: function (data) {
-    						$('#resultadosInvitarConsultores').html(data)
-    					}
-    				})
-    			}
-
-    		});
-
-    	});
-    	
-    	$( document ).ajaxStart( function() {
-    		$( '#spinner' ).show();
-    	}).ajaxStop( function() {
-    		$( '#spinner' ).hide();
-    	});
-    </script>
 
     
 

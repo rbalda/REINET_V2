@@ -1,18 +1,17 @@
-{% if resultadosInvitarConsultores|length %}
+{% if invitarconsultor%}
 
 
-
-	{% for user in resultadosInvitarConsultores %}
 	<div align="left" class="media" style="margin-bottom: 1px solid gray">
-			<a align="left" class="pull-left" href="#">
-				<img class="media-object" src="/../../media/ofertas-demandas/face1.jpg" alt="Blog Message">
+			<a class="pull-left" href="#">
+				<img class="media-object" src="{{invitarconsultor.foto.url}}" alt="Imagen de usuario">
 			</a>
+
 			<div class="media-body">
-				<a class="col-md-10 col-sm-6 col-xs-6" href="#">HOLA</a>
+				<a href="#">{{invitarconsultor.first_name}} {{invitarconsultor.last_name}}</a><br>
+				<a href="#">{{invitarconsultor.email}}</a><br>
 				<a class="btn btn-default btn-xs" style="padding:4px">Cancelar</a>
 			</div>
 	</div>
-	{% endfor %}
 
 {% else %}
 	<div class="note">
