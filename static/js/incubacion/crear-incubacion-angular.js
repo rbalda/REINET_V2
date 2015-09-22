@@ -7,7 +7,7 @@ appincubacion.controller('crearIncubacionFormController',['$scope','$rootScope',
 
     // se crea nuevo objeto de incubacion
     $scope.incubacion = new Incubacion();
-
+    $scope.incubacion_id = null;
     $scope.items_tipo = [{tipo: "Emprendimiento", valor: 0 },{tipo: "Tecnolog\u00EDa", valor: 1 },{tipo: "Prototipo", valor: 2 }];
     $scope.items_alcance = [{tipo: "Todos", valor: 0 },{tipo: "Grupo", valor: 1 }];
     $scope.hide = true;
@@ -22,13 +22,21 @@ appincubacion.controller('crearIncubacionFormController',['$scope','$rootScope',
             console.log('Se ha creado con exito la Incubacion');
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
+
+            var id = $scope.incubacion.id_incubacion;
+            $scope.incubacion_id = id;
+
             $scope.incubacion = new Incubacion();
             $scope.info_crear_incubacion = "Incubacion creada exitosamente";
-            $scope.hide=false; 
+            //$scope.hide=false;
+            $scope.exito_creacion=true; 
+
+            window.location.replace( "/AdminIncubacion/"+id);
 
         },
         function(response){
             console.log('Ha ocurrido un error');
+            $scope.exito_creacion=false; 
             $scope.textType="alert-danger";
             $scope.iconoClass="glyphicon-exclamation-sign";
             $scope.info_crear_incubacion = "Hubo un error al crear incubacion";

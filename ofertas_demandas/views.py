@@ -361,6 +361,8 @@ def ver_cualquier_oferta(request, id_oferta):
 			try:
 				imagenes = ImagenOferta.objects.filter(fk_oferta = id_oferta)
 				imagen_principal = imagenes.first()
+				print hooooooooooooooooooooolaaaaa
+				print imagen_principal
 				if not imagenes:
 					imagenes = False
 					imagen_principal = False
