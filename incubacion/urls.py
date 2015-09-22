@@ -26,6 +26,7 @@ urlpatterns = patterns('',
      url(r'^Incubada[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
      url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view(),name='AutocompletarConsultor'),
+     url( r'^InivitarConsultor[/]?$', 'incubacion.views.invitar_consultor' , name = 'invitar_consultor' ),
 
 )
 

@@ -16,6 +16,10 @@
 
 {% block contenido %}
 
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+
     
     <div class="container">
     	<div class="col-sm-12 col-xs-12" style="padding:0">
@@ -36,7 +40,7 @@
 
     	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
     		<div align="right">
-    			<a href="/EditarMiIncubacion/" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>&nbsp;Editar</a>
+    			
     		</div>
     		
 			<div class="col-sm-12">
@@ -88,14 +92,9 @@
     		<div class="col-sm-12">
 	    		<ul class="nav nav-tabs" role="tablist">
 	            	<li role="presentation" class="active"><a href="#incubadas" aria-controls="home" role="tab" data-toggle="tab">INCUBADAS</a></li>
-	            	<li role="presentation" ><a href="#solicitudes_ofertas" aria-controls="home" role="tab" data-toggle="tab">OFERTAS APLICANTES</a></li>
-                    
+	            	    
 	           	</ul>
 				<div class="tab-content">
-					<div class="alert alert-info alert-dismissable">
-		                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-		                <strong>Recuerde!</strong> Para tener incubadas debe crear una convocatoria de ofertas.
-		            </div>
 				  <div id="incubadas" class="tab-pane fade in active">
 				  		<div style="font-size:12px;height:250px;overflow-y:auto;" >
 					  		<div class="pm-list">
@@ -139,103 +138,12 @@
 	                           </ul>
 	                       </div>
 	                    </div>
-				  </div>
-                
-
-                  <div id="solicitudes_ofertas" class="tab-pane fade">
-                  	<div style="font-size:12px;height:250px;overflow-y:auto;" >
-                    	<div class="pm-list" >
-                           <ul>
-                    <!-- First dialog -->
-                               <li>
-                                   <p class="text-muted" style="width:100%">
-                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                       <a href="#" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                   </p>
-                                   <p class="text-muted" style="width:100%" align=right>                                        
-                                           <button type="button" class="btn btn-red" >
-                                        
-                                           <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                           <button type="button" class="btn btn-default"  style="margin-left:10px">
-                                        
-                                           <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                        
-                                   </p>
-                                   <div class="clearfix"></div>
-                               </li>
-                                <li>
-                                   <p class="text-muted" style="width:100%">
-                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                       <a href="#" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                   </p>
-                                   <p class="text-muted" style="width:100%" align=right>                                        
-                                           <button type="button" class="btn btn-red" >
-                                        
-                                           <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                           <button type="button" class="btn btn-default"  style="margin-left:10px">
-                                        
-                                           <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                        
-                                   </p>
-                                   <div class="clearfix"></div>
-                               </li>
-                                <li>
-                                   <p class="text-muted" style="width:100%">
-                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                       <a href="#" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                   </p>
-                                   <p class="text-muted" style="width:100%" align=right>                                        
-                                           <button type="button" class="btn btn-red" >
-                                        
-                                           <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                           <button type="button" class="btn btn-default"  style="margin-left:10px">
-                                        
-                                           <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                        
-                                   </p>
-                                   <div class="clearfix"></div>
-                               </li>
-                           </ul>
-                       </div>
                     </div>
-
                   </div>
-        </div>
-    </div>
-</div>
-</div>
-
-   <!-- COMIENZAN Los modals que se usan en toda la pagina -->
-  	<div class="modal modal-vcenter fade" id="ofertaAceptada" tabindex="-1" role="dialog"
-         aria-labelledby="sendemailtitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
-                    <div class="clearfix"></div>
                 </div>
-                <div class="modal-body">
-                    <form role="form" action="" method=''>
-                        <!--{% csrf_token %}-->
-                        <div class="form-group">
-                            <label for="Confirmacion">La oferta ha sido aprobada con &eacute;xito.</label>
-                            
-                        </div>
-                        <div align="right">
-                            <a href="" class="button">
-                                <button id="btn_aceptada" type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                            </a>
-                        </div>
-                    </form>
-                </div>
+              </div>
             </div>
-        </div>
-    </div>
-
+          </div>
       	<div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
          aria-labelledby="sendemailtitle" aria-hidden="true">
         <div class="modal-dialog">
@@ -261,51 +169,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
-</div>
-
-<!-- //// MODAL crear convocatoria ///// -->
-    <div class="modal modal-vcenter fade" id="CrearConvocatoria" tabindex="-1" role="dialog"
-         aria-labelledby="sendemailtitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Crear Convocatoria</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="comment" id="Comentario">
-                          <div class="media">
-                            <form action="/GuardarConvocatoria/" method="get" name="guardar_convocatoria_form"
-                                    role="form" enctype="multipart/form-data">
-                                <div class="form-group">
-                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha Maxima</label>
-                                  <div class="col-md-7">
-                                       <input type="hidden" name="idIncubacion" value="{{ incubacion.id_incubacion }}">
-                                       <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
-                                  </div>
-                                  <br>
-                                    {% if mensajeError %}
-                                    <div class="alert alert-danger alert-dismissible" role="alert">
-                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                      <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeError }}</p></strong>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                <div class="form-group">
-                                    <div align="right">
-                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                                      <button type="submit" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
-                                    </div>                                                  
-                                </div>
-                            </form>   
-                          </div>
-                      </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
+      </div>
+    </div>    
 </div>
 {% endblock %}
