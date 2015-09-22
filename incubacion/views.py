@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import random
 import string
 
@@ -21,10 +22,11 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from datetime import *
-import incubacion
 from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
 from django.utils import timezone
 from incubacion.models import *
+from incubacion.serializers import *
+
 from usuarios.models import *
 from django.db.models import Avg
 
@@ -113,6 +115,30 @@ def crear_incubacion(request):
 
 
 """
+Autor: Jose Velez
+Nombre de funcion: invitar_consultor
+Parametros: request
+Salida: Muetra al usuario que desea invitar como consultor
+Descripcion: En esta funcion mostrara los usuario que pueden ser consultor
+"""
+@login_required
+def invitar_consultor(request):
+    if request.is_ajax():
+
+        q = request.GET.get( 'q' )
+        usuario = q.split('-')
+        print "Consultor: ",usuario[1]
+        if q is not None:
+            invitarConsultor = Perfil.objects.all()
+
+            args['resultadosInvitarConsultores'] = invitarConsultor
+            args.update(csrf(request))
+
+            return render( request,'admin_invitar_consultor.html',args)
+        else:
+            print "No entro a consultor"
+
+"""
 Autor: Henry Lasso
 Nombre de funcion: Editar_Incubacion
 Parametros: request
@@ -179,36 +205,88 @@ def admin_ver_incubacion(request,id_incubacion):
 """
 Autor: Estefania Lozano
 Nombre de funcion: admin_ver_incubada
-Parametros: request
-Salida: 
-Descripcion: Mostar template de la incubada para el administrador de la incubacion
+Parametros: request, id_incubada
+Salida: Template admin_ver_incubada
+Descripcion: Administrar una incubada de una incubacion de la cual soy dueño
 """
 @login_required
 def admin_ver_incubada(request,id_incubada):
     session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
+    usuario = Perfil.objects.get(id=request.session['id_usuario'])
     args = {}
     args['es_admin']=request.session['es_admin']
     if usuario is not None:
         args['usuario'] = usuario
+        try:
+            incubada = Incubada.objects.get(id_incubada = id_incubada)
+            #Tengo que verificar que el administrador de la incubada es el usuario en sesion
+            if incubada.fk_incubacion.fk_perfil == usuario:
+                propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo,es_propietario=1)
+                equipo = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo)
+                if equipo is not None:
+                    args['equipo'] = equipo
+                args['incubada'] = incubada
+                args['propietario'] = propietario
+                return render_to_response('admin_ver_incubada.html', args)
+            else:
+                args['error'] = "Esta incubada no se encuentra bajo su administración"
+                return HttpResponseRedirect('/NotFound/')
+        #si la oferta no existe redirige a un mensaje de error
+        except Incubada.DoesNotExist:
+            args['error'] = "La incubada no se encuentra en la red, lo sentimos."
+            return HttpResponseRedirect('/NotFound/')
+
     else:
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect('/NotFound/')
 
-    try:#Si encuentra la oferta y la membresia
-        incubada = Incubada.objects.get(id_incubada = id_incubada)
-        args['incubada'] = incubada
-        if incubada is not None:
-            listConsultores = IncubadaConsultor.objects.filter(fk_incubada=id_incubada)
-            for c in listConsultores:
-                list_perfil_cons=c.fk_consultor.fk_usuario_consultor
+"""
+Autor: Estefania Lozano
+Nombre de funcion: admin_consultores
+Parametros: request
+Salida: admin_lista_consultores
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de consultores de la incubada
+"""
+@login_required
+def admin_consultores(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            incubConsult=IncubadaConsultor.objects.filter(fk_incubada=request.GET['incubada'])    
+            #for c in incubConsult:
+            #    try:
+            #        print c.fk_consultor.fk_usuario_consultor.foto.url
+            #    except Exception as e:
+            #        print e
+            args['consultores'] = incubConsult
+            return render_to_response('admin_lista_consultores.html',args)
 
-            return render_to_response('admin_ver_incubada.html', args)
-    #si la oferta no existe redirige a un mensaje de error
-    except Incubada.DoesNotExist:
-        args['error'] = "La incubada no se encuentra en la red, lo sentimos."
-        return HttpResponseRedirect('/NotFound/')
-      
+        except Incubada.DoesNotExist:
+            print 'esa oferta no existe '
+            return redirect('/')
+
+        except IncubadaConsultor.DoesNotExist:
+            print 'Este pana no tiene amigos :/'
+            return redirect('/')
+
+        except:
+            print 'ya me jodi =('
+            return redirect('/')
+
+    else:
+        return redirect('/NotFound')
+
 
 """
 Autor: Estefania Lozano
@@ -302,8 +380,6 @@ class Autocompletar_Consultor(APIView):
         serializador = UsuarioSerializador(usuarios, many=True)
         response = Response(serializador.data)
         return response
-
-
 
 
 """

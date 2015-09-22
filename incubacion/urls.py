@@ -21,11 +21,13 @@ urlpatterns = patterns('',
      url(r'^VerMilestone[/]?$', 'incubacion.views.admin_ver_milestone', name='admin_ver_milestone'),
 
      url(r'^AdminIncubada/(?P<id_incubada>\w{0,250})[/]?$','incubacion.views.admin_ver_incubada', name='admin_ver_incubada'),
-
+     url(r'^AdminConsultores[/]?$','incubacion.views.admin_consultores', name='admin_consultores'),
+                       
      url(r'^ConsultorIncubada[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
      url(r'^Incubada[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
      url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view(),name='AutocompletarConsultor'),
+     url( r'^InivitarConsultor[/]?$', 'incubacion.views.invitar_consultor' , name = 'invitar_consultor' ),
 
 )
 
