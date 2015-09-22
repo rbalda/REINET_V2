@@ -23,7 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import *
 import incubacion
 from usuarios.serializers import InstitucionSerializador, PerfilSerializador, UsuarioSerializador
-
+from django.utils import timezone
 from incubacion.models import *
 from usuarios.models import *
 from django.db.models import Avg
@@ -131,10 +131,10 @@ def editar_mi_incubacion(request):
 
 """
 Autor: Estefania Lozano
-Nombre de funcion: admin_ver_incubada
+Nombre de funcion: admin_ver_incubacion
 Parametros: request
 Salida: 
-Descripcion: Mostar template editar mi incubacion
+Descripcion: Mostar template ver mi incubacion
 """
 
 
@@ -150,13 +150,28 @@ def admin_ver_incubacion(request,id_incubacion):
     else:
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect('/NotFound/')
+    
     incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
     convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id = id_incubacion).last()
     incubadas_incubacion = Incubada.objects.all().filter(fk_incubacion_id=id_incubacion)      
     #if convocatorias_incubacion.fecha_maxima
 
+#   hoy = datetime.datetime.now()
+#   fecha_maxima=incubacion.fecha_maxima
+    if convocatorias_incubacion is not None:
+        hoy = datetime.datetime.now(timezone.utc)
+        print hoy
+        fecha_maxima=convocatorias_incubacion.fecha_maxima
+        if fecha_maxima <= hoy:
+            print fecha_maxima
+            args['convocatorias'] = "No hay Convocatoria"
+        else :
+            print hoy
+            args['convocatorias'] = convocatorias_incubacion
+
+    else:        
+        args['convocatorias'] = "No hay Convocatoria"         
     args['incubacion'] = incubacion
-    args['convocatorias'] = convocatorias_incubacion
     args['incubadas_incubacion'] = incubadas_incubacion    
     return render_to_response('admin_ver_incubacion.html', args)
 
@@ -359,8 +374,25 @@ def usuario_ver_incubacion(request,id_incubacion):
     else:
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect('/NotFound/')
-    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
     
+    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+    convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id = id_incubacion).last()
+    incubadas_incubacion = Incubada.objects.all().filter(fk_incubacion_id=id_incubacion)      
+
+    if convocatorias_incubacion is not None:
+        hoy = datetime.datetime.now(timezone.utc)
+        print hoy
+        fecha_maxima=convocatorias_incubacion.fecha_maxima
+        if fecha_maxima <= hoy:
+            print fecha_maxima
+            args['convocatorias'] = "No hay Convocatoria"
+        else :
+            print hoy
+            args['convocatorias'] = convocatorias_incubacion
+
+    else:        
+        args['convocatorias'] = "No hay Convocatoria"         
     args['incubacion'] = incubacion
+    args['incubadas_incubacion'] = incubadas_incubacion    
     return render_to_response('usuario_ver_incubacion.html', args)
 
