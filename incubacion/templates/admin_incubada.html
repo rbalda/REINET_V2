@@ -85,10 +85,6 @@
 
 									    	</div>
 
-
-									    	
-
-
 									    </div>
 									    
 									    
@@ -134,18 +130,7 @@
 	                    <div role="tabpanel" class="tab-pane active" id="informacion">
 	                        <div class="col-md-12">
 	                            <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 0px;padding-top: 15px;">
-	                            	<p style="color: darkgray" for="Tipo" class="col-md-3">Calificación General</p>
-	                            	<div class="thumbnail col-md-9">
-						                <div class="caption " style="padding-top:0px; padding-bottom:0px">
-						                        <div class="rating">
-						                            <i class="fa fa-star"></i> 
-						                            <i class="fa fa-star"></i> 
-						                            <i class="fa fa-star"></i> 
-						                            <i class="fa fa-star"></i> 
-						                            <i class="fa fa-star"></i>
-						                        </div>
-						                </div>
-						            </div>
+	                            	
 	                                <!--Tipo-->
 	                                <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
 	                                <p class="col-md-9">Tecnología
@@ -178,32 +163,36 @@
 	                            </div>
 
 	                            <div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6">
-
 	                                <div class="block-inverse">
-	                                    <div class="head-inverse">
+	                                    <div class="head-inverse" align="center" id="ImagenGrande">
 	                                        <p class="text-center"><strong class="text-muted">Galeria</strong></p>
-	                                        <img class=" img-responsive" src="/../../media/ofertas-demandas/works3.jpg" alt="...">
+	                                        {%if imagen_principal%}
+	                                        	<img class=" img-responsive" src="/media/{{imagen_principal.imagen }}" alt="..." style="height:200px">
+	                                        {% endif %}
 	                                    </div>
-	                                    <div class="body-inverse" style="background-color:white">                                      
+	                                    <div class="body-inverse" style="background-color:white">
 	                                        <ul class="row list-inline gallery-list-small" style="margin-right: 0px;margin-left: 0px;margin-bottom: 0px;">
-	                                            <li class="col-xs-6">
-	                                              <a href="#">
-	                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works1.jpg" alt="...">
-	                                              </a>
-
-	                                            </li>
-	                                            <li class="col-xs-6">
-	                                              <a href="#">
-	                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works2.jpg" alt="...">
-	                                              </a>
-	                                            </li>
-	                                            <li class="col-xs-6">
-	                                              <a href="#">
-	                                                <img class="img-responsive" src="/../../media/ofertas-demandas/works4.jpg" alt="...">
-	                                              </a>
-	                                            </li>
+	                                        	{%if fotos%}
+	                                        		{% for foto in fotos %}
+			                           					<li class="col-xs-6">
+			                                                <img onclick="cambiarImagenGrande(this);" class="img-responsive" src="/media/{{foto.imagen}}" alt="..." style="cursor:pointer">
+			                                            </li>
+			                        				{% endfor %}	                               	
+		                                        {% else %}
+	                                        		La incubada no tiene im&aacute;genes
+		                                        {% endif %}
 	                                        </ul>
+	                                        <span style="font-size:12px">*Puede hacer clic en cada imagen para agrandar</span>
 	                                    </div>
+
+	                                    <script>
+	                                    	function cambiarImagenGrande(){
+	                                    		var a = event.target;
+	                                    		var imgGrande = $("#ImagenGrande").find("img").get(0)
+	                                    		imgGrande.src=a.src
+	                                    	}
+
+	                                    </script>
 	                                </div>
 	                            </div>
 	                            <div class="col-md-5 col-sm-6 col-xs-6">
@@ -220,29 +209,24 @@
 							                <div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
 							                    <div class="recent-blogs">
 							                        <div class="team">
-
+							                        {% for miembro in equipo %}
 							                            <!-- PRIMER MIEMBRO DEL EQUIPO -->
 							                            <div class="member-left" style="margin-bottom: 0px;">
-							                                <img src="/../../media/ofertas-demandas/face1.jpg" alt="Team Member" class="left" style="
+							                                <img src="{{miembro.fk_participante.foto.url}}" alt="Team Member" class="left" style="
 							                                    margin-right: 30px; margin-left: 20px; width: 75px;height: 75px;">
-							                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
+							                                <a href="#"><h4 style="font-size: 14px;">{{miembro.fk_participante.first_name}} {{miembro.fk_participante.last_name}}</h4></a>
 							                                <p class="position" style="margin-bottom: 4px;">
-							                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">ACTIVO</span>
+							                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">
+							                                    {% if miembro.activo %}
+									                            	ACTIVO
+									                            {% else %}
+									                            	INACTIVO
+									                            {% endif %}
+							                                    </span>
 							                                </p>
-							                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Dueño</span></p>
-							                            </div>
-
-							                            <!-- SEGUNDO MIEMBRO DEL EQUIPO -->
-							                            <div class="member-left" style="margin-bottom: 0px;">
-							                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="Team Member" class="left" style="
-							                                    margin-right: 30px; margin-left: 20px; width: 75px;height: 75px;">
-							                                <a href="#"><h4 style="font-size: 14px;">Alex Smith</h4></a>
-							                                <p class="position" style="margin-bottom: 4px;">Estado&nbsp;:&nbsp;&nbsp;
-							                                    <span style="color:black;font-size: 12px;">ACTIVO</span>
-							                                </p>
-							                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">Diseñador</span></p>
-							                            </div>      
-
+							                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">{{miembro.rol_participante}}</span></p>
+							                            </div> 
+							                        {% endfor %}
 							                        </div>
 							                    </div>
 							                </div>  
@@ -425,15 +409,31 @@
 						                </ul>
 						              </div>
 						            </div>
-			                		<hr style="margin-top: 10px;">
-			                		<!--COMIENZA MENSJE SI NO HAY MILESTONE-->
-			                		<div class="info-board info-board-orange"> No hay ningún milestone en curso</div>
-			                		<!--TERMINA MENSAJE SI NO HAY MILESTONE-->
-					                <div class="media-body">
+			                		<hr style="margin-top: 10px;margin-bottom: 10px;">
+					                <div class="media-body" id="IncbMilestActu">
 
-					                  <h4 style="margin-top: 0px;"><a href="/VerMilestone/">January 28, 2014</a></h4>
-					                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id ipsum varius, tincidunt odio nec, placerat enim...
 					                </div>
+
+					                <script>
+		                                $(document).ready(function () {
+		                                    $(function () {
+		                                        $('#IncbMilestActu').ready(mostrarMilestActual);
+		                                        function mostrarMilestActual() {
+		                                            $.ajax({
+		                                                data: {
+		                                                    'incubada':{{incubada.id_incubada}}
+		                                                },
+		                                                type: 'get',
+		                                                url: '/AdminIncubadaMilestoneActual/',
+		                                                success: function (data) {
+		                                                    $('#IncbMilestActu').html(data)
+		                                                }
+		                                            });
+
+		                                        }
+		                                    });
+		                                });
+		                            </script>
 					              </div>
 			                </div>  
 			            </div>
@@ -466,7 +466,7 @@
                                                     'incubada':{{incubada.id_incubada}}
                                                 },
                                                 type: 'get',
-                                                url: '/AdminConsultores/',
+                                                url: '/AdminIncubadaConsultores/',
                                                 success: function (data) {
                                                     $('#divConsultoresInc').html(data)
                                                 }
@@ -476,8 +476,6 @@
                                     });
                                 });
                             </script>
-
-
 			            </div>
 		            <!-- TERMINA Panel de los consultores -->
 
