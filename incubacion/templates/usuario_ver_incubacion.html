@@ -32,8 +32,18 @@
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> November 10, 2013</li>
-					<li><i class="fa fa-eye"></i> TODOS</li>
+					<li><i class="fa fa-calendar"></i> {{ fecha_creacion }}</li>
+					<li>ESTADO: </i>
+            {% if incubacion.estado_incubacion == 0 %}
+              ACTIVA
+            {% endif %}
+            {% if incubacion.estado_incubacion == 1 %}
+              TERMINADA
+            {% endif %}
+            {% if incubacion.estado_incubacion == 2 %}
+              DESACTIVADA
+            {% endif %}  
+          </li>
   				</ul>
     	</div>
 
@@ -45,51 +55,57 @@
     		
 			<div class="col-sm-12">
 	            <h4 class="hl"><i class="fa fa-info-circle"></i> Descripción</h4>
-	            <p class="bottom-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
+	            <p class="bottom-15">{{ incubacion.descripcion}}</p>
 	           	<h4 class="hl"><i class="fa fa-question-circle"></i> Condiciones</h4>
-	            <p class="bottom-15">Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
+	            <p class="bottom-15">{{ incubacion.condiciones }}</p>
 	        </div>
 			<div class="col-sm-12">
 				<h4 class="hl"><i class="fa fa-sitemap"></i> Acerca de la Ofertas a Incubar</h4>
 	            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
 	              	<div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
-		              	<p style="color: darkgray"  class="col-md-3">Perfil de la Oferta</p>
-		              	<p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. </p>
-		              	<p style="color: darkgray"  class="col-md-3">Tipo de la Oferta</p>
-		                <p class="col-md-9"> euismod </p>
+		              	<p style="color: darkgray"  class="col-md-5">Perfil de la Oferta</p>
+		              	<p class="col-md-7">{{ incubacion.perfil_oferta}}</p>
+		              	<p style="color: darkgray"  class="col-md-5">Tipo de la Oferta</p>
+		                <p class="col-md-7"> 
+                      {% if incubacion.tipos_oferta == 0 %}
+                          Emprendimiento
+                      {% endif %}
+                      {% if incubacion.tipos_oferta == 1 %}
+                          Tecnología
+                      {% endif %}
+                      {% if incubacion.tipos_oferta == 2 %}
+                          Prototipo
+                      {% endif %} </p>
 	                </div>
 	            </div>
 	            <hr>
 	        </div>	
     	</div>
     	<div class="col-sm-7">
-    		<div class="col-sm-8 col-sm-offset-2" align="center" style="padding:15px">
-    			<div class="panel panel-dark" align="center" style="margin-bottom:0px">
-				    <div class="panel-body" style="padding-bottom: 5px;">
-				    	<h4 class="hl" style=" font-weight: bold"><bold> Convocatoria Actual de ofertas</bold></h4>
-	            		  <table class="table " style="margin-bottom: 0px;">
-                              <thead>
-                              <tr>
-                                  <th class="text-muted">#</th>
-                                  <th class="text-muted">Alcance</th>
-                                  <th class="text-muted">Fecha Máxima</th>
-                              </tr>
-                              </thead>
-  	            			        <tbody>     
-                                      <tr>
-                                          <td style="text-align:left"></td>
-                                          <td style="text-align:left">Todos</td>
-                                          <td style="text-align:left"></td>
-                                      </tr>
-                                 
-                              </tbody>
-                    </table>
-                    
-		            </div>
-			    </div>
-    		</div>
-
-    		<div class="col-sm-12">
+        <div class="col-sm-8 col-sm-offset-2" align="center" style="padding:15px">
+          <div class="panel panel-dark" align="center" style="margin-bottom:0px">
+            <div class="panel-body" style="padding-bottom: 5px;">
+              <h4 class="hl" style=" font-weight: bold"><bold> Convocatoria Actual de ofertas</bold></h4>
+                {% if convocatorias != "No hay Convocatoria" %} 
+                  <table class="table " style="margin-bottom: 0px;">
+                    <thead>
+                      <tr>
+                        <th class="text-muted">Abierta Hasta</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="text-align:left">{{ convocatorias.fecha_maxima }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                {% else %}
+                <div class="info-board info-board-red"> Esta incubación no tiene una convocatoria abierta</div>
+                {%endif%}
+            </div>
+          </div>
+        </div>
+	     <div class="col-sm-12">
 	    		<ul class="nav nav-tabs" role="tablist">
 	            	<li role="presentation" class="active"><a href="#incubadas" aria-controls="home" role="tab" data-toggle="tab">INCUBADAS</a></li>
 	            	    
