@@ -25,7 +25,7 @@ $(function() {
 
     if (existeDivision()){
         $('#destinatario').val(nameSplit[1]);
-    }else{destinatario
+    }else{
         $('#destinatario').val(nameVal);
     }
 
