@@ -39,8 +39,18 @@
 			            <h4>{{incubada.nombre}}</h4>			            
 			        </div>
 			        <div class="col-md-7" align=right>
+			        	<div class="col-md-12">
 			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultores</a>
-			            <a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
+			            {%if milestone%}
+			            	<a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
+			            	</div>
+			            {%else%}
+			            	<a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red" disabled="disabled"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
+			            	</div>
+			            	<div class="col-md-offset-6">
+			            	<span style="font-size:11px;margin-right: 15px;">*Existe un milestone vigente</span>
+			            	</div>
+			            {%endif%}
 			        </div> 
 			        <div class="col-md-12" align=left>
 				        <ul class="text-muted list-inline">
@@ -90,9 +100,6 @@
 									    
 									    <div class="form-group">
 									   		<div align="right">
-									   			
-
-
 									   			<button href="#" class="btn btn-red"><i class="fa"></i>&nbsp;&nbsp;Enviar Invitaciones&nbsp;&nbsp;</button>
 									   		</div>
 									   	</div>
@@ -129,40 +136,9 @@
 	                <div class="tab-content row">
 	                    <div role="tabpanel" class="tab-pane active" id="informacion">
 	                        <div class="col-md-12">
-	                            <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 0px;padding-top: 15px;">
-	                            	
-	                                <!--Tipo-->
-	                                <p style="color: darkgray" for="Tipo" class="col-md-3">Tipo</p>
-	                                <p class="col-md-9">Tecnología
 
-	                                <!--Descripcion-->
-	                                </p>
-	                                <p style="color: darkgray" for="Nombres" class="col-md-3">Descripción
-	                                </p>
-
-	                                <p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus pretium, varius felis a, congue metus. Nam aliquam pretium eros, et venenatis sapien porttitor at. Nunc bibendum ipsum sit amet euismod sodales.
-	                                <br>
-	                                <p style="color: darkgray" for="Nombres" class="col-md-3">Dominio</p>
-	                                <p class="col-md-9">Dominio
-	                                <!--Subdominio-->
-	                                </p><p style="color: darkgray" for="Nombres" class="col-md-3">Sub-dominio</p>
-	                                <p class="col-md-9">Sub-dominio
-	                                <!--Palabras Clave-->
-	                                </p><p style="color: darkgray" for="Nombres" class="col-md-3">Palabras Claves</p>
-	                                <p class="tags col-md-9">
-	                                    <a>Industria</a>
-	                                    <a>Autos</a>
-	                                    <a>Startup</a>
-	                                    <a>Espol</a>
-	                                </p>
-	                                <div class="col-md-12">
-	                                	<hr style="margin-bottom: 10px;">
-		                            <br>
-	                                </div>
-		                            
-	                            </div>
-
-	                            <div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6">
+	                        	<div class="col-md-5 col-sm-6 col-xs-6" style="margin-top: 0px;padding-top: 15px;">
+	                        		<!--COMIENZA LA GALERIA -->
 	                                <div class="block-inverse">
 	                                    <div class="head-inverse" align="center" id="ImagenGrande">
 	                                        <p class="text-center"><strong class="text-muted">Galeria</strong></p>
@@ -194,45 +170,85 @@
 
 	                                    </script>
 	                                </div>
-	                            </div>
-	                            <div class="col-md-5 col-sm-6 col-xs-6">
-	                            	<!-- COMIENZA  Panel del equipo -->
-							            <div class="panel panel-default">
-							                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
-							                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-							                        <div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
-							                            <h4 style="margin-top: 6px;">Equipo</h4>
-							                         </div>
-							                    </div>
-							                </div>
-							            
-							                <div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
-							                    <div class="recent-blogs">
-							                        <div class="team">
-							                        {% for miembro in equipo %}
-							                            <!-- PRIMER MIEMBRO DEL EQUIPO -->
-							                            <div class="member-left" style="margin-bottom: 0px;">
-							                                <img src="{{miembro.fk_participante.foto.url}}" alt="Team Member" class="left" style="
-							                                    margin-right: 30px; margin-left: 20px; width: 75px;height: 75px;">
-							                                <a href="#"><h4 style="font-size: 14px;">{{miembro.fk_participante.first_name}} {{miembro.fk_participante.last_name}}</h4></a>
-							                                <p class="position" style="margin-bottom: 4px;">
-							                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">
-							                                    {% if miembro.activo %}
-									                            	ACTIVO
-									                            {% else %}
-									                            	INACTIVO
-									                            {% endif %}
-							                                    </span>
-							                                </p>
-							                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">{{miembro.rol_participante}}</span></p>
-							                            </div> 
-							                        {% endfor %}
-							                        </div>
-							                    </div>
-							                </div>  
-							            </div>
+	                                <!--TERMINA LA GALERIA -->
+	                                <br>
+	                                <!-- COMIENZA  Panel del equipo -->
+						            <div class="panel panel-default">
+						                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
+						                    <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+						                        <div class="col-md-5 col-sm-6 col-xs-6" align="left" style="padding-left: 0px;">
+						                            <h4 style="margin-top: 6px;">Equipo</h4>
+						                         </div>
+						                    </div>
+						                </div>
+						            
+						                <div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+						                    <div class="recent-blogs">
+						                        <div class="team">
+						                        {% for miembro in equipo %}
+						                            <!-- PRIMER MIEMBRO DEL EQUIPO -->
+						                            <div class="member-left" style="margin-bottom: 0px;">
+						                                <img src="{{miembro.fk_participante.foto.url}}" alt="Team Member" class="left" style="
+						                                    margin-right: 30px; margin-left: 20px; width: 75px;height: 75px;">
+						                                <a href="#"><h4 style="font-size: 14px;">{{miembro.fk_participante.first_name}} {{miembro.fk_participante.last_name}}</h4></a>
+						                                <p class="position" style="margin-bottom: 4px;">
+						                                    Estado&nbsp;:&nbsp;&nbsp;<span style="color:black;font-size: 12px;">
+						                                    {% if miembro.activo %}
+								                            	ACTIVO
+								                            {% else %}
+								                            	INACTIVO
+								                            {% endif %}
+						                                    </span>
+						                                </p>
+						                                <p class="position">Rol&nbsp;:&nbsp;&nbsp;<span style="color:black">{{miembro.rol_participante}}</span></p>
+						                            </div> 
+						                        {% endfor %}
+						                        </div>
+						                    </div>
+						                </div>  
+						            </div>
 							        <!-- TERMINA Panel del equipo -->
 
+	                            </div>
+
+	                            <div class="col-md-7 col-sm-6 col-xs-6" style="margin-top: 0px;padding-top: 15px;">
+	                            	
+	                                <!--Tipo-->
+	                                <p style="color: darkgray" for="Tipo" class="col-md-4">Tipo</p>
+	                                <p class="col-md-8">
+	                                	{% if incubada.tipo == 0 %}
+						                    Emprendimiento
+						                {% elif incubada.tipo == 1 %}
+						                    Tecnologia
+						                {% elif incubada.tipo == 2 %}
+						                    Prototipo
+						                {% endif %}
+	                                <!--Descripcion-->
+	                                </p>
+	                                <p style="color: darkgray" for="Nombres" class="col-md-4">Descripción
+	                                </p>
+	                                <p class="col-md-8">{{incubada.descripcion}} 
+	                                <br>
+	                                <p style="color: darkgray" for="Nombres" class="col-md-4">Dominio</p>
+	                                <p class="col-md-8">{{incubada.dominio}}
+	                                <!--Subdominio-->
+	                                </p><p style="color: darkgray" for="Nombres" class="col-md-4">Sub-dominio</p>
+	                                <p class="col-md-8">{{incubada.subdominio}}
+	                                <!--Palabras Clave-->
+	                                </p><p style="color: darkgray" for="Nombres" class="col-md-4">Palabras Claves</p>
+	                                <p class="tags col-md-8">
+	                                	{%if palabras_clave == False%}
+	                                		No hay palabras claves
+	                                	{%else%}
+		                                	{% for tag in palabras_clave %}
+						                        <a>{{ tag.palabra }}</a>
+						                    {% endfor %}
+						                {%endif%}
+	                                </p>
+	                                <div class="col-md-12">
+	                                	<hr style="margin-bottom: 10px;">
+		                            <br>
+	                                </div>
 	                            </div>
 	                        </div>
 	                    </div>

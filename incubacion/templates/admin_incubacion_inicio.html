@@ -95,12 +95,22 @@
                                         <h3><a href="/AdminIncubacion/{{incubacion.id_incubacion}}">{{ incubacion.nombre }}</a></h3>
 
                                         <ul class="text-muted list-inline">
-                                            <li><i class="fa fa-calendar"></i> <a href="#">{{ incubacion.fecha_inicio }}</a></li>
-                                            <li><i class="fa fa-user"></i> Administrador: {{ incubacion.fk_perfil.username }}</li>
+                                            <li><i style="color:#515151" class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
+                                            <li><i style="color:#515151" class="fa fa-user"></i> Administrador: {{ incubacion.fk_perfil.username }}</li>
+                                            <li><i style="color:#515151" class="fa fa-cogs"></i> Tipo de Oferta:
+                                            {%if incubacion.tipos_oferta == 0 %}
+                                                Emprendimiento
+                                            {%endif%}
+                                            {%if incubacion.tipos_oferta == 1%}
+                                                Tecnología
+                                            {%else%}
+                                                Prototipo
+                                            {%endif%}
+                                            </li>
                                         </ul>
                                         <ul class="text-muted list-inline">
-                                            <li><i class="fa fa-bars"></i> Numero de condiciones: {{ incubacion.condiciones }} </li>
-                                            <li><i class="fa fa-cogs"></i> <a href="#">Tipo de Oferta: </a> {{ incubacion.tipos_oferta }}</li>
+                                            <li><i class="fa fa-bars"></i> Condiciones: {{ incubacion.condiciones|truncatewords:30 }} </li>
+                                            
                                         </ul>
                                     </div>
                                 </div>

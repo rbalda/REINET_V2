@@ -231,6 +231,25 @@ def admin_ver_incubada(request,id_incubada):
                     fotos = False
                     imagen_principal = False
 
+                #Tenemos que validar si hay un mmilestone vigente
+                milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
+                if milestone:
+                    hoy = datetime.datetime.now(timezone.utc)
+                    fecha_maxima_milestone=milestone.fecha_maxima_Retroalimentacion
+                    if fecha_maxima_milestone > hoy:
+                        args['milestone']=milestone
+                    else:
+                        milestone=False
+                else:
+                    milestone=False
+                args['milestone'] = milestone
+
+                #Ahora voy a buscar las palabras claves
+                palabras_Claves = incubada.palabras_clave.all()
+                if palabras_Claves is None:
+                    palabras_Claves=False
+                args['palabras_clave']=palabras_Claves
+
                 args['fotos'] = fotos
                 args['imagen_principal'] = imagen_principal
                 args['incubada'] = incubada
