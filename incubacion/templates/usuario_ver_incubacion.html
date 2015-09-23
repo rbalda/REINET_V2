@@ -26,9 +26,56 @@
     		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
     		<div class="col-sm-6">
     			
-  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
+  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
         </div>
   		</div>
+      <!-- comienza MODAL Invitar Consultor -->
+            <div id="modalParticiparIncubcion" class="modal fade" role="dialog">
+              <div class="modal-dialog" style="width: 40% !important;">
+                <div class="modal-content" style=" width: 550px;">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">PARTICIPAR EN LA INCUBACI&Oacute;N</h4>
+                  </div>
+                  <div class="modal-body media" style="font-size:14px;padding-top: 0px;width: 540px;">
+                    <div id="formulario" name="formulario" class="form-horizontal col-md-12" style="width: 430px;">
+                      {% csrf_token %}
+
+                      <!--PARTICIPAR A UNA INCUBACION CON OFERTAS-->
+                      <div class="form-group" style="overflow-y:auto; height:300px;margin-left: 0px;width: 490px;">
+                        
+                        <div id="participar_ofertaas" class="panel-body">
+                        <!--
+                        Se muestra la peticion AJAX de mostrar el consultor a invitar
+                        -->
+                        </div> 
+
+                        <script>
+                        $(document).ready(function () {
+                          $(function () {
+                            $('#participar_ofertaas').ready(participarOfertas);
+                            function participarOfertas() {
+                              $.ajax({
+                                data: {
+                                  'incubada':1
+                                },
+                                type: 'get',
+                                url: '/ParticiparIncubacion/',
+                                success: function (data) {
+                                  $('#participar_ofertaas').html(data)
+                                }
+                              });
+                            }
+                          });
+                        });
+                        </script>
+                      </div>
+                  </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- termina MODAL Invitar Consultor -->
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">

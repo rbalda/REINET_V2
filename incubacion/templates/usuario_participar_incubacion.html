@@ -1,0 +1,22 @@
+{% if pariciparIncubacion%}
+
+	{% for oferta in pariciparIncubacion %}
+	<div  id="divContenedor" align="left" class="media" style="margin-bottom: 1px solid gray">
+			<a class="pull-left" href="#">
+				<img class="media-object" src="{{oferta.foto.url}}" alt="Imagen de usuario"style=" height: 65px; width: 70px; ">
+			</a>
+
+			<div class="media-body">
+				<p style=" margin-bottom: 0px;">NOMBRE: {{oferta.nombre}} </p>
+				<p style=" margin-bottom: 0px;">FECHA CREACION: {{oferta.fecha_creacion}}</p>
+
+				<button class="btn btn-success btn-xs fa" style="height: 25px; "><i class="fa"></i>&nbsp;&nbsp;Participar&nbsp;&nbsp;</button>
+			</div>
+	</div>
+	{% endfor %}
+
+{% else %}
+	<div class="note">
+	Your search yielded no results
+	</div>
+{% endif %}
