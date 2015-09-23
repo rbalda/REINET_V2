@@ -234,7 +234,7 @@ def editar_mi_incubacion(request):
 
 
 """
-Autor: Estefania Lozano
+Autor: Henry Lasso
 Nombre de funcion: admin_ver_incubacion
 Parametros: request
 Salida: 
@@ -277,6 +277,86 @@ def admin_ver_incubacion(request,id_incubacion):
     args['fecha_creacion'] = fecha_creacion
     args['incubadas_incubacion'] = incubadas_incubacion    
     return render_to_response('admin_ver_incubacion.html', args)
+
+"""
+Autor: Henry Lasso
+Nombre de funcion: admin_incubadas_incubacion
+Parametros: request
+Salida: admin_lista_incubadas
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion
+"""
+@login_required
+def admin_incubadas_incubacion(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
+            pros = []
+            if len(incubadas) > 0:
+                args['incubadas'] = incubadas
+                print "holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                print incubadas
+            else:    
+                args['incubadas'] = "No hay incubadas"
+                print "cjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+                print len(incubadas)
+            return render_to_response('admin_incubadas_de_incubacion.html',args)
+        
+        except Incubada.DoesNotExist:
+            return redirect('/')
+        except IncubadaConsultor.DoesNotExist:
+            return redirect('/')
+        except:
+            return redirect('/')
+    else:
+        return redirect('/NotFound')
+
+"""
+Autor: Henry Lasso
+Nombre de funcion: admin_solicitudes_incubacion
+Parametros: request
+Salida: admin_lista_solicitudes_incubacion
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
+"""
+@login_required
+def admin_solicitudes_incubacion(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    print "solicitudesssssssssssssssssssssss"
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            
+            convocatoria=Convocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion']).last()
+            return render_to_response('admin_incubacion_solicitudes.html',args)
+        except Incubada.DoesNotExist:
+            return redirect('/')
+        except IncubadaConsultor.DoesNotExist:
+            return redirect('/')
+        except:
+            return redirect('/')
+    else:
+        return redirect('/NotFound')
 
 """
 Autor: Estefania Lozano
