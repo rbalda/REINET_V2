@@ -26,8 +26,13 @@
     		<div class="col-sm-6">
     			
   				<a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
-  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
-                {% if mensajeAlerta %}
+
+          {% if convocatorias == "No hay Convocatoria" %}
+            <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
+          {% else %}
+            <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria" disabled="true"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
+          {%endif%}
+                  {% if mensajeAlerta %}
                     <br><br>
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -38,31 +43,40 @@
   		</div>
   		<div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> November 10, 2013</li>
-					<li><i class="fa fa-eye"></i> TODOS</li>
+					<li><i class="fa fa-calendar"></i> {{ fecha_creacion }}</li>
   				</ul>
     	</div>
 
 
     	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
     		<div align="right">
-    			<a href="#" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>&nbsp;Editar</a>
+    			<a href="/EditarMiIncubacion/{{incubacion.id_incubacion}}" class="btn btn-dark btn-sm"><i class="fa fa-edit"></i>&nbsp;Editar</a>
     		</div>
     		
 			<div class="col-sm-12">
 	            <h4 class="hl"><i class="fa fa-info-circle"></i> Descripción</h4>
-	            <p class="bottom-15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
+	            <p class="bottom-15">{{ incubacion.descripcion}}</p>
 	           	<h4 class="hl"><i class="fa fa-question-circle"></i> Condiciones</h4>
-	            <p class="bottom-15">Quisque quis mauris sit amet magna fermentum tincidunt et a enim. Aliquam eu rhoncus libero, a pulvinar metus.</p>
+	            <p class="bottom-15">{{ incubacion.condiciones }}</p>
 	        </div>
 			<div class="col-sm-12">
 				<h4 class="hl"><i class="fa fa-sitemap"></i> Acerca de la Ofertas a Incubar</h4>
 	            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
 	              	<div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
-		              	<p style="color: darkgray"  class="col-md-3">Perfil de la Oferta</p>
-		              	<p class="col-md-9">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tortor nunc, dapibus a est sed, tempus bibendum arcu. Nullam pretium arcu in neque congue tempor. </p>
-		              	<p style="color: darkgray"  class="col-md-3">Tipo de la Oferta</p>
-		                <p class="col-md-9"> euismod </p>
+		              	<p style="color: darkgray"  class="col-md-5">Perfil de la Oferta</p>
+		              	<p class="col-md-7">{{ incubacion.perfil_oferta}}</p>
+		              	<p style="color: darkgray"  class="col-md-5">Tipo de la Oferta</p>
+		                <p class="col-md-7">
+                      {% if incubacion.tipos_oferta == 0 %}
+                          Emprendimiento
+                      {% endif %}
+                      {% if incubacion.tipos_oferta == 1 %}
+                          Tecnología
+                      {% endif %}
+                      {% if incubacion.tipos_oferta == 2 %}
+                          Prototipo
+                      {% endif %}
+                    </p>
 	                </div>
 	            </div>
 	            <hr>
@@ -70,154 +84,91 @@
     	</div>
     	<div class="col-sm-7">
     		<div class="col-sm-8 col-sm-offset-2" align="center" style="padding:15px">
-
-
-
     			<div class="panel panel-dark" align="center" style="margin-bottom:0px">
 				    <div class="panel-body" style="padding-bottom: 5px;">
 				    	<h4 class="hl" style=" font-weight: bold"><bold> Convocatoria Actual de ofertas</bold></h4>
-	            		<table class="table " style="margin-bottom: 0px;">
-                            <thead>
-                            <tr>
-                                <th class="text-muted">#</th>
-                                <th class="text-muted">Alcance</th>
-                                <th class="text-muted">Fecha Máxima</th>
-                            </tr>
-                            </thead>
-	            			<tbody>
-                                    <tr>
-                                        <td style="text-align:left"></td>
-                                        <td style="text-align:left">Todos</td>
-                                        <td style="text-align:left"></td>
-                                    </tr>
-                                
-                            </tbody>
-                        </table>
-		            </div>
+	            	{% if convocatorias != "No hay Convocatoria" %}	
+                  <table class="table " style="margin-bottom: 0px;">
+                    <thead>
+                      <tr>
+                        <th class="text-muted">Abierta Hasta</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="text-align:left">{{ convocatorias.fecha_maxima }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                {% else %}
+                <div class="info-board info-board-red"> Esta incubación no tiene una convocatoria abierta </div>
+                {%endif%}
+		        </div>
 			    </div>
     		</div>
 
     		<div class="col-sm-12">
 	    		<ul class="nav nav-tabs" role="tablist">
 	            	<li role="presentation" class="active"><a href="#incubadas" aria-controls="home" role="tab" data-toggle="tab">INCUBADAS</a></li>
-	            	<li role="presentation" ><a href="#solicitudes_ofertas" aria-controls="home" role="tab" data-toggle="tab">OFERTAS APLICANTES</a></li>
+	            	<li role="presentation" ><a href="#solicitudes_ofertas" name="click_sol" aria-controls="home" role="tab" data-toggle="tab">OFERTAS APLICANTES</a></li>
                     
 	           	</ul>
 				<div class="tab-content">
 					<div class="alert alert-info alert-dismissable">
-		                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-		                <strong>Recuerde!</strong> Para tener incubadas debe crear una convocatoria de ofertas.
-		            </div>
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <strong>Recuerde!</strong> Para tener incubadas debe crear una convocatoria de ofertas.
+          </div>
 				  <div id="incubadas" class="tab-pane fade in active">
-				  		<div style="font-size:12px;height:250px;overflow-y:auto;" >
-					  		<div class="pm-list">
-	                           <ul>
-	                               <li>
-	                                   <p class="text-muted" style="width: 100%;">
-	                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-	                                       <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-	                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-	                                   </p>
-	                                   
-	                                   <div class="clearfix"></div>
-	                               </li>
-	                                <li>
-                                     <p class="text-muted" style="width: 100%;">
-                                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                         <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                         <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                     </p>
-                                     
-                                     <div class="clearfix"></div>
-                                 </li>
-	                               <li>
-                                     <p class="text-muted" style="width: 100%;">
-                                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                         <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                         <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                     </p>
-                                     
-                                     <div class="clearfix"></div>
-                                 </li>
-	                                <li>
-                                     <p class="text-muted" style="width: 100%;">
-                                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                         <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                         <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                     </p>
-                                     
-                                     <div class="clearfix"></div>
-                                 </li>
-	                           </ul>
-	                       </div>
-	                    </div>
+				  		
 				  </div>
-                
+          <script>
+            $(document).ready(function() {
+              $(function () {
+                $('#incubadas').ready(mostrarIncubadasIncubacion);
+                function mostrarIncubadasIncubacion() {
+                  $.ajax({
+                    data: {
+                      'incubacion':{{incubacion.id_incubacion}}
+                    },
+                    type: 'get',
+                    url: '/AdminIncubadasIncubacion/',
+                    success: function (data) {
+                      $('#incubadas').html(data)
+                    }
+                  });
+                }
+              });
+            });
+          </script>
 
-                  <div id="solicitudes_ofertas" class="tab-pane fade">
-                  	<div style="font-size:12px;height:250px;overflow-y:auto;" >
-                    	<div class="pm-list" >
-                           <ul>
-                    <!-- First dialog -->
-                               <li>
-                                   <p class="text-muted" style="width:100%">
-                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                       <a href="#" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                   </p>
-                                   <p class="text-muted" style="width:100%" align=right>                                        
-                                           <button type="button" class="btn btn-red" >
-                                        
-                                           <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                           <button type="button" class="btn btn-default"  style="margin-left:10px">
-                                        
-                                           <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                        
-                                   </p>
-                                   <div class="clearfix"></div>
-                               </li>
-                                <li>
-                                   <p class="text-muted" style="width:100%">
-                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                       <a href="#" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                   </p>
-                                   <p class="text-muted" style="width:100%" align=right>                                        
-                                           <button type="button" class="btn btn-red" >
-                                        
-                                           <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                           <button type="button" class="btn btn-default"  style="margin-left:10px">
-                                        
-                                           <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                        
-                                   </p>
-                                   <div class="clearfix"></div>
-                               </li>
-                                <li>
-                                   <p class="text-muted" style="width:100%">
-                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                       <a href="#" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                   </p>
-                                   <p class="text-muted" style="width:100%" align=right>                                        
-                                           <button type="button" class="btn btn-red" >
-                                        
-                                           <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-                                           <button type="button" class="btn btn-default"  style="margin-left:10px">
-                                        
-                                           <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-                                        
-                                   </p>
-                                   <div class="clearfix"></div>
-                               </li>
-                           </ul>
-                       </div>
-                    </div>
+          <div id="solicitudes_ofertas" class="tab-pane fade">
 
-                  </div>
+          </div>
+          <script>
+            $("[name='click_sol']").on('click', function(){
+              alert("DE");
+              $(function () {
+                alert("DE");
+                $('#solicitudes_ofertas').ready(mostrarSolicitudesIncubacion);
+                function mostrarSolicitudesIncubacion() {
+                  $.ajax({
+                    data: {
+                      'incubacion':{{incubacion.id_incubacion}}
+                    },
+                    type: 'get',
+                    url: '/AdminSolicitudesIncubacion/',
+                    success: function (data) {
+                      $('#solicitudes_ofertas').html(data)
+                    }
+                  });
+                }
+              });
+            });
+          </script>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 
    <!-- COMIENZAN Los modals que se usan en toda la pagina -->

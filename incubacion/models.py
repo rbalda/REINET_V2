@@ -5,6 +5,11 @@ from django.db import models
 from usuarios.models import Perfil, Institucion
 from ofertas_demandas.models import Oferta,DiagramaPorter,DiagramaBusinessCanvas,MiembroEquipo,PalabraClave
 
+def definir_ruta_imagen_incubada(self, filename):
+    hoy = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    nombre_archivo_hoy = "%s_%s" % (hoy, filename)
+    return "incubadas/%s/galeria/%s" % (self.fk_incubada.codigo, nombre_archivo_hoy)
+
 
 class Incubacion(models.Model):
 	id_incubacion=models.AutoField(primary_key=True)
@@ -19,7 +24,6 @@ class Incubacion(models.Model):
 	fk_perfil = models.ForeignKey(Perfil)
 	class Meta:
 		db_table = 'Incubacion'
-
 
 class Consultor(models.Model):
 	id_consultor = models.AutoField(primary_key=True)
@@ -50,14 +54,22 @@ class Incubada(models.Model):
     #equipo = models.ManyToManyField(Perfil,through='MiembroEquipo',through_fields=('fk_oferta_en_que_participa','fk_participante'),related_name='participa_en')
     equipo = models.ForeignKey(MiembroEquipo)
     palabras_clave = models.ManyToManyField(PalabraClave,related_name='incubada_con_esta_palabra')
-    
     #comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
     #alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
+    fk_oferta=models.ForeignKey(Oferta,default=30)
     fk_incubacion = models.ForeignKey(Incubacion)
     consultores=models.ManyToManyField(Consultor,through='IncubadaConsultor',through_fields=('fk_incubada','fk_consultor'),related_name='consultores')
     class Meta:
         db_table = 'Incubada'
 
+
+class ImagenIncubada(models.Model):
+    id_imagen = models.AutoField(primary_key=True)
+    imagen = models.ImageField(upload_to=definir_ruta_imagen_incubada)
+    descripcion = models.TextField()
+    fk_incubada = models.ForeignKey(Incubada,related_name='galeriaIncubada')
+    class Meta:
+        db_table='ImagenIncubada'
 
 class IncubadaConsultor(models.Model):
 	id_incubadaConsultor = models.AutoField(primary_key=True)

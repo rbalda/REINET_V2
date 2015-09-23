@@ -1,0 +1,67 @@
+<br>
+<hr style="border-top:1px solid red">
+<h4 class="hl" style="color:red">Retroalimentaciones de 
+  {%if numTabIncubada|add:0 == 1%}
+      la informaci&oacute;n General
+    {%elif numTabIncubada|add:0 == 2%}
+      los clientes/usuarios
+    {%elif numTabIncubada|add:0 == 3%}
+      el modelo de negocio
+    {%elif numTabIncubada|add:0 == 4%}
+      los competidores
+    {%else%}
+      los logros
+    {%endif%}
+</h4>
+<div>A la fecha: {{num_Retroal}}</div>
+<div style="margin-bottom:10px">Los &uacute;nicos que pueden brindar retroalimentaciones son los consultores</div>
+
+{% for retr in retroalimentaciones %}
+  <div class="panel-group" id="accordion" style="margin-bottom: 5px;">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#{{retr.id_retroalimentacion}}" aria-expanded="false" class="collapsed" style="font-size:13px;color:#C0392B">
+            {{forloop.counter}}) fecha: {{retr.fecha_creacion.date}}
+          </a>
+        </h4>
+      </div>
+      <div id="{{retr.id_retroalimentacion}}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+        <div class="panel-body">
+          <div class="comment" style="margin: 0; border-bottom: 0px dotted #ddd;">
+              <div class="media" style="border-bottom: 0px dotted #ddd !important;">
+                <a class="pull-left" href="#">
+                  <img class="media-object" src="{{retr.fk_consultor.fk_usuario_consultor.foto.url}}" alt="..." data-pin-nopin="true">
+                </a>
+                <div class="media-body">
+                  <p><a href="/usuario/{{retr.fk_consultor.fk_usuario_consultor.username }}">{{retr.fk_consultor.fk_usuario_consultor.first_name}} {{retr.fk_consultor.fk_usuario_consultor.last_name}}</a></p>
+                  <p>
+                    {{retr.contenido}}
+                  </p>
+                  <ul class="text-muted list-inline" style="margin-bottom: 0px;">
+                    <li><i class="fa fa-clock-o"></i> {{retr.fecha_creacion.time}}</li>
+                  </ul>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ {% empty %}
+    <!-- PRIMER MIEMBRO DEL EQUIPO-->
+    <div class="info-board info-board-orange"> No existen retroalimentaciones para
+    {%if numTabIncubada|add:0 == 1%}
+      la informaci&oacute;n General
+    {%elif numTabIncubada|add:0 == 2%}
+      los clientes/usuarios
+    {%elif numTabIncubada|add:0 == 3%}
+      el modelo de negocio
+    {%elif numTabIncubada|add:0 == 4%}
+      los competidores
+    {%else%}
+      los logros
+    {%endif%}
+    </div>
+
+{% endfor %}
