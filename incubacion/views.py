@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 import random
 import string
-
+import re
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -245,20 +245,90 @@ def invitar_consultor(request):
         return redirect('/NotFound')
 
 """
-Autor: Henry Lasso
-Nombre de funcion: Editar_Incubacion
-Parametros: request
+Autor: Dimitri Laaz
+Nombre de funcion: editar_mi_incubacion
+Parametros: 
+request-> petición http
+id -> identificador de la incubación a editar
 Salida: 
-Descripcion: Mostar template editar mi incubacion
+Descripcion: Carga los datos de una incubación para psoteriormente ser editada
 """
 
-
 @login_required
-def editar_mi_incubacion(request):
-    args = {}
-    args['usuario'] = request.user
-    args['es_admin'] = request.session['es_admin']
-    return render_to_response('admin_editar_mi_incubacion.html', args)
+def editar_mi_incubacion(request,incubacionid):
+    try:
+        args = {}
+        #se recupera el identificador de la sesión actual
+        sesion = request.session['id_usuario']
+        #se obtiene el usuario de la sesión actual
+        usuario = Perfil.objects.get(id=sesion)
+        #se actualiza el token contra ataques de Cross Site Request Forgery(CSRF)
+        args.update(csrf(request))
+
+        #se envia el usuario y la bandera de administrador como argumentos de la vista
+        args['usuario']=request.user
+        args['es_admin']=request.session['es_admin']
+
+        #se comprueba si la incubación solicitada existe
+        try:
+            incubacion_editar = Incubacion.objects.get(id_incubacion=incubacionid)      
+            if incubacion_editar.fk_perfil.id_perfil != usuario.id_perfil:
+                return HttpResponseRedirect('/VerIncubacion/' + str(incubacion_editar.id_incubacion))           
+        except ObjectDoesNotExist:
+            return HttpResponseRedirect('/NotFound/')
+
+
+        
+        if request.method == 'POST':
+            # se recuperan los datos enviados por medio de la peticion http POST
+            nombreIncubacion=request.POST.get("nombre_incubacion")
+            descripcionIncubacion=request.POST.get("descripcion_incubacion")
+            perfilIncubacion=request.POST.get("perfil_incubacion")
+            condicionesIncubacion =request.POST.get("condiciones_incubacion")
+            tipoIncubacion = request.POST.get("select_tipo_incubacion")
+
+            #validación de los campos por medio de expresiones regulares
+            nombreValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?){10,300}$',nombreIncubacion)
+            descripcionValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$',descripcionIncubacion)
+            perfilValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$',perfilIncubacion)
+            condicionesValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$',condicionesIncubacion)
+            tipoValido = re.search(u'^[012]$',tipoIncubacion)
+
+            #se cambian los datos de la incubacion
+            incubacion_editar.nombre = nombreIncubacion
+            incubacion_editar.descripcion = descripcionIncubacion
+            incubacion_editar.perfil_oferta = perfilIncubacion
+            incubacion_editar.condiciones = condicionesIncubacion
+            incubacion_editar.tipos_oferta = int(tipoIncubacion)
+
+            #condicíon en caso de que un campo no este correcto
+            if nombreValido is None or \
+               descripcionValido is None or \
+               perfilValido is None or \
+               condicionesValido is None or \
+               tipoValido is None:
+                #se establece el mensaje de error de la operación
+                args['errmsg'] = 1
+                args['incubacion'] = incubacion_editar
+
+                #se reenvia el formulario con los datos cambiados
+                return render_to_response('admin_editar_mi_incubacion.html',args)
+
+
+            #se guardan los cambios
+            incubacion_editar.save()
+
+            #Se establece el mensaje de éxito de la operación
+            args['errmsg'] = 0
+
+        #se envia la información de la incubación a la vista
+        args['incubacion'] = incubacion_editar
+        
+        #se renderiza la vista
+        return render_to_response('admin_editar_mi_incubacion.html',args)
+    except:
+        return redirect('/')
+
 
 
 """
