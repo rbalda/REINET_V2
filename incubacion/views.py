@@ -28,6 +28,7 @@ from incubacion.models import *
 from incubacion.serializers import *
 
 from usuarios.models import *
+from ofertas_demandas.models import *
 from django.db.models import Avg
 
 
@@ -138,8 +139,20 @@ def participar_incubacion(request):
     if request.is_ajax():
         try:
             #Obtener las ofertas del usuario actual
-            ofertasusuario = Oferta.objects.all()
-            args['pariciparIncubacion'] = ofertasusuario
+            #membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+            #oferta = Oferta.objects.filter(publicada=True)
+            #ofertasusuario = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1,)
+            print "olla 1"
+            #f = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1)
+            ofer = Oferta.objects.filter(publicada = 1).filter(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1))
+            #ofer = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1).filter(oferta=Oferta.objects.filter(publicada = 1))
+            print ofer
+            print "lista"
+            #of1 = Oferta.objects.filter(id_oferta=of.fk_oferta_en_que_participa)
+            #ofertasusuario = MiembroEquipo.objects.filter(oferta__in=oferta).select_related()
+            print "olla 2"
+
+            args['pariciparIncubacion'] = ofer
             return render_to_response('usuario_participar_incubacion.html',args)
 
         except Oferta.DoesNotExist:
