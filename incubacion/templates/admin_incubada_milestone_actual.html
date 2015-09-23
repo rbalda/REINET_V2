@@ -1,4 +1,4 @@
-{% if milestone %}
+{% if milestone != False %}
     <span style="font-size:13px;color:gray">Fecha m&aacute;xima para ser completado por el usuario:</span>
     <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{milestone.id_milestone}}">{{milestone.fecha_maxima.date}}</a></h4>
 

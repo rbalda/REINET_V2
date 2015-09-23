@@ -260,20 +260,22 @@ def admin_ver_incubada(request,id_incubada):
 
                 #Tenemos que validar si hay un mmilestone vigente
                 milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
+
                 if milestone:
                     hoy = datetime.datetime.now(timezone.utc)
                     fecha_maxima_milestone=milestone.fecha_maxima_Retroalimentacion
-                    if fecha_maxima_milestone > hoy:
-                        args['milestone']=milestone
-                    else:
+
+                    if fecha_maxima_milestone <= hoy:
+                        args['ultimo_Milestone']=milestone
                         milestone=False
                 else:
                     milestone=False
+                print milestone
                 args['milestone'] = milestone
 
                 #Ahora voy a buscar las palabras claves
                 palabras_Claves = incubada.palabras_clave.all()
-                if palabras_Claves is None:
+                if palabras_Claves.count()==0:
                     palabras_Claves=False
                 args['palabras_clave']=palabras_Claves
 
@@ -358,9 +360,11 @@ def admin_incubada_milestone_actual(request):
     if request.is_ajax():
         try:
             milestone = Milestone.objects.all().filter(fk_incubada = request.GET['incubada']).last()
-            if milestone:
-                print milestone.id_milestone    
-            else:
+            
+            hoy = datetime.datetime.now(timezone.utc)
+            fecha_maxima_milestone=milestone.fecha_maxima_Retroalimentacion
+
+            if fecha_maxima_milestone <= hoy:
                 milestone=False
             args['milestone'] = milestone
 
@@ -376,6 +380,52 @@ def admin_incubada_milestone_actual(request):
         return redirect('/NotFound')
 
 
+
+"""
+Autor: Estefania Lozano
+Nombre de funcion: ver_retroalimentaciones
+Parametros: request
+Salida: ver la lista de retroalimentaciones de cada tab de la incubada
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las retroalimentaciones 
+    de cada tab
+"""
+@login_required
+def ver_retroalimentaciones(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            milestone = Milestone.objects.get(fk_incubada=request.GET['incubada'])
+            numRetroal=0
+            if milestone:
+                retroalimentaciones = Retroalimentacion.objects.filter(fk_milestone = milestone.id_milestone,num_tab=request.GET['numTab'])
+                if retroalimentaciones:
+                    numRetroal = retroalimentaciones.count()
+            numTabVar =request.GET['numTab']
+
+            args['numTabIncubada']=numTabVar
+            args['num_Retroal']=numRetroal
+            args['retroalimentaciones'] = retroalimentaciones
+            return render_to_response('retroalimentaciones.html',args)
+
+        except Incubada.DoesNotExist:
+            return redirect('/')
+        except:
+            return redirect('/')
+    else:
+        return redirect('/NotFound')
+
+
+
 """
 Autor: Estefania Lozano
 Nombre de funcion: consultor_ver_incubada
@@ -383,7 +433,6 @@ Parametros: request
 Salida: 
 Descripcion: Mostar template de la incubada para el consultor de la incubada
 """
-
 
 @login_required
 def consultor_ver_incubada(request):

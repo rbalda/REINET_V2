@@ -22,7 +22,9 @@ urlpatterns = patterns('',
      url(r'^AdminIncubada/(?P<id_incubada>\w{0,250})[/]?$','incubacion.views.admin_ver_incubada', name='admin_ver_incubada'),
      url(r'^AdminIncubadaConsultores[/]?$','incubacion.views.admin_incubada_consultores', name='admin_consultores'),
      url(r'^AdminIncubadaMilestoneActual[/]?$','incubacion.views.admin_incubada_milestone_actual', name='admin_incubada_milest_act'),
-                        
+     url(r'^Retroalimentaciones[/]?$','incubacion.views.ver_retroalimentaciones', name='ver_retroalimentaciones'),
+      
+
      url(r'^ConsultorIncubada[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
      url(r'^Incubada[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
