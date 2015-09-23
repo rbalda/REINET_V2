@@ -117,7 +117,7 @@ def crear_incubacion(request):
 
 
 """
-Autor: Jose Velez
+Autor: Leonel Ramirez 
 Nombre de funcion: participar_incubacion
 Parametros: request
 Salida: Muetra al usuario que sus ofertas
@@ -138,32 +138,60 @@ def participar_incubacion(request):
 
     if request.is_ajax():
         try:
-            #Obtener las ofertas del usuario actual
-            #membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
-            #oferta = Oferta.objects.filter(publicada=True)
-            #ofertasusuario = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1,)
-            print "olla 1"
-            #f = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1)
-            ofer = Oferta.objects.filter(publicada = 1).filter(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1))
-            #ofer = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1).filter(oferta=Oferta.objects.filter(publicada = 1))
-            print ofer
-            print "lista"
-            #of1 = Oferta.objects.filter(id_oferta=of.fk_oferta_en_que_participa)
-            #ofertasusuario = MiembroEquipo.objects.filter(oferta__in=oferta).select_related()
-            print "olla 2"
-
-            args['pariciparIncubacion'] = ofer
-            return render_to_response('usuario_participar_incubacion.html',args)
+                #Obtener las ofertas del usuario actual
+                #membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+                #oferta = Oferta.objects.filter(publicada=True)
+                #ofertasusuario = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1,)
+                #f = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1)
+                ofertaParticipar = Oferta.objects.filter(publicada = 1).filter(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1))
+                #ofer = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1).filter(oferta=Oferta.objects.filter(publicada = 1))
+                #of1 = Oferta.objects.filter(id_oferta=of.fk_oferta_en_que_participa)
+                #ofertasusuario = MiembroEquipo.objects.filter(oferta__in=oferta).select_related()
+                print request.GET['incubacion']
+                args['incubacion'] = request.GET['incubacion']
+                args['pariciparIncubacion'] = ofertaParticipar
+                return render_to_response('usuario_participar_incubacion.html',args)
 
         except Oferta.DoesNotExist:
             print '>> Oferta no existe'
             return redirect('/')
-        except :
+        except Exception as e:
+            print e
             print '>> Excepcion no controlada PARTICIPAR INCUBACION'
             return redirect('/')
     else:
         return redirect('/NotFound')
 
+"""
+Autor: Leonel Ramirez
+Nombre de funcion: inviar_oferta_incubacion
+Parametros: request
+Salida: envia id_oferta y id_incubacion
+Descripcion: Solictud para pertenecer a una incubacion
+
+def inviar_oferta_incubacion(request):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    if request.is_ajax():
+        try:
+        except Exception as e:
+            print e
+            print '>> Excepcion no controlada PARTICIPAR INCUBACION'
+            return redirect('/')
+        else:
+        return redirect('/NotFound')
+    else:
+        return redirect('/NotFound')   
+"""
 
 """
 Autor: Jose Velez
