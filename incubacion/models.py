@@ -116,6 +116,7 @@ class SolicitudOfertasConvocatoria(models.Model):
 	id_solicitud_ofertas_convocatoria=models.AutoField(primary_key=True)
 	estado_solicitud=models.PositiveSmallIntegerField() #Pendiente=0,Aprobada=1,Rechazada=2
 	fk_convocatoria=models.ForeignKey(Convocatoria)
+	fk_incubacion = models.ForeignKey(Incubacion)
 	fk_oferta=models.ForeignKey(Oferta)
 	fecha_creacion= models.DateTimeField(auto_now_add=True)
 	class Meta:
