@@ -22,15 +22,13 @@
     {% endblock %}
 
 
-    <style type="text/css">
-    	.popover{
-		    max-width: 100%; // Max Width of the popover (depending on the container!)
-		    
-		}
-    </style>
-
-
     <div class="container">
+
+
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <strong>Recuerde!</strong> Usted es administrador de &eacute;sta incubada, que se encuentra en su incubada
+      </div>
 
 	    <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
 	        <div class="col-md-8" style=" padding-top: 20px;margin-bottom: 15px; border:1px solid #ddd">
@@ -122,9 +120,12 @@
 					                                            });
 					                                        }
 					                                    });
+														/*COMENTO ESTA FUNCION PROQUE ME ESTABA HACIENDO LA CASITA!
+														JOSE NO LE QUITES LOS EVENTOS A TODOS LOS BOTONES JEJE
 														$("button").click(function(event){
 															$(event.target).remove();
 														});
+														*/
 				                                    });
 				                                });
 				                            </script>
@@ -781,9 +782,6 @@
 			            </h2>
 			          </div>
 
-
-
-
 			          	{%if ultimo_Milestone%}
 						    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{milestone.id_milestone}}">{{ultimo_Milestone.fecha_maxima.date}}</a></h4>
 						    
@@ -797,7 +795,7 @@
 
 
 		              
-		              <a href="#" class="read-more">Ver más...</a>
+		              <a href="/VerMilestone/{{milestone.id_milestone}}" class="read-more">Ver m&aacute;s...</a>
 			            
 		        	</div>
 		        	<!-- TERMINA Historial de milestones -->
@@ -869,15 +867,7 @@
             </div>
         </div>
         
-	<script type="text/javascript" src="static/js/incubacion/editorTexto/js/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript">
-     tinyMCE.init({
-       mode : "specific_textareas",
-       editor_selector : "tinymce",
-      }) 
-    </script>
-
-
+	
     
 
 	

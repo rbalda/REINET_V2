@@ -282,47 +282,48 @@ def admin_ver_incubada(request,id_incubada):
     if usuario is not None:
         args['usuario'] = usuario
         try:
-            incubada = Incubada.objects.get(id_incubada = 1)
+            incubada = Incubada.objects.get(id_incubada = id_incubada)
             #Tengo que verificar que el administrador de la incubada es el usuario en sesion
             print incubada.fk_incubacion.fk_perfil
-            if incubada.fk_incubacion.fk_perfil == usuario:
-                propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo,es_propietario=1)
-                equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
-                if equipo is not None:
-                    args['equipo'] = equipo
-                fotos= ImagenIncubada.objects.filter(fk_incubada=id_incubada)
-                if fotos:
-                    imagen_principal = fotos.first()
-                else:
-                    fotos = False
-                    imagen_principal = False
+            if incubada:
+                if incubada.fk_incubacion.fk_perfil == usuario:
+                    propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo,es_propietario=1)
+                    equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
+                    if equipo is not None:
+                        args['equipo'] = equipo
+                    fotos= ImagenIncubada.objects.filter(fk_incubada=id_incubada)
+                    if fotos:
+                        imagen_principal = fotos.first()
+                    else:
+                        fotos = False
+                        imagen_principal = False
 
-                #Tenemos que validar si hay un mmilestone vigente
-                milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
+                    #Tenemos que validar si hay un mmilestone vigente
+                    milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
 
-                if milestone:
-                    hoy = datetime.datetime.now(timezone.utc)
-                    fecha_maxima_milestone=milestone.fecha_maxima_Retroalimentacion
+                    if milestone:
+                        hoy = datetime.datetime.now(timezone.utc)
+                        fecha_maxima_milestone=milestone.fecha_maxima_Retroalimentacion
 
-                    if fecha_maxima_milestone <= hoy:
-                        args['ultimo_Milestone']=milestone
+                        if fecha_maxima_milestone <= hoy:
+                            args['ultimo_Milestone']=milestone
+                            milestone=False
+                    else:
                         milestone=False
-                else:
-                    milestone=False
-                print milestone
-                args['milestone'] = milestone
+                    print milestone
+                    args['milestone'] = milestone
 
-                #Ahora voy a buscar las palabras claves
-                palabras_Claves = incubada.palabras_clave.all()
-                if palabras_Claves.count()==0:
-                    palabras_Claves=False
-                args['palabras_clave']=palabras_Claves
+                    #Ahora voy a buscar las palabras claves
+                    palabras_Claves = incubada.palabras_clave.all()
+                    if palabras_Claves.count()==0:
+                        palabras_Claves=False
+                    args['palabras_clave']=palabras_Claves
 
-                args['fotos'] = fotos
-                args['imagen_principal'] = imagen_principal
-                args['incubada'] = incubada
-                args['propietario'] = propietario
-                return render_to_response('admin_incubada.html', args)
+                    args['fotos'] = fotos
+                    args['imagen_principal'] = imagen_principal
+                    args['incubada'] = incubada
+                    args['propietario'] = propietario
+                    return render_to_response('admin_incubada.html', args)
             else:
                 args['error'] = "Esta incubada no se encuentra bajo su administración"
                 print "ingrese     30"
@@ -463,7 +464,6 @@ def ver_retroalimentaciones(request):
             return redirect('/')
     else:
         return redirect('/NotFound')
-
 
 
 """
