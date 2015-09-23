@@ -12,6 +12,10 @@ appincubacion.controller('crearIncubacionFormController',['$scope','$rootScope',
     $scope.items_alcance = [{tipo: "Todos", valor: 0 },{tipo: "Grupo", valor: 1 }];
     $scope.hide = true;
     
+
+    // codigo para hacer modal
+    $scope.showModal = false;
+
     // funcion guardar al dar click
     $scope.guardar = function(){
         console.log('click guardar incubacion');
@@ -22,16 +26,22 @@ appincubacion.controller('crearIncubacionFormController',['$scope','$rootScope',
             console.log('Se ha creado con exito la Incubacion');
             $scope.textType="alert-success";
             $scope.iconoClass="glyphicon-ok-sign";
+            $scope.info_crear_incubacion = "Incubacion creada exitosamente";
 
             var id = $scope.incubacion.id_incubacion;
             $scope.incubacion_id = id;
 
             $scope.incubacion = new Incubacion();
-            $scope.info_crear_incubacion = "Incubacion creada exitosamente";
-            //$scope.hide=false;
-            $scope.exito_creacion=true; 
 
-            window.location.replace( "/AdminIncubacion/"+id);
+            $scope.html_text = '<strong><h3 class="text-success"> <span class="glyphicon" ng-class="iconoClass" aria-hidden="true"></span> Su Incubaci&oacute;n se ha creado exitosamente</h3></strong>';
+            
+            //$scope.hide=false;
+            $scope.showModal = !$scope.showModal;
+            //$scope.exito_creacion=true; 
+
+            $scope.redirectIncubacion = function (){
+                window.location.replace( "/AdminIncubacion/"+id);
+            }
 
         },
         function(response){
@@ -99,3 +109,48 @@ appincubacion.directive('validarFecha',function($http){
     }
 });
 
+appincubacion.directive('modal', function () {
+    return {
+      template: '<div class="modal fade">' + 
+          '<div class="modal-dialog">' + 
+            '<div class="modal-content">' + 
+              '<div class="modal-header">' +
+                '<div class="col-md-offset-2">'+
+                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                '<div ng-transclude></div>' +
+                '</div>' +
+              '</div>' + 
+              '<div class="modal-body">' +
+                '<button type="button" ng-click="redirectIncubacion()" class="btn btn-default">Aceptar</button>'+
+              '</div>'+
+            '</div>' + 
+          '</div>' + 
+        '</div>',
+      restrict: 'E',
+      transclude: true,
+      replace:true,
+      scope:true,
+      link: function postLink(scope, element, attrs) {
+        scope.title = attrs.title;
+
+        scope.$watch(attrs.visible, function(value){
+          if(value == true)
+            $(element).modal('show');
+          else
+            $(element).modal('hide');
+        });
+
+        $(element).on('shown.bs.modal', function(){
+          scope.$apply(function(){
+            scope.$parent[attrs.visible] = true;
+          });
+        });
+
+        $(element).on('hidden.bs.modal', function(){
+          scope.$apply(function(){
+            scope.$parent[attrs.visible] = false;
+          });
+        });
+      }
+    };
+  });
