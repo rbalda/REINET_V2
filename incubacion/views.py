@@ -117,6 +117,43 @@ def crear_incubacion(request):
 
 """
 Autor: Jose Velez
+Nombre de funcion: participar_incubacion
+Parametros: request
+Salida: Muetra al usuario que sus ofertas
+Descripcion: En esta funcion mostrara las ofertas de un usuario para 
+        participar a una incubacion
+"""
+def participar_incubacion(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    if request.is_ajax():
+        try:
+            #Obtener las ofertas del usuario actual
+            ofertasusuario = Oferta.objects.all()
+            args['pariciparIncubacion'] = ofertasusuario
+            return render_to_response('usuario_participar_incubacion.html',args)
+
+        except Oferta.DoesNotExist:
+            print '>> Oferta no existe'
+            return redirect('/')
+        except :
+            print '>> Excepcion no controlada PARTICIPAR INCUBACION'
+            return redirect('/')
+    else:
+        return redirect('/NotFound')
+
+
+"""
+Autor: Jose Velez
 Nombre de funcion: invitar_consultor
 Parametros: request
 Salida: Muetra al usuario que desea invitar como consultor
@@ -241,14 +278,25 @@ def admin_ver_incubada(request,id_incubada):
     usuario = Perfil.objects.get(id=request.session['id_usuario'])
     args = {}
     args['es_admin']=request.session['es_admin']
+
+    print "USUARIO:  ", usuario
+    print "INCUBADA_ID   ",id_incubada
+    print "ADMIN VER INCUBADA"
     if usuario is not None:
+        print "ingrese     1"
         args['usuario'] = usuario
         try:
-            incubada = Incubada.objects.get(id_incubada = id_incubada)
+            print "ingrese     2"
+            incubada = Incubada.objects.get(id_incubada = 1)
+            print "ingrese     3"
             #Tengo que verificar que el administrador de la incubada es el usuario en sesion
+            print incubada.fk_incubacion.fk_perfil
             if incubada.fk_incubacion.fk_perfil == usuario:
+                print "ingrese     4"
                 propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo,es_propietario=1)
+                print "ingrese     5"
                 equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
+                print "ingrese     6"
                 if equipo is not None:
                     args['equipo'] = equipo
                 fotos= ImagenIncubada.objects.filter(fk_incubada=id_incubada)
@@ -258,25 +306,6 @@ def admin_ver_incubada(request,id_incubada):
                     fotos = False
                     imagen_principal = False
 
-                #Tenemos que validar si hay un mmilestone vigente
-                milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
-                if milestone:
-                    hoy = datetime.datetime.now(timezone.utc)
-                    fecha_maxima_milestone=milestone.fecha_maxima_Retroalimentacion
-                    if fecha_maxima_milestone > hoy:
-                        args['milestone']=milestone
-                    else:
-                        milestone=False
-                else:
-                    milestone=False
-                args['milestone'] = milestone
-
-                #Ahora voy a buscar las palabras claves
-                palabras_Claves = incubada.palabras_clave.all()
-                if palabras_Claves is None:
-                    palabras_Claves=False
-                args['palabras_clave']=palabras_Claves
-
                 args['fotos'] = fotos
                 args['imagen_principal'] = imagen_principal
                 args['incubada'] = incubada
@@ -284,6 +313,7 @@ def admin_ver_incubada(request,id_incubada):
                 return render_to_response('admin_incubada.html', args)
             else:
                 args['error'] = "Esta incubada no se encuentra bajo su administración"
+                print "ingrese     30"
                 return HttpResponseRedirect('/NotFound/')
         #si la oferta no existe redirige a un mensaje de error
         except Incubada.DoesNotExist:
