@@ -948,10 +948,18 @@ Descripcion: para llamar la pagina ver milestone
 """
 
 @login_required
-def admin_ver_milestone(request):
+def admin_ver_milestone(request,id_incubada):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
+    args['incubada'] = id_incubada
+    #ssasasaass
+    listaMilestone = Milestone.objects.all().filter()
+    #Tenemos que validar si hay un mmilestone vigente
+        #primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+         # args['milestone']=primer_milestone
+    #print id_incubada
+    args['listaMilestone'] = listaMilestone
     return render_to_response('admin_ver_milestone.html', args)
 
 

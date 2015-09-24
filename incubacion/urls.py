@@ -20,7 +20,7 @@ urlpatterns = patterns('',
                        
      url(r'^BuscarConsultor[/]?$', 'incubacion.views.buscar_usuario', name='buscar_usuario'),
      url(r'^GuardarConvocatoria[/]?$', 'incubacion.views.guardar_convocatoria', name='guardar_convocatoria'),
-     url(r'^VerMilestone[/]?$', 'incubacion.views.admin_ver_milestone', name='admin_ver_milestone'),
+     url(r'^VerMilestone/(?P<id_incubada>\w{0,250})[/]?$', 'incubacion.views.admin_ver_milestone', name='admin_ver_milestone'),
 
      url(r'^AdminIncubada/(?P<id_incubada>\w{0,250})[/]?$','incubacion.views.admin_ver_incubada', name='admin_ver_incubada'),
      url(r'^AdminIncubadaConsultores[/]?$','incubacion.views.admin_incubada_consultores', name='admin_consultores'),
