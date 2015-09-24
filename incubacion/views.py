@@ -168,8 +168,8 @@ Nombre de funcion: inviar_oferta_incubacion
 Parametros: request
 Salida: envia id_oferta y id_incubacion
 Descripcion: Solictud para pertenecer a una incubacion
-
-def inviar_oferta_incubacion(request):
+"""
+def enviar_oferta_incubacion(request):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
@@ -183,15 +183,20 @@ def inviar_oferta_incubacion(request):
 
     if request.is_ajax():
         try:
+            print "ola"
+            print request.GET['incubacion']
+            print "que hubo"
+            print request.GET['oferta']
+            return render_to_response('/usuario_ver_incubacion/',args)
         except Exception as e:
             print e
             print '>> Excepcion no controlada PARTICIPAR INCUBACION'
             return redirect('/')
         else:
-        return redirect('/NotFound')
+            return redirect('/NotFound')
     else:
         return redirect('/NotFound')   
-"""
+
 
 """
 Autor: Jose Velez

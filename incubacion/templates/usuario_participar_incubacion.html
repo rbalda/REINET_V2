@@ -1,3 +1,4 @@
+Nom : {{incubacion}}
 <label>Lista de ofertas</label>
 {% if pariciparIncubacion%}
 
@@ -16,7 +17,7 @@
 	<br>
 
 		 <div align=right>
-  	        <button href="#" class="btn btn-red" id="btn_participar"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar&nbsp;&nbsp;</button>
+  	        <button href="" class="btn btn-red" id="btn_participar"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar&nbsp;&nbsp;</button>
             <a class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
 
           </div>
@@ -27,10 +28,8 @@
 {% endif %}
 
 <script>
-$('#btn_participar').ready(function () {
-    $(function elegirOferta() {
-    	var select = $("#selectOFertasParticipar")
- 		$('#participar_incubacion').ready(participarOfertas);
+$('#btn_participar').click(function () {
+ 		$('#participar_incubacion').ready(participarIncubacion);
             function participarIncubacion() {
                 $.ajax({
                     data: {
@@ -38,14 +37,13 @@ $('#btn_participar').ready(function () {
                     'oferta':{{oferta.id_oferta}}
                     },
                     type: 'get',
-                    url: '/ParticiparIncubacion/',
+                    url: '/EnviarOfertaParticipar/',
                     success: function (data) {
                     $('#participar_incubacion').html(data)
                     }
                  });
               }
          });
-    });
 </script>
 
 
