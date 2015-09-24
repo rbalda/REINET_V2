@@ -5,8 +5,12 @@
                             {% for incubada in incubadas%}
                                 <li>
                                     <p class="text-muted" style="width: 100%;">
-                                        <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-    	                                <a href="/AdminIncubada/" style="font-size:16px;color:black">{{incubada.nombre}}</a><br>
+                                        {% for img in imagenes%}
+                                            {% if img.fk_incubada == incubada %}
+                                                <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+                                            {%endif%}
+                                        {%endfor%}
+                                        <a href="/AdminIncubada/" style="font-size:16px;color:black">{{incubada.nombre}}</a><br>
                                         <i class="fa fa-user">
                                             {{incubada.equipo.fk_participante.first_name}}
                                             {{incubada.equipo.fk_participante.last_name}}

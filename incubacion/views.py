@@ -302,15 +302,16 @@ def admin_incubadas_incubacion(request):
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            pros = []
+            imagenincubada = ImagenIncubada.objects.all().filter()
+            print incubadas
+            print imagenincubada
+
             if len(incubadas) > 0:
                 args['incubadas'] = incubadas
-                print "holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                print incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
-                print "cjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
-                print len(incubadas)
+                
+            args['imagenes']= imagenincubada
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         
         except Incubada.DoesNotExist:
@@ -336,7 +337,6 @@ def admin_solicitudes_incubacion(request):
     args = {}
     args['es_admin']=request.session['es_admin']
     #si el usuario EXISTE asigna un arg para usarlo en el template
-    print "solicitudesssssssssssssssssssssss"
     if usuario is not None:
         args['usuario'] = usuario
     else:
@@ -346,8 +346,13 @@ def admin_solicitudes_incubacion(request):
     if request.is_ajax():
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
-            
-            convocatoria=Convocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion']).last()
+            solicitudes = SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0) 
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
+            if len(solicitudes) > 0:
+                args['solicitudes'] = solicitudes
+            else:    
+                args['solicitudes'] = "No hay solicitudes"
+            args['propietarios'] = propietarios
             return render_to_response('admin_incubacion_solicitudes.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')

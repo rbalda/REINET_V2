@@ -1,20 +1,34 @@
-<div style="font-size:12px;height:250px;overflow-y:auto;" >
-  <div class="pm-list" >
-    <ul>
-      <li>
-        <p class="text-muted" style="width:100%">
-          <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-          <a href="#" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-          <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-        </p>
-        <p class="text-muted" style="width:100%" align=right>
-          <button type="button" class="btn btn-red" >
-          <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-          <button type="button" class="btn btn-default"  style="margin-left:10px">
-          <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-        </p>
-        <div class="clearfix"></div>
-      </li>
-    </ul>
+{% if solicitudes != "No hay solicitudes" %}   
+  <div style="font-size:12px;height:250px;overflow-y:auto;" >
+    <div class="pm-list" >
+      <ul>
+        {%for solicitud in solicitudes%}
+          <li>
+            <p class="text-muted" style="width:100%">
+              <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+              <a href="#" style="font-size:16px;color:black">{{ solicitud.fk_oferta.nombre}}</a><br>
+              {%for dueno in propietarios %}
+                {%if dueno.fk_oferta_en_que_participa == solicitud.fk_oferta%}
+                  <i class="fa fa-user"></i>&nbsp;{{dueno.fk_participante.first_name}}{{dueno.fk_participante.last_name}}
+                {%endif%}  
+              {%endfor%}
+              <br><i class="fa fa-calendar"></i>&nbsp;{{solicitud.fk_oferta.fecha_creacion.date}}
+            </p>
+            <p class="text-muted" style="width:100%" align=right>
+              <button type="button" class="btn btn-red" >
+              <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+              <button type="button" class="btn btn-default"  style="margin-left:10px">
+              <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+            </p>
+            <div class="clearfix"></div>
+          </li>
+        {%endfor%}
+      </ul>
+    </div>
   </div>
-</div>
+{%else%}
+  <div class="alert alert-danger alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Esta Incubación no tiene solicitudes pendientes
+  </div>
+{%endif%}
+
