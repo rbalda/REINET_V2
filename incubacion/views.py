@@ -171,37 +171,39 @@ def invitar_consultor(request):
     else:
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
     
 
 
     consultor = request.GET.get( 'consultor' )
-    print "Usuario-Consultor           :",consultor
-    usuario = consultor.split('-')
-    print "Consultor Invitado: ",usuario[1]
-    #si encuentra el ajax del template
-    if request.is_ajax():
-        try:
-            print "entro consultor 1"
-            print usuario[1]
-            print "entro"
-            invitarconsultor = Perfil.objects.get(username=usuario[1])
-            print "entro consultor 2"
-            args['invitarconsultor'] = invitarconsultor
-            print invitarconsultor
-            #args.update(csrf(request))
-            return render_to_response('admin_invitar_consultor.html',args)
-
-        except User.DoesNotExist:
-            print '>> Usuario no existe'
-            return redirect('/')
-        except :
-            print '>> Excepcion no controlada INVITAR CONSULTOR'
-            return redirect('/')
-            
-
+    usuarioconsultor = consultor.split('-')
+    if usuario.username == usuarioconsultor[1]:
+        args['mismousuario'] = "NO SE PUEDE SELECCIONAR EL MISMO USUARIO"
     else:
-        print "NO INGRESO A INVITAR"
-        return redirect('/NotFound')
+
+        #si encuentra el ajax del template
+        if request.is_ajax():
+            try:
+                print usuarioconsultor[1]
+                invitarconsultor = Perfil.objects.get(username=usuarioconsultor[1])
+                args['invitarconsultor'] = invitarconsultor
+                print invitarconsultor
+                return render_to_response('admin_invitar_consultor.html',args)
+
+            except User.DoesNotExist:
+                print '>> Usuario no existe'
+                return redirect('/')
+            except :
+                print '>> Excepcion no controlada INVITAR CONSULTOR'
+                return redirect('/')
+                
+
+        else:
+            print "NO INGRESO A INVITAR"
+            return redirect('/NotFound')
+
+        return render_to_response('admin_invitar_consultor.html',args)
 
 """
 Autor: Henry Lasso
@@ -553,7 +555,7 @@ class Autocompletar_Consultor(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.query_params.get('term', None)
-        usuarios = User.objects.filter(username__icontains=user)[:5]
+        usuarios = User.objects.filter(first_name__icontains=user)[:5]
         serializador = UsuarioSerializador(usuarios, many=True)
         response = Response(serializador.data)
         return response
