@@ -10,7 +10,7 @@
 				<p style=" margin-bottom: 0px;">{{invitarconsultor.first_name}} {{invitarconsultor.last_name}}</p>
 				<p style=" margin-bottom: 0px;">{{invitarconsultor.username}}</p>
 
-				<input id="botonCancelar{{invitarconsultor.id}}" type="submit" class="btn btn-success btn-xs fa" value="Cancelar" style=" height: 25px; " />
+				<input id="botonCancelar{{invitarconsultor.username}}" type="submit" class="btn btn-success btn-xs fa" value="Cancelar" style=" height: 25px; " />
 			</div>
 	</div>
 
@@ -23,7 +23,7 @@
 <script type="text/javascript">
 	$(function () {
 		$('.note').remove();
-		$('#botonCancelar{{invitarconsultor.id}}').click(function(event){
+		$('#botonCancelar{{invitarconsultor.username}}').click(function(event){
 			$(this).parent().parent().remove();
 			$("script").remove();
 		});

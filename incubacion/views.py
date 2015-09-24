@@ -214,9 +214,6 @@ def invitar_consultor(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-    
-
-
     consultor = request.GET.get( 'consultor' )
     usuarioconsultor = consultor.split('-')
     if usuario.username == usuarioconsultor[1]:
@@ -245,6 +242,66 @@ def invitar_consultor(request):
             return redirect('/NotFound')
 
         return render_to_response('admin_invitar_consultor.html',args)
+
+
+"""
+Autor: Jose Velez
+Nombre de funcion: enviar_invitaciones
+Parametros: request
+Salida: Se envia a solicitud a todos los usuario
+Descripcion: En esta funcion se guarda en la base todos los usuario que seran consultor
+"""
+@login_required
+def enviar_invitaciones(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    usuarioPerfil = request.GET.get( 'usuarioperfil' )
+    idIncubada = request.GET.get( 'idincubada' )
+       
+    consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil)
+
+    if len(consultor) > 0:
+        print "EL USUARIO NO PUEDE SER CONSULTOR"        
+    elif len(consultor) == 0:
+
+        fechaactual = datetime.datetime.now()
+
+
+        consultorTabla = Consultor()
+        consultorTabla.fk_usuario_consultor_id = usuarioPerfil
+        consultorTabla.fecha_creacion = fechaactual
+
+        #se guardan los cambios
+        consultorTabla.save()
+
+        #Obtener el ID del Consultor
+        obtenerconsultor = Consultor.objects.get(fk_usuario_consultor=usuarioPerfil)
+
+        print "Obtener ID: ", obtenerconsultor.id_consultor
+
+        incubadaconsultor = IncubadaConsultor()
+        incubadaconsultor.fk_consultor_id = obtenerconsultor.id_consultor
+        incubadaconsultor.fk_incubada_id = idIncubada
+        incubadaconsultor.fecha_creacion = fechaactual
+
+        print "Va a guardar"
+
+        #se guardan los cambios
+        incubadaconsultor.save()
+        print "guardo"
+
+
+        
 
 """
 Autor: Dimitri Laaz
@@ -332,7 +389,6 @@ def editar_mi_incubacion(request,incubacionid):
         return redirect('/')
 
 
-
 """
 Autor: Henry Lasso
 Nombre de funcion: admin_ver_incubacion
@@ -385,6 +441,7 @@ Parametros: request
 Salida: admin_lista_incubadas
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion
 """
+
 @login_required
 def admin_incubadas_incubacion(request):
     sesion = request.session['id_usuario']
@@ -429,6 +486,7 @@ Parametros: request
 Salida: admin_lista_solicitudes_incubacion
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
 """
+
 @login_required
 def admin_solicitudes_incubacion(request):
     sesion = request.session['id_usuario']
@@ -465,6 +523,7 @@ Parametros: request, id_incubada
 Salida: Template admin_ver_incubada
 Descripcion: Administrar una incubada de una incubacion de la cual soy dueño
 """
+
 @login_required
 def admin_ver_incubada(request,id_incubada):
     session = request.session['id_usuario']
@@ -529,6 +588,7 @@ def admin_ver_incubada(request,id_incubada):
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect('/NotFound/')
 
+
 """
 Autor: Estefania Lozano
 Nombre de funcion: admin_consultores
@@ -536,6 +596,7 @@ Parametros: request
 Salida: admin_lista_consultores
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de consultores de la incubada
 """
+
 @login_required
 def admin_incubada_consultores(request):
     sesion = request.session['id_usuario']
@@ -570,6 +631,7 @@ def admin_incubada_consultores(request):
     else:
         return redirect('/NotFound')
 
+
 """
 Autor: Estefania Lozano
 Nombre de funcion: admin_incubada_milestone_actual
@@ -578,6 +640,7 @@ Salida: ver admin_incubada_milestone_actual
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar el milestone vigente en
     la vista de incubada para el administrador
 """
+
 @login_required
 def admin_incubada_milestone_actual(request):
     sesion = request.session['id_usuario']
@@ -614,7 +677,6 @@ def admin_incubada_milestone_actual(request):
         return redirect('/NotFound')
 
 
-
 """
 Autor: Estefania Lozano
 Nombre de funcion: ver_retroalimentaciones
@@ -623,6 +685,7 @@ Salida: ver la lista de retroalimentaciones de cada tab de la incubada
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las retroalimentaciones 
     de cada tab
 """
+
 @login_required
 def ver_retroalimentaciones(request):
     sesion = request.session['id_usuario']
@@ -683,7 +746,6 @@ Salida:
 Descripcion: Mostar template de la incubada para el duenio de la incubada
 """
 
-
 @login_required
 def usuario_ver_incubada(request):
     args = {}
@@ -699,7 +761,6 @@ Parametros: request
 Salida: Muetra el formulario de crear una incubacion
 Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofertas
 """
-
 
 @login_required
 def buscar_usuario(request):
@@ -731,7 +792,6 @@ Parametros: request
 Salida: pagian ver milestone
 Descripcion: para llamar la pagina ver milestone
 """
-
 
 @login_required
 def admin_ver_milestone(request):
@@ -799,6 +859,8 @@ def guardar_convocatoria(request):
             return HttpResponseRedirect('InicioIncubaciones')
     """
     return render_to_response('admin_ver_incubacion.html', args)
+
+
 """
 Autor: Henry Lasso
 Nombre de funcion: usuario_ver_incubacion
@@ -806,7 +868,6 @@ Parametros: request
 Salida: 
 Descripcion: Mostar template ver mi incubacion
 """
-
 
 @login_required
 def usuario_ver_incubacion(request,id_incubacion):

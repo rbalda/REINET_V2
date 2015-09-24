@@ -99,9 +99,9 @@
 							                </div>  -->
 
 										    <div id="resultadosInvitarConsultores" class="resultadosInvitarConsultores panel-body">
-										    <!--
-										    Se muestra la peticion AJAX de mostrar el consultor a invitar
-										    -->
+												    <!--
+												    Se muestra la peticion AJAX de mostrar el consultor a invitar
+												    -->
 							                </div>  
 							                
 							                <script>
@@ -128,20 +128,19 @@
 					                                    });
 
 														$('#enviarInvitaciones').click(function(){
-															$(".soyunInvitado").each(function( index ) {
-															    $.ajax({
-					                                                data: {
-					                                                    'idPerfil':$( this ).attr('id');
-					                                                },
-					                                                type: 'get',
-					                                                //url: '/EnviarInvitaciones/'
-					                                            });
 
+															$(".soyunInvitado").each(function( index ) {
+																var usuarioConsultor = $( this ).attr('id');
+																$.ajax({
+						                                                data: {
+						                                                    'usuarioperfil':usuarioConsultor,
+						                                                    'idincubada':{{incubada.id_incubada}}
+						                                                },
+						                                                type: 'get',
+						                                                url: '/EnviarInvitaciones/'
+						                                        });
 
 															});
-
-															var $hijos = $('#resultadosInvitarConsultores').children().length ;
-															alert($hijos)  ;
 														});
 
 				                                    });
@@ -153,7 +152,7 @@
 
 									    <div class="form-group">
 									   		<div align="right">
-									   			<input id="enviarInvitaciones" type="submit" class="btn btn-red fa" value="Enviar Invitaciones" style=" height: 35px;"/>
+									   			<input id="enviarInvitaciones" data-dismiss="modal" type="submit" class="btn btn-red fa" value="Enviar Invitaciones" style=" height: 35px;"/>
 									   		</div>
 									   	</div>
 									   	
