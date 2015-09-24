@@ -28,7 +28,7 @@ urlpatterns = patterns('',
      url(r'^Retroalimentaciones[/]?$','incubacion.views.ver_retroalimentaciones', name='ver_retroalimentaciones'),
       
 
-     url(r'^ConsultorIncubada[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
+     url(r'^ConsultorIncubada/(?P<id_incubada>\w{0,250})[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
      url(r'^Incubada[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
      url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view(),name='AutocompletarConsultor'),

@@ -459,7 +459,7 @@ def admin_incubada_consultores(request):
             #    except Exception as e:
             #        print e
             args['consultores'] = incubConsult
-            return render_to_response('admin_incubada_consultores.html',args)
+            return render_to_response('consultores.html',args)
 
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -502,7 +502,7 @@ def admin_incubada_milestone_actual(request):
                 milestone=False
             args['milestone'] = milestone
 
-            return render_to_response('admin_incubada_milestone_actual.html',args)
+            return render_to_response('milestone_actual.html',args)
 
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -568,11 +568,86 @@ Descripcion: Mostar template de la incubada para el consultor de la incubada
 """
 
 @login_required
-def consultor_ver_incubada(request):
+def consultor_ver_incubada(request,id_incubada):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=request.session['id_usuario'])
     args = {}
-    args['usuario'] = request.user
-    args['es_admin'] = request.session['es_admin']
-    return render_to_response('consultor_ver_incubada.html', args)
+    args['es_admin']=request.session['es_admin']
+
+    if usuario is not None:
+        args['usuario'] = usuario
+        try:
+            incubada = Incubada.objects.get(id_incubada = id_incubada)
+            #Tengo que verificar que el administrador de la incubada es el usuario en sesion
+            print incubada.fk_incubacion.fk_perfil
+            if incubada:
+                consultor = Consultor.objects.get(fk_usuario_consultor=usuario.id_perfil)
+                if consultor:
+                    print 'soooooy consultor'
+                    print consultor.id_consultor
+                    incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_incubada=id_incubada)
+                    if incubadaCons:
+                        args['consultor']=usuario
+                        propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo,es_propietario=1)
+                        equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
+                        if equipo is not None:
+                            args['equipo'] = equipo
+                        fotos= ImagenIncubada.objects.filter(fk_incubada=id_incubada)
+                        if fotos:
+                            imagen_principal = fotos.first()
+                        else:
+                            fotos = False
+                            imagen_principal = False
+
+                        #Tenemos que validar si hay un mmilestone vigente
+                        milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
+
+                        if milestone:
+                            #lo siguiente es para validar que el consultor pueda retroalimentar
+                            #Si es que el milestone ya fue completado pero no ha acabado el tiempo de retroalimentar
+                            hoy = datetime.datetime.now(timezone.utc)
+                            fecha_maxima_retroal=milestone.fecha_maxima_Retroalimentacion
+                            fecha_maxima_completar=milestone.fecha_maxima
+
+                            if fecha_maxima_completar < hoy and fecha_maxima_retroal >= hoy:
+                                print 'hooooola1'
+                                args['ultimo_Milestone']=milestone
+                                args['milestone']=False
+                            else:
+                                print 'hooooola2'
+                                args['ultimo_Milestone']=False
+                                args['milestone']=milestone
+
+                        else:
+                            print 'hooooola3'
+                            args['ultimo_Milestone']=False
+                            args['milestone']=False
+
+                        #Ahora voy a buscar las palabras claves
+                        palabras_Claves = incubada.palabras_clave.all()
+                        if palabras_Claves.count()==0:
+                            palabras_Claves=False
+                        args['palabras_clave']=palabras_Claves
+
+                        args['fotos'] = fotos
+                        args['imagen_principal'] = imagen_principal
+                        args['incubada'] = incubada
+                        args['propietario'] = propietario
+                        return render_to_response('consultor_ver_incubada.html', args)
+                    else:
+                        args['error'] = "El usuario no es consultor en esta incubada"
+                        return HttpResponseRedirect('/NotFound/')  
+            else:
+                args['error'] = "Esta incubada no se encuentra bajo su administración"
+                print "ingrese     30"
+                return HttpResponseRedirect('/NotFound/')
+        #si la oferta no existe redirige a un mensaje de error
+        except Incubada.DoesNotExist:
+            args['error'] = "La incubada no se encuentra en la red, lo sentimos."
+            return HttpResponseRedirect('/NotFound/')
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
 
 
 """

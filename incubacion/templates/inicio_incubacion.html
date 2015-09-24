@@ -147,7 +147,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         {% for ic in incubada.0 %}
-                                            <h3><a href="/verIncubada/{{ic.id_incubada}}">{{ ic.nombre }}</a></h3>
+                                            <h3><a href="/ConsultorIncubada/{{ic.id_incubada}}">{{ ic.nombre }}</a></h3>
                                             <ul class="text-muted list-inline">
                                                 <li><i class="fa fa-calendar"></i> Fecha De Creación: {{ ic.fecha_creacion }}</li>
                                                 <li><i class="fa fa-user"></i> Dueño: {{ ic.fk_incubacion.fk_perfil.username}} </li>

@@ -20,23 +20,14 @@
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
-    <div class="section-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h1 class="animated slideInLeft">
-                    		<a href="/AdminIncubacion/{{incubada.fk_incubacion.id_incubacion}}">Incubaci&oacute;n</a> 
-                        <span style="border-bottom: 5px solid #F44336;">
-								/ ADMINISTRADOR DE LA Incubada
-                        </span>
-                    </h1>
-                </div>
-            </div>
-        </div>
-    </div>
+	
 
 
     <div class="container">
+
+    	<div class="alert alert-info">
+	        <strong>Recuerde!</strong> Usted es ADMINISTRADOR de esta incubada, perteneciente a su incubaci&oacute;n<a style="color:red"href="/AdminIncubacion/{{incubada.fk_incubacion.id_incubacion}}"> {{incubada.fk_incubacion.nombre}}</a>
+	     </div>
 
 	    <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
 	        <div class="col-md-8" style=" padding-top: 20px;margin-bottom: 15px; border:1px solid #ddd">
@@ -698,14 +689,14 @@
 
 					<!--PANEL DEL MILESTONE ACTUAL-->	 
 
-			            <div class="panel panel-red" style="margin-top:0px">
+			            <div class="panel panel-dark" style="margin-top:0px">
 			                		            
 			                <div class="panel-body">
 			                	<div class="media">
 			                		<div class="row faq-cats">
 						              <div class="col-md-12">
 						                <ul>
-						                  <li style="margin-bottom: 0px;"><i class="fa fa-briefcase fa-2x" style="color:#F44336"></i>Milestone actual</li>				                  
+						                  <li style="margin-bottom: 0px;"><i class="fa fa-briefcase fa-2x" style="color:#515151"></i>Milestone actual</li>				                  
 						                </ul>
 						              </div>
 						            </div>
@@ -791,7 +782,7 @@
 			          </div>
 
 			          	{%if ultimo_Milestone%}
-						    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{milestone.id_milestone}}">{{ultimo_Milestone.fecha_maxima.date}}</a></h4>
+						    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{ultimo_Milestone.id_milestone}}">{{ultimo_Milestone.fecha_maxima.date}}</a></h4>
 						    
 						    <span style="font-size:13px;color:gray">Requerimientos:</span>
 						    <p>{{ultimo_Milestone.requerimientos|truncatewords:20}}<br></p>
