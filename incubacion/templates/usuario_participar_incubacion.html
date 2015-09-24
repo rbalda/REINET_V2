@@ -1,49 +1,22 @@
-Nom : {{incubacion}}
 <label>Lista de ofertas</label>
 {% if pariciparIncubacion%}
 
-<select name="alcance" style="resize:none" class="form-control" id="selectOFertasParticipar">
-	{% for oferta in pariciparIncubacion %}
-	<div  id="divContenedor" align="left" class="media" style="margin-bottom: 1px solid gray">
-		<!-- Lista de mis ofertas -->
-			<div>
-			  <option value="" disabled selected style="display:none;">Seleccione una oferta</option>
-			  <option value="{{oferta.id_oferta}}" id='{{oferta.id_oferta}}'>{{oferta.nombre}}</option>
-			</div>
-	</div>
-	{% endfor %}
+<select name="alcance" style="resize:none" class="form-control selectOferta" id="selectOFertasParticipar" onchange="(this.value)">
+  {% for oferta in pariciparIncubacion %}
+  <div  id="divContenedor" align="left" class="media" style="margin-bottom: 1px solid gray">
+    <!-- Lista de mis ofertas -->
+      <div>
+        <option value="" disabled selected style="display:none;">Seleccione una oferta</option>
+        <option value="{{oferta.id_oferta}}" id='{{oferta.id_oferta}}'>{{oferta.nombre}}</option>
+      </div>
+  </div>
+  {% endfor %}
 </select>
 
-	<br>
-
-		 <div align=right>
-  	        <button href="" class="btn btn-red" id="btn_participar"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar&nbsp;&nbsp;</button>
-            <a class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-
-          </div>
+  <br>
+    
 {% else %}
-	<div class="note">
-	Your search yielded no results
-	</div>
+  <div class="note">
+  Your search yielded no results
+  </div>
 {% endif %}
-
-<script>
-$('#btn_participar').click(function () {
- 		$('#participar_incubacion').ready(participarIncubacion);
-            function participarIncubacion() {
-                $.ajax({
-                    data: {
-                    'incubacion':{{incubacion}}
-                    'oferta':{{oferta.id_oferta}}
-                    },
-                    type: 'get',
-                    url: '/EnviarOfertaParticipar/',
-                    success: function (data) {
-                    $('#participar_incubacion').html(data)
-                    }
-                 });
-              }
-         });
-</script>
-
-

@@ -50,8 +50,7 @@
                         Se muestra la peticion AJAX de mostrar el consultor a invitar
                         -->
                         </div> 
-
-                        <script>
+<script>
                         $(document).ready(function () {
                           $(function () {
                             $('#participar_ofertaas').ready(participarOfertas);
@@ -66,12 +65,32 @@
                                   $('#participar_ofertaas').html(data)
                                 }
                               });
-                            }
+                            } 
                           });
+
+                          $('#participar_incubacion').click(function(){
+                            var seleccion = $('.selectOferta').find("option:selected").text();
+                            var selectedValue = $('.selectOferta').val();      
+                              $.ajax({
+                                data: {
+                                  'incubacion':{{incubacion.id_incubacion}},
+                                  'oferta': selectedValue,
+                                  'convocatoria':{{convocatorias.id_convocatoria_ofertas}}
+                                },
+                                type: 'get',
+                                url: '/EnviarOfertaParticipar/',
+                              });
+                            });
+
                         });
                         </script>
+
                       </div>
                   </div>
+                  <div align=right>
+                        <a class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                         <button id="participar_incubacion" class="btn btn-red" data-dismiss="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar&nbsp;&nbsp;</button>
+                      </div>
                     </div>
                   </div>
                 </div>
