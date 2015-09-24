@@ -187,8 +187,8 @@ def enviar_oferta_incubacion(request):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
-    args['es_admin'] = request.session['es_admin']
-    # si el usuario EXISTE asigna un arg para usarlo en el template
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
     if usuario is not None:
         args['usuario'] = usuario
     else:
@@ -196,20 +196,26 @@ def enviar_oferta_incubacion(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     if request.is_ajax():
-        try:
-            print "ola"
+            print "oqqqqqqqqqqqqqqqqqqqqla"
             print request.GET['incubacion']
             print "que hubo"
             print request.GET['oferta']
-            return render_to_response('/usuario_ver_incubacion/', args)
-        except Exception as e:
-            print e
-            print '>> Excepcion no controlada PARTICIPAR INCUBACION'
-            return redirect('/')
-        else:
-            return redirect('/NotFound')
+            print "id convocatoria"
+            print request.GET['convocatoria']
+            idIncubacion = request.GET['incubacion']
+            idOferta = request.GET['oferta']
+            idConvocatoria = request.GET['convocatoria']
+            solicitudDatos = SolicitudOfertasConvocatoria()
+            #enviar datos a la tabla solicitud convocatoria
+            solicitudDatos.estado_solicitud = 0
+            solicitudDatos.fk_convocatoria_id = idConvocatoria
+            solicitudDatos.fk_oferta_id = idOferta
+            solicitudDatos.fk_incubacion_id = idIncubacion
+            solicitudDatos.fecha_creacion = datetime.datetime.now()
+            solicitudDatos.save()
+            return render_to_response('usuario_ver_incubada.html',args)
     else:
-        return redirect('/NotFound')
+        return redirect('/NotFound')   
 
 
 """
