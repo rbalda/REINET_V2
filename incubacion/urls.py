@@ -26,7 +26,8 @@ urlpatterns = patterns('',
      url(r'^AdminIncubadaConsultores[/]?$','incubacion.views.admin_incubada_consultores', name='admin_consultores'),
      url(r'^AdminIncubadaMilestoneActual[/]?$','incubacion.views.admin_incubada_milestone_actual', name='admin_incubada_milest_act'),
      url(r'^Retroalimentaciones[/]?$','incubacion.views.ver_retroalimentaciones', name='ver_retroalimentaciones'),
-      
+     url(r'^GuardarRetroalimentacion[/]?$','incubacion.views.guardar_retroalimentaciones', name='guardar_retroalimentaciones'),
+
 
      url(r'^ConsultorIncubada[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
      url(r'^Incubada[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
@@ -35,6 +36,7 @@ urlpatterns = patterns('',
      url( r'^InivitarConsultor[/]?$', 'incubacion.views.invitar_consultor' , name = 'invitar_consultor' ),
      url( r'^ParticiparIncubacion[/]?$', 'incubacion.views.participar_incubacion' , name = 'participar_incubacion' ),
      url( r'^EnviarInvitaciones[/]?$', 'incubacion.views.enviar_invitaciones' , name = 'enviar_invitaciones' ),
+     url(r'^EnviarOfertaParticipar[/]?$', 'incubacion.views.enviar_oferta_incubacion', name='enviar_oferta_incubacion'),
 
 )
 

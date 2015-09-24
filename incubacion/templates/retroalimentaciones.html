@@ -13,7 +13,24 @@
       los logros
     {%endif%}
 </h4>
-<div>A la fecha: {{num_Retroal}}</div>
+<div class="tab-content row">
+    <!-- New comment form -->
+    <div class="NuevoComentario" id="divNuevoComentario">
+        <form action="/GuardarRetroalimentacion" method="get" class="form-horizontal" role="form" id="ComentarioForm" >
+            <div class="form-group" style="margin-bottom: 15px;">
+                <div class="col-sm-10">
+                    <input type="hidden" name="numTab" value="{{ numTabIncubada|add:0 }}">
+                    <input type="hidden" name="idMilestone" value="{{idMilestone}}">
+                    <input type="hidden" name="idIncubada" value="{{idIncubada}}">
+                    <textarea style="resize:none" class="form-control" rows="3" name="contenido"
+                              placeholder="Escriba su retroalimentacion"></textarea>
+                </div>
+                <button id="enviarMensaje"  type="submit" class="btn btn-green btn-sm">Publicar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div>A la fecha existen: {{num_Retroal}}</div>
 <div style="margin-bottom:10px">Los &uacute;nicos que pueden brindar retroalimentaciones son los consultores</div>
 
 {% for retr in retroalimentaciones %}
