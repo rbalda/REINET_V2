@@ -79,28 +79,26 @@
 						                </div>
 
 									    <!--INVITAR A CONSULTORES-->
+									    
 									    <div class="form-group" style="overflow-y:auto; height:200px;margin-left: 0px;">
-									    	
-										    <div id="resultadosInvitarConsultores" class="resultadosInvitarConsultores panel-body">
-										    <!--
-										    Se muestra la peticion AJAX de mostrar el consultor a invitar
-										    -->
-							                </div>  
-
-							                <div id="resultadosEncontrados" class="resultadosEncontrados panel-body " style="padding-left: 0px;padding-top: 0px;">
-							                <!--
+									    	<!--
 										    Se muestran todos los concultores a invitar
-										    -->
-							                </div>  
+										    
+									    	<div id="buscarusuarioconsultor" class="buscarusuarioconsultor panel-body ">
+							                
+										    	<p id="texto">BUSQUE USUARIO PARA SER CONSULTOR</p>
+							                </div>  -->
 
+										    <div id="resultadosInvitarConsultores" class="resultadosInvitarConsultores panel-body">
+												    <!--
+												    Se muestra la peticion AJAX de mostrar el consultor a invitar
+												    -->
+							                </div>  
+							                
 							                <script>
 				                                $(document).ready(function () {
 				                                    $(function () {
 				                                    	$('#invitarSubmit').click(function(){
-
-				                                    		if ( $('#resultadosInvitarConsultores').children().length > 0  ) { 
-				                                    			$( "#resultadosInvitarConsultores" ).clone().appendTo( "#resultadosEncontrados" ); 
-				                                    		}
 				                                    		consultor = $('#destinatario_txt').val();
 				                                    		//clear fields
 				                                    		$('#destinatario_txt').val('');
@@ -114,24 +112,38 @@
 					                                                type: 'get',
 					                                                url: '/InivitarConsultor/',
 					                                                success: function (data) {
-					                                                    $('#resultadosInvitarConsultores').html(data)
+					                                                    $('#resultadosInvitarConsultores').append(data);
 					                                                }
 					                                            });
 					                                        }
 					                                    });
-														/*COMENTO ESTA FUNCION PROQUE ME ESTABA HACIENDO LA CASITA!
-														JOSE NO LE QUITES LOS EVENTOS A TODOS LOS BOTONES JEJE
-														$("button").click(function(event){
-															$(event.target).remove();
+
+														$('#enviarInvitaciones').click(function(){
+
+															$(".soyunInvitado").each(function( index ) {
+																var usuarioConsultor = $( this ).attr('id');
+																$.ajax({
+						                                                data: {
+						                                                    'usuarioperfil':usuarioConsultor,
+						                                                    'idincubada':{{incubada.id_incubada}}
+						                                                },
+						                                                type: 'get',
+						                                                url: '/EnviarInvitaciones/'
+						                                        });
+
+															});
 														});
-														*/
+
 				                                    });
 				                                });
 				                            </script>
 									    </div>
+
+
+
 									    <div class="form-group">
 									   		<div align="right">
-									   			<input id="enviarInvitaciones" type="submit" class="btn btn-red fa" value="Enviar Invitaciones" style=" height: 35px;"/>
+									   			<input id="enviarInvitaciones" data-dismiss="modal" type="submit" class="btn btn-red fa" value="Enviar Invitaciones" style=" height: 35px;"/>
 									   		</div>
 									   	</div>
 									   	
@@ -278,8 +290,8 @@
 	                                </p>
 
 	                                <div id="retroalimentacion1" class="col-md-12">
+                                    </div>
 
-					                </div>
 
 					                <script>
 		                                $(document).ready(function () {
