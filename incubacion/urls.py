@@ -11,6 +11,7 @@ urlpatterns = patterns('',
      url(r'^InicioIncubacion[/]?$', 'incubacion.views.ver_incubaciones', name='ver_incubaciones'),
      url(r'^CrearIncubacion[/]?$', 'incubacion.views.crear_incubacion', name='crear_incubacion'),
      url(r'^EditarMiIncubacion/(?P<incubacionid>(\d)+)[/]?$','incubacion.views.editar_mi_incubacion', name='editar_incubacion'),
+     url(r'^AdminEditarEstadoIncubacion[/]?$','incubacion.views.editar_estado_incubacion', name='editar_estado_incubacion'),
      
      url(r'^AdminIncubacion/(?P<id_incubacion>\w{0,250})[/]?$', 'incubacion.views.admin_ver_incubacion',name='admin_ver_incubacion'),
      url(r'^VerIncubacion/(?P<id_incubacion>\w{0,250})[/]?$', 'incubacion.views.usuario_ver_incubacion',name='usuario_ver_incubacion'),

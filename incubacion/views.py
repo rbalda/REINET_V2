@@ -413,6 +413,23 @@ def editar_mi_incubacion(request, incubacionid):
 
 
 """
+Autor: Dimitri Laaz
+Nombre de funcion: editar_estado_incubacion
+Parametros: 
+request-> petición http
+Salida: 
+Descripcion: Cambia el estado de una incubacion por medio de Ajax
+"""
+@login_required
+def editar_estado_incubacion(request):
+    if request.is_ajax():
+        print 'es ajax'
+        return HttpResponse("ES AJAX")
+    print 'no es ajax'
+    return HttpResponse("NO ES AJAX")
+
+
+"""
 Autor: Henry Lasso
 Nombre de funcion: admin_ver_incubacion
 Parametros: request
