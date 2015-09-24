@@ -100,6 +100,7 @@ def ver_incubaciones(request):
     args['incubaciones'] = Incubacion.objects.filter(fk_perfil=request.user.perfil)
     return render_to_response('admin_incubacion_inicio.html', args)
 
+
 """
 Autor: Jose Velez
 Nombre de funcion: crear_incubacion
@@ -274,6 +275,8 @@ Parametros: request
 Salida: Se envia a solicitud a todos los usuario
 Descripcion: En esta funcion se guarda en la base todos los usuario que seran consultor
 """
+
+
 @login_required
 def enviar_invitaciones(request):
     sesion = request.session['id_usuario']
@@ -289,32 +292,38 @@ def enviar_invitaciones(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     usuarioPerfil = request.GET.get( 'usuarioperfil' )
-    idIncubada = request.GET.get( 'idincubada' )
-       
+    idIncubada =  request.GET.get( 'idincubada' )
+
+    print "ID INCUBADA", idIncubada
+
+    #Join de consultor, incubadaconsultor
+    #consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(incubadaconsultor=IncubadaConsultor.objects.all())
+
     consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
         incubadaconsultor=IncubadaConsultor.objects.filter(fk_incubada_id=idIncubada))
 
+    #Prtegunta si el usuario a invitar, ya es consultor de la misma incubada
     if len(consultor) > 0:
-        print "EL USUARIO NO PUEDE SER CONSULTOR"        
+        print "EL USUARIO NO PUEDE SER CONSULTOR"
     elif len(consultor) == 0:
+        #Fecha actual
         fechaactual = datetime.datetime.now()
 
-        
+        #Guardar en la tabla Consultor
         consultorTabla = Consultor()
         consultorTabla.fk_usuario_consultor_id = usuarioPerfil
         consultorTabla.fecha_creacion = fechaactual
-
         #se guardan los cambios
         consultorTabla.save()
 
         #Obtener el ID del Consultor
         obtenerconsultor = Consultor.objects.get(fk_usuario_consultor=usuarioPerfil)
 
+        #Guardar en la tabla Consultor
         incubadaconsultor = IncubadaConsultor()
         incubadaconsultor.fk_consultor_id = obtenerconsultor.id_consultor
         incubadaconsultor.fk_incubada_id = idIncubada
         incubadaconsultor.fecha_creacion = fechaactual
-
         #se guardan los cambios
         incubadaconsultor.save()
 
@@ -954,7 +963,7 @@ class Autocompletar_Consultor(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.query_params.get('term', None)
-        usuarios = User.objects.filter(first_name__icontains=user)[:5]
+        usuarios = User.objects.filter(first_name__icontains=user)[:10]
         serializador = UsuarioSerializador(usuarios, many=True)
         response = Response(serializador.data)
         return response
