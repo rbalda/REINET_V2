@@ -291,18 +291,18 @@ def enviar_invitaciones(request):
     usuarioPerfil = request.GET.get( 'usuarioperfil' )
     idIncubada = request.GET.get( 'idincubada' )
        
-    consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil)
+    consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
+        incubadaconsultor=IncubadaConsultor.objects.filter(fk_incubada_id=idIncubada))
 
     if len(consultor) > 0:
         print "EL USUARIO NO PUEDE SER CONSULTOR"        
     elif len(consultor) == 0:
-
         fechaactual = datetime.datetime.now()
 
-
+        
         consultorTabla = Consultor()
         consultorTabla.fk_usuario_consultor_id = usuarioPerfil
-        consultorTabla.fecha_creacion = fechaactual
+        consultorTabla.fecha_creacion = fechaactualr "
 
         #se guardan los cambios
         consultorTabla.save()
@@ -310,18 +310,13 @@ def enviar_invitaciones(request):
         #Obtener el ID del Consultor
         obtenerconsultor = Consultor.objects.get(fk_usuario_consultor=usuarioPerfil)
 
-        print "Obtener ID: ", obtenerconsultor.id_consultor
-
         incubadaconsultor = IncubadaConsultor()
         incubadaconsultor.fk_consultor_id = obtenerconsultor.id_consultor
         incubadaconsultor.fk_incubada_id = idIncubada
         incubadaconsultor.fecha_creacion = fechaactual
 
-        print "Va a guardar"
-
         #se guardan los cambios
         incubadaconsultor.save()
-        print "guardo"
 
 
         
