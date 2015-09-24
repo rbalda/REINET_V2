@@ -6,16 +6,29 @@
 				<img class="media-object" src="{{invitarconsultor.foto.url}}" alt="Imagen de usuario"style=" height: 65px; width: 70px; ">
 			</a>
 
-			<div class="media-body">
+			<div class="media-body soyunInvitado" id="{{invitarconsultor.id_perfil}}">
 				<p style=" margin-bottom: 0px;">{{invitarconsultor.first_name}} {{invitarconsultor.last_name}}</p>
-				<p style=" margin-bottom: 0px;">{{invitarconsultor.email}}</p>
+				<p style=" margin-bottom: 0px;">{{invitarconsultor.username}}</p>
 
-				<button class="btn btn-success btn-xs fa" style="height: 25px; "><i class="fa"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</button>
+				<input id="botonCancelar{{invitarconsultor.id}}" type="submit" class="btn btn-success btn-xs fa" value="Cancelar" style=" height: 25px; " />
 			</div>
 	</div>
 
 {% else %}
 	<div class="note">
-	Your search yielded no results
+	{{mismousuario}}
 	</div>
 {% endif %}
+
+<script type="text/javascript">
+	$(function () {
+		$('.note').remove();
+		$('#botonCancelar{{invitarconsultor.id}}').click(function(event){
+			$(this).parent().parent().remove();
+			$("script").remove();
+		});
+
+	});
+
+
+</script>
