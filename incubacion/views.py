@@ -675,7 +675,8 @@ def ver_retroalimentaciones(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            milestone = Milestone.objects.get(fk_incubada=request.GET['incubada'])
+            id_incubada = request.GET['incubada']
+            milestone = Milestone.objects.get(fk_incubada=id_incubada)
             numRetroal = 0
             if milestone:
                 retroalimentaciones = Retroalimentacion.objects.filter(fk_milestone=milestone.id_milestone,
@@ -684,6 +685,8 @@ def ver_retroalimentaciones(request):
                     numRetroal = retroalimentaciones.count()
             numTabVar = request.GET['numTab']
 
+            args['idMilestone'] = milestone.id_milestone
+            args['idIncubada'] = id_incubada
             args['numTabIncubada'] = numTabVar
             args['num_Retroal'] = numRetroal
             args['retroalimentaciones'] = retroalimentaciones
@@ -695,6 +698,45 @@ def ver_retroalimentaciones(request):
             return redirect('/')
     else:
         return redirect('/NotFound')
+
+"""
+Autor: Sixto Castro
+Nombre de funcion: guardar_retroalimentaciones
+Parametros: request
+Salida: ver la lista de retroalimentaciones de cada tab de la incubada
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las retroalimentaciones
+    de cada tab
+"""
+
+
+@login_required
+def guardar_retroalimentaciones(request):
+    id_usuario = request.session['id_usuario']
+    args = {}
+    args['es_admin'] = request.session['es_admin']
+    if args['es_admin']:
+        if request.method == 'GET':
+            num_tab = request.GET['numTab']
+            id_incubada = request.GET['idIncubada']
+            id_milestone = request.GET['idMilestone']
+            contenido = request.GET['contenido']
+            try:
+                #print id_usuario
+                retroalimentacion = Retroalimentacion()
+                retroalimentacion.fecha_creacion = datetime.datetime.now()
+                milestone = Milestone.objects.get(id_milestone=id_milestone)
+                retroalimentacion.fk_milestone = milestone
+                consultor = Consultor.objects.get(fk_usuario_consultor_id = id_usuario)
+                retroalimentacion.fk_consultor = consultor
+                retroalimentacion.contenido = contenido
+                retroalimentacion.num_tab = num_tab
+                retroalimentacion.save()
+            except:
+                print 'Error desconocido'
+
+        return HttpResponseRedirect('AdminIncubada/' + id_incubada)
+    else:
+        return HttpResponseRedirect('InicioIncubaciones')
 
 
 """
