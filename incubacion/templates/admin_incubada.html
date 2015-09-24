@@ -61,13 +61,24 @@
 				    		<div class="modal-content" style=" width: 477px;">
 				    			<div class="modal-header">
 				    				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				    				<h4 class="modal-title">Invitar Consultores</h4>
+				    				<h4 class="modal-title">INVITAR USUARIO A SER CONSULTOR</h4>
 				    			</div>
-				    			<div class="modal-body media" style="font-size:14px;padding-top: 0px;">
+				    			<div class="modal-body media" style="font-size:14px;padding-top: 0px;height: 290px;">
+				    				<div id="mostrarMensaje" style="display:none;">
+					    				<div  style="text-align:justify; font-size: 24px; font-size: 2.4rem;margin-top: 50px;">
+					    					Se registrar&aacute; a todos los usuario seleccionados como consultor de una incubada en este proceso de Incubaci&oacute;n. 
+					    				</div>
+				    					<div class="form-group">
+									   		<div align="right" style="margin-top: 50px;">
+									   			<a id="aceptarConsultor" data-dismiss="modal" class="btn btn-red fa">&nbsp;&nbsp;ACEPTAR</a>
+									   		</div>
+									   	</div>
+									</div>
+
 				    				<div id="formulario" name="formulario" class="form-horizontal col-md-12" style="width: 430px;">
 				    					{% csrf_token %}
 						                <div class="form-group">
-						                    <input type="text" class="form-control col-md-9" id="destinatario_txt" name="destinatario_txt" placeholder="Invitar a consultor" maxlength="50" required style="height: 34px;border-left-width: 1px;margin-left: 30px;width: 301px;">
+						                    <input type="text" class="form-control col-md-9" id="destinatario_txt" name="destinatario_txt" placeholder="Invitar a un usuario a ser consultor" maxlength="50" required style="height: 34px;border-left-width: 1px;margin-left: 30px;width: 301px;">
 
 						                    <div align="right">
 						                    	<input id="invitarSubmit" type="submit" class="btn btn-dark fa" value="Invitar" style=" width: 87px; height: 34px; border-left-width: 0px;" />
@@ -80,14 +91,9 @@
 
 									    <!--INVITAR A CONSULTORES-->
 									    
-									    <div class="form-group" style="overflow-y:auto; height:200px;margin-left: 0px;">
+									    <div class="form-group" style="overflow-y:auto; height: 180px;margin-left: 0px;">
 									    	<!--
-										    Se muestran todos los concultores a invitar
-										    
-									    	<div id="buscarusuarioconsultor" class="buscarusuarioconsultor panel-body ">
-							                
-										    	<p id="texto">BUSQUE USUARIO PARA SER CONSULTOR</p>
-							                </div>  -->
+										    Se muestran todos los concultores a invitar -->
 
 										    <div id="resultadosInvitarConsultores" class="resultadosInvitarConsultores panel-body">
 												    <!--
@@ -102,7 +108,9 @@
 				                                    		consultor = $('#destinatario_txt').val();
 				                                    		//clear fields
 				                                    		$('#destinatario_txt').val('');
+
 					                                        $('#resultadosInvitarConsultores').ready(resultadoInvitar);
+					                                        $("#enviarInvitaciones").removeAttr('disabled');
 					                                        function resultadoInvitar() {
 					                                            $.ajax({
 					                                                data: {
@@ -132,6 +140,16 @@
 						                                        });
 
 															});
+															//Elimina todos los div que contienen los usuario consultores
+															$('#resultadosInvitarConsultores').empty();
+															$('#formulario').hide();
+															$('#mostrarMensaje').show();
+															
+														});
+
+														$('#aceptarConsultor').click(function(){
+															$('#formulario').show();
+															$('#mostrarMensaje').hide();
 														});
 
 				                                    });
@@ -139,22 +157,19 @@
 				                            </script>
 									    </div>
 
-
-
 									    <div class="form-group">
 									   		<div align="right">
-									   			<input id="enviarInvitaciones" data-dismiss="modal" type="submit" class="btn btn-red fa" value="Enviar Invitaciones" style=" height: 35px;"/>
+									   			<a href="#" id="enviarInvitaciones" disabled data-target="#modalInvitarAceptar" data-toggle="modal"  class="btn btn-red fa">&nbsp;&nbsp;Enviar Invitaciones</a>
 									   		</div>
 									   	</div>
 									   	
 						                </br>
 									</div>
+									</div>
 						        </div>
 				        	</div>
 				        </div>
 				    </div>
-				    <!-- termina MODAL Invitar Consultor -->
-			    </div>
 
 	            <div class="blog-text">
 	                <!-- Nav tabs -->
@@ -842,8 +857,13 @@
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de milestone</label>
                                   <div class="col-md-7">
-                                      <input autofocus type="date" class="form-control" placeholder="Nombre de la Oferta"
-                                      id="fecha" name="fecha_milestone"  data-trigger="focus">
+                                      <input autofocus type="datepicker" class="form-control" placeholder="Fecha fin de milestone" id="fecha_milestone" name="fecha_milestone"  data-trigger="focus">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de retroalimentaci&oacute;n</label>
+                                  <div class="col-md-7">
+                                      <input autofocus type="datepicker" class="form-control" placeholder="Fecha fin de retroalimentacion" id="fecha_retroalimentacion" name="fecha_retroalimentacion"  data-trigger="focus">
                                   </div>
                                 </div>
 
@@ -875,6 +895,13 @@
                       </div>
                   </div>
               </div>
+              	<script>
+					$(function() {
+					$("#fecha_milestone").datepicker({ minDate: 0 });
+					$("#fecha_retroalimentacion").datepicker({ minDate: 0 });
+					
+					});
+				</script>
             </div>
         </div>
         

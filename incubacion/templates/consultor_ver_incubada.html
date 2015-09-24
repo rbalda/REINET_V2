@@ -265,12 +265,28 @@
 					            </div>
 
 					            <div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  <div class="col-sm-12">
+					                  
+					                  	{%if ultimo_Milestone%}
+					                  	<div class="col-sm-12">
 					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
-					                  </div>
-					                  <div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a  class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  </div>
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	
+
+					                  	{%else%}
+					                  	<div class="col-sm-12">
+					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	<div class="col-md-12" align="right">
+						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
+						            	</div>
+										
+						          		{%endif%}
 						            </div>
 
 					                <script>
@@ -400,13 +416,29 @@
 					            </div>
 
 
-					            <div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  <div class="col-sm-12">
+					           <div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
+					                  
+					                  	{%if ultimo_Milestone%}
+					                  	<div class="col-sm-12">
 					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para el modelo de negocio..." ></textarea>					                    
-					                  </div>
-					                  <div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a  class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  </div>
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	
+
+					                  	{%else%}
+					                  	<div class="col-sm-12">
+					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para lel modelo de negocio..." ></textarea>					                    
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	<div class="col-md-12" align="right">
+						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
+						            	</div>
+										
+						          		{%endif%}
 						            </div>
 
 					                <script>
@@ -539,14 +571,29 @@
 					            </div>
 
 					        <div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  <div class="col-sm-12">
+					                  
+					                  	{%if ultimo_Milestone%}
+					                  	<div class="col-sm-12">
 					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
-					                  </div>
-					                  <div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a  class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  </div>
-						            </div>
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	
 
+					                  	{%else%}
+					                  	<div class="col-sm-12">
+					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	<div class="col-md-12" align="right">
+						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
+						            	</div>
+										
+						          		{%endif%}
+						            </div>
 					                <script>
 		                                $(document).ready(function () {
 		                                    $(function () {
@@ -612,14 +659,29 @@
 					            </div>
 
 					           	<div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  <div class="col-sm-12">
+					                  
+					                  	{%if ultimo_Milestone%}
+					                  	<div class="col-sm-12">
 					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
-					                  </div>
-					                  <div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a  class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  </div>
-						            </div>
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	
 
+					                  	{%else%}
+					                  	<div class="col-sm-12">
+					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
+					                  	</div>
+					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
+					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	</div>
+					                  	<div class="col-md-12" align="right">
+						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
+						            	</div>
+										
+						          		{%endif%}
+						        </div>
 					                <script>
 		                                $(document).ready(function () {
 		                                    $(function () {
