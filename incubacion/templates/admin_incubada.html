@@ -857,8 +857,13 @@
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de milestone</label>
                                   <div class="col-md-7">
-                                      <input autofocus type="date" class="form-control" placeholder="Nombre de la Oferta"
-                                      id="fecha" name="fecha_milestone"  data-trigger="focus">
+                                      <input autofocus type="datepicker" class="form-control" placeholder="Fecha fin de milestone" id="fecha_milestone" name="fecha_milestone"  data-trigger="focus">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de retroalimentaci&oacute;n</label>
+                                  <div class="col-md-7">
+                                      <input autofocus type="datepicker" class="form-control" placeholder="Fecha fin de retroalimentacion" id="fecha_retroalimentacion" name="fecha_retroalimentacion"  data-trigger="focus">
                                   </div>
                                 </div>
 
@@ -890,6 +895,13 @@
                       </div>
                   </div>
               </div>
+              	<script>
+					$(function() {
+					$("#fecha_milestone").datepicker({ minDate: 0 });
+					$("#fecha_retroalimentacion").datepicker({ minDate: 0 });
+					
+					});
+				</script>
             </div>
         </div>
         
