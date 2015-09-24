@@ -5,7 +5,11 @@
         {%for solicitud in solicitudes%}
           <li>
             <p class="text-muted" style="width:100%">
-              <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+              {% for  imgoferta in imagenesofertas%}
+                {% if imgoferta.fk_oferta == solicitud.fk_oferta %}
+                  <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+                {%endif%}
+              {%endfor%}
               <a href="#" style="font-size:16px;color:black">{{ solicitud.fk_oferta.nombre}}</a><br>
               {%for dueno in propietarios %}
                 {%if dueno.fk_oferta_en_que_participa == solicitud.fk_oferta%}
