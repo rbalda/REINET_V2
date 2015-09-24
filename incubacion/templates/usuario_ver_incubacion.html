@@ -38,11 +38,12 @@
                     <h4 class="modal-title">PARTICIPAR EN LA INCUBACI&Oacute;N</h4>
                   </div>
                   <div class="modal-body media" style="font-size:14px;padding-top: 0px;width: 540px;">
+                  <span>Señor usuario usted puede elegir una de sus ofertas que a su vez podran estar participando en la icubaci&oacute;n</span>
                     <div id="formulario" name="formulario" class="form-horizontal col-md-12" style="width: 430px;">
                       {% csrf_token %}
 
                       <!--PARTICIPAR A UNA INCUBACION CON OFERTAS-->
-                      <div class="form-group" style="overflow-y:auto; height:300px;margin-left: 0px;width: 490px;">
+                      <div class="form-group" style="overflow-y:auto; margin-left: 0px;width: 490px;">
                         
                         <div id="participar_ofertaas" class="panel-body">
                         <!--
@@ -57,7 +58,7 @@
                             function participarOfertas() {
                               $.ajax({
                                 data: {
-                                  'incubada':1
+                                  'incubacion':{{incubacion.id_incubacion}}
                                 },
                                 type: 'get',
                                 url: '/ParticiparIncubacion/',

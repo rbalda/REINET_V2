@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 import random
 import string
-
+import re
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -28,6 +28,7 @@ from incubacion.models import *
 from incubacion.serializers import *
 
 from usuarios.models import *
+from ofertas_demandas.models import *
 from django.db.models import Avg
 
 
@@ -116,7 +117,7 @@ def crear_incubacion(request):
 
 
 """
-Autor: Jose Velez
+Autor: Leonel Ramirez 
 Nombre de funcion: participar_incubacion
 Parametros: request
 Salida: Muetra al usuario que sus ofertas
@@ -137,20 +138,60 @@ def participar_incubacion(request):
 
     if request.is_ajax():
         try:
-            #Obtener las ofertas del usuario actual
-            ofertasusuario = Oferta.objects.all()
-            args['pariciparIncubacion'] = ofertasusuario
-            return render_to_response('usuario_participar_incubacion.html',args)
+                #Obtener las ofertas del usuario actual
+                #membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
+                #oferta = Oferta.objects.filter(publicada=True)
+                #ofertasusuario = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1,)
+                #f = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1)
+                ofertaParticipar = Oferta.objects.filter(publicada = 1).filter(miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1))
+                #ofer = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1).filter(oferta=Oferta.objects.filter(publicada = 1))
+                #of1 = Oferta.objects.filter(id_oferta=of.fk_oferta_en_que_participa)
+                #ofertasusuario = MiembroEquipo.objects.filter(oferta__in=oferta).select_related()
+                print request.GET['incubacion']
+                args['incubacion'] = request.GET['incubacion']
+                args['pariciparIncubacion'] = ofertaParticipar
+                return render_to_response('usuario_participar_incubacion.html',args)
 
         except Oferta.DoesNotExist:
             print '>> Oferta no existe'
             return redirect('/')
-        except :
+        except Exception as e:
+            print e
             print '>> Excepcion no controlada PARTICIPAR INCUBACION'
             return redirect('/')
     else:
         return redirect('/NotFound')
 
+"""
+Autor: Leonel Ramirez
+Nombre de funcion: inviar_oferta_incubacion
+Parametros: request
+Salida: envia id_oferta y id_incubacion
+Descripcion: Solictud para pertenecer a una incubacion
+
+def inviar_oferta_incubacion(request):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    if request.is_ajax():
+        try:
+        except Exception as e:
+            print e
+            print '>> Excepcion no controlada PARTICIPAR INCUBACION'
+            return redirect('/')
+        else:
+        return redirect('/NotFound')
+    else:
+        return redirect('/NotFound')   
+"""
 
 """
 Autor: Jose Velez
@@ -206,24 +247,94 @@ def invitar_consultor(request):
         return render_to_response('admin_invitar_consultor.html',args)
 
 """
-Autor: Henry Lasso
-Nombre de funcion: Editar_Incubacion
-Parametros: request
+Autor: Dimitri Laaz
+Nombre de funcion: editar_mi_incubacion
+Parametros: 
+request-> petición http
+id -> identificador de la incubación a editar
 Salida: 
-Descripcion: Mostar template editar mi incubacion
+Descripcion: Carga los datos de una incubación para psoteriormente ser editada
 """
-
 
 @login_required
-def editar_mi_incubacion(request):
-    args = {}
-    args['usuario'] = request.user
-    args['es_admin'] = request.session['es_admin']
-    return render_to_response('admin_editar_mi_incubacion.html', args)
+def editar_mi_incubacion(request,incubacionid):
+    try:
+        args = {}
+        #se recupera el identificador de la sesión actual
+        sesion = request.session['id_usuario']
+        #se obtiene el usuario de la sesión actual
+        usuario = Perfil.objects.get(id=sesion)
+        #se actualiza el token contra ataques de Cross Site Request Forgery(CSRF)
+        args.update(csrf(request))
+
+        #se envia el usuario y la bandera de administrador como argumentos de la vista
+        args['usuario']=request.user
+        args['es_admin']=request.session['es_admin']
+
+        #se comprueba si la incubación solicitada existe
+        try:
+            incubacion_editar = Incubacion.objects.get(id_incubacion=incubacionid)      
+            if incubacion_editar.fk_perfil.id_perfil != usuario.id_perfil:
+                return HttpResponseRedirect('/VerIncubacion/' + str(incubacion_editar.id_incubacion))           
+        except ObjectDoesNotExist:
+            return HttpResponseRedirect('/NotFound/')
+
+
+        
+        if request.method == 'POST':
+            # se recuperan los datos enviados por medio de la peticion http POST
+            nombreIncubacion=request.POST.get("nombre_incubacion")
+            descripcionIncubacion=request.POST.get("descripcion_incubacion")
+            perfilIncubacion=request.POST.get("perfil_incubacion")
+            condicionesIncubacion =request.POST.get("condiciones_incubacion")
+            tipoIncubacion = request.POST.get("select_tipo_incubacion")
+
+            #validación de los campos por medio de expresiones regulares
+            nombreValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?){10,300}$',nombreIncubacion)
+            descripcionValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$',descripcionIncubacion)
+            perfilValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$',perfilIncubacion)
+            condicionesValido = re.search(u'^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$',condicionesIncubacion)
+            tipoValido = re.search(u'^[012]$',tipoIncubacion)
+
+            #se cambian los datos de la incubacion
+            incubacion_editar.nombre = nombreIncubacion
+            incubacion_editar.descripcion = descripcionIncubacion
+            incubacion_editar.perfil_oferta = perfilIncubacion
+            incubacion_editar.condiciones = condicionesIncubacion
+            incubacion_editar.tipos_oferta = int(tipoIncubacion)
+
+            #condicíon en caso de que un campo no este correcto
+            if nombreValido is None or \
+               descripcionValido is None or \
+               perfilValido is None or \
+               condicionesValido is None or \
+               tipoValido is None:
+                #se establece el mensaje de error de la operación
+                args['errmsg'] = 1
+                args['incubacion'] = incubacion_editar
+
+                #se reenvia el formulario con los datos cambiados
+                return render_to_response('admin_editar_mi_incubacion.html',args)
+
+
+            #se guardan los cambios
+            incubacion_editar.save()
+
+            #Se establece el mensaje de éxito de la operación
+            args['errmsg'] = 0
+
+        #se envia la información de la incubación a la vista
+        args['incubacion'] = incubacion_editar
+        
+        #se renderiza la vista
+        return render_to_response('admin_editar_mi_incubacion.html',args)
+    except:
+        return redirect('/')
+
 
 
 """
-Autor: Estefania Lozano
+Autor: Henry Lasso
 Nombre de funcion: admin_ver_incubacion
 Parametros: request
 Salida: 
@@ -266,6 +377,86 @@ def admin_ver_incubacion(request,id_incubacion):
     args['fecha_creacion'] = fecha_creacion
     args['incubadas_incubacion'] = incubadas_incubacion    
     return render_to_response('admin_ver_incubacion.html', args)
+
+"""
+Autor: Henry Lasso
+Nombre de funcion: admin_incubadas_incubacion
+Parametros: request
+Salida: admin_lista_incubadas
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion
+"""
+@login_required
+def admin_incubadas_incubacion(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
+            pros = []
+            if len(incubadas) > 0:
+                args['incubadas'] = incubadas
+                print "holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                print incubadas
+            else:    
+                args['incubadas'] = "No hay incubadas"
+                print "cjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+                print len(incubadas)
+            return render_to_response('admin_incubadas_de_incubacion.html',args)
+        
+        except Incubada.DoesNotExist:
+            return redirect('/')
+        except IncubadaConsultor.DoesNotExist:
+            return redirect('/')
+        except:
+            return redirect('/')
+    else:
+        return redirect('/NotFound')
+
+"""
+Autor: Henry Lasso
+Nombre de funcion: admin_solicitudes_incubacion
+Parametros: request
+Salida: admin_lista_solicitudes_incubacion
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
+"""
+@login_required
+def admin_solicitudes_incubacion(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    print "solicitudesssssssssssssssssssssss"
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            
+            convocatoria=Convocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion']).last()
+            return render_to_response('admin_incubacion_solicitudes.html',args)
+        except Incubada.DoesNotExist:
+            return redirect('/')
+        except IncubadaConsultor.DoesNotExist:
+            return redirect('/')
+        except:
+            return redirect('/')
+    else:
+        return redirect('/NotFound')
 
 """
 Autor: Estefania Lozano

@@ -25,7 +25,6 @@ class Incubacion(models.Model):
 	class Meta:
 		db_table = 'Incubacion'
 
-
 class Consultor(models.Model):
 	id_consultor = models.AutoField(primary_key=True)
 	fk_usuario_consultor = models.ForeignKey(Perfil)
@@ -57,6 +56,7 @@ class Incubada(models.Model):
     palabras_clave = models.ManyToManyField(PalabraClave,related_name='incubada_con_esta_palabra')
     #comentarios = models.ManyToManyField(Perfil,through='ComentarioCalificacion',through_fields=('fk_oferta','fk_usuario'),related_name='mis_comentarios')
     #alcance = models.ManyToManyField(Institucion,related_name='ofertas_por_institucion')
+    fk_oferta=models.ForeignKey(Oferta,default=30)
     fk_incubacion = models.ForeignKey(Incubacion)
     consultores=models.ManyToManyField(Consultor,through='IncubadaConsultor',through_fields=('fk_incubada','fk_consultor'),related_name='consultores')
     class Meta:
@@ -116,6 +116,7 @@ class SolicitudOfertasConvocatoria(models.Model):
 	id_solicitud_ofertas_convocatoria=models.AutoField(primary_key=True)
 	estado_solicitud=models.PositiveSmallIntegerField() #Pendiente=0,Aprobada=1,Rechazada=2
 	fk_convocatoria=models.ForeignKey(Convocatoria)
+	fk_incubacion = models.ForeignKey(Incubacion)
 	fk_oferta=models.ForeignKey(Oferta)
 	fecha_creacion= models.DateTimeField(auto_now_add=True)
 	class Meta:

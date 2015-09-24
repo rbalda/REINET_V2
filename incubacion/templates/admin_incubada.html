@@ -14,21 +14,29 @@
 
 {% block sliderPagina %}INCUBADA{% endblock %}
 
-
 {% block contenido %}
 
     {% block registrarinstitucion %}
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
+    <div class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="animated slideInLeft">
+                    		<a href="/AdminIncubacion/{{incubada.fk_incubacion.id_incubacion}}">Incubaci&oacute;n</a> 
+                        <span style="border-bottom: 5px solid #F44336;">
+								/ ADMINISTRADOR DE LA Incubada
+                        </span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="container">
-
-
-    <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <strong>Recuerde!</strong> Usted es administrador de &eacute;sta incubada, que se encuentra en su incubada
-      </div>
 
 	    <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
 	        <div class="col-md-8" style=" padding-top: 20px;margin-bottom: 15px; border:1px solid #ddd">
