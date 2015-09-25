@@ -124,6 +124,92 @@ def crear_incubacion(request):
     else:
         return HttpResponseRedirect('InicioIncubaciones')
 
+"""
+Autor: Jose Velez
+Nombre de funcion: definir_milestone
+Parametros: request
+Salida: Define un milestone a una incubada
+Descripcion: Se define un milestone para que la incubada pueda cumplir con las retroalimentaciones
+"""
+
+
+@login_required
+def definir_milestone(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    #Obtengo todos los datos del formulario para crear un Milestone
+    requerimientos = request.GET.get( 'requerimientos' )
+    fechaMilestone =  request.GET.get( 'fechaMilestone' )
+    fechaRetroalimentacion = request.GET.get( 'fechaRetroalimentacion' )
+    importancia =  request.GET.get( 'importancia' )
+    otros = request.GET.get( 'otros' )
+    idIncubada = request.GET.get( 'idIncubada' )
+    fechaactual = datetime.datetime.now()
+
+    print "r1",requerimientos
+    print "r2",fechaMilestone
+    print "r3",fechaRetroalimentacion
+    print "r4",importancia
+    print "r5",otros
+    print "incubada", idIncubada
+
+    #Modifico el formato de las fechas
+    listaFM =fechaMilestone.split('/') 
+    listaFR=fechaRetroalimentacion.split('/') 
+    fechaMilestone = ""+listaFM[2]+"-"+listaFM[0]+"-"+listaFM[1]
+    fechaRetroalimentacion = ""+listaFR[2]+"-"+listaFR[0]+"-"+listaFR[1]
+
+
+    print "fecha milestone",fechaMilestone
+    print "fecha retroalimentacion",fechaRetroalimentacion
+
+    #Obtengo la incubada actual
+    incubada_actual = Incubada.objects.get(id_incubada=idIncubada)
+    print "entra 0", len(incubada_actual)
+    #CLONO la incubada actual para crear un nuevo Milestone
+    incubada_clonada = incubadaActual
+    print "entra 1"
+    #ID OFERTA
+    id_oferta= incubada_clonada.fk_oferta_id
+    print "entra 2"
+    #ID DIAGRAMA DE CANVAS
+    id_diagrama_canvas = incubada_actual.fk_diagrama_canvas_id
+    print "entra 3"
+    #Obtengo el DIAGRAMA DE CANVAS
+    canvas_incubada = DiagramaBusinessCanvas.objects.get(fk_diagrama_canvas_id=id_diagrama_canvas)
+    print "entra 4"
+    #CLONAR EL DIAGRAMA CANVAS
+    canvas_clonado = canvas_incubada
+    print "entra 5"
+
+
+    #ID DIAGRAMA PORTER
+    id_diagrama_porter = incubada_actual.fk_diagrama_competidores_id
+    #Obtengo el DIAGRAMA DE PORTER  
+    porter_incubada = DiagramaPorter.objects.get(fk_diagrama_competidores_id=id_diagrama_porter)
+    #CLONAR EL DIAGRAMA DE PORTER
+    porter_clonado = porter_incubada
+
+
+    
+
+    #Obtengo el DIAGRAMA DE PORTER
+    print "VER:  ", incubada.id_incubada
+    print "CLONAR:  ", ifk.id_incubada
+    print "descripcion:  ", ifk.descripcion
+
+    #Crea una instancia de Milestone
+    milestone = Milestone()
 
 """
 Autor: Leonel Ramirez 
