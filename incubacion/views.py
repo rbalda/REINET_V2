@@ -1235,6 +1235,7 @@ def consultor_ver_incubada(request,id_oferta):
                                 args['retroalimentar'] = True
                             else:
                                 args['retroalimentar'] = False
+                            args['milestone_actual']=milestone
 
                         #Ahora voy a buscar las palabras claves
                         palabras_Claves = incubada.palabras_clave.all()

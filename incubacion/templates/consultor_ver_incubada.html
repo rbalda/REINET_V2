@@ -190,19 +190,20 @@
 					                  
 					                  	{%if retroalimentar == True%}
 					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para la información general..." ></textarea>					                    
+					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para la información general..."  id="textAreaRetro1"></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a class="btn btn-dark btn-sm"  id="retroal1">Enviar retroalimentación</a>
 					                  	</div>
+				       
 					                  	
 
 					                  	{%else%}
 					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para la información general..." ></textarea>					                    
+					                    <textarea disabled class="form-control" style="resize:none" rows="3" id="textAreaRetro1" placeholder="Escriba su retroalimentación para la información general..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a disabled class="btn btn-dark btn-sm" id="retroal1">Enviar retroalimentación</a>
 					                  	</div>
 					                  	<div class="col-md-12" align="right">
 						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
@@ -214,7 +215,11 @@
 					                <script>
 		                                $(document).ready(function () {
 		                                    $(function () {
+
+
+
 		                                        $('#retroalimentacion1').ready(mostrarRetroalimentaciones);
+
 		                                        function mostrarRetroalimentaciones() {
 		                                            $.ajax({
 		                                                data: {
@@ -227,10 +232,34 @@
 		                                                    $('#retroalimentacion1').html(data)
 		                                                }
 		                                            });
-
 		                                        }
 		                                    });
 		                                });
+
+
+										$('#retroal1').click(function(){
+													
+													//guardarRetroalimentaciones();
+													//mostrarRetroalimentaciones();
+													//$("#textAreaRetro1").val()='';
+													function guardarRetroalimentaciones() {
+		                                            $.ajax({
+		                                                data: {
+		                                                    'idIncubada':{{incubada.id_incubada}},
+		                                                    'numTab':1,
+		                                                    'idMilestone':{{milestone_actual.id_milestone}},
+		                                                    'contenido':$("#textAreaRetro1").val(),
+
+		                                                },
+		                                                type: 'get',
+		                                                url: '/GuardarRetroalimentacion/'
+		                                                success: function (data) {
+		                                                    alert("Todo bien")
+		                                                }
+		                                            });
+		                                        }
+										});
+
 		                            </script>
 
 
@@ -564,8 +593,6 @@
 	                                      </tr>
 	                                </tbody></table>
 	                            </div>
-
-	                            <br><br>
 	                        </div>
 
 	                        <div id="retroalimentacion4" class="col-md-12">
