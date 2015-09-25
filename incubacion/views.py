@@ -279,54 +279,82 @@ def contenido_milestone(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
-    args['es_admin'] = request.session['es_admin']
-    
-    idIncubada = request.GET['incubada']
-    
+    args['es_admin'] = request.session['es_admin']    
     #si el usuario EXISTE asigna un arg para usarlo en el template
     if usuario is not None:
         args['usuario'] = usuario
     else:
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-    print "ID incubada:   ",idIncubada
-    #Obtener el obejto de la incubada
-    milestoneObjeto = Milestone.objects.get(fk_incubada_id=idIncubada)
-    incubadaObjeto = Incubada.objects.get(id_incubada=idIncubada)
-
-    id_milestone = milestoneObjeto.id_milestone
-
-    print "ID milestone:   ",id_milestone
-
     #si encuentra el ajax del template
     if request.is_ajax():
         print "Ingreso al ajax"
         try:
             #args['milestone'] = milestoneObjeto
-            print "holllla"
+            
+            print "ID milestone:1111 "
+            idMilestone = request.GET['milestoneId']
+            milestone = Milestone.objects.get(id_milestone=idMilestone)
+            incubada = milestone.fk_incubada
 
-            incubada = Incubada.objects.get(id_incubada=idIncubada)
-            # Tengo que verificar que el administrador de la incubada es el usuario en sesion
-            print incubada.fk_incubacion.fk_perfil
+            
+            print "ID milestone: 22222"
             if incubada:
-                if incubada.fk_incubacion.fk_perfil == usuario:
-                    propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo, es_propietario=1)
-                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
-                    #Tenemos que validar si hay un mmilestone vigente
-                    primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
-                    args['milestone']=primer_milestone      
-                    milestone = Milestone.objects.filter(fk_incubada=idIncubada).last()
-                    if milestone:         
+                # Tengo que verificar que el administrador de la incubada es el usuario en sesion
+                consultores = Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil)
+                propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=incubada.fk_oferta, es_propietario=1)
+                
+                if milestone:
+
+                    #Validar que sea un administrador
+                    if incubada.fk_incubacion.fk_perfil == usuario:
+                                
+                            #Ahora voy a buscar las palabras claves
+                            palabras_Claves = incubada.palabras_clave.all()
+                            if palabras_Claves.count() == 0:
+                               palabras_Claves = False
+                               args['palabras_clave'] = palabras_Claves
+
+                            args['incubada'] = incubada
+                            args['propietario'] = propietario
+                            args['milestone'] = milestone
+                            return render_to_response('contenido_historial_milestone.html', args)
+                    
+                    #Validar que sea un consultor                    
+                    elif consultores:
+                        consultor = Consultor.objects.get(fk_usuario_consultor=usuario.id_perfil)
+                        incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_incubada=incubada.id_incubada)
+                        if incubadaCons:
+                            #Ahora voy a buscar las palabras claves
+                            palabras_Claves = incubada.palabras_clave.all()
+                            if palabras_Claves.count() == 0:
+                               palabras_Claves = False
+                               args['palabras_clave'] = palabras_Claves
+
+                            args['incubada'] = incubada
+                            args['propietario'] = propietario
+                            args['milestone'] = milestone
+                            return render_to_response('contenido_historial_milestone.html', args)
+
+
+                    #Validar que sea un propietario
+                    elif propietario.fk_participante.id_perfil==usuario.id_perfil:
                         #Ahora voy a buscar las palabras claves
-                        palabras_Claves = incubada.palabras_clave.all()
-                        if palabras_Claves.count() == 0:
-                           palabras_Claves = False
-                           args['palabras_clave'] = palabras_Claves
-                           args['incubada'] = incubada
-                           args['propietario'] = propietario
-                           args['milestone'] = milestoneObjeto
-                           return render_to_response('contenido_historial_milestone.html', args)
+                            palabras_Claves = incubada.palabras_clave.all()
+                            if palabras_Claves.count() == 0:
+                               palabras_Claves = False
+                               args['palabras_clave'] = palabras_Claves
+
+                            args['incubada'] = incubada
+                            args['propietario'] = propietario
+                            args['milestone'] = milestone
+                            return render_to_response('contenido_historial_milestone.html', args)
+
+
+                    else:
+                        args['error'] = "Esta incubada no se encuentra bajo su administración"
+                        return HttpResponseRedirect('/NotFound/')
+
                 else:
                     args['error'] = "Esta incubada no se encuentra bajo su administración"
                     return HttpResponseRedirect('/NotFound/')

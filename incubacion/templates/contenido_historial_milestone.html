@@ -89,60 +89,7 @@
                             -->
                               </div>  
                               
-                              <script>
-                                        $(document).ready(function () {
-                                            $(function () {
-                                              $('#invitarSubmit').click(function(){
-                                                consultor = $('#destinatario_txt').val();
-                                                //clear fields
-                                                $('#destinatario_txt').val('');
-
-                                                  $('#resultadosInvitarConsultores').ready(resultadoInvitar);
-                                                  $("#enviarInvitaciones").removeAttr('disabled');
-                                                  function resultadoInvitar() {
-                                                      $.ajax({
-                                                          data: {
-                                                              'incubada':{{incubada.id_incubada}},
-                                                              'consultor':consultor
-                                                          },
-                                                          type: 'get',
-                                                          url: '/InivitarConsultor/',
-                                                          success: function (data) {
-                                                              $('#resultadosInvitarConsultores').append(data);
-                                                          }
-                                                      });
-                                                  }
-                                              });
-
-                            $('#enviarInvitaciones').click(function(){
-
-                              $(".soyunInvitado").each(function( index ) {
-                                var usuarioConsultor = $( this ).attr('id');
-                                $.ajax({
-                                                            data: {
-                                                                'usuarioperfil':usuarioConsultor,
-                                                                'idincubada':{{incubada.id_incubada}}
-                                                            },
-                                                            type: 'get',
-                                                            url: '/EnviarInvitaciones/'
-                                                    });
-
-                              });
-                              //Elimina todos los div que contienen los usuario consultores
-                              $('#resultadosInvitarConsultores').empty();
-                              $('#formulario').hide();
-                              $('#mostrarMensaje').show();
                               
-                            });
-
-                            $('#aceptarConsultor').click(function(){
-                              $('#formulario').show();
-                              $('#mostrarMensaje').hide();
-                            });
-
-                                            });
-                                        });
-                                    </script>
                       </div>
 
                       <div class="form-group">

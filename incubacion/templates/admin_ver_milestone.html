@@ -48,11 +48,12 @@
                  {% if listaMilestone %}
                     {% for milestone in listaMilestone %}
                       {% if milestone.fk_incubada.fk_oferta == incubada.fk_oferta %}
-                          <a class="sub{{mislestone.fk_incubada_id}}" name="12" id="{{mislestone.fk_incubada_id}}" href="#">
+                          <a class="listmilestone" id="{{milestone.id_milestone}}" value="{{milestone.id_milestone}}" href="#">
                               <div class="media milestone active">
                                   <div>
                                     <h4>{{milestone.fecha_creacion.date}}</h4>
                                     <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
+                                    <p>{{milestone.id_milestone}}</p>
                                   </div>
                               </div>
                           </a>
@@ -69,17 +70,14 @@
         </div> 
         <script type="text/javascript">
           $(function () {
-            $('.sub{{mislestone.fk_incubada_id}}').click(function(){
-              var  n = $('.sub').attr('name');
-              var id_incubada = $( this ).attr('id');
-              var seleccion = $('.sub').find("option:sub").text();
-              var selectedValue = $('.sub').val();
-
+            $('.listmilestone').click(function(){
+              //obterner el id milestone seleccionado
+              var idmilestone=$(this).attr('id');
               $('#conetidoMilestone').ready(mostrarMilestone);
                 function mostrarMilestone() {
                   $.ajax({
                     data: {
-                      'incubada':{{incubada.id_incubada}}
+                      'milestoneId': idmilestone
                     },
                     type: 'get',
                     url: '/ContenidoMilestone/',
@@ -92,6 +90,29 @@
 
           });
         </script>
+
+        <script>
+            $(document).ready(function () {
+                $(function () {
+                    $('#retroalimentacion1').ready(mostrarRetroalimentaciones);
+                    function mostrarRetroalimentaciones() {
+                        $.ajax({
+                            data: {
+                                'incubada':{{incubada.id_incubada}},
+                                'numTab':1
+                            },
+                            type: 'get',
+                            url: '/Retroalimentaciones/',
+                            success: function (data) {
+                                $('#retroalimentacion1').html(data)
+                            }
+                        });
+
+                    }
+                });
+            });
+        </script>
+
       <div class="col-md-9 col-sm-12" id="conetidoMilestone">
           {% csrf_token %}
       <!--Se carga el contenido de  milestone -->
