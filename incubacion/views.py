@@ -213,8 +213,8 @@ def definir_milestone(request):
     milestone.requerimientos = requerimientos
     milestone.importancia = importancia
     milestone.otros = importancia
-    milestone.fk_incubada_id = idIncubada
-    milestone.save()
+    milestone.fk_incubada_id = incubada_clonada.id_incubada
+    #milestone.save()
     print "MILESTONE GUARDADO"
 
 """
