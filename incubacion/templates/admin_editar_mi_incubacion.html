@@ -172,7 +172,7 @@ textarea { resize: none; }
         <p>Se perderan todos los cambios.¿Quiere continuar?</p>
       </div>
       <div class="modal-footer">
-        <a class="btn btn-green" href="/VerIncubacion/{{incubacion.id_incubacion}}" style="background-color:#F4E222;">Sí</a>
+        <a class="btn btn-green" href="/AdminIncubacion/{{incubacion.id_incubacion}}" style="background-color:#F4E222;">Sí</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>
@@ -185,31 +185,35 @@ textarea { resize: none; }
 
 </div>
 <script type="text/javascript">
+//se obtiene los mensajes de errores de cada campo
 var mensajeNombre = document.getElementById('nombreMsg');
 var mensajeDescripcion = document.getElementById('descripcionMsg');
 var mensajePerfil = document.getElementById('perfilMsg');
 var mensajeCondiciones = document.getElementById('condicionesMsg');
-
+// se declaran las expresiones regulares con las cuales va a ser validado cada campo
 var regexNombre = /^([áéíóúÁÉÍÓÚñÑ\w]\s?){10,300}$/;
 var regexTextoComun = /^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$/;
 
+//Se obtienen cada uno de los controles del formnulario
 var nombre = document.getElementById('nombreincubacion');
 var descripcion = document.getElementById('descripcionincubacion');
 var perfil = document.getElementById('perfilincubacion');
 var condiciones = document.getElementById('condicionesincubacion');
-
+//Se declaran banderas de validacion
 var nombreValido=true;
 var descValido=true;
 var perfilValido=true;
 var condicionesValido=true;
-
+//Se obtiene el boton de "Guardar"
 var btnguardar = document.getElementById('btnguardar');
 function mostrarMensajes()
 {
+  //se valida cada campo con su respectiva funcion
   validarNombre();
   validarDescripcion();
   validarPerfil()
   validarCondiciones();
+  //se remueven los scripts que no estan siendo usados
   removejscssfile("angular.js","js");
   removejscssfile("app.js","js");
   removejscssfile("angular-route.js","js");
@@ -242,7 +246,7 @@ function validarNombre()
 
 function validarDescripcion()
 {
-  
+  // se compara si el valor del campo es valido
   descValido = regexTextoComun.test(descripcion.value);
   if(descValido == false)
     mensajeDescripcion.style.display= "block";
@@ -272,6 +276,8 @@ function validarCondiciones()
     mensajeCondiciones.style.display= "none";
   habilitarBoton();
 }
+
+// funcion que habilita el boton de guardar si todos los campos estan correctos
 function habilitarBoton()
 {
   if(nombreValido && descValido && perfilValido && condicionesValido)
@@ -279,7 +285,7 @@ function habilitarBoton()
   else
     btnguardar.setAttribute("disabled", "disabled");
 }
-
+//funcion que remueve archivos css y javascript
 function removejscssfile(filename, filetype){
     var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
     var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for

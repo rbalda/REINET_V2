@@ -124,6 +124,92 @@ def crear_incubacion(request):
     else:
         return HttpResponseRedirect('InicioIncubaciones')
 
+"""
+Autor: Jose Velez
+Nombre de funcion: definir_milestone
+Parametros: request
+Salida: Define un milestone a una incubada
+Descripcion: Se define un milestone para que la incubada pueda cumplir con las retroalimentaciones
+"""
+
+
+@login_required
+def definir_milestone(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    #Obtengo todos los datos del formulario para crear un Milestone
+    requerimientos = request.GET.get( 'requerimientos' )
+    fechaMilestone =  request.GET.get( 'fechaMilestone' )
+    fechaRetroalimentacion = request.GET.get( 'fechaRetroalimentacion' )
+    importancia =  request.GET.get( 'importancia' )
+    otros = request.GET.get( 'otros' )
+    idIncubada = request.GET.get( 'idIncubada' )
+    fechaactual = datetime.datetime.now()
+
+    print "r1",requerimientos
+    print "r2",fechaMilestone
+    print "r3",fechaRetroalimentacion
+    print "r4",importancia
+    print "r5",otros
+    print "incubada", idIncubada
+
+    #Modifico el formato de las fechas
+    listaFM =fechaMilestone.split('/') 
+    listaFR=fechaRetroalimentacion.split('/') 
+    fechaMilestone = ""+listaFM[2]+"-"+listaFM[0]+"-"+listaFM[1]
+    fechaRetroalimentacion = ""+listaFR[2]+"-"+listaFR[0]+"-"+listaFR[1]
+
+
+    print "fecha milestone",fechaMilestone
+    print "fecha retroalimentacion",fechaRetroalimentacion
+
+    #Obtengo la incubada actual
+    incubada_actual = Incubada.objects.get(id_incubada=idIncubada)
+    print "entra 0", len(incubada_actual)
+    #CLONO la incubada actual para crear un nuevo Milestone
+    incubada_clonada = incubadaActual
+    print "entra 1"
+    #ID OFERTA
+    id_oferta= incubada_clonada.fk_oferta_id
+    print "entra 2"
+    #ID DIAGRAMA DE CANVAS
+    id_diagrama_canvas = incubada_actual.fk_diagrama_canvas_id
+    print "entra 3"
+    #Obtengo el DIAGRAMA DE CANVAS
+    canvas_incubada = DiagramaBusinessCanvas.objects.get(fk_diagrama_canvas_id=id_diagrama_canvas)
+    print "entra 4"
+    #CLONAR EL DIAGRAMA CANVAS
+    canvas_clonado = canvas_incubada
+    print "entra 5"
+
+
+    #ID DIAGRAMA PORTER
+    id_diagrama_porter = incubada_actual.fk_diagrama_competidores_id
+    #Obtengo el DIAGRAMA DE PORTER  
+    porter_incubada = DiagramaPorter.objects.get(fk_diagrama_competidores_id=id_diagrama_porter)
+    #CLONAR EL DIAGRAMA DE PORTER
+    porter_clonado = porter_incubada
+
+
+    
+
+    #Obtengo el DIAGRAMA DE PORTER
+    print "VER:  ", incubada.id_incubada
+    print "CLONAR:  ", ifk.id_incubada
+    print "descripcion:  ", ifk.descripcion
+
+    #Crea una instancia de Milestone
+    milestone = Milestone()
 
 """
 Autor: Leonel Ramirez 
@@ -342,7 +428,7 @@ Nombre de funcion: editar_mi_incubacion
 Parametros: 
 request-> petición http
 id -> identificador de la incubación a editar
-Salida: 
+Salida: Vista con formulario de edición
 Descripcion: Carga los datos de una incubación para psoteriormente ser editada
 """
 
@@ -426,16 +512,46 @@ Autor: Dimitri Laaz
 Nombre de funcion: editar_estado_incubacion
 Parametros: 
 request-> petición http
-Salida: 
+Salida: Codigo de exito de la operación
 Descripcion: Cambia el estado de una incubacion por medio de Ajax
 """
 @login_required
 def editar_estado_incubacion(request):
     if request.is_ajax():
-        print 'es ajax'
-        return HttpResponse("ES AJAX")
-    print 'no es ajax'
-    return HttpResponse("NO ES AJAX")
+        try:
+            args = {}
+            # se recupera el identificador de la sesión actual
+            sesion = request.session['id_usuario']
+            #se obtiene el usuario de la sesión actual
+            usuario = Perfil.objects.get(id=sesion)
+            #se recupera el id de la incubacion a cambiarle el estado
+            incubacionid = request.GET.get("incubacion")
+            #se recupera el nuevo estado a ser fijado
+            estado_nuevo = request.GET.get("estado")
+            # se valida que que el estado enviado tengo un valor valido
+            estadoValido = re.search(u'^[12]$', estado_nuevo)
+            if estadoValido is not None:
+                try:
+                    incubacion_cambiar = Incubacion.objects.get(id_incubacion=incubacionid)
+                    #se valida que el usuario que solicita el cambio sea el dueño de la incubacion
+                    if incubacion_cambiar.fk_perfil.id_perfil != usuario.id_perfil:
+                        return HttpResponse(0)
+                    #se valida que el estado actual sea activo para realizar el cambio
+                    if incubacion_cambiar.estado_incubacion != 0:
+                        return HttpResponse(1)
+                    if incubacion_cambiar.estado_incubacion == 0:
+                        #se realiza el cambio de estado si la condiciones son correctas
+                        incubacion_cambiar.estado_incubacion = int(estado_nuevo)
+                        incubacion_cambiar.save()
+                        #se devuelve el codigo 2 de exito de la operacion
+                        return HttpResponse(2)
+                except ObjectDoesNotExist:
+                    return HttpResponse(0)           
+            else:
+                return HttpResponse(3)         
+        except:
+            return HttpResponse(0)    
+    return HttpResponseRedirect('/NotFound/')
 
 
 """
@@ -452,7 +568,10 @@ def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
+    args['mensajeError'] = request.session['mensajeError']
+    args['mensajeAlerta'] = request.session['mensajeAlerta']
     args['es_admin'] = request.session['es_admin']
+
 
     # Para que las variables de session sena colocadas en args[]
     if usuario is not None:
@@ -943,7 +1062,8 @@ Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las re
 
 @login_required
 def guardar_retroalimentaciones(request):
-    id_usuario = request.session['id_usuario']
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
     args = {}
     args['es_admin'] = request.session['es_admin']
     if args['es_admin']:
@@ -958,7 +1078,7 @@ def guardar_retroalimentaciones(request):
                 retroalimentacion.fecha_creacion = datetime.datetime.now()
                 milestone = Milestone.objects.get(id_milestone=id_milestone)
                 retroalimentacion.fk_milestone = milestone
-                consultor = Consultor.objects.get(fk_usuario_consultor_id = id_usuario)
+                consultor = Consultor.objects.get(fk_usuario_consultor_id = usuario.id_perfil)
                 retroalimentacion.fk_consultor = consultor
                 retroalimentacion.contenido = contenido
                 retroalimentacion.num_tab = num_tab
@@ -1236,42 +1356,6 @@ def guardar_convocatoria(request):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
-
-
-    """
-        if args['es_admin']:
-            if request.method == 'GET':
-                fecha_max = request.GET['fecMaxima']
-                id_incubacion = request.GET['idIncubacion']
-                try:
-                    convocatoria = Convocatoria()
-                    convocatoria.fecha_creacion = datetime.datetime.now()
-                    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-                    convocatoria.fk_incubacion = incubacion
-                    convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
-                    #convocatoria.fecha_maxima = fecha_max
-                    if(convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                        args['mensajeAlerta'] = 'Fecha maxima es menor a la actual'
-                    else:
-                        convocatoria.save()
-                        convocatorias = Convocatoria.objects.all()
-                        args['convocatorias'] = convocatorias
-
-                        args['mensajeError'] = None
-                        args['mensajeAlerta'] = 'Convocatoria Creada con exito'
-                except ValueError:
-                    print 'Error con la fecha'
-                    args['mensajeError'] = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
-                    args['mensajeAlerta'] = 'No se creo Convocatoria'
-                    args.update(csrf(request))
-                    return render_to_response('admin_ver_incubacion.html', args, context_instance=RequestContext(request))
-
-            return render_to_response('admin_ver_incubacion.html', args)
-        else:
-            return HttpResponseRedirect('InicioIncubaciones')
-    """
-    return render_to_response('admin_ver_incubacion.html', args)
-
     if args['es_admin']:
         if request.method == 'GET':
             fecha_max = request.GET['fecMaxima']
@@ -1281,23 +1365,25 @@ def guardar_convocatoria(request):
                 convocatoria.fecha_creacion = datetime.datetime.now()
                 incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
                 convocatoria.fk_incubacion = incubacion
-                convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
+                convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
                 # convocatoria.fecha_maxima = fecha_max
                 if (convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                    mensajeAlerta = 'Fecha maxima es menor a la actual'
+                    mensajeError = 'No se ha creado convocatoria dado que la fecha maxima es menor a la actual'
+                    mensajeAlerta=None
                 else:
                     convocatoria.save()
                     mensajeAlerta = 'Convocatoria Creada con exito'
-                mensajeError = None
+                    mensajeError = None
             except:
                 print 'Error con la fecha'
-                mensajeError = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
-                mensajeAlerta = 'No se creo Convocatoria'
+                mensajeError = 'No se creo Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
+                mensajeAlerta = None
 
         request.session['mensajeError'] = mensajeError
         request.session['mensajeAlerta'] = mensajeAlerta
         return HttpResponseRedirect('AdminIncubacion/' + id_incubacion, args)
     else:
         return HttpResponseRedirect('InicioIncubaciones')
+
 
 
