@@ -998,7 +998,8 @@ Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las re
 
 @login_required
 def guardar_retroalimentaciones(request):
-    id_usuario = request.session['id_usuario']
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
     args = {}
     args['es_admin'] = request.session['es_admin']
     if args['es_admin']:
@@ -1013,7 +1014,7 @@ def guardar_retroalimentaciones(request):
                 retroalimentacion.fecha_creacion = datetime.datetime.now()
                 milestone = Milestone.objects.get(id_milestone=id_milestone)
                 retroalimentacion.fk_milestone = milestone
-                consultor = Consultor.objects.get(fk_usuario_consultor_id = id_usuario)
+                consultor = Consultor.objects.get(fk_usuario_consultor_id = usuario.id_perfil)
                 retroalimentacion.fk_consultor = consultor
                 retroalimentacion.contenido = contenido
                 retroalimentacion.num_tab = num_tab
