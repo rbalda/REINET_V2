@@ -156,31 +156,21 @@ def definir_milestone(request):
     idIncubada = request.GET.get( 'idIncubada' )
     fechaactual = datetime.datetime.now()
 
-    print "r1",requerimientos
-    print "r2",fechaMilestone
-    print "r3",fechaRetroalimentacion
-    print "r4",importancia
-    print "r5",otros
-    print "incubada", idIncubada
-
     #Modifico el formato de las fechas
     listaFM =fechaMilestone.split('/') 
     listaFR=fechaRetroalimentacion.split('/') 
     fechaMilestone = ""+listaFM[2]+"-"+listaFM[0]+"-"+listaFM[1]
     fechaRetroalimentacion = ""+listaFR[2]+"-"+listaFR[0]+"-"+listaFR[1]
 
-
-    print "fecha milestone",fechaMilestone
-    print "fecha retroalimentacion",fechaRetroalimentacion
-
     #Obtengo la incubada actual
     incubada_actual = Incubada.objects.get(id_incubada=idIncubada)
-    print "incubada_actual: ", incubada_actual.id_incubada
+
     #CLONO la incubada actual para crear un nuevo Milestone
     incubada_clonada = incubada_actual
+    
     #ID OFERTA
     id_oferta= incubada_clonada.fk_oferta_id
-    print "id_oferta:   ",id_oferta
+
     #ID DIAGRAMA DE CANVAS
     id_diagrama_canvas = incubada_actual.fk_diagrama_canvas_id
     #Obtengo el DIAGRAMA DE CANVAS
@@ -217,21 +207,13 @@ def definir_milestone(request):
 
     #Crea una instancia de Milestone
     milestone = Milestone()
-    print "Se creo la instancia de Milestone"
     milestone.fecha_creacion = fechaactual
-    print "1::"
     milestone.fecha_maxima_Retroalimentacion = fechaRetroalimentacion
-    print "2::"
     milestone.fecha_maxima = fechaMilestone
-    print "3::"
     milestone.requerimientos = requerimientos
-    print "4::"
     milestone.importancia = importancia
-    print "5::"
     milestone.otros = importancia
-    print "6::",idIncubada
     milestone.fk_incubada_id = idIncubada
-    print "SETEANDO DATOS"
     milestone.save()
     print "MILESTONE GUARDADO"
 
