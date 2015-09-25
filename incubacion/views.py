@@ -175,41 +175,65 @@ def definir_milestone(request):
 
     #Obtengo la incubada actual
     incubada_actual = Incubada.objects.get(id_incubada=idIncubada)
-    print "entra 0", len(incubada_actual)
+    print "incubada_actual: ", incubada_actual.id_incubada
     #CLONO la incubada actual para crear un nuevo Milestone
-    incubada_clonada = incubadaActual
-    print "entra 1"
+    incubada_clonada = incubada_actual
     #ID OFERTA
     id_oferta= incubada_clonada.fk_oferta_id
-    print "entra 2"
+    print "id_oferta:   ",id_oferta
     #ID DIAGRAMA DE CANVAS
     id_diagrama_canvas = incubada_actual.fk_diagrama_canvas_id
-    print "entra 3"
     #Obtengo el DIAGRAMA DE CANVAS
-    canvas_incubada = DiagramaBusinessCanvas.objects.get(fk_diagrama_canvas_id=id_diagrama_canvas)
-    print "entra 4"
+    canvas_incubada = DiagramaBusinessCanvas.objects.get(id_diagrama_business_canvas=id_diagrama_canvas)
     #CLONAR EL DIAGRAMA CANVAS
     canvas_clonado = canvas_incubada
-    print "entra 5"
-
+    print "ID:       ",canvas_clonado.id_diagrama_business_canvas
+    canvas_clonado.id_diagrama_business_canvas = None
+    canvas_clonado.save()
+    nuevo_id_diagrama_canvas = canvas_clonado.id_diagrama_business_canvas 
+    print "ID:       ",nuevo_id_diagrama_canvas
 
     #ID DIAGRAMA PORTER
     id_diagrama_porter = incubada_actual.fk_diagrama_competidores_id
     #Obtengo el DIAGRAMA DE PORTER  
-    porter_incubada = DiagramaPorter.objects.get(fk_diagrama_competidores_id=id_diagrama_porter)
+    porter_incubada = DiagramaPorter.objects.get(id_diagrama_porter=id_diagrama_porter)
     #CLONAR EL DIAGRAMA DE PORTER
     porter_clonado = porter_incubada
+    print "ID PORTER:       ",porter_clonado.id_diagrama_porter
+    porter_clonado.id_diagrama_porter = None
+    porter_clonado.save()
+    nuevo_id_diagrama_porter =  porter_clonado.id_diagrama_porter
+    print "ID PORTER:       ",nuevo_id_diagrama_porter
 
-
-    
-
-    #Obtengo el DIAGRAMA DE PORTER
-    print "VER:  ", incubada.id_incubada
-    print "CLONAR:  ", ifk.id_incubada
-    print "descripcion:  ", ifk.descripcion
+    #Guardo los id de canvas y porter
+    incubada_clonada.fk_diagrama_canvas_id = nuevo_id_diagrama_canvas
+    incubada_clonada.fk_diagrama_competidores_id = nuevo_id_diagrama_porter
+    print "ID INCUBADA ACTUAL:",incubada_clonada.id_incubada
+    #Creando el codigo de la incubada con los atributos de idIncubada, idDiagramaCanvas, idDiagramaPorter
+    incubada_clonada.codigo = incubada_clonada.id_incubada+nuevo_id_diagrama_canvas+nuevo_id_diagrama_porter
+    incubada_clonada.id_incubada = None
+    incubada_clonada.save()
+    print "ID INCUBADA NUEVA:",incubada_clonada.id_incubada
 
     #Crea una instancia de Milestone
     milestone = Milestone()
+    print "Se creo la instancia de Milestone"
+    milestone.fecha_creacion = fechaactual
+    print "1::"
+    milestone.fecha_maxima_Retroalimentacion = fechaRetroalimentacion
+    print "2::"
+    milestone.fecha_maxima = fechaMilestone
+    print "3::"
+    milestone.requerimientos = requerimientos
+    print "4::"
+    milestone.importancia = importancia
+    print "5::"
+    milestone.otros = importancia
+    print "6::",idIncubada
+    milestone.fk_incubada_id = idIncubada
+    print "SETEANDO DATOS"
+    milestone.save()
+    print "MILESTONE GUARDADO"
 
 """
 Autor: Leonel Ramirez 

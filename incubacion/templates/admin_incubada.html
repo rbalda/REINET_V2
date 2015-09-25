@@ -887,7 +887,7 @@
                                 <div class="form-group">
                                     <div align="right">
                                       <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                                      <a id="aceptardefinirMilestone" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
+                                      <a id="aceptardefinirMilestone" data-dismiss="modal" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
                                     </div>                                                  
                                 </div>
                             </form>   
@@ -897,11 +897,12 @@
               </div>
               	<script>
 					$(function() {
+					//Validando que las fechas sea desde la fecha actual
 					$("#fecha_milestone").datepicker({ minDate: 0 });
 					$("#fecha_retroalimentacion").datepicker({ minDate: 0 });
 
 					$("#aceptardefinirMilestone").click(function(){
-							alert("Ingresio");
+							//Obtengo todos los valores del los campos del formulario
 							var req = $('textarea#requerimientosDescripcion').val(),
 							fecMil= $("#fecha_milestone").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
 							fecRet= $("#fecha_retroalimentacion").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
