@@ -190,7 +190,7 @@
 					                  
 					                  	{%if retroalimentar == True%}
 					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para la información general..."  id="textAreaRetro1"></textarea>					                    
+					                    <textarea class="form-control" style="resize:none" rows="5" placeholder="Escriba su retroalimentación para la información general..."  id="textAreaRetro1"></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
 					                  	<a class="btn btn-dark btn-sm"  id="retroal1">Enviar retroalimentación</a>
@@ -200,7 +200,7 @@
 
 					                  	{%else%}
 					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="3" id="textAreaRetro1" placeholder="Escriba su retroalimentación para la información general..." ></textarea>					                    
+					                    <textarea disabled class="form-control" style="resize:none" rows="5" id="textAreaRetro1" placeholder="Escriba su retroalimentación para la información general..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
 					                  	<a disabled class="btn btn-dark btn-sm" id="retroal1">Enviar retroalimentación</a>
@@ -214,13 +214,33 @@
 
 					                <script>
 		                                $(document).ready(function () {
-		                                    $(function () {
+		                                    $(function () {	                                       	
+		                                    	var retroal= 0;           
 
+												$('#retroal1').click(function(){
+														$.ajax({
+				                                                data: {
+				                                                    'idIncubada':{{incubada.id_incubada}},
+				                                                    'numTab':1,
+				                                                    'idMilestone':{{milestone_actual.id_milestone}},
+				                                                    'contenido':$("#textAreaRetro1").val()
+				                                                },
+				                                                type: 'get',
+				                                                url: '/GuardarRetroalimentacion/'
+				                                        });
+				                                        retroal=1;
+														mostrarRetroalimentaciones1();
+														$("#textAreaRetro1").val('');
+														
+												});		
 
+												 $('#retroalimentacion1').ready(mostrarRetroalimentaciones1);
 
-		                                        $('#retroalimentacion1').ready(mostrarRetroalimentaciones);
-
-		                                        function mostrarRetroalimentaciones() {
+												function mostrarRetroalimentaciones1() {
+													if (retroal!=0){
+														alert("Retroalimentación enviada con éxito")
+														retroal=0
+													}													
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -232,32 +252,21 @@
 		                                                    $('#retroalimentacion1').html(data)
 		                                                }
 		                                            });
-		                                        }
-		                                    });
-		                                });
+		                                        }		
+						
+											});
+
+										$('#retroal1').attr('disabled', true);
+										$('#textAreaRetro1').on('keyup',function() {
+										    var textarea_value = $("#textAreaRetro1").val();
+										    if(textarea_value != '') {
+										        $('#retroal1').attr('disabled' , false);
+										    }else{
+										        $('#retroal1').attr('disabled' , true);
+										    }
+										});
 
 
-										$('#retroal1').click(function(){
-													
-													//guardarRetroalimentaciones();
-													//mostrarRetroalimentaciones();
-													//$("#textAreaRetro1").val()='';
-													function guardarRetroalimentaciones() {
-		                                            $.ajax({
-		                                                data: {
-		                                                    'idIncubada':{{incubada.id_incubada}},
-		                                                    'numTab':1,
-		                                                    'idMilestone':{{milestone_actual.id_milestone}},
-		                                                    'contenido':$("#textAreaRetro1").val(),
-
-		                                                },
-		                                                type: 'get',
-		                                                url: '/GuardarRetroalimentacion/'
-		                                                success: function (data) {
-		                                                    alert("Todo bien")
-		                                                }
-		                                            });
-		                                        }
 										});
 
 		                            </script>
@@ -297,19 +306,19 @@
 					                  
 					                  	{%if retroalimentar == True%}
 					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
+					                    <textarea id="textAreaRetro2" class="form-control" style="resize:none" rows="4" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a id="retroal2" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	
 
 					                  	{%else%}
 					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
+					                    <textarea id="textAreaRetro2" disabled class="form-control" style="resize:none" rows="4" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a disabled id="retroal2" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	<div class="col-md-12" align="right">
 						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
@@ -318,11 +327,35 @@
 						          		{%endif%}
 						            </div>
 
-					                <script>
+		                            <script>
 		                                $(document).ready(function () {
-		                                    $(function () {
-		                                        $('#retroalimentacion2').ready(mostrarRetroalimentaciones);
-		                                        function mostrarRetroalimentaciones() {
+		                                    $(function () {	                                       	
+		                                    	var retroali2= 0;           
+
+												$('#retroal2').click(function(){
+														$.ajax({
+				                                                data: {
+				                                                    'idIncubada':{{incubada.id_incubada}},
+				                                                    'numTab':2,
+				                                                    'idMilestone':{{milestone_actual.id_milestone}},
+				                                                    'contenido':$("#textAreaRetro2").val()
+				                                                },
+				                                                type: 'get',
+				                                                url: '/GuardarRetroalimentacion/'
+				                                        });
+				                                        retroali2=1;
+														mostrarRetroalimentaciones2();
+														$("#textAreaRetro2").val('');
+														
+												});		
+
+												 $('#retroalimentacion2').ready(mostrarRetroalimentaciones2);
+
+												function mostrarRetroalimentaciones2() {
+													if (retroali2!=0){
+														alert("Retroalimentación enviada con éxito")
+														retroali2=0
+													}													
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -334,11 +367,28 @@
 		                                                    $('#retroalimentacion2').html(data)
 		                                                }
 		                                            });
+		                                        }		
+						
+											});
 
-		                                        }
-		                                    });
-		                                });
+										$('#retroal2').attr('disabled', true);
+										$('#textAreaRetro2').on('keyup',function() {
+										    var textarea_value = $("#textAreaRetro2").val();
+										    if(textarea_value != '') {
+										        $('#retroal2').attr('disabled' , false);
+										    }else{
+										        $('#retroal2').attr('disabled' , true);
+										    }
+										});
+
+
+										});
+
 		                            </script>
+
+
+
+
 	                        </div> 
 	                        </div> 
 	                    </div>
@@ -451,19 +501,19 @@
 					                  
 					                  	{%if retroalimentar == True%}
 					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para el modelo de negocio..." ></textarea>					                    
+					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para el modelo de negocio..." id="textAreaRetro3" ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a id="retroal3" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	
 
 					                  	{%else%}
 					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para lel modelo de negocio..." ></textarea>					                    
+					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para lel modelo de negocio..." id="textAreaRetro3"></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a id="retroal3" disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	<div class="col-md-12" align="right">
 						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
@@ -472,11 +522,36 @@
 						          		{%endif%}
 						            </div>
 
-					                <script>
+
+						            <script>
 		                                $(document).ready(function () {
-		                                    $(function () {
-		                                        $('#retroalimentacion3').ready(mostrarRetroalimentaciones);
-		                                        function mostrarRetroalimentaciones() {
+		                                    $(function () {	                                       	
+		                                    	var retroali3= 0;           
+
+												$('#retroal3').click(function(){
+														$.ajax({
+				                                                data: {
+				                                                    'idIncubada':{{incubada.id_incubada}},
+				                                                    'numTab':3,
+				                                                    'idMilestone':{{milestone_actual.id_milestone}},
+				                                                    'contenido':$("#textAreaRetro3").val()
+				                                                },
+				                                                type: 'get',
+				                                                url: '/GuardarRetroalimentacion/'
+				                                        });
+				                                        retroali3=1;
+														mostrarRetroalimentaciones3();
+														$("#textAreaRetro3").val('');
+														
+												});		
+
+												 $('#retroalimentacion3').ready(mostrarRetroalimentaciones3);
+
+												function mostrarRetroalimentaciones3() {
+													if (retroali3!=0){
+														alert("Retroalimentación enviada con éxito")
+														retroali3=0
+													}													
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -488,10 +563,23 @@
 		                                                    $('#retroalimentacion3').html(data)
 		                                                }
 		                                            });
+		                                        }		
+						
+											});
 
-		                                        }
-		                                    });
-		                                });
+										$('#retroal3').attr('disabled', true);
+										$('#textAreaRetro3').on('keyup',function() {
+										    var textarea_value = $("#textAreaRetro3").val();
+										    if(textarea_value != '') {
+										        $('#retroal3').attr('disabled' , false);
+										    }else{
+										        $('#retroal3').attr('disabled' , true);
+										    }
+										});
+
+
+										});
+
 		                            </script>
 
 	                        </div>
@@ -603,19 +691,19 @@
 					                  
 					                  	{%if retroalimentar == True%}
 					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
+					                    <textarea id="textAreaRetro4"class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a id="retroal4" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	
 
 					                  	{%else%}
 					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
+					                    <textarea id="textAreaRetro4" disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a id="retroal4" disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	<div class="col-md-12" align="right">
 						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
@@ -623,11 +711,37 @@
 										
 						          		{%endif%}
 						            </div>
-					                <script>
+
+
+						            <script>
 		                                $(document).ready(function () {
-		                                    $(function () {
-		                                        $('#retroalimentacion4').ready(mostrarRetroalimentaciones);
-		                                        function mostrarRetroalimentaciones() {
+		                                    $(function () {	                                       	
+		                                    	var retroali4= 0;           
+
+												$('#retroal4').click(function(){
+														$.ajax({
+				                                                data: {
+				                                                    'idIncubada':{{incubada.id_incubada}},
+				                                                    'numTab':4,
+				                                                    'idMilestone':{{milestone_actual.id_milestone}},
+				                                                    'contenido':$("#textAreaRetro4").val()
+				                                                },
+				                                                type: 'get',
+				                                                url: '/GuardarRetroalimentacion/'
+				                                        });
+				                                        retroali4=1;
+														mostrarRetroalimentaciones4();
+														$("#textAreaRetro4").val('');
+														
+												});		
+
+												 $('#retroalimentacion4').ready(mostrarRetroalimentaciones4);
+
+												function mostrarRetroalimentaciones4() {
+													if (retroali4!=0){
+														alert("Retroalimentación enviada con éxito")
+														retroali4=0
+													}													
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -639,11 +753,25 @@
 		                                                    $('#retroalimentacion4').html(data)
 		                                                }
 		                                            });
+		                                        }		
+						
+											});
 
-		                                        }
-		                                    });
-		                                });
+										$('#retroal4').attr('disabled', true);
+										$('#textAreaRetro4').on('keyup',function() {
+										    var textarea_value = $("#textAreaRetro4").val();
+										    if(textarea_value != '') {
+										        $('#retroal4').attr('disabled' , false);
+										    }else{
+										        $('#retroal4').attr('disabled' , true);
+										    }
+										});
+
+
+										});
+
 		                            </script>
+
 
 	                        </div>
 	                    </div>
@@ -691,19 +819,19 @@
 					                  
 					                  	{%if retroalimentar == True%}
 					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
+					                    <textarea id="textAreaRetro5" class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a id="retroal5"class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	
 
 					                  	{%else%}
 					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
+					                    <textarea id="textAreaRetro5" disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
 					                  	</div>
 					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
+					                  	<a id="retroal5" disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
 					                  	</div>
 					                  	<div class="col-md-12" align="right">
 						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
@@ -711,11 +839,37 @@
 										
 						          		{%endif%}
 						        </div>
-					                <script>
+
+
+						        <script>
 		                                $(document).ready(function () {
-		                                    $(function () {
-		                                        $('#retroalimentacion5').ready(mostrarRetroalimentaciones);
-		                                        function mostrarRetroalimentaciones() {
+		                                    $(function () {	                                       	
+		                                    	var retroali5= 0;           
+
+												$('#retroal5').click(function(){
+														$.ajax({
+				                                                data: {
+				                                                    'idIncubada':{{incubada.id_incubada}},
+				                                                    'numTab':5,
+				                                                    'idMilestone':{{milestone_actual.id_milestone}},
+				                                                    'contenido':$("#textAreaRetro5").val()
+				                                                },
+				                                                type: 'get',
+				                                                url: '/GuardarRetroalimentacion/'
+				                                        });
+				                                        retroali5=1;
+														mostrarRetroalimentaciones5();
+														$("#textAreaRetro5").val('');
+														
+												});		
+
+												 $('#retroalimentacion5').ready(mostrarRetroalimentaciones5);
+
+												function mostrarRetroalimentaciones5() {
+													if (retroali5!=0){
+														alert("Retroalimentación enviada con éxito")
+														retroali5=0
+													}													
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -727,11 +881,29 @@
 		                                                    $('#retroalimentacion5').html(data)
 		                                                }
 		                                            });
+		                                        }		
+						
+											});
 
-		                                        }
-		                                    });
-		                                });
+										$('#retroal5').attr('disabled', true);
+										$('#textAreaRetro5').on('keyup',function() {
+										    var textarea_value = $("#textAreaRetro5").val();
+										    if(textarea_value != '') {
+										        $('#retroal5').attr('disabled' , false);
+										    }else{
+										        $('#retroal5').attr('disabled' , true);
+										    }
+										});
+
+
+										});
+
 		                            </script>
+
+
+
+
+
 	                        </div>
 	                    </div>
 	                </div>

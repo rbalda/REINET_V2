@@ -52,31 +52,46 @@ def inicio_incubacion(request):
     incubaciones = Incubacion.objects.all()
     args['incubaciones'] = incubaciones
     #Para el tab de incubadas
+
+    encontro=False
     incubadas = []
     for incubacion in incubaciones:
-        for incubada in Incubada.objects.all():
-            if incubada.fk_incubacion.id_incubacion == incubacion.id_incubacion and incubacion.fk_perfil == request.user.perfil:
-                milestones = len(Milestone.objects.filter(fk_incubada=incubada))
-                consultores = len(incubada.consultores.all())
-                incubadas.append((incubada, milestones, consultores))
+        for incubada in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
+            for incubada1 in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
+
+                if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
+                    if encontro == False:
+                        encontro=True
+                        propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=incubada.fk_oferta.id_oferta)
+                        print propietario
+                        if propietario.first().fk_participante == request.user.perfil:
+                            consultores = len(IncubadaConsultor.objects.filter(fk_oferta_incubada=incubada.fk_oferta.id_oferta))
+                            milestones = len(Incubada.objects.filter(fk_oferta=incubada.fk_oferta.id_oferta))                
+                            incubadas.append((incubada, milestones, consultores))
+        encontro=False
+
     args['incubadas'] = incubadas
 
     #Para el tab de consultores
-    consultor = Consultor.objects.filter(fk_usuario_consultor=request.user.perfil)
-    if consultor:
-        incubadas_consultores = IncubadaConsultor.objects.filter(fk_consultor=consultor)
-        incubadas = []
-        for ic in incubadas_consultores:
-            incubada = Incubada.objects.filter(id_incubada=ic.fk_incubada.id_incubada)
-            if incubada:
-                milestones = len(Milestone.objects.filter(fk_incubada=incubada))
-                consultores = len(IncubadaConsultor.objects.filter(fk_incubada=incubada))
-                incubadas.append((incubada, milestones, consultores))
-                print 'bsc'
-                print incubadas
-        args['consultores'] = incubadas
-    else:
-        args['consultores'] = None
+    encontro=False
+    incubadas = []
+    for incubacion in incubaciones:
+        for incubada in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
+            for incubada1 in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
+
+                if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
+                    if encontro == False:
+                        encontro=True
+                        consultor= Consultor.objects.filter(fk_usuario_consultor=request.user.perfil).first()
+                        if consultor:
+                            if IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_oferta_incubada=incubada.fk_oferta.id_oferta):
+                                consultores = len(IncubadaConsultor.objects.filter(fk_oferta_incubada=incubada.fk_oferta.id_oferta))
+                                milestones = len(Incubada.objects.filter(fk_oferta=incubada.fk_oferta.id_oferta))                
+                                incubadas.append((incubada, milestones, consultores))
+        encontro=False
+
+    args['consultores'] = incubadas
+
 
     return render_to_response('inicio_incubacion.html', args)
 
@@ -155,21 +170,19 @@ def definir_milestone(request):
     otros = request.GET.get( 'otros' )
     idIncubada = request.GET.get( 'idIncubada' )
     fechaactual = datetime.datetime.now()
-
     #Modifico el formato de las fechas
     listaFM =fechaMilestone.split('/') 
     listaFR=fechaRetroalimentacion.split('/') 
     fechaMilestone = ""+listaFM[2]+"-"+listaFM[0]+"-"+listaFM[1]
     fechaRetroalimentacion = ""+listaFR[2]+"-"+listaFR[0]+"-"+listaFR[1]
-
     #Obtengo la incubada actual
     incubada_actual = Incubada.objects.get(id_incubada=idIncubada)
-
     #CLONO la incubada actual para crear un nuevo Milestone
     incubada_clonada = incubada_actual
-    
     #ID OFERTA
-    id_oferta= incubada_clonada.fk_oferta_id
+    print incubada_clonada.fk_oferta
+    id_oferta= incubada_clonada.fk_oferta.id_oferta
+    print id_oferta
 
     #ID DIAGRAMA DE CANVAS
     id_diagrama_canvas = incubada_actual.fk_diagrama_canvas_id
@@ -182,7 +195,7 @@ def definir_milestone(request):
     canvas_clonado.save()
     nuevo_id_diagrama_canvas = canvas_clonado.id_diagrama_business_canvas 
     print "ID:       ",nuevo_id_diagrama_canvas
-
+    print '1111111222222222222'
     #ID DIAGRAMA PORTER
     id_diagrama_porter = incubada_actual.fk_diagrama_competidores_id
     #Obtengo el DIAGRAMA DE PORTER  
@@ -212,7 +225,7 @@ def definir_milestone(request):
     milestone.fecha_maxima = fechaMilestone
     milestone.requerimientos = requerimientos
     milestone.importancia = importancia
-    milestone.otros = importancia
+    milestone.otros = otros
     milestone.fk_incubada_id = incubada_clonada.id_incubada
     milestone.save()
     print "MILESTONE GUARDADO"
@@ -502,14 +515,14 @@ def enviar_invitaciones(request):
     fechaactual = datetime.datetime.now()
 
     consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
-            incubadaconsultor=IncubadaConsultor.objects.filter(fk_oferta_incubada_id=idoferta))
-    incubadaPropietario=perfil.participa_en.all().get(miembroequipo__es_propietario=1,id_oferta=idoferta)
+        incubadaconsultor=IncubadaConsultor.objects.filter(fk_oferta_incubada_id=idoferta))
+
     if len(consultor) > 0:
         print "EL USUARIO NO PUEDE SER CONSULTOR"
     elif len(consultor) == 0:
         consultorExiste = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil)
         print len(consultorExiste)
-        print 'ya imprimi el len'
+
         if len(consultorExiste)==0:
             #Guardar en la tabla Consultor
             consultorTabla = Consultor()
@@ -1199,8 +1212,12 @@ def guardar_retroalimentaciones(request):
             contenido = request.GET['contenido']
             try:
                 #print id_usuario
+                hoy = datetime.datetime.now()
+                print 'hoooooooooooooooooooooooooooooora deeel momento'
+                print hoy.date
+                print hoy.time
                 retroalimentacion = Retroalimentacion()
-                retroalimentacion.fecha_creacion = datetime.datetime.now()
+                retroalimentacion.fecha_creacion = hoy
                 milestone = Milestone.objects.get(id_milestone=id_milestone)
                 retroalimentacion.fk_milestone = milestone
                 consultor = Consultor.objects.get(fk_usuario_consultor_id = usuario.id_perfil)
