@@ -253,13 +253,13 @@
                 <div class="modal-body">
                     <div class="comment" id="Comentario">
                           <div class="media">
-                            <form action="/GuardarConvocatoria" method="get">
-
+                            <form action="/GuardarConvocatoria" method="post">
+                                {% csrf_token %}
                                 <div class="form-group">
                                   <table class="table " style="margin-bottom: 0px;">
                                     <thead>
                                       <tr>
-                                        <th class="text-muted">Defina el periodo durante el cual los uuarios podran aplicar con sus ofertas</th>
+                                        <th class="text-muted">Defina el periodo durante el cual los usuarios podran aplicar con sus ofertas</th>
                                       </tr>
                                     </thead>
                                     <tbody>
