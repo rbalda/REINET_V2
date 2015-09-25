@@ -849,7 +849,7 @@
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Requerimientos para la incubada</label>
                                   <div class="col-md-7">
-                                    <textarea autofocus  name="requerimientosDescripcion" rows="3"  class="form-control" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
+                                    <textarea autofocus id="requerimientosDescripcion" name="requerimientosDescripcion" rows="3"  class="form-control" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
                                     ></textarea>
                                   </div>
                                   <br>
@@ -870,16 +870,16 @@
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Importancia del milestone</label>
                                   <div class="col-md-7">
-                                    <textarea autofocus rows="3"  class="form-control" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
+                                    <textarea autofocus rows="3" id="importancia_milestone" class="form-control" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
                                     ></textarea>
                                   </div>
                                   <br>
                                 </div>
                                 <div class="form-group">
-                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Otros</label>
+                                   <label for="Nombres"  class="col-md-3 col-md-offset-1">Otros</label>
                                    <div class="col-md-7 pull-left" id="nuevos">
                                    <form method="get">
-                                    <textarea autofocus rows="5"  class="tinymce form-control" style="resize: none;"
+                                    <textarea autofocus rows="5" id="otros" class="tinymce form-control" style="resize: none;"
                                     ></textarea>
                                   </div>
                                   </form>
@@ -887,7 +887,7 @@
                                 <div class="form-group">
                                     <div align="right">
                                       <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                                      <button href="#" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                                      <a id="aceptardefinirMilestone" data-dismiss="modal" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
                                     </div>                                                  
                                 </div>
                             </form>   
@@ -897,8 +897,32 @@
               </div>
               	<script>
 					$(function() {
+					//Validando que las fechas sea desde la fecha actual
 					$("#fecha_milestone").datepicker({ minDate: 0 });
 					$("#fecha_retroalimentacion").datepicker({ minDate: 0 });
+
+					$("#aceptardefinirMilestone").click(function(){
+							//Obtengo todos los valores del los campos del formulario
+							var req = $('textarea#requerimientosDescripcion').val(),
+							fecMil= $("#fecha_milestone").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
+							fecRet= $("#fecha_retroalimentacion").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
+							importan = $('textarea#importancia_milestone').val(),
+							otros = $('textarea#otros').val();
+
+							$.ajax({
+								data: {
+									'idIncubada':{{incubada.id_incubada}},
+									'requerimientos':req,
+									'fechaMilestone':fecMil,
+									'fechaRetroalimentacion':fecRet,
+									'importancia':importan,
+									'otros':otros
+									 },
+								type: 'get',
+								url: '/DefinirMilestone/'
+							});
+							
+						});
 					
 					});
 				</script>

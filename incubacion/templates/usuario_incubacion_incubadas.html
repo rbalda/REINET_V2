@@ -1,4 +1,4 @@
-	        {% if incubadas != "No hay incubadas" %}   
+ {% if incubadas != "No hay incubadas" %}   
                 <div style="font-size:12px;height:250px;overflow-y:auto;" >
                     <div class="pm-list">
                         <ul>
@@ -10,10 +10,10 @@
                                                 <img src="/../../media/{{img.imagen }}" alt="...">
                                             {%endif%}
                                             {% if forloop.last and img.fk_incubada != incubada %}
-                                                <img src="/../../media/noPicture.png" alt="...">
+                                              <img src="/../../media/noPicture.png" alt="...">
                                             {% endif %}
                                         {%endfor%}
-                                        <a href="/AdminIncubada/{{incubada.id_incubada}}" style="font-size:16px;color:black">{{incubada.nombre}}</a><br>
+                                        <span  style="font-size:16px;color:black">{{incubada.nombre}}</span><br>
                                         <i class="fa fa-user">
                                             {{incubada.equipo.fk_participante.first_name}}
                                             {{incubada.equipo.fk_participante.last_name}}
@@ -31,6 +31,3 @@
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Esta Incubación no tiene incubadas 
                 </div>
             {%endif%}
-
-                                    
-                           

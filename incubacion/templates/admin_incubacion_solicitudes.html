@@ -3,12 +3,15 @@
     <div class="pm-list" >
       <ul>
         {%for solicitud in solicitudes%}
-          <li>
+          <li id ="solicitud{{solictud.id_solicitud_ofertas_convocatoria}}">
             <p class="text-muted" style="width:100%">
               {% for  imgoferta in imagenesofertas%}
-                {% if imgoferta.fk_oferta == solicitud.fk_oferta %}
-                  <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+                {%if imgoferta.fk_oferta == solicitud.fk_oferta %}
+                  <img src="/../../media/{{imgoferta.imagen }}" alt="...">
                 {%endif%}
+                {% if forloop.last and imgoferta.fk_oferta != solicitud.fk_oferta %}
+                  <img src="/../../media/noPicture.png" alt="...">
+                {% endif %}
               {%endfor%}
               <a href="#" style="font-size:16px;color:black">{{ solicitud.fk_oferta.nombre}}</a><br>
               {%for dueno in propietarios %}
@@ -21,11 +24,30 @@
             <p class="text-muted" style="width:100%" align=right>
               <button type="button" class="btn btn-red" >
               <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-              <button type="button" class="btn btn-default"  style="margin-left:10px">
+              <button type="button" class="btn btn-default" name ="rechazar_solicitud" style="margin-left:10px">
               <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
             </p>
             <div class="clearfix"></div>
           </li>
+          <script>
+            $("[name='rechazar_solicitud']").on('click', function(){
+              alert("sssssssssssssssssssssssssssssss")
+              $(function () {
+                function rechazar_solicitud() {
+                  $.ajax({
+                    data: {
+                      'id_solicitud':{{solicitud.id_solicitud_ofertas_convocatoria}}
+                    },
+                    type: 'get',
+                    url: '/RechazarSolicitudIncubacion/',
+                    success: function (data) {
+                      $('#solicitud{{solictud.id_solicitud_ofertas_convocatoria}}').remove();
+                    }
+                  });
+                }
+              });
+            });
+          </script> 
         {%endfor%}
       </ul>
     </div>
@@ -35,4 +57,3 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Esta Incubación no tiene solicitudes pendientes
   </div>
 {%endif%}
-
