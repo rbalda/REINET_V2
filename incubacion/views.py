@@ -538,7 +538,10 @@ def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
+    args['mensajeError'] = request.session['mensajeError']
+    args['mensajeAlerta'] = request.session['mensajeAlerta']
     args['es_admin'] = request.session['es_admin']
+
 
     # Para que las variables de session sena colocadas en args[]
     if usuario is not None:
@@ -1288,42 +1291,6 @@ def guardar_convocatoria(request):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
-
-
-    """
-        if args['es_admin']:
-            if request.method == 'GET':
-                fecha_max = request.GET['fecMaxima']
-                id_incubacion = request.GET['idIncubacion']
-                try:
-                    convocatoria = Convocatoria()
-                    convocatoria.fecha_creacion = datetime.datetime.now()
-                    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-                    convocatoria.fk_incubacion = incubacion
-                    convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
-                    #convocatoria.fecha_maxima = fecha_max
-                    if(convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                        args['mensajeAlerta'] = 'Fecha maxima es menor a la actual'
-                    else:
-                        convocatoria.save()
-                        convocatorias = Convocatoria.objects.all()
-                        args['convocatorias'] = convocatorias
-
-                        args['mensajeError'] = None
-                        args['mensajeAlerta'] = 'Convocatoria Creada con exito'
-                except ValueError:
-                    print 'Error con la fecha'
-                    args['mensajeError'] = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
-                    args['mensajeAlerta'] = 'No se creo Convocatoria'
-                    args.update(csrf(request))
-                    return render_to_response('admin_ver_incubacion.html', args, context_instance=RequestContext(request))
-
-            return render_to_response('admin_ver_incubacion.html', args)
-        else:
-            return HttpResponseRedirect('InicioIncubaciones')
-    """
-    return render_to_response('admin_ver_incubacion.html', args)
-
     if args['es_admin']:
         if request.method == 'GET':
             fecha_max = request.GET['fecMaxima']
@@ -1333,23 +1300,25 @@ def guardar_convocatoria(request):
                 convocatoria.fecha_creacion = datetime.datetime.now()
                 incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
                 convocatoria.fk_incubacion = incubacion
-                convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
+                convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
                 # convocatoria.fecha_maxima = fecha_max
                 if (convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                    mensajeAlerta = 'Fecha maxima es menor a la actual'
+                    mensajeError = 'No se ha creado convocatoria dado que la fecha maxima es menor a la actual'
+                    mensajeAlerta=None
                 else:
                     convocatoria.save()
                     mensajeAlerta = 'Convocatoria Creada con exito'
-                mensajeError = None
+                    mensajeError = None
             except:
                 print 'Error con la fecha'
-                mensajeError = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
-                mensajeAlerta = 'No se creo Convocatoria'
+                mensajeError = 'No se creo Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
+                mensajeAlerta = None
 
         request.session['mensajeError'] = mensajeError
         request.session['mensajeAlerta'] = mensajeAlerta
         return HttpResponseRedirect('AdminIncubacion/' + id_incubacion, args)
     else:
         return HttpResponseRedirect('InicioIncubaciones')
+
 
 
