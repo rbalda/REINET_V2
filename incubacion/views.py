@@ -666,11 +666,10 @@ def editar_estado_incubacion(request):
 """
 Autor: Henry Lasso
 Nombre de funcion: admin_ver_incubacion
-Parametros: request
+Parametros: request y id_incubacion
 Salida: 
-Descripcion: Mostar template ver mi incubacion
+Descripcion: Mostar template ver mi incubacion desde administrador
 """
-
 
 @login_required
 def admin_ver_incubacion(request, id_incubacion):
@@ -686,13 +685,17 @@ def admin_ver_incubacion(request, id_incubacion):
     if usuario is not None:
         args['usuario'] = usuario
         try:
+            #obtengo la incubacion por medio del id enviado por la url
             incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+            #valido que el usuario sea dueño de la incubacion
             if incubacion.fk_perfil == usuario:    
                 if incubacion:
+                    #listo las convocatorias de la incubación
                     convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
                     if convocatorias_incubacion is not None:
                         hoy = datetime.datetime.now(timezone.utc)
                         fecha_maxima = convocatorias_incubacion.fecha_maxima
+                        # si la fecha maxima es menor a hoy no hay una convocatoria abierta
                         if fecha_maxima <= hoy:
                             args['convocatorias'] = "No hay Convocatoria"
                         else:
@@ -719,8 +722,8 @@ def admin_ver_incubacion(request, id_incubacion):
 """
 Autor: Henry Lasso
 Nombre de funcion: usuario_ver_incubacion
-Parametros: request
-Salida: 
+Parametros: request y id de incubacion
+Salida: render template ver incubacion desde usuario 
 Descripcion: Mostar template ver mi incubacion
 """
 
@@ -734,12 +737,15 @@ def usuario_ver_incubacion(request, id_incubacion):
         # Guardo en la variable de sesion a usuario.
         args['usuario'] = usuario
         try:
+            #obtengo la incubacion por medio del id 
             incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
             if incubacion :
+                #listo la ultima convocatoria de la incubacion 
                 convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
                 if convocatorias_incubacion is not None:
                     hoy = datetime.datetime.now(timezone.utc)
                     fecha_maxima = convocatorias_incubacion.fecha_maxima
+                    # verifico si hay un convocatoria abierta por medio de las fechas
                     if fecha_maxima <= hoy:
                         args['convocatorias'] = "No hay Convocatoria"
                     else:
@@ -762,10 +768,9 @@ def usuario_ver_incubacion(request, id_incubacion):
 Autor: Henry Lasso
 Nombre de funcion: admin_incubadas_incubacion
 Parametros: request
-Salida: admin_lista_incubadas
+Salida: admin_lista_incubadas desde administrador
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion
 """
-
 
 @login_required
 def admin_incubadas_incubacion(request):
@@ -782,9 +787,10 @@ def admin_incubadas_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            #obtengo las incubadas de la incubacion
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
             imagenincubada = ImagenIncubada.objects.all().filter()
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -794,6 +800,7 @@ def admin_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
+            args['propietarios']= propietarios
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -804,6 +811,13 @@ def admin_incubadas_incubacion(request):
     else:
         return redirect('/NotFound')
 
+"""
+Autor: Henry Lasso
+Nombre de funcion: usuario_incubadas_incubacion
+Parametros: request
+Salida: usuario_lista_incubadas
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion como usuario
+"""
 
 @login_required
 def usuario_incubadas_incubacion(request):
@@ -820,9 +834,11 @@ def usuario_incubadas_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            #obtengo las incubadas de la incubacion 
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
             imagenincubada = ImagenIncubada.objects.all().filter()
+            #obtengo todos los propietarios
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -832,7 +848,7 @@ def usuario_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
-                
+            args['propietarios']= propietarios    
             return render_to_response('usuario_incubacion_incubadas.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -844,8 +860,6 @@ def usuario_incubadas_incubacion(request):
         return redirect('/NotFound')
 
 
-
-
 """
 Autor: Henry Lasso
 Nombre de funcion: admin_solicitudes_incubacion
@@ -853,7 +867,6 @@ Parametros: request
 Salida: admin_lista_solicitudes_incubacion
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
 """
-
 
 @login_required
 def admin_solicitudes_incubacion(request):
@@ -863,7 +876,6 @@ def admin_solicitudes_incubacion(request):
     args['es_admin']=request.session['es_admin']
     #si el usuario EXISTE asigna un arg para usarlo en el template
     # si el usuario EXISTE asigna un arg para usarlo en el template
-    print "solicitudesssssssssssssssssssssss"
     if usuario is not None:
         args['usuario'] = usuario
     else:
@@ -872,8 +884,9 @@ def admin_solicitudes_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            #obtengo todas las solicitudes de las convocatorias de la incubacion
             solicitudes = SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0) 
+            #obtengo todos los propietarios de la incubadas
             propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             imagenesofertas = ImagenOferta.objects.all().filter()
             numeroimagenesoferta= len(imagenesofertas)
@@ -894,21 +907,18 @@ def admin_solicitudes_incubacion(request):
     else:
         return redirect('/NotFound')
 
-
 """
 Autor: Henry Lasso
-Nombre de funcion: rechazar_solicitud
+Nombre de funcion: admin_rechazar_solicitud
 Parametros: request
-Salida: 
-Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
+Salida: actualiza la solicitud con estado rechazada
+Descripcion: Esta funcion es para la peticion Ajax que actualiza el estado de la solictud a rechazada
 """
 @login_required
 def admin_rechazar_solicitud(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
-    
-    print "wwwwwwwwwwwwwwwwwwwww"
     args['es_admin']=request.session['es_admin']
     #si el usuario EXISTE asigna un arg para usarlo en el template
     # si el usuario EXISTE asigna un arg para usarlo en el template
@@ -920,7 +930,7 @@ def admin_rechazar_solicitud(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            print "wwwwwwwwwwwwwwwwwwwww"
+            #obtengo las solicitudes pendientes de la incubacion
             solicitud= SolicitudOfertasConvocatoria.objects.get(id_solicitud_ofertas_convocatoria=request.GET['id_solicitud'])
             solicitud.estado_solicitud=2
             solicitud.save() 
