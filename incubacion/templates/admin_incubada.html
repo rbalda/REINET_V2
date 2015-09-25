@@ -65,11 +65,11 @@
 				    			</div>
 				    			<div class="modal-body media" style="font-size:14px;padding-top: 0px;height: 290px;">
 				    				<div id="mostrarMensaje" style="display:none;">
-					    				<div  style="text-align:justify; font-size: 24px; font-size: 2.4rem;margin-top: 50px;">
-					    					Se registrar&aacute; a todos los usuario seleccionados como consultor de una incubada en este proceso de Incubaci&oacute;n. 
+					    				<div  style="text-align:justify; font-size: 16px;margin-top: 30px;">
+					    					Se registrar&aacute; con éxito los usuarios seleccionados como consultores de la incubada. 
 					    				</div>
 				    					<div class="form-group">
-									   		<div align="right" style="margin-top: 50px;">
+									   		<div align="right" style="margin-top: 10px;">
 									   			<a id="aceptarConsultor" data-dismiss="modal" class="btn btn-red fa">&nbsp;&nbsp;ACEPTAR</a>
 									   		</div>
 									   	</div>
@@ -150,11 +150,39 @@
 														$('#aceptarConsultor').click(function(){
 															$('#formulario').show();
 															$('#mostrarMensaje').hide();
+															mostrarConsultoresIncubada();
 														});
+
+														$('#divConsultoresInc').ready(mostrarConsultoresIncubada);
+
+														function mostrarConsultoresIncubada() {
+				                                            $.ajax({
+				                                                data: {
+				                                                    'incubada':{{incubada.id_incubada}}
+				                                                },
+				                                                type: 'get',
+				                                                url: '/AdminIncubadaConsultores/',
+				                                                success: function (data) {
+				                                                    $('#divConsultoresInc').html(data)
+				                                                }
+				                                            });
+
+				                                        }
 
 				                                    });
 				                                });
 				                            </script>
+
+
+
+
+				                            
+
+
+
+
+
+
 									    </div>
 
 									    <div class="form-group">
@@ -392,9 +420,10 @@
 		                            <h3 style="text-align:center" class="h4">  Canvas del Modelo de negocios</h3>
 		                            <hr>
 
-		                            <div class="col-md-12 table-responsive" style="font-size: 12px;">
-		                                <table class="table table-bordered">
-		                                      <tbody><tr style="background-color:#E2E2E2;">
+		                            <div style="font-size: 12px;width:100%; overflow: auto;">
+		                                <table class="table table-bordered" style="width:20%">
+		                                   	<tbody>
+		                                   	<tr style="background-color:#E2E2E2;">
 		                                         <th >Socios clave</th>
 		                                         <th>Actividades claves</th>
 		                                         <th>Propuestas de valor</th>
@@ -478,9 +507,11 @@
 				                            	{%endif%}
 				                                 </td>
 		                                      </tr>
-		                                </tbody></table>
-
+		                                </tbody>
+		                                </table>
 		                            </div>
+
+
 		                        </div>
 
 		                        <div id="retroalimentacion3" class="col-md-12">
@@ -541,8 +572,8 @@
 
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Cinco fuerzas de Porter</p>
 
-	                            <div class="table-responsive col-xs-12" style="font-size: 12px;">
-	                                <table class="table table-bordered">
+	                            <div style="font-size: 12px;width:100%; overflow: auto;">
+		                            <table class="table table-bordered" >
 	                                      <tbody>
 	                                      <tr style="background-color:#E2E2E2;">
 	                                         <th colspan="2" style="text-align: center;">Competidores</th>
@@ -606,10 +637,9 @@
 	                                         <br>
 			                                 </td>
 	                                      </tr>
-	                                </tbody></table>
+	                                </tbody>
+	                                </table>
 	                            </div>
-
-	                            <br><br>
 	                        </div>
 
 	                        <div id="retroalimentacion4" class="col-md-12">
@@ -774,26 +804,7 @@
 
 			                </div>  
 
-			                <script>
-                                $(document).ready(function () {
-                                    $(function () {
-                                        $('#divConsultoresInc').ready(mostrarConsultoresIncubada);
-                                        function mostrarConsultoresIncubada() {
-                                            $.ajax({
-                                                data: {
-                                                    'incubada':{{incubada.id_incubada}}
-                                                },
-                                                type: 'get',
-                                                url: '/AdminIncubadaConsultores/',
-                                                success: function (data) {
-                                                    $('#divConsultoresInc').html(data)
-                                                }
-                                            });
 
-                                        }
-                                    });
-                                });
-                            </script>
 			            </div>
 		            <!-- TERMINA Panel de los consultores -->
 

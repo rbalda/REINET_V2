@@ -241,7 +241,6 @@ def invitar_consultor(request):
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
     consultor = request.GET.get( 'consultor' )
     consultor = request.GET.get('consultor')
     usuarioconsultor = consultor.split('-')
@@ -272,8 +271,6 @@ def invitar_consultor(request):
 
         return render_to_response('admin_invitar_consultor.html', args)
 
-
-
 """
 Autor: Jose Velez
 Nombre de funcion: enviar_invitaciones
@@ -281,15 +278,12 @@ Parametros: request
 Salida: Se envia a solicitud a todos los usuario
 Descripcion: En esta funcion se guarda en la base todos los usuario que seran consultor
 """
-
-
 @login_required
 def enviar_invitaciones(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
     args['es_admin']=request.session['es_admin']
-
     #si el usuario EXISTE asigna un arg para usarlo en el template
     if usuario is not None:
         args['usuario'] = usuario
@@ -298,43 +292,42 @@ def enviar_invitaciones(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     usuarioPerfil = request.GET.get( 'usuarioperfil' )
+    
     idIncubada =  request.GET.get( 'idincubada' )
-
-    print "ID INCUBADA", idIncubada
-
-    #Join de consultor, incubadaconsultor
-    #consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(incubadaconsultor=IncubadaConsultor.objects.all())
+    incubada = Incubada.objects.get(id_incubada=idIncubada)
+    idIncubacion = incubada.fk_incubacion.id_incubacion
+    idoferta = incubada.fk_oferta.id_oferta
+    fechaactual = datetime.datetime.now()
 
     consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
-        incubadaconsultor=IncubadaConsultor.objects.filter(fk_incubada_id=idIncubada))
-
-    #Prtegunta si el usuario a invitar, ya es consultor de la misma incubada
+            incubadaconsultor=IncubadaConsultor.objects.filter(fk_oferta_incubada_id=idoferta))
+    incubadaPropietario=perfil.participa_en.all().get(miembroequipo__es_propietario=1,id_oferta=idoferta)
     if len(consultor) > 0:
         print "EL USUARIO NO PUEDE SER CONSULTOR"
     elif len(consultor) == 0:
-        #Fecha actual
-        fechaactual = datetime.datetime.now()
-
-        #Guardar en la tabla Consultor
-        consultorTabla = Consultor()
-        consultorTabla.fk_usuario_consultor_id = usuarioPerfil
-        consultorTabla.fecha_creacion = fechaactual
-        #se guardan los cambios
-        consultorTabla.save()
-
-        #Obtener el ID del Consultor
-        obtenerconsultor = Consultor.objects.get(fk_usuario_consultor=usuarioPerfil)
-
+        consultorExiste = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil)
+        print len(consultorExiste)
+        print 'ya imprimi el len'
+        if len(consultorExiste)==0:
+            #Guardar en la tabla Consultor
+            consultorTabla = Consultor()
+            consultorTabla.fk_usuario_consultor_id = usuarioPerfil
+            consultorTabla.fecha_creacion = fechaactual
+            #se guardan los cambios
+            consultorTabla.save()
+            consultorExiste=consultorTabla
+        else:
+            consultorExiste=consultorExiste.first()
         #Guardar en la tabla Consultor
         incubadaconsultor = IncubadaConsultor()
-        incubadaconsultor.fk_consultor_id = obtenerconsultor.id_consultor
+        incubadaconsultor.fk_consultor_id = consultorExiste.id_consultor
         incubadaconsultor.fk_incubada_id = idIncubada
         incubadaconsultor.fecha_creacion = fechaactual
+        incubadaconsultor.fk_oferta_incubada_id=idoferta
+        incubadaconsultor.fk_incubacion_id=idIncubacion
         #se guardan los cambios
         incubadaconsultor.save()
 
-
-        
 
 """
 Autor: Dimitri Laaz
@@ -591,7 +584,7 @@ Descripcion: Administrar una incubada de una incubacion de la cual soy dueño
 
 
 @login_required
-def admin_ver_incubada(request, id_incubada):
+def admin_ver_incubada(request, id_oferta):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=request.session['id_usuario'])
     args = {}
@@ -600,16 +593,15 @@ def admin_ver_incubada(request, id_incubada):
     if usuario is not None:
         args['usuario'] = usuario
         try:
-            incubada = Incubada.objects.get(id_incubada=id_incubada)
+            incubada = Incubada.objects.filter(fk_oferta=id_oferta).last()
             # Tengo que verificar que el administrador de la incubada es el usuario en sesion
-            print incubada.fk_incubacion.fk_perfil
             if incubada:
                 if incubada.fk_incubacion.fk_perfil == usuario:
-                    propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo, es_propietario=1)
-                    equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
-                    if equipo is not None:
+                    propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=incubada.fk_oferta, es_propietario=1)
+                    equipo = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=incubada.fk_oferta)
+                    if len(equipo)>0:
                         args['equipo'] = equipo
-                    fotos = ImagenIncubada.objects.filter(fk_incubada=id_incubada)
+                    fotos = ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada)
                     if fotos:
                         imagen_principal = fotos.first()
                     else:
@@ -622,11 +614,14 @@ def admin_ver_incubada(request, id_incubada):
                     args['milestone']=primer_milestone
 
 
-                    milestone = Milestone.objects.filter(fk_incubada=id_incubada).last()
+                    milestone = Milestone.objects.filter(fk_incubada=incubada.id_incubada).last()
                     if milestone:
                         hoy = datetime.datetime.now(timezone.utc)
                         fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
 
+                        print 'hoolaaaaaaiisisdfjksafjaeefwer'
+                        print hoy
+                        print fecha_maxima_milestone
                         if fecha_maxima_milestone < hoy:
                             args['milestoneVigente'] = False
                         else:
@@ -683,13 +678,18 @@ def admin_incubada_consultores(request):
     if request.is_ajax():
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
-            incubConsult = IncubadaConsultor.objects.filter(fk_incubada=request.GET['incubada'])
+            print 'chaaaaaaaaaaaaaaaaaaaaaaaaaaao'
+            incubada = Incubada.objects.get(id_incubada=request.GET['incubada'])
+            print 'hoooooooooooooooolaaaa'
+            print incubada.fk_incubacion
+            print incubada.fk_oferta
+            consultores=IncubadaConsultor.objects.filter(fk_incubacion=incubada.fk_incubacion,fk_oferta_incubada=incubada.fk_oferta)
             #for c in incubConsult:
             #    try:
             #        print c.fk_consultor.fk_usuario_consultor.foto.url
             #    except Exception as e:
             #        print e
-            args['consultores'] = incubConsult
+            args['consultores'] = consultores
             return render_to_response('consultores.html',args)
 
         except Incubada.DoesNotExist:
@@ -732,6 +732,7 @@ def admin_incubada_milestone_actual(request):
             fecha_maxima_retroal = milestone.fecha_maxima_Retroalimentacion
             fecha_maxima_completar = milestone.fecha_maxima
 
+            print hoy
             if fecha_maxima_retroal < hoy :
                 print 'fecha maxima lalalalalalalar'
                 print fecha_maxima_retroal
@@ -744,7 +745,7 @@ def admin_incubada_milestone_actual(request):
                 args['completar'] = False
                 args['milestone'] = milestone
             else:
-                print fecha_maxima_retroal,'fecha maxima completar'
+                print fecha_maxima_completar,'fecha maxima completar'
                 args['retroalimentar']=False
                 args['completar'] = True
                 args['milestone'] = milestone
@@ -861,7 +862,7 @@ Descripcion: Mostar template de la incubada para el consultor de la incubada
 
 
 @login_required
-def consultor_ver_incubada(request,id_incubada):
+def consultor_ver_incubada(request,id_oferta):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=request.session['id_usuario'])
     args = {}
@@ -870,49 +871,44 @@ def consultor_ver_incubada(request,id_incubada):
     if usuario is not None:
         args['usuario'] = usuario
         try:
-            incubada = Incubada.objects.get(id_incubada = id_incubada)
+            incubada = Incubada.objects.filter(fk_oferta=id_oferta).last()
             #Tengo que verificar que el usuario es consultor de la incubada
             if incubada:
                 consultores = Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil)
                 if consultores:
                     consultor = Consultor.objects.get(fk_usuario_consultor=usuario.id_perfil)
-                    incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_incubada=id_incubada)
+                    incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_incubada=incubada.id_incubada)
                     if incubadaCons:
                         args['consultor']=usuario
-                        propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo,es_propietario=1)
-                        equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
-                        if equipo is not None:
+                        propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=incubada.fk_oferta, es_propietario=1)
+                        equipo = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=incubada.fk_oferta)
+                        if len(equipo)>0:
                             args['equipo'] = equipo
-                        fotos= ImagenIncubada.objects.filter(fk_incubada=id_incubada)
+                        fotos= ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada)
                         if fotos:
                             imagen_principal = fotos.first()
                         else:
                             fotos = False
                             imagen_principal = False
 
-                        #Tenemos que validar si hay un mmilestone vigente
-                        milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
+                        #Tenemos que encontrar el primer milestone que tuvo la oferta
+                        primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
+                        primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+                        args['milestone']=primer_milestone
 
+                        #Ahora encontramos el milestone actual
+                        milestone = Milestone.objects.filter(fk_incubada=incubada.id_incubada).last()
                         if milestone:
                             #lo siguiente es para validar que el consultor pueda retroalimentar
                             #Si es que el milestone ya fue completado pero no ha acabado el tiempo de retroalimentar
                             hoy = datetime.datetime.now(timezone.utc)
-                            fecha_maxima_retroal=milestone.fecha_maxima_Retroalimentacion
+                            fecha_maxima_retro = milestone.fecha_maxima_Retroalimentacion
                             fecha_maxima_completar=milestone.fecha_maxima
 
-                            if fecha_maxima_completar >= hoy:
-                                print 'hooooola1'
-                                args['ultimo_Milestone']=milestone
-                                args['milestone']=False
+                            if fecha_maxima_completar < hoy and hoy<=fecha_maxima_retro:
+                                args['retroalimentar'] = True
                             else:
-                                print 'hooooola2'
-                                args['ultimo_Milestone']=False
-                                args['milestone']=milestone
-
-                        else:
-                            print 'hooooola3'
-                            args['ultimo_Milestone']=False
-                            args['milestone']=False
+                                args['retroalimentar'] = False
 
                         #Ahora voy a buscar las palabras claves
                         palabras_Claves = incubada.palabras_clave.all()
@@ -953,7 +949,7 @@ Descripcion: Mostar template de la incubada para el duenio de la incubada
 """
 
 @login_required
-def usuario_ver_incubada(request,id_incubada):
+def usuario_ver_incubada(request,id_oferta):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=request.session['id_usuario'])
     args = {}
@@ -962,69 +958,70 @@ def usuario_ver_incubada(request,id_incubada):
     if usuario is not None:
         args['usuario'] = usuario
         try:
-            incubada = Incubada.objects.get(id_incubada = id_incubada)
-            #Tengo que verificar que el administrador de la incubada es el usuario en sesion
-            print incubada.fk_incubacion.fk_perfil
+            incubada = Incubada.objects.filter(fk_oferta=id_oferta).last()
+            #Tengo que verificar que el usuario es consultor de la incubada
             if incubada:
-                consultores = Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil)
-                if consultores:
-                    consultor = Consultor.objects.get(fk_usuario_consultor=usuario.id_perfil)
+                print incubada.equipo.id_equipo
+                propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=incubada.fk_oferta, es_propietario=1)
+                print 'propieeeeeeeeeeeeeeeeeeeeeeeetario'
+                print propietario.fk_participante.id_perfil
+                print 'usuaaaaaaaaaaaaaaaaariooooooooooooo'
+                print usuario.id_perfil
+                if propietario.fk_participante.id_perfil==usuario.id_perfil:
 
-                    incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_incubada=id_incubada)
-                    if incubadaCons:
-                        args['consultor']=usuario
-                        propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo,es_propietario=1)
-                        equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
-                        if equipo is not None:
-                            args['equipo'] = equipo
-                        fotos= ImagenIncubada.objects.filter(fk_incubada=id_incubada)
-                        if fotos:
-                            imagen_principal = fotos.first()
+                    fotos= ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada)
+                    if fotos:
+                        imagen_principal = fotos.first()
+                    else:
+                        fotos = False
+                        imagen_principal = False
+
+                    equipo = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=incubada.fk_oferta)
+                    if len(equipo)>0:
+                        args['equipo'] = equipo
+
+                    #Tenemos que encontrar el primer milestone que tuvo la oferta
+                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
+                    primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+                    args['milestone']=primer_milestone
+
+                    #Ahora encontramos el milestone actual
+                    milestone = Milestone.objects.filter(fk_incubada=incubada.id_incubada).last()
+                    if milestone:
+                        #lo siguiente es para validar que el consultor pueda retroalimentar
+                        #Si es que el milestone ya fue completado pero no ha acabado el tiempo de retroalimentar
+                        hoy = datetime.datetime.now(timezone.utc)
+                        fecha_maxima_retro = milestone.fecha_maxima_Retroalimentacion
+                        fecha_maxima_completar=milestone.fecha_maxima
+
+                        if fecha_maxima_completar < hoy and hoy<=fecha_maxima_retro:
+                            args['completar'] = False
+                            args['retroalimentar'] = True                            
+                        elif fecha_maxima_completar > hoy:
+                            args['completar'] = True
+                            args['retroalimentar'] = False                            
                         else:
-                            fotos = False
-                            imagen_principal = False
+                            args['completar'] = False
+                            args['retroalimentar'] = False 
 
-                        #Tenemos que validar si hay un mmilestone vigente
-                        milestone = Milestone.objects.all().filter(fk_incubada =id_incubada ).last()
 
-                        if milestone:
-                            #lo siguiente es para validar que el consultor pueda retroalimentar
-                            #Si es que el milestone ya fue completado pero no ha acabado el tiempo de retroalimentar
-                            hoy = datetime.datetime.now(timezone.utc)
-                            fecha_maxima_retroal=milestone.fecha_maxima_Retroalimentacion
-                            fecha_maxima_completar=milestone.fecha_maxima
+                    #Ahora voy a buscar las palabras claves
+                    palabras_Claves = incubada.palabras_clave.all()
+                    if palabras_Claves.count()==0:
+                        palabras_Claves=False
+                    args['palabras_clave']=palabras_Claves
 
-                            if fecha_maxima_completar >= hoy:
-                                print 'hooooola1'
-                                args['ultimo_Milestone']=milestone
-                                args['milestone']=False
-                            else:
-                                print 'hooooola2'
-                                args['ultimo_Milestone']=False
-                                args['milestone']=milestone
+                    args['fotos'] = fotos
+                    args['imagen_principal'] = imagen_principal
+                    args['incubada'] = incubada
+                    args['propietario'] = propietario
+                    return render_to_response('usuario_ver_incubada.html', args)
 
-                        else:
-                            print 'hooooola3'
-                            args['ultimo_Milestone']=False
-                            args['milestone']=False
-
-                        #Ahora voy a buscar las palabras claves
-                        palabras_Claves = incubada.palabras_clave.all()
-                        if palabras_Claves.count()==0:
-                            palabras_Claves=False
-                        args['palabras_clave']=palabras_Claves
-
-                        args['fotos'] = fotos
-                        args['imagen_principal'] = imagen_principal
-                        args['incubada'] = incubada
-                        args['propietario'] = propietario
-                        return render_to_response('usuario_ver_incubada.html', args)
                 else:
                     args['error'] = "El usuario no es consultor en esta incubada"
                     return HttpResponseRedirect('/NotFound/')  
             else:
                 args['error'] = "Esta incubada no se encuentra bajo su administración"
-                print "ingrese     30"
                 return HttpResponseRedirect('/NotFound/')
         #si la oferta no existe redirige a un mensaje de error
         except Incubada.DoesNotExist:
