@@ -6,9 +6,12 @@
           <li>
             <p class="text-muted" style="width:100%">
               {% for  imgoferta in imagenesofertas%}
-                {% if imgoferta.fk_oferta == solicitud.fk_oferta %}
-                  <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
+                {%if imgoferta.fk_oferta == solicitud.fk_oferta %}
+                  <img src="/../../media/{{imgoferta.imagen }}" alt="...">
                 {%endif%}
+                {% if forloop.last and imgoferta.fk_oferta != solicitud.fk_oferta %}
+                  <img src="/../../media/noPicture.png" alt="...">
+                {% endif %}
               {%endfor%}
               <a href="#" style="font-size:16px;color:black">{{ solicitud.fk_oferta.nombre}}</a><br>
               {%for dueno in propietarios %}

@@ -99,7 +99,7 @@
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> {{ fecha_creacion }}</li>
+					<li><i class="fa fa-calendar"></i>  {{ incubacion.fecha_inicio.date }}</li>
 					<li>ESTADO: </i>
             {% if incubacion.estado_incubacion == 0 %}
               ACTIVA
@@ -179,54 +179,32 @@
 	           	</ul>
 				<div class="tab-content">
 				  <div id="incubadas" class="tab-pane fade in active">
-				  		<div style="font-size:12px;height:250px;overflow-y:auto;" >
-					  		<div class="pm-list">
-	                           <ul>
-	                               <li>
-	                                   <p class="text-muted" style="width: 100%;">
-	                                       <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-	                                       <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-	                                       <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-	                                   </p>
-	                                   
-	                                   <div class="clearfix"></div>
-	                               </li>
-	                                <li>
-                                     <p class="text-muted" style="width: 100%;">
-                                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                         <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                         <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                     </p>
-                                     
-                                     <div class="clearfix"></div>
-                                 </li>
-	                               <li>
-                                     <p class="text-muted" style="width: 100%;">
-                                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                         <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                         <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                     </p>
-                                     
-                                     <div class="clearfix"></div>
-                                 </li>
-	                                <li>
-                                     <p class="text-muted" style="width: 100%;">
-                                         <img src="/../../media/ofertas-demandas/face2.jpg" alt="...">
-                                         <a href="/AdminIncubada/" style="font-size:16px;color:black">Zapatos electrocutadores</a><br>
-                                         <i class="fa fa-user"></i>&nbsp;Henry Lasso<br><i class="fa fa-calendar"></i>&nbsp;2015-08-30
-                                     </p>
-                                     
-                                     <div class="clearfix"></div>
-                                 </li>
-	                           </ul>
-	                       </div>
-	                    </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
+
+          <script>
+            $(document).ready(function() {
+              $(function () {
+                $('#incubadas').ready(mostrarIncubadasIncubacion);
+                function mostrarIncubadasIncubacion() {
+                  $.ajax({
+                    data: {
+                      'incubacion':{{incubacion.id_incubacion}}
+                    },
+                    type: 'get',
+                    url: '/UsuarioIncubadasIncubacion/',
+                    success: function (data) {
+                      $('#incubadas').html(data)
+                    }
+                  });
+                }
+              });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
       	<div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
          aria-labelledby="sendemailtitle" aria-hidden="true">
         <div class="modal-dialog">
