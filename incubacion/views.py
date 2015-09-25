@@ -790,6 +790,7 @@ def admin_incubadas_incubacion(request):
             #obtengo las incubadas de la incubacion
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
             imagenincubada = ImagenIncubada.objects.all().filter()
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -799,6 +800,7 @@ def admin_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
+            args['propietarios']= propietarios
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -835,6 +837,8 @@ def usuario_incubadas_incubacion(request):
             #obtengo las incubadas de la incubacion 
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
             imagenincubada = ImagenIncubada.objects.all().filter()
+            #obtengo todos los propietarios
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -844,7 +848,7 @@ def usuario_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
-                
+            args['propietarios']= propietarios    
             return render_to_response('usuario_incubacion_incubadas.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
