@@ -94,8 +94,6 @@ Descripcion: para llamar la pagina incubacion inicio
 def ver_incubaciones(request):
     args = {}
     args['usuario'] = request.user
-    request.session['mensajeError'] = None
-    request.session['mensajeAlerta'] = None
     args['es_admin'] = request.session['es_admin']
     args['incubaciones'] = Incubacion.objects.filter(fk_perfil=request.user.perfil)
     return render_to_response('admin_incubacion_inicio.html', args)
@@ -568,8 +566,7 @@ def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
-    args['mensajeError'] = request.session['mensajeError']
-    args['mensajeAlerta'] = request.session['mensajeAlerta']
+    args.update(csrf(request))
     args['es_admin'] = request.session['es_admin']
 
 
@@ -1322,32 +1319,54 @@ def guardar_convocatoria(request):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
+    args.update(csrf(request))
+    mensajeAlerta=None
+    mensajeError=None
+    
+    
     if args['es_admin']:
-        if request.method == 'GET':
-            fecha_max = request.GET['fecMaxima']
-            id_incubacion = request.GET['idIncubacion']
+        if request.method == 'POST':
+            fecha_max = request.POST.get('fecMaxima')
+            id_incubacion = request.POST.get('idIncubacion')
             try:
                 convocatoria = Convocatoria()
                 convocatoria.fecha_creacion = datetime.datetime.now()
                 incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+                
+                args['incubacion'] = incubacion
                 convocatoria.fk_incubacion = incubacion
                 convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
                 # convocatoria.fecha_maxima = fecha_max
                 if (convocatoria.fecha_maxima < convocatoria.fecha_creacion):
                     mensajeError = 'No se ha creado convocatoria dado que la fecha maxima es menor a la actual'
                     mensajeAlerta=None
+                   
                 else:
                     convocatoria.save()
                     mensajeAlerta = 'Convocatoria Creada con exito'
                     mensajeError = None
+                    
             except:
                 print 'Error con la fecha'
                 mensajeError = 'No se creo Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
                 mensajeAlerta = None
+                
+            convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
+            if convocatorias_incubacion is not None:
+                hoy = datetime.datetime.now(timezone.utc)
+                fecha_maxima = convocatorias_incubacion.fecha_maxima
+                if fecha_maxima <= hoy:
+                    args['convocatorias'] = "No hay Convocatoria"
+                else:
+                    args['convocatorias'] = convocatorias_incubacion
+            else:
+                args['convocatorias'] = "No hay Convocatoria"
+        
 
-        request.session['mensajeError'] = mensajeError
-        request.session['mensajeAlerta'] = mensajeAlerta
-        return HttpResponseRedirect('AdminIncubacion/' + id_incubacion, args)
+        args['mensajeError'] = mensajeError
+        args['mensajeAlerta'] = mensajeAlerta
+        
+        return render_to_response('admin_ver_incubacion.html', args)
     else:
         return HttpResponseRedirect('InicioIncubaciones')
 
