@@ -44,7 +44,7 @@
         <div class="col-md-3 col-sm-12" style="padding-left: 0px;">
             <div class="col-md-12 col-sm-6" style="padding-right: 0px;padding-left: 0px;">
                 <!-- COMIENZA  Panel de los consultores -->                        
-                <div class="panel-body" style=" overflow-y: scroll; height:700px;padding:0px;">
+                <div class="panel-body" style=" overflow-y: scroll; height:700px;padding:0px; background-color:lightgray">
                  {% if listaMilestone %}
                     {% for milestone in listaMilestone %}
                       {% if milestone.fk_incubada.fk_oferta == incubada.fk_oferta %}
@@ -53,7 +53,6 @@
                                   <div>
                                     <h4>{{milestone.fecha_creacion.date}}</h4>
                                     <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
-                                    <p>{{milestone.id_milestone}}</p>
                                   </div>
                               </div>
                           </a>
@@ -69,7 +68,7 @@
             </div>   
         </div> 
         <script type="text/javascript">
-          $(function () {
+          $(function () {conetidoMilestone
             $('.listmilestone').click(function(){
               //obterner el id milestone seleccionado
               var idmilestone=$(this).attr('id');
@@ -91,12 +90,14 @@
           });
         </script>
 
-        
+
 
       <div class="col-md-9 col-sm-12" id="conetidoMilestone">
           {% csrf_token %}
+          <div class="blog-text animated slideInLeft">
+          <label style="text-aling:50px;"> Seleccione un milestone para ver todo su historial </label>  
       <!--Se carga el contenido de  milestone -->
-    
+          </div>
       </div>
 </div>
 {% endblock %}
