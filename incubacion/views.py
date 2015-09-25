@@ -100,6 +100,7 @@ def ver_incubaciones(request):
     args['incubaciones'] = Incubacion.objects.filter(fk_perfil=request.user.perfil)
     return render_to_response('admin_incubacion_inicio.html', args)
 
+
 """
 Autor: Jose Velez
 Nombre de funcion: crear_incubacion
@@ -280,6 +281,8 @@ Parametros: request
 Salida: Se envia a solicitud a todos los usuario
 Descripcion: En esta funcion se guarda en la base todos los usuario que seran consultor
 """
+
+
 @login_required
 def enviar_invitaciones(request):
     sesion = request.session['id_usuario']
@@ -295,32 +298,38 @@ def enviar_invitaciones(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     usuarioPerfil = request.GET.get( 'usuarioperfil' )
-    idIncubada = request.GET.get( 'idincubada' )
-       
+    idIncubada =  request.GET.get( 'idincubada' )
+
+    print "ID INCUBADA", idIncubada
+
+    #Join de consultor, incubadaconsultor
+    #consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(incubadaconsultor=IncubadaConsultor.objects.all())
+
     consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
         incubadaconsultor=IncubadaConsultor.objects.filter(fk_incubada_id=idIncubada))
 
+    #Prtegunta si el usuario a invitar, ya es consultor de la misma incubada
     if len(consultor) > 0:
-        print "EL USUARIO NO PUEDE SER CONSULTOR"        
+        print "EL USUARIO NO PUEDE SER CONSULTOR"
     elif len(consultor) == 0:
+        #Fecha actual
         fechaactual = datetime.datetime.now()
 
-        
+        #Guardar en la tabla Consultor
         consultorTabla = Consultor()
         consultorTabla.fk_usuario_consultor_id = usuarioPerfil
         consultorTabla.fecha_creacion = fechaactual
-
         #se guardan los cambios
         consultorTabla.save()
 
         #Obtener el ID del Consultor
         obtenerconsultor = Consultor.objects.get(fk_usuario_consultor=usuarioPerfil)
 
+        #Guardar en la tabla Consultor
         incubadaconsultor = IncubadaConsultor()
         incubadaconsultor.fk_consultor_id = obtenerconsultor.id_consultor
         incubadaconsultor.fk_incubada_id = idIncubada
         incubadaconsultor.fecha_creacion = fechaactual
-
         #se guardan los cambios
         incubadaconsultor.save()
 
@@ -410,6 +419,23 @@ def editar_mi_incubacion(request, incubacionid):
         return render_to_response('admin_editar_mi_incubacion.html', args)
     except:
         return redirect('/')
+
+
+"""
+Autor: Dimitri Laaz
+Nombre de funcion: editar_estado_incubacion
+Parametros: 
+request-> petición http
+Salida: 
+Descripcion: Cambia el estado de una incubacion por medio de Ajax
+"""
+@login_required
+def editar_estado_incubacion(request):
+    if request.is_ajax():
+        print 'es ajax'
+        return HttpResponse("ES AJAX")
+    print 'no es ajax'
+    return HttpResponse("NO ES AJAX")
 
 
 """
@@ -676,20 +702,21 @@ def admin_ver_incubada(request, id_incubada):
                         fotos = False
                         imagen_principal = False
 
+                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
                     #Tenemos que validar si hay un mmilestone vigente
-                    milestone = Milestone.objects.all().filter(fk_incubada=id_incubada).last()
+                    primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+                    args['milestone']=primer_milestone
 
+
+                    milestone = Milestone.objects.filter(fk_incubada=id_incubada).last()
                     if milestone:
                         hoy = datetime.datetime.now(timezone.utc)
                         fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
 
-                        if fecha_maxima_milestone <= hoy:
-                            args['ultimo_Milestone'] = milestone
-                            milestone = False
-                    else:
-                        milestone = False
-                    print milestone
-                    args['milestone'] = milestone
+                        if fecha_maxima_milestone < hoy:
+                            args['milestoneVigente'] = False
+                        else:
+                            args['milestoneVigente'] = True
 
                     #Ahora voy a buscar las palabras claves
                     palabras_Claves = incubada.palabras_clave.all()
@@ -785,14 +812,30 @@ def admin_incubada_milestone_actual(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            milestone = Milestone.objects.all().filter(fk_incubada=request.GET['incubada']).last()
+            milestone = Milestone.objects.filter(fk_incubada=request.GET['incubada']).last()
 
             hoy = datetime.datetime.now(timezone.utc)
-            fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
+            fecha_maxima_retroal = milestone.fecha_maxima_Retroalimentacion
+            fecha_maxima_completar = milestone.fecha_maxima
 
-            if fecha_maxima_milestone <= hoy:
-                milestone = False
-            args['milestone'] = milestone
+            if fecha_maxima_retroal < hoy :
+                print 'fecha maxima lalalalalalalar'
+                print fecha_maxima_retroal
+                args['retroalimentar']=False
+                args['completar'] = False
+                args['milestone'] = False
+            elif fecha_maxima_completar <hoy and hoy<= fecha_maxima_retroal:
+                print fecha_maxima_retroal,'fecha maxima retroalimentar'
+                args['retroalimentar']=True
+                args['completar'] = False
+                args['milestone'] = milestone
+            else:
+                print fecha_maxima_retroal,'fecha maxima completar'
+                args['retroalimentar']=False
+                args['completar'] = True
+                args['milestone'] = milestone
+
+            
             return render_to_response('milestone_actual.html',args)
 
 
@@ -1119,10 +1162,18 @@ Descripcion: para llamar la pagina ver milestone
 """
 
 @login_required
-def admin_ver_milestone(request):
+def admin_ver_milestone(request,id_incubada):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
+    args['incubada'] = id_incubada
+    #ssasasaass
+    listaMilestone = Milestone.objects.all().filter()
+    #Tenemos que validar si hay un mmilestone vigente
+        #primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+         # args['milestone']=primer_milestone
+    #print id_incubada
+    args['listaMilestone'] = listaMilestone
     return render_to_response('admin_ver_milestone.html', args)
 
 
@@ -1131,7 +1182,7 @@ class Autocompletar_Consultor(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.query_params.get('term', None)
-        usuarios = User.objects.filter(first_name__icontains=user)[:5]
+        usuarios = User.objects.filter(first_name__icontains=user)[:10]
         serializador = UsuarioSerializador(usuarios, many=True)
         response = Response(serializador.data)
         return response
