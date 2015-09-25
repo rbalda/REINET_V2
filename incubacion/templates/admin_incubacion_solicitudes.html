@@ -1,18 +1,10 @@
 {% if solicitudes != "No hay solicitudes" %}   
   <div style="font-size:12px;height:250px;overflow-y:auto;" >
-    <div class="pm-list" >
+    <div class="pm-list" id ="lista_solicitudes">
       <ul>
         {%for solicitud in solicitudes%}
-          <li id ="solicitud{{solictud.id_solicitud_ofertas_convocatoria}}">
+          <li id ="solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}">
             <p class="text-muted" style="width:100%">
-              {% for  imgoferta in imagenesofertas%}
-                {%if imgoferta.fk_oferta == solicitud.fk_oferta %}
-                  <img src="/../../media/{{imgoferta.imagen }}" alt="...">
-                {%endif%}
-                {% if forloop.last and imgoferta.fk_oferta != solicitud.fk_oferta %}
-                  <img src="/../../media/noPicture.png" alt="...">
-                {% endif %}
-              {%endfor%}
               <a href="#" style="font-size:16px;color:black">{{ solicitud.fk_oferta.nombre}}</a><br>
               {%for dueno in propietarios %}
                 {%if dueno.fk_oferta_en_que_participa == solicitud.fk_oferta%}
@@ -22,29 +14,34 @@
               <br><i class="fa fa-calendar"></i>&nbsp;{{solicitud.fk_oferta.fecha_creacion.date}}
             </p>
             <p class="text-muted" style="width:100%" align=right>
-              <button type="button" class="btn btn-red" >
+              <button type="button" class="btn btn-red" name="aceptar_solicitud">
               <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-              <button type="button" class="btn btn-default" name ="rechazar_solicitud" style="margin-left:10px">
+              <button type="button" class="btn btn-default" id ="rechazar_solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}" style="margin-left:10px">
               <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
             </p>
             <div class="clearfix"></div>
           </li>
           <script>
-            $("[name='rechazar_solicitud']").on('click', function(){
-              alert("sssssssssssssssssssssssssssssss")
+            $(document).ready(function () {
               $(function () {
-                function rechazar_solicitud() {
-                  $.ajax({
-                    data: {
-                      'id_solicitud':{{solicitud.id_solicitud_ofertas_convocatoria}}
-                    },
-                    type: 'get',
-                    url: '/RechazarSolicitudIncubacion/',
-                    success: function (data) {
-                      $('#solicitud{{solictud.id_solicitud_ofertas_convocatoria}}').remove();
-                    }
-                  });
-                }
+                $('#rechazar_solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}').click(function(){
+                  alert("{{solicitud.id_solicitud_ofertas_convocatoria}}")
+                  $('#solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}').remove();
+                  rechazar();
+                  function rechazar(){
+                    $.ajax({
+                      data: {
+                        'id_solicitud':{{solicitud.id_solicitud_ofertas_convocatoria}}
+                      },
+                      type: 'get',
+                      url: '/RechazarSolicitudIncubacion/',
+                      success: function (data) {
+                        $('#solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}').remove();
+                      }
+                    });
+                    
+                  } 
+                });
               });
             });
           </script> 

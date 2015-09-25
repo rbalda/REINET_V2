@@ -568,8 +568,6 @@ def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
-    args['mensajeError'] = request.session['mensajeError']
-    args['mensajeAlerta'] = request.session['mensajeAlerta']
     args['es_admin'] = request.session['es_admin']
 
 
@@ -675,7 +673,7 @@ def admin_incubadas_incubacion(request):
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            imagenincubada = ImagenIncubada.objects.all().filter()
+            imagenincubada = ImagenOferta.objects.all().filter()
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -685,6 +683,7 @@ def admin_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
+
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -713,7 +712,8 @@ def usuario_incubadas_incubacion(request):
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            imagenincubada = ImagenIncubada.objects.all().filter()
+            imagenincubada = ImagenOferta.objects.all().filter()
+        
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -814,7 +814,7 @@ def admin_rechazar_solicitud(request):
             print "wwwwwwwwwwwwwwwwwwwww"
             solicitud= SolicitudOfertasConvocatoria.objects.get(id_solicitud_ofertas_convocatoria=request.GET['id_solicitud'])
             solicitud.estado_solicitud=2
-            solicitud.save() 
+            solicitud.save()
         except:
             return redirect('/NotFound')
     else:
