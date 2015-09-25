@@ -3,7 +3,7 @@
 
 {% if user.is_authenticated %}
     {% block barraderecha %}
-        {% include 'menusuperior/menulogueado.tpl.html' %}
+       {% include 'menusuperior/menulogeado_admin.tpl.html' %}
     {% endblock %}
 
     {% block busqueda %}
@@ -37,17 +37,17 @@
 </style>
  
     <div class="row" style="margin-bottom: 25px;">
-        <div align=left class="col-md-2 col-sm-2 col-xs-3">
+        <div align=left class="col-md-4 col-sm-2 col-xs-3">
           {% comment %}
     
             <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Administrar
             </button>
                     {% endcomment %}
-                    Administrar Ofertas
+                        <h3 class="hl top-zero">Administrar Ofertas</h3>
         </div>
 
 
-        <div class="col-md-4 col-sm-4 col-xs-3">
+        <div class="col-md-2 col-sm-4 col-xs-3">
             {% if msg != None %}
             <div class="alert alert-success alert-dismissable" style="margin-bottom:-10px; padding:8px 25px 8px 15px">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

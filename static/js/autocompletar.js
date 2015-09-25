@@ -23,7 +23,7 @@ $("#destinatario_txt").on('change',function(responseText) {
 });
 */
 
-  $('#formulario').on('keyup change click',function(){
+  $('#formulario_msj').on('keyup change click',function(){
 
     var nameVal = $('#destinatario_txt').val()
 
@@ -37,9 +37,10 @@ $("#destinatario_txt").on('change',function(responseText) {
 
     var lastName = nameVal.slice(lastNameLength);
 
-    if (existeDivision()){
+    if (existeDivision_dest()){
         $('#destinatario').val(nameSplit[1]);
     }else{
+        
         $('#destinatario').val(nameVal);
     }
 
@@ -47,7 +48,7 @@ $("#destinatario_txt").on('change',function(responseText) {
   });
 
 
-function existeDivision(){
+function existeDivision_dest(){
     var nameVal = $('#destinatario_txt').val()
 
     var nameLength = nameVal.length;
