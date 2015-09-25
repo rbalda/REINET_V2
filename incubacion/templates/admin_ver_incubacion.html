@@ -25,7 +25,7 @@
     		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
     		<div class="col-sm-6">
     			
-  				<a href="#" class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#InactivarOferta"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
+  				<a class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#IncuEstado"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
 
           {% if convocatorias == "No hay Convocatoria" %}
             <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
@@ -158,9 +158,7 @@
           </div>
           <script>
             $("[name='click_sol']").on('click', function(){
-              alert("DE");
               $(function () {
-                alert("DE");
                 $('#solicitudes_ofertas').ready(mostrarSolicitudesIncubacion);
                 function mostrarSolicitudesIncubacion() {
                   $.ajax({
@@ -286,4 +284,74 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="IncuEstado" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Cambiar Estado</h4>
+        </div>
+        <div class="modal-body">
+                           
+              <div class="form-group">
+                <label style="float:left" for="select_tipo_incubacion">Estado:</label>
+                <div>
+                  <select id="selectEstado" style="margin-left:10%" name="select_tipo_incubacion" class="">
+                    <option 
+                    {% if incubacion.estado_incubacion == 0 %}selected
+                    {% endif %} 
+                    value="0">Activa</option>
+                    <option
+                    {% if incubacion.estado_incubacion == 1 %}selected
+                    {% endif%}
+                    value="1">Terminada</option>
+                    <option
+                    {% if incubacion.estado_incubacion == 2 %}selected 
+                    {% endif%}
+                    value="2">Desactivada</option>
+                  </select>                  
+                </div>
+              </div>
+              
+              
+          
+        </div>
+        <div class="modal-footer">
+           <span id="msgEstado"><p class="bg-danger text-danger pull-left" id="msgEstadoDetalle"></p></span>
+           <button id="cambiarestadobtn"class="btn btn-dark" style="color:white;margin-bot: 0px;margin-right: 3px;"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#cambiarestadobtn').click(cambiarEstadoIncubacion);
+    function cambiarEstadoIncubacion() {
+      var estado = $( "#selectEstado" ).val();
+      $.ajax({
+        data: {
+          'incubacion':{{incubacion.id_incubacion}},
+          'estado' : estado
+        },
+        type: 'get',
+        url: '/AdminEditarEstadoIncubacion/',
+        success: function (data) {
+          alert(data);
+          //$('#msgEstado').html(data)
+        },
+        statusCode: {
+          404: function() {
+            alert( "page not found " + estado);
+          },
+          500: function(){
+            alert("PROBLEMAS CON EL SERVIDOR");
+          }
+        }
+      });
+    }
+});
+</script>
 {% endblock %}
