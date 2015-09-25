@@ -100,6 +100,7 @@ def ver_incubaciones(request):
     args['incubaciones'] = Incubacion.objects.filter(fk_perfil=request.user.perfil)
     return render_to_response('admin_incubacion_inicio.html', args)
 
+
 """
 Autor: Jose Velez
 Nombre de funcion: crear_incubacion
@@ -123,6 +124,92 @@ def crear_incubacion(request):
     else:
         return HttpResponseRedirect('InicioIncubaciones')
 
+"""
+Autor: Jose Velez
+Nombre de funcion: definir_milestone
+Parametros: request
+Salida: Define un milestone a una incubada
+Descripcion: Se define un milestone para que la incubada pueda cumplir con las retroalimentaciones
+"""
+
+
+@login_required
+def definir_milestone(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    #Obtengo todos los datos del formulario para crear un Milestone
+    requerimientos = request.GET.get( 'requerimientos' )
+    fechaMilestone =  request.GET.get( 'fechaMilestone' )
+    fechaRetroalimentacion = request.GET.get( 'fechaRetroalimentacion' )
+    importancia =  request.GET.get( 'importancia' )
+    otros = request.GET.get( 'otros' )
+    idIncubada = request.GET.get( 'idIncubada' )
+    fechaactual = datetime.datetime.now()
+
+    print "r1",requerimientos
+    print "r2",fechaMilestone
+    print "r3",fechaRetroalimentacion
+    print "r4",importancia
+    print "r5",otros
+    print "incubada", idIncubada
+
+    #Modifico el formato de las fechas
+    listaFM =fechaMilestone.split('/') 
+    listaFR=fechaRetroalimentacion.split('/') 
+    fechaMilestone = ""+listaFM[2]+"-"+listaFM[0]+"-"+listaFM[1]
+    fechaRetroalimentacion = ""+listaFR[2]+"-"+listaFR[0]+"-"+listaFR[1]
+
+
+    print "fecha milestone",fechaMilestone
+    print "fecha retroalimentacion",fechaRetroalimentacion
+
+    #Obtengo la incubada actual
+    incubada_actual = Incubada.objects.get(id_incubada=idIncubada)
+    print "entra 0", len(incubada_actual)
+    #CLONO la incubada actual para crear un nuevo Milestone
+    incubada_clonada = incubadaActual
+    print "entra 1"
+    #ID OFERTA
+    id_oferta= incubada_clonada.fk_oferta_id
+    print "entra 2"
+    #ID DIAGRAMA DE CANVAS
+    id_diagrama_canvas = incubada_actual.fk_diagrama_canvas_id
+    print "entra 3"
+    #Obtengo el DIAGRAMA DE CANVAS
+    canvas_incubada = DiagramaBusinessCanvas.objects.get(fk_diagrama_canvas_id=id_diagrama_canvas)
+    print "entra 4"
+    #CLONAR EL DIAGRAMA CANVAS
+    canvas_clonado = canvas_incubada
+    print "entra 5"
+
+
+    #ID DIAGRAMA PORTER
+    id_diagrama_porter = incubada_actual.fk_diagrama_competidores_id
+    #Obtengo el DIAGRAMA DE PORTER  
+    porter_incubada = DiagramaPorter.objects.get(fk_diagrama_competidores_id=id_diagrama_porter)
+    #CLONAR EL DIAGRAMA DE PORTER
+    porter_clonado = porter_incubada
+
+
+    
+
+    #Obtengo el DIAGRAMA DE PORTER
+    print "VER:  ", incubada.id_incubada
+    print "CLONAR:  ", ifk.id_incubada
+    print "descripcion:  ", ifk.descripcion
+
+    #Crea una instancia de Milestone
+    milestone = Milestone()
 
 """
 Autor: Leonel Ramirez 
@@ -280,6 +367,8 @@ Parametros: request
 Salida: Se envia a solicitud a todos los usuario
 Descripcion: En esta funcion se guarda en la base todos los usuario que seran consultor
 """
+
+
 @login_required
 def enviar_invitaciones(request):
     sesion = request.session['id_usuario']
@@ -295,32 +384,38 @@ def enviar_invitaciones(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     usuarioPerfil = request.GET.get( 'usuarioperfil' )
-    idIncubada = request.GET.get( 'idincubada' )
-       
+    idIncubada =  request.GET.get( 'idincubada' )
+
+    print "ID INCUBADA", idIncubada
+
+    #Join de consultor, incubadaconsultor
+    #consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(incubadaconsultor=IncubadaConsultor.objects.all())
+
     consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
         incubadaconsultor=IncubadaConsultor.objects.filter(fk_incubada_id=idIncubada))
 
+    #Prtegunta si el usuario a invitar, ya es consultor de la misma incubada
     if len(consultor) > 0:
-        print "EL USUARIO NO PUEDE SER CONSULTOR"        
+        print "EL USUARIO NO PUEDE SER CONSULTOR"
     elif len(consultor) == 0:
+        #Fecha actual
         fechaactual = datetime.datetime.now()
 
-        
+        #Guardar en la tabla Consultor
         consultorTabla = Consultor()
         consultorTabla.fk_usuario_consultor_id = usuarioPerfil
         consultorTabla.fecha_creacion = fechaactual
-
         #se guardan los cambios
         consultorTabla.save()
 
         #Obtener el ID del Consultor
         obtenerconsultor = Consultor.objects.get(fk_usuario_consultor=usuarioPerfil)
 
+        #Guardar en la tabla Consultor
         incubadaconsultor = IncubadaConsultor()
         incubadaconsultor.fk_consultor_id = obtenerconsultor.id_consultor
         incubadaconsultor.fk_incubada_id = idIncubada
         incubadaconsultor.fecha_creacion = fechaactual
-
         #se guardan los cambios
         incubadaconsultor.save()
 
@@ -473,40 +568,87 @@ def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
+    args['mensajeError'] = request.session['mensajeError']
+    args['mensajeAlerta'] = request.session['mensajeAlerta']
     args['es_admin'] = request.session['es_admin']
 
+
     # Para que las variables de session sena colocadas en args[]
-    
     if usuario is not None:
-        #Guardo en la variable de sesion a usuario.
         args['usuario'] = usuario
+        try:
+            incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+            if incubacion:
+                convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
+                if convocatorias_incubacion is not None:
+                    hoy = datetime.datetime.now(timezone.utc)
+                    fecha_maxima = convocatorias_incubacion.fecha_maxima
+                    if fecha_maxima <= hoy:
+                        args['convocatorias'] = "No hay Convocatoria"
+                    else:
+                        args['convocatorias'] = convocatorias_incubacion
+
+                else:
+                    args['convocatorias'] = "No hay Convocatoria"
+
+                args['incubacion'] = incubacion
+                return render_to_response('admin_ver_incubacion.html', args)
+            else:
+                args['error'] = "Esta incubada no se encuentra bajo su administración"
+                return HttpResponseRedirect('/NotFound/')
+
+        except Incubada.DoesNotExist:
+            args['error'] = "La incubación no se encuentra en la red, lo sentimos."
+            return HttpResponseRedirect('/NotFound/')
     else:
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect('/NotFound/')
 
-    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-    convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
-    incubadas_incubacion = Incubada.objects.all().filter(fk_incubacion_id=id_incubacion)
-    fecha_creacion = incubacion.fecha_inicio.strftime(' %d/%m/ %Y')
-    if convocatorias_incubacion is not None:
-        hoy = datetime.datetime.now(timezone.utc)
-        print hoy
-        fecha_maxima = convocatorias_incubacion.fecha_maxima
-        if fecha_maxima <= hoy:
-            print fecha_maxima
-            args['convocatorias'] = "No hay Convocatoria"
-        else:
-            print hoy
-            args['convocatorias'] = convocatorias_incubacion
+"""
+Autor: Henry Lasso
+Nombre de funcion: usuario_ver_incubacion
+Parametros: request
+Salida: 
+Descripcion: Mostar template ver mi incubacion
+"""
 
+@login_required
+def usuario_ver_incubacion(request, id_incubacion):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=session)
+    args = {}
+    args['es_admin'] = request.session['es_admin']
+    if usuario is not None:
+        # Guardo en la variable de sesion a usuario.
+        args['usuario'] = usuario
+        try:
+            incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+            if incubacion :
+                convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
+                if convocatorias_incubacion is not None:
+                    hoy = datetime.datetime.now(timezone.utc)
+                    print hoy
+                    fecha_maxima = convocatorias_incubacion.fecha_maxima
+                    if fecha_maxima <= hoy:
+                        print fecha_maxima
+                        args['convocatorias'] = "No hay Convocatoria"
+                    else:
+                        print hoy
+                        args['convocatorias'] = convocatorias_incubacion
+
+                else:
+                    args['convocatorias'] = "No hay Convocatoria"
+                args['incubacion'] = incubacion
+                return render_to_response('usuario_ver_incubacion.html', args)
+            else:
+                args['error'] = "Esta incubacion no se encuentra en la red"
+                return HttpResponseRedirect('/NotFound/')
+        except Incubada.DoesNotExist:
+            args['error'] = "La incubacion no se encuentra en la red, lo sentimos."
+            return HttpResponseRedirect('/NotFound/')
     else:
-        args['convocatorias'] = "No hay Convocatoria"
-
-    args['incubacion'] = incubacion
-    args['fecha_creacion'] = fecha_creacion
-    args['incubadas_incubacion'] = incubadas_incubacion
-    return render_to_response('admin_ver_incubacion.html', args)
-
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
 
 """
 Autor: Henry Lasso
@@ -555,6 +697,46 @@ def admin_incubadas_incubacion(request):
         return redirect('/NotFound')
 
 
+@login_required
+def usuario_incubadas_incubacion(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin'] = request.session['es_admin']
+    # si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
+            imagenincubada = ImagenIncubada.objects.all().filter()
+            print incubadas
+            print imagenincubada
+
+            if len(incubadas) > 0:
+                args['incubadas'] = incubadas
+            else:    
+                args['incubadas'] = "No hay incubadas"
+                
+            args['imagenes']= imagenincubada
+            return render_to_response('usuario_incubacion_incubadas.html',args)
+        except Incubada.DoesNotExist:
+            return redirect('/')
+        except IncubadaConsultor.DoesNotExist:
+            return redirect('/')
+        except:
+            return redirect('/')
+    else:
+        return redirect('/NotFound')
+
+
+
+
 """
 Autor: Henry Lasso
 Nombre de funcion: admin_solicitudes_incubacion
@@ -585,10 +767,12 @@ def admin_solicitudes_incubacion(request):
             solicitudes = SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0) 
             propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             imagenesofertas = ImagenOferta.objects.all().filter()
+            numeroimagenesoferta= len(imagenesofertas)
             if len(solicitudes) > 0:
                 args['solicitudes'] = solicitudes
             else:    
                 args['solicitudes'] = "No hay solicitudes"
+            args['numeroimagenesoferta']=numeroimagenesoferta 
             args['imagenesofertas'] = imagenesofertas
             args['propietarios'] = propietarios
             return render_to_response('admin_incubacion_solicitudes.html',args)
@@ -637,20 +821,21 @@ def admin_ver_incubada(request, id_incubada):
                         fotos = False
                         imagen_principal = False
 
+                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
                     #Tenemos que validar si hay un mmilestone vigente
-                    milestone = Milestone.objects.all().filter(fk_incubada=id_incubada).last()
+                    primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+                    args['milestone']=primer_milestone
 
+
+                    milestone = Milestone.objects.filter(fk_incubada=id_incubada).last()
                     if milestone:
                         hoy = datetime.datetime.now(timezone.utc)
                         fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
 
-                        if fecha_maxima_milestone <= hoy:
-                            args['ultimo_Milestone'] = milestone
-                            milestone = False
-                    else:
-                        milestone = False
-                    print milestone
-                    args['milestone'] = milestone
+                        if fecha_maxima_milestone < hoy:
+                            args['milestoneVigente'] = False
+                        else:
+                            args['milestoneVigente'] = True
 
                     #Ahora voy a buscar las palabras claves
                     palabras_Claves = incubada.palabras_clave.all()
@@ -746,14 +931,30 @@ def admin_incubada_milestone_actual(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            milestone = Milestone.objects.all().filter(fk_incubada=request.GET['incubada']).last()
+            milestone = Milestone.objects.filter(fk_incubada=request.GET['incubada']).last()
 
             hoy = datetime.datetime.now(timezone.utc)
-            fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
+            fecha_maxima_retroal = milestone.fecha_maxima_Retroalimentacion
+            fecha_maxima_completar = milestone.fecha_maxima
 
-            if fecha_maxima_milestone <= hoy:
-                milestone = False
-            args['milestone'] = milestone
+            if fecha_maxima_retroal < hoy :
+                print 'fecha maxima lalalalalalalar'
+                print fecha_maxima_retroal
+                args['retroalimentar']=False
+                args['completar'] = False
+                args['milestone'] = False
+            elif fecha_maxima_completar <hoy and hoy<= fecha_maxima_retroal:
+                print fecha_maxima_retroal,'fecha maxima retroalimentar'
+                args['retroalimentar']=True
+                args['completar'] = False
+                args['milestone'] = milestone
+            else:
+                print fecha_maxima_retroal,'fecha maxima completar'
+                args['retroalimentar']=False
+                args['completar'] = True
+                args['milestone'] = milestone
+
+            
             return render_to_response('milestone_actual.html',args)
 
 
@@ -827,7 +1028,8 @@ Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las re
 
 @login_required
 def guardar_retroalimentaciones(request):
-    id_usuario = request.session['id_usuario']
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
     args = {}
     args['es_admin'] = request.session['es_admin']
     if args['es_admin']:
@@ -842,7 +1044,7 @@ def guardar_retroalimentaciones(request):
                 retroalimentacion.fecha_creacion = datetime.datetime.now()
                 milestone = Milestone.objects.get(id_milestone=id_milestone)
                 retroalimentacion.fk_milestone = milestone
-                consultor = Consultor.objects.get(fk_usuario_consultor_id = id_usuario)
+                consultor = Consultor.objects.get(fk_usuario_consultor_id = usuario.id_perfil)
                 retroalimentacion.fk_consultor = consultor
                 retroalimentacion.contenido = contenido
                 retroalimentacion.num_tab = num_tab
@@ -1080,10 +1282,18 @@ Descripcion: para llamar la pagina ver milestone
 """
 
 @login_required
-def admin_ver_milestone(request):
+def admin_ver_milestone(request,id_incubada):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
+    args['incubada'] = id_incubada
+    #ssasasaass
+    listaMilestone = Milestone.objects.all().filter()
+    #Tenemos que validar si hay un mmilestone vigente
+        #primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+         # args['milestone']=primer_milestone
+    #print id_incubada
+    args['listaMilestone'] = listaMilestone
     return render_to_response('admin_ver_milestone.html', args)
 
 
@@ -1092,7 +1302,7 @@ class Autocompletar_Consultor(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.query_params.get('term', None)
-        usuarios = User.objects.filter(first_name__icontains=user)[:5]
+        usuarios = User.objects.filter(first_name__icontains=user)[:10]
         serializador = UsuarioSerializador(usuarios, many=True)
         response = Response(serializador.data)
         return response
@@ -1112,42 +1322,6 @@ def guardar_convocatoria(request):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
-
-
-    """
-        if args['es_admin']:
-            if request.method == 'GET':
-                fecha_max = request.GET['fecMaxima']
-                id_incubacion = request.GET['idIncubacion']
-                try:
-                    convocatoria = Convocatoria()
-                    convocatoria.fecha_creacion = datetime.datetime.now()
-                    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-                    convocatoria.fk_incubacion = incubacion
-                    convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
-                    #convocatoria.fecha_maxima = fecha_max
-                    if(convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                        args['mensajeAlerta'] = 'Fecha maxima es menor a la actual'
-                    else:
-                        convocatoria.save()
-                        convocatorias = Convocatoria.objects.all()
-                        args['convocatorias'] = convocatorias
-
-                        args['mensajeError'] = None
-                        args['mensajeAlerta'] = 'Convocatoria Creada con exito'
-                except ValueError:
-                    print 'Error con la fecha'
-                    args['mensajeError'] = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
-                    args['mensajeAlerta'] = 'No se creo Convocatoria'
-                    args.update(csrf(request))
-                    return render_to_response('admin_ver_incubacion.html', args, context_instance=RequestContext(request))
-
-            return render_to_response('admin_ver_incubacion.html', args)
-        else:
-            return HttpResponseRedirect('InicioIncubaciones')
-    """
-    return render_to_response('admin_ver_incubacion.html', args)
-
     if args['es_admin']:
         if request.method == 'GET':
             fecha_max = request.GET['fecMaxima']
@@ -1157,18 +1331,19 @@ def guardar_convocatoria(request):
                 convocatoria.fecha_creacion = datetime.datetime.now()
                 incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
                 convocatoria.fk_incubacion = incubacion
-                convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%Y-%m-%d')
+                convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
                 # convocatoria.fecha_maxima = fecha_max
                 if (convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                    mensajeAlerta = 'Fecha maxima es menor a la actual'
+                    mensajeError = 'No se ha creado convocatoria dado que la fecha maxima es menor a la actual'
+                    mensajeAlerta=None
                 else:
                     convocatoria.save()
                     mensajeAlerta = 'Convocatoria Creada con exito'
-                mensajeError = None
+                    mensajeError = None
             except:
                 print 'Error con la fecha'
-                mensajeError = 'La fecha tiene un formato errado. Debe ser (AAAA-MM-DD)'
-                mensajeAlerta = 'No se creo Convocatoria'
+                mensajeError = 'No se creo Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
+                mensajeAlerta = None
 
         request.session['mensajeError'] = mensajeError
         request.session['mensajeAlerta'] = mensajeAlerta
@@ -1177,48 +1352,4 @@ def guardar_convocatoria(request):
         return HttpResponseRedirect('InicioIncubaciones')
 
 
-
-"""
-Autor: Henry Lasso
-Nombre de funcion: usuario_ver_incubacion
-Parametros: request
-Salida: 
-Descripcion: Mostar template ver mi incubacion
-"""
-
-@login_required
-def usuario_ver_incubacion(request, id_incubacion):
-    session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=session)
-    args = {}
-    args['es_admin'] = request.session['es_admin']
-    if usuario is not None:
-        # Guardo en la variable de sesion a usuario.
-        args['usuario'] = usuario
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
-
-    incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-    convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
-    incubadas_incubacion = Incubada.objects.all().filter(fk_incubacion_id=id_incubacion)
-
-    fecha_creacion = incubacion.fecha_inicio.strftime('%d de %b del %Y')
-    if convocatorias_incubacion is not None:
-        hoy = datetime.datetime.now(timezone.utc)
-        print hoy
-        fecha_maxima = convocatorias_incubacion.fecha_maxima
-        if fecha_maxima <= hoy:
-            print fecha_maxima
-            args['convocatorias'] = "No hay Convocatoria"
-        else:
-            print hoy
-            args['convocatorias'] = convocatorias_incubacion
-
-    else:
-        args['convocatorias'] = "No hay Convocatoria"
-    args['incubacion'] = incubacion
-    args['incubadas_incubacion'] = incubadas_incubacion
-    args['fecha_creacion'] = fecha_creacion
-    return render_to_response('usuario_ver_incubacion.html', args)
 

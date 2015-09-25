@@ -39,11 +39,18 @@
                         <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeAlerta }}</p></strong>
                     </div>
                 {% endif %}
+                {% if mensajeError %}
+                    <br><br>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeError }}</p></strong>
+                    </div>
+                {% endif %}
             </div>
   		</div>
   		<div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> {{ fecha_creacion }}</li>
+					<li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
   				</ul>
     	</div>
 
@@ -251,23 +258,28 @@
                     <div class="comment" id="Comentario">
                           <div class="media">
                             <form action="/GuardarConvocatoria" method="get">
+
                                 <div class="form-group">
+                                  <table class="table " style="margin-bottom: 0px;">
+                                    <thead>
+                                      <tr>
+                                        <th class="text-muted">Defina el periodo durante el cual los uuarios podran aplicar con sus ofertas</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha Maxima</label>
                                   <div class="col-md-7">
                                        <input type="hidden" id="idIncubacion" name="idIncubacion" value="{{ incubacion.id_incubacion }}">
-                                       <input type="date" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
+                                       <input type="datepicker" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
                                   </div>
                                   <br> <br>
-                                  <div class="alert alert-info alert-dismissible" role="alert">
-                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                      <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> Formato de fecha debe ser (A&ntilde;o-Mes-D&iacute;a)</p></strong>
-                                    </div>
-                                    {% if mensajeError %}
-                                        <div class="alert alert-danger alert-dismissible" role="alert">
-                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                          <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeError }}</p></strong>
-                                        </div>
-                                    {% endif %}
+
+
                                 </div><br>
                                 <div class="form-group">
                                     <div align="right">
@@ -399,5 +411,11 @@ $(document).ready(function() {
       ajaxPendiente=true;
     }
 });
+</script>
+<script>
+	$(function() {
+	$("#fecMaxAlcance").datepicker({ minDate: 0 });
+
+	});
 </script>
 {% endblock %}
