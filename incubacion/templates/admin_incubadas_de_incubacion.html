@@ -5,15 +5,8 @@
                             {% for incubada in incubadas%}
                                 <li>
                                     <p class="text-muted" style="width: 100%;">
-                                        {% for img in imagenes%}
-                                            {% if img.fk_incubada == incubada %}
-                                                <img src="/../../media/{{img.imagen }}" alt="...">
-                                            {%endif%}
-                                            {% if forloop.last and img.fk_incubada != incubada %}
-                                                <img src="/../../media/noPicture.png" alt="...">
-                                            {% endif %}
-                                        {%endfor%}
-                                        <a href="/AdminIncubada/{{incubada.id_incubada}}" style="font-size:16px;color:black">{{incubada.nombre}}</a><br>
+                                        <span  style="font-size:18px;color:blue">{{forloop.counter}})</span>
+                                        <a href="/AdminIncubada/{{incubada.fk_oferta.id_oferta}}" style="font-size:20px;color:black">{{incubada.nombre}}</a><br>
                                         <i class="fa fa-user">
                                             {{incubada.equipo.fk_participante.first_name}}
                                             {{incubada.equipo.fk_participante.last_name}}

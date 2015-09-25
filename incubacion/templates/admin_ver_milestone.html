@@ -91,27 +91,7 @@
           });
         </script>
 
-        <script>
-            $(document).ready(function () {
-                $(function () {
-                    $('#retroalimentacion1').ready(mostrarRetroalimentaciones);
-                    function mostrarRetroalimentaciones() {
-                        $.ajax({
-                            data: {
-                                'incubada':{{incubada.id_incubada}},
-                                'numTab':1
-                            },
-                            type: 'get',
-                            url: '/Retroalimentaciones/',
-                            success: function (data) {
-                                $('#retroalimentacion1').html(data)
-                            }
-                        });
-
-                    }
-                });
-            });
-        </script>
+        
 
       <div class="col-md-9 col-sm-12" id="conetidoMilestone">
           {% csrf_token %}
