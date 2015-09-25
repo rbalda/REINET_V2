@@ -12,7 +12,13 @@
     <span style="font-size:13px;color:gray;">Fecha máxima para ser retroalimentado por el consultor:</span>
     <h4 style="margin-top: 0px;font-size:16px">{{milestone.fecha_maxima_Retroalimentacion.date}}</h4>
 
-   
+    {% if completar == True %}
+    	<div class="info-board info-board-orange"> Milestone en FASE DE COMPLETAR por el dueño</div>
+    {% elif retroalimentar == True %}
+    	<div class="info-board info-board-orange"> Milestone en FASE DE RETROALIMENTACIÓN por los consultores</div>
+    {%else%}
+
+    {% endif %}
 
     
 {% else %}

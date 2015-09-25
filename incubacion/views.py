@@ -584,20 +584,21 @@ def admin_ver_incubada(request, id_incubada):
                         fotos = False
                         imagen_principal = False
 
+                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
                     #Tenemos que validar si hay un mmilestone vigente
-                    milestone = Milestone.objects.all().filter(fk_incubada=id_incubada).last()
+                    primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+                    args['milestone']=primer_milestone
 
+
+                    milestone = Milestone.objects.filter(fk_incubada=id_incubada).last()
                     if milestone:
                         hoy = datetime.datetime.now(timezone.utc)
                         fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
 
-                        if fecha_maxima_milestone <= hoy:
-                            args['ultimo_Milestone'] = milestone
-                            milestone = False
-                    else:
-                        milestone = False
-                    print milestone
-                    args['milestone'] = milestone
+                        if fecha_maxima_milestone < hoy:
+                            args['milestoneVigente'] = False
+                        else:
+                            args['milestoneVigente'] = True
 
                     #Ahora voy a buscar las palabras claves
                     palabras_Claves = incubada.palabras_clave.all()
@@ -693,14 +694,30 @@ def admin_incubada_milestone_actual(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            milestone = Milestone.objects.all().filter(fk_incubada=request.GET['incubada']).last()
+            milestone = Milestone.objects.filter(fk_incubada=request.GET['incubada']).last()
 
             hoy = datetime.datetime.now(timezone.utc)
-            fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
+            fecha_maxima_retroal = milestone.fecha_maxima_Retroalimentacion
+            fecha_maxima_completar = milestone.fecha_maxima
 
-            if fecha_maxima_milestone <= hoy:
-                milestone = False
-            args['milestone'] = milestone
+            if fecha_maxima_retroal < hoy :
+                print 'fecha maxima lalalalalalalar'
+                print fecha_maxima_retroal
+                args['retroalimentar']=False
+                args['completar'] = False
+                args['milestone'] = False
+            elif fecha_maxima_completar <hoy and hoy<= fecha_maxima_retroal:
+                print fecha_maxima_retroal,'fecha maxima retroalimentar'
+                args['retroalimentar']=True
+                args['completar'] = False
+                args['milestone'] = milestone
+            else:
+                print fecha_maxima_retroal,'fecha maxima completar'
+                args['retroalimentar']=False
+                args['completar'] = True
+                args['milestone'] = milestone
+
+            
             return render_to_response('milestone_actual.html',args)
 
 
