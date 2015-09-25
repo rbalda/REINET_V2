@@ -134,7 +134,7 @@ Descripcion: En esta funcion mostrara las ofertas de un usuario para
         participar a una incubacion
 """
 
-
+@login_required
 def participar_incubacion(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
@@ -174,6 +174,86 @@ def participar_incubacion(request):
     else:
         return redirect('/NotFound')
 
+"""
+Autor: Leonel Ramirez
+Nombre de funcion: contenido_milestone
+Parametros: request
+Salida: 
+Descripcion: llama una funcion ajax para setear el contenido de cada milestone
+"""
+
+@login_required
+def contenido_milestone(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin'] = request.session['es_admin']
+    idIncubada = request.GET['incubada']
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    if usuario is not None:
+        args['usuario'] = usuario
+        try:
+            incubada = Incubada.objects.get(id_incubada=idIncubada)
+            # Tengo que verificar que el administrador de la incubada es el usuario en sesion
+            print incubada.fk_incubacion.fk_perfil
+            if incubada:
+                if incubada.fk_incubacion.fk_perfil == usuario:
+                    propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo, es_propietario=1)
+                    equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
+                    if equipo is not None:
+                        args['equipo'] = equipo
+                    fotos = ImagenIncubada.objects.filter(fk_incubada=id_incubada)
+                    if fotos:
+                        imagen_principal = fotos.first()
+                    else:
+                        fotos = False
+                        imagen_principal = False
+
+                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
+                    #Tenemos que validar si hay un mmilestone vigente
+                    primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
+                    args['milestone']=primer_milestone
+
+
+                    milestone = Milestone.objects.filter(fk_incubada=id_incubada).last()
+                    if milestone:
+                        hoy = datetime.datetime.now(timezone.utc)
+                        fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
+
+                        if fecha_maxima_milestone < hoy:
+                            args['milestoneVigente'] = False
+                        else:
+                            args['milestoneVigente'] = True
+
+                    #Ahora voy a buscar las palabras claves
+                    palabras_Claves = incubada.palabras_clave.all()
+                    if palabras_Claves.count() == 0:
+                        palabras_Claves = False
+                    args['palabras_clave'] = palabras_Claves
+
+                    args['fotos'] = fotos
+                    args['imagen_principal'] = imagen_principal
+                    args['incubada'] = incubada
+                    args['propietario'] = propietario
+                    return render_to_response('admin_incubada.html', args)
+                else:
+                    args['error'] = "Esta incubada no se encuentra bajo su administración"
+                    return HttpResponseRedirect('/NotFound/')
+            else:
+                args['error'] = "Esta incubada no se encuentra bajo su administración"
+                return HttpResponseRedirect('/NotFound/')
+        # si la oferta no existe redirige a un mensaje de error
+        except Incubada.DoesNotExist:
+            args['error'] = "La incubada no se encuentra en la red, lo sentimos."
+            return HttpResponseRedirect('/NotFound/')
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
 
 """
 Autor: Leonel Ramirez
@@ -183,7 +263,7 @@ Salida: envia id_oferta y id_incubacion
 Descripcion: Solictud para pertenecer a una incubacion
 """
 
-
+@login_required
 def enviar_oferta_incubacion(request):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
@@ -1080,16 +1160,20 @@ def admin_ver_milestone(request,id_incubada):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
-    args['incubada'] = id_incubada
-    #ssasasaass
-    listaMilestone = Milestone.objects.all().filter()
-    #Tenemos que validar si hay un mmilestone vigente
-        #primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
-         # args['milestone']=primer_milestone
-    #print id_incubada
-    args['listaMilestone'] = listaMilestone
-    return render_to_response('admin_ver_milestone.html', args)
-
+    try:
+        incubada=Incubada.objects.get(id_incubada=id_incubada)
+        print incubada.fk_oferta
+        args['incubada'] = incubada
+        listaMilestone = Milestone.objects.all().filter()
+        args['listaMilestone'] = listaMilestone
+        return render_to_response('admin_ver_milestone.html', args)
+    except Incubada.DoesNotExist:
+        print '>> incubada no existe'
+        return redirect('/NotFound/')
+    except Exception as e:
+        print e
+        print '>> Excepcion no controlada ver milestone'
+        return redirect('/NotFound/')
 
 class Autocompletar_Consultor(APIView):
     permission_classes = (IsAuthenticated,)

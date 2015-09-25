@@ -38,7 +38,7 @@ urlpatterns = patterns('',
      url( r'^ParticiparIncubacion[/]?$', 'incubacion.views.participar_incubacion' , name = 'participar_incubacion' ),
      url( r'^EnviarInvitaciones[/]?$', 'incubacion.views.enviar_invitaciones' , name = 'enviar_invitaciones' ),
      url(r'^EnviarOfertaParticipar[/]?$', 'incubacion.views.enviar_oferta_incubacion', name='enviar_oferta_incubacion'),
-
+     url(r'^ContenidoMilestone[/]?$', 'incubacion.views.contenido_milestone', name='contenido_milestone'),
 )
 
 
