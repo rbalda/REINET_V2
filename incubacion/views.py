@@ -675,10 +675,12 @@ Salida:
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
 """
 @login_required
-def rechazar_solicitud(request):
+def admin_rechazar_solicitud(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
+    
+    print "wwwwwwwwwwwwwwwwwwwww"
     args['es_admin']=request.session['es_admin']
     #si el usuario EXISTE asigna un arg para usarlo en el template
     # si el usuario EXISTE asigna un arg para usarlo en el template
@@ -690,15 +692,12 @@ def rechazar_solicitud(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
+            print "wwwwwwwwwwwwwwwwwwwww"
             solicitud= SolicitudOfertasConvocatoria.objects.get(id_solicitud_ofertas_convocatoria=request.GET['id_solicitud'])
             solicitud.estado_solicitud=2
             solicitud.save() 
-        except Incubada.DoesNotExist:
-            return redirect('/')
-        except IncubadaConsultor.DoesNotExist:
-            return redirect('/')
         except:
-            return redirect('/')
+            return redirect('/NotFound')
     else:
         return redirect('/NotFound')
 
