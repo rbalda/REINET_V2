@@ -1180,9 +1180,8 @@ def ver_retroalimentaciones(request):
 Autor: Sixto Castro
 Nombre de funcion: guardar_retroalimentaciones
 Parametros: request
-Salida: ver la lista de retroalimentaciones de cada tab de la incubada
-Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las retroalimentaciones
-    de cada tab
+Salida: Template admin_ver_incubada
+Descripcion: Esta funcion guarda todas las retroalimentaciones hechas en cada tab de una incubada
 """
 
 
@@ -1473,8 +1472,8 @@ class Autocompletar_Consultor(APIView):
 Autor: Sixto Castro
 Nombre de funcion: GuardarConvocatoria
 Parametros: request
-Salida: pagian ver milestone
-Descripcion: para llamar la pagina ver milestone
+Salida: Se crea convocatoria exitosamente. Caso contrario se muestra el mensaje de error respectivo
+Descripcion: Funcion para crear convocatoria a la incubacion respectiva
 """
 @login_required
 def guardar_convocatoria(request):
@@ -1497,7 +1496,7 @@ def guardar_convocatoria(request):
                 convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
                 # convocatoria.fecha_maxima = fecha_max
                 if (convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                    mensajeError = 'No se ha creado convocatoria dado que la fecha maxima es menor a la actual'
+                    mensajeError = 'No se ha creado convocatoria dado que la fecha m\xc3\xa1xima es menor a la actual'
                     mensajeAlerta=None
                 else:
                     convocatoria.save()
@@ -1505,7 +1504,7 @@ def guardar_convocatoria(request):
                     mensajeError = None
             except:
                 print 'Error con la fecha'
-                mensajeError = 'No se creo Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
+                mensajeError = 'No se ha creado Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
                 mensajeAlerta = None
 
             convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
