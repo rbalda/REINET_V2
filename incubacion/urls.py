@@ -16,6 +16,7 @@ urlpatterns = patterns('',
      url(r'^AdminIncubacion/(?P<id_incubacion>\w{0,250})[/]?$', 'incubacion.views.admin_ver_incubacion',name='admin_ver_incubacion'),
      url(r'^VerIncubacion/(?P<id_incubacion>\w{0,250})[/]?$', 'incubacion.views.usuario_ver_incubacion',name='usuario_ver_incubacion'),
      url(r'^AdminIncubadasIncubacion[/]?$','incubacion.views.admin_incubadas_incubacion', name='admin_incubadas_incubacion'),
+     url(r'^UsuarioIncubadasIncubacion[/]?$','incubacion.views.usuario_incubadas_incubacion', name='usuario_incubadas_incubacion'),
      url(r'^AdminSolicitudesIncubacion[/]?$','incubacion.views.admin_solicitudes_incubacion', name='admin_solicitudes_incubacion'),
      
                        

@@ -38,7 +38,7 @@
 			        <div class="col-md-7" align=right>
 			        	<div class="col-md-12">
 			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultores</a>
-			            {%if milestone == False%}
+			            {%if milestoneVigente == False%}
 			            	<a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
 			            	</div>
 			            {%else%}
@@ -808,14 +808,14 @@
 			            </h2>
 			          </div>
 
-			          	{%if ultimo_Milestone%}
-						    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{incubada.id_incubada}}">{{ultimo_Milestone.fecha_maxima.date}}</a></h4>
+			          	{%if milestone%}
+						    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{milestone.id_milestone}}">{{milestone.fecha_maxima.date}}</a></h4>
 						    
 						    <span style="font-size:13px;color:gray">Requerimientos:</span>
-						    <p>{{ultimo_Milestone.requerimientos|truncatewords:20}}<br></p>
+						    <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
 
 						{%else%}
-							<div class="info-board info-board-orange"> No hay ningún milestone anterior</div>
+							<div class="info-board info-board-orange"> No hay ningún milestone creado</div>
 			          	{%endif%}
 			         	
 

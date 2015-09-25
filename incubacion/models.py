@@ -75,6 +75,8 @@ class IncubadaConsultor(models.Model):
 	id_incubadaConsultor = models.AutoField(primary_key=True)
 	fk_consultor = models.ForeignKey(Consultor)
 	fk_incubada = models.ForeignKey(Incubada)
+	fk_oferta_incubada=models.ForeignKey(Oferta)
+	fk_incubacion=models.ForeignKey(Incubacion)
 	fecha_creacion = models.DateField(default=datetime.date.today)
 	class Meta:
 		db_table = 'IncubadaConsultor'
