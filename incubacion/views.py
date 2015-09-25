@@ -94,6 +94,8 @@ Descripcion: para llamar la pagina incubacion inicio
 def ver_incubaciones(request):
     args = {}
     args['usuario'] = request.user
+    request.session['mensajeError'] = None
+    request.session['mensajeAlerta'] = None
     args['es_admin'] = request.session['es_admin']
     args['incubaciones'] = Incubacion.objects.filter(fk_perfil=request.user.perfil)
     return render_to_response('admin_incubacion_inicio.html', args)
@@ -277,16 +279,8 @@ def contenido_milestone(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
-<<<<<<< HEAD
     args['es_admin'] = request.session['es_admin']    
     #si el usuario EXISTE asigna un arg para usarlo en el template
-=======
-    args['es_admin'] = request.session['es_admin']
-    
-    idIncubada = request.GET['incubada']
-    
-        #si el usuario EXISTE asigna un arg para usarlo en el template
->>>>>>> 735ce9043dc9e601449d137b04b0f0dcfce329ed
     if usuario is not None:
         args['usuario'] = usuario
     else:
@@ -683,7 +677,10 @@ def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
+    args['mensajeError'] = request.session['mensajeError']
+    args['mensajeAlerta'] = request.session['mensajeAlerta']
     args['es_admin'] = request.session['es_admin']
+
 
     # Para que las variables de session sena colocadas en args[]
     if usuario is not None:
@@ -787,7 +784,7 @@ def admin_incubadas_incubacion(request):
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            imagenincubada = ImagenOferta.objects.all().filter()
+            imagenincubada = ImagenIncubada.objects.all().filter()
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -797,7 +794,6 @@ def admin_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
-
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -807,14 +803,6 @@ def admin_incubadas_incubacion(request):
             return redirect('/')
     else:
         return redirect('/NotFound')
-
-"""
-Autor: Henry Lasso
-Nombre de funcion: usuario_incubadas_incubacion
-Parametros: request
-Salida: usuario_lista_incubadas
-Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion
-"""
 
 
 @login_required
@@ -834,8 +822,7 @@ def usuario_incubadas_incubacion(request):
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            imagenincubada = ImagenOferta.objects.all().filter()
-        
+            imagenincubada = ImagenIncubada.objects.all().filter()
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -855,6 +842,9 @@ def usuario_incubadas_incubacion(request):
             return redirect('/')
     else:
         return redirect('/NotFound')
+
+
+
 
 """
 Autor: Henry Lasso
@@ -933,7 +923,7 @@ def admin_rechazar_solicitud(request):
             print "wwwwwwwwwwwwwwwwwwwww"
             solicitud= SolicitudOfertasConvocatoria.objects.get(id_solicitud_ofertas_convocatoria=request.GET['id_solicitud'])
             solicitud.estado_solicitud=2
-            solicitud.save()
+            solicitud.save() 
         except:
             return redirect('/NotFound')
     else:
@@ -1483,54 +1473,32 @@ def guardar_convocatoria(request):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
-    args.update(csrf(request))
-    mensajeAlerta=None
-    mensajeError=None
-    
-    
     if args['es_admin']:
-        if request.method == 'POST':
-            fecha_max = request.POST.get('fecMaxima')
-            id_incubacion = request.POST.get('idIncubacion')
+        if request.method == 'GET':
+            fecha_max = request.GET['fecMaxima']
+            id_incubacion = request.GET['idIncubacion']
             try:
                 convocatoria = Convocatoria()
                 convocatoria.fecha_creacion = datetime.datetime.now()
                 incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
-                
-                args['incubacion'] = incubacion
                 convocatoria.fk_incubacion = incubacion
                 convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
                 # convocatoria.fecha_maxima = fecha_max
                 if (convocatoria.fecha_maxima < convocatoria.fecha_creacion):
                     mensajeError = 'No se ha creado convocatoria dado que la fecha maxima es menor a la actual'
                     mensajeAlerta=None
-                   
                 else:
                     convocatoria.save()
                     mensajeAlerta = 'Convocatoria Creada con exito'
                     mensajeError = None
-                    
             except:
                 print 'Error con la fecha'
                 mensajeError = 'No se creo Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
                 mensajeAlerta = None
-                
-            convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
-            if convocatorias_incubacion is not None:
-                hoy = datetime.datetime.now(timezone.utc)
-                fecha_maxima = convocatorias_incubacion.fecha_maxima
-                if fecha_maxima <= hoy:
-                    args['convocatorias'] = "No hay Convocatoria"
-                else:
-                    args['convocatorias'] = convocatorias_incubacion
-            else:
-                args['convocatorias'] = "No hay Convocatoria"
-        
 
-        args['mensajeError'] = mensajeError
-        args['mensajeAlerta'] = mensajeAlerta
-        
-        return render_to_response('admin_ver_incubacion.html', args)
+        request.session['mensajeError'] = mensajeError
+        request.session['mensajeAlerta'] = mensajeAlerta
+        return HttpResponseRedirect('AdminIncubacion/' + id_incubacion, args)
     else:
         return HttpResponseRedirect('InicioIncubaciones')
 
