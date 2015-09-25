@@ -99,7 +99,7 @@
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i>  {{ incubacion.fecha_inicio.date }}</li>
+					<li><i class="fa fa-calendar"></i> {{ fecha_creacion }}</li>
 					<li>ESTADO: </i>
             {% if incubacion.estado_incubacion == 0 %}
               ACTIVA
@@ -180,7 +180,6 @@
 				<div class="tab-content">
 				  <div id="incubadas" class="tab-pane fade in active">
           </div>
-
           <script>
             $(document).ready(function() {
               $(function () {

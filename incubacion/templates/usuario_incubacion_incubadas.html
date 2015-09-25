@@ -1,33 +1,29 @@
- {% if incubadas != "No hay incubadas" %}   
-                <div style="font-size:12px;height:250px;overflow-y:auto;" >
-                    <div class="pm-list">
-                        <ul>
-                            {% for incubada in incubadas%}
-                                <li>
-                                    <p class="text-muted" style="width: 100%;">
-                                        {% for img in imagenes%}
-                                            {% if img.fk_incubada == incubada %}
-                                                <img src="/../../media/{{img.imagen }}" alt="...">
-                                            {%endif%}
-                                            {% if forloop.last and img.fk_incubada != incubada %}
-                                              <img src="/../../media/noPicture.png" alt="...">
-                                            {% endif %}
-                                        {%endfor%}
-                                        <span  style="font-size:16px;color:black">{{incubada.nombre}}</span><br>
-                                        <i class="fa fa-user">
-                                            {{incubada.equipo.fk_participante.first_name}}
-                                            {{incubada.equipo.fk_participante.last_name}}
-                                        </i>
-                                        <br><i class="fa fa-calendar"></i>{{incubada.fecha_creacion.date}}
-                                    </p>
-                                    <div class="clearfix"></div>
-                                </li>
-                            {%endfor%}
-                        </ul>
-                    </div>
-                </div>
-            {%else%}
-                <div class="alert alert-danger alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Esta Incubación no tiene incubadas 
-                </div>
-            {%endif%}
+{% if incubadas != "No hay incubadas" %}   
+    <div style="font-size:12px;height:250px;overflow-y:auto;" >
+        <div class="pm-list">
+            <ul>
+                {% for incubada in incubadas%}
+                    <li>
+                        <p class="text-muted" style="width: 100%;">
+                            <span  style="font-size:18px;color:black">{{forloop.counter}}]</span>
+                            <span  style="font-size:20px;color:black">{{incubada.nombre}}</span><br>
+                            <i class="fa fa-user">
+                                {%for dueno in propietarios %}
+                                    {%if dueno.fk_oferta_en_que_participa == incubada.fk_oferta%}
+                                        {{dueno.fk_participante.first_name}}{{dueno.fk_participante.last_name}}
+                                    {%endif%}  
+                                {%endfor%}
+                            </i>
+                            <br><i class="fa fa-calendar"></i>{{incubada.fecha_creacion.date}}
+                        </p>
+                        <div class="clearfix"></div>
+                    </li>
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+{%else%}
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Esta Incubación no tiene incubadas 
+    </div>
+{%endif%}

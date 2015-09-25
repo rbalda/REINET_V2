@@ -213,7 +213,7 @@ def definir_milestone(request):
     milestone.requerimientos = requerimientos
     milestone.importancia = importancia
     milestone.otros = importancia
-    milestone.fk_incubada_id = idIncubada
+    milestone.fk_incubada_id = incubada_clonada.id_incubada
     milestone.save()
     print "MILESTONE GUARDADO"
 
@@ -279,73 +279,103 @@ def contenido_milestone(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
-    args['es_admin'] = request.session['es_admin']
-    idIncubada = request.GET['incubada']
+    args['es_admin'] = request.session['es_admin']    
     #si el usuario EXISTE asigna un arg para usarlo en el template
     if usuario is not None:
         args['usuario'] = usuario
     else:
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    if usuario is not None:
-        args['usuario'] = usuario
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        print "Ingreso al ajax"
         try:
-            incubada = Incubada.objects.get(id_incubada=idIncubada)
-            # Tengo que verificar que el administrador de la incubada es el usuario en sesion
-            print incubada.fk_incubacion.fk_perfil
+            #args['milestone'] = milestoneObjeto
+            
+            print "ID milestone:1111 "
+            idMilestone = request.GET['milestoneId']
+            milestone = Milestone.objects.get(id_milestone=idMilestone)
+            incubada = milestone.fk_incubada
+
+            
+            print "ID milestone: 22222"
             if incubada:
-                if incubada.fk_incubacion.fk_perfil == usuario:
-                    propietario = MiembroEquipo.objects.get(id_equipo=incubada.equipo.id_equipo, es_propietario=1)
-                    equipo = MiembroEquipo.objects.filter(id_equipo=incubada.equipo.id_equipo)
-                    if equipo is not None:
-                        args['equipo'] = equipo
-                    fotos = ImagenIncubada.objects.filter(fk_incubada=id_incubada)
-                    if fotos:
-                        imagen_principal = fotos.first()
+                # Tengo que verificar que el administrador de la incubada es el usuario en sesion
+                consultores = Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil)
+                propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=incubada.fk_oferta, es_propietario=1)
+                
+                if milestone:
+
+                    #Validar que sea un administrador
+                    if incubada.fk_incubacion.fk_perfil == usuario:
+                                
+                            #Ahora voy a buscar las palabras claves
+                            palabras_Claves = incubada.palabras_clave.all()
+                            if palabras_Claves.count() == 0:
+                               palabras_Claves = False
+                               args['palabras_clave'] = palabras_Claves
+
+                            args['incubada'] = incubada
+                            args['propietario'] = propietario
+                            args['milestone'] = milestone
+                            return render_to_response('contenido_historial_milestone.html', args)
+                    
+                    #Validar que sea un consultor                    
+                    elif consultores:
+                        consultor = Consultor.objects.get(fk_usuario_consultor=usuario.id_perfil)
+                        incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_incubada=incubada.id_incubada)
+                        if incubadaCons:
+                            #Ahora voy a buscar las palabras claves
+                            palabras_Claves = incubada.palabras_clave.all()
+                            if palabras_Claves.count() == 0:
+                               palabras_Claves = False
+                               args['palabras_clave'] = palabras_Claves
+
+                            args['incubada'] = incubada
+                            args['propietario'] = propietario
+                            args['milestone'] = milestone
+                            return render_to_response('contenido_historial_milestone.html', args)
+
+
+                    #Validar que sea un propietario
+                    elif propietario.fk_participante.id_perfil==usuario.id_perfil:
+                        #Ahora voy a buscar las palabras claves
+                            palabras_Claves = incubada.palabras_clave.all()
+                            if palabras_Claves.count() == 0:
+                               palabras_Claves = False
+                               args['palabras_clave'] = palabras_Claves
+
+                            args['incubada'] = incubada
+                            args['propietario'] = propietario
+                            args['milestone'] = milestone
+                            return render_to_response('contenido_historial_milestone.html', args)
+
+
                     else:
-                        fotos = False
-                        imagen_principal = False
+                        args['error'] = "Esta incubada no se encuentra bajo su administración"
+                        return HttpResponseRedirect('/NotFound/')
 
-                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
-                    #Tenemos que validar si hay un mmilestone vigente
-                    primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
-                    args['milestone']=primer_milestone
-
-
-                    milestone = Milestone.objects.filter(fk_incubada=id_incubada).last()
-                    if milestone:
-                        hoy = datetime.datetime.now(timezone.utc)
-                        fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
-
-                        if fecha_maxima_milestone < hoy:
-                            args['milestoneVigente'] = False
-                        else:
-                            args['milestoneVigente'] = True
-
-                    #Ahora voy a buscar las palabras claves
-                    palabras_Claves = incubada.palabras_clave.all()
-                    if palabras_Claves.count() == 0:
-                        palabras_Claves = False
-                    args['palabras_clave'] = palabras_Claves
-
-                    args['fotos'] = fotos
-                    args['imagen_principal'] = imagen_principal
-                    args['incubada'] = incubada
-                    args['propietario'] = propietario
-                    return render_to_response('admin_incubada.html', args)
                 else:
                     args['error'] = "Esta incubada no se encuentra bajo su administración"
                     return HttpResponseRedirect('/NotFound/')
             else:
                 args['error'] = "Esta incubada no se encuentra bajo su administración"
                 return HttpResponseRedirect('/NotFound/')
-        # si la oferta no existe redirige a un mensaje de error
+
+        except Milestone.DoesNotExist:
+            print '>> Milestone no existe'
+            return redirect('/')
         except Incubada.DoesNotExist:
-            args['error'] = "La incubada no se encuentra en la red, lo sentimos."
-            return HttpResponseRedirect('/NotFound/')
+            print '>> Incubada no existe'
+            return redirect('/')
+        except:
+            print '>> Excepcion no controlada INVITAR CONSULTOR'
+            return redirect('/')
     else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect('/NotFound/')
+        print "NO INGRESO A INVITAR"
+        return redirect('/NotFound')
+
+
 
 """
 Autor: Leonel Ramirez
@@ -636,19 +666,17 @@ def editar_estado_incubacion(request):
 """
 Autor: Henry Lasso
 Nombre de funcion: admin_ver_incubacion
-Parametros: request
+Parametros: request y id_incubacion
 Salida: 
-Descripcion: Mostar template ver mi incubacion
+Descripcion: Mostar template ver mi incubacion desde administrador
 """
-
 
 @login_required
 def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
-    args['mensajeError'] = request.session['mensajeError']
-    args['mensajeAlerta'] = request.session['mensajeAlerta']
+    args.update(csrf(request))
     args['es_admin'] = request.session['es_admin']
 
 
@@ -656,13 +684,17 @@ def admin_ver_incubacion(request, id_incubacion):
     if usuario is not None:
         args['usuario'] = usuario
         try:
+            #obtengo la incubacion por medio del id enviado por la url
             incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+            #valido que el usuario sea dueño de la incubacion
             if incubacion.fk_perfil == usuario:    
                 if incubacion:
+                    #listo las convocatorias de la incubación
                     convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
                     if convocatorias_incubacion is not None:
                         hoy = datetime.datetime.now(timezone.utc)
                         fecha_maxima = convocatorias_incubacion.fecha_maxima
+                        # si la fecha maxima es menor a hoy no hay una convocatoria abierta
                         if fecha_maxima <= hoy:
                             args['convocatorias'] = "No hay Convocatoria"
                         else:
@@ -689,8 +721,8 @@ def admin_ver_incubacion(request, id_incubacion):
 """
 Autor: Henry Lasso
 Nombre de funcion: usuario_ver_incubacion
-Parametros: request
-Salida: 
+Parametros: request y id de incubacion
+Salida: render template ver incubacion desde usuario 
 Descripcion: Mostar template ver mi incubacion
 """
 
@@ -704,12 +736,15 @@ def usuario_ver_incubacion(request, id_incubacion):
         # Guardo en la variable de sesion a usuario.
         args['usuario'] = usuario
         try:
+            #obtengo la incubacion por medio del id 
             incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
             if incubacion :
+                #listo la ultima convocatoria de la incubacion 
                 convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
                 if convocatorias_incubacion is not None:
                     hoy = datetime.datetime.now(timezone.utc)
                     fecha_maxima = convocatorias_incubacion.fecha_maxima
+                    # verifico si hay un convocatoria abierta por medio de las fechas
                     if fecha_maxima <= hoy:
                         args['convocatorias'] = "No hay Convocatoria"
                     else:
@@ -732,10 +767,9 @@ def usuario_ver_incubacion(request, id_incubacion):
 Autor: Henry Lasso
 Nombre de funcion: admin_incubadas_incubacion
 Parametros: request
-Salida: admin_lista_incubadas
+Salida: admin_lista_incubadas desde administrador
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion
 """
-
 
 @login_required
 def admin_incubadas_incubacion(request):
@@ -752,9 +786,10 @@ def admin_incubadas_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            #obtengo las incubadas de la incubacion
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
             imagenincubada = ImagenIncubada.objects.all().filter()
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -764,6 +799,7 @@ def admin_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
+            args['propietarios']= propietarios
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -774,6 +810,13 @@ def admin_incubadas_incubacion(request):
     else:
         return redirect('/NotFound')
 
+"""
+Autor: Henry Lasso
+Nombre de funcion: usuario_incubadas_incubacion
+Parametros: request
+Salida: usuario_lista_incubadas
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion como usuario
+"""
 
 @login_required
 def usuario_incubadas_incubacion(request):
@@ -790,9 +833,11 @@ def usuario_incubadas_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            #obtengo las incubadas de la incubacion 
             incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
             imagenincubada = ImagenIncubada.objects.all().filter()
+            #obtengo todos los propietarios
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             if len(imagenincubada) > 0:
                 args['imagenes']= imagenincubada
             else:
@@ -802,7 +847,7 @@ def usuario_incubadas_incubacion(request):
                 args['incubadas'] = incubadas
             else:    
                 args['incubadas'] = "No hay incubadas"
-                
+            args['propietarios']= propietarios    
             return render_to_response('usuario_incubacion_incubadas.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -814,8 +859,6 @@ def usuario_incubadas_incubacion(request):
         return redirect('/NotFound')
 
 
-
-
 """
 Autor: Henry Lasso
 Nombre de funcion: admin_solicitudes_incubacion
@@ -823,7 +866,6 @@ Parametros: request
 Salida: admin_lista_solicitudes_incubacion
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
 """
-
 
 @login_required
 def admin_solicitudes_incubacion(request):
@@ -833,7 +875,6 @@ def admin_solicitudes_incubacion(request):
     args['es_admin']=request.session['es_admin']
     #si el usuario EXISTE asigna un arg para usarlo en el template
     # si el usuario EXISTE asigna un arg para usarlo en el template
-    print "solicitudesssssssssssssssssssssss"
     if usuario is not None:
         args['usuario'] = usuario
     else:
@@ -842,8 +883,9 @@ def admin_solicitudes_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
+            #obtengo todas las solicitudes de las convocatorias de la incubacion
             solicitudes = SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0) 
+            #obtengo todos los propietarios de la incubadas
             propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
             imagenesofertas = ImagenOferta.objects.all().filter()
             numeroimagenesoferta= len(imagenesofertas)
@@ -864,21 +906,18 @@ def admin_solicitudes_incubacion(request):
     else:
         return redirect('/NotFound')
 
-
 """
 Autor: Henry Lasso
-Nombre de funcion: rechazar_solicitud
+Nombre de funcion: admin_rechazar_solicitud
 Parametros: request
-Salida: 
-Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de ofertas aplicantes  a la incubacion
+Salida: actualiza la solicitud con estado rechazada
+Descripcion: Esta funcion es para la peticion Ajax que actualiza el estado de la solictud a rechazada
 """
 @login_required
 def admin_rechazar_solicitud(request):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
-    
-    print "wwwwwwwwwwwwwwwwwwwww"
     args['es_admin']=request.session['es_admin']
     #si el usuario EXISTE asigna un arg para usarlo en el template
     # si el usuario EXISTE asigna un arg para usarlo en el template
@@ -890,7 +929,7 @@ def admin_rechazar_solicitud(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            print "wwwwwwwwwwwwwwwwwwwww"
+            #obtengo las solicitudes pendientes de la incubacion
             solicitud= SolicitudOfertasConvocatoria.objects.get(id_solicitud_ofertas_convocatoria=request.GET['id_solicitud'])
             solicitud.estado_solicitud=2
             solicitud.save() 
@@ -1141,9 +1180,8 @@ def ver_retroalimentaciones(request):
 Autor: Sixto Castro
 Nombre de funcion: guardar_retroalimentaciones
 Parametros: request
-Salida: ver la lista de retroalimentaciones de cada tab de la incubada
-Descripcion: Esta funcion es para la peticion Ajax que pide mostrar todas las retroalimentaciones
-    de cada tab
+Salida: Template admin_ver_incubada
+Descripcion: Esta funcion guarda todas las retroalimentaciones hechas en cada tab de una incubada
 """
 
 
@@ -1430,33 +1468,36 @@ class Autocompletar_Consultor(APIView):
         return response
 
 
+
 """
 Autor: Sixto Castro
 Nombre de funcion: GuardarConvocatoria
 Parametros: request
-Salida: pagian ver milestone
-Descripcion: para llamar la pagina ver milestone
+Salida: Se crea convocatoria exitosamente. Caso contrario se muestra el mensaje de error respectivo
+Descripcion: Funcion para crear convocatoria a la incubacion respectiva
 """
-
-
 @login_required
 def guardar_convocatoria(request):
     args = {}
     args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
+    args.update(csrf(request))
+    mensajeAlerta=None
+    mensajeError=None
     if args['es_admin']:
-        if request.method == 'GET':
-            fecha_max = request.GET['fecMaxima']
-            id_incubacion = request.GET['idIncubacion']
+        if request.method == 'POST':
+            fecha_max = request.POST.get('fecMaxima')
+            id_incubacion = request.POST.get('idIncubacion')
             try:
                 convocatoria = Convocatoria()
                 convocatoria.fecha_creacion = datetime.datetime.now()
                 incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
+                args['incubacion'] = incubacion
                 convocatoria.fk_incubacion = incubacion
                 convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
                 # convocatoria.fecha_maxima = fecha_max
                 if (convocatoria.fecha_maxima < convocatoria.fecha_creacion):
-                    mensajeError = 'No se ha creado convocatoria dado que la fecha maxima es menor a la actual'
+                    mensajeError = 'No se ha creado convocatoria dado que la fecha m\xc3\xa1xima es menor a la actual'
                     mensajeAlerta=None
                 else:
                     convocatoria.save()
@@ -1464,14 +1505,24 @@ def guardar_convocatoria(request):
                     mensajeError = None
             except:
                 print 'Error con la fecha'
-                mensajeError = 'No se creo Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
+                mensajeError = 'No se ha creado Convocatoria. La fecha tiene un formato errado. Debe ser (MM/DD/AAAA)'
                 mensajeAlerta = None
 
-        request.session['mensajeError'] = mensajeError
-        request.session['mensajeAlerta'] = mensajeAlerta
-        return HttpResponseRedirect('AdminIncubacion/' + id_incubacion, args)
+            convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
+            if convocatorias_incubacion is not None:
+                hoy = datetime.datetime.now(timezone.utc)
+                fecha_maxima = convocatorias_incubacion.fecha_maxima
+                if fecha_maxima <= hoy:
+                    args['convocatorias'] = "No hay Convocatoria"
+                else:
+                    args['convocatorias'] = convocatorias_incubacion
+            else:
+                args['convocatorias'] = "No hay Convocatoria"
+
+        args['mensajeError'] = mensajeError
+        args['mensajeAlerta'] = mensajeAlerta
+
+        return render_to_response('admin_ver_incubacion.html', args)
     else:
         return HttpResponseRedirect('InicioIncubaciones')
-
-
 

@@ -173,16 +173,6 @@
 				                                });
 				                            </script>
 
-
-
-
-				                            
-
-
-
-
-
-
 									    </div>
 
 									    <div class="form-group">
@@ -294,7 +284,6 @@
 						                </div>  
 						            </div>
 							        <!-- TERMINA Panel del equipo -->
-
 	                            </div>
 
 	                            <div class="col-md-7 col-sm-6 col-xs-6" style="margin-top: 0px;padding-top: 15px;">
@@ -358,9 +347,6 @@
 		                                });
 		                            </script>
 
-
-
-
 	                            </div>
 	                        </div>
 	                    </div>
@@ -388,7 +374,6 @@
 	                            <div id="retroalimentacion2" class="col-md-12">
 
 					            </div>
-
 					                <script>
 		                                $(document).ready(function () {
 		                                    $(function () {
@@ -510,14 +495,10 @@
 		                                </tbody>
 		                                </table>
 		                            </div>
-
-
 		                        </div>
 
 		                        <div id="retroalimentacion3" class="col-md-12">
-
 					            </div>
-
 					                <script>
 		                                $(document).ready(function () {
 		                                    $(function () {
@@ -539,7 +520,6 @@
 		                                    });
 		                                });
 		                            </script>
-
 	                        </div>
 
 	                    </div>
@@ -645,7 +625,6 @@
 	                        <div id="retroalimentacion4" class="col-md-12">
 
 					            </div>
-
 					                <script>
 		                                $(document).ready(function () {
 		                                    $(function () {
@@ -709,7 +688,6 @@
 	                            <div id="retroalimentacion5" class="col-md-12">
 
 					            </div>
-
 					                <script>
 		                                $(document).ready(function () {
 		                                    $(function () {
@@ -739,11 +717,7 @@
 	        </div>      
 
 	        <div class="col-md-4 col-sm-12" style="padding-right: 0px;">
-		        
-
 		        <div class="col-md-12 col-sm-6" style="padding-right: 0px;">
-
-
 					<!--PANEL DEL MILESTONE ACTUAL-->	 
 
 			            <div class="panel panel-dark" style="margin-top:0px">
@@ -787,8 +761,6 @@
 			            </div>
 		            <!-- TERMINA Panel de Milestone Actual -->
 
-
-
 			       <!-- COMIENZA  Panel de los consultores -->
 			            <div class="panel panel-dark">
 			                <div class="panel-heading row" style="margin-right: 0px;margin-left: 0px;padding-top: 5px;padding-bottom: 0px;  padding-right: 0px;">
@@ -803,12 +775,8 @@
 			                <div id="divConsultoresInc" class="panel-body" style=" overflow-y: scroll; height:300px">
 
 			                </div>  
-
-
 			            </div>
 		            <!-- TERMINA Panel de los consultores -->
-
-		            
 		        </div>
 
 		        <div class="col-md-12 col-sm-6" style="padding-right: 0px;">
@@ -828,17 +796,10 @@
 						{%else%}
 							<div class="info-board info-board-orange"> No hay ningún milestone creado</div>
 			          	{%endif%}
-			         	
-
-
 		              
 		              <a href="/VerMilestone/{{incubada.id_incubada}}" class="read-more">Ver m&aacute;s...</a>
-			            
 		        	</div>
 		        	<!-- TERMINA Historial de milestones -->
-
-
-
 		        </div>
 	    	</div>
 		</div>
@@ -856,11 +817,11 @@
                   <div class="modal-body" style="font-size:14px;overflow-y:auto">                           
                       <div class="comment" id="Comentario">
                           <div class="media">
-                            <form  class="form-horizontal col-md-12"  name="formMilestone"> 
+                            <form  id="formMilestone" class="form-horizontal col-md-12" name="formMilestone"> 
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Requerimientos para la incubada</label>
                                   <div class="col-md-7">
-                                    <textarea autofocus id="requerimientosDescripcion" name="requerimientosDescripcion" rows="3"  class="form-control" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
+                                    <textarea autofocus id="requerimientosDescripcion" name="requerimientosDescripcion" rows="3"  class="form-control textMilestone" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
                                     ></textarea>
                                   </div>
                                   <br>
@@ -881,7 +842,7 @@
                                 <div class="form-group">
                                   <label for="Nombres" class="col-md-3 col-md-offset-1">Importancia del milestone</label>
                                   <div class="col-md-7">
-                                    <textarea autofocus rows="3" id="importancia_milestone" class="form-control" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
+                                    <textarea autofocus rows="3" id="importancia_milestone" class="form-control textMilestone" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
                                     ></textarea>
                                   </div>
                                   <br>
@@ -890,7 +851,7 @@
                                    <label for="Nombres"  class="col-md-3 col-md-offset-1">Otros</label>
                                    <div class="col-md-7 pull-left" id="nuevos">
                                    <form method="get">
-                                    <textarea autofocus rows="5" id="otros" class="tinymce form-control" style="resize: none;"
+                                    <textarea autofocus rows="5" id="otros" class="tinymce form-control textMilestone" style="resize: none;"
                                     ></textarea>
                                   </div>
                                   </form>
@@ -898,7 +859,8 @@
                                 <div class="form-group">
                                     <div align="right">
                                       <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                                      <a id="aceptardefinirMilestone" data-dismiss="modal" class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
+                                      
+                                      <a id="aceptardefinirMilestone" disabled  class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
                                     </div>                                                  
                                 </div>
                             </form>   
@@ -906,19 +868,54 @@
                       </div>
                   </div>
               </div>
+
               	<script>
 					$(function() {
 					//Validando que las fechas sea desde la fecha actual
 					$("#fecha_milestone").datepicker({ minDate: 0 });
 					$("#fecha_retroalimentacion").datepicker({ minDate: 0 });
 
+					$( "#fecha_retroalimentacion" ).change(function(){
+						var fecMil= $("#fecha_milestone").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
+					    fecRet= $("#fecha_retroalimentacion").datepicker({ dateFormat:'YYYY-MM-DD'}).val();
+
+					    if (fecMil < fecRet) {
+					    	$("#aceptardefinirMilestone").removeAttr('disabled');
+					    	return false;
+					    }else{
+					    	alert("Fecha ingresada es Invalida.\nLa Fecha fin del Retroalimencion no puede ser antes de la Fecha fin de Milestone");
+					    	return false;
+					    }                
+				    });
+
 					$("#aceptardefinirMilestone").click(function(){
+						var isValid = true;
+				        $('.textMilestone').each(function() {
+				            if ($.trim($(this).val()) == '') {
+				                isValid = false;
+				                $(this).css({
+				                    "border": "1px solid red",
+				                    "background": "#FFCECE"
+				                });
+				            }
+				            else {
+				                $(this).css({
+				                    "border": "",
+				                    "background": ""
+				                });
+				            }
+				        });
+
+				        if (isValid == false) 
+				            e.preventDefault();
+				        else {
 							//Obtengo todos los valores del los campos del formulario
 							var req = $('textarea#requerimientosDescripcion').val(),
 							fecMil= $("#fecha_milestone").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
 							fecRet= $("#fecha_retroalimentacion").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
 							importan = $('textarea#importancia_milestone').val(),
 							otros = $('textarea#otros').val();
+
 
 							$.ajax({
 								data: {
@@ -932,8 +929,17 @@
 								type: 'get',
 								url: '/DefinirMilestone/'
 							});
+
+							//Cerramos el Modal del Definir Milestone
+							$('#definirMilestone').modal('hide');
+							//Limpiamos todos los campos del formulario Definir Milestone
+							$('#formMilestone').each (function(){
+							  this.reset();
+							});
+
+						}
 							
-						});
+					});
 					
 					});
 				</script>

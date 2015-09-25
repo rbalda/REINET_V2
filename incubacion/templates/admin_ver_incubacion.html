@@ -253,13 +253,13 @@
                 <div class="modal-body">
                     <div class="comment" id="Comentario">
                           <div class="media">
-                            <form action="/GuardarConvocatoria" method="get">
-
+                            <form action="/GuardarConvocatoria" method="post">
+                                {% csrf_token %}
                                 <div class="form-group">
                                   <table class="table " style="margin-bottom: 0px;">
                                     <thead>
                                       <tr>
-                                        <th class="text-muted">Defina el periodo durante el cual los uuarios podran aplicar con sus ofertas</th>
+                                        <th class="text-muted">Defina el periodo durante el cual los usuarios podr&aacute;n aplicar con sus ofertas</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -268,7 +268,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha Maxima</label>
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha M&aacute;xima</label>
                                   <div class="col-md-7">
                                        <input type="hidden" id="idIncubacion" name="idIncubacion" value="{{ incubacion.id_incubacion }}">
                                        <input type="datepicker" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
