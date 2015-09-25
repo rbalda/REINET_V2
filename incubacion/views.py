@@ -281,7 +281,7 @@ def contenido_milestone(request):
     
     idIncubada = request.GET['incubada']
     
-    #si el usuario EXISTE asigna un arg para usarlo en el template
+        #si el usuario EXISTE asigna un arg para usarlo en el template
     if usuario is not None:
         args['usuario'] = usuario
     else:
@@ -647,12 +647,7 @@ def admin_ver_incubacion(request, id_incubacion):
     session = request.session['id_usuario']
     usuario = Perfil.objects.get(id=session)
     args = {}
-<<<<<<< HEAD
-=======
-    args.update(csrf(request))
->>>>>>> 8651d85600002245b22e0058193820750202a9e7
     args['es_admin'] = request.session['es_admin']
-
 
     # Para que las variables de session sena colocadas en args[]
     if usuario is not None:
@@ -777,6 +772,14 @@ def admin_incubadas_incubacion(request):
     else:
         return redirect('/NotFound')
 
+"""
+Autor: Henry Lasso
+Nombre de funcion: usuario_incubadas_incubacion
+Parametros: request
+Salida: usuario_lista_incubadas
+Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion
+"""
+
 
 @login_required
 def usuario_incubadas_incubacion(request):
@@ -816,9 +819,6 @@ def usuario_incubadas_incubacion(request):
             return redirect('/')
     else:
         return redirect('/NotFound')
-
-
-
 
 """
 Autor: Henry Lasso

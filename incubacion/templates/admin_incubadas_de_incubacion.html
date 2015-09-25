@@ -5,6 +5,7 @@
                             {% for incubada in incubadas%}
                                 <li>
                                     <p class="text-muted" style="width: 100%;">
+                                        <span  style="font-size:18px;color:blue">{{forloop.counter}})</span>
                                         <a href="/AdminIncubada/{{incubada.fk_oferta.id_oferta}}" style="font-size:20px;color:black">{{incubada.nombre}}</a><br>
                                         <i class="fa fa-user">
                                             {{incubada.equipo.fk_participante.first_name}}
