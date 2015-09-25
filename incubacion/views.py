@@ -333,7 +333,7 @@ Nombre de funcion: editar_mi_incubacion
 Parametros: 
 request-> petición http
 id -> identificador de la incubación a editar
-Salida: 
+Salida: Vista con formulario de edición
 Descripcion: Carga los datos de una incubación para psoteriormente ser editada
 """
 
@@ -417,16 +417,46 @@ Autor: Dimitri Laaz
 Nombre de funcion: editar_estado_incubacion
 Parametros: 
 request-> petición http
-Salida: 
+Salida: Codigo de exito de la operación
 Descripcion: Cambia el estado de una incubacion por medio de Ajax
 """
 @login_required
 def editar_estado_incubacion(request):
     if request.is_ajax():
-        print 'es ajax'
-        return HttpResponse("ES AJAX")
-    print 'no es ajax'
-    return HttpResponse("NO ES AJAX")
+        try:
+            args = {}
+            # se recupera el identificador de la sesión actual
+            sesion = request.session['id_usuario']
+            #se obtiene el usuario de la sesión actual
+            usuario = Perfil.objects.get(id=sesion)
+            #se recupera el id de la incubacion a cambiarle el estado
+            incubacionid = request.GET.get("incubacion")
+            #se recupera el nuevo estado a ser fijado
+            estado_nuevo = request.GET.get("estado")
+            # se valida que que el estado enviado tengo un valor valido
+            estadoValido = re.search(u'^[12]$', estado_nuevo)
+            if estadoValido is not None:
+                try:
+                    incubacion_cambiar = Incubacion.objects.get(id_incubacion=incubacionid)
+                    #se valida que el usuario que solicita el cambio sea el dueño de la incubacion
+                    if incubacion_cambiar.fk_perfil.id_perfil != usuario.id_perfil:
+                        return HttpResponse(0)
+                    #se valida que el estado actual sea activo para realizar el cambio
+                    if incubacion_cambiar.estado_incubacion != 0:
+                        return HttpResponse(1)
+                    if incubacion_cambiar.estado_incubacion == 0:
+                        #se realiza el cambio de estado si la condiciones son correctas
+                        incubacion_cambiar.estado_incubacion = int(estado_nuevo)
+                        incubacion_cambiar.save()
+                        #se devuelve el codigo 2 de exito de la operacion
+                        return HttpResponse(2)
+                except ObjectDoesNotExist:
+                    return HttpResponse(0)           
+            else:
+                return HttpResponse(3)         
+        except:
+            return HttpResponse(0)    
+    return HttpResponseRedirect('/NotFound/')
 
 
 """
