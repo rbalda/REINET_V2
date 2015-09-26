@@ -413,12 +413,6 @@ def enviar_oferta_incubacion(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     if request.is_ajax():
-            print "oqqqqqqqqqqqqqqqqqqqqla"
-            print request.GET['incubacion']
-            print "que hubo"
-            print request.GET['oferta']
-            print "id convocatoria"
-            print request.GET['convocatoria']
             idIncubacion = request.GET['incubacion']
             idOferta = request.GET['oferta']
             idConvocatoria = request.GET['convocatoria']
@@ -430,7 +424,7 @@ def enviar_oferta_incubacion(request):
             solicitudDatos.fk_incubacion_id = idIncubacion
             solicitudDatos.fecha_creacion = datetime.datetime.now()
             solicitudDatos.save()
-            return render_to_response('usuario_ver_incubada.html',args)
+            return render_to_response('enviar_oferta_incubacion.html',args)
     else:
         return redirect('/NotFound')   
 
