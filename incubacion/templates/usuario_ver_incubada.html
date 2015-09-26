@@ -614,7 +614,7 @@
 					                {%if completar == True%}
 									    
 						                <div class="col-md-12" align="center">
-						                	<a id="completarmilestone" href="#" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Completar Milestone</a>
+						                	<a id="completarmilestone" href="/EditarIncubada/{{incubada.id_incubada}}" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Completar Milestone</a>
 						                </div>
 									{%elif retroalimentar == True%}
 										<div class="col-md-12" align="center">
@@ -734,10 +734,33 @@
 		</div>
 	</div>
 
+    {% if mostrar_actualizado == 1 %}
+	    <!-- modal de Milestone actualizado-->
+	    <div id="MilestoneActualizado" class="modal fade" role="dialog">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+	                    <h4 class="modal-title">Milestone Actualizado Exitosamente</h4>
+	                </div>
+	                <div class="modal-body" style="overflow-y:auto">
+	                    <p>Usted podrá seguir actualizando hasta que culmine la fecha límite del Milestone</p>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-red" data-dismiss="modal" data-toggle="modal">Aceptar</button>
 
-	
-    
+	                </div>
+	            </div>s
+	        </div>
+	    </div>
+	    <!-- termina modal de Milestone actualizado -->  
 
-	
+    	<script type="text/javascript">
+    		$(window).load(function(){
+        		$('#MilestoneActualizado').modal('show');
+    		});
+		</script>
+    {% endif %}
+
 
 {% endblock%}

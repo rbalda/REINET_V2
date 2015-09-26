@@ -1628,11 +1628,12 @@ Salida:
 Descripcion: funcion para editar una incubada
 """
 @login_required
-def editar_incubada(request, id_oferta):
+def editar_incubada(request, id_incubada):
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
     args['es_admin']=request.session['es_admin']
+
 
     if usuario is not None:
         args['usuario'] = usuario
@@ -1640,33 +1641,27 @@ def editar_incubada(request, id_oferta):
         args['error'] = "Error al cargar los datos"
         return HttpResponseRedirect('/NotFound/')
 
-    try:
-        oferta = Oferta.objects.get(id_oferta = id_oferta)
-    except:
-        return HttpResponseRedirect('/NotFound/')
-
-    if (oferta.publicada == 1):
-        return HttpResponseRedirect('/NotFound/')
-
-    membresia_oferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
-
-    if membresia_oferta is None:
-        return HttpResponseRedirect('/NotFound/')
 
     try:
-        tiempo_disponible = oferta.tiempo_para_estar_disponible.split(' ',1)
-        oferta_tiempo = int(tiempo_disponible[0])
+        incubada = Incubada.objects.get(id_incubada = id_incubada)
+    except:        
+        return HttpResponseRedirect('/NotFound/')
+
+
+    try:
+        tiempo_disponible = incubada.tiempo_para_estar_disponible.split(' ',1)
+        incubada_tiempo = int(tiempo_disponible[0])
 
         #si la duracion es de mes
         if tiempo_disponible[1] == 'Mes/es':
-            oferta_duracion = 0
+            incubada_duracion = 0
         else:
-            oferta_duracion = 1
+            incubada_duracion = 1
 
     #si no se encuentra establecida la duracion
     except:
-        oferta_duracion = 1
-        oferta_tiempo = "Año/s"
+        incubada_duracion = 1
+        incubada_tiempo = "Año/s"
 
     if request.method == 'POST':
         #seccion de informacion
@@ -1675,10 +1670,11 @@ def editar_incubada(request, id_oferta):
         descripcion = request.POST['descripcion_oferta']
         dominio = request.POST['oferta_dominio']
         subdominio = request.POST['oferta_sub_dominio']
-        #tags = request.POST['oferta_tags'] #Aun no usado
+        
         #seccion de perfiles
         perfil_cliente = request.POST.get('oferta_descripcion_perfil', "No disponible")
         perfil_beneficiario = request.POST.get('oferta_beneficiario_perfil', "No disponible")
+
         #seccion de business canvas
         canvas_socio_clave = request.POST.get('canvas_socio_clave', "No disponible")
         canvas_actividades_clave = request.POST.get('canvas_actividades_clave', "No disponible")
@@ -1689,70 +1685,75 @@ def editar_incubada(request, id_oferta):
         canvas_segmentos = request.POST.get('canvas_segmentos_clientes', "No disponible")
         canvas_estructura = request.POST.get('canvas_estructura_costos', "No disponible")
         canvas_fuente = request.POST.get('canvas_fuente_ingresos', "No disponible")
+
         #seccion de industria
         tendencias = request.POST.get('oferta_tendencias', "No disponible")
         soluciones_alternativas = request.POST.get('ofertas_alternativas_soluciones', "No disponible")
+
         #para Diagrama de Porter
         porter_competidores = request.POST.get('diagramapoter_competidores', "No disponible")
         porter_consumidores = request.POST.get('diagramapoter_consumidores', "No disponible")
         porter_sustitutos = request.POST.get('diagramapoter_sustitutos', "No disponible")
         porter_proveedores = request.POST.get('diagramapoter_proveedores', "No disponible")
         porter_nuevos = request.POST.get('diagramapoter_nuevos_entrantes', "No disponible")
+
         #seccion de estado/Logros
         tiempo_disponible = request.POST.get('oferta_tiempo_disponibilidad', "No disponible")
         tiempo_unidad = request.POST.get('select_oferta_tiempo', None)
         propiedad_intelectual = request.POST.get('oferta_propiedad_intelectual', "No disponible")
         evidencia_traccion = request.POST.get('oferta_evidencia_traccion', "No disponible")
-        #seccion de copia de datos a la oferta a modificar
-        #seccion informacion
-        oferta_editada = oferta
-        oferta_editada.nombre = nombre
-        oferta_editada.tipo = tipo
-        oferta_editada.descripcion = descripcion
-        oferta_editada.dominio = dominio
-        oferta_editada.subdominio = subdominio
-        #seccion perfiles
-        oferta_editada.perfil_cliente = perfil_cliente
-        oferta_editada.perfil_beneficiario = perfil_beneficiario
-        #seccion industria
-        oferta_editada.cuadro_tendencias_relevantes = tendencias
-        oferta_editada.descripcion_soluciones_existentes = soluciones_alternativas
-        #seccion de estado/Logros
 
+        #seccion de copia de datos a la incubada a modificar
+        #seccion informacion
+        incubada_editada = incubada
+        incubada_editada.nombre = nombre
+        incubada_editada.tipo = tipo
+        incubada_editada.descripcion = descripcion
+        incubada_editada.dominio = dominio
+        incubada_editada.subdominio = subdominio
+
+        #seccion perfiles
+        incubada_editada.perfil_cliente = perfil_cliente
+        incubada_editada.perfil_beneficiario = perfil_beneficiario
+
+        #seccion industria
+        incubada_editada.cuadro_tendencias_relevantes = tendencias
+        incubada_editada.descripcion_soluciones_existentes = soluciones_alternativas
+
+        #seccion de estado/Logros
         #manejo de la duracion de la oferta
         if tiempo_disponible != "" and tiempo_unidad != "":
-
             if tiempo_unidad == "0":
                 tiempo_unidad = "Mes/es"
             else:
                 tiempo_unidad = "Año/s"
 
-            oferta_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
+            incubada_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
         else:
-            oferta_editada.tiempo_para_estar_disponible = "1 Año/s"
+            incubada_editada.tiempo_para_estar_disponible = "1 Año/s"
 
-        oferta_editada.estado_propieada_intelectual = propiedad_intelectual
-        oferta_editada.evidencia_traccion = evidencia_traccion
+        incubada_editada.estado_propiedad_intelectual = propiedad_intelectual
+        incubada_editada.evidencia_traccion = evidencia_traccion
 
         #seccion Diagrama canvas
         #se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama canvas
         if canvas_socio_clave == "" and canvas_actividades_clave=="" and canvas_recursos=="" and canvas_propuesta=="" and canvas_relaciones=="" and canvas_canales=="" and canvas_segmentos=="" and canvas_estructura=="" and canvas_fuente=="" :
-            oferta_editada.fk_diagrama_canvas = None
+            incubada_editada.fk_diagrama_canvas = None
         #si existen datos ingresados, se los asigna
         else:
 
             #si anteriormente tuvo canvas, se lo modifica
             try:
-                oferta_editada.fk_diagrama_canvas.asociaciones_clave = canvas_socio_clave
-                oferta_editada.fk_diagrama_canvas.actividades_clave = canvas_actividades_clave
-                oferta_editada.fk_diagrama_canvas.recursos_clave = canvas_recursos
-                oferta_editada.fk_diagrama_canvas.propuesta_valor = canvas_propuesta
-                oferta_editada.fk_diagrama_canvas.relacion_clientes = canvas_relaciones
-                oferta_editada.fk_diagrama_canvas.canales_distribucion = canvas_canales
-                oferta_editada.fk_diagrama_canvas.segmento_mercado = canvas_segmentos
-                oferta_editada.fk_diagrama_canvas.estructura_costos = canvas_estructura
-                oferta_editada.fk_diagrama_canvas.fuente_ingresos = canvas_fuente
-                oferta_editada.fk_diagrama_canvas.save()
+                incubada_editada.fk_diagrama_canvas.asociaciones_clave = canvas_socio_clave
+                incubada_editada.fk_diagrama_canvas.actividades_clave = canvas_actividades_clave
+                incubada_editada.fk_diagrama_canvas.recursos_clave = canvas_recursos
+                incubada_editada.fk_diagrama_canvas.propuesta_valor = canvas_propuesta
+                incubada_editada.fk_diagrama_canvas.relacion_clientes = canvas_relaciones
+                incubada_editada.fk_diagrama_canvas.canales_distribucion = canvas_canales
+                incubada_editada.fk_diagrama_canvas.segmento_mercado = canvas_segmentos
+                incubada_editada.fk_diagrama_canvas.estructura_costos = canvas_estructura
+                incubada_editada.fk_diagrama_canvas.fuente_ingresos = canvas_fuente
+                incubada_editada.fk_diagrama_canvas.save()
             #si no tenia, se crea un diagrama canvas nuevo
             except:
                 diagrama_canvas = DiagramaBusinessCanvas()
@@ -1766,23 +1767,23 @@ def editar_incubada(request, id_oferta):
                 diagrama_canvas.estructura_costos = canvas_estructura
                 diagrama_canvas.fuente_ingresos = canvas_fuente
                 diagrama_canvas.save()
-                oferta_editada.fk_diagrama_canvas = diagrama_canvas
+                incubada_editada.fk_diagrama_canvas = diagrama_canvas
 
         #seccion Diagrama de Porter
         #se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama porter
         if porter_competidores == "" and porter_consumidores=="" and porter_sustitutos=="" and porter_proveedores=="" and porter_nuevos=="":
-            oferta_editada.fk_diagrama_competidores = None
+            incubada_editada.fk_diagrama_competidores = None
         #si existen datos ingresados, se los asigna
         else:
 
             #si anteriormente tuvo porter, cambiarlo
             try:
-                oferta_editada.fk_diagrama_competidores.competidores = porter_competidores
-                oferta_editada.fk_diagrama_competidores.consumidores = porter_consumidores
-                oferta_editada.fk_diagrama_competidores.sustitutos = porter_sustitutos
-                oferta_editada.fk_diagrama_competidores.proveedores = porter_proveedores
-                oferta_editada.fk_diagrama_competidores.nuevosMiembros = porter_nuevos
-                oferta_editada.fk_diagrama_competidores.save()
+                incubada_editada.fk_diagrama_competidores.competidores = porter_competidores
+                incubada_editada.fk_diagrama_competidores.consumidores = porter_consumidores
+                incubada_editada.fk_diagrama_competidores.sustitutos = porter_sustitutos
+                incubada_editada.fk_diagrama_competidores.proveedores = porter_proveedores
+                incubada_editada.fk_diagrama_competidores.nuevosMiembros = porter_nuevos
+                incubada_editada.fk_diagrama_competidores.save()
             #si no tenia, se crea uno nuevo y se lo asigna
             except:
                 diagrama_porter = DiagramaPorter()
@@ -1792,36 +1793,19 @@ def editar_incubada(request, id_oferta):
                 diagrama_porter.proveedores = porter_proveedores
                 diagrama_porter.nuevosMiembros = porter_nuevos
                 diagrama_porter.save()
-                oferta_editada.fk_diagrama_competidores = diagrama_porter
+                incubada_editada.fk_diagrama_competidores = diagrama_porter
 
-        #manejo de tags
-        try:
-            palabra_clave = PalabraClave.objects.filter(ofertas_con_esta_palabra=oferta)
-            tags = []
-
-            for t in palabra_clave:
-                tags.append(t.palabra.encode('utf-8','ignore'))
-
-            etiqueta_json= json.dumps(tags)
-            args['tags']=etiqueta_json
-        except:
-            palabras_claves =  ["Null", "Null", "Null", "Null"]
-
-        galeria = ImagenOferta.objects.all().filter(fk_oferta = oferta.id_oferta)
-        oferta_editada.save()
+        
+        incubada_editada.save()
         args.update(csrf(request))
-        args['oferta_tiempo']=oferta_tiempo
-        args['oferta_duracion']=oferta_duracion
-        args['oferta'] = oferta_editada
-        args['msg'] = "Borrador de oferta modificada exitosamente"
-        args['imagen_principal'] = galeria.first()
-        args['palabras'] = oferta.palabras_clave.all
-        return render_to_response('administrar_borrador.html',args)
+        args['id_oferta'] = incubada_editada.fk_oferta.id_oferta
+        args['mostrar_actualizado'] = 1        
+        return redirect('/Incubada/'+str(incubada_editada.fk_oferta.id_oferta),args)
 
     else:
         args.update(csrf(request))
-        args['oferta_tiempo']=oferta_tiempo
-        args['oferta_duracion']=oferta_duracion
-        args['oferta'] = oferta
-        return render_to_response('editar_borrador.html',args)
+        args['incubada_tiempo'] = incubada_tiempo
+        args['incubada_duracion'] = incubada_duracion
+        args['incubada'] = incubada
+        return render_to_response('editar_incubada.html',args)
 
