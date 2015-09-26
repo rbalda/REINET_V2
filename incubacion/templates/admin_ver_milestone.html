@@ -21,9 +21,16 @@
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
+    <!--
+    Autor: Leonel Ramirez 
+    Nombre de funcion: style para perzonalizar la lista de milestone
+    Salida: salida de color
+    Descripcion: Cambia de color cuan el moouse pasa por un milestone
+    -->
+
     <style type="text/css">
         .milestone:hover {
-        background-color:#F5F5F5;
+        background-color:#BDBDBD;
         }
 
         .milestone {
@@ -33,8 +40,9 @@
         }
 
         .active{
-            background-color:#FBF0EE;
+            background-color:#FBE9E7;
         }
+
         .sub:link {
             text-decoration:none;  
         }
@@ -44,12 +52,12 @@
         <div class="col-md-3 col-sm-12" style="padding-left: 0px;">
             <div class="col-md-12 col-sm-6" style="padding-right: 0px;padding-left: 0px;">
                 <!-- COMIENZA  Panel de los consultores -->                        
-                <div class="panel-body" style=" overflow-y: scroll; height:700px;padding:0px; background-color:lightgray">
+                <div class="panel-body" style=" overflow-y: scroll; height:600px;padding:0px; background-color:#E0E0E0">
                  {% if listaMilestone %}
                     {% for milestone in listaMilestone %}
                       {% if milestone.fk_incubada.fk_oferta == incubada.fk_oferta %}
-                          <a class="listmilestone" id="{{milestone.id_milestone}}" value="{{milestone.id_milestone}}" href="#">
-                              <div class="media milestone active">
+                          <a class="listmilestone sub" id="{{milestone.id_milestone}}" value="{{milestone.id_milestone}}" href="#">
+                              <div class="media milestone active" onclick="markActiveLink(this);">
                                   <div>
                                     <h4>{{milestone.fecha_creacion.date}}</h4>
                                     <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
@@ -67,6 +75,15 @@
               {% endif %}
             </div>   
         </div> 
+
+
+    <!--
+    Autor: Leonel Ramirez 
+    Nombre de funcion: script para para enviar los parametros por ajax
+    parametros: mislestoneId
+    Salida: milistoneId
+    Descripcion: envia el id del milestone a una funcion view
+    -->
         <script type="text/javascript">
           $(function () {conetidoMilestone
             $('.listmilestone').click(function(){
