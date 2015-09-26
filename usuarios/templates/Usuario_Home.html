@@ -11,7 +11,12 @@
     {% endblock %}
 
     {% block raiz %}
-        <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
+    {% if usuario.username == "adminreinet" %}
+            <a class="navbar-brand link" href="/gestionarUsuarios/">REI-NET</a>
+    {% else %}
+            <a class="navbar-brand link" href="/inicioUsuario/">REI-NET</a>
+    {% endif %}
+   
     {% endblock %}
 
     {% block inicio %}

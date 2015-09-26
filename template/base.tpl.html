@@ -43,8 +43,11 @@
         {% block barranavegacion %}
         
             <div class="collapse navbar-collapse">
-            
+            {% if usuario.username == "adminreinet" %}
+             {% include 'menusuperior/opciones_admin_reinet.tpl.html'%}    
+             {% else %}        
             {% include 'menusuperior/opcionesreinet.tpl.html'%}
+            {% endif %}
                 <ul class="nav navbar-nav navbar-right hidden-xs">
 
                     {% block barraderecha %}
