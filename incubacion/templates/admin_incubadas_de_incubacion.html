@@ -10,7 +10,7 @@
                                 {%else %}
                                     <img src="/media/noPicture.png" alt="...">
                                 {%endif%}
-                                <a style="font-size:20px;color:black;cursor:not-allowed">{{ incubada.0.nombre }}</a><br>
+                                 <a href="/AdminIncubada/{{incubada.0.fk_oferta.id_oferta}}" style="font-size:16px;color:black">{{incubada.0.nombre}}</a><br>
                                 <i class="fa fa-user"></i>{{ incubada.1.fk_participante.first_name }} {{ incubada.1.fk_participante.last_name }}
                                 <br><i class="fa fa-calendar"></i> {{incubada.2.date}}
                             </p>
