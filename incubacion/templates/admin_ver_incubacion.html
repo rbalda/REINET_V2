@@ -27,7 +27,7 @@
     			
   				<a class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#IncuEstado"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
 
-          {% if convocatorias == "No hay Convocatoria" %}
+          {% if convocatoria == False %}
             <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
           {% else %}
             <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria" disabled="true"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
@@ -104,7 +104,7 @@
     			<div class="panel panel-dark" align="center" style="margin-bottom:0px">
 				    <div class="panel-body" style="padding-bottom: 5px;">
 				    	<h4 class="hl" style=" font-weight: bold"><bold> Convocatoria Actual de ofertas</bold></h4>
-	            	{% if convocatorias != "No hay Convocatoria" %}	
+	            	{% if convocatoria != False %}	
                   <table class="table " style="margin-bottom: 0px;">
                     <thead>
                       <tr>
@@ -113,7 +113,7 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="text-align:left">{{ convocatorias.fecha_maxima }}</td>
+                        <td style="text-align:left">{{ convocatoria.fecha_maxima }}</td>
                       </tr>
                     </tbody>
                   </table>
