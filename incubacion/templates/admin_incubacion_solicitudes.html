@@ -1,49 +1,51 @@
-{% if solicitudes != "No hay solicitudes" %}   
+{% if solicitudes  %}   
   <div style="font-size:12px;height:250px;overflow-y:auto;" >
     <div class="pm-list" id ="lista_solicitudes">
       <ul>
         {%for solicitud in solicitudes%}
-          <li id ="solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}">
-            <p class="text-muted" style="width:100%">
-              <a href="#" style="font-size:16px;color:black">{{ solicitud.fk_oferta.nombre}}</a><br>
-              {%for dueno in propietarios %}
-                {%if dueno.fk_oferta_en_que_participa == solicitud.fk_oferta%}
-                  <i class="fa fa-user"></i>&nbsp;{{dueno.fk_participante.first_name}}{{dueno.fk_participante.last_name}}
-                {%endif%}  
-              {%endfor%}
-              <br><i class="fa fa-calendar"></i>&nbsp;{{solicitud.fk_oferta.fecha_creacion.date}}
-            </p>
-            <p class="text-muted" style="width:100%" align=right>
-              <button type="button" class="btn btn-red" name="aceptar_solicitud">
-              <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
-              <button type="button" class="btn btn-default" id ="rechazar_solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}" style="margin-left:10px">
-              <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
-            </p>
-            <div class="clearfix"></div>
-          </li>
-          <script>
-            $(document).ready(function () {
-              $(function () {
-                $('#rechazar_solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}').click(function(){
-                  $('#solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}').remove();
-                  rechazar();
-                  function rechazar(){
-                    $.ajax({
-                      data: {
-                        'id_solicitud':{{solicitud.id_solicitud_ofertas_convocatoria}}
-                      },
-                      type: 'get',
-                      url: '/RechazarSolicitudIncubacion/',
-                      success: function (data) {
-                        $('#solicitud{{solicitud.id_solicitud_ofertas_convocatoria}}').remove();
-                      }
-                    });
-                    
-                  } 
+          {% if solicitud.0.estado_solicitud == 0 %}  
+            <li id ="solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}">
+              <p class="text-muted" style="width:100%">
+                {%if incubada.3.imagen %}
+                <img src="/media/{{solicitud.3.imagen}}" alt="...">
+                {%else %}
+                  <img src="/media/noPicture.png" alt="...">
+                {%endif%}
+                <a href="#" style="font-size:16px;color:black">{{ solicitud.0.fk_oferta.nombre}}</a><br>
+                  <i class="fa fa-user"></i>&nbsp;{{ solicitud.1.fk_participante.first_name }} {{ solicitud.1.fk_participante.last_name }}  
+                <br><i class="fa fa-calendar"></i>&nbsp;{{solicitud.2.date}}
+              </p>
+              <p class="text-muted" style="width:100%" align=right>
+                <button type="button" class="btn btn-red" name="aceptar_solicitud">
+                <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+                <button type="button" class="btn btn-default" id ="rechazar_solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}" style="margin-left:10px">
+                <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
+              </p>
+              <div class="clearfix"></div>
+            </li>
+            <script>
+              $(document).ready(function () {
+                $(function () {
+                  $('#rechazar_solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}').click(function(){
+                    $('#solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}').remove();
+                    rechazar();
+                    function rechazar(){
+                      $.ajax({
+                        data: {
+                          'id_solicitud':{{solicitud.0.id_solicitud_ofertas_convocatoria}}
+                        },
+                        type: 'get',
+                        url: '/RechazarSolicitudIncubacion/',
+                        success: function (data) {
+                          $('#solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}').remove();
+                        }
+                      });
+                    } 
+                  });
                 });
               });
-            });
-          </script> 
+            </script>
+          {%endif%} 
         {%endfor%}
       </ul>
     </div>

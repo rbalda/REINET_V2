@@ -21,8 +21,6 @@
     {% endblock %}
 
 	
-
-
     <div class="container">
 
     	<div class="alert alert-info">
@@ -89,12 +87,9 @@
 						                  <strong class="mensaje_error"></strong>
 						                </div>
 
-									    <!--INVITAR A CONSULTORES-->
-									    
+									    <!--INVITAR A USUARIOS A SER CONSULTOR-->
 									    <div class="form-group" style="overflow-y:auto; height: 180px;margin-left: 0px;">
-									    	<!--
-										    Se muestran todos los concultores a invitar -->
-
+									    	
 										    <div id="resultadosInvitarConsultores" class="resultadosInvitarConsultores panel-body">
 												    <!--
 												    Se muestra la peticion AJAX de mostrar el consultor a invitar
@@ -104,9 +99,10 @@
 							                <script>
 				                                $(document).ready(function () {
 				                                    $(function () {
+				                                    	//Invitar a un usuario para ser consultor
 				                                    	$('#invitarSubmit').click(function(){
 				                                    		consultor = $('#destinatario_txt').val();
-				                                    		//clear fields
+				                                    		//Vaciar el input que contiene el valor de la busqueda
 				                                    		$('#destinatario_txt').val('');
 
 					                                        $('#resultadosInvitarConsultores').ready(resultadoInvitar);
@@ -127,7 +123,6 @@
 					                                    });
 
 														$('#enviarInvitaciones').click(function(){
-
 															$(".soyunInvitado").each(function( index ) {
 																var usuarioConsultor = $( this ).attr('id');
 																$.ajax({
@@ -138,13 +133,11 @@
 						                                                type: 'get',
 						                                                url: '/EnviarInvitaciones/'
 						                                        });
-
 															});
 															//Elimina todos los div que contienen los usuario consultores
 															$('#resultadosInvitarConsultores').empty();
 															$('#formulario').hide();
 															$('#mostrarMensaje').show();
-															
 														});
 
 														$('#aceptarConsultor').click(function(){
@@ -172,7 +165,6 @@
 				                                    });
 				                                });
 				                            </script>
-
 									    </div>
 
 									    <div class="form-group">
@@ -733,29 +725,7 @@
 						            </div>
 			                		<hr style="margin-top: 10px;margin-bottom: 10px;">
 					                <div class="media-body" id="IncbMilestActu">
-
 					                </div>
-
-					                <script>
-		                                $(document).ready(function () {
-		                                    $(function () {
-		                                        $('#IncbMilestActu').ready(mostrarMilestActual);
-		                                        function mostrarMilestActual() {
-		                                            $.ajax({
-		                                                data: {
-		                                                    'incubada':{{incubada.id_incubada}}
-		                                                },
-		                                                type: 'get',
-		                                                url: '/AdminIncubadaMilestoneActual/',
-		                                                success: function (data) {
-		                                                    $('#IncbMilestActu').html(data)
-		                                                }
-		                                            });
-
-		                                        }
-		                                    });
-		                                });
-		                            </script>
 					              </div>
 			                </div>  
 			            </div>
@@ -804,7 +774,6 @@
 	    	</div>
 		</div>
 	</div>
-
 
 		<!--Modal DEFINIR MILESTONE-->
         <div id="definirMilestone" class="modal fade" role="dialog">
@@ -915,8 +884,7 @@
 							fecRet= $("#fecha_retroalimentacion").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
 							importan = $('textarea#importancia_milestone').val(),
 							otros = $('textarea#otros').val();
-
-
+							//Enviar los datos de
 							$.ajax({
 								data: {
 									'idIncubada':{{incubada.id_incubada}},
@@ -929,17 +897,30 @@
 								type: 'get',
 								url: '/DefinirMilestone/'
 							});
-
 							//Cerramos el Modal del Definir Milestone
 							$('#definirMilestone').modal('hide');
 							//Limpiamos todos los campos del formulario Definir Milestone
 							$('#formMilestone').each (function(){
 							  this.reset();
 							});
-
 						}
-							
+						//Recarga la funcon de actualizar miletones
+						mostrarMilestActual();
 					});
+					
+					$('#IncbMilestActu').ready(mostrarMilestActual);
+					function mostrarMilestActual() {
+						$.ajax({
+							data: {
+								'incubada':{{incubada.id_incubada}}
+							},
+							type: 'get',
+							url: '/AdminIncubadaMilestoneActual/',
+							success: function (data) {
+								 $('#IncbMilestActu').html(data)
+								}
+						});
+					}
 					
 					});
 				</script>

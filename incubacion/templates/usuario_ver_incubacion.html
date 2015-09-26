@@ -59,7 +59,15 @@
                         Se muestra la peticion AJAX de mostrar el consultor a invitar
                         -->
                         </div> 
-                        <script>
+
+                         <!--
+                            Autor: Leonel Ramirez 
+                            Nombre de funcion: script para para enviar los parametros por ajax
+                            parametros: incubacion
+                            Salida: sobrecarga el html 
+                            Descripcion: envia el id del milestone a una funcion view
+                          -->
+                      <script>
                         $(document).ready(function () {
                           $(function () {
                             $('#participar_ofertaas').ready(participarOfertas);
@@ -92,19 +100,39 @@
                             });
 
                         });
-                        </script>
+                      </script>
 
                       </div>
                   </div>
                   <div align=right>
                         <a class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                         <button id="participar_incubacion" class="btn btn-red" data-dismiss="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar solicitud de participación&nbsp;&nbsp;</button>
+                         <button id="participar_incubacion" class="btn btn-red" data-dismiss="modal" ><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar solicitud de participación&nbsp;&nbsp;</button>
+
                       </div>
                     </div>
                   </div>
                 </div>
             </div>
             <!-- termina MODAL Invitar Consultor -->
+
+
+            <!-- comienza MODAL Invitar Consultor -->
+            <div id="confirmacion_participar" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="width: 40% !important;">
+                  <div class="modal-content" style=" width: 550px;">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">PARTICIPAR EN LA INCUBACI&Oacute;N</h4>
+                    </div>
+                    <div class="modal-body media" style="font-size:14px;padding-top: 0px;width: 540px;">
+                       <span>Señor usuario se ha enviado correcctamente su solicitud para participar en esta incubaci&oacute;n</span>
+                       <div align=right>
+                           <button class="btn btn-red" data-dismiss="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Aceptar&nbsp;&nbsp;</button>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
         <div class="col-sm-8">

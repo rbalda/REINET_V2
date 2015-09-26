@@ -151,6 +151,7 @@ Descripcion: Se define un milestone para que la incubada pueda cumplir con las r
 
 @login_required
 def definir_milestone(request):
+    # se recupera el identificador de la sesión actual
     sesion = request.session['id_usuario']
     usuario = Perfil.objects.get(id=sesion)
     args = {}
@@ -231,6 +232,8 @@ def definir_milestone(request):
     milestone.save()
     print "MILESTONE GUARDADO"
 
+
+
 """
 Autor: Leonel Ramirez 
 Nombre de funcion: participar_incubacion
@@ -239,6 +242,7 @@ Salida: Muetra al usuario que sus ofertas
 Descripcion: En esta funcion mostrara las ofertas de un usuario para 
         participar a una incubacion
 """
+
 
 @login_required
 def participar_incubacion(request):
@@ -279,6 +283,8 @@ def participar_incubacion(request):
             return redirect('/')
     else:
         return redirect('/NotFound')
+
+
 
 """
 Autor: Leonel Ramirez
@@ -413,12 +419,6 @@ def enviar_oferta_incubacion(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     if request.is_ajax():
-            print "oqqqqqqqqqqqqqqqqqqqqla"
-            print request.GET['incubacion']
-            print "que hubo"
-            print request.GET['oferta']
-            print "id convocatoria"
-            print request.GET['convocatoria']
             idIncubacion = request.GET['incubacion']
             idOferta = request.GET['oferta']
             idConvocatoria = request.GET['convocatoria']
@@ -430,9 +430,10 @@ def enviar_oferta_incubacion(request):
             solicitudDatos.fk_incubacion_id = idIncubacion
             solicitudDatos.fecha_creacion = datetime.datetime.now()
             solicitudDatos.save()
-            return render_to_response('usuario_ver_incubada.html',args)
+            return render_to_response('enviar_oferta_incubacion.html',args)
     else:
         return redirect('/NotFound')   
+
 
 
 """
@@ -446,46 +447,51 @@ Descripcion: En esta funcion mostrara los usuario que pueden ser consultor
 
 @login_required
 def invitar_consultor(request):
-    sesion = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=sesion)
-    args = {}
-    args['es_admin'] = request.session['es_admin']
-    # si el usuario EXISTE asigna un arg para usarlo en el template
-    if usuario is not None:
-        args['usuario'] = usuario
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    try:
 
-    consultor = request.GET.get( 'consultor' )
-    consultor = request.GET.get('consultor')
-    usuarioconsultor = consultor.split('-')
-    if usuario.username == usuarioconsultor[1]:
-        args['mismousuario'] = "NO SE PUEDE SELECCIONAR EL MISMO USUARIO"
-    else:
+        # se recupera el identificador de la sesión actual
+        sesion = request.session['id_usuario']
+        #se obtiene el usuario de la sesión actual
+        usuario = Perfil.objects.get(id=sesion)
 
-        #si encuentra el ajax del template
-        if request.is_ajax():
-            try:
-                print usuarioconsultor[1]
-                invitarconsultor = Perfil.objects.get(username=usuarioconsultor[1])
-                args['invitarconsultor'] = invitarconsultor
-                print invitarconsultor
-                return render_to_response('admin_invitar_consultor.html', args)
+        args = {}
+        args['es_admin'] = request.session['es_admin']
 
-            except User.DoesNotExist:
-                print '>> Usuario no existe'
-                return redirect('/')
-            except:
-                print '>> Excepcion no controlada INVITAR CONSULTOR'
-                return redirect('/')
-
-
+        # si el usuario EXISTE asigna un arg para usarlo en el template
+        if usuario is not None:
+            args['usuario'] = usuario
         else:
-            print "NO INGRESO A INVITAR"
-            return redirect('/NotFound')
+            args['error'] = "Error al cargar los datos"
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        return render_to_response('admin_invitar_consultor.html', args)
+        consultor = request.GET.get( 'consultor' )
+        consultor = request.GET.get('consultor')
+        usuarioconsultor = consultor.split('-')
+
+        if usuario.username == usuarioconsultor[1]:
+            args['mismousuario'] = "NO SE PUEDE SELECCIONAR EL MISMO USUARIO"
+        else:
+
+            #si encuentra el ajax del template
+            if request.is_ajax():
+                try:
+                    invitarconsultor = Perfil.objects.get(username=usuarioconsultor[1])
+                    args['invitarconsultor'] = invitarconsultor
+
+                    return render_to_response('admin_invitar_consultor.html', args)
+                except User.DoesNotExist:
+                    print '>> Usuario no existe'
+                    return redirect('/')
+                except:
+                    print '>> Excepcion no controlada INVITAR CONSULTOR'
+                    return redirect('/')
+            else:
+                print "NO INGRESO A INVITAR"
+                return redirect('/NotFound')
+
+            return render_to_response('admin_invitar_consultor.html', args)
+    except:
+        return redirect('/')
 
 """
 Autor: Jose Velez
@@ -494,55 +500,74 @@ Parametros: request
 Salida: Se envia a solicitud a todos los usuario
 Descripcion: En esta funcion se guarda en la base todos los usuario que seran consultor
 """
+
+
 @login_required
 def enviar_invitaciones(request):
-    sesion = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=sesion)
-    args = {}
-    args['es_admin']=request.session['es_admin']
-    #si el usuario EXISTE asigna un arg para usarlo en el template
-    if usuario is not None:
-        args['usuario'] = usuario
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-    usuarioPerfil = request.GET.get( 'usuarioperfil' )
-    
-    idIncubada =  request.GET.get( 'idincubada' )
-    incubada = Incubada.objects.get(id_incubada=idIncubada)
-    idIncubacion = incubada.fk_incubacion.id_incubacion
-    idoferta = incubada.fk_oferta.id_oferta
-    fechaactual = datetime.datetime.now()
-
-    consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
-        incubadaconsultor=IncubadaConsultor.objects.filter(fk_oferta_incubada_id=idoferta))
-
-    if len(consultor) > 0:
-        print "EL USUARIO NO PUEDE SER CONSULTOR"
-    elif len(consultor) == 0:
-        consultorExiste = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil)
-        print len(consultorExiste)
-
-        if len(consultorExiste)==0:
-            #Guardar en la tabla Consultor
-            consultorTabla = Consultor()
-            consultorTabla.fk_usuario_consultor_id = usuarioPerfil
-            consultorTabla.fecha_creacion = fechaactual
-            #se guardan los cambios
-            consultorTabla.save()
-            consultorExiste=consultorTabla
+    try:
+        # se recupera el identificador de la sesión actual
+        sesion = request.session['id_usuario']
+        #se obtiene el usuario de la sesión actual
+        usuario = Perfil.objects.get(id=sesion)
+        #Se inicializa la variable que va a contener los parametros del vista
+        args = {}
+        #Enviar como parametro si el usuario es administrador
+        args['es_admin']=request.session['es_admin']
+        
+        #si el usuario EXISTE asigna un arg para usarlo en el template
+        if usuario is not None:
+            args['usuario'] = usuario
         else:
-            consultorExiste=consultorExiste.first()
-        #Guardar en la tabla Consultor
-        incubadaconsultor = IncubadaConsultor()
-        incubadaconsultor.fk_consultor_id = consultorExiste.id_consultor
-        incubadaconsultor.fk_incubada_id = idIncubada
-        incubadaconsultor.fecha_creacion = fechaactual
-        incubadaconsultor.fk_oferta_incubada_id=idoferta
-        incubadaconsultor.fk_incubacion_id=idIncubacion
-        #se guardan los cambios
-        incubadaconsultor.save()
+            args['error'] = "Error al cargar los datos"
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        #Se obtiene el usuario del Perfil
+        usuarioPerfil = request.GET.get( 'usuarioperfil' )
+        #Se obtiene el arametro por el Metodo GET
+        idIncubada =  request.GET.get( 'idincubada' )
+        #Se obtiene el objeto de la incuabada
+        incubada = Incubada.objects.get(id_incubada=idIncubada)
+        #Por medio del objeto de la incubada, se obtiene el id_incubacion
+        idIncubacion = incubada.fk_incubacion.id_incubacion
+        #Por medio del objeto de la incubada, de obtiene el id_oferta
+        idoferta = incubada.fk_oferta.id_oferta
+        fechaactual = datetime.datetime.now()
+
+        #Se obtiene los consultores usuarios que son consultores y estan relacionado a una incubada.
+        consultor = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil).filter(
+            incubadaconsultor=IncubadaConsultor.objects.filter(fk_oferta_incubada_id=idoferta))
+
+        #Se verifica si la lista de objeto de las incubadas es mayor a 0, para saber si el
+        #usuario no es consultor. 
+        if len(consultor) > 0:
+            args['no_consultor'] = "EL USUARIO NO PUEDE SER CONSULTOR"
+            print "EL USUARIO NO PUEDE SER CONSULTOR"
+        elif len(consultor) == 0:
+
+            #Verifica que el usuario exista
+            consultorExiste = Consultor.objects.filter(fk_usuario_consultor=usuarioPerfil)
+
+            if len(consultorExiste)==0:
+                #Guardar en la tabla Consultor
+                consultorTabla = Consultor()
+                consultorTabla.fk_usuario_consultor_id = usuarioPerfil
+                consultorTabla.fecha_creacion = fechaactual
+                #se guardan los cambios
+                consultorTabla.save()
+                consultorExiste=consultorTabla
+            else:
+                consultorExiste=consultorExiste.first()
+            #Guardar en la tabla Consultor
+            incubadaconsultor = IncubadaConsultor()
+            incubadaconsultor.fk_consultor_id = consultorExiste.id_consultor
+            incubadaconsultor.fk_incubada_id = idIncubada
+            incubadaconsultor.fecha_creacion = fechaactual
+            incubadaconsultor.fk_oferta_incubada_id=idoferta
+            incubadaconsultor.fk_incubacion_id=idIncubacion
+            #se guardan los cambios
+            incubadaconsultor.save()
+    except:
+        return redirect('/')
 
 
 """
@@ -785,10 +810,7 @@ def usuario_ver_incubacion(request, id_incubacion):
                 convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
                 if convocatorias_incubacion is not None:
                     hoy = datetime.datetime.now(timezone.utc)
-                    print 'vaaaaaaaaaaaaaaaaaaaaamo a ver'
-                    print hoy
                     fecha_maxima = convocatorias_incubacion.fecha_maxima
-                    print fecha_maxima
                     # verifico si hay un convocatoria abierta por medio de las fechas
                     if fecha_maxima <= hoy:
                         args['convocatoria'] = False
@@ -796,6 +818,7 @@ def usuario_ver_incubacion(request, id_incubacion):
                         args['convocatoria'] = convocatorias_incubacion
                 else:
                     args['convocatoria'] = False
+
                 
                 #Lo siguiente es para la presentacion del boton participar
                 #Primero verificaremos si el usuario es administrador
@@ -860,28 +883,19 @@ def admin_incubadas_incubacion(request):
     if request.is_ajax():
         try:
             #obtengo las incubadas de la incubacion
-            encontro=False
-            incub=Incubada.objects.filter(fk_incubacion=request.GET['incubacion'])
-            incubadas = []
-            for incubada in Incubada.objects.filter(fk_incubacion=request.GET['incubacion']):
-                for incubada1 in Incubada.objects.filter(fk_incubacion=request.GET['incubacion']):
-                    if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
-                        if encontro == False: 
-                            encontro=True
-                            propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=incubada.fk_oferta.id_oferta).first()
-                            fechapublicacion=incubada.fecha_publicacion
-                            foto=ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada).first()
-                            oferta=incubada1.fk_oferta.id_oferta
-                            print 'imagesitooooo'
-                            print propietario
-                            print propietario.fk_participante
-                            print propietario.fk_participante.first_name
-                            incubadas.append((incubada, propietario, fechapublicacion,foto))
-                            print encontro
-                    if encontro==True:
-                        print "ssssssssssssssss"
-                encontro=False
-            args['incubadas'] = incubadas
+            incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
+            imagenincubada = ImagenIncubada.objects.all().filter()
+            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
+            if len(imagenincubada) > 0:
+                args['imagenes']= imagenincubada
+            else:
+                 args['imagenes']= "No hay imagenes"   
+            
+            if len(incubadas) > 0:
+                args['incubadas'] = incubadas
+            else:    
+                args['incubadas'] = "No hay incubadas"
+            args['propietarios']= propietarios
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -1390,6 +1404,7 @@ def consultor_ver_incubada(request,id_oferta):
         return HttpResponseRedirect('/NotFound/')
 
 
+
 """
 Autor: Estefania Lozano
 Nombre de funcion: ver_incubada
@@ -1491,27 +1506,42 @@ Salida: Muetra el formulario de crear una incubacion
 Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofertas
 """
 
+
+
 @login_required
 def buscar_usuario(request):
-    sesion = request.session['id_usuario']
-    usuario = User.objects.get(id=sesion)
-    args = {}
-    if request.method == 'POST':
-        consultor = request.POST['consultor']
-        emisor = User.objects.get(id=sesion)
-        if consultor == emisor:
-            args['mensaje_alerta'] = "No te puedes auto-aisgnarte consultor"
+    try:
+        # se recupera el identificador de la sesión actual
+        sesion = request.session['id_usuario']
+        #se obtiene el usuario de la sesión actual
+        usuario = User.objects.get(id=sesion)
+        #Se inicializa la variable que va a contener los parametros del vista
+        args = {}
+
+        #Se obtiene los parametros del Metodo 
+        if request.method == 'POST':
+             #Se obtiene el objeto de la incuabada
+            consultor = request.POST['consultor']
+            emisor = User.objects.get(id=sesion)
+            
+            #Seteando los  consultor
+            if consultor == emisor:
+                args['mensaje_alerta'] = "No te puedes auto-aisgnarte consultor"
+            else:
+                try:
+                    receptor_aux = User.objects.get(username=consultor)
+                    receptor = receptor_aux
+                    tipo_mensaje = 'usuario-usuario'
+                except User.DoesNotExist:
+                    print 'No existe usuario'
+
         else:
-            try:
-                receptor_aux = User.objects.get(username=consultor)
-                receptor = receptor_aux
-                tipo_mensaje = 'usuario-usuario'
-            except User.DoesNotExist:
-                print 'No existe usuario'
-    else:
-        args['usuario'] = usuario
-        args['es_admin'] = request.session['es_admin']
-        args.update(csrf(request))
+            #Se enviara los parametros a la vista
+            args['usuario'] = usuario
+            args['es_admin'] = request.session['es_admin']
+            args.update(csrf(request))
+    except:
+        return redirect('/')
 
 
 """
@@ -1521,6 +1551,8 @@ Parametros: request
 Salida: pagian ver milestone
 Descripcion: para llamar la pagina ver milestone
 """
+
+
 
 @login_required
 def admin_ver_milestone(request,id_incubada):
@@ -1541,6 +1573,16 @@ def admin_ver_milestone(request,id_incubada):
         print e
         print '>> Excepcion no controlada ver milestone'
         return redirect('/NotFound/')
+
+
+"""
+Autor: Jose Velez
+Nombre de funcion: Autocompletar_Consultor
+Parametros: APIView
+Salida: Hace la busqueda por nombre del usuario
+Descripcion: En esta funcion se realiza el autocompletado de la busqueda por usuario
+"""
+
 
 class Autocompletar_Consultor(APIView):
     permission_classes = (IsAuthenticated,)
