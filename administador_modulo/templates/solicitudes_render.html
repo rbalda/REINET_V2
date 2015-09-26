@@ -1,102 +1,77 @@
  <div class="table-responsive">
-              <table class="table">
+                      <table class="table">
 
                   <thead>
 
         <tr>
-            <th>Nombre</th>
-             <th>Tipo</th>
-              <th>Publicada</th>
 
-            <th>Calificacion</th>
-                        <th>Estado</th>
+            <th>Usuario</th>
+
+            <th>Institución</th>
+
+            <th>Estado</th>
+            
 
         </tr>
 
     </thead>
 
     <tbody>
-    	{% for o in ofertas%}
+         {% for peticion in peticiones %}
 
         <tr>
 
-            <td>{{o.nombre}}</td>
+            <td>{{ peticion.fk_usuario.username }}</td>
 
-                        <td>{{o.tipo}}</td>
-                        <td>{{o.publicada}}</td>
-            <td>{{o.calificacion_total}}</td>
-            <td><select  style="float:left; width:40%" class="form-control col-md-4" id="{{o.id_oferta}}"name="estado_oferta" disabled>
-                {% if o.estado == 1 %}
-                    <option value="1" selected>Activa</option>
-                {% else %}
-                    <option value="1" >Activa</option>
-                {% endif %}
+            <td>{{ peticion.nombre_institucion }}</td>
 
-                {% if o.estado == 2 %}
-                    <option value="2" selected>Desactivada</option>
+               <td>
+                  {% if peticion.codigo == "000000" %}
+                
+             <button class="btn btn-green col-md-6" name="aceptarPeticion" id="{{ peticion.id_peticion }}"
+                            >Aceptar  <span name="cargando_icono_ind" id="{{peticion.id_peticion}}" ></span></button>
                 {% else %}
-                    <option value="2">Desactivada</option>
-
+             <button class="btn btn-blue col-md-6" id="{{ peticion.id_peticion }} " disabled
+                            >Aceptada</button>
                 {% endif %}
-                {% if o.estado == 3 %}
-                    <option value="3" selected>Censurada</option>
-                {% else %}
-                    <option value="3" >Censurada</option>
-                {% endif %}
-              
-            </select>
-             <div name="div_guardar" id="{{o.id_oferta}}"hidden>
-            <button class="btn btn-success col-md-3" style="float:center;" id="{{o.id_oferta}}" name="guardar_btn" > Guardar  <span name="cargando_icono_ind" id="{{o.id_oferta}}" ></span></button>
-        </div>
-        <div name="div_editar" id="{{o.id_oferta}}">
-            <button class="btn btn-warning col-md-3" style="float:center;" id="{{o.id_oferta}}" name="btn_activar_editar"> Editar</button>
-        </div>
-       
             </td>
-           
- 
-          
-
         </tr>
         {% endfor %}
-
+       
     </tbody>
                
     </table>
 
-
-
     <div class="pagination">
     <span class="step-links">
-        {% if ofertas.has_previous %}
-            <a class="btn btn-success" onclick="ajaxPaginacion({{ ofertas.previous_page_number }});">Atrás</a>
+        {% if peticiones.has_previous %}
+            <a class="btn btn-success" onclick="ajaxPaginacion({{ peticiones.previous_page_number }});">Atrás</a>
         {% endif %}
 
         <span class="current">
-            Página {{ ofertas.number }} de {{ ofertas.paginator.num_pages }}.
+            Página {{ peticiones.number }} de {{ peticiones.paginator.num_pages }}.
         </span>
 
-        {% if ofertas.has_next %}
-            <a class="btn btn-success" onclick="ajaxPaginacion({{ ofertas.next_page_number }});">Siguiente</a>
+        {% if peticiones.has_next %}
+            <a class="btn btn-success" onclick="ajaxPaginacion({{ peticiones.next_page_number }});">Siguiente</a>
         {% endif %}
     </span>
 	</div>
 
        <script type="text/javascript">
 
-    $("[name='guardar_btn']").on('click', function (e2){
+    $("[name='aceptarPeticion']").on('click', function (e2){
         e2.preventDefault();
         var idObtenido = $(e2.target).attr('id');
-        estado=$("[id='"+idObtenido+"'][name='estado_oferta']").val();
+        //estado=$("[id='"+idObtenido+"'][name='estado_oferta']").val();
          $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
        
         datos={
-            'id_oferta': idObtenido,
-            'estado':estado,
+            'id_peticion': idObtenido,
             'csrfmiddlewaretoken' :'{{ csrf_token }}'
         };
         $.ajax({
-            url: '/admin_editar_estado_oferta',
+            url: '/aceptarPeticiones',
             async: true,
             data: datos,
             dataType : 'text',
@@ -106,10 +81,10 @@
                    if(data=="ok"){
                         $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la oferta ha sido modificado exitosamente</div>');
                        
-                          $("[id='"+idObtenido+"'][name='estado_oferta']").prop( "disabled", true );
-                            $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
-                            $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
-
+                          $("[id='"+idObtenido+"'][name='aceptarPeticion']").prop( "disabled", true );
+                          $("[id='"+idObtenido+"'][name='aceptarPeticion']").removeClass( "btn-green" );
+                           $("[id='"+idObtenido+"'][name='aceptarPeticion']").addClass( "btn-blue" );
+                           $("[id='"+idObtenido+"'][name='aceptarPeticion']").text( "Aceptada" );
 
                                     $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
  

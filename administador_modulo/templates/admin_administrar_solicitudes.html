@@ -1,0 +1,140 @@
+{% extends "base-admin.tpl.html" %}
+
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+       {% include 'menusuperior/menulogeado_admin.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html' %}
+    {% endblock %}
+
+{% endif %}
+
+{% block sliderPagina %}Administrar{% endblock %}
+
+
+{% block contenido %}
+    <div class="container">
+
+
+ <style type="text/css">
+    .glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+</style>
+ 
+    <div class="row" style="margin-bottom: 25px;">
+        <div align=left class="col-md-4 col-sm-2 col-xs-3">
+          {% comment %}
+    
+            <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Administrar
+            </button>
+                    {% endcomment %}
+                        <h3 class="hl top-zero">Administrar Ofertas</h3>
+        </div>
+
+
+        <div class="col-md-2 col-sm-4 col-xs-3">
+            {% if msg != None %}
+            <div class="alert alert-success alert-dismissable" style="margin-bottom:-10px; padding:8px 25px 8px 15px">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{msg}}
+            </div>
+            {% endif %}
+
+
+        </div>
+        <div class="col-md-6  col-sm-6 col-xs-6">
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="input_busqueda"
+                       placeholder="Buscar solicitud por nombre de institucion"/>
+            </div>
+            <div class="col-sm-3" >
+                <button class="btn btn-blue" id="buscar_usuarios">Buscar <span id="cargando_icono" ></span></button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+    <div class=" col-sm-12">
+    <!-- Nav tabs -->
+<div id="msj_retro_estado"></div>
+    <div id="ofertas">
+
+         <div class="col-md-6" style="float: right;"><i style="float:center;"class="fa fa-spinner fa-pulse"></i>
+        </div>
+            </div>
+
+
+    </div>
+    <script type="text/javascript">
+    $("#buscar_usuarios").click(function(){
+       
+        input=$("[name='input_busqueda']").val()
+         $("#cargando_icono").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+       
+            $.ajax({
+            data:{
+                'input': input,
+                'csrfmiddlewaretoken' :'{{ csrf_token }}',
+                'page':1,
+               },
+            type:'GET',
+            url: '/admin_render_solicitudes/',
+            success: function(data){
+                 $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+       
+                $('#ofertas').html(data);
+            },
+            error: function () {
+               
+                 $('#ofertas').html("Se ha producido un error, contáctese con el administrador");
+            }
+        });
+
+    });
+
+
+    function ajaxPaginacion(page){
+        input=$("[name='input_busqueda']").val()
+        
+         $.ajax({
+            data:{
+                'input': input,
+                'csrfmiddlewaretoken' :'{{ csrf_token }}',
+                'page':page,
+               },  
+            type:'GET',
+            url: '/admin_render_solicitudes/',
+            success: function(data){
+                $('#ofertas').html(data);
+            },
+            error: function () {
+               
+                 $('#ofertas').html("Se ha producido un error, contáctese con el administrador");
+            }
+        });
+
+    }
+
+    $("#ofertas").ready(ajaxPaginacion(1));
+    </script>
+    </div>
+{% endblock %}
+
+
+

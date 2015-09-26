@@ -220,3 +220,36 @@ def aceptarPeticiones(request):
         args['esAlerta'] = 1
         #args['msj'] = 'Refresque la pagina, error al aceptar ' + peticion.nombre_institucion
         return HttpResponse("error")
+
+
+def administrar_solicitudes(request):
+	if request.method == "POST":
+		pass
+	else:
+		args={}
+		return render_to_response('admin_administrar_solicitudes.html', args,context_instance=RequestContext(request))
+
+
+def solicitudes_render(request):
+	try:
+		print "entre"
+		input_query=request.GET['input']
+		print input_query
+		usuarios_query=Peticion.objects.filter(nombre_institucion__icontains=input_query).order_by('codigo')
+		paginator = Paginator(usuarios_query, 5) # Show 25 contacts per page
+		page = request.GET.get('page')
+		try:
+			peticiones = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			peticiones = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			peticiones = paginator.page(paginator.num_pages)
+		args={}
+		args['peticiones']=peticiones
+		return render_to_response('solicitudes_render.html', args)
+	except Exception as e:
+		print e
+		args={}
+		return render_to_response('solicitudes_render.html', args)
