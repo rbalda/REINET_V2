@@ -117,11 +117,12 @@ def ver_incubaciones(request):
 
 
 """
-Autor: Jose Velez
+Autor: FaustoMora
 Nombre de funcion: crear_incubacion
 Parametros: request
 Salida: Muetra el formulario de crear una incubacion
 Descripcion: En esta pagina se puede crear incubaciones para las diferentes ofertas
+y permite que solo un admin pueda crear incubaciones
 """
 
 

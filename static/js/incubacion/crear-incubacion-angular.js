@@ -1,7 +1,14 @@
+/* 
+
+Autor: Fausto Mora 
+Nombre del Archivo: crear-incubacion-angular.js
+Descripción: script hecho en angular que controla todo lo relacionado
+con crear incubacion
+
+*/
+
 
 var appincubacion = angular.module('redInn');
-
-
 
 appincubacion.controller('crearIncubacionFormController',['$scope','$rootScope','Incubacion','$timeout','$window',function($scope,$rootScope,Incubacion,$timeout,$window){
 
@@ -32,12 +39,9 @@ appincubacion.controller('crearIncubacionFormController',['$scope','$rootScope',
             $scope.incubacion_id = id;
 
             $scope.incubacion = new Incubacion();
-
-            $scope.html_text = '<strong><h3 class="text-success"> <span class="glyphicon" ng-class="iconoClass" aria-hidden="true"></span> Su Incubaci&oacute;n se ha creado exitosamente</h3></strong>';
             
-            //$scope.hide=false;
             $scope.showModal = !$scope.showModal;
-            //$scope.exito_creacion=true; 
+
 
             $scope.redirectIncubacion = function (){
                 window.location.replace( "/AdminIncubacion/"+id);
@@ -74,8 +78,8 @@ appincubacion.directive('validarFecha',function($http){
         link: function(scope,elem,attr,ctrl){ //funcion que hace el link con la directiva -siempre es igual
 
             scope.$watch(attr.ngModel, function(value){
-                var fecha = new Date(value);
-                var fecha_actual = new Date();
+                var fecha = new Date(value); // crea fecha del input date
+                var fecha_actual = new Date(); // crea fecha actual
 
                 if ( value != undefined){ // que exista fecha en input
 
@@ -93,7 +97,7 @@ appincubacion.directive('validarFecha',function($http){
 
             });
 
-            // funcion para determinar si son fechas iguales
+            // funcion para determinar si son fechas exactamente iguales
             function compararFechas(fecha1,fecha2){
                 if(fecha1.getFullYear() == fecha2.getFullYear()){
                     if(fecha1.getMonth() == fecha2.getMonth()){
@@ -109,8 +113,11 @@ appincubacion.directive('validarFecha',function($http){
     }
 });
 
+
+// directiva para el modal al exito de la creacion de una incubacion
 appincubacion.directive('modal', function () {
     return {
+        // template del modal a renderizarse
       template: '<div class="modal fade">' + 
           '<div class="modal-dialog">' + 
             '<div class="modal-content">' + 
@@ -120,33 +127,38 @@ appincubacion.directive('modal', function () {
                 '<div ng-transclude></div>' +
                 '</div>' +
               '</div>' + 
-              '<div class="modal-body">' +
-                '<button type="button" ng-click="redirectIncubacion()" class="btn btn-default">Aceptar</button>'+
+              '<div class="modal-body" style="height:74px;">' +
+              '<div class="col-md-10 col-md-offset-2">'+
+                '<button type="button" ng-click="redirectIncubacion()" class="btn btn-red pull-right" style="margin:4px; width:60px;">Ver</button>'+
+                '<a class="btn btn-dark pull-right" style="margin:4px;" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>'+
+              '</div>'+
               '</div>'+
             '</div>' + 
           '</div>' + 
         '</div>',
+        //propiedades para el modal
       restrict: 'E',
       transclude: true,
       replace:true,
       scope:true,
-      link: function postLink(scope, element, attrs) {
-        scope.title = attrs.title;
+      link: function postLink(scope, element, attrs) { //funcion que hace el link con la directiva
 
-        scope.$watch(attrs.visible, function(value){
-          if(value == true)
+        scope.$watch(attrs.visible, function(value){ //funcion watch para vigilar el scope de la directiva
+            // si value es verdadero se muestra el modal
+          if(value == true){
             $(element).modal('show');
-          else
+          }else{ //caso contrario se oculta
             $(element).modal('hide');
+          }
         });
 
-        $(element).on('shown.bs.modal', function(){
+        $(element).on('shown.bs.modal', function(){ //funcion para presentar el modal
           scope.$apply(function(){
             scope.$parent[attrs.visible] = true;
           });
         });
 
-        $(element).on('hidden.bs.modal', function(){
+        $(element).on('hidden.bs.modal', function(){ //funcion para ocultar el modal
           scope.$apply(function(){
             scope.$parent[attrs.visible] = false;
           });

@@ -1,5 +1,9 @@
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: admin_crear_incubacion_form1.html
+        Descripción: formulario html de crear incubacion
+{% endcomment %}
 <div class="col-md-12">
-    <!--Fecha de inicio de la incubacion-->
     <div class="form-group">
         <label for="Nombres" class="col-md-2">Fecha de inicio</label>
         <div class="col-md-6">
@@ -11,7 +15,6 @@
         </div>
     </div> 
 
-    <!--Nombre-->
     <div class="form-group">
         <label for="Nombres" class="col-md-2">Nombre</label>
         <div class="col-md-6">
@@ -21,7 +24,7 @@
             <span ng-show="admin_crear_incubacion_form1.nombre_incubacion.$error.required" ng-if="!admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
         </div>
     </div>  
-     <!--Descripicion-->
+
     <div class="form-group">
         <label for="descripcion-incubacion" class="col-md-2">Descripci&oacute;n</label>
         <div class="col-md-6">
@@ -29,7 +32,7 @@
             <span ng-show="admin_crear_incubacion_form1.descripcion_incubacion.$error.required" ng-if="!admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
         </div>
     </div>
-    <!--Perfil de la incubacion-->
+
     <div class="form-group">
         <label for="perfil-incubacion" class="col-md-2">Perfil de la Incubacion</label>
         <div class="col-md-6">
@@ -38,7 +41,6 @@
         </div>
     </div>
 
-    <!--Condiciones-->
     <div class="form-group">
         <label for="condiciones-incubacion" class="col-md-2">Condiciones de la iniciativa de incubaci&oacute;n</label>
         <div class="col-md-6">
@@ -47,7 +49,6 @@
         </div>
     </div>
 
-    <!--Tipo-->
     <div class="form-group">
         <label for="Tipo" class="col-md-2">Tipos de Incubacions</label>
         <div class="col-xs-3 col-md-4">

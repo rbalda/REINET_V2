@@ -5,6 +5,12 @@
 <style>
 textarea { resize: none; }
 </style>
+{% comment %}
+        Autor: Fausto Mora 
+        Nombre del Archivo: admin_crear_incubacion.html
+        Descripción: html principal de crear incubacion
+{% endcomment %}
+
 <div class="container" ng-controller="crearIncubacionFormController">
 <form  class="form-horizontal"  name="admin_crear_incubacion_form1" id="admin_crear_incubacion_form1" novalidate> 
 
@@ -32,8 +38,6 @@ textarea { resize: none; }
 
 
             <div class=" col-md-12">
-
-                  <!-- Tab panes -->
                   
                   <div class="tab-content">
 
@@ -43,6 +47,11 @@ textarea { resize: none; }
 
 
                    </div>
+
+{% comment %}
+        Autor: Fausto Mora 
+        Descripción: modal exito que usa en la directiva hecha en archivo crear-incubacion-angular.js
+{% endcomment %}
 
 <modal visible="showModal">
   <div class="form-group col-md-offset-2">
