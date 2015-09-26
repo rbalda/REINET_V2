@@ -33,7 +33,7 @@ urlpatterns = patterns('',
 
 
      url(r'^ConsultorIncubada/(?P<id_oferta>\w{0,250})[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
-     url(r'^Incubada/(?P<id_oferta>\w{0,250})[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
+     url(r'^Incubada/(?P<id_oferta>\w{0,250})/(?P<mostrar>\w{0,250})[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
      url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view(),name='AutocompletarConsultor'),
      url( r'^InivitarConsultor[/]?$', 'incubacion.views.invitar_consultor' , name = 'invitar_consultor' ),

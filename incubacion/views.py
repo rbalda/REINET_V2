@@ -1380,10 +1380,11 @@ Descripcion: Mostar template de la incubada para el duenio de la incubada
 """
 
 @login_required
-def usuario_ver_incubada(request,id_oferta):
+def usuario_ver_incubada(request,id_oferta,mostrar):
     session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=request.session['id_usuario'])
+    usuario = Perfil.objects.get(id=request.session['id_usuario'])    
     args = {}
+    args['mostrar_actualizado'] = mostrar
     args['es_admin']=request.session['es_admin']
 
     if usuario is not None:
@@ -1798,9 +1799,7 @@ def editar_incubada(request, id_incubada):
         
         incubada_editada.save()
         args.update(csrf(request))
-        args['id_oferta'] = incubada_editada.fk_oferta.id_oferta
-        args['mostrar_actualizado'] = 1        
-        return redirect('/Incubada/'+str(incubada_editada.fk_oferta.id_oferta),args)
+        return redirect('/Incubada/'+str(incubada_editada.fk_oferta.id_oferta)+'/'+str(1))
 
     else:
         args.update(csrf(request))
