@@ -753,7 +753,28 @@ def usuario_ver_incubacion(request, id_incubacion):
             #obtengo la incubacion por medio del id 
             incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
             if incubacion :
-                #listo la ultima convocatoria de la incubacion 
+                #Lo siguiente es para poder mostrar las incubadas de la incubacion               
+                encontro=False
+                incubadas = []
+                for incubada in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
+                    for incubada1 in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
+                        if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
+                            if encontro == False:
+                                encontro=True
+                                propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=incubada.fk_oferta.id_oferta).first()
+                                fechapublicacion=incubada.fecha_publicacion
+                                foto=ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada).first()
+                                print 'imagesitooooo'
+                                print foto.imagen
+                                print propietario
+                                print propietario.fk_participante
+                                print propietario.fk_participante.first_name
+
+                                incubadas.append((incubada, propietario, fechapublicacion,foto))
+                encontro=False
+                args['incubadas'] = incubadas
+
+                #Lo siguiente es para mostrar la convocatoriaa actual
                 convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
                 if convocatorias_incubacion is not None:
                     hoy = datetime.datetime.now(timezone.utc)
@@ -765,7 +786,12 @@ def usuario_ver_incubacion(request, id_incubacion):
                         args['convocatorias'] = convocatorias_incubacion
                 else:
                     args['convocatorias'] = "No hay Convocatoria"
+
+
+                
+                #Necesitamos tambien mostrar la incubacion 
                 args['incubacion'] = incubacion
+                args.update(csrf(request))
                 return render_to_response('usuario_ver_incubacion.html', args)
             else:
                 args['error'] = "Esta incubacion no se encuentra en la red"

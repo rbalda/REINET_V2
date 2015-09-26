@@ -22,8 +22,8 @@
 
     <div class="container">
     	<div class="col-sm-12 col-xs-12" style="padding:0">
-    		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
-    		<div class="col-sm-6">
+    		<div class="col-sm-8"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
+    		<div class="col-sm-4">
     			
   				<a class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#IncuEstado"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
 
@@ -32,7 +32,7 @@
           {% else %}
             <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria" disabled="true"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
           {%endif%}
-                  {% if mensajeAlerta %}
+                {% if mensajeAlerta %}
                     <br><br>
                     <div class="alert alert-info alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -48,12 +48,22 @@
                 {% endif %}
             </div>
   		</div>
-  		<div class="col-sm-12" style="border-bottom:1px solid #eee;">
-  				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
-  				</ul>
-    	</div>
-
+      <div class="col-sm-12" style="border-bottom:1px solid #eee;">
+          <ul class="text-muted list-inline">
+          <li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date  }}</li>
+          <li><i class="fa fa-cog"></i> Estado: 
+            {% if incubacion.estado_incubacion == 0 %}
+              ACTIVA
+            {% endif %}
+            {% if incubacion.estado_incubacion == 1 %}
+              TERMINADA
+            {% endif %}
+            {% if incubacion.estado_incubacion == 2 %}
+              DESACTIVADA
+            {% endif %}  
+          </li>
+          </ul>
+      </div>
 
     	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
     		<div align="right">
@@ -212,7 +222,9 @@
         </div>
     </div>
 
-      	<div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
+
+
+    <div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
          aria-labelledby="sendemailtitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -226,7 +238,6 @@
                         <!--{% csrf_token %}-->
                         <div class="form-group">
                             <label for="Confirmacion">La oferta ha sido rechazada con &eacute;xito.</label>
-                            
                         </div>
                         <div align="right">
                             <a href="" class="button">
@@ -292,6 +303,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 <div class="modal fade" id="IncuEstado" role="dialog">
     <div class="modal-dialog">
     
@@ -300,35 +315,44 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Cambiar Estado</h4>
-          <p>Recuerde que los cambios de estado no son reversibles</p>
         </div>
         <div class="modal-body">
-                           
-              <div class="form-group">
-                <label style="float:left" for="select_tipo_incubacion">Estado:</label>
-                <div>
-                  <select {% if incubacion.estado_incubacion != 0 %}
-                    disabled="disabled"
-                    {% endif %}
-                    id="selectEstado" style="margin-left:10%" name="select_tipo_incubacion" class="">
-                    <option 
-                    {% if incubacion.estado_incubacion == 0 %}selected
-                    {% endif %} 
-                    value="0">Activa</option>
-                    <option
-                    {% if incubacion.estado_incubacion == 1 %}selected
-                    {% endif%}
-                    value="1">Terminada</option>
-                    <option
-                    {% if incubacion.estado_incubacion == 2 %}selected 
-                    {% endif%}
-                    value="2">Desactivada</option>
-                  </select>                  
-                </div>
+          <div class="container-fluid">
+              {% if incubacion.estado_incubacion != 0 %}
+              <div class="alert alert-info alert-dismissable col-md-12">
+                <strong>Importante!</strong> Su incubación ya no puede cambiar de estado. 
               </div>
-              
-              
+              {%else%}
+              <div class="alert alert-danger alert-dismissable col-md-12">
+                <strong>Recuerde!</strong> Los cambios de estado de su incubaci&oacute;n no son reversibles
+              </div>
+              {%endif%}
           
+            <div class="row">
+                <div class="col-xs-1">
+                  <label style="float:left" for="select_tipo_incubacion">Estado:</label>
+                </div> 
+                <div class="col-xs-7">
+                    <select class="form-control" {% if incubacion.estado_incubacion != 0 %}
+                      disabled="disabled"
+                      {% endif %}
+                      id="selectEstado" style="margin-left:10%" name="select_tipo_incubacion">
+                      <option 
+                      {% if incubacion.estado_incubacion == 0 %}selected
+                      {% endif %} 
+                      value="0">Activa</option>
+                      <option
+                      {% if incubacion.estado_incubacion == 1 %}selected
+                      {% endif%}
+                      value="1">Terminada</option>
+                      <option
+                      {% if incubacion.estado_incubacion == 2 %}selected 
+                      {% endif%}
+                      value="2">Desactivada</option>
+                    </select>                  
+                  </div> 
+              </div>
+          </div>
         </div>
         <div class="modal-footer">
            <span id="msgEstado"><p class="pull-left" id="msgEstadoDetalle"></p></span>

@@ -23,8 +23,8 @@
     
     <div class="container">
     	<div class="col-sm-12 col-xs-12" style="padding:0">
-    		<div class="col-sm-6"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
-    		<div class="col-sm-6">
+    		<div class="col-sm-8"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
+    		<div class="col-sm-4">
     			
   				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
         </div>
@@ -50,7 +50,7 @@
                         Se muestra la peticion AJAX de mostrar el consultor a invitar
                         -->
                         </div> 
-<script>
+                        <script>
                         $(document).ready(function () {
                           $(function () {
                             $('#participar_ofertaas').ready(participarOfertas);
@@ -99,8 +99,8 @@
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
   				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> {{ fecha_creacion }}</li>
-					<li>ESTADO: </i>
+					<li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
+					<li><i class="fa fa-cog"></i> Estado: 
             {% if incubacion.estado_incubacion == 0 %}
               ACTIVA
             {% endif %}
@@ -178,28 +178,43 @@
 	            	    
 	           	</ul>
 				<div class="tab-content">
-				  <div id="incubadas" class="tab-pane fade in active">
+  				  <div id="incubadas" class="tab-pane fade in active">
+
+                     {% if incubadas %}
+
+                      <div style="font-size:12px;height:250px;overflow-y:auto;" >
+                          <div class="pm-list">
+                              <ul>
+                                    {% for incubada in incubadas %}
+                                      <li>
+                                          <p class="text-muted" style="width: 100%;">
+                                              <img src="/media/{{incubada.3.imagen}}" alt="...">
+                                              <a style="font-size:20px;color:black;cursor:not-allowed">{{ incubada.0.nombre }}</a><br>
+                                              <i class="fa fa-user"></i>{{ incubada.1.fk_participante.first_name }} {{ incubada.1.fk_participante.last_name }}
+                                              <br><i class="fa fa-calendar"></i> {{incubada.2.date}}
+                                          </p>
+                                          <div class="clearfix"></div>
+                                      </li>
+                                  {%endfor%}
+                              </ul>
+                          </div>
+                      </div>
+
+                    {% else %}
+                        <div class="alert alert-info alert-dismissable">
+                            Esta incubación aún no tiene incubadas
+                        </div>
+                    {% endif %}   
+
+
+
+
+
+
+
+
+            </div>
           </div>
-          <script>
-            $(document).ready(function() {
-              $(function () {
-                $('#incubadas').ready(mostrarIncubadasIncubacion);
-                function mostrarIncubadasIncubacion() {
-                  $.ajax({
-                    data: {
-                      'incubacion':{{incubacion.id_incubacion}}
-                    },
-                    type: 'get',
-                    url: '/UsuarioIncubadasIncubacion/',
-                    success: function (data) {
-                      $('#incubadas').html(data)
-                    }
-                  });
-                }
-              });
-            });
-          </script>
-        </div>
       </div>
     </div>
   </div>

@@ -32,12 +32,12 @@ textarea { resize: none; }
 </style>
 <div class="container">
 {% if errmsg == 1 %}
-  <div class="alert alert-danger alert-dismissable col-md-5 text-center col-md-offset-2">
+  <div class="alert alert-danger alert-dismissable col-md-5 col-md-offset-3text-center">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Los cambios no se guardaron porque existen errores en el formulario.
   </div>
 {% elif errmsg == 0 %}
-  <div class="alert alert-success alert-dismissable col-md-5 text-center col-md-offset-2">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Los cambios en la incubaci&oacute;n han sido guardados con &eacute;xito
+  <div class="alert alert-success alert-dismissable col-md-8 col-md-offset-2 text-center">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Los cambios en la incubaci&oacute;n han sido guardados con &eacute;xito. Para ver su incubación haga clic <a href="/AdminIncubacion/{{incubacion.id_incubacion}}"><strong>aquí</strong></a>
   </div>
 {% endif %}
 
