@@ -959,7 +959,7 @@ def admin_solicitudes_incubacion(request):
                 encontro=False
                 solicitudes = []
                 solicitudesIncubacion=SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0)
-                print 'iincubadasIncubacion'
+                print solicitudesIncubacion
                 
                 #Lo siguiente es para encontrar las incubadas de una incubacion, por el id de oferta que debe ser unico
                 if solicitudesIncubacion.first():
