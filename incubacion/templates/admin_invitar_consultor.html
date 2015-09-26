@@ -1,0 +1,33 @@
+{% if invitarconsultor%}
+
+	<div  id="divContenedor" align="left" class="media" style="margin-bottom: 1px solid gray">
+			<a class="pull-left" href="#">
+				<img class="media-object" src="{{invitarconsultor.foto.url}}" alt="Imagen de usuario"style=" height: 65px; width: 70px; ">
+			</a>
+
+			<div class="media-body soyunInvitado" id="{{invitarconsultor.id_perfil}}">
+				<p style=" margin-bottom: 0px;">{{invitarconsultor.first_name}} {{invitarconsultor.last_name}}</p>
+				<p style=" margin-bottom: 0px;">{{invitarconsultor.username}}</p>
+
+				<input id="botonCancelar{{invitarconsultor.username}}" type="submit" class="btn btn-success btn-xs fa" value="Cancelar" style=" height: 25px; " />
+			</div>
+	</div>
+
+{% else %}
+	<div class="note">
+	{{mismousuario}}
+	</div>
+{% endif %}
+
+<script type="text/javascript">
+	$(function () {
+		$('.note').remove();
+		$('#botonCancelar{{invitarconsultor.username}}').click(function(event){
+			$(this).parent().parent().remove();
+			$("script").remove();
+		});
+
+	});
+
+
+</script>

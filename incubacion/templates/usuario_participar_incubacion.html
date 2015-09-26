@@ -1,0 +1,22 @@
+<label>Lista de ofertas</label>
+{% if pariciparIncubacion%}
+
+<select name="alcance" style="resize:none" class="form-control selectOferta" id="selectOFertasParticipar" onchange="(this.value)">
+  {% for oferta in pariciparIncubacion %}
+  <div  id="divContenedor" align="left" class="media" style="margin-bottom: 1px solid gray">
+    <!-- Lista de mis ofertas -->
+      <div>
+        <option value="" disabled selected style="display:none;">Seleccione una oferta</option>
+        <option value="{{oferta.id_oferta}}" id='{{oferta.id_oferta}}'>{{oferta.nombre}}</option>
+      </div>
+  </div>
+  {% endfor %}
+</select>
+
+  <br>
+    
+{% else %}
+  <div class="note">
+  Your search yielded no results
+  </div>
+{% endif %}

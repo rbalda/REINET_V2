@@ -1,0 +1,26 @@
+{% if milestone != False %}
+
+    <span style="font-size:13px;color:gray">Fecha m&aacute;xima para ser completado por el usuario:</span>
+    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{milestone.id_milestone}}">{{milestone.fecha_maxima.date}}</a></h4>
+
+    
+    <span style="font-size:13px;color:gray">Requerimientos:</span>
+    <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
+
+    <hr style="    border-top: 1px solid #D6CECE;">
+
+    <span style="font-size:13px;color:gray;">Fecha máxima para ser retroalimentado por el consultor:</span>
+    <h4 style="margin-top: 0px;font-size:16px">{{milestone.fecha_maxima_Retroalimentacion.date}}</h4>
+
+    {% if completar == True %}
+    	<div class="info-board info-board-orange"> Milestone en FASE DE COMPLETAR</div>
+    {% elif retroalimentar == True %}
+    	<div class="info-board info-board-orange"> Milestone en FASE DE RETROALIMENTACIÓN</div>
+    {%else%}
+
+    {% endif %}
+
+    
+{% else %}
+    <div class="info-board info-board-orange"> No hay ningún milestone en curso</div>
+{% endif %}

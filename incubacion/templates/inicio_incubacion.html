@@ -1,0 +1,353 @@
+{% extends "base-incubaciones.tpl.html" %}
+
+{% comment %}
+        Autor: Kevin Zambrano Cortez 
+        Nombre del Archivo: inicio_incubacion.html
+        Descripción: Template para los tabs de "Mis Incubadas", "Incubaciones en la Red" y "Consultor de Incubadas"
+{% endcomment %}
+
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
+{% endif %}
+
+{% block sliderPagina %}INCUBACIONES{% endblock %}
+
+{% block contenido %}
+
+
+    {% block registrarinstitucion %}
+        {% include 'menusuperior/registrarinstitucion.tpl.html' %}
+    {% endblock %}
+    <div class="container">
+        <div class="row" style="margin-bottom: 25px;">
+            <div class="col-md-4 col-sm-4 col-xs-3">
+                {% if msg != None %}
+                <div class="alert alert-success alert-dismissable" style="margin-bottom:-10px; padding:8px 25px 8px 15px">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{msg}}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class=" col-sm-12">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#misIncubadas" aria-controls="home" role="tab" data-toggle="tab">Mis Incubadas</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#incubacionesRed" aria-controls="borradorOferta" role="tab" data-toggle="tab">Incubaciones en la red</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#incubacionesConsultor" aria-controls="ofertasdelaREd" role="tab" data-toggle="tab">Consultor de Incubadas</a>
+                    </li>
+                </ul>
+
+
+                <div class="tab-content col-sm-8" id="asd">
+                    <!-- COMIENZA TAB DE MIS INCUBADAS-->
+                    
+                    <input type='hidden' id='current_page_misIncubadas' />  
+                    <input type='hidden' id='current_page_incubacionesRed' />
+                    <input type='hidden' id='current_page_incubacionesConsultor' />
+                    <input type='hidden' id='show_per_page' />
+
+                    <div role="tabpanel" class="tab-pane active" id="misIncubadas" data-page="misIncubadas">
+                    {% if incubadas %}
+                        {% for incubada in incubadas %}
+                        <div class="comment" style="border-bottom: none!important;">        
+                            <div class="media">
+                                <div class="media-body">
+                                  <h3><a href="/Incubada/{{incubada.0.fk_oferta.id_oferta}}">{{ incubada.0.nombre }}</a></h3>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-calendar"></i> Fecha De Creación: {{ incubada.0.fecha_creacion.date }}</li>
+                                    <li><i class="fa fa-user"></i> Dueño: Usted </li>
+                                  </ul>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-cogs"></i> Dominio: {{ incubada.0.dominio}}</li>
+                                    <li><i class="fa fa-cog"></i> Subdominio: {{ incubada.0.subdominio }}</li>
+                                  </ul>
+                                  <ul class="text-muted list-inline">
+                                    <li><i class="fa fa-bars"></i> Numero de milestones: {{ incubada.1 }}</li>
+                                    <li><i class="fa fa-users"></i> Numero de consultores: {{ incubada.2}}</li>
+                                  </ul>                              
+                                </div>            
+                            </div>
+                        </div>          
+                        {% endfor %}
+                         <div id='page_navigation_misIncubadas' class="about-btn"></div>
+                        {% else %}
+                            <div class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                Usted no tiene aun una incubada; para hacerlo, deberá participar en algunas de las incubaciones de la red con alguna de sus ofertas publicadas.
+                            </div>
+                        {% endif %}            
+                    </div>
+                    <!-- TERMINA TAB DE MIS INCUBADAS-->
+
+                    <!-- COMIENZA TAB DE INCUBACIONES ENLA RED-->
+                    <div role="tabpanel" class="tab-pane" id="incubacionesRed" data-page="incubacionesRed">
+                    {% if incubaciones %}
+                        {% for incubacion in incubaciones %}
+                            <div class="comment" style="border-bottom: none!important;">        
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h3><a href="/VerIncubacion/{{ incubacion.id_incubacion }}">{{ incubacion.nombre }}</a></h3>
+
+                                        <ul class="text-muted list-inline">
+                                            <li><i style="color:#515151" class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
+                                            <li><i style="color:#515151" class="fa fa-user"></i> Administrador: {{ incubacion.fk_perfil.username }}</li>
+                                            <li><i style="color:#515151" class="fa fa-cogs"></i> Tipo de Oferta:
+                                            {%if incubacion.tipos_oferta == 0 %}
+                                                Emprendimiento
+                                            {%endif%}
+                                            {%if incubacion.tipos_oferta == 1%}
+                                                Tecnología
+                                            {%else%}
+                                                Prototipo
+                                            {%endif%}
+                                            </li>
+                                        </ul>
+                                        <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-bars"></i> Condiciones: {{ incubacion.condiciones|truncatewords:30 }} </li>
+                                            
+                                        </ul>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div id='page_navigation_incubacionesRed' class="about-btn"></div>
+                        {% else %}
+                         <div class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                No hay incubaciones en la red disponibles.
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- TERMINA TAB DE INCUBACIONES EN LA RED-->
+
+                    <!-- COMIENZA TAB CONSULTOR DE INCUBADAS-->
+                    <div role="tabpanel" class="tab-pane" id="incubacionesConsultor">
+                    
+                    {% if consultores %}
+                            {% for incubada in consultores %}
+                                <div class="comment" style="border-bottom: none!important;">        
+                                    <div class="media">
+                                        <div class="media-body">
+                                          <h3><a href="/ConsultorIncubada/{{incubada.0.fk_oferta.id_oferta}}">{{ incubada.0.nombre }}</a></h3>
+                                          <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-calendar"></i> Fecha De Creación: {{ incubada.0.fecha_creacion.date }}</li>
+                                            
+                                          </ul>
+                                          <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-cogs"></i> Dominio: {{ incubada.0.dominio}}</li>
+                                            <li><i class="fa fa-cog"></i> Subdominio: {{ incubada.0.subdominio }}</li>
+                                          </ul>
+                                          <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-bars"></i> Numero de milestones: {{ incubada.1 }}</li>
+                                            <li><i class="fa fa-users"></i> Numero de consultores: {{ incubada.2}}</li>
+                                          </ul>                              
+                                        </div>            
+                                    </div>
+                                </div>          
+                            {% endfor %}
+
+                        <div id='page_navigation_incubacionesConsultor' data-page="incubacionesConsultor" class="about-btn"></div>
+                    {% else %}
+                        <div class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                Usted no ha sido asignado como consultor de una incubada.
+                        </div>
+                    {% endif %}
+                    </div>
+                    <!-- TERMINA TAB DE CONSULTOR DE INCUBADAS-->
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    </div>
+
+
+
+    <!-- SCRIPT PARA LA PAGINACION -->
+
+    <!-- 
+    AUTOR:                  Kevin Zambrano Cortez.
+    NOMBRE DE LA FUNCIÓN:   Paginación de los tabas de 'Mis Incubadas', 'Incubaciones de la Red' Y 'Consultor de Incubadas'.
+    SALIDA:                 Muestra las respectivas paginaciones correspondiente a cada tab.
+    DESCRIPCIÓN:            Calcula la cantidad de elementos que tiene cada div del tab que esté activo y los muestra en pantalla
+                            según el parámetro a mostrar en pantalla.
+    -->
+
+    <script>
+    $(document).ready(function(){  
+        //how much items per page to show  
+        var show_per_page = show_per_page = 5;  
+
+
+        //// MIS INCUBADAS
+        //getting the amount of elements inside content div  
+        var number_of_items_mias = $('#misIncubadas .comment').children().size();  
+        //calculate the number of pages we are going to have  
+        var number_of_pages_mias = Math.ceil(number_of_items_mias/show_per_page);  
+      
+        //set the value of our hidden input fields  
+        $('#current_page_misIncubadas').val(0);  
+        $('#show_per_page').val(show_per_page);  
+      
+        //now when we got all we need for the navigation let's make it '  
+      
+        var navigation_html = '<a class="btn btn-default" href="javascript:previous();">Anterior </a>';  
+        var current_link = 0;  
+        while(number_of_pages_mias > current_link){  
+            navigation_html += '<a class="btn btn-default page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +' </a>';  
+            current_link++;  
+        }  
+        navigation_html += '<a class="btn btn-default" href="javascript:next();">Siguiente </a>';
+
+
+        $('#page_navigation_misIncubadas').html(navigation_html);  
+      
+        //add active_page class to the first page link  
+        $('#page_navigation_misIncubadas .page_link:first').addClass('active_page');
+      
+        //hide all the elements inside content div 
+        $('#misIncubadas .comment').children().css('display', 'none'); 
+      
+        //and show the first n (show_per_page) elements  
+        $('#misIncubadas .comment').children().slice(0, show_per_page).css('display', 'block'); 
+         
+
+
+
+         //INCUBACIONES RED
+        var number_of_items_mias = $('#incubacionesRed .comment').children().size();  
+        //calculate the number of pages we are going to have  
+        var number_of_pages_mias = Math.ceil(number_of_items_mias/show_per_page);  
+      
+        //set the value of our hidden input fields  
+        $('#current_page_incubacionesRed').val(0);  
+
+        //now when we got all we need for the navigation let's make it '  
+      
+        var navigation_html = '<a class="btn btn-default" href="javascript:previous();">Anterior </a>';  
+        var current_link = 0;  
+        while(number_of_pages_mias > current_link){  
+            navigation_html += '<a class="btn btn-default page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +' </a>';  
+            current_link++;  
+        }  
+        navigation_html += '<a class="btn btn-default" href="javascript:next();">Siguiente </a>';
+
+
+        $('#page_navigation_incubacionesRed').html(navigation_html);  
+      
+        //add active_page class to the first page link  
+        $('#page_navigation_incubacionesRed .page_link:first').addClass('active_page');
+      
+        //hide all the elements inside content div 
+        $('#incubacionesRed .comment').children().css('display', 'none'); 
+      
+        //and show the first n (show_per_page) elements  
+        $('#incubacionesRed .comment').children().slice(0, show_per_page).css('display', 'block'); 
+
+
+
+
+        //CONSULTOR DE INCUBADAS
+
+        var number_of_items_mias = $('#incubacionesConsultor .comment').children().size();  
+        //calculate the number of pages we are going to have  
+        var number_of_pages_mias = Math.ceil(number_of_items_mias/show_per_page);  
+      
+        //set the value of our hidden input fields  
+        $('#current_page_incubacionesConsultor').val(0);  
+
+        //now when we got all we need for the navigation let's make it '  
+      
+        var navigation_html = '<a class="btn btn-default" href="javascript:previous();">Anterior </a>';  
+        var current_link = 0;  
+        while(number_of_pages_mias > current_link){  
+            navigation_html += '<a class="btn btn-default page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +' </a>';  
+            current_link++;  
+        }  
+        navigation_html += '<a class="btn btn-default" href="javascript:next();">Siguiente </a>';
+
+
+        $('#page_navigation_incubacionesConsultor').html(navigation_html);  
+      
+        //add active_page class to the first page link  
+        $('#page_navigation_incubacionesConsultor .page_link:first').addClass('active_page');
+      
+        //hide all the elements inside content div 
+        $('#incubacionesConsultor .comment').children().css('display', 'none'); 
+      
+        //and show the first n (show_per_page) elements  
+        $('#incubacionesConsultor .comment').children().slice(0, show_per_page).css('display', 'block'); 
+        //////
+    });  
+      
+    function previous(){  
+        var name = $('.tab-pane.active').data('page');
+        new_page = parseInt($('#current_page_'+name).val())-1 ;  
+        //if there is an item before the current active link run the function  
+        if($('#'+name+' .active_page').prev('.page_link').length==true){  
+            go_to_page(new_page, name);  
+        }  
+      
+    }  
+      
+    function next(){  
+        var name = $('.tab-pane.active').data('page');
+        new_page = parseInt($('#current_page_'+name).val()) + 1;  
+        //if there is an item after the current active link run the function  
+        if($('#'+name+' .active_page').next('.page_link').length==true){  
+
+            go_to_page(new_page,name);  
+        }  
+      
+    }  
+
+    function go_to_page(page_num, name){  
+        //get the number of items shown per page  
+        if(name == null)
+            name = $('.tab-pane.active').data('page');
+        console.log(name);
+        console.log(page_num);
+        var show_per_page = parseInt($('#show_per_page').val());  
+        console.log(show_per_page);
+      
+        //get the element number where to start the slice from  
+        start_from = page_num * show_per_page;  
+      
+        //get the element number where to end the slice  
+        end_on = start_from + show_per_page;  
+      
+        //hide all children elements of content div, get specific items and show them  
+        console.log(start_from);
+        console.log(end_on);
+        console.log($('#'+name+' .comment'));
+        $('#'+name+' .comment').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');  
+      
+        /*get the page link that has longdesc attribute of the current page and add active_page class to it 
+        and remove that class from previously active page link*/  
+        $('.page_link[longdesc=' + page_num +']').addClass('active_page').siblings('.active_page').removeClass('active_page');  
+      
+        //update the current page input field  
+        $('#current_page_'+name).val(page_num);  
+    } 
+    </script>
+{% endblock %}
+

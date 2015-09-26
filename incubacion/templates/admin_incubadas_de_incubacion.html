@@ -1,0 +1,29 @@
+    {% if incubadas %}
+        <div style="font-size:12px;height:250px;overflow-y:auto;" >
+            <div class="pm-list">
+                <ul>
+                    {% for incubada in incubadas %}
+                        <li>
+                            <p class="text-muted" style="width: 100%;">
+                                {%if incubada.3.imagen %}
+                                    <img src="/media/{{incubada.3.imagen}}" alt="...">
+                                {%else %}
+                                    <img src="/media/noPicture.png" alt="...">
+                                {%endif%}
+                                 <a href="/AdminIncubada/{{incubada.0.fk_oferta.id_oferta}}" style="font-size:16px;color:black">{{incubada.0.nombre}}</a><br>
+                                <i class="fa fa-user"></i>{{ incubada.1.fk_participante.first_name }} {{ incubada.1.fk_participante.last_name }}
+                                <br><i class="fa fa-calendar"></i> {{incubada.2.date}}
+                            </p>
+                            <div class="clearfix"></div>
+                        </li>
+                    {%endfor%}
+                </ul>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="alert alert-info alert-dismissable">
+            Esta incubación aún no tiene incubadas
+        </div>
+    {% endif %}   
+           

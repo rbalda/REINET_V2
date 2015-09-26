@@ -21,12 +21,10 @@
     {% endblock %}
 
 	
-
-
     <div class="container">
 
     	<div class="alert alert-info">
-	        <strong>Recuerde!</strong> Usted es CONSULTOR de esta incubada, podrá dar retroalimentación cuando los milestones definidos por el administrador terminen.
+	        <strong>Recuerde!</strong> Usted es ADMINISTRADOR de esta incubada, perteneciente a su incubaci&oacute;n<a style="color:red"href="/AdminIncubacion/{{incubada.fk_incubacion.id_incubacion}}"> {{incubada.fk_incubacion.nombre}}</a>
 	     </div>
 
 	    <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
@@ -35,14 +33,153 @@
 			        <div class="col-md-5">
 			            <h4>{{incubada.nombre}}</h4>			            
 			        </div>
-			        
+			        <div class="col-md-7" align=right>
+			        	<div class="col-md-12">
+			            <a href="#" data-target="#modalInvitarConsultor" data-toggle="modal"  class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Invitar consultores</a>
+			            {%if milestoneVigente == False%}
+			            	<a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
+			            	</div>
+			            {%else%}
+			            	<a id="milestone" href="#" data-target="#definirMilestone" data-toggle="modal" class="btn btn-red" disabled="disabled"><i class="fa fa-sliders"></i>&nbsp;&nbsp;Definir Milestone</a>
+			            	</div>
+			            	<div class="col-md-offset-6">
+			            	<span style="font-size:11px;margin-right: 15px;">*Existe un milestone vigente</span>
+			            	</div>
+			            {%endif%}
+			        </div> 
 			        <div class="col-md-12" align=left>
 				        <ul class="text-muted list-inline">
 			                <li><i class="fa fa-user"></i> <a href="/usuario/{{propietario.fk_participante.username}}">{{propietario.fk_participante.first_name}} {{propietario.fk_participante.last_name}}</a></li>
 			                <li><i class="fa fa-calendar"></i> {{incubada.fecha_publicacion.date}}</li>
 				        </ul>
 			        </div>
-			    </div>
+			        <!-- comienza MODAL Invitar Consultor -->
+				    <div id="modalInvitarConsultor" class="modal fade" role="dialog">
+				    	<div class="modal-dialog" style="width: 40% !important;">
+				    		<div class="modal-content" style=" width: 477px;">
+				    			<div class="modal-header">
+				    				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				    				<h4 class="modal-title">INVITAR USUARIO A SER CONSULTOR</h4>
+				    			</div>
+				    			<div class="modal-body media" style="font-size:14px;padding-top: 0px;height: 290px;">
+				    				<div id="mostrarMensaje" style="display:none;">
+					    				<div  style="text-align:justify; font-size: 16px;margin-top: 30px;">
+					    					Se registrar&aacute; con éxito los usuarios seleccionados como consultores de la incubada. 
+					    				</div>
+				    					<div class="form-group">
+									   		<div align="right" style="margin-top: 10px;">
+									   			<a id="aceptarConsultor" data-dismiss="modal" class="btn btn-red fa">&nbsp;&nbsp;ACEPTAR</a>
+									   		</div>
+									   	</div>
+									</div>
+
+				    				<div id="formulario" name="formulario" class="form-horizontal col-md-12" style="width: 430px;">
+				    					{% csrf_token %}
+						                <div class="form-group">
+						                    <input type="text" class="form-control col-md-9" id="destinatario_txt" name="destinatario_txt" placeholder="Invitar a un usuario a ser consultor" maxlength="50" required style="height: 34px;border-left-width: 1px;margin-left: 30px;width: 301px;">
+
+						                    <div align="right">
+						                    	<input id="invitarSubmit" type="submit" class="btn btn-dark fa" value="Invitar" style=" width: 87px; height: 34px; border-left-width: 0px;" />
+						                    </div>
+						                </div>
+
+						                <div class="alert alert-danger" role="alert" hidden="True" id="divAlertaUsuario">
+						                  <strong class="mensaje_error"></strong>
+						                </div>
+
+									    <!--INVITAR A USUARIOS A SER CONSULTOR-->
+									    <div class="form-group" style="overflow-y:auto; height: 180px;margin-left: 0px;">
+									    	
+										    <div id="resultadosInvitarConsultores" class="resultadosInvitarConsultores panel-body">
+												    <!--
+												    Se muestra la peticion AJAX de mostrar el consultor a invitar
+												    -->
+							                </div>  
+							                
+							                <script>
+				                                $(document).ready(function () {
+				                                    $(function () {
+				                                    	//Invitar a un usuario para ser consultor
+				                                    	$('#invitarSubmit').click(function(){
+				                                    		consultor = $('#destinatario_txt').val();
+				                                    		//Vaciar el input que contiene el valor de la busqueda
+				                                    		$('#destinatario_txt').val('');
+
+					                                        $('#resultadosInvitarConsultores').ready(resultadoInvitar);
+					                                        $("#enviarInvitaciones").removeAttr('disabled');
+					                                        function resultadoInvitar() {
+					                                            $.ajax({
+					                                                data: {
+					                                                    'incubada':{{incubada.id_incubada}},
+					                                                    'consultor':consultor
+					                                                },
+					                                                type: 'get',
+					                                                url: '/InivitarConsultor/',
+					                                                success: function (data) {
+					                                                    $('#resultadosInvitarConsultores').append(data);
+					                                                }
+					                                            });
+					                                        }
+					                                    });
+
+														$('#enviarInvitaciones').click(function(){
+															$(".soyunInvitado").each(function( index ) {
+																var usuarioConsultor = $( this ).attr('id');
+																$.ajax({
+						                                                data: {
+						                                                    'usuarioperfil':usuarioConsultor,
+						                                                    'idincubada':{{incubada.id_incubada}}
+						                                                },
+						                                                type: 'get',
+						                                                url: '/EnviarInvitaciones/'
+						                                        });
+															});
+															//Elimina todos los div que contienen los usuario consultores
+															$('#resultadosInvitarConsultores').empty();
+															$('#formulario').hide();
+															$('#mostrarMensaje').show();
+														});
+
+														$('#aceptarConsultor').click(function(){
+															$('#formulario').show();
+															$('#mostrarMensaje').hide();
+															mostrarConsultoresIncubada();
+														});
+
+														$('#divConsultoresInc').ready(mostrarConsultoresIncubada);
+
+														function mostrarConsultoresIncubada() {
+				                                            $.ajax({
+				                                                data: {
+				                                                    'incubada':{{incubada.id_incubada}}
+				                                                },
+				                                                type: 'get',
+				                                                url: '/AdminIncubadaConsultores/',
+				                                                success: function (data) {
+				                                                    $('#divConsultoresInc').html(data)
+				                                                }
+				                                            });
+
+				                                        }
+
+				                                    });
+				                                });
+				                            </script>
+									    </div>
+
+									    <div class="form-group">
+									   		<div align="right">
+									   			<a href="#" id="enviarInvitaciones" disabled data-target="#modalInvitarAceptar" data-toggle="modal"  class="btn btn-red fa">&nbsp;&nbsp;Enviar Invitaciones</a>
+									   		</div>
+									   	</div>
+									   	
+						                </br>
+									</div>
+									</div>
+						        </div>
+				        	</div>
+				        </div>
+				    </div>
 
 	            <div class="blog-text">
 	                <!-- Nav tabs -->
@@ -139,7 +276,6 @@
 						                </div>  
 						            </div>
 							        <!-- TERMINA Panel del equipo -->
-
 	                            </div>
 
 	                            <div class="col-md-7 col-sm-6 col-xs-6" style="margin-top: 0px;padding-top: 15px;">
@@ -177,70 +313,15 @@
 						                {%endif%}
 	                                </p>
 
-	                                
-
 	                                <div id="retroalimentacion1" class="col-md-12">
+                                    </div>
 
-	                                
-
-					                </div>
-
-
-									<div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  
-					                  	{%if retroalimentar == True%}
-					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="5" placeholder="Escriba su retroalimentación para la información general..."  id="textAreaRetro1"></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a class="btn btn-dark btn-sm"  id="retroal1">Enviar retroalimentación</a>
-					                  	</div>
-				       
-					                  	
-
-					                  	{%else%}
-					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="5" id="textAreaRetro1" placeholder="Escriba su retroalimentación para la información general..." ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a disabled class="btn btn-dark btn-sm" id="retroal1">Enviar retroalimentación</a>
-					                  	</div>
-					                  	<div class="col-md-12" align="right">
-						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
-						            	</div>
-										
-						          		{%endif%}
-						            </div>
 
 					                <script>
 		                                $(document).ready(function () {
-		                                    $(function () {	                                       	
-		                                    	var retroal= 0;           
-
-												$('#retroal1').click(function(){
-														$.ajax({
-				                                                data: {
-				                                                    'idIncubada':{{incubada.id_incubada}},
-				                                                    'numTab':1,
-				                                                    'idMilestone':{{milestone_actual.id_milestone}},
-				                                                    'contenido':$("#textAreaRetro1").val()
-				                                                },
-				                                                type: 'get',
-				                                                url: '/GuardarRetroalimentacion/'
-				                                        });
-				                                        retroal=1;
-														mostrarRetroalimentaciones1();
-														$("#textAreaRetro1").val('');
-														
-												});		
-
-												 $('#retroalimentacion1').ready(mostrarRetroalimentaciones1);
-
-												function mostrarRetroalimentaciones1() {
-													if (retroal!=0){
-														alert("Retroalimentación enviada con éxito")
-														retroal=0
-													}													
+		                                    $(function () {
+		                                        $('#retroalimentacion1').ready(mostrarRetroalimentaciones);
+		                                        function mostrarRetroalimentaciones() {
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -252,27 +333,11 @@
 		                                                    $('#retroalimentacion1').html(data)
 		                                                }
 		                                            });
-		                                        }		
-						
-											});
 
-										$('#retroal1').attr('disabled', true);
-										$('#textAreaRetro1').on('keyup',function() {
-										    var textarea_value = $("#textAreaRetro1").val();
-										    if(textarea_value != '') {
-										        $('#retroal1').attr('disabled' , false);
-										    }else{
-										        $('#retroal1').attr('disabled' , true);
-										    }
-										});
-
-
-										});
-
+		                                        }
+		                                    });
+		                                });
 		                            </script>
-
-
-
 
 	                            </div>
 	                        </div>
@@ -301,61 +366,11 @@
 	                            <div id="retroalimentacion2" class="col-md-12">
 
 					            </div>
-
-					            <div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  
-					                  	{%if retroalimentar == True%}
-					                  	<div class="col-sm-12">
-					                    <textarea id="textAreaRetro2" class="form-control" style="resize:none" rows="4" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a id="retroal2" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	
-
-					                  	{%else%}
-					                  	<div class="col-sm-12">
-					                    <textarea id="textAreaRetro2" disabled class="form-control" style="resize:none" rows="4" placeholder="Escriba su retroalimentación para los clientes/usuarios..." ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a disabled id="retroal2" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	<div class="col-md-12" align="right">
-						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
-						            	</div>
-										
-						          		{%endif%}
-						            </div>
-
-		                            <script>
+					                <script>
 		                                $(document).ready(function () {
-		                                    $(function () {	                                       	
-		                                    	var retroali2= 0;           
-
-												$('#retroal2').click(function(){
-														$.ajax({
-				                                                data: {
-				                                                    'idIncubada':{{incubada.id_incubada}},
-				                                                    'numTab':2,
-				                                                    'idMilestone':{{milestone_actual.id_milestone}},
-				                                                    'contenido':$("#textAreaRetro2").val()
-				                                                },
-				                                                type: 'get',
-				                                                url: '/GuardarRetroalimentacion/'
-				                                        });
-				                                        retroali2=1;
-														mostrarRetroalimentaciones2();
-														$("#textAreaRetro2").val('');
-														
-												});		
-
-												 $('#retroalimentacion2').ready(mostrarRetroalimentaciones2);
-
-												function mostrarRetroalimentaciones2() {
-													if (retroali2!=0){
-														alert("Retroalimentación enviada con éxito")
-														retroali2=0
-													}													
+		                                    $(function () {
+		                                        $('#retroalimentacion2').ready(mostrarRetroalimentaciones);
+		                                        function mostrarRetroalimentaciones() {
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -367,28 +382,11 @@
 		                                                    $('#retroalimentacion2').html(data)
 		                                                }
 		                                            });
-		                                        }		
-						
-											});
 
-										$('#retroal2').attr('disabled', true);
-										$('#textAreaRetro2').on('keyup',function() {
-										    var textarea_value = $("#textAreaRetro2").val();
-										    if(textarea_value != '') {
-										        $('#retroal2').attr('disabled' , false);
-										    }else{
-										        $('#retroal2').attr('disabled' , true);
-										    }
-										});
-
-
-										});
-
+		                                        }
+		                                    });
+		                                });
 		                            </script>
-
-
-
-
 	                        </div> 
 	                        </div> 
 	                    </div>
@@ -489,69 +487,15 @@
 		                                </tbody>
 		                                </table>
 		                            </div>
-
 		                        </div>
 
 		                        <div id="retroalimentacion3" class="col-md-12">
-
 					            </div>
-
-
-					           <div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  
-					                  	{%if retroalimentar == True%}
-					                  	<div class="col-sm-12">
-					                    <textarea class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para el modelo de negocio..." id="textAreaRetro3" ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a id="retroal3" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	
-
-					                  	{%else%}
-					                  	<div class="col-sm-12">
-					                    <textarea disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para lel modelo de negocio..." id="textAreaRetro3"></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a id="retroal3" disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	<div class="col-md-12" align="right">
-						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
-						            	</div>
-										
-						          		{%endif%}
-						            </div>
-
-
-						            <script>
+					                <script>
 		                                $(document).ready(function () {
-		                                    $(function () {	                                       	
-		                                    	var retroali3= 0;           
-
-												$('#retroal3').click(function(){
-														$.ajax({
-				                                                data: {
-				                                                    'idIncubada':{{incubada.id_incubada}},
-				                                                    'numTab':3,
-				                                                    'idMilestone':{{milestone_actual.id_milestone}},
-				                                                    'contenido':$("#textAreaRetro3").val()
-				                                                },
-				                                                type: 'get',
-				                                                url: '/GuardarRetroalimentacion/'
-				                                        });
-				                                        retroali3=1;
-														mostrarRetroalimentaciones3();
-														$("#textAreaRetro3").val('');
-														
-												});		
-
-												 $('#retroalimentacion3').ready(mostrarRetroalimentaciones3);
-
-												function mostrarRetroalimentaciones3() {
-													if (retroali3!=0){
-														alert("Retroalimentación enviada con éxito")
-														retroali3=0
-													}													
+		                                    $(function () {
+		                                        $('#retroalimentacion3').ready(mostrarRetroalimentaciones);
+		                                        function mostrarRetroalimentaciones() {
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -563,25 +507,11 @@
 		                                                    $('#retroalimentacion3').html(data)
 		                                                }
 		                                            });
-		                                        }		
-						
-											});
 
-										$('#retroal3').attr('disabled', true);
-										$('#textAreaRetro3').on('keyup',function() {
-										    var textarea_value = $("#textAreaRetro3").val();
-										    if(textarea_value != '') {
-										        $('#retroal3').attr('disabled' , false);
-										    }else{
-										        $('#retroal3').attr('disabled' , true);
-										    }
-										});
-
-
-										});
-
+		                                        }
+		                                    });
+		                                });
 		                            </script>
-
 	                        </div>
 
 	                    </div>
@@ -615,7 +545,7 @@
 	                            <p style="color: darkgray" for="Descripcion" class="col-md-5">Cinco fuerzas de Porter</p>
 
 	                            <div style="font-size: 12px;width:100%; overflow: auto;">
-	                                <table class="table table-bordered">
+		                            <table class="table table-bordered" >
 	                                      <tbody>
 	                                      <tr style="background-color:#E2E2E2;">
 	                                         <th colspan="2" style="text-align: center;">Competidores</th>
@@ -679,69 +609,19 @@
 	                                         <br>
 			                                 </td>
 	                                      </tr>
-	                                </tbody></table>
+	                                </tbody>
+	                                </table>
 	                            </div>
 	                        </div>
 
 	                        <div id="retroalimentacion4" class="col-md-12">
 
 					            </div>
-
-					        <div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  
-					                  	{%if retroalimentar == True%}
-					                  	<div class="col-sm-12">
-					                    <textarea id="textAreaRetro4"class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a id="retroal4" class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	
-
-					                  	{%else%}
-					                  	<div class="col-sm-12">
-					                    <textarea id="textAreaRetro4" disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los competidores..." ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a id="retroal4" disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	<div class="col-md-12" align="right">
-						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
-						            	</div>
-										
-						          		{%endif%}
-						            </div>
-
-
-						            <script>
+					                <script>
 		                                $(document).ready(function () {
-		                                    $(function () {	                                       	
-		                                    	var retroali4= 0;           
-
-												$('#retroal4').click(function(){
-														$.ajax({
-				                                                data: {
-				                                                    'idIncubada':{{incubada.id_incubada}},
-				                                                    'numTab':4,
-				                                                    'idMilestone':{{milestone_actual.id_milestone}},
-				                                                    'contenido':$("#textAreaRetro4").val()
-				                                                },
-				                                                type: 'get',
-				                                                url: '/GuardarRetroalimentacion/'
-				                                        });
-				                                        retroali4=1;
-														mostrarRetroalimentaciones4();
-														$("#textAreaRetro4").val('');
-														
-												});		
-
-												 $('#retroalimentacion4').ready(mostrarRetroalimentaciones4);
-
-												function mostrarRetroalimentaciones4() {
-													if (retroali4!=0){
-														alert("Retroalimentación enviada con éxito")
-														retroali4=0
-													}													
+		                                    $(function () {
+		                                        $('#retroalimentacion4').ready(mostrarRetroalimentaciones);
+		                                        function mostrarRetroalimentaciones() {
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -753,25 +633,11 @@
 		                                                    $('#retroalimentacion4').html(data)
 		                                                }
 		                                            });
-		                                        }		
-						
-											});
 
-										$('#retroal4').attr('disabled', true);
-										$('#textAreaRetro4').on('keyup',function() {
-										    var textarea_value = $("#textAreaRetro4").val();
-										    if(textarea_value != '') {
-										        $('#retroal4').attr('disabled' , false);
-										    }else{
-										        $('#retroal4').attr('disabled' , true);
-										    }
-										});
-
-
-										});
-
+		                                        }
+		                                    });
+		                                });
 		                            </script>
-
 
 	                        </div>
 	                    </div>
@@ -814,62 +680,11 @@
 	                            <div id="retroalimentacion5" class="col-md-12">
 
 					            </div>
-
-					           	<div class="new-comment col-sm-12" style="margin-bottom: 0px; border-bottom-width: 0px;">
-					                  
-					                  	{%if retroalimentar == True%}
-					                  	<div class="col-sm-12">
-					                    <textarea id="textAreaRetro5" class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a id="retroal5"class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	
-
-					                  	{%else%}
-					                  	<div class="col-sm-12">
-					                    <textarea id="textAreaRetro5" disabled class="form-control" style="resize:none" rows="3" placeholder="Escriba su retroalimentación para los logros..." ></textarea>					                    
-					                  	</div>
-					                  	<div class="col-sm-12" style="margin-top:10px" align="right">
-					                  	<a id="retroal5" disabled class="btn btn-dark btn-sm">Enviar retroalimentación</a>
-					                  	</div>
-					                  	<div class="col-md-12" align="right">
-						            	<div style="font-size:11px;margin-right: 15px;">*No puede retroalimentar este milestone, no está dentro de las fechas indicadas</div>
-						            	</div>
-										
-						          		{%endif%}
-						        </div>
-
-
-						        <script>
+					                <script>
 		                                $(document).ready(function () {
-		                                    $(function () {	                                       	
-		                                    	var retroali5= 0;           
-
-												$('#retroal5').click(function(){
-														$.ajax({
-				                                                data: {
-				                                                    'idIncubada':{{incubada.id_incubada}},
-				                                                    'numTab':5,
-				                                                    'idMilestone':{{milestone_actual.id_milestone}},
-				                                                    'contenido':$("#textAreaRetro5").val()
-				                                                },
-				                                                type: 'get',
-				                                                url: '/GuardarRetroalimentacion/'
-				                                        });
-				                                        retroali5=1;
-														mostrarRetroalimentaciones5();
-														$("#textAreaRetro5").val('');
-														
-												});		
-
-												 $('#retroalimentacion5').ready(mostrarRetroalimentaciones5);
-
-												function mostrarRetroalimentaciones5() {
-													if (retroali5!=0){
-														alert("Retroalimentación enviada con éxito")
-														retroali5=0
-													}													
+		                                    $(function () {
+		                                        $('#retroalimentacion5').ready(mostrarRetroalimentaciones);
+		                                        function mostrarRetroalimentaciones() {
 		                                            $.ajax({
 		                                                data: {
 		                                                    'incubada':{{incubada.id_incubada}},
@@ -881,25 +696,11 @@
 		                                                    $('#retroalimentacion5').html(data)
 		                                                }
 		                                            });
-		                                        }		
-						
-											});
 
-										$('#retroal5').attr('disabled', true);
-										$('#textAreaRetro5').on('keyup',function() {
-										    var textarea_value = $("#textAreaRetro5").val();
-										    if(textarea_value != '') {
-										        $('#retroal5').attr('disabled' , false);
-										    }else{
-										        $('#retroal5').attr('disabled' , true);
-										    }
-										});
-
-
-										});
-
+		                                        }
+		                                    });
+		                                });
 		                            </script>
-
 	                        </div>
 	                    </div>
 	                </div>
@@ -908,11 +709,7 @@
 	        </div>      
 
 	        <div class="col-md-4 col-sm-12" style="padding-right: 0px;">
-		        
-
 		        <div class="col-md-12 col-sm-6" style="padding-right: 0px;">
-
-
 					<!--PANEL DEL MILESTONE ACTUAL-->	 
 
 			            <div class="panel panel-dark" style="margin-top:0px">
@@ -928,35 +725,11 @@
 						            </div>
 			                		<hr style="margin-top: 10px;margin-bottom: 10px;">
 					                <div class="media-body" id="IncbMilestActu">
-
 					                </div>
-
-					                <script>
-		                                $(document).ready(function () {
-		                                    $(function () {
-		                                        $('#IncbMilestActu').ready(mostrarMilestActual);
-		                                        function mostrarMilestActual() {
-		                                            $.ajax({
-		                                                data: {
-		                                                    'incubada':{{incubada.id_incubada}}
-		                                                },
-		                                                type: 'get',
-		                                                url: '/AdminIncubadaMilestoneActual/',
-		                                                success: function (data) {
-		                                                    $('#IncbMilestActu').html(data)
-		                                                }
-		                                            });
-
-		                                        }
-		                                    });
-		                                });
-		                            </script>
 					              </div>
 			                </div>  
 			            </div>
 		            <!-- TERMINA Panel de Milestone Actual -->
-
-
 
 			       <!-- COMIENZA  Panel de los consultores -->
 			            <div class="panel panel-dark">
@@ -972,31 +745,8 @@
 			                <div id="divConsultoresInc" class="panel-body" style=" overflow-y: scroll; height:300px">
 
 			                </div>  
-
-			                <script>
-                                $(document).ready(function () {
-                                    $(function () {
-                                        $('#divConsultoresInc').ready(mostrarConsultoresIncubada);
-                                        function mostrarConsultoresIncubada() {
-                                            $.ajax({
-                                                data: {
-                                                    'incubada':{{incubada.id_incubada}}
-                                                },
-                                                type: 'get',
-                                                url: '/AdminIncubadaConsultores/',
-                                                success: function (data) {
-                                                    $('#divConsultoresInc').html(data)
-                                                }
-                                            });
-
-                                        }
-                                    });
-                                });
-                            </script>
 			            </div>
 		            <!-- TERMINA Panel de los consultores -->
-
-		            
 		        </div>
 
 		        <div class="col-md-12 col-sm-6" style="padding-right: 0px;">
@@ -1014,23 +764,169 @@
 						    <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
 
 						{%else%}
-							<div class="info-board info-board-orange"> No hay ningún milestone anterior</div>
+							<div class="info-board info-board-orange"> No hay ningún milestone creado</div>
 			          	{%endif%}
-			         	
 		              
-		              <a href="/VerMilestone/{{milestone.id_milestone}}" class="read-more">Ver m&aacute;s...</a>
-			            
+		              <a href="/VerMilestone/{{incubada.id_incubada}}" class="read-more">Ver m&aacute;s...</a>
 		        	</div>
 		        	<!-- TERMINA Historial de milestones -->
-
-
-
 		        </div>
 	    	</div>
 		</div>
 	</div>
 
+		<!--Modal DEFINIR MILESTONE-->
+        <div id="definirMilestone" class="modal fade" role="dialog">
+        	<div class="modal-dialog" style="width: 70% !important;">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Definir un Milestone</h4>
+                  </div>
+                  <div class="modal-body" style="font-size:14px;overflow-y:auto">                           
+                      <div class="comment" id="Comentario">
+                          <div class="media">
+                            <form  id="formMilestone" class="form-horizontal col-md-12" name="formMilestone"> 
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Requerimientos para la incubada</label>
+                                  <div class="col-md-7">
+                                    <textarea autofocus id="requerimientosDescripcion" name="requerimientosDescripcion" rows="3"  class="form-control textMilestone" placeholder="Escribe aqu&iacute; los requerimientos del milestone" style="resize: none;"
+                                    ></textarea>
+                                  </div>
+                                  <br>
+                                </div>
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de milestone</label>
+                                  <div class="col-md-7">
+                                      <input autofocus type="datepicker" class="form-control" placeholder="Fecha fin de milestone" id="fecha_milestone" name="fecha_milestone"  data-trigger="focus">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha fin de retroalimentaci&oacute;n</label>
+                                  <div class="col-md-7">
+                                      <input autofocus type="datepicker" class="form-control" placeholder="Fecha fin de retroalimentacion" id="fecha_retroalimentacion" name="fecha_retroalimentacion"  data-trigger="focus">
+                                  </div>
+                                </div>
 
+                                <div class="form-group">
+                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Importancia del milestone</label>
+                                  <div class="col-md-7">
+                                    <textarea autofocus rows="3" id="importancia_milestone" class="form-control textMilestone" placeholder="Escribe aqu&iacute; que tan importante es el milestone" style="resize: none;"
+                                    ></textarea>
+                                  </div>
+                                  <br>
+                                </div>
+                                <div class="form-group">
+                                   <label for="Nombres"  class="col-md-3 col-md-offset-1">Otros</label>
+                                   <div class="col-md-7 pull-left" id="nuevos">
+                                   <form method="get">
+                                    <textarea autofocus rows="5" id="otros" class="tinymce form-control textMilestone" style="resize: none;"
+                                    ></textarea>
+                                  </div>
+                                  </form>
+                                </div>
+                                <div class="form-group">
+                                    <div align="right">
+                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                                      
+                                      <a id="aceptardefinirMilestone" disabled  class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
+                                    </div>                                                  
+                                </div>
+                            </form>   
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              	<script>
+					$(function() {
+					//Validando que las fechas sea desde la fecha actual
+					$("#fecha_milestone").datepicker({ minDate: 0 });
+					$("#fecha_retroalimentacion").datepicker({ minDate: 0 });
+
+					$( "#fecha_retroalimentacion" ).change(function(){
+						var fecMil= $("#fecha_milestone").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
+					    fecRet= $("#fecha_retroalimentacion").datepicker({ dateFormat:'YYYY-MM-DD'}).val();
+
+					    if (fecMil < fecRet) {
+					    	$("#aceptardefinirMilestone").removeAttr('disabled');
+					    	return false;
+					    }else{
+					    	alert("Fecha ingresada es Invalida.\nLa Fecha fin del Retroalimencion no puede ser antes de la Fecha fin de Milestone");
+					    	return false;
+					    }                
+				    });
+
+					$("#aceptardefinirMilestone").click(function(){
+						var isValid = true;
+				        $('.textMilestone').each(function() {
+				            if ($.trim($(this).val()) == '') {
+				                isValid = false;
+				                $(this).css({
+				                    "border": "1px solid red",
+				                    "background": "#FFCECE"
+				                });
+				            }
+				            else {
+				                $(this).css({
+				                    "border": "",
+				                    "background": ""
+				                });
+				            }
+				        });
+
+				        if (isValid == false) 
+				            e.preventDefault();
+				        else {
+							//Obtengo todos los valores del los campos del formulario
+							var req = $('textarea#requerimientosDescripcion').val(),
+							fecMil= $("#fecha_milestone").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
+							fecRet= $("#fecha_retroalimentacion").datepicker({ dateFormat:'YYYY-MM-DD'}).val(),
+							importan = $('textarea#importancia_milestone').val(),
+							otros = $('textarea#otros').val();
+							//Enviar los datos de
+							$.ajax({
+								data: {
+									'idIncubada':{{incubada.id_incubada}},
+									'requerimientos':req,
+									'fechaMilestone':fecMil,
+									'fechaRetroalimentacion':fecRet,
+									'importancia':importan,
+									'otros':otros
+									 },
+								type: 'get',
+								url: '/DefinirMilestone/'
+							});
+							//Cerramos el Modal del Definir Milestone
+							$('#definirMilestone').modal('hide');
+							//Limpiamos todos los campos del formulario Definir Milestone
+							$('#formMilestone').each (function(){
+							  this.reset();
+							});
+						}
+						//Recarga la funcon de actualizar miletones
+						mostrarMilestActual();
+					});
+					
+					$('#IncbMilestActu').ready(mostrarMilestActual);
+					function mostrarMilestActual() {
+						$.ajax({
+							data: {
+								'incubada':{{incubada.id_incubada}}
+							},
+							type: 'get',
+							url: '/AdminIncubadaMilestoneActual/',
+							success: function (data) {
+								 $('#IncbMilestActu').html(data)
+								}
+						});
+					}
+					
+					});
+				</script>
+            </div>
+        </div>
+        
 	
     
 

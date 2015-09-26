@@ -1,4 +1,3 @@
-
 {% extends "base-incubaciones.tpl.html" %}
 
 {% if user.is_authenticated %}
@@ -9,9 +8,7 @@
     {% block busqueda %}
         {% include 'menusuperior/barrabusqueda.tpl.html'%}
     {% endblock %}
-
 {% endif %}
-
 
 {% block sliderPagina %}INCUBACIONES{% endblock %}
 
@@ -23,159 +20,201 @@
 
     <div class="container">
    <!-- Menu del Perfil -->
-            <div class="col-md-3 col-sm-3">
-                <div class="user-menu bottom-15">
-                    <ul>
-                        <li>
-                            <a href="/perfilInstitucion/" class="active">
-                                <i class="sign fa fa-university bg-green"></i> General
-                                <i class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="sign fa fa-trophy bg-turquoise"></i> Concursos
-                                <i class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/InicioIncubacion/">
-                                <i class="sign fa fa-legal bg-green "></i> Incubaciones
-                                <i class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/editar_perfil_institucion/">
-                                <i class="sign fa fa-edit bg-turquoise "></i> Editar Informaci&oacute;n
-                                <i class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-
-                        <li><a href="/BuzonMensajesInstitucion/">
-                                <i class="sign fa fa-envelope bg-green" >
-                                </i>Buzón de mensajes
-                                <i class="fa fa-chevron-right pull-right"></i>
-
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/AdministrarMembresias/">
-                                <i class="sign fa fa-users bg-turquoise " ></i>Membres&iacute;as
-                                <i class="fa fa-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="col-md-3 col-sm-3">
+            <div class="user-menu bottom-15">
+                <ul>
+                    <li>
+                        <a href="/perfilInstitucion/" class="active">
+                            <i class="sign fa fa-university bg-green"></i> General
+                            <i class="fa fa-chevron-right pull-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="sign fa fa-trophy bg-turquoise"></i> Concursos
+                            <i class="fa fa-chevron-right pull-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/InicioIncubacion/">
+                            <i class="sign fa fa-legal bg-green "></i> Incubaciones
+                            <i class="fa fa-chevron-right pull-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/editar_perfil_institucion/">
+                            <i class="sign fa fa-edit bg-turquoise "></i> Editar Informaci&oacute;n
+                            <i class="fa fa-chevron-right pull-right"></i>
+                        </a>
+                    </li>
+                    <li><a href="/BuzonMensajesInstitucion/">
+                            <i class="sign fa fa-envelope bg-green" >
+                            </i>Buzón de mensajes
+                            <i class="fa fa-chevron-right pull-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/AdministrarMembresias/">
+                            <i class="sign fa fa-users bg-turquoise " ></i>Membres&iacute;as
+                            <i class="fa fa-chevron-right pull-right"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </div>
 
 <!--Lista de menu -->
-            <div class="col-md-9">
-              <div class="row" style="margin-bottom: 25px;">
+        <div class="col-md-9">
+            <div class="row" style="margin-bottom: 25px;">
                 <div class="pull-right">
                   <a href="/CrearIncubacion/" class="btn btn-red"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Crear Incubaci&oacute;n</a>
-              </div> 
-              </div>
+                </div> 
+            </div>
 
+              <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#verIncubaciones" aria-controls="home" role="tab" data-toggle="tab">
+                        INCUBACIONES PUBLICADAS
+                    </a>
+                </li>
+            </ul>
 
-                  <!-- Nav tabs -->
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#verIncubaciones" aria-controls="home" role="tab" data-toggle="tab">INCUBACIONES PUBLICADAS</a></li>
-                  </ul>
-
-                  <!-- Tab panes -->
-                  <div class="tab-content col-md-11">
-                    <div role="tabpanel" class="tab-pane active" id="verIncubaciones">
-                        <div class="timeline-block col-md-10">
+              <!-- Tab panes -->
+            <div class="tab-content col-md-11" >
+                <input type='hidden' id='current_page' />  
+                <input type='hidden' id='show_per_page' />
+                <div role="tabpanel" class="tab-pane active" id="content">
+                    {% if incubaciones %}
+                        {% for incubacion in incubaciones %}
                           <!-- First blog post -->
-                            <div class="blog-summary col-md-12">
-                              <h4><a href="/AdminIncubacion/">Nombre de la incubaci&oacute;n</a></h4>
-                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
-                              <ul class="text-muted list-inline">
-                                <li><i class="fa fa-user"></i> <a href="#">Juan Piguave</a></li>
-                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
-                              </ul>
-                              <hr>
-                                  <!--Tipo-->
-                                  <p style="color: darkgray" for="Tipo" class="col-md-4">Alcance</p>
-                                  <p class="col-md-8">Todas
-                                  <!--Dominio-->
-                                  <p style="color: darkgray" for="Nombres" class="col-md-4">N&uacute;mero de Incubadas</p>
-                                  <p class="col-md-8">8
-                                  <!--Descripcion-->
-                                  </p><p style="color: darkgray" for="Nombres" class="col-md-4">Descripción</p>
-                                  <p class="col-md-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus  </p>
+                            <div class="comment">
+                                <div class="media">
+                                    <div class="media-body">
+
+                                        <h3><a href="/AdminIncubacion/{{incubacion.id_incubacion}}">{{ incubacion.nombre }}</a></h3>
+
+                                        <ul class="text-muted list-inline">
+                                            <li><i style="color:#515151" class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
+                                            <li><i style="color:#515151" class="fa fa-user"></i> Administrador: {{ incubacion.fk_perfil.username }}</li>
+                                            <li><i style="color:#515151" class="fa fa-cogs"></i> Tipo de Oferta:
+                                            {%if incubacion.tipos_oferta == 0 %}
+                                                Emprendimiento
+                                            {%endif%}
+                                            {%if incubacion.tipos_oferta == 1%}
+                                                Tecnología
+                                            {%else%}
+                                                Prototipo
+                                            {%endif%}
+                                            </li>
+                                        </ul>
+                                        <ul class="text-muted list-inline">
+                                            <li><i class="fa fa-bars"></i> Condiciones: {{ incubacion.condiciones|truncatewords:30 }} </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- Second blog post -->
-                            <div class="blog-summary col-md-12">
-                              <h4><a href="/VerIncubacion">Nombre de la incubaci&oacute;n</a></h4>
-                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
-                              <ul class="text-muted list-inline">
-                                <li><i class="fa fa-user"></i> <a href="#">Juan Piguave</a></li>
-                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
-                              </ul>
-                              <hr>
-                                  <!--Tipo-->
-                                  <p style="color: darkgray" for="Tipo" class="col-md-4">Alcance</p>
-                                  <p class="col-md-8">Todas
-                                  <!--Dominio-->
-                                  <p style="color: darkgray" for="Nombres" class="col-md-4">N&uacute;mero de Incubadas</p>
-                                  <p class="col-md-8">8
-                                  <!--Descripcion-->
-                                  </p><p style="color: darkgray" for="Nombres" class="col-md-4">Descripción</p>
-                                  <p class="col-md-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus  </p>
-
-                            </div>
-                            <!-- Third blog post -->
-                            <div class="blog-summary col-md-12">
-                              <h4><a href="/VerIncubacion">Nombre de la incubaci&oacute;n</a></h4>
-                              <time datetime="2013-09-10" class="timestamp hidden-xs">Nov 10, 2013</time>
-                              <ul class="text-muted list-inline">
-                                <li><i class="fa fa-user"></i> <a href="#">Juan Piguave</a></li>
-                                <li><i class="fa fa-calendar"></i> Enero  10, 2015</li>
-                              </ul>
-                              <hr>
-                                  <!--Tipo-->
-                                  <p style="color: darkgray" for="Tipo" class="col-md-4">Alcance</p>
-                                  <p class="col-md-8">Todas
-                                  <!--Dominio-->
-                                  <p style="color: darkgray" for="Nombres" class="col-md-4">N&uacute;mero de Incubadas</p>
-                                  <p class="col-md-8">8
-                                  <!--Descripcion-->
-                                  </p><p style="color: darkgray" for="Nombres" class="col-md-4">Descripción</p>
-                                  <p class="col-md-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur urna at neque mollis sagittis. Vivamus viverra justo in dui vulputate tincidunt in eu magna. Ut ut risus  </p>
-
-                            </div>
-                      </div>
-
-
-
-                        <!-- PAGINACION DE VER INCUBACIONES
-                        -->
-                        <div class="pagination col-md-10">
-                            <span class="step-links">
-                                <a class="btn btn-green" href="?page={{ msjs.previous_page_number }}">Anterior</a>
-                            <span class="current">
-                      
-                            </span>
-                              <a class="btn btn-green" href="?page={{ msjs.next_page_number }}">Siguiente</a>
-                            </span>
+                          {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            Usted no ha sido asignado como consultor de una incubada.
                         </div>
-
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="aa">
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="bb">
-                    </div>
-
+                    {% endif %}
                 </div>
-
+                <!-- PAGINACION DE VER INCUBACIONES DEL ADMINISTRADOR-->
+                <div id='page_navigation' class="about-btn"></div>
             </div>
         </div>
     </div>
 
-    <!-- COMIENZAN Los modals que se usan en toda la pagina -->
+    <!-- SCRIPT PARA LA PAGINACION -->
 
-</div>
+    <!-- 
+    AUTOR:                  Kevin Zambrano Cortez.
+    NOMBRE DE LA FUNCIÓN:   Paginación de las incubaciones de un Administrador de una Institución.
+    SALIDA:                 Muestra la paginacion de las incubaciones de la Institución.
+    DESCRIPCIÓN:            Calcula la cantidad de elementos que tiene cada div del tab que esté activo y los muestra en pantalla
+                            según el parámetro a mostrar en pantalla.
+    -->
+
+    <script>
+    $(document).ready(function(){  
+      
+        //how much items per page to show  
+        var show_per_page = 5;  
+        //getting the amount of elements inside content div  
+        var number_of_items = $('#content').children().size();  
+        //calculate the number of pages we are going to have  
+        var number_of_pages = Math.ceil(number_of_items/show_per_page);  
+      
+        //set the value of our hidden input fields  
+        $('#current_page').val(0);  
+        $('#show_per_page').val(show_per_page);  
+      
+        //now when we got all we need for the navigation let's make it '  
+             
+        var navigation_html = '<a class="btn btn-default" href="javascript:previous();">Anterior </a>';  
+        var current_link = 0;  
+        while(number_of_pages > current_link){  
+            navigation_html += '<a class="btn btn-default page_link" href="javascript:go_to_page(' + current_link +')" longdesc="' + current_link +'">'+ (current_link + 1) +' </a>';  
+            current_link++;  
+        }  
+        navigation_html += '<a class="btn btn-default" href="javascript:next();">Siguiente </a>';
+
+        
+        $('#page_navigation').html(navigation_html);  
+      
+        //add active_page class to the first page link  
+        $('#page_navigation .page_link:first').addClass('active_page');  
+      
+        //hide all the elements inside content div  
+        $('#content').children().css('display', 'none');  
+      
+        //and show the first n (show_per_page) elements  
+        $('#content').children().slice(0, show_per_page).css('display', 'block');  
+      
+    });  
+      
+    function previous(){  
+      
+        new_page = parseInt($('#current_page').val()) - 1;  
+        //if there is an item before the current active link run the function  
+        if($('.active_page').prev('.page_link').length==true){  
+            go_to_page(new_page);  
+        }  
+      
+    }  
+      
+    function next(){  
+        new_page = parseInt($('#current_page').val()) + 1;  
+        //if there is an item after the current active link run the function  
+        if($('.active_page').next('.page_link').length==true){  
+            go_to_page(new_page);  
+        }  
+      
+    }  
+    function go_to_page(page_num){  
+        //get the number of items shown per page  
+        var show_per_page = parseInt($('#show_per_page').val());  
+      
+        //get the element number where to start the slice from  
+        start_from = page_num * show_per_page;  
+      
+        //get the element number where to end the slice  
+        end_on = start_from + show_per_page;  
+      
+        //hide all children elements of content div, get specific items and show them  
+        $('#content').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');  
+      
+        /*get the page link that has longdesc attribute of the current page and add active_page class to it 
+        and remove that class from previously active page link*/  
+        $('.page_link[longdesc=' + page_num +']').addClass('active_page').siblings('.active_page').removeClass('active_page');  
+      
+        //update the current page input field  
+        $('#current_page').val(page_num);  
+    } 
+    </script>
 {% endblock %}
 

@@ -1,17 +1,53 @@
-{% extends "admin_incubacion_inicio.html" %}
 
-{% block sliderPagina %}EDITAR INCUBACION{% endblock %}
+{% extends "base.tpl.html" %}
+{% if user.is_authenticated %}
+    {% block barraderecha %}
+        {% include 'menusuperior/menulogueado.tpl.html' %}
+    {% endblock %}
+
+    {% block busqueda %}
+        {% include 'menusuperior/barrabusqueda.tpl.html'%}
+    {% endblock %}
+{% endif %}
+
+
+
+
 {% block contenido %}
+<div class="section-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="animated slideInLeft">
+          <span style="border-bottom: 5px solid #F44336;">
+            EDITAR INCUBACION
+          </span>
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
 <style>
 textarea { resize: none; }
 </style>
-<div class="container" ng-controller="crearIncubacionFormController">
-<form  class="form-horizontal"  name="forms.admin_crear_incubacion_form1" id="admin_crear_incubacion_form1" novalidate> 
+<div class="container">
+{% if errmsg == 1 %}
+  <div class="alert alert-danger alert-dismissable col-md-5 col-md-offset-3text-center">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Los cambios no se guardaron porque existen errores en el formulario.
+  </div>
+{% elif errmsg == 0 %}
+  <div class="alert alert-success alert-dismissable col-md-8 col-md-offset-2 text-center">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Los cambios en la incubaci&oacute;n han sido guardados con &eacute;xito. Para ver su incubación haga clic <a href="/AdminIncubacion/{{incubacion.id_incubacion}}"><strong>aquí</strong></a>
+  </div>
+{% endif %}
 
+
+<form  class="form-horizontal" action="/EditarMiIncubacion/{{incubacion.id_incubacion}}" method="post" novalidate> <!--action="/EditarMiIncubacion/{{incubacion.id_incubacion}}"-->
+{% csrf_token %}
     <div class="row col-md-12">
             <div align=right>
 
-                <button href="#" class="btn btn-red"  data-toggle="modal" data-target="#confirmar_cambios" id="btn_crear_incubacion"  ng-click="guardar()" style="background-color:#F44336;"><i class="fa fa-floppy-o" ></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                <a id="btnguardar" class="btn btn-red"  data-toggle="modal" data-target="#confirmar_cambios" style="background-color:#F44336;"><i class="fa fa-floppy-o" ></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
 
                 <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#cancelar_cambios"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
 
@@ -34,42 +70,29 @@ textarea { resize: none; }
 
                         <div role="tabpanel" class="tab-pane active" id="informacion">
                             <div class="col-md-12">
-                              <!--Fecha de inicio de la incubacion-->
-                              <div class="form-group">
-                                  <label for="Nombres" class="col-md-2">Fecha de inicio</label>
-                                  <div class="col-md-6">
-
-                                      <input autofocus type="date" class="form-control" value"2016/12/12"
-                                      id="fecha" name="fecha_incubacion"  data-trigger="focus" ng-model="incubacion.fecha" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
-                                      <span ng-show="forms.admin_crear_incubacion_form1.fecha_incubacion.$error.pattern"><p class="bg-danger text-danger">Fecha de la Incubacion debe ser una fecha futura</p></span>
-                                      <span ng-show="forms.admin_crear_incubacion_form1.fecha_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
-                                  </div>
-                              </div> 
-
-                              <!--Nombre-->
+                            <!--Nombre-->
                               <div class="form-group">
                                   <label for="Nombres" class="col-md-2">Nombre</label>
                                   <div class="col-md-6">
 
-                                      <input autofocus type="text"   class="form-control" placeholder="Nombre de la Oferta"id="nombre" name="nombre_incubacion"  data-trigger="focus"ng-model="oferta.nombre" ng-pattern="/^[a-zA-Z ]{10,300}$/"  ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
-                                      <span ng-show="forms.admin_crear_incubacion_form1.nombre_incubacion.$error.pattern"><p class="bg-danger text-danger">Nombre de la Incubaci&oacute;n debe contener por lo menos 10 caracteres alfab&eacute;ticos</p></span>
-                                      <span ng-show="forms.admin_crear_incubacion_form1.nombre_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                      <input onchange="validarNombre()" autofocus type="text"   class="form-control" placeholder="Nombre de la Oferta" id="nombreincubacion" name="nombre_incubacion"  data-trigger="focus" value='{{incubacion.nombre}}'>
+                                      <span style="display:none" id="nombreMsg"><p class="bg-danger text-danger">El campo es requerido y  debe contener por lo menos 10 caracteres alfab&eacute;ticos sin espacios grandes</p></span>
                                   </div>
                               </div>  
                                <!--Descripicion-->
                               <div class="form-group">
                                   <label for="descripcion-incubacion" class="col-md-2">Descripci&oacute;n</label>
                                   <div class="col-md-6">
-                                      <textarea id="descripcion_incubacion" name="descripcion_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la incubaci&oacute;n" ng-model="incubacion.descripcion" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)" ng-init="value='Probando'"></textarea>
-                                      <span ng-show="forms.admin_crear_incubacion_form1.descripcion_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                      <textarea onchange="validarDescripcion()" id="descripcionincubacion" name="descripcion_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la descripci&oacute;n de la incubaci&oacute;n">{{incubacion.descripcion}}</textarea>
+                                      <span style="display:none" id="descripcionMsg"><p class="bg-danger text-danger">El campo es requerido y  no debe contener caracteres especiales, espacios grandes o símbolos ej: ! ? @ & % + =</p></span>
                                   </div>
                               </div>
                               <!--Perfil de la oferta-->
                               <div class="form-group">
                                   <label for="perfil-incubacion" class="col-md-2">Perfil de la Oferta</label>
                                   <div class="col-md-6">
-                                      <textarea id="perfil_incubacion" name="perfil_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; el perfil de la oferta" ng-model="incubacion.perfil" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)" ng-init="value='Probando'"></textarea>
-                                      <span ng-show="forms.admin_crear_incubacion_form1.perfil_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                      <textarea onchange="validarPerfil()" id="perfilincubacion" name="perfil_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; el perfil de la oferta">{{incubacion.perfil_oferta}}</textarea>
+                                      <span style="display:none" id="perfilMsg"><p class="bg-danger text-danger">El campo es requerido y  no debe contener caracteres especiales, espacios grandes o símbolos ej: ! ? @ & % + =</p></span>
                                   </div>
                               </div>
 
@@ -77,34 +100,30 @@ textarea { resize: none; }
                               <div class="form-group">
                                   <label for="condiciones-incubacion" class="col-md-2">Condiciones de la iniciativa de incubaci&oacute;n</label>
                                   <div class="col-md-6">
-                                      <textarea id="condiciones_incubacion" name="condiciones_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la condiciones de la incubaci&oacute;n" ng-model="incubacion.condiciones" ng-required="true" ng-blur="validarSubmit(forms.crear_incubacion_form1)" ng-init="value='Probando'"></textarea>
-                                      <span ng-show="forms.admin_crear_incubacion_form1.condiciones_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
+                                      <textarea onchange="validarCondiciones()" id="condicionesincubacion" name="condiciones_incubacion" rows="4" class="form-control" placeholder="Escribe aqu&iacute; la condiciones de la incubaci&oacute;n" >{{incubacion.condiciones}}</textarea>
+                                      <span style="display:none" id="condicionesMsg"><p class="bg-danger text-danger">El campo es requerido y  no debe contener caracteres especiales, espacios grandes o símbolos ej: ! ? @ & % + =</p></span>
                                   </div>
                               </div>
-
                               <!--Tipo-->
                               <div class="form-group">
                                   <label for="Tipo" class="col-md-2">Tipos de Ofertas</label>
                                   <div class="col-xs-3 col-md-4">
-                                      <select name="select_tipo_incubacion" class="form-control" ng-options="i.valor as i.tipo for i in items_tipo" ng-model="incubacion.tipo" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
-                                          <option>Emprendimiento</option>
-                                          <option>Tecnología</option>
-                                          <option>Prototipos</option>
+                                      <select name="select_tipo_incubacion" class="form-control">
+                                          <option 
+                                          {% if incubacion.tipos_oferta == 0 %}selected
+                                          {% endif %} 
+                                           value="0">Emprendimiento</option>
+                                          <option
+                                          {% if incubacion.tipos_oferta == 1 %}selected
+                                          {% endif%}
+                                           value="1">Tecnología</option>
+                                          <option
+                                          {% if incubacion.tipos_oferta == 2 %} selected 
+                                          {% endif%}
+                                           value="2">Prototipos</option>
                                       </select>
-                                     
                                   </div>
-                              </div>      
-
-                              <!--Alcance -->
-                              <div class="form-group">
-                                  <label for="Tipo" class="col-md-2">Alcance</label>
-                                  <div class="col-xs-3 col-md-4">
-                                      <select name="select_alcance_incubacion" class="form-control" ng-options="i.valor as i.tipo for i in items_alcance" ng-model="incubacion.alcance" ng-required="true" ng-blur="validarSubmit(forms.admin_crear_incubacion_form1)">
-                                          <option value="">Seleccione el alcance de la incubaci&oacute;n</option>
-                                      </select>
-                                      <span ng-show="forms.admin_crear_incubacion_form1.select_alcance_incubacion.$error.required" ng-if="!forms.admin_crear_incubacion_form1.$pristine"><p class="bg-danger text-danger">Este campo es obligatorio</p></span>
-                                  </div>
-                              </div> 
+                              </div>
                           </div>                            
                         </div>
 
@@ -130,7 +149,8 @@ textarea { resize: none; }
         <p>¿Estas Seguro(a) que quieres guardar los cambios?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-green"  style="background-color:#F4E222;" data-dismiss="modal">Sí</button>
+        <!--<button type="submit" class="btn btn-green"  style="background-color:#F4E222;" data-dismiss="modal">Sí</button>-->
+        <input type="submit" class="btn btn-green"  style="background-color:#F4E222;" value="Sí">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>
@@ -152,7 +172,7 @@ textarea { resize: none; }
         <p>Se perderan todos los cambios.¿Quiere continuar?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-green"  style="background-color:#F4E222;" data-dismiss="modal">Sí</button>
+        <a class="btn btn-green" href="/AdminIncubacion/{{incubacion.id_incubacion}}" style="background-color:#F4E222;">Sí</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>
@@ -161,9 +181,122 @@ textarea { resize: none; }
 
 </div>
 
+</form>
 
 </div>
+<script type="text/javascript">
+//se obtiene los mensajes de errores de cada campo
+var mensajeNombre = document.getElementById('nombreMsg');
+var mensajeDescripcion = document.getElementById('descripcionMsg');
+var mensajePerfil = document.getElementById('perfilMsg');
+var mensajeCondiciones = document.getElementById('condicionesMsg');
+// se declaran las expresiones regulares con las cuales va a ser validado cada campo
+var regexNombre = /^([áéíóúÁÉÍÓÚñÑ\w]\s?){10,300}$/;
+var regexTextoComun = /^([áéíóúÁÉÍÓÚñÑ\w]\s?[,;.:]?\s?)+$/;
 
+//Se obtienen cada uno de los controles del formnulario
+var nombre = document.getElementById('nombreincubacion');
+var descripcion = document.getElementById('descripcionincubacion');
+var perfil = document.getElementById('perfilincubacion');
+var condiciones = document.getElementById('condicionesincubacion');
+//Se declaran banderas de validacion
+var nombreValido=true;
+var descValido=true;
+var perfilValido=true;
+var condicionesValido=true;
+//Se obtiene el boton de "Guardar"
+var btnguardar = document.getElementById('btnguardar');
+function mostrarMensajes()
+{
+  //se valida cada campo con su respectiva funcion
+  validarNombre();
+  validarDescripcion();
+  validarPerfil()
+  validarCondiciones();
+  //se remueven los scripts que no estan siendo usados
+  removejscssfile("angular.js","js");
+  removejscssfile("app.js","js");
+  removejscssfile("angular-route.js","js");
+  removejscssfile("angular-cookies.js","js");
+  removejscssfile("angular-resource.js","js");
+  removejscssfile("angular-animate.js","js");
+  removejscssfile("angular-messages.js","js");
+  removejscssfile("services.js","js");
+  removejscssfile("crear-oferta-angular.js","js");
+  removejscssfile("perfil_usuario.js","js");
+  removejscssfile("ng-tags-input.js","js");
+  removejscssfile("swampdragon.min.js","js");
+  removejscssfile("datamapper.js","js");
+  removejscssfile("autocompletar_nuevo_integrante.js","js");
+  removejscssfile("settings.js","js");
+  
+}
+
+function validarNombre()
+{
+  
+  nombreValido = regexNombre.test(nombre.value);
+  if(nombreValido == false)
+    mensajeNombre.style.display= "block";
+  else
+    mensajeNombre.style.display= "none";
+  habilitarBoton();
+  
+}
+
+function validarDescripcion()
+{
+  // se compara si el valor del campo es valido
+  descValido = regexTextoComun.test(descripcion.value);
+  if(descValido == false)
+    mensajeDescripcion.style.display= "block";
+  else
+    mensajeDescripcion.style.display= "none";
+  habilitarBoton();
+}
+
+function validarPerfil()
+{
+  
+  perfilValido = regexTextoComun.test(perfil.value);
+  if(perfilValido == false)
+    mensajePerfil.style.display= "block";
+  else
+    mensajePerfil.style.display= "none";
+  habilitarBoton();
+}
+
+function validarCondiciones()
+{
+  
+  condicionesValido = regexTextoComun.test(condiciones.value);
+  if(condicionesValido == false)
+    mensajeCondiciones.style.display= "block";
+  else
+    mensajeCondiciones.style.display= "none";
+  habilitarBoton();
+}
+
+// funcion que habilita el boton de guardar si todos los campos estan correctos
+function habilitarBoton()
+{
+  if(nombreValido && descValido && perfilValido && condicionesValido)
+    btnguardar.removeAttribute("disabled");  
+  else
+    btnguardar.setAttribute("disabled", "disabled");
+}
+//funcion que remueve archivos css y javascript
+function removejscssfile(filename, filetype){
+    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+    var allsuspects=document.getElementsByTagName(targetelement)
+    for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+        allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+    }
+}
+window.addEventListener('load', mostrarMensajes, false);
+</script>
 
 
 
