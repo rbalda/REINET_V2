@@ -188,7 +188,11 @@
                                     {% for incubada in incubadas %}
                                       <li>
                                           <p class="text-muted" style="width: 100%;">
-                                              <img src="/media/{{incubada.3.imagen}}" alt="...">
+                                              {%if incubada.3.imagen %}
+                                                <img src="/media/{{incubada.3.imagen}}" alt="...">
+                                              {%else %}
+                                                <img src="/media/noPicture.png" alt="...">
+                                              {%endif%}
                                               <a style="font-size:20px;color:black;cursor:not-allowed">{{ incubada.0.nombre }}</a><br>
                                               <i class="fa fa-user"></i>{{ incubada.1.fk_participante.first_name }} {{ incubada.1.fk_participante.last_name }}
                                               <br><i class="fa fa-calendar"></i> {{incubada.2.date}}

@@ -759,19 +759,21 @@ def usuario_ver_incubacion(request, id_incubacion):
                 for incubada in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
                     for incubada1 in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
                         if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
-                            if encontro == False:
+                            if encontro == False: 
                                 encontro=True
                                 propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=incubada.fk_oferta.id_oferta).first()
                                 fechapublicacion=incubada.fecha_publicacion
                                 foto=ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada).first()
+                                oferta=incubada1.fk_oferta.id_oferta
                                 print 'imagesitooooo'
-                                print foto.imagen
+                                #print foto.imagen
                                 print propietario
                                 print propietario.fk_participante
                                 print propietario.fk_participante.first_name
 
                                 incubadas.append((incubada, propietario, fechapublicacion,foto))
-                encontro=False
+                                print encontro
+                    encontro=False
                 args['incubadas'] = incubadas
 
                 #Lo siguiente es para mostrar la convocatoriaa actual
@@ -786,8 +788,6 @@ def usuario_ver_incubacion(request, id_incubacion):
                         args['convocatorias'] = convocatorias_incubacion
                 else:
                     args['convocatorias'] = "No hay Convocatoria"
-
-
                 
                 #Necesitamos tambien mostrar la incubacion 
                 args['incubacion'] = incubacion
@@ -827,19 +827,28 @@ def admin_incubadas_incubacion(request):
     if request.is_ajax():
         try:
             #obtengo las incubadas de la incubacion
-            incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            imagenincubada = ImagenIncubada.objects.all().filter()
-            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
-            if len(imagenincubada) > 0:
-                args['imagenes']= imagenincubada
-            else:
-                 args['imagenes']= "No hay imagenes"   
-            
-            if len(incubadas) > 0:
-                args['incubadas'] = incubadas
-            else:    
-                args['incubadas'] = "No hay incubadas"
-            args['propietarios']= propietarios
+            encontro=False
+            incub=Incubada.objects.filter(fk_incubacion=request.GET['incubacion'])
+            incubadas = []
+            for incubada in Incubada.objects.filter(fk_incubacion=request.GET['incubacion']):
+                for incubada1 in Incubada.objects.filter(fk_incubacion=request.GET['incubacion']):
+                    if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
+                        if encontro == False: 
+                            encontro=True
+                            propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=incubada.fk_oferta.id_oferta).first()
+                            fechapublicacion=incubada.fecha_publicacion
+                            foto=ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada).first()
+                            oferta=incubada1.fk_oferta.id_oferta
+                            print 'imagesitooooo'
+                            print propietario
+                            print propietario.fk_participante
+                            print propietario.fk_participante.first_name
+                            incubadas.append((incubada, propietario, fechapublicacion,foto))
+                            print encontro
+                    if encontro==True:
+                        print "ssssssssssssssss"
+                encontro=False
+            args['incubadas'] = incubadas
             return render_to_response('admin_incubadas_de_incubacion.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
