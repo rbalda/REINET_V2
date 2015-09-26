@@ -950,20 +950,44 @@ def admin_solicitudes_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #obtengo todas las solicitudes de las convocatorias de la incubacion
-            solicitudes = SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0) 
+            incubacion = Incubacion.objects.get(id_incubacion=request.GET['incubacion'])
+
             #obtengo todos los propietarios de la incubadas
-            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
-            imagenesofertas = ImagenOferta.objects.all().filter()
-            numeroimagenesoferta= len(imagenesofertas)
-            if len(solicitudes) > 0:
-                args['solicitudes'] = solicitudes
-            else:    
-                args['solicitudes'] = "No hay solicitudes"
-            args['numeroimagenesoferta']=numeroimagenesoferta 
-            args['imagenesofertas'] = imagenesofertas
-            args['propietarios'] = propietarios
-            return render_to_response('admin_incubacion_solicitudes.html',args)
+            if incubacion :
+                #Lo siguiente es para poder mostrar las incubadas de la incubacion               
+                #obtengo todas las solicitudes de las convocatorias de la incubacion
+                encontro=False
+                solicitudes = []
+                solicitudesIncubacion=SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0)
+                print 'iincubadasIncubacion'
+                
+                #Lo siguiente es para encontrar las incubadas de una incubacion, por el id de oferta que debe ser unico
+                if solicitudesIncubacion.first():
+                    idofertas =[]
+                    idofertas.append(solicitudesIncubacion.first().fk_oferta.id_oferta)
+                    ofertaEncontrada=False
+                    for inc in solicitudesIncubacion:
+                        for ofe in idofertas:
+                            if inc.fk_oferta.id_oferta == ofe:
+                                ofertaEncontrada=True
+                        if ofertaEncontrada!=True:
+                            idofertas.append((inc.fk_oferta.id_oferta))
+                        else:
+                            ofertaEncontrada=False
+
+                    for idofert in idofertas:
+                        ultimasolicitud=SolicitudOfertasConvocatoria.objects.filter(fk_oferta=idofert).last()
+                        if ultimasolicitud:
+                            propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=ultimasolicitud.fk_oferta.id_oferta).first()
+                            fechapublicacion=ultimasolicitud.fecha_creacion
+                            foto=ImagenOferta.objects.filter(fk_oferta=ultimasolicitud.fk_oferta.id_oferta).first()
+                            solicitudes.append((ultimasolicitud, propietario, fechapublicacion,foto))
+                    
+                    args['solicitudes'] = solicitudes
+                return render_to_response('admin_incubacion_solicitudes.html',args)
+            else:
+                args['error'] = "Esta incubacion no se encuentra en la red"
+                return HttpResponseRedirect('/NotFound/')
         except Incubada.DoesNotExist:
             return redirect('/')
         except IncubadaConsultor.DoesNotExist:
