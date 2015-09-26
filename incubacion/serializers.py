@@ -8,13 +8,14 @@ __author__ = 'faustomora'
 # serializer de incubacion
 class IncubacionSerializador(ModelSerializer):
 
-    class Meta:
+    class Meta: # clase obligatoria, se define el modelo y los campos
         model = Incubacion
         fields = ('id_incubacion','nombre','descripcion','fecha_inicio','perfil_oferta','condiciones',
                     'tipos_oferta','otros','estado_incubacion','fk_perfil')
         read_only_fields = ('id_incubacion','otros','estado_incubacion','fk_perfil')
 
 
+    # funcion para crear una incubacion
     def create(self,validated_data):
         
         # comando para crear una incubacion con el perfil del admin y los datos del validated data
