@@ -1000,6 +1000,127 @@ def admin_rechazar_solicitud(request):
     else:
         return redirect('/NotFound')
 
+
+"""
+Autor: David Vinces
+Nombre de funcion: admin_aceptar_solicitud
+Parametros: request
+Salida: actualiza la solicitud con estado aceptada
+Descripcion: Esta funcion es para la peticion Ajax que actualiza el estado de la solicitud a aceptada
+"""
+@login_required
+def admin_aceptar_solicitud(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    # si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            #Se actualiza la solicitud al estado Aceptada(estado=1)
+            solicitud= SolicitudOfertasConvocatoria.objects.get(id_solicitud_ofertas_convocatoria=request.GET['id_solicitud'])
+            solicitud.estado_solicitud=1
+            solicitud.save() 
+
+            #Se crea una nueva incubada en base a la oferta dada en la solicitud
+            oferta = Oferta.objects.get(id_oferta = solicitud.fk_oferta.id_oferta)
+            incubada = Incubada()
+
+            #---Seccion Informacion General
+            incubada.nombre = oferta.nombre
+            incubada.codigo = oferta.codigo
+            incubada.tipo = oferta.tipo
+            incubada.descripcion = oferta.descripcion
+            incubada.dominio = oferta.dominio
+            incubada.subdominio = oferta.subdominio
+
+            #---Seccion Perfiles
+            incubada.perfil_cliente = oferta.perfil_cliente
+            incubada.perfil_beneficiario = oferta.perfil_beneficiario
+
+            #---Seccion Industria
+            incubada.cuadro_tendencias_relevantes = oferta.cuadro_tendencias_relevantes
+            incubada.descripcion_soluciones_existentes = oferta.descripcion_soluciones_existentes
+
+            #---Seccion de Estado/Logros
+            incubada.tiempo_para_estar_disponible = oferta.tiempo_para_estar_disponible
+            incubada.estado_propiedad_intelectual = oferta.estado_propieada_intelectual
+            incubada.evidencia_traccion = oferta.evidencia_traccion
+
+            #---Diagrama Canvas
+            diagrama_canvas = DiagramaBusinessCanvas()
+            diagrama_canvas.asociaciones_clave = oferta.fk_diagrama_canvas.asociaciones_clave
+            diagrama_canvas.actividades_clave = oferta.fk_diagrama_canvas.actividades_clave
+            diagrama_canvas.recursos_clave = oferta.fk_diagrama_canvas.recursos_clave
+            diagrama_canvas.propuesta_valor = oferta.fk_diagrama_canvas.propuesta_valor
+            diagrama_canvas.relacion_clientes = oferta.fk_diagrama_canvas.relacion_clientes
+            diagrama_canvas.canales_distribucion = oferta.fk_diagrama_canvas.canales_distribucion
+            diagrama_canvas.segmento_mercado = oferta.fk_diagrama_canvas.segmento_mercado
+            diagrama_canvas.estructura_costos = oferta.fk_diagrama_canvas.estructura_costos
+            diagrama_canvas.fuente_ingresos = oferta.fk_diagrama_canvas.fuente_ingresos
+            diagrama_canvas.save()
+            incubada.fk_diagrama_canvas = diagrama_canvas
+
+            #---Diagrama Porter
+            diagrama_porter = DiagramaPorter()
+            diagrama_porter.competidores = oferta.fk_diagrama_competidores.competidores
+            diagrama_porter.consumidores = oferta.fk_diagrama_competidores.consumidores
+            diagrama_porter.sustitutos = oferta.fk_diagrama_competidores.sustitutos
+            diagrama_porter.proveedores = oferta.fk_diagrama_competidores.proveedores
+            diagrama_porter.nuevosMiembros = oferta.fk_diagrama_competidores.nuevosMiembros
+            diagrama_porter.save()
+            incubada.fk_diagrama_competidores = diagrama_porter
+
+            #---Otras Relaciones
+            incubada.equipo = MiembroEquipo.objects.get(id_equipo = 1)
+            #incubada.palabras_clave = oferta.palabras_clave
+            incubada.fk_oferta = oferta
+            incubada.fk_incubacion = solicitud.fk_incubacion
+
+            #Guardar la incubada creada
+            incubada.save()
+
+            #Copiar las imagenes de la oferta a la incubacion
+            """
+            imagenes_oferta = ImagenOferta.objects.get(fk_oferta = oferta.id_oferta)
+            for o in imagenes_oferta:
+                imagen_incubada = ImagenIncubada()
+                imagen_incubada.imagen = o.imagen
+                imagen_incubada.descripcion = o.descripcion
+                imagen_incubada.fk_incubada = incubada
+                imagen_incubada.save()                
+            """
+
+            #Se crea un milestone vencido (con fecha actual)
+            milestone = Milestone()
+            milestone.fecha_creacion = datetime.datetime.now(timezone.utc)
+            milestone.fecha_maxima_Retroalimentacion = datetime.datetime.now(timezone.utc)
+            milestone.fecha_maxima = datetime.datetime.now(timezone.utc)
+            milestone.requerimientos = "default"
+            milestone.importancia = "default"
+            milestone.otros = "default"
+
+            #Se enlaza el milestone creado a la incubada creada
+            milestone.fk_incubada = incubada
+            milestone.save()         
+            return redirect('/NotFound')
+
+        except:
+            return redirect('/NotFound')
+
+    else:
+        return redirect('/NotFound')
+
+
 """
 Autor: Estefania Lozano
 Nombre de funcion: admin_ver_incubada

@@ -18,6 +18,8 @@ urlpatterns = patterns('',
      url(r'^AdminIncubadasIncubacion[/]?$','incubacion.views.admin_incubadas_incubacion', name='admin_incubadas_incubacion'),
      url(r'^AdminSolicitudesIncubacion[/]?$','incubacion.views.admin_solicitudes_incubacion', name='admin_solicitudes_incubacion'),
      url(r'^RechazarSolicitudIncubacion[/]?$','incubacion.views.admin_rechazar_solicitud', name='admin_rechazar_solicitud'),
+     url(r'^AceptarSolicitudIncubacion[/]?$','incubacion.views.admin_aceptar_solicitud', name='admin_aceptar_solicitud'),
+
                        
      url(r'^BuscarConsultor[/]?$', 'incubacion.views.buscar_usuario', name='buscar_usuario'),
      url(r'^GuardarConvocatoria[/]?$', 'incubacion.views.guardar_convocatoria', name='guardar_convocatoria'),

@@ -15,8 +15,9 @@
                 <br><i class="fa fa-calendar"></i>&nbsp;{{solicitud.2.date}}
               </p>
               <p class="text-muted" style="width:100%" align=right>
-                <button type="button" class="btn btn-red" name="aceptar_solicitud">
+                <button type="button" class="btn btn-red" id ="aceptar_solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}" >
                 <span class="glyphicon glyphicon-plus-sign"></span> Aceptar</button>
+
                 <button type="button" class="btn btn-default" id ="rechazar_solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}" style="margin-left:10px">
                 <span class="glyphicon glyphicon-minus-sign"></span> Rechazar</button>
               </p>
@@ -37,6 +38,28 @@
                         url: '/RechazarSolicitudIncubacion/',
                         success: function (data) {
                           $('#solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}').remove();
+                        }
+                      });
+                    } 
+                  });
+                });
+
+                $(function () {
+                  $('#aceptar_solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}').click(function(){
+                    if (confirm("Desea Aceptar esta Solicitud?")){
+                      $('#solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}').remove();
+                      aceptar();  
+                    }                    
+                    function aceptar(){
+                      $.ajax({
+                        data: {
+                          'id_solicitud':{{solicitud.0.id_solicitud_ofertas_convocatoria}}
+                        },
+                        type: 'get',
+                        url: '/AceptarSolicitudIncubacion/',
+                        success: function (data) {
+                          //window.location.reload();
+                          window.location.href = '/AdminIncubada/'+{{solicitud.0.fk_oferta_id}};
                         }
                       });
                     } 
