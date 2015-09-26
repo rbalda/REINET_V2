@@ -710,12 +710,12 @@ def admin_ver_incubacion(request, id_incubacion):
                         fecha_maxima = convocatorias_incubacion.fecha_maxima
                         # si la fecha maxima es menor a hoy no hay una convocatoria abierta
                         if fecha_maxima <= hoy:
-                            args['convocatorias'] = "No hay Convocatoria"
+                            args['convocatoria'] = False
                         else:
-                            args['convocatorias'] = convocatorias_incubacion
+                            args['convocatoria'] = convocatorias_incubacion
 
                     else:
-                        args['convocatorias'] = "No hay Convocatoria"
+                        args['convocatoria'] = False
 
                     args['incubacion'] = incubacion
                     return render_to_response('admin_ver_incubacion.html', args)
@@ -756,13 +756,10 @@ def usuario_ver_incubacion(request, id_incubacion):
                 #Lo siguiente es para poder mostrar las incubadas de la incubacion               
                 encontro=False
                 incubadas = []
-                incubadasIncubacion=Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion)
-                print 'iincubadasIncubacion'
-                print len(incubadasIncubacion)
-                
-                #Lo siguiente es para encontrar las incubadas de una incubacion, por el id de oferta que debe ser unico
-                if incubadasIncubacion.first():
-                    idofertas =[]
+                incubadasIncubacion=Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion)                
+                #Si es que tengo incubadas puedo recorrer la lista
+                idofertas =[]
+                if incubadasIncubacion.first():                    
                     idofertas.append(incubadasIncubacion.first().fk_oferta.id_oferta)
                     ofertaEncontrada=False
                     for inc in incubadasIncubacion:
@@ -788,15 +785,43 @@ def usuario_ver_incubacion(request, id_incubacion):
                 convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
                 if convocatorias_incubacion is not None:
                     hoy = datetime.datetime.now(timezone.utc)
+                    print 'vaaaaaaaaaaaaaaaaaaaaamo a ver'
+                    print hoy
                     fecha_maxima = convocatorias_incubacion.fecha_maxima
+                    print fecha_maxima
                     # verifico si hay un convocatoria abierta por medio de las fechas
                     if fecha_maxima <= hoy:
-                        args['convocatorias'] = "No hay Convocatoria"
+                        args['convocatoria'] = False
                     else:
-                        args['convocatorias'] = convocatorias_incubacion
+                        args['convocatoria'] = convocatorias_incubacion
                 else:
-                    args['convocatorias'] = "No hay Convocatoria"
+                    args['convocatoria'] = False
                 
+                #Lo siguiente es para la presentacion del boton participar
+                #Primero verificaremos si el usuario es administrador
+                if incubacion.fk_perfil == usuario:
+                    administrador=True
+                else:
+                    administrador=False
+
+                consultor=False
+                for id in idofertas:
+                    consultorExiste= Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil).first()
+                    if consultorExiste:
+                        incubada_consultor=IncubadaConsultor.objects.filter(fk_oferta_incubada=id,fk_consultor=consultorExiste.id_consultor)
+                        if len(incubada_consultor)>0:
+                            consultor=True
+                
+                participante=False
+
+                solicitud=False
+
+                args['administrador']=administrador
+                args['consultor']=consultor
+                args['participante']=participante
+                args['solicitud']=solicitud
+
+
                 #Necesitamos tambien mostrar la incubacion 
                 args['incubacion'] = incubacion
                 args.update(csrf(request))
@@ -1033,7 +1058,6 @@ def admin_ver_incubada(request, id_oferta):
                     #Tenemos que validar si hay un mmilestone vigente
                     primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
                     args['milestone']=primer_milestone
-
 
                     milestone = Milestone.objects.filter(fk_incubada=incubada.id_incubada).last()
                     if milestone:

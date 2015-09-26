@@ -25,8 +25,17 @@
     	<div class="col-sm-12 col-xs-12" style="padding:0">
     		<div class="col-sm-8"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
     		<div class="col-sm-4">
-    			
-  				<a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
+          
+    			{% if convocatoria == False or administrador == True or consultor == True or participante == True or incubacion.estado_incubacion == 1 or incubacion.estado_incubacion == 2 or solicitud == True%}
+            <div class="col-sm-12">
+  				  <a href="#" disabled class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
+           </div>
+          {%else%}
+            <div class="col-sm-12">
+            <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
+            </div>
+          {%endif%}
+        
         </div>
   		</div>
       <!-- comienza MODAL Invitar Consultor -->
@@ -38,7 +47,7 @@
                     <h4 class="modal-title">PARTICIPAR EN LA INCUBACI&Oacute;N</h4>
                   </div>
                   <div class="modal-body media" style="font-size:14px;padding-top: 0px;width: 540px;">
-                  <span>Señor usuario usted puede elegir una de sus ofertas que a su vez podran estar participando en la icubaci&oacute;n</span>
+                  <span>Señor usuario usted debe elegir una de sus ofertas publicadas para poder participar en la incubación. El administrador de la incubación deberá aceptar su solicitud para que el proceso comience.</span>
                     <div id="formulario" name="formulario" class="form-horizontal col-md-12" style="width: 430px;">
                       {% csrf_token %}
 
@@ -75,7 +84,7 @@
                                 data: {
                                   'incubacion':{{incubacion.id_incubacion}},
                                   'oferta': selectedValue,
-                                  'convocatoria':{{convocatorias.id_convocatoria_ofertas}}
+                                  'convocatoria':{{convocatoria.id_convocatoria_ofertas}}
                                 },
                                 type: 'get',
                                 url: '/EnviarOfertaParticipar/',
@@ -89,7 +98,7 @@
                   </div>
                   <div align=right>
                         <a class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                         <button id="participar_incubacion" class="btn btn-red" data-dismiss="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar&nbsp;&nbsp;</button>
+                         <button id="participar_incubacion" class="btn btn-red" data-dismiss="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar solicitud de participación&nbsp;&nbsp;</button>
                       </div>
                     </div>
                   </div>
@@ -98,6 +107,7 @@
             <!-- termina MODAL Invitar Consultor -->
   		
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
+        <div class="col-sm-8">
   				<ul class="text-muted list-inline">
 					<li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
 					<li><i class="fa fa-cog"></i> Estado: 
@@ -112,6 +122,28 @@
             {% endif %}  
           </li>
   				</ul>
+        </div>
+
+        <div class="col-sm-4">
+            {%if incubacion.estado_incubacion == 1 %}
+              <div style="font-size:11px;" align="right">*La incubación se encuentra <strong>Terminada</strong></div> 
+            {%elif incubacion.estado_incubacion == 2%}
+              <div style="font-size:11px;" align="right">*La incubación se encuentra <strong>Desactivada</strong></div> 
+            {%elif solicitud == True %}
+              <div style="font-size:11px;" align="right">*Usted ya ha solicitado participar en ésta incubación <strong>Terminada</strong></div> 
+            {%elif incubacion.estado_incubacion == 2%}
+              <div style="font-size:11px;" align="right">*L
+            {%elif convocatoria == False%}
+              <div style="font-size:11px;" align="right">*No existe una convocatoria vigente</div>
+            {%elif administrador == True%}
+              <div style="font-size:11px;" align="right">*Usted es el <strong>administrador</strong> de ésta incubación</div> 
+            {%elif consultor == True%}
+              <div style="font-size:11px;" align="right">*Usted es <strong>consultor</strong> en ésta incubación</div> 
+            {%elif participante == True%}
+              <div style="font-size:11px;" align="right">*Usted ya es <strong>participante</strong> en ésta incubación</div> 
+            
+            {%endif%}
+        </div>
     	</div>
 
 
@@ -153,7 +185,7 @@
           <div class="panel panel-dark" align="center" style="margin-bottom:0px">
             <div class="panel-body" style="padding-bottom: 5px;">
               <h4 class="hl" style=" font-weight: bold"><bold> Convocatoria Actual de ofertas</bold></h4>
-                {% if convocatorias != "No hay Convocatoria" %} 
+                {% if convocatoria != False %} 
                   <table class="table " style="margin-bottom: 0px;">
                     <thead>
                       <tr>
@@ -162,7 +194,7 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="text-align:left">{{ convocatorias.fecha_maxima }}</td>
+                        <td style="text-align:left">{{ convocatoria.fecha_maxima }}</td>
                       </tr>
                     </tbody>
                   </table>
