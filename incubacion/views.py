@@ -756,23 +756,33 @@ def usuario_ver_incubacion(request, id_incubacion):
                 #Lo siguiente es para poder mostrar las incubadas de la incubacion               
                 encontro=False
                 incubadas = []
-                for incubada in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
-                    for incubada1 in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
-                        if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
-                            if encontro == False:
-                                encontro=True
-                                propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=incubada.fk_oferta.id_oferta).first()
-                                fechapublicacion=incubada.fecha_publicacion
-                                foto=ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada).first()
-                                print 'imagesitooooo'
-                                print foto.imagen
-                                print propietario
-                                print propietario.fk_participante
-                                print propietario.fk_participante.first_name
+                incubadasIncubacion=Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion)
+                print 'iincubadasIncubacion'
+                print len(incubadasIncubacion)
+                
+                #Lo siguiente es para encontrar las incubadas de una incubacion, por el id de oferta que debe ser unico
+                if incubadasIncubacion.first():
+                    idofertas =[]
+                    idofertas.append(incubadasIncubacion.first().fk_oferta.id_oferta)
+                    ofertaEncontrada=False
+                    for inc in incubadasIncubacion:
+                        for ofe in idofertas:
+                            if inc.fk_oferta.id_oferta == ofe:
+                                ofertaEncontrada=True
+                        if ofertaEncontrada!=True:
+                            idofertas.append((inc.fk_oferta.id_oferta))
+                        else:
+                            ofertaEncontrada=False
 
-                                incubadas.append((incubada, propietario, fechapublicacion,foto))
-                encontro=False
-                args['incubadas'] = incubadas
+                    for idofert in idofertas:
+                        ultimaIncubada=Incubada.objects.filter(fk_oferta=idofert).last()
+                        if ultimaIncubada:
+                            propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=ultimaIncubada.fk_oferta.id_oferta).first()
+                            fechapublicacion=ultimaIncubada.fecha_publicacion
+                            foto=ImagenIncubada.objects.filter(fk_incubada=ultimaIncubada.id_incubada).first()
+                            incubadas.append((ultimaIncubada, propietario, fechapublicacion,foto))
+                    
+                    args['incubadas'] = incubadas
 
                 #Lo siguiente es para mostrar la convocatoriaa actual
                 convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
