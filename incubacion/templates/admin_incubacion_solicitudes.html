@@ -1,9 +1,8 @@
-{% if solicitudes  %}   
+{% if solicitudes %}   
   <div style="font-size:12px;height:250px;overflow-y:auto;" >
     <div class="pm-list" id ="lista_solicitudes">
       <ul>
         {%for solicitud in solicitudes%}
-          {% if solicitud.0.estado_solicitud == 0 %}  
             <li id ="solicitud{{solicitud.0.id_solicitud_ofertas_convocatoria}}">
               <p class="text-muted" style="width:100%">
                 {%if incubada.3.imagen %}
@@ -45,7 +44,6 @@
                 });
               });
             </script>
-          {%endif%} 
         {%endfor%}
       </ul>
     </div>

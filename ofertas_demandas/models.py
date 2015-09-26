@@ -100,7 +100,6 @@ class Demanda(models.Model):
     comentarios = models.ManyToManyField(Perfil,through='ComentarioDemanda',through_fields=('fk_demanda','fk_usuario'),related_name='usuarios_que_cpmentaron')
     es_publica = models.BooleanField(default=False)#si es false el alcance de la demanda se tendra que validar con las intituciones asignadas
 
-
     class Meta:
         db_table = 'Demanda'
 

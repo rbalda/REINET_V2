@@ -735,12 +735,12 @@ def admin_ver_incubacion(request, id_incubacion):
                         fecha_maxima = convocatorias_incubacion.fecha_maxima
                         # si la fecha maxima es menor a hoy no hay una convocatoria abierta
                         if fecha_maxima <= hoy:
-                            args['convocatorias'] = "No hay Convocatoria"
+                            args['convocatoria'] = False
                         else:
-                            args['convocatorias'] = convocatorias_incubacion
+                            args['convocatoria'] = convocatorias_incubacion
 
                     else:
-                        args['convocatorias'] = "No hay Convocatoria"
+                        args['convocatoria'] = False
 
                     args['incubacion'] = incubacion
                     return render_to_response('admin_ver_incubacion.html', args)
@@ -779,25 +779,31 @@ def usuario_ver_incubacion(request, id_incubacion):
             incubacion = Incubacion.objects.get(id_incubacion=id_incubacion)
             if incubacion :
                 #Lo siguiente es para poder mostrar las incubadas de la incubacion               
-                encontro=False
                 incubadas = []
-                for incubada in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
-                    for incubada1 in Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion):
-                        if incubada.fk_oferta.id_oferta == incubada1.fk_oferta.id_oferta:
-                            if encontro == False:
-                                encontro=True
-                                propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=incubada.fk_oferta.id_oferta).first()
-                                fechapublicacion=incubada.fecha_publicacion
-                                foto=ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada).first()
-                                print 'imagesitooooo'
-                                #print foto.imagen
-                                print propietario
-                                print propietario.fk_participante
-                                print propietario.fk_participante.first_name
+                incubadasIncubacion=Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion)                
+                #Si es que tengo incubadas puedo recorrer la lista
+                idofertas =[]
+                if incubadasIncubacion.first():                    
+                    idofertas.append(incubadasIncubacion.first().fk_oferta.id_oferta)
+                    ofertaEncontrada=False
+                    for inc in incubadasIncubacion:
+                        for ofe in idofertas:
+                            if inc.fk_oferta.id_oferta == ofe:
+                                ofertaEncontrada=True
+                        if ofertaEncontrada!=True:
+                            idofertas.append((inc.fk_oferta.id_oferta))
+                        else:
+                            ofertaEncontrada=False
 
-                                incubadas.append((incubada, propietario, fechapublicacion,foto))
-                encontro=False
-                args['incubadas'] = incubadas
+                    for idofert in idofertas:
+                        ultimaIncubada=Incubada.objects.filter(fk_oferta=idofert).last()
+                        if ultimaIncubada:
+                            propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=ultimaIncubada.fk_oferta.id_oferta).first()
+                            fechapublicacion=ultimaIncubada.fecha_publicacion
+                            foto=ImagenIncubada.objects.filter(fk_incubada=ultimaIncubada.id_incubada).first()
+                            incubadas.append((ultimaIncubada, propietario, fechapublicacion,foto))
+                    
+                    args['incubadas'] = incubadas
 
                 #Lo siguiente es para mostrar la convocatoriaa actual
                 convocatorias_incubacion = Convocatoria.objects.all().filter(fk_incubacion_id=id_incubacion).last()
@@ -806,14 +812,38 @@ def usuario_ver_incubacion(request, id_incubacion):
                     fecha_maxima = convocatorias_incubacion.fecha_maxima
                     # verifico si hay un convocatoria abierta por medio de las fechas
                     if fecha_maxima <= hoy:
-                        args['convocatorias'] = "No hay Convocatoria"
+                        args['convocatoria'] = False
                     else:
-                        args['convocatorias'] = convocatorias_incubacion
+                        args['convocatoria'] = convocatorias_incubacion
                 else:
-                    args['convocatorias'] = "No hay Convocatoria"
-
+                    args['convocatoria'] = False
 
                 
+                #Lo siguiente es para la presentacion del boton participar
+                #Primero verificaremos si el usuario es administrador
+                if incubacion.fk_perfil == usuario:
+                    administrador=True
+                else:
+                    administrador=False
+
+                consultor=False
+                for id in idofertas:
+                    consultorExiste= Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil).first()
+                    if consultorExiste:
+                        incubada_consultor=IncubadaConsultor.objects.filter(fk_oferta_incubada=id,fk_consultor=consultorExiste.id_consultor)
+                        if len(incubada_consultor)>0:
+                            consultor=True
+                
+                participante=False
+
+                solicitud=False
+
+                args['administrador']=administrador
+                args['consultor']=consultor
+                args['participante']=participante
+                args['solicitud']=solicitud
+
+
                 #Necesitamos tambien mostrar la incubacion 
                 args['incubacion'] = incubacion
                 args.update(csrf(request))
@@ -851,69 +881,35 @@ def admin_incubadas_incubacion(request):
     #si encuentra el ajax del template
     if request.is_ajax():
         try:
-            #obtengo las incubadas de la incubacion
-            incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            imagenincubada = ImagenIncubada.objects.all().filter()
-            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
-            if len(imagenincubada) > 0:
-                args['imagenes']= imagenincubada
-            else:
-                 args['imagenes']= "No hay imagenes"   
-            
-            if len(incubadas) > 0:
-                args['incubadas'] = incubadas
-            else:    
-                args['incubadas'] = "No hay incubadas"
-            args['propietarios']= propietarios
+            incubacion = Incubacion.objects.get(id_incubacion=request.GET['incubacion'])
+            if incubacion:
+                #Lo siguiente es para poder mostrar las incubadas de la incubacion               
+                incubadas = []
+                incubadasIncubacion=Incubada.objects.filter(fk_incubacion=incubacion.id_incubacion)                
+                #Si es que tengo incubadas puedo recorrer la lista
+                idofertas =[]
+                if incubadasIncubacion.first():                    
+                    idofertas.append(incubadasIncubacion.first().fk_oferta.id_oferta)
+                    ofertaEncontrada=False
+                    for inc in incubadasIncubacion:
+                        for ofe in idofertas:
+                            if inc.fk_oferta.id_oferta == ofe:
+                                ofertaEncontrada=True
+                        if ofertaEncontrada!=True:
+                            idofertas.append((inc.fk_oferta.id_oferta))
+                        else:
+                            ofertaEncontrada=False
+
+                    for idofert in idofertas:
+                        ultimaIncubada=Incubada.objects.filter(fk_oferta=idofert).last()
+                        if ultimaIncubada:
+                            propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=ultimaIncubada.fk_oferta.id_oferta).first()
+                            fechapublicacion=ultimaIncubada.fecha_publicacion
+                            foto=ImagenIncubada.objects.filter(fk_incubada=ultimaIncubada.id_incubada).first()
+                            incubadas.append((ultimaIncubada, propietario, fechapublicacion,foto))
+                    
+                    args['incubadas'] = incubadas
             return render_to_response('admin_incubadas_de_incubacion.html',args)
-        except Incubada.DoesNotExist:
-            return redirect('/')
-        except IncubadaConsultor.DoesNotExist:
-            return redirect('/')
-        except:
-            return redirect('/')
-    else:
-        return redirect('/NotFound')
-
-"""
-Autor: Henry Lasso
-Nombre de funcion: usuario_incubadas_incubacion
-Parametros: request
-Salida: usuario_lista_incubadas
-Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de incubadas de la incubacion como usuario
-"""
-
-@login_required
-def usuario_incubadas_incubacion(request):
-    sesion = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=sesion)
-    args = {}
-    args['es_admin'] = request.session['es_admin']
-    # si el usuario EXISTE asigna un arg para usarlo en el template
-    if usuario is not None:
-        args['usuario'] = usuario
-    else:
-        args['error'] = "Error al cargar los datos"
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    #si encuentra el ajax del template
-    if request.is_ajax():
-        try:
-            #obtengo las incubadas de la incubacion 
-            incubadas=Incubada.objects.all().filter(fk_incubacion_id = request.GET['incubacion'])
-            imagenincubada = ImagenIncubada.objects.all().filter()
-            #obtengo todos los propietarios
-            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
-            if len(imagenincubada) > 0:
-                args['imagenes']= imagenincubada
-            else:
-                args['imagenes']= "No hay imagenes"   
-            
-            if len(incubadas) > 0:
-                args['incubadas'] = incubadas
-            else:    
-                args['incubadas'] = "No hay incubadas"
-            args['propietarios']= propietarios    
-            return render_to_response('usuario_incubacion_incubadas.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
         except IncubadaConsultor.DoesNotExist:
@@ -950,17 +946,18 @@ def admin_solicitudes_incubacion(request):
         try:
             #obtengo todas las solicitudes de las convocatorias de la incubacion
             solicitudes = SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion = request.GET['incubacion'],estado_solicitud=0) 
-            #obtengo todos los propietarios de la incubadas
-            propietarios = MiembroEquipo.objects.all().filter(es_propietario=1)
-            imagenesofertas = ImagenOferta.objects.all().filter()
-            numeroimagenesoferta= len(imagenesofertas)
-            if len(solicitudes) > 0:
-                args['solicitudes'] = solicitudes
-            else:    
-                args['solicitudes'] = "No hay solicitudes"
-            args['numeroimagenesoferta']=numeroimagenesoferta 
-            args['imagenesofertas'] = imagenesofertas
-            args['propietarios'] = propietarios
+            
+            solicitudesLista = []
+            #Si es que tengo incubadas puedo recorrer la lista
+            if solicitudes.first():
+                for solicitud in solicitudes:
+                        propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=solicitud.fk_oferta.id_oferta).first()
+                        fechasolicitud=solicitud.fecha_creacion
+                        foto=ImagenOferta.objects.filter(fk_oferta=solicitud.fk_oferta.id_oferta).first()
+                        solicitudesLista.append((solicitud, propietario, fechasolicitud,foto))
+                
+                args['solicitudes'] = solicitudesLista
+                
             return render_to_response('admin_incubacion_solicitudes.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -1041,7 +1038,6 @@ def admin_ver_incubada(request, id_oferta):
                     #Tenemos que validar si hay un mmilestone vigente
                     primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
                     args['milestone']=primer_milestone
-
 
                     milestone = Milestone.objects.filter(fk_incubada=incubada.id_incubada).last()
                     if milestone:
