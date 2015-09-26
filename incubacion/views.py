@@ -1534,23 +1534,30 @@ Descripcion: para llamar la pagina ver milestone
 
 @login_required
 def admin_ver_milestone(request,id_incubada):
+    session = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=request.session['id_usuario'])
     args = {}
-    args['usuario'] = request.user
     args['es_admin'] = request.session['es_admin']
-    try:
-        incubada=Incubada.objects.get(id_incubada=id_incubada)
-        print incubada.fk_oferta
-        args['incubada'] = incubada
-        listaMilestone = Milestone.objects.all().filter()
-        args['listaMilestone'] = listaMilestone
-        return render_to_response('admin_ver_milestone.html', args)
-    except Incubada.DoesNotExist:
-        print '>> incubada no existe'
-        return redirect('/NotFound/')
-    except Exception as e:
-        print e
-        print '>> Excepcion no controlada ver milestone'
-        return redirect('/NotFound/')
+    if usuario is not None:
+        args['usuario'] = usuario
+        try:
+            incubada=Incubada.objects.get(id_incubada=id_incubada)
+            print incubada.fk_oferta
+            args['incubada'] = incubada
+            listaMilestone = Milestone.objects.all().filter()
+            args['listaMilestone'] = listaMilestone
+            return render_to_response('admin_ver_milestone.html', args)
+        except Incubada.DoesNotExist:
+            print '>> incubada no existe'
+            return redirect('/NotFound/')
+        except Exception as e:
+            print e
+            print '>> Excepcion no controlada ver milestone'
+            return redirect('/NotFound/')
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
+
 
 class Autocompletar_Consultor(APIView):
     permission_classes = (IsAuthenticated,)
