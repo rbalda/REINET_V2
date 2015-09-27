@@ -400,7 +400,7 @@
 		                            <hr>
 
 		                            <div style="font-size: 12px;width:100%; overflow: auto;">
-		                                <table class="table table-bordered" style="width:20%">
+		                                <table class="table table-bordered">
 		                                   	<tbody>
 		                                   	<tr style="background-color:#E2E2E2;">
 		                                         <th >Socios clave</th>
@@ -1008,7 +1008,7 @@
 			          </div>
 
 			          	{%if milestone%}
-						    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{milestone.id_milestone}}">{{milestone.fecha_maxima.date}}</a></h4>
+						    <h4 style="margin-top: 0px;font-size:19px">{{milestone.fecha_maxima.date}}</h4>
 						    
 						    <span style="font-size:13px;color:gray">Requerimientos:</span>
 						    <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
@@ -1018,7 +1018,7 @@
 			          	{%endif%}
 			         	
 		              
-		              <a href="/VerMilestone/{{milestone.id_milestone}}" class="read-more">Ver m&aacute;s...</a>
+		              <a href="/VerMilestone/{{incubada.id_incubada}}" class="read-more">Ver m&aacute;s...</a>
 			            
 		        	</div>
 		        	<!-- TERMINA Historial de milestones -->

@@ -22,22 +22,21 @@
 
     
     <div class="container">
-    	<div class="col-sm-12 col-xs-12" style="padding:0">
-    		<div class="col-sm-8"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
-    		<div class="col-sm-4">
+      <div class="col-sm-12 col-xs-12" style="padding:0">
+        <div class="col-sm-8"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
+        <div class="col-sm-4">
           
-    			{% if convocatoria == False or administrador == True or consultor == True or participante == True or incubacion.estado_incubacion == 1 or incubacion.estado_incubacion == 2 or solicitud == True%}
+          {% if convocatoria == False or administrador == True or consultor == True or participante == True or incubacion.estado_incubacion == 1 or incubacion.estado_incubacion == 2 or solicitud == True%}
             <div class="col-sm-12">
-  				  <a href="#" disabled class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
+            <a href="#" disabled class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
            </div>
           {%else%}
             <div class="col-sm-12">
             <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-target="#modalParticiparIncubcion" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;Participar</a>
             </div>
           {%endif%}
-        
         </div>
-  		</div>
+      </div>
       <!-- comienza MODAL Invitar Consultor -->
             <div id="modalParticiparIncubcion" class="modal fade" role="dialog">
               <div class="modal-dialog" style="width: 40% !important;">
@@ -47,7 +46,7 @@
                     <h4 class="modal-title">PARTICIPAR EN LA INCUBACI&Oacute;N</h4>
                   </div>
                   <div class="modal-body media" style="font-size:14px;padding-top: 0px;width: 540px;">
-                  <span>Señor usuario usted debe elegir una de sus ofertas publicadas para poder participar en la incubación. El administrador de la incubación deberá aceptar su solicitud para que el proceso comience.</span>
+                  <span>Señor usuario usted puede elegir una de sus ofertas que a su vez podran estar participando en la icubaci&oacute;n</span>
                     <div id="formulario" name="formulario" class="form-horizontal col-md-12" style="width: 430px;">
                       {% csrf_token %}
 
@@ -106,8 +105,7 @@
                   </div>
                   <div align=right>
                         <a class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                         <button href= id="participar_incubacion" class="btn btn-red" data-dismiss="modal" ><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar solicitud de participación&nbsp;&nbsp;</button>
-
+                         <button id="participar_incubacion" class="btn btn-red" data-dismiss="modal" data-target="#confirmacion_participar" data-toggle="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar&nbsp;&nbsp;</button>
                       </div>
                     </div>
                   </div>
@@ -127,18 +125,18 @@
                     <div class="modal-body media" style="font-size:14px;padding-top: 0px;width: 540px;">
                        <span>Señor usuario se ha enviado correcctamente su solicitud para participar en esta incubaci&oacute;n</span>
                        <div align=right>
-                           <button class="btn btn-red" data-dismiss="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Aceptar&nbsp;&nbsp;</button>
+                           <a class="btn btn-red" href="/VerIncubacion/{{incubacion.id_incubacion}}"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Aceptar&nbsp;&nbsp;</a>
                        </div>
                     </div>
                   </div>
                 </div>
             </div>
-  		
+      
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
         <div class="col-sm-8">
-  				<ul class="text-muted list-inline">
-					<li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
-					<li><i class="fa fa-cog"></i> Estado: 
+          <ul class="text-muted list-inline">
+          <li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date }}</li>
+          <li><i class="fa fa-cog"></i> Estado: 
             {% if incubacion.estado_incubacion == 0 %}
               ACTIVA
             {% endif %}
@@ -149,7 +147,7 @@
               DESACTIVADA
             {% endif %}  
           </li>
-  				</ul>
+          </ul>
         </div>
 
         <div class="col-sm-4">
@@ -162,7 +160,7 @@
             {%elif convocatoria == False%}
               <div style="font-size:11px;" align="right">*No existe una convocatoria vigente</div>
             {%elif consultor == True%}
-              <div style="font-size:11px;" align="right">*Usted es <strong>consultor</strong> en ésta incubación para ir al administrador haga clic <a href="/AdminIncubacion/{{incubacion.id_incubacion}}">aquí</a></div> 
+              <div style="font-size:11px;" align="right">*Usted es <strong>consultor</strong> en ésta incubación para ir al administrador haga clic <a href="/ConsultorIncubada/{{idOfertaConsultor}}">aquí</a></div> 
             {%elif participante == True%}
               <div style="font-size:11px;" align="right">*Usted ya es <strong>participante</strong> en ésta incubación</div> 
             {%elif solicitud == True %}
@@ -170,28 +168,28 @@
             
             {%endif%}
         </div>
-    	</div>
+      </div>
 
 
-    	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
-    		<div align="right">
-    			
-    		</div>
-    		
-			<div class="col-sm-12">
-	            <h4 class="hl"><i class="fa fa-info-circle"></i> Descripción</h4>
-	            <p class="bottom-15">{{ incubacion.descripcion}}</p>
-	           	<h4 class="hl"><i class="fa fa-question-circle"></i> Condiciones</h4>
-	            <p class="bottom-15">{{ incubacion.condiciones }}</p>
-	        </div>
-			<div class="col-sm-12">
-				<h4 class="hl"><i class="fa fa-sitemap"></i> Acerca de la Ofertas a Incubar</h4>
-	            <div role="tabpanel" class="tab-pane" id="cliente_usuario">
-	              	<div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
-		              	<p style="color: darkgray"  class="col-md-5">Perfil de la Oferta</p>
-		              	<p class="col-md-7">{{ incubacion.perfil_oferta}}</p>
-		              	<p style="color: darkgray"  class="col-md-5">Tipo de la Oferta</p>
-		                <p class="col-md-7"> 
+      <div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
+        <div align="right">
+          
+        </div>
+        
+      <div class="col-sm-12">
+              <h4 class="hl"><i class="fa fa-info-circle"></i> Descripción</h4>
+              <p class="bottom-15">{{ incubacion.descripcion}}</p>
+              <h4 class="hl"><i class="fa fa-question-circle"></i> Condiciones</h4>
+              <p class="bottom-15">{{ incubacion.condiciones }}</p>
+          </div>
+      <div class="col-sm-12">
+        <h4 class="hl"><i class="fa fa-sitemap"></i> Acerca de la Ofertas a Incubar</h4>
+              <div role="tabpanel" class="tab-pane" id="cliente_usuario">
+                  <div class="col-md-12" style="margin-top: 0px;padding-top: 15px;">
+                    <p style="color: darkgray"  class="col-md-5">Perfil de la Oferta</p>
+                    <p class="col-md-7">{{ incubacion.perfil_oferta}}</p>
+                    <p style="color: darkgray"  class="col-md-5">Tipo de la Oferta</p>
+                    <p class="col-md-7"> 
                       {% if incubacion.tipos_oferta == 0 %}
                           Emprendimiento
                       {% endif %}
@@ -201,12 +199,12 @@
                       {% if incubacion.tipos_oferta == 2 %}
                           Prototipo
                       {% endif %} </p>
-	                </div>
-	            </div>
-	            <hr>
-	        </div>	
-    	</div>
-    	<div class="col-sm-7">
+                  </div>
+              </div>
+              <hr>
+          </div>  
+      </div>
+      <div class="col-sm-7">
         <div class="col-sm-8 col-sm-offset-2" align="center" style="padding:15px">
           <div class="panel panel-dark" align="center" style="margin-bottom:0px">
             <div class="panel-body" style="padding-bottom: 5px;">
@@ -230,13 +228,13 @@
             </div>
           </div>
         </div>
-	     <div class="col-sm-12">
-	    		<ul class="nav nav-tabs" role="tablist">
-	            	<li role="presentation" class="active"><a href="#incubadas" aria-controls="home" role="tab" data-toggle="tab">INCUBADAS</a></li>
-	            	    
-	           	</ul>
-				<div class="tab-content">
-  				  <div id="incubadas" class="tab-pane fade in active">
+       <div class="col-sm-12">
+          <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#incubadas" aria-controls="home" role="tab" data-toggle="tab">INCUBADAS</a></li>
+                    
+              </ul>
+        <div class="tab-content">
+            <div id="incubadas" class="tab-pane fade in active">
 
                      {% if incubadas %}
 
@@ -268,45 +266,12 @@
                         </div>
                     {% endif %}   
 
-
-
-
-
-
-
-
             </div>
           </div>
       </div>
     </div>
   </div>
 </div>
-      	<div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
-         aria-labelledby="sendemailtitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="sendemailtitle">Mensaje de Confirmaci&oacute;n</h4>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-body">
-                    <form role="form" action="" method=''>
-                        <!--{% csrf_token %}-->
-                        <div class="form-group">
-                            <label for="Confirmacion">La oferta ha sido rechazada con &eacute;xito.</label>
-                            
-                        </div>
-                        <div align="right">
-                            <a href="/VerIncubacion/{{incubacion.id}}" class="button">
-                                <button id="btn_rechazada"type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-      </div>
     </div>    
 </div>
 {% endblock %}
