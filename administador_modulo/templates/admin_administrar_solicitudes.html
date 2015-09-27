@@ -43,7 +43,7 @@
             <button type="button" class="btn btn-green" data-toggle="modal" data-target="#modalCrearOferta">Administrar
             </button>
                     {% endcomment %}
-                        <h3 class="hl top-zero">Administrar Ofertas</h3>
+                        <h3 class="hl top-zero">Administrar Solicitudes</h3>
         </div>
 
 
@@ -85,7 +85,7 @@
     $("#buscar_usuarios").click(function(){
        
         input=$("[name='input_busqueda']").val()
-         $("#cargando_icono").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+         $("#cargando_icono").addClass("fa fa-spinner fa-pulse");
        
             $.ajax({
             data:{
@@ -96,7 +96,7 @@
             type:'GET',
             url: '/admin_render_solicitudes/',
             success: function(data){
-                 $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                 $("#cargando_icono").removeClass("fa fa-spinner fa-pulse");
        
                 $('#ofertas').html(data);
             },

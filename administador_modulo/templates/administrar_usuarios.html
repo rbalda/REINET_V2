@@ -86,7 +86,7 @@
     $("#buscar_usuarios").click(function(){
        
             apellido=$("[name='input_busqueda']").val()
-        $("#cargando_icono").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+        $("#cargando_icono").addClass("fa fa-spinner fa-pulse");
             $.ajax({
             data:{
                 'apellido': apellido,
@@ -97,7 +97,7 @@
             url: '/adminrenderusuarios/',
             success: function(data){
 
-                $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                $("#cargando_icono").removeClass("fa fa-spinner fa-pulse");
                 $('#usuarios').html(data);
             },
             error: function () {

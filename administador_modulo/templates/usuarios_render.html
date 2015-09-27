@@ -47,7 +47,7 @@
               
             </select>
              <div name="div_guardar" id="{{u.id_perfil}}"hidden>
-            <button class="btn btn-success col-md-4" style="float:left;" id="{{u.id_perfil}}" name="guardar_btn" >Guardar <span name="cargando_icono_ind" id="{{u.id_perfil}}" ></span></button>
+            <button class="btn btn-success col-md-4" style="float:left;" id="{{u.id_perfil}}" name="guardar_btn" >Guardar <span name="cargando_icono_ind" id="{{u.id_perfil}}" ></span> </button>
         </div>
         <div name="div_editar" id="{{u.id_perfil}}">
             <button class="btn btn-warning col-md-4" style="float:left;" id="{{u.id_perfil}}" name="btn_activar_editar"> Editar</button>
@@ -66,7 +66,7 @@
     <div class="pagination">
     <span class="step-links">
         {% if usuarios.has_previous %}
-            <a class="btn btn-success" onclick="ajaxPaginacion({{ contacts.previous_page_number }});">Atrás</a>
+            <a class="btn btn-success" name="atras" onclick="ajaxPaginacion({{ usuarios.previous_page_number }});"> <span name="cargando_icono_atras"> </span> Atrás </a>
         {% endif %}
 
         <span class="current">
@@ -74,7 +74,7 @@
         </span>
 
         {% if usuarios.has_next %}
-            <a class="btn btn-success" onclick="ajaxPaginacion({{ usuarios.next_page_number }});">Siguiente</a>
+            <a class="btn btn-success" name="siguiente"onclick="ajaxPaginacion({{ usuarios.next_page_number }});">Siguiente  <span name="cargando_icono_next"></span></a>
         {% endif %}
     </span>
 	</div>
@@ -86,7 +86,8 @@
         e2.preventDefault();
         var idObtenido = $(e2.target).attr('id');
         estado=$("[id='"+idObtenido+"'][name='estado']").val();
-         $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+        // $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+        $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("fa fa-spinner fa-pulse");
        
         datos={
             'id_usuario': idObtenido,
@@ -102,18 +103,20 @@
             success: function(data){
                
                    if(data=="ok"){
-                        $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado de la oferta ha sido modificado exitosamente</div>');
+                        $("#msj_retro_estado").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> El estado del usuario ha sido modificado exitosamente</div>');
                        
                           $("[id='"+idObtenido+"'][name='estado']").prop( "disabled", true );
                             $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
                             $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
 
-                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("fa fa-spinner fa-pulse");
+
+                                  
  
                     }else{
                         $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
 
-                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("fa fa-spinner fa-pulse");
  
 
                     }
@@ -124,7 +127,7 @@
                 $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar. Error de conexíón.</div>');
 
 
-                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("fa fa-spinner fa-pulse");
  
             }
         });
@@ -136,6 +139,18 @@
              $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", false);
        
 });
+    $("[name='atras']").click(function(){
+
+          $("[name='cargando_icono_atras']").addClass("fa fa-spinner fa-pulse");
+      
+    });
+
+    $("[name='siguiente']").click(function(){
+
+          $("[name='cargando_icono_next']").addClass("fa fa-spinner fa-pulse");
+      
+    });
+
     </script>
 
 </div> 

@@ -7,20 +7,22 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import JsonResponse
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from usuarios.models import *
 from ofertas_demandas.models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.db.models import Q
 from .models import *
 
 # Create your views here.
 
-
+@login_required
 def administrar_usuarios(request):
+	if not es_el_administrador(request):
+		return HttpResponseRedirect('/')
 	if request.method == "POST":
 		pass
 	else:
@@ -43,13 +45,13 @@ def usuarios_render(request):
 		args={}
 		return render_to_response('usuarios_render.html', args)
 """
-
+@login_required
 def usuarios_render(request):
 	try:
 		print "entre"
 		apellido=request.GET['apellido']
 		print apellido
-		usuarios_query=Perfil.objects.filter(last_name__icontains=apellido)
+		usuarios_query=Perfil.objects.filter(Q(last_name__icontains=apellido)|Q(username__icontains=apellido))
 		paginator = Paginator(usuarios_query, 5) # Show 25 contacts per page
 		page = request.GET.get('page')
 		try:
@@ -68,6 +70,7 @@ def usuarios_render(request):
 		args={}
 		return render_to_response('usuarios_render.html', args)
 
+@login_required
 def ofertas_render(request):
 	try:
 		print "entre"
@@ -92,15 +95,17 @@ def ofertas_render(request):
 		args={}
 		return render_to_response('ofertas_render.html', args)
 
-
+@login_required
 def administrar_ofertas(request):
+	if not es_el_administrador(request):
+		return HttpResponseRedirect('/')
 	if request.method == "POST":
 		pass
 	else:
 		args={}
 		return render_to_response('admin_administrar_ofertas.html', args,context_instance=RequestContext(request))
 
-
+@login_required
 def demandas_render(request):
 	try:
 		print "entre"
@@ -125,15 +130,17 @@ def demandas_render(request):
 		args={}
 		return render_to_response('demandas_render.html', args)
 
-
+@login_required
 def administrar_demandas(request):
+	if not es_el_administrador(request):
+		return HttpResponseRedirect('/')
 	if request.method == "POST":
 		pass
 	else:
 		args={}
 		return render_to_response('admin_administrar_demandas.html', args,context_instance=RequestContext(request))
 
-
+@login_required
 def admin_editar_estado_demanda(request):
 	if request.method=="GET":
 		id_demanda=request.GET["id_demanda"]
@@ -152,6 +159,7 @@ def admin_editar_estado_demanda(request):
 		return HttpResponseRedirect('NotFound');
 
 
+@login_required
 def admin_editar_estado_oferta(request):
 	if request.method=="GET":
 		id_oferta=request.GET["id_oferta"]
@@ -169,6 +177,7 @@ def admin_editar_estado_oferta(request):
 		print "not found en editar estado"
 		return HttpResponseRedirect('NotFound');
 
+@login_required
 def admin_editar_estado_usuario(request):
 	if request.method=="GET":
 		id_usuario=request.GET["id_usuario"]
@@ -187,6 +196,7 @@ def admin_editar_estado_usuario(request):
 		return HttpResponseRedirect('NotFound');
 
 
+@login_required
 def verPeticiones(request):
     try:
         args = {}
@@ -197,6 +207,7 @@ def verPeticiones(request):
     except:
         return HttpResponseRedirect('/NotFound')
 
+@login_required
 def aceptarPeticiones(request):
     args={}
     try:
@@ -222,14 +233,17 @@ def aceptarPeticiones(request):
         return HttpResponse("error")
 
 
+@login_required
 def administrar_solicitudes(request):
+	if not es_el_administrador(request):
+		return HttpResponseRedirect('/')
 	if request.method == "POST":
 		pass
 	else:
 		args={}
 		return render_to_response('admin_administrar_solicitudes.html', args,context_instance=RequestContext(request))
 
-
+@login_required
 def solicitudes_render(request):
 	try:
 		print "entre"
@@ -253,3 +267,12 @@ def solicitudes_render(request):
 		print e
 		args={}
 		return render_to_response('solicitudes_render.html', args)
+
+
+
+def es_el_administrador(request):
+	print request.user.username
+	if request.user.username=="adminreinet":
+		return True
+	else:
+		return False

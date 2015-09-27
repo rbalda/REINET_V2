@@ -78,7 +78,7 @@
     <div class="pagination">
     <span class="step-links">
         {% if demandas.has_previous %}
-            <button class="btn btn-success" onclick="ajaxPaginacion({{ demandas.previous_page_number }});">Atrás</button>
+            <button class="btn btn-success"  name="atras" onclick="ajaxPaginacion({{ demandas.previous_page_number }});"><span name="cargando_icono_atras"> </span> Atrás</button>
         {% endif %}
 
         <span class="current">
@@ -86,7 +86,7 @@
         </span>
 
         {% if demandas.has_next %}
-            <button class="btn btn-success" onclick="ajaxPaginacion({{ demandas.next_page_number }});">Siguiente</button>
+            <button class="btn btn-success" onclick="ajaxPaginacion({{ demandas.next_page_number }});">Siguiente <span name="cargando_icono_next"></span></button>
         {% endif %}
     </span>
 	</div>
@@ -97,8 +97,7 @@
         e2.preventDefault();
         var idObtenido = $(e2.target).attr('id');
         estado=$("[id='"+idObtenido+"'][name='estado_demanda']").val();
-        $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
-        
+       $("[id='"+idObtenido+"'][name='cargando_icono_ind']").addClass("fa fa-spinner fa-pulse"); 
         datos={
             'id_demanda': idObtenido,
             'estado':estado,
@@ -119,17 +118,17 @@
                             $("[id='"+idObtenido+"'][name='div_editar']").prop("hidden", false);
                             $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", true);
 
-                                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                                        $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("fa fa-spinner fa-pulse");
                     }else{
                         $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar</div>');
-                        $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                            $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("fa fa-spinner fa-pulse");
                     }
 
             },
             error: function(e){
 
                 $("#msj_retro_estado").html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se ha podido actualizar. Error de conexíón.</div>');
-                $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                    $("[id='"+idObtenido+"'][name='cargando_icono_ind']").removeClass("fa fa-spinner fa-pulse");
             }
         });
     });
@@ -140,6 +139,18 @@
              $("[id='"+idObtenido+"'][name='div_guardar']").prop("hidden", false);
        
 });
+      $("[name='atras']").click(function(){
+
+          $("[name='cargando_icono_atras']").addClass("fa fa-spinner fa-pulse");
+      
+    });
+
+    $("[name='siguiente']").click(function(){
+
+          $("[name='cargando_icono_next']").addClass("fa fa-spinner fa-pulse");
+      
+    });
+
     </script>
 
 </div> 

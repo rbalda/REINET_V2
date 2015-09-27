@@ -86,7 +86,7 @@
     $("#buscar_usuarios").click(function(){
        
         input=$("[name='input_busqueda']").val()
-         $("#cargando_icono").addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+         $("#cargando_icono").addClass("fa fa-spinner fa-pulse");
        
             $.ajax({
             data:{
@@ -97,7 +97,7 @@
             type:'GET',
             url: '/admin_render_demandas/',
             success: function(data){
-                 $("#cargando_icono").removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                 $("#cargando_icono").removeClass("fa fa-spinner fa-pulse");
        
                 $('#ofertas').html(data);
             },
