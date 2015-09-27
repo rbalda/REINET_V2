@@ -106,7 +106,7 @@
                   </div>
                   <div align=right>
                         <a class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                         <button id="participar_incubacion" class="btn btn-red" data-dismiss="modal" ><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar solicitud de participación&nbsp;&nbsp;</button>
+                         <button href= id="participar_incubacion" class="btn btn-red" data-dismiss="modal" ><i class="fa fa-check-square"></i>&nbsp;&nbsp;Enviar solicitud de participación&nbsp;&nbsp;</button>
 
                       </div>
                     </div>
@@ -153,22 +153,20 @@
         </div>
 
         <div class="col-sm-4">
-            {%if incubacion.estado_incubacion == 1 %}
+            {%if administrador == True%}
+              <div style="font-size:11px;" align="right">*Usted es el <strong>administrador</strong> de ésta incubación, para ir al administrador haga clic <a href="/AdminIncubacion/{{incubacion.id_incubacion}}">aquí</a></div> 
+            {%elif incubacion.estado_incubacion == 1 %}
               <div style="font-size:11px;" align="right">*La incubación se encuentra <strong>Terminada</strong></div> 
             {%elif incubacion.estado_incubacion == 2%}
               <div style="font-size:11px;" align="right">*La incubación se encuentra <strong>Desactivada</strong></div> 
-            {%elif solicitud == True %}
-              <div style="font-size:11px;" align="right">*Usted ya ha solicitado participar en ésta incubación <strong>Terminada</strong></div> 
-            {%elif incubacion.estado_incubacion == 2%}
-              <div style="font-size:11px;" align="right">*L
             {%elif convocatoria == False%}
               <div style="font-size:11px;" align="right">*No existe una convocatoria vigente</div>
-            {%elif administrador == True%}
-              <div style="font-size:11px;" align="right">*Usted es el <strong>administrador</strong> de ésta incubación</div> 
             {%elif consultor == True%}
-              <div style="font-size:11px;" align="right">*Usted es <strong>consultor</strong> en ésta incubación</div> 
+              <div style="font-size:11px;" align="right">*Usted es <strong>consultor</strong> en ésta incubación para ir al administrador haga clic <a href="/AdminIncubacion/{{incubacion.id_incubacion}}">aquí</a></div> 
             {%elif participante == True%}
               <div style="font-size:11px;" align="right">*Usted ya es <strong>participante</strong> en ésta incubación</div> 
+            {%elif solicitud == True %}
+              <div style="font-size:11px;" align="right">*Usted ya ha solicitado participar en ésta incubación</div> 
             
             {%endif%}
         </div>
@@ -300,7 +298,7 @@
                             
                         </div>
                         <div align="right">
-                            <a href="" class="button">
+                            <a href="/VerIncubacion/{{incubacion.id}}" class="button">
                                 <button id="btn_rechazada"type="button" class="btn btn-green" data-dismiss="modal">Aceptar</button>
                             </a>
                         </div>

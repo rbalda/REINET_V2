@@ -820,23 +820,45 @@ def usuario_ver_incubacion(request, id_incubacion):
 
                 
                 #Lo siguiente es para la presentacion del boton participar
-                #Primero verificaremos si el usuario es administrador
+                #Primero verificaremos si el usuario es administrador de la incubacion
                 if incubacion.fk_perfil == usuario:
                     administrador=True
                 else:
                     administrador=False
-
+                #Ahora debemos verificar si es un consultor de la incubacioin
                 consultor=False
                 for id in idofertas:
                     consultorExiste= Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil).first()
                     if consultorExiste:
-                        incubada_consultor=IncubadaConsultor.objects.filter(fk_oferta_incubada=id,fk_consultor=consultorExiste.id_consultor)
+                        incubada_consultor=IncubadaConsultor.objects.filter(fk_oferta_incubada=id,fk_consultor=consultorExiste.id_consultor,fk_incubacion=incubacion.id_incubacion)
+                        print 'incubada consultor'
+                        print incubada_consultor.first()
+                        print incubada_consultor.first()
+                        for ic in incubada_consultor:
+                            print 'otra'
+                            print ic.fk_oferta_incubada
+                            print ic.fk_consultor
+                            
+                        print id
+                        print consultorExiste.id_consultor
                         if len(incubada_consultor)>0:
                             consultor=True
-                
+                #y ahora verificaremos si es un participante de la incubacion
                 participante=False
+                for id in idofertas:
+                    propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=id,fk_participante=usuario.id_perfil).first()
+                    if propietario:
+                        participante=True
 
+                #y ahora verificaremos si es un solicitante pendiente de la incubacion
                 solicitud=False
+                solicitudes=SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion=incubacion.id_incubacion,estado_solicitud=0)
+                if len(solicitudes)>0:
+                    for solicitud in solicitudes:
+                        propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=solicitud.fk_oferta.id_oferta,fk_participante=usuario.id_perfil).first()
+                        if propietario:
+                            solicitud=True             
+
 
                 args['administrador']=administrador
                 args['consultor']=consultor
@@ -957,7 +979,7 @@ def admin_solicitudes_incubacion(request):
                         solicitudesLista.append((solicitud, propietario, fechasolicitud,foto))
                 
                 args['solicitudes'] = solicitudesLista
-                
+
             return render_to_response('admin_incubacion_solicitudes.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
