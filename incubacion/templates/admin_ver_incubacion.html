@@ -20,49 +20,53 @@
         {% include 'menusuperior/registrarinstitucion.tpl.html' %}
     {% endblock %}
 
+
     <div class="container">
+
+      {% if mensajeAlerta %}
+          <div class="alert alert-info alert-dismissable col-md-5 col-md-offset-3 text-center">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{mensajeAlerta}}
+          </div>
+      {% endif %}
+      {% if mensajeError %}
+        <div class="alert alert-danger alert-dismissable col-md-5 col-md-offset-3 text-center">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>{{ mensajeError }}
+        </div>
+      {% endif %}
+
     	<div class="col-sm-12 col-xs-12" style="padding:0">
     		<div class="col-sm-8"><h3 class="hl" style="margin-top: 0px;">{{ incubacion.nombre }}</h3></div>
     		<div class="col-sm-4">
-    			
-  				<a class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#IncuEstado"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
+  				    <a class="btn btn-dark pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#IncuEstado"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Cambiar estado</a>
+                {% if convocatoria == False %}
+                  <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
+                  
+                {% else %}
+                  <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
 
-          {% if convocatoria == False %}
-            <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
-          {% else %}
-            <a href="#" class="btn btn-red pull-right" style="color:white;margin-bot: 0px;margin-right: 3px;" data-toggle="modal" data-target="#CrearConvocatoria" disabled="true"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear convocatoria</a>
-          {%endif%}
-                {% if mensajeAlerta %}
-                    <br><br>
-                    <div class="alert alert-info alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeAlerta }}</p></strong>
-                    </div>
-                {% endif %}
-                {% if mensajeError %}
-                    <br><br>
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <strong><p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ mensajeError }}</p></strong>
-                    </div>
-                {% endif %}
+                {%endif%}
+
+                
             </div>
   		</div>
       <div class="col-sm-12" style="border-bottom:1px solid #eee;">
-          <ul class="text-muted list-inline">
-          <li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date  }}</li>
-          <li><i class="fa fa-cog"></i> Estado: 
-            {% if incubacion.estado_incubacion == 0 %}
-              ACTIVA
-            {% endif %}
-            {% if incubacion.estado_incubacion == 1 %}
-              TERMINADA
-            {% endif %}
-            {% if incubacion.estado_incubacion == 2 %}
-              DESACTIVADA
-            {% endif %}  
-          </li>
-          </ul>
+        <div class="col-sm-8">
+            <ul class="text-muted list-inline">
+            <li><i class="fa fa-calendar"></i> {{ incubacion.fecha_inicio.date  }}</li>
+            <li><i class="fa fa-cog"></i> Estado: 
+              {% if incubacion.estado_incubacion == 0 %}
+                ACTIVA
+              {% endif %}
+              {% if incubacion.estado_incubacion == 1 %}
+                TERMINADA
+              {% endif %}
+              {% if incubacion.estado_incubacion == 2 %}
+                DESACTIVADA
+              {% endif %}  
+            </li>
+            </ul>
+        </div>
+
       </div>
 
     	<div class="col-sm-5" style="border-right:1px solid #eee; margin-top: 15px;">
@@ -117,6 +121,11 @@
                       </tr>
                     </tbody>
                   </table>
+
+                  <div class="col-md-12" style="font-size:11px;padding-left: 0px;margin-top: 10px;" align="left">
+                    *Debe esperar que finalice la convocatoria actual si desea crear otra.
+                  </div>
+
                 {% else %}
                 <div class="info-board info-board-red"> Esta incubación no tiene una convocatoria abierta </div>
                 {%endif%}
@@ -156,7 +165,7 @@
               function guardarConvocatoria(){
               $.ajax({
                 type: "POST",
-                url: "/GuardarConvocatoria",
+                url: "/GuardarConvocatoria/",
                 data: {
                     'fecMaxima' : $("#fecMaxAlcance").val(),
                     'idIncubacion' : $("#idIncubacion").val()
@@ -261,44 +270,30 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Crear Convocatoria</h4>
                 </div>
+                <form action="/GuardarConvocatoria/" method="post">
                 <div class="modal-body">
-                    <div class="comment" id="Comentario">
-                          <div class="media">
-                            <form action="/GuardarConvocatoria" method="post">
+                    <div id="Comentario">
+                          <div class="media">                            
                                 {% csrf_token %}
                                 <div class="form-group">
-                                  <table class="table " style="margin-bottom: 0px;">
-                                    <thead>
-                                      <tr>
-                                        <th class="text-muted">Defina el periodo durante el cual los usuarios podr&aacute;n aplicar con sus ofertas</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td></td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <label for="Nombres" class="col-md-3 col-md-offset-1">Fecha M&aacute;xima</label>
-                                  <div class="col-md-7">
+                                  <div class="text-muted col-md-12" style="margin-bottom:15px">Para comenzar un periodo de incubación debe crear una convocatoria en la cual apliquen ofertas publicadas de la red. Si desea continuar indique: </div>
+                                  <label for="Nombres" class="col-md-12">Fecha M&aacute;xima para que las ofertas puedan aplicar a su convocatoria</label>
+                                  <div class="col-md-7" >
                                        <input type="hidden" id="idIncubacion" name="idIncubacion" value="{{ incubacion.id_incubacion }}">
                                        <input type="datepicker" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
                                   </div>
-                                  <br> <br>
-
-
-                                </div><br>
-                                <div class="form-group">
-                                    <div align="right">
-                                      <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                                      <button type="submit" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
-                                    </div>                                                  
-                                </div>
-                            </form>   
+                            
                           </div>
                       </div>
                 </div>
-                
+
+                <div class="modal-footer">
+                  <div align="right">
+                    <a data-dismiss="modal"  class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
+                    <button type="submit" href="/AdminIncubacion/{{incubacion.id_incubacion}}" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear Convocatoria&nbsp;&nbsp;</button>
+                  </div>    
+                </div>
+                </form>   
             </div>
         </div>
     </div>
