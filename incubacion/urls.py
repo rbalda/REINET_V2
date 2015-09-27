@@ -18,6 +18,8 @@ urlpatterns = patterns('',
      url(r'^AdminIncubadasIncubacion[/]?$','incubacion.views.admin_incubadas_incubacion', name='admin_incubadas_incubacion'),
      url(r'^AdminSolicitudesIncubacion[/]?$','incubacion.views.admin_solicitudes_incubacion', name='admin_solicitudes_incubacion'),
      url(r'^RechazarSolicitudIncubacion[/]?$','incubacion.views.admin_rechazar_solicitud', name='admin_rechazar_solicitud'),
+     url(r'^AceptarSolicitudIncubacion[/]?$','incubacion.views.admin_aceptar_solicitud', name='admin_aceptar_solicitud'),
+
                        
      url(r'^BuscarConsultor[/]?$', 'incubacion.views.buscar_usuario', name='buscar_usuario'),
      url(r'^GuardarConvocatoria[/]?$', 'incubacion.views.guardar_convocatoria', name='guardar_convocatoria'),
@@ -33,7 +35,7 @@ urlpatterns = patterns('',
 
 
      url(r'^ConsultorIncubada/(?P<id_oferta>\w{0,250})[/]?$', 'incubacion.views.consultor_ver_incubada',name='consultor_ver_incubada'),
-     url(r'^Incubada/(?P<id_oferta>\w{0,250})[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
+     url(r'^Incubada/(?P<id_oferta>\w{0,250})/(?P<mostrar>\w{0,250})[/]?$', 'incubacion.views.usuario_ver_incubada', name='usuario_ver_incubada'),
 
      url(r'^AutocompletarConsultor[/]?$', Autocompletar_Consultor.as_view(),name='AutocompletarConsultor'),
      url( r'^InivitarConsultor[/]?$', 'incubacion.views.invitar_consultor' , name = 'invitar_consultor' ),
@@ -41,6 +43,8 @@ urlpatterns = patterns('',
      url( r'^EnviarInvitaciones[/]?$', 'incubacion.views.enviar_invitaciones' , name = 'enviar_invitaciones' ),
      url(r'^EnviarOfertaParticipar[/]?$', 'incubacion.views.enviar_oferta_incubacion', name='enviar_oferta_incubacion'),
      url(r'^ContenidoMilestone[/]?$', 'incubacion.views.contenido_milestone', name='contenido_milestone'),
+
+     url(r'^EditarIncubada/(?P<id_incubada>\w{0,250})[/]?$','incubacion.views.editar_incubada', name='editar_incubada'),
 )
 
 

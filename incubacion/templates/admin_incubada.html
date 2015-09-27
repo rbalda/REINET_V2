@@ -398,7 +398,7 @@
 		                            <hr>
 
 		                            <div style="font-size: 12px;width:100%; overflow: auto;">
-		                                <table class="table table-bordered" style="width:20%">
+		                                <table class="table table-bordered">
 		                                   	<tbody>
 		                                   	<tr style="background-color:#E2E2E2;">
 		                                         <th >Socios clave</th>
@@ -758,7 +758,7 @@
 			          </div>
 
 			          	{%if milestone%}
-						    <h4 style="margin-top: 0px;font-size:19px"><a href="/VerMilestone/{{milestone.id_milestone}}">{{milestone.fecha_maxima.date}}</a></h4>
+						    <h4 style="margin-top: 0px;font-size:19px">{{milestone.fecha_maxima.date}}</h4>
 						    
 						    <span style="font-size:13px;color:gray">Requerimientos:</span>
 						    <p>{{milestone.requerimientos|truncatewords:20}}<br></p>
@@ -829,7 +829,7 @@
                                     <div align="right">
                                       <a data-dismiss="modal" class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
                                       
-                                      <a id="aceptardefinirMilestone" disabled  class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
+                                      <a id="aceptardefinirMilestone"disabled  class="btn btn-red"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</a>
                                     </div>                                                  
                                 </div>
                             </form>   
@@ -903,9 +903,19 @@
 							$('#formMilestone').each (function(){
 							  this.reset();
 							});
+
 						}
-						//Recarga la funcon de actualizar miletones
-						mostrarMilestActual();
+						//Recarga la funcion de actualizar miletones
+						$.ajax({
+							data: {
+								'incubada':{{incubada.id_incubada}}
+							},
+							type: 'get',
+							url: '/AdminIncubadaMilestoneActual/',
+							success: function (data) {
+								 $('#IncbMilestActu').html(data)
+								}
+						});
 					});
 					
 					$('#IncbMilestActu').ready(mostrarMilestActual);

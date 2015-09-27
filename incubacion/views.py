@@ -12,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.utils.timezone import now, localtime
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.generics import ListAPIView
@@ -259,17 +260,8 @@ def participar_incubacion(request):
 
     if request.is_ajax():
         try:
-            #Obtener las ofertas del usuario actual
-            #membresiaOferta = MiembroEquipo.objects.all().filter(fk_participante = usuario.id_perfil, fk_oferta_en_que_participa = id_oferta, es_propietario = 1).first()
-            #oferta = Oferta.objects.filter(publicada=True)
-            #ofertasusuario = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1,)
-            #f = MiembroEquipo.objects.filter(fk_participante = usuario.id_perfil, es_propietario = 1)
             ofertaParticipar = Oferta.objects.filter(publicada=1).filter(
                 miembroequipo=MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1))
-            #ofer = MiembroEquipo.objects.filter(fk_participante=usuario.id_perfil, es_propietario=1).filter(oferta=Oferta.objects.filter(publicada = 1))
-            #of1 = Oferta.objects.filter(id_oferta=of.fk_oferta_en_que_participa)
-            #ofertasusuario = MiembroEquipo.objects.filter(oferta__in=oferta).select_related()
-            print request.GET['incubacion']
             args['incubacion'] = request.GET['incubacion']
             args['pariciparIncubacion'] = ofertaParticipar
             return render_to_response('usuario_participar_incubacion.html', args)
@@ -283,8 +275,6 @@ def participar_incubacion(request):
             return redirect('/')
     else:
         return redirect('/NotFound')
-
-
 
 """
 Autor: Leonel Ramirez
@@ -432,7 +422,7 @@ def enviar_oferta_incubacion(request):
             solicitudDatos.save()
             return render_to_response('enviar_oferta_incubacion.html',args)
     else:
-        return redirect('/NotFound')   
+        return redirect('/NotFound')
 
 
 
@@ -820,23 +810,41 @@ def usuario_ver_incubacion(request, id_incubacion):
 
                 
                 #Lo siguiente es para la presentacion del boton participar
-                #Primero verificaremos si el usuario es administrador
+                #Primero verificaremos si el usuario es administrador de la incubacion
                 if incubacion.fk_perfil == usuario:
                     administrador=True
                 else:
                     administrador=False
-
+                #Ahora debemos verificar si es un consultor de la incubacioin
                 consultor=False
+
                 for id in idofertas:
                     consultorExiste= Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil).first()
                     if consultorExiste:
-                        incubada_consultor=IncubadaConsultor.objects.filter(fk_oferta_incubada=id,fk_consultor=consultorExiste.id_consultor)
-                        if len(incubada_consultor)>0:
-                            consultor=True
-                
-                participante=False
+                        incubada_consultor=IncubadaConsultor.objects.filter(fk_oferta_incubada=id,fk_consultor=consultorExiste.id_consultor,fk_incubacion=incubacion.id_incubacion)
+                        for ic in incubada_consultor:
+                            if len(incubada_consultor)>0:
+                                consultor=True
+                                print id
+                                print 'EL ID'
+                                args['idOfertaConsultor']=id
 
+                #y ahora verificaremos si es un participante de la incubacion
+                participante=False
+                for id in idofertas:
+                    propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=id,fk_participante=usuario.id_perfil).first()
+                    if propietario:
+                        participante=True
+
+                #y ahora verificaremos si es un solicitante pendiente de la incubacion
                 solicitud=False
+                solicitudes=SolicitudOfertasConvocatoria.objects.all().filter(fk_incubacion=incubacion.id_incubacion,estado_solicitud=0)
+                if len(solicitudes)>0:
+                    for solicitud in solicitudes:
+                        propietario = MiembroEquipo.objects.all().filter(es_propietario=1,fk_oferta_en_que_participa=solicitud.fk_oferta.id_oferta,fk_participante=usuario.id_perfil).first()
+                        if propietario:
+                            solicitud=True             
+
 
                 args['administrador']=administrador
                 args['consultor']=consultor
@@ -957,7 +965,7 @@ def admin_solicitudes_incubacion(request):
                         solicitudesLista.append((solicitud, propietario, fechasolicitud,foto))
                 
                 args['solicitudes'] = solicitudesLista
-                
+
             return render_to_response('admin_incubacion_solicitudes.html',args)
         except Incubada.DoesNotExist:
             return redirect('/')
@@ -1000,6 +1008,132 @@ def admin_rechazar_solicitud(request):
     else:
         return redirect('/NotFound')
 
+
+"""
+Autor: David Vinces
+Nombre de funcion: admin_aceptar_solicitud
+Parametros: request
+Salida: actualiza la solicitud con estado aceptada
+Descripcion: Esta funcion es para la peticion Ajax que actualiza el estado de la solicitud a aceptada
+"""
+@login_required
+def admin_aceptar_solicitud(request):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+
+    #si el usuario EXISTE asigna un arg para usarlo en el template
+    # si el usuario EXISTE asigna un arg para usarlo en el template
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    #si encuentra el ajax del template
+    if request.is_ajax():
+        try:
+            print'222222222222222222222222222'
+            solicitud= SolicitudOfertasConvocatoria.objects.get(id_solicitud_ofertas_convocatoria=request.GET['id_solicitud'])
+            #Se crea una nueva incubada en base a la oferta dada en la solicitud
+            oferta = Oferta.objects.get(id_oferta = solicitud.fk_oferta.id_oferta)
+            incubada = Incubada()
+            print'1111'
+            #---Seccion Informacion General
+            incubada.nombre = oferta.nombre
+            incubada.codigo = oferta.codigo
+            incubada.tipo = oferta.tipo
+            incubada.descripcion = oferta.descripcion
+            incubada.dominio = oferta.dominio
+            incubada.subdominio = oferta.subdominio
+
+            #---Seccion Perfiles
+            incubada.perfil_cliente = oferta.perfil_cliente
+            incubada.perfil_beneficiario = oferta.perfil_beneficiario
+
+            #---Seccion Industria
+            incubada.cuadro_tendencias_relevantes = oferta.cuadro_tendencias_relevantes
+            incubada.descripcion_soluciones_existentes = oferta.descripcion_soluciones_existentes
+
+            #---Seccion de Estado/Logros
+            incubada.tiempo_para_estar_disponible = oferta.tiempo_para_estar_disponible
+            incubada.estado_propiedad_intelectual = oferta.estado_propieada_intelectual
+            incubada.evidencia_traccion = oferta.evidencia_traccion
+
+            #---Diagrama Canvas
+            diagrama_canvas = DiagramaBusinessCanvas()
+            if oferta.fk_diagrama_canvas:
+                diagrama_canvas.asociaciones_clave = oferta.fk_diagrama_canvas.asociaciones_clave
+                diagrama_canvas.actividades_clave = oferta.fk_diagrama_canvas.actividades_clave
+                diagrama_canvas.recursos_clave = oferta.fk_diagrama_canvas.recursos_clave
+                diagrama_canvas.propuesta_valor = oferta.fk_diagrama_canvas.propuesta_valor
+                diagrama_canvas.relacion_clientes = oferta.fk_diagrama_canvas.relacion_clientes
+                diagrama_canvas.canales_distribucion = oferta.fk_diagrama_canvas.canales_distribucion
+                diagrama_canvas.segmento_mercado = oferta.fk_diagrama_canvas.segmento_mercado
+                diagrama_canvas.estructura_costos = oferta.fk_diagrama_canvas.estructura_costos
+                diagrama_canvas.fuente_ingresos = oferta.fk_diagrama_canvas.fuente_ingresos
+                
+            diagrama_canvas.save()
+            incubada.fk_diagrama_canvas = diagrama_canvas
+            print'2222222'
+            #---Diagrama Porter
+            diagrama_porter = DiagramaPorter()
+            if oferta.fk_diagrama_competidores:                
+                diagrama_porter.competidores = oferta.fk_diagrama_competidores.competidores
+                diagrama_porter.consumidores = oferta.fk_diagrama_competidores.consumidores
+                diagrama_porter.sustitutos = oferta.fk_diagrama_competidores.sustitutos
+                diagrama_porter.proveedores = oferta.fk_diagrama_competidores.proveedores
+                diagrama_porter.nuevosMiembros = oferta.fk_diagrama_competidores.nuevosMiembros
+            diagrama_porter.save()
+            incubada.fk_diagrama_competidores = diagrama_porter
+            print'3333333'
+            #---Otras Relaciones
+            equipo=MiembroEquipo.objects.filter(fk_oferta_en_que_participa=oferta.id_oferta).first()
+            incubada.equipo = MiembroEquipo.objects.get(id_equipo = equipo.id_equipo)
+            #incubada.palabras_clave = oferta.palabras_clave
+            incubada.fk_oferta = oferta
+            incubada.fk_incubacion = solicitud.fk_incubacion
+            print'3333333dfsadfsfsadfas'
+            #Guardar la incubada creada
+            incubada.save()
+            print'4444444'
+            #Copiar las imagenes de la oferta a la incubacion
+
+            imagenes_oferta = ImagenOferta.objects.filter(fk_oferta = oferta.id_oferta)
+            for o in imagenes_oferta:
+                imagen_incubada = ImagenIncubada()
+                imagen_incubada.imagen = o.imagen
+                imagen_incubada.descripcion = o.descripcion
+                imagen_incubada.fk_incubada = incubada
+                imagen_incubada.save()                
+
+
+            #Se crea un milestone vencido (con fecha actual)
+            milestone = Milestone()
+            milestone.fecha_creacion = datetime.datetime.now(timezone.utc)
+            milestone.fecha_maxima_Retroalimentacion = datetime.datetime.now(timezone.utc)
+            milestone.fecha_maxima = datetime.datetime.now(timezone.utc)
+            milestone.requerimientos = "Ninguno"
+            milestone.importancia = "Es la primera version de la incubada"
+            milestone.otros = "Ninguno"
+            print'555555555'
+            #Se enlaza el milestone creado a la incubada creada
+            milestone.fk_incubada = incubada
+            milestone.save()         
+
+            #Se actualiza la solicitud al estado Aceptada(estado=1)
+            solicitud.estado_solicitud=1
+            solicitud.save() 
+            print'6666666'
+
+        except:
+            return redirect('/NotFound')
+
+    else:
+        return redirect('/NotFound')
+
+
 """
 Autor: Estefania Lozano
 Nombre de funcion: admin_ver_incubada
@@ -1007,8 +1141,6 @@ Parametros: request, id_incubada
 Salida: Template admin_ver_incubada
 Descripcion: Administrar una incubada de una incubacion de la cual soy dueño
 """
-
-
 @login_required
 def admin_ver_incubada(request, id_oferta):
     session = request.session['id_usuario']
@@ -1034,19 +1166,14 @@ def admin_ver_incubada(request, id_oferta):
                         fotos = False
                         imagen_principal = False
 
-                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
                     #Tenemos que validar si hay un mmilestone vigente
+                    primer_Incubada = Incubada.objects.filter(fk_oferta=incubada.fk_oferta).first()
                     primer_milestone=Milestone.objects.filter(fk_incubada=primer_Incubada.id_incubada).first()
                     args['milestone']=primer_milestone
-
                     milestone = Milestone.objects.filter(fk_incubada=incubada.id_incubada).last()
                     if milestone:
                         hoy = datetime.datetime.now(timezone.utc)
                         fecha_maxima_milestone = milestone.fecha_maxima_Retroalimentacion
-
-                        print 'hoolaaaaaaiisisdfjksafjaeefwer'
-                        print hoy
-                        print fecha_maxima_milestone
                         if fecha_maxima_milestone < hoy:
                             args['milestoneVigente'] = False
                         else:
@@ -1086,7 +1213,6 @@ Salida: admin_lista_consultores
 Descripcion: Esta funcion es para la peticion Ajax que pide mostrar la lista de consultores de la incubada
 """
 
-
 @login_required
 def admin_incubada_consultores(request):
     sesion = request.session['id_usuario']
@@ -1103,11 +1229,7 @@ def admin_incubada_consultores(request):
     if request.is_ajax():
         try:
             #Debo obtener todos los consultores relacionados con la incubada, esto lo encuentro en la tabla incubadaConsultor
-            print 'chaaaaaaaaaaaaaaaaaaaaaaaaaaao'
             incubada = Incubada.objects.get(id_incubada=request.GET['incubada'])
-            print 'hoooooooooooooooolaaaa'
-            print incubada.fk_incubacion
-            print incubada.fk_oferta
             consultores=IncubadaConsultor.objects.filter(fk_incubacion=incubada.fk_incubacion,fk_oferta_incubada=incubada.fk_oferta)
             #for c in incubConsult:
             #    try:
@@ -1305,9 +1427,17 @@ def consultor_ver_incubada(request,id_oferta):
             if incubada:
                 consultores = Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil)
                 if consultores:
-                    consultor = Consultor.objects.get(fk_usuario_consultor=usuario.id_perfil)
-                    incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_incubada=incubada.id_incubada)
-                    if incubadaCons:
+                    consultor = Consultor.objects.filter(fk_usuario_consultor=usuario.id_perfil).first()
+                    print 'datos importantes'
+                    print consultor
+                    print consultor.id_consultor
+                    print incubada.id_incubada
+                    incubadaCons=IncubadaConsultor.objects.filter(fk_consultor=consultor.id_consultor,fk_oferta_incubada=id_oferta)
+                    print incubadaCons
+                    print 'me caigo 1'
+
+                    if len(incubadaCons)>0:
+                        print 'me caigo 5'
                         args['consultor']=usuario
                         propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=incubada.fk_oferta, es_propietario=1)
                         equipo = MiembroEquipo.objects.filter(fk_oferta_en_que_participa=incubada.fk_oferta)
@@ -1354,7 +1484,6 @@ def consultor_ver_incubada(request,id_oferta):
                     else:
                         args['error'] = "El usuario no es consultor en esta incubada"
                         return HttpResponseRedirect('/NotFound/')  
-
                 else:
                     args['error'] = "El usuario no es consultor en esta incubada"
                     return HttpResponseRedirect('/NotFound/')  
@@ -1380,10 +1509,11 @@ Descripcion: Mostar template de la incubada para el duenio de la incubada
 """
 
 @login_required
-def usuario_ver_incubada(request,id_oferta):
+def usuario_ver_incubada(request,id_oferta,mostrar):
     session = request.session['id_usuario']
-    usuario = Perfil.objects.get(id=request.session['id_usuario'])
+    usuario = Perfil.objects.get(id=request.session['id_usuario'])    
     args = {}
+    args['mostrar_actualizado'] = mostrar
     args['es_admin']=request.session['es_admin']
 
     if usuario is not None:
@@ -1394,10 +1524,6 @@ def usuario_ver_incubada(request,id_oferta):
             if incubada:
                 print incubada.equipo.id_equipo
                 propietario = MiembroEquipo.objects.get(fk_oferta_en_que_participa=incubada.fk_oferta, es_propietario=1)
-                print 'propieeeeeeeeeeeeeeeeeeeeeeeetario'
-                print propietario.fk_participante.id_perfil
-                print 'usuaaaaaaaaaaaaaaaaariooooooooooooo'
-                print usuario.id_perfil
                 if propietario.fk_participante.id_perfil==usuario.id_perfil:
 
                     fotos= ImagenIncubada.objects.filter(fk_incubada=incubada.id_incubada)
@@ -1618,4 +1744,192 @@ def guardar_convocatoria(request):
         return render_to_response('admin_ver_incubacion.html', args)
     else:
         return HttpResponseRedirect('InicioIncubaciones')
+
+
+"""
+Autor: David Vinces
+Nombre de funcion: editar_incubada
+Parametros: request, id de una incubada
+Salida: 
+Descripcion: funcion para editar una incubada
+"""
+@login_required
+def editar_incubada(request, id_incubada):
+    sesion = request.session['id_usuario']
+    usuario = Perfil.objects.get(id=sesion)
+    args = {}
+    args['es_admin']=request.session['es_admin']
+
+
+    if usuario is not None:
+        args['usuario'] = usuario
+    else:
+        args['error'] = "Error al cargar los datos"
+        return HttpResponseRedirect('/NotFound/')
+
+
+    try:
+        incubada = Incubada.objects.get(id_incubada = id_incubada)
+    except:        
+        return HttpResponseRedirect('/NotFound/')
+
+
+    try:
+        tiempo_disponible = incubada.tiempo_para_estar_disponible.split(' ',1)
+        incubada_tiempo = int(tiempo_disponible[0])
+
+        #si la duracion es de mes
+        if tiempo_disponible[1] == 'Mes/es':
+            incubada_duracion = 0
+        else:
+            incubada_duracion = 1
+
+    #si no se encuentra establecida la duracion
+    except:
+        incubada_duracion = 1
+        incubada_tiempo = "Año/s"
+
+    if request.method == 'POST':
+        #seccion de informacion
+        nombre = request.POST['nombre_oferta']
+        tipo = request.POST['select_tipo_oferta']
+        descripcion = request.POST['descripcion_oferta']
+        dominio = request.POST['oferta_dominio']
+        subdominio = request.POST['oferta_sub_dominio']
+        
+        #seccion de perfiles
+        perfil_cliente = request.POST.get('oferta_descripcion_perfil', "No disponible")
+        perfil_beneficiario = request.POST.get('oferta_beneficiario_perfil', "No disponible")
+
+        #seccion de business canvas
+        canvas_socio_clave = request.POST.get('canvas_socio_clave', "No disponible")
+        canvas_actividades_clave = request.POST.get('canvas_actividades_clave', "No disponible")
+        canvas_recursos = request.POST.get('canvas_recrusos_clave', "No disponible")
+        canvas_propuesta = request.POST.get('canvas_propuesta_valor', "No disponible")
+        canvas_relaciones = request.POST.get('canvas_ralaciones_clientes', "No disponible")
+        canvas_canales = request.POST.get('canvas_canales_distribucion', "No disponible")
+        canvas_segmentos = request.POST.get('canvas_segmentos_clientes', "No disponible")
+        canvas_estructura = request.POST.get('canvas_estructura_costos', "No disponible")
+        canvas_fuente = request.POST.get('canvas_fuente_ingresos', "No disponible")
+
+        #seccion de industria
+        tendencias = request.POST.get('oferta_tendencias', "No disponible")
+        soluciones_alternativas = request.POST.get('ofertas_alternativas_soluciones', "No disponible")
+
+        #para Diagrama de Porter
+        porter_competidores = request.POST.get('diagramapoter_competidores', "No disponible")
+        porter_consumidores = request.POST.get('diagramapoter_consumidores', "No disponible")
+        porter_sustitutos = request.POST.get('diagramapoter_sustitutos', "No disponible")
+        porter_proveedores = request.POST.get('diagramapoter_proveedores', "No disponible")
+        porter_nuevos = request.POST.get('diagramapoter_nuevos_entrantes', "No disponible")
+
+        #seccion de estado/Logros
+        tiempo_disponible = request.POST.get('oferta_tiempo_disponibilidad', "No disponible")
+        tiempo_unidad = request.POST.get('select_oferta_tiempo', None)
+        propiedad_intelectual = request.POST.get('oferta_propiedad_intelectual', "No disponible")
+        evidencia_traccion = request.POST.get('oferta_evidencia_traccion', "No disponible")
+
+        #seccion de copia de datos a la incubada a modificar
+        #seccion informacion
+        incubada_editada = incubada
+        incubada_editada.nombre = nombre
+        incubada_editada.tipo = tipo
+        incubada_editada.descripcion = descripcion
+        incubada_editada.dominio = dominio
+        incubada_editada.subdominio = subdominio
+
+        #seccion perfiles
+        incubada_editada.perfil_cliente = perfil_cliente
+        incubada_editada.perfil_beneficiario = perfil_beneficiario
+
+        #seccion industria
+        incubada_editada.cuadro_tendencias_relevantes = tendencias
+        incubada_editada.descripcion_soluciones_existentes = soluciones_alternativas
+
+        #seccion de estado/Logros
+        #manejo de la duracion de la oferta
+        if tiempo_disponible != "" and tiempo_unidad != "":
+            if tiempo_unidad == "0":
+                tiempo_unidad = "Mes/es"
+            else:
+                tiempo_unidad = "Año/s"
+
+            incubada_editada.tiempo_para_estar_disponible = str(tiempo_disponible) + " " + tiempo_unidad
+        else:
+            incubada_editada.tiempo_para_estar_disponible = "1 Año/s"
+
+        incubada_editada.estado_propiedad_intelectual = propiedad_intelectual
+        incubada_editada.evidencia_traccion = evidencia_traccion
+
+        #seccion Diagrama canvas
+        #se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama canvas
+        if canvas_socio_clave == "" and canvas_actividades_clave=="" and canvas_recursos=="" and canvas_propuesta=="" and canvas_relaciones=="" and canvas_canales=="" and canvas_segmentos=="" and canvas_estructura=="" and canvas_fuente=="" :
+            incubada_editada.fk_diagrama_canvas = None
+        #si existen datos ingresados, se los asigna
+        else:
+
+            #si anteriormente tuvo canvas, se lo modifica
+            try:
+                incubada_editada.fk_diagrama_canvas.asociaciones_clave = canvas_socio_clave
+                incubada_editada.fk_diagrama_canvas.actividades_clave = canvas_actividades_clave
+                incubada_editada.fk_diagrama_canvas.recursos_clave = canvas_recursos
+                incubada_editada.fk_diagrama_canvas.propuesta_valor = canvas_propuesta
+                incubada_editada.fk_diagrama_canvas.relacion_clientes = canvas_relaciones
+                incubada_editada.fk_diagrama_canvas.canales_distribucion = canvas_canales
+                incubada_editada.fk_diagrama_canvas.segmento_mercado = canvas_segmentos
+                incubada_editada.fk_diagrama_canvas.estructura_costos = canvas_estructura
+                incubada_editada.fk_diagrama_canvas.fuente_ingresos = canvas_fuente
+                incubada_editada.fk_diagrama_canvas.save()
+            #si no tenia, se crea un diagrama canvas nuevo
+            except:
+                diagrama_canvas = DiagramaBusinessCanvas()
+                diagrama_canvas.asociaciones_clave = canvas_socio_clave
+                diagrama_canvas.actividades_clave = canvas_actividades_clave
+                diagrama_canvas.recursos_clave = canvas_recursos
+                diagrama_canvas.propuesta_valor = canvas_propuesta
+                diagrama_canvas.relacion_clientes = canvas_relaciones
+                diagrama_canvas.canales_distribucion = canvas_canales
+                diagrama_canvas.segmento_mercado = canvas_segmentos
+                diagrama_canvas.estructura_costos = canvas_estructura
+                diagrama_canvas.fuente_ingresos = canvas_fuente
+                diagrama_canvas.save()
+                incubada_editada.fk_diagrama_canvas = diagrama_canvas
+
+        #seccion Diagrama de Porter
+        #se verifica si no existen datos ingresados en los campos. Entonces se dice que no existe el objeto diagrama porter
+        if porter_competidores == "" and porter_consumidores=="" and porter_sustitutos=="" and porter_proveedores=="" and porter_nuevos=="":
+            incubada_editada.fk_diagrama_competidores = None
+        #si existen datos ingresados, se los asigna
+        else:
+
+            #si anteriormente tuvo porter, cambiarlo
+            try:
+                incubada_editada.fk_diagrama_competidores.competidores = porter_competidores
+                incubada_editada.fk_diagrama_competidores.consumidores = porter_consumidores
+                incubada_editada.fk_diagrama_competidores.sustitutos = porter_sustitutos
+                incubada_editada.fk_diagrama_competidores.proveedores = porter_proveedores
+                incubada_editada.fk_diagrama_competidores.nuevosMiembros = porter_nuevos
+                incubada_editada.fk_diagrama_competidores.save()
+            #si no tenia, se crea uno nuevo y se lo asigna
+            except:
+                diagrama_porter = DiagramaPorter()
+                diagrama_porter.competidores = porter_competidores
+                diagrama_porter.consumidores = porter_consumidores
+                diagrama_porter.sustitutos = porter_sustitutos
+                diagrama_porter.proveedores = porter_proveedores
+                diagrama_porter.nuevosMiembros = porter_nuevos
+                diagrama_porter.save()
+                incubada_editada.fk_diagrama_competidores = diagrama_porter
+
+        
+        incubada_editada.save()
+        args.update(csrf(request))
+        return redirect('/Incubada/'+str(incubada_editada.fk_oferta.id_oferta)+'/'+str(1))
+
+    else:
+        args.update(csrf(request))
+        args['incubada_tiempo'] = incubada_tiempo
+        args['incubada_duracion'] = incubada_duracion
+        args['incubada'] = incubada
+        return render_to_response('editar_incubada.html',args)
 
