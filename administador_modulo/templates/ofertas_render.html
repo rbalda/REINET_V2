@@ -22,7 +22,20 @@
 
             <td>{{o.nombre}}</td>
 
-                        <td>{{o.tipo}}</td>
+                        <td>
+                            {% if o.tipo == 0%}
+                            Empredimiento
+
+                            {% elif o.tipo == 1 %}
+                            Tecnologia
+
+                            {% elif o.tipo == 2 %}
+                            Innovación
+
+                            {% endif %}
+                            
+
+                        </td>
                         <td>{{o.publicada}}</td>
             <td>{{o.calificacion_total}}</td>
             <td><select  style="float:left; width:40%" class="form-control col-md-4" id="{{o.id_oferta}}"name="estado_oferta" disabled>
@@ -46,10 +59,10 @@
               
             </select>
              <div name="div_guardar" id="{{o.id_oferta}}"hidden>
-            <button class="btn btn-success col-md-3" style="float:center;" id="{{o.id_oferta}}" name="guardar_btn" > Guardar  <span name="cargando_icono_ind" id="{{o.id_oferta}}" ></span></button>
+            <button class="btn btn-success col-md-4" style="float:center;" id="{{o.id_oferta}}" name="guardar_btn" > Guardar  <span name="cargando_icono_ind" id="{{o.id_oferta}}" ></span></button>
         </div>
         <div name="div_editar" id="{{o.id_oferta}}">
-            <button class="btn btn-warning col-md-3" style="float:center;" id="{{o.id_oferta}}" name="btn_activar_editar"> Editar</button>
+            <button class="btn btn-warning col-md-4" style="float:center;" id="{{o.id_oferta}}" name="btn_activar_editar"> Editar</button>
         </div>
        
             </td>

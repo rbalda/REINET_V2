@@ -5,6 +5,8 @@
 
         <tr>
             <th>Nombre</th>
+              <th>Dueño</th>
+            
               <th>Publicada</th>
                <th>Estado</th>
 
@@ -17,6 +19,7 @@
     	{% for d in demandas%}
         <tr>
             <td>{{d.nombre}}</td>
+            <td>{{d.fk_perfil}}</td>
             <td>{{d.publicada}}</td>
               
             {% comment %}
@@ -86,7 +89,7 @@
         </span>
 
         {% if demandas.has_next %}
-            <button class="btn btn-success" onclick="ajaxPaginacion({{ demandas.next_page_number }});">Siguiente <span name="cargando_icono_next"></span></button>
+            <button class="btn btn-success" name="siguiente" onclick="ajaxPaginacion({{ demandas.next_page_number }});">Siguiente <span name="cargando_icono_next"></span></button>
         {% endif %}
     </span>
 	</div>
