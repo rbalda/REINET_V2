@@ -160,19 +160,7 @@
                   });
                 }
               });
-            });
-
-              function guardarConvocatoria(){
-              $.ajax({
-                type: "POST",
-                url: "/GuardarConvocatoria/",
-                data: {
-                    'fecMaxima' : $("#fecMaxAlcance").val(),
-                    'idIncubacion' : $("#idIncubacion").val()
-                },
-                dataType: 'html'
-              });
-            }
+            });            
           </script>
 
           <div id="solicitudes_ofertas" class="tab-pane fade">
@@ -232,6 +220,25 @@
     </div>
 
 
+  <script>
+    $(document).ready(function () {
+      $(function () {
+        $('#btncrearconvocatoria').click(function(){
+          CrearConvocatoria();
+          function CrearConvocatoria(){
+            $.ajax({
+              data: {
+                'fecMaxima' : $("#fecMaxAlcance").val(),
+                'idIncubacion' : {{incubacion.id_incubacion}}
+              },
+              type: 'get',
+              url: '/GuardarConvocatoria/',
+            });
+          } 
+        });
+      });
+    });
+  </script>
 
     <div class="modal modal-vcenter fade" id="ofertaRechazada" tabindex="-1" role="dialog"
          aria-labelledby="sendemailtitle" aria-hidden="true">
@@ -270,34 +277,52 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Crear Convocatoria</h4>
                 </div>
-                <form action="/GuardarConvocatoria/" method="post">
                 <div class="modal-body">
                     <div id="Comentario">
                           <div class="media">                            
                                 {% csrf_token %}
                                 <div class="form-group">
-                                  <div class="text-muted col-md-12" style="margin-bottom:15px">Para comenzar un periodo de incubación debe crear una convocatoria en la cual apliquen ofertas publicadas de la red. Si desea continuar indique: </div>
-                                  <label for="Nombres" class="col-md-12">Fecha M&aacute;xima para que las ofertas puedan aplicar a su convocatoria</label>
+                                  <div class="text-muted col-md-12" style="margin-bottom:15px">
+                                    Para comenzar un periodo de incubación debe crear una convocatoria en la cual apliquen ofertas publicadas de la red. Ingrese la fecha máxima que permanecerá abierta la convocatoria.  
+                                  </div>
+                                  <label for="Nombres" class="col-md-12">
+                                    Fecha M&aacute;xima de la convocatoria
+                                  </label>
                                   <div class="col-md-7" >
                                        <input type="hidden" id="idIncubacion" name="idIncubacion" value="{{ incubacion.id_incubacion }}">
                                        <input type="datepicker" id="fecMaxAlcance" name="fecMaxima" style="resize:none" class="form-control">
                                   </div>
-                            
+                                </div>
                           </div>
-                      </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
                   <div align="right">
                     <a data-dismiss="modal"  class="btn btn-dark"><i class="fa fa-times"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</a>
-                    <button type="submit" href="/AdminIncubacion/{{incubacion.id_incubacion}}" class="btn btn-red"><i class="fa fa-plus"></i>&nbsp;&nbsp;Crear Convocatoria&nbsp;&nbsp;</button>
+                    <button id="btncrearconvocatoria" class="btn btn-red" data-dismiss="modal" data-target="#confirmacion_crearconvocatoria" data-toggle="modal"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Crear&nbsp;&nbsp;</button>
                   </div>    
                 </div>
-                </form>   
             </div>
         </div>
     </div>
-</div>
+
+    <div id="confirmacion_crearconvocatoria" class="modal fade" role="dialog">
+      <div class="modal-dialog" style="width: 40% !important;">
+        <div class="modal-content" style=" width: 550px;">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">CREAR CONVOCATORIA</h4>
+          </div>
+          <div class="modal-body media" style="font-size:14px;padding-top: 0px;width: 540px;">
+             <span>La Convocatoria se ha creado con éxito </span>
+             <div align=right>
+                 <a class="btn btn-red" href="/AdminIncubacion/{{incubacion.id_incubacion}}"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Aceptar&nbsp;&nbsp;</a>
+             </div>
+          </div>
+        </div>
+      </div>
+  </div>
 
 
 
