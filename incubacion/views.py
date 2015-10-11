@@ -1718,7 +1718,7 @@ def guardar_convocatoria(request):
         print "ttttttttttttttttttttttttttttttttttttttttt"
         convocatoria.fk_incubacion = incubacion
         print "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
-        convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%d/%m/%Y')
+        convocatoria.fecha_maxima = datetime.datetime.strptime(fecha_max, '%m/%d/%Y')
         print "ssssssssssssssssssssssssssssssssssssssssss"
         convocatoria.save()
         print "mmmmmmmmmmmmmmmmmmmmmmmmmmmm"
